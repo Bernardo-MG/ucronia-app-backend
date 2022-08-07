@@ -52,14 +52,16 @@ public final class SortArgumentResolver implements HandlerMethodArgumentResolver
     }
 
     @Override
-    public final Sort resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer,
-            final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) throws Exception {
-        final String    sortedText;
-        final String    property;
-        final String    directionText;
-        final Boolean   sorted;
+    public final Sort resolveArgument(final MethodParameter parameter,
+            final ModelAndViewContainer mavContainer,
+            final NativeWebRequest webRequest,
+            final WebDataBinderFactory binderFactory) throws Exception {
+        final String sortedText;
+        final String property;
+        final String directionText;
+        final Boolean sorted;
         final Direction direction;
-        final Sort      sort;
+        final Sort sort;
 
         sortedText = webRequest.getParameter("sorted");
         sorted = parseBoolean(sortedText);
@@ -68,7 +70,7 @@ public final class SortArgumentResolver implements HandlerMethodArgumentResolver
             property = webRequest.getParameter("property");
             directionText = webRequest.getParameter("direction");
 
-            if ((property == null) && (directionText == null)) {
+            if (property == null) {
                 // No sort parameters
                 log.trace("No sorting data received, using disabled sort");
                 sort = Sort.disabled();
@@ -79,7 +81,8 @@ public final class SortArgumentResolver implements HandlerMethodArgumentResolver
                     direction = Direction.ASC;
                 }
 
-                log.trace("Sorting by property {} and direction {}", property, direction);
+                log.trace("Sorting by property {} and direction {}", property,
+                    direction);
                 sort = Sort.of(property, direction);
             }
         } else {

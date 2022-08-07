@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: initial_tables
+      id: members
       author: Bernardo
       changes:
         - createTable:
-            tableName: example_entities
+            tableName: members
             columns:
               - column:
                   name: id

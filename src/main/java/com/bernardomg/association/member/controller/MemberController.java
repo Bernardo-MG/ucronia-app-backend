@@ -22,50 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.domain.model;
+package com.bernardomg.association.member.controller;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import java.util.Objects;
 
-import lombok.Data;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Persistent entity for the example application.
- * <p>
- * This makes use of JPA annotations for the persistence configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-@Entity(name = "ExampleEntity")
-@Table(name = "example_entities")
-@Data
-public class PersistentExampleEntity implements ExampleEntity {
+import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.service.MemberService;
+
+@RestController
+@RequestMapping("/member")
+public class MemberController {
 
     /**
-     * Serialization ID.
+     * Example entity service.
      */
-    @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
+    private final MemberService service;
 
     /**
-     * Entity's ID.
+     * Constructs a controller with the specified dependencies.
+     *
+     * @param srvc
+     *            example entity service
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private Integer           id               = -1;
+    public MemberController(final MemberService srvc) {
+        super();
 
-    /**
-     * Name of the entity.
-     * <p>
-     * This is to have additional data apart from the id, to be used on the tests.
-     */
-    @Column(name = "name", nullable = false, unique = true)
-    private String            name             = "";
+        service = Objects.requireNonNull(srvc, "Received a null pointer as service");
+    }
+
+    @GetMapping
+    public Iterable<? extends Member> readAllMembers() {
+        return service.getAllMembers();
+    }
 
 }

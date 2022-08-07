@@ -26,15 +26,12 @@ package com.bernardomg.association.test.config;
 
 /**
  * Contains configuration information for the controller URLs.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 public final class UrlConfig {
 
-    /**
-     * Entities REST URL.
-     */
-    public static final String ENTITY = "/entity";
+    public static final String MEMBER = "/member";
 
     /**
      * Default constructor to avoid initialization.

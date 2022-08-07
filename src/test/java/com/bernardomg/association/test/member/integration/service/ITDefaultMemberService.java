@@ -21,11 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/**
- * Repositories.
- * <p>
- * Similar to a DAO, a repository is a pattern which allows handling the persistence layer as if it was a collection,
- * where entities are stored and read from.
- */
 
-package com.bernardomg.association.domain.repository;
+package com.bernardomg.association.test.member.integration.service;
+
+import org.apache.commons.collections4.IterableUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
+
+import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.service.DefaultMemberService;
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
+
+@IntegrationTest
+@DisplayName("Default entity service")
+@Sql({ "/db/queries/member/multiple.sql" })
+public class ITDefaultMemberService {
+
+    @Autowired
+    private DefaultMemberService service;
+
+    public ITDefaultMemberService() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Returns all the entities")
+    public void testGetAllEntities() {
+        final Iterable<? extends Member> result;
+
+        result = service.getAllMembers();
+
+        Assertions.assertEquals(5, IterableUtils.size(result));
+    }
+
+}

@@ -22,8 +22,12 @@
  * SOFTWARE.
  */
 
-/**
- * Example controller.
- */
+package com.bernardomg.association.member.repository;
 
-package com.bernardomg.association.domain.controller;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bernardomg.association.member.model.PersistentMember;
+
+public interface MemberRepository extends JpaRepository<PersistentMember, Integer> {
+
+}

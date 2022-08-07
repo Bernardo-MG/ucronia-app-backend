@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.unit.controller;
+package com.bernardomg.association.test.member.unit.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +31,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,14 +40,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bernardomg.association.domain.controller.ExampleEntityController;
-import com.bernardomg.association.domain.model.DefaultExampleEntity;
-import com.bernardomg.association.domain.model.ExampleEntity;
-import com.bernardomg.association.domain.service.ExampleEntityService;
+import com.bernardomg.association.member.controller.MemberController;
+import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.pagination.argument.PaginationArgumentResolver;
 import com.bernardomg.association.pagination.argument.SortArgumentResolver;
-import com.bernardomg.association.pagination.model.DefaultPageIterable;
-import com.bernardomg.association.pagination.model.PageIterable;
 import com.bernardomg.association.response.controller.ResponseAdvice;
 import com.bernardomg.association.test.config.UrlConfig;
 
@@ -65,8 +62,7 @@ public final class TestExampleEntityController {
     public final void setUpMockContext() {
         mockMvc = MockMvcBuilders.standaloneSetup(getController())
             .setControllerAdvice(ResponseAdvice.class)
-            .setCustomArgumentResolvers(new PaginationArgumentResolver(),
-                new SortArgumentResolver())
+            .setCustomArgumentResolvers(new PaginationArgumentResolver(), new SortArgumentResolver())
             .alwaysExpect(MockMvcResultMatchers.status()
                 .isOk())
             .alwaysExpect(MockMvcResultMatchers.content()
@@ -86,47 +82,39 @@ public final class TestExampleEntityController {
             .isOk());
 
         // The response model contains the expected attributes
-        result
-            .andExpect(MockMvcResultMatchers.jsonPath("$.content",
-                Matchers.hasSize(3)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(3)));
     }
 
     /**
      * Returns a controller with mocked dependencies.
-     * 
+     *
      * @return a controller with mocked dependencies
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private final ExampleEntityController getController() {
-        final ExampleEntityService service;
-        final Collection<ExampleEntity> entities;
-        final DefaultPageIterable<ExampleEntity> pageIterable;
+    private final MemberController getController() {
+        final MemberService      service;
+        final Collection<Member> data;
 
-        service = Mockito.mock(ExampleEntityService.class);
+        service = Mockito.mock(MemberService.class);
 
-        entities = new ArrayList<>();
-        entities.add(new DefaultExampleEntity());
-        entities.add(new DefaultExampleEntity());
-        entities.add(new DefaultExampleEntity());
+        data = new ArrayList<>();
+        data.add(new DtoMember());
+        data.add(new DtoMember());
+        data.add(new DtoMember());
 
-        pageIterable = new DefaultPageIterable();
-        pageIterable.setContent(entities);
+        Mockito.when(service.getAllMembers())
+            .thenReturn((Iterable) data);
 
-        Mockito
-            .when(service.getAllEntities(ArgumentMatchers.any(),
-                ArgumentMatchers.any()))
-            .thenReturn((PageIterable) pageIterable);
-
-        return new ExampleEntityController(service);
+        return new MemberController(service);
     }
 
     /**
      * Returns a request builder prepared for reading entities.
-     * 
+     *
      * @return a request builder prepared for reading entities
      */
     private final RequestBuilder getGetRequest() {
-        return MockMvcRequestBuilders.get(UrlConfig.ENTITY)
+        return MockMvcRequestBuilders.get(UrlConfig.MEMBER)
             .contentType(MediaType.APPLICATION_JSON);
     }
 
