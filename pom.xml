@@ -23,8 +23,8 @@
    <version>1.0.0-SNAPSHOT</version>
    <packaging>war</packaging>
 
-   <name>Basic Maven Project</name>
-   <description>A Maven project created from the Spring web service archetype.</description>
+   <name>Association App Backend</name>
+   <description>Application backend for handling a small association.</description>
    <url>https://github.com/bernardo-mg/association-app-backend</url>
    <inceptionYear>2022</inceptionYear>
 

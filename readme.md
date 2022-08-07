@@ -1,18 +1,6 @@
-# Basic Maven Project
+# Association App Backend
 
-This is a basic Spring web service project created with the use of the [Spring Web Service Maven Archetype](https://github.com/Bernardo-MG/spring-web-service-maven-archetype). It will ease the development of new web services, setting it up for CI through the use of free services: [Github](https://github.com/), [Github Workflow](https://docs.github.com/en/actions/configuring-and-managing-workflows), [Github Packages](https://github.com/features/packages) and [OSS Sonatype](https://oss.sonatype.org/).
-
-Before beginning with the new project there are a few things which should be edited:
-
-- This readme's description has to be adapted to the new project.
-- Project info on the POM should be checked.
-- The various links on the readme, POM and Maven site (for repositories, issues, etc) should be verified.
-- The documentation on the project's [Maven Site](https://maven.apache.org/plugins/maven-site-plugin/) has to be written.
-- The license, if not using the MIT one, should be changed. Remember that this is referenced on the POM, readme and LICENSE files.
-
-Note that the Maven site is using the [Docs Maven Skin](https://github.com/Bernardo-MG/docs-maven-skin), which will have a few configuration requirements of its own.
-
-[![Maven Central](https://img.shields.io/maven-central/v/com.bernardomg/association-app-backend.svg)][maven-repo]
+Backend for handling a small association.
 
 [![Release docs](https://img.shields.io/badge/docs-release-blue.svg)][site-release]
 [![Development docs](https://img.shields.io/badge/docs-develop-blue.svg)][site-develop]
@@ -81,7 +69,6 @@ If you wish to fork or modify the code, visit the [GitHub project page][scm], wh
 
 The project has been released under the [MIT License][license].
 
-[maven-repo]: http://mvnrepository.com/artifact/com.bernardomg/association-app-backend
 [issues]: https://github.com/bernardo-mg/association-app-backend/issues
 [javadoc-develop]: https:///association-app-backend/apidocs
 [javadoc-release]: https:///association-app-backend/apidocs
