@@ -22,7 +22,7 @@ public class PersistentMemberPeriod {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "endYear", nullable = false, unique = true)
+    @Column(name = "endMonth", nullable = false, unique = true)
     private Integer           endMonth         = -1;
 
     @Column(name = "endYear", nullable = false, unique = true)
