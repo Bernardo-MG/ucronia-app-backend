@@ -193,6 +193,7 @@
       <log4j.version>2.18.0</log4j.version>
       <lombok.version>1.18.24</lombok.version>
       <mockito.version>4.6.1</mockito.version>
+      <mysql.version>8.0.28</mysql.version>
       <servlet.version>4.0.1</servlet.version>
       <slf4j.version>1.7.36</slf4j.version>
       <spring.boot.version>2.7.2</spring.boot.version>
@@ -394,15 +395,6 @@
          <version>${hikari.version}</version>
       </dependency>
       <!-- ============================================== -->
-      <!-- ==================== H2 ====================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- H2 database -->
-         <groupId>com.h2database</groupId>
-         <artifactId>h2</artifactId>
-         <version>${h2.version}</version>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================ LIQUIBASE =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -566,6 +558,13 @@
                <artifactId>junit-vintage-engine</artifactId>
             </exclusion>
          </exclusions>
+      </dependency>
+      <dependency>
+         <!-- H2 database -->
+         <groupId>com.h2database</groupId>
+         <artifactId>h2</artifactId>
+         <version>${h2.version}</version>
+         <scope>test</scope>
       </dependency>
    </dependencies>
 
