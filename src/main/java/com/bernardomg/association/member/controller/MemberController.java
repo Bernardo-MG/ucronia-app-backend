@@ -26,10 +26,16 @@ package com.bernardomg.association.member.controller;
 
 import java.util.Objects;
 
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 
@@ -54,9 +60,24 @@ public class MemberController {
         service = Objects.requireNonNull(srvc, "Received a null pointer as service");
     }
 
-    @GetMapping
-    public Iterable<? extends Member> readAllMembers() {
-        return service.getAllMembers();
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Member create(final DtoMember member) {
+        return service.create(member);
+    }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean delete(@PathVariable("id") final Long id) {
+        return service.delete(id);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Member> readAll() {
+        return service.getAll();
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Member update(final DtoMember member) {
+        return service.update(member);
     }
 
 }

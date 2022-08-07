@@ -23,11 +23,37 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public Iterable<? extends Member> getAllMembers() {
+    public Member create(final Member member) {
+        final PersistentMember entity;
+        final PersistentMember created;
+
+        entity = toPersistentMember(member);
+        created = repository.save(entity);
+        return toMember(created);
+    }
+
+    @Override
+    public Boolean delete(final Long id) {
+        repository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public Iterable<? extends Member> getAll() {
         return repository.findAll()
             .stream()
             .map(this::toMember)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Member update(final Member member) {
+        final PersistentMember entity;
+        final PersistentMember updated;
+
+        entity = toPersistentMember(member);
+        updated = repository.save(entity);
+        return toMember(updated);
     }
 
     private final Member toMember(final PersistentMember entity) {
@@ -38,6 +64,16 @@ public final class DefaultMemberService implements MemberService {
         member.setName(entity.getName());
 
         return member;
+    }
+
+    private final PersistentMember toPersistentMember(final Member data) {
+        final PersistentMember entity;
+
+        entity = new PersistentMember();
+        entity.setId(data.getId());
+        entity.setName(data.getName());
+
+        return entity;
     }
 
 }

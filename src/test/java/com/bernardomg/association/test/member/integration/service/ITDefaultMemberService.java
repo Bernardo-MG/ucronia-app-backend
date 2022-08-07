@@ -52,7 +52,7 @@ public class ITDefaultMemberService {
     public void testGetAllEntities() {
         final Iterable<? extends Member> result;
 
-        result = service.getAllMembers();
+        result = service.getAll();
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }

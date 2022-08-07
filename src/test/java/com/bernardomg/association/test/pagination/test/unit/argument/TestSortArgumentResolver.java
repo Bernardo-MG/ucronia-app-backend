@@ -133,7 +133,6 @@ public class TestSortArgumentResolver {
         Assertions.assertFalse(sort.getSorted());
     }
 
-
     @Test
     @DisplayName("The sort is sorted when receiving all the arguments for ascending sort")
     public void testResolve_FullSort_Asc_Sorted() throws Exception {
@@ -151,7 +150,7 @@ public class TestSortArgumentResolver {
         Mockito.when(webRequest.getParameter("property"))
             .thenReturn("field");
         Mockito.when(webRequest.getParameter("direction"))
-        .thenReturn("asc");
+            .thenReturn("asc");
 
         sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 
@@ -175,7 +174,7 @@ public class TestSortArgumentResolver {
         Mockito.when(webRequest.getParameter("property"))
             .thenReturn("field");
         Mockito.when(webRequest.getParameter("direction"))
-        .thenReturn("asc");
+            .thenReturn("asc");
 
         sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 
@@ -200,7 +199,7 @@ public class TestSortArgumentResolver {
         Mockito.when(webRequest.getParameter("property"))
             .thenReturn("field");
         Mockito.when(webRequest.getParameter("direction"))
-        .thenReturn("desc");
+            .thenReturn("desc");
 
         sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 
@@ -224,7 +223,7 @@ public class TestSortArgumentResolver {
         Mockito.when(webRequest.getParameter("property"))
             .thenReturn("field");
         Mockito.when(webRequest.getParameter("direction"))
-        .thenReturn("desc");
+            .thenReturn("desc");
 
         sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 
@@ -249,7 +248,7 @@ public class TestSortArgumentResolver {
         Mockito.when(webRequest.getParameter("property"))
             .thenReturn("field");
         Mockito.when(webRequest.getParameter("direction"))
-        .thenReturn("abc");
+            .thenReturn("abc");
 
         sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 

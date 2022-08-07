@@ -102,7 +102,7 @@ public final class TestExampleEntityController {
         data.add(new DtoMember());
         data.add(new DtoMember());
 
-        Mockito.when(service.getAllMembers())
+        Mockito.when(service.getAll())
             .thenReturn((Iterable) data);
 
         return new MemberController(service);
