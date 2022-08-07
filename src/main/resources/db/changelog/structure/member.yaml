@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: members
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: members
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: member_periods
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member
+                  type: bigint
+              - column:
+                  name: startYear
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: startMonth
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: endYear
+                  type: int
+              - column:
+                  name: endMonth
+                  type: int
+        - createTable:
+            tableName: paid_months
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member
+                  type: bigint
+              - column:
+                  name: year
+                  type: int
+              - column:
+                  name: month
+                  type: int
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

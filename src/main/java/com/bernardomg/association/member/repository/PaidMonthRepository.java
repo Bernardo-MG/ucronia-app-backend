@@ -22,39 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.member.integration.service;
+package com.bernardomg.association.member.repository;
 
-import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.service.DefaultMemberService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.member.model.PersistentPaidMonth;
 
-@IntegrationTest
-@DisplayName("Default member service")
-@Sql({ "/db/queries/member/multiple.sql" })
-public class ITDefaultMemberService {
-
-    @Autowired
-    private DefaultMemberService service;
-
-    public ITDefaultMemberService() {
-        super();
-    }
-
-    @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAllEntities() {
-        final Iterable<? extends Member> result;
-
-        result = service.getAll();
-
-        Assertions.assertEquals(5, IterableUtils.size(result));
-    }
+public interface PaidMonthRepository extends JpaRepository<PersistentPaidMonth, Long> {
 
 }

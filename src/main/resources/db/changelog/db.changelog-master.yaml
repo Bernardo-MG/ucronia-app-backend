@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: structure/example.yaml
+      file: structure/member.yaml
       relativeToChangelogFile: true
