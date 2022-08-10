@@ -5,12 +5,12 @@ import com.bernardomg.association.member.model.MemberMonth;
 
 public interface PaidMonthService {
 
-    public MemberMonth create(final MemberMonth month);
+    public MemberMonth create(final Long member, final MemberMonth month);
 
     public Boolean delete(final Long id);
 
     public Iterable<? extends MemberMonth> getAll();
 
-    public MemberMonth update(final MemberMonth month);
+    public MemberMonth update(final Long member, final MemberMonth month);
 
 }

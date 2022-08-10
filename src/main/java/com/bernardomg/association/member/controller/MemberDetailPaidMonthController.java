@@ -27,21 +27,25 @@ package com.bernardomg.association.member.controller;
 import java.util.Objects;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.model.MemberPeriod;
-import com.bernardomg.association.member.service.MemberPeriodService;
+import com.bernardomg.association.member.model.DtoMemberMonth;
+import com.bernardomg.association.member.model.MemberMonth;
+import com.bernardomg.association.member.service.PaidMonthService;
 
 @RestController
-@RequestMapping("/member/period")
-public class MemberPeriodController {
+@RequestMapping("/member/{member}/paid")
+public class MemberDetailPaidMonthController {
 
     /**
      * Example entity service.
      */
-    private final MemberPeriodService service;
+    private final PaidMonthService service;
 
     /**
      * Constructs a controller with the specified dependencies.
@@ -49,15 +53,25 @@ public class MemberPeriodController {
      * @param srvc
      *            example entity service
      */
-    public MemberPeriodController(final MemberPeriodService srvc) {
+    public MemberDetailPaidMonthController(final PaidMonthService srvc) {
         super();
 
         service = Objects.requireNonNull(srvc, "Received a null pointer as service");
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberPeriod> readAll() {
-        return service.getAll();
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public MemberMonth create(@PathVariable("member") final Long member, final DtoMemberMonth paidMonth) {
+        return service.create(member, paidMonth);
+    }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean delete(@PathVariable("id") final Long id) {
+        return service.delete(id);
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public MemberMonth update(@PathVariable("member") final Long member, final DtoMemberMonth paidMonth) {
+        return service.update(member, paidMonth);
     }
 
 }

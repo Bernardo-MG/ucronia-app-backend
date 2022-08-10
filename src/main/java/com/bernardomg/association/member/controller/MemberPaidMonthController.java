@@ -27,21 +27,16 @@ package com.bernardomg.association.member.controller;
 import java.util.Objects;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.model.DtoMemberMonth;
 import com.bernardomg.association.member.model.MemberMonth;
 import com.bernardomg.association.member.service.PaidMonthService;
 
 @RestController
 @RequestMapping("/member/paid")
-public class PaidMonthController {
+public class MemberPaidMonthController {
 
     /**
      * Example entity service.
@@ -54,30 +49,15 @@ public class PaidMonthController {
      * @param srvc
      *            example entity service
      */
-    public PaidMonthController(final PaidMonthService srvc) {
+    public MemberPaidMonthController(final PaidMonthService srvc) {
         super();
 
         service = Objects.requireNonNull(srvc, "Received a null pointer as service");
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberMonth create(final DtoMemberMonth member) {
-        return service.create(member);
-    }
-
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean delete(@PathVariable("id") final Long id) {
-        return service.delete(id);
-    }
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<? extends MemberMonth> readAll() {
         return service.getAll();
-    }
-
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberMonth update(final DtoMemberMonth member) {
-        return service.update(member);
     }
 
 }

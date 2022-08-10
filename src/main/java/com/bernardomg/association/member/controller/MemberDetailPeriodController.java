@@ -27,16 +27,20 @@ package com.bernardomg.association.member.controller;
 import java.util.Objects;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.association.member.service.MemberPeriodService;
 
 @RestController
-@RequestMapping("/member/period")
-public class MemberPeriodController {
+@RequestMapping("/member/{member}/period")
+public class MemberDetailPeriodController {
 
     /**
      * Example entity service.
@@ -49,15 +53,25 @@ public class MemberPeriodController {
      * @param srvc
      *            example entity service
      */
-    public MemberPeriodController(final MemberPeriodService srvc) {
+    public MemberDetailPeriodController(final MemberPeriodService srvc) {
         super();
 
         service = Objects.requireNonNull(srvc, "Received a null pointer as service");
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberPeriod> readAll() {
-        return service.getAll();
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public MemberPeriod create(@PathVariable("member") final Long member, final DtoMemberPeriod period) {
+        return service.create(member, period);
+    }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean delete(@PathVariable("id") final Long id) {
+        return service.delete(id);
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public MemberPeriod update(@PathVariable("member") final Long member, final DtoMemberPeriod period) {
+        return service.update(member, period);
     }
 
 }

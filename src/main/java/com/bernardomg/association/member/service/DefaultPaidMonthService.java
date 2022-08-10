@@ -23,11 +23,13 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final MemberMonth create(final MemberMonth month) {
+    public final MemberMonth create(final Long member, final MemberMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
 
         entity = toPersistentPaidMonth(month);
+        entity.setMember(member);
+
         created = repository.save(entity);
         return toPaidMonth(created);
     }
@@ -47,11 +49,13 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final MemberMonth update(final MemberMonth month) {
+    public final MemberMonth update(final Long member, final MemberMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth updated;
 
         entity = toPersistentPaidMonth(month);
+        entity.setMember(member);
+
         updated = repository.save(entity);
         return toPaidMonth(updated);
     }

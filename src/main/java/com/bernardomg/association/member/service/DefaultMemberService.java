@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberDetail;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.MemberDetail;
 import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
 
@@ -48,20 +50,22 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Optional<? extends Member> getOne( final Long id) {
-        final Optional<PersistentMember >found;
-        final Optional<? extends Member> result;
-        final Member member;
-        
+    public final Optional<? extends MemberDetail> getOne(final Long id) {
+        final Optional<PersistentMember>       found;
+        final Optional<? extends MemberDetail> result;
+        final MemberDetail                     member;
+
         found = repository.findById(id);
-        
-        if(found.isPresent()) {
-            member = toMember(found.get());
+
+        if (found.isPresent()) {
+            member = toMemberDetail(found.get());
+            // TODO: add relationships
+
             result = Optional.of(member);
         } else {
             result = Optional.empty();
         }
-        
+
         return result;
     }
 
@@ -79,6 +83,16 @@ public final class DefaultMemberService implements MemberService {
         final DtoMember data;
 
         data = new DtoMember();
+        data.setId(entity.getId());
+        data.setName(entity.getName());
+
+        return data;
+    }
+
+    private final DtoMemberDetail toMemberDetail(final PersistentMember entity) {
+        final DtoMemberDetail data;
+
+        data = new DtoMemberDetail();
         data.setId(entity.getId());
         data.setName(entity.getName());
 
