@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.member.model;
 
-public interface PaidMonth {
+public interface MemberMonth {
 
     public Long getId();
 

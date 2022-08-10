@@ -9,6 +9,8 @@ public interface MemberPeriod {
 
     public Long getId();
 
+    public Long getMember();
+
     public Integer getStartMonth();
 
     public Integer getStartYear();

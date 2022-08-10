@@ -4,7 +4,7 @@ package com.bernardomg.association.member.model;
 import lombok.Data;
 
 @Data
-public final class DtoPaidMonth implements PaidMonth {
+public final class DtoMemberMonth implements MemberMonth {
 
     private Long    id;
 

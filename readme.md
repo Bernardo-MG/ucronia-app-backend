@@ -53,7 +53,7 @@ Then you can query at [http://localhost:8080/entity](http://localhost:8080/entit
 ### Docker image
 
 ```
-docker-compose -f docker/docker-compose.yml up
+docker-compose -f docker/docker-compose.yml --project-name association-app up
 ```
 
 ## Collaborate

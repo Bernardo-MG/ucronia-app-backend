@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.member.model.DtoPaidMonth;
-import com.bernardomg.association.member.model.PaidMonth;
+import com.bernardomg.association.member.model.DtoMemberMonth;
+import com.bernardomg.association.member.model.MemberMonth;
 import com.bernardomg.association.member.model.PersistentPaidMonth;
 import com.bernardomg.association.member.repository.PaidMonthRepository;
 
@@ -23,7 +23,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final PaidMonth create(final PaidMonth month) {
+    public final MemberMonth create(final MemberMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
 
@@ -39,7 +39,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final Iterable<? extends PaidMonth> getAll() {
+    public final Iterable<? extends MemberMonth> getAll() {
         return repository.findAll()
             .stream()
             .map(this::toPaidMonth)
@@ -47,7 +47,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final PaidMonth update(final PaidMonth month) {
+    public final MemberMonth update(final MemberMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth updated;
 
@@ -56,10 +56,10 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         return toPaidMonth(updated);
     }
 
-    private final PaidMonth toPaidMonth(final PersistentPaidMonth entity) {
-        final DtoPaidMonth data;
+    private final MemberMonth toPaidMonth(final PersistentPaidMonth entity) {
+        final DtoMemberMonth data;
 
-        data = new DtoPaidMonth();
+        data = new DtoMemberMonth();
         data.setId(entity.getId());
         data.setMonth(entity.getMonth());
         data.setYear(entity.getYear());
@@ -67,7 +67,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         return data;
     }
 
-    private final PersistentPaidMonth toPersistentPaidMonth(final PaidMonth data) {
+    private final PersistentPaidMonth toPersistentPaidMonth(final MemberMonth data) {
         final PersistentPaidMonth entity;
 
         entity = new PersistentPaidMonth();

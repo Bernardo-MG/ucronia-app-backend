@@ -12,6 +12,8 @@ public final class DtoMemberPeriod implements MemberPeriod {
 
     private Long    id         = -1L;
 
+    private Long    member     = -1L;
+
     private Integer startMonth = -1;
 
     private Integer startYear  = -1;
