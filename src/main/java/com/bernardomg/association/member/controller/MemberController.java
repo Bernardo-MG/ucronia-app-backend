@@ -75,6 +75,11 @@ public class MemberController {
         return service.getAll();
     }
 
+    @GetMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Member readOne(@PathVariable("id") final Long id) {
+        return service.getOne(id).orElse(null);
+    }
+
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Member update(final DtoMember member) {
         return service.update(member);

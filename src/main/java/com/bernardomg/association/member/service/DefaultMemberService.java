@@ -2,6 +2,7 @@
 package com.bernardomg.association.member.service;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -44,6 +45,24 @@ public final class DefaultMemberService implements MemberService {
             .stream()
             .map(this::toMember)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public final Optional<? extends Member> getOne( final Long id) {
+        final Optional<PersistentMember >found;
+        final Optional<? extends Member> result;
+        final Member member;
+        
+        found = repository.findById(id);
+        
+        if(found.isPresent()) {
+            member = toMember(found.get());
+            result = Optional.of(member);
+        } else {
+            result = Optional.empty();
+        }
+        
+        return result;
     }
 
     @Override
