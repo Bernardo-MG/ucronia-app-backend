@@ -2,3 +2,6 @@ databaseChangeLog:
   - include:
       file: structure/member.yaml
       relativeToChangelogFile: true
+  - include:
+      file: structure/payment.yaml
+      relativeToChangelogFile: true

@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.member.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import lombok.Data;
 @Entity(name = "Member")
 @Table(name = "members")
 @Data
-public class PersistentMember {
+public class PersistentMember implements Serializable {
 
     /**
      * Serialization ID.

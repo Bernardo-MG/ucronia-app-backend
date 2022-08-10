@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.member.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import lombok.Data;
 @Entity(name = "PaidMonth")
 @Table(name = "paid_months")
 @Data
-public class PersistentPaidMonth {
+public class PersistentPaidMonth implements Serializable {
 
     /**
      * Serialization ID.
