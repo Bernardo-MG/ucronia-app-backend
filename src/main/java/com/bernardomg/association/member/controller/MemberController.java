@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberDetail;
 import com.bernardomg.association.member.service.MemberService;
 
 @RestController
@@ -77,7 +76,7 @@ public class MemberController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberDetail readOne(@PathVariable("id") final Long id) {
+    public Member readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }
