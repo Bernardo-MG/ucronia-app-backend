@@ -7,6 +7,8 @@ public interface Payment {
 
     public String getDescription();
 
+    public Long getId();
+
     public Integer getMonth();
 
     public Long getQuantity();

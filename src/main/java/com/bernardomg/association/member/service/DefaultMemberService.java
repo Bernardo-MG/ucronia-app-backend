@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.member.service;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -12,16 +11,13 @@ import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public final class DefaultMemberService implements MemberService {
 
     private final MemberRepository repository;
-
-    public DefaultMemberService(final MemberRepository repo) {
-        super();
-
-        repository = Objects.requireNonNull(repo, "Received a null pointer as repository");
-    }
 
     @Override
     public final Member create(final Member member) {
