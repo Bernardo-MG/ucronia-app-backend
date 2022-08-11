@@ -81,9 +81,9 @@ public class MemberController {
             .orElse(null);
     }
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member update(final DtoMember member) {
-        return service.update(member);
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Member update(@PathVariable("id") final Long id, final DtoMember member) {
+        return service.update(id, member);
     }
 
 }

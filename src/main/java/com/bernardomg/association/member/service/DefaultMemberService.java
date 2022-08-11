@@ -62,11 +62,14 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member update(final Member member) {
+    public final Member update(final Long id, final Member member) {
         final PersistentMember entity;
         final PersistentMember updated;
 
         entity = toPersistentMember(member);
+        entity.setId(id);
+
+        // TODO: It is returning the entity BEFORE the changes
         updated = repository.save(entity);
         return toMember(updated);
     }

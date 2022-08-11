@@ -36,20 +36,20 @@ import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service")
+@DisplayName("Default member service - get all")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITDefaultMemberService {
+public class ITDefaultMemberServiceGetAll {
 
     @Autowired
     private DefaultMemberService service;
 
-    public ITDefaultMemberService() {
+    public ITDefaultMemberServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAllEntities() {
+    public void testGetAll_Count() {
         final Iterable<? extends Member> result;
 
         result = service.getAll();

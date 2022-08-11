@@ -15,6 +15,6 @@ public interface MemberService {
 
     public Optional<? extends Member> getOne(final Long id);
 
-    public Member update(final Member member);
+    public Member update(final Long id, final Member member);
 
 }
