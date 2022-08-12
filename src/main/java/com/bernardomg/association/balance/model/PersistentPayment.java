@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ public class PersistentPayment implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
-    @Column(name = "day", nullable = false)
+    @Column(name = "pay_day", nullable = false)
     private Integer           day;
 
     @Column(name = "description", length = 200)
@@ -30,16 +32,17 @@ public class PersistentPayment implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id               = -1L;
 
-    @Column(name = "month", nullable = false)
+    @Column(name = "pay_month", nullable = false)
     private Integer           month;
 
     @Column(name = "quantity", nullable = false)
     private Long              quantity         = -1L;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "pay_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentType       type;
 
-    @Column(name = "year", nullable = false)
+    @Column(name = "pay_year", nullable = false)
     private Integer           year;
 
 }

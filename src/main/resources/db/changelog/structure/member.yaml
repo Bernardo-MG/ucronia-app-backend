@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            tableName: payments
+            tableName: members
             columns:
               - column:
                   name: id
@@ -14,36 +14,58 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: description
-                  type: varchar(200)
-                  defaultValue: ''
-                  constraints:
-                    nullable: false
-              - column:
-                  name: quantity
-                  type: bigint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: year
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: month
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: day
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type
+                  name: name
                   type: varchar(50)
                   constraints:
                     nullable: false
+        - createTable:
+            tableName: member_periods
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member
+                  type: bigint
+              - column:
+                  name: startYear
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: startMonth
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: endYear
+                  type: int
+              - column:
+                  name: endMonth
+                  type: int
+        - createTable:
+            tableName: paid_months
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member
+                  type: bigint
+              - column:
+                  name: year
+                  type: int
+              - column:
+                  name: month
+                  type: int
       modifySql:
         - append:
             dbms: mysql

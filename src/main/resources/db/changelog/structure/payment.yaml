@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            tableName: members
+            tableName: payments
             columns:
               - column:
                   name: id
@@ -14,58 +14,36 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-        - createTable:
-            tableName: member_periods
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: member
-                  type: bigint
-              - column:
-                  name: startYear
-                  type: int
+                  name: description
+                  type: varchar(200)
+                  defaultValue: ''
                   constraints:
                     nullable: false
               - column:
-                  name: startMonth
-                  type: int
+                  name: quantity
+                  type: float
                   constraints:
                     nullable: false
               - column:
-                  name: endYear
-                  type: int
-              - column:
-                  name: endMonth
-                  type: int
-        - createTable:
-            tableName: paid_months
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
+                  name: pay_day
+                  type: smallint
                   constraints:
-                    primaryKey: true
                     nullable: false
               - column:
-                  name: member
-                  type: bigint
+                  name: pay_month
+                  type: smallint
+                  constraints:
+                    nullable: false
               - column:
-                  name: year
-                  type: int
+                  name: pay_year
+                  type: smallint
+                  constraints:
+                    nullable: false
               - column:
-                  name: month
-                  type: int
+                  name: pay_type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
       modifySql:
         - append:
             dbms: mysql

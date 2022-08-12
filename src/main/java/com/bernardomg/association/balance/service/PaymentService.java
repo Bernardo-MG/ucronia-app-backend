@@ -11,6 +11,6 @@ public interface PaymentService {
 
     public Iterable<Payment> getAll();
 
-    public Payment update(final Payment payment);
+    public Payment update(final Long id, final Payment payment);
 
 }

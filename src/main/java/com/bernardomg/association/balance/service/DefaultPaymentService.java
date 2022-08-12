@@ -43,11 +43,13 @@ public final class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-    public final Payment update(final Payment payment) {
+    public final Payment update(final Long id, final Payment payment) {
         final PersistentPayment entity;
         final PersistentPayment updated;
 
         entity = toPersistentPayment(payment);
+        entity.setId(id);
+
         updated = repository.save(entity);
         return toPayment(updated);
     }
