@@ -3,6 +3,8 @@ package com.bernardomg.association.member.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
 
+        // TODO: Reject invalid months
+        // TODO: Reject months out of period
+
         entity = toPersistentPaidMonth(month);
         entity.setMember(member);
 
@@ -46,24 +51,46 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     public final Iterable<? extends PaidMonth> getAllForMember(final Long member) {
         final Iterable<PersistentMemberPeriod>  periods;
         final Collection<Collection<PaidMonth>> months;
-        Collection<PaidMonth>                   readMonths;
+        Map<String, PaidMonth>                  monthsByDate;
+        Collection<PaidMonth>                   periodMonths;
         PersistentPaidMonth                     entity;
+        Function<PaidMonth, String>             keyMapper;
+        String                                  key;
+        DtoPaidMonth                            unpaidMonth;
 
         periods = periodRepository.findAll();
 
+        keyMapper = m -> String.format("%d %d", m.getMonth(), m.getYear());
         months = new ArrayList<>();
         for (final PersistentMemberPeriod period : periods) {
             entity = new PersistentPaidMonth();
             entity.setMember(member);
 
             // TODO: Sort by date
-            readMonths = repository
+            monthsByDate = repository
                 .findInRange(member, period.getStartMonth(), period.getStartYear(), period.getEndMonth(),
                     period.getEndYear())
                 .stream()
                 .map(this::toPaidMonth)
-                .collect(Collectors.toList());
-            months.add(readMonths);
+                .collect(Collectors.toMap(keyMapper, Function.identity()));
+            periodMonths = new ArrayList<>();
+            for (Integer year = period.getStartYear(); year <= period.getEndYear(); year++) {
+                for (Integer month = period.getStartMonth(); month <= period.getEndMonth(); month++) {
+                    key = String.format("%d %d", month, year);
+                    if (monthsByDate.containsKey(key)) {
+                        periodMonths.add(monthsByDate.get(key));
+                    } else {
+                        unpaidMonth = new DtoPaidMonth();
+                        unpaidMonth.setMember(member);
+                        unpaidMonth.setMonth(month);
+                        unpaidMonth.setYear(year);
+                        unpaidMonth.setPaid(false);
+                        periodMonths.add(unpaidMonth);
+                    }
+                }
+            }
+
+            months.add(periodMonths);
         }
 
         return months.stream()

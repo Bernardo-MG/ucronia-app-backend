@@ -24,7 +24,7 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
 
-        // TODO: Reject invalid months
+        // TODO: Require lower range to be before upper range
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
