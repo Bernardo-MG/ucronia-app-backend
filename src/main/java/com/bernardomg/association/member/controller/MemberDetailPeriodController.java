@@ -69,9 +69,10 @@ public class MemberDetailPeriodController {
         return service.delete(id);
     }
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberPeriod update(@PathVariable("member") final Long member, final DtoMemberPeriod period) {
-        return service.update(member, period);
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MemberPeriod update(@PathVariable("member") final Long member, @PathVariable("id") final Long id,
+            final DtoMemberPeriod period) {
+        return service.update(member, id, period);
     }
 
 }

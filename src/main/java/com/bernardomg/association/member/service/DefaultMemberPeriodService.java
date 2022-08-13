@@ -23,7 +23,7 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     }
 
     @Override
-    public MemberPeriod create(final Long member, final MemberPeriod period) {
+    public final MemberPeriod create(final Long member, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
 
@@ -49,11 +49,12 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     }
 
     @Override
-    public final MemberPeriod update(final Long member, final MemberPeriod period) {
+    public final MemberPeriod update(final Long member, final Long id, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod updated;
 
         entity = toPersistentMemberPeriod(period);
+        entity.setId(id);
         entity.setMember(member);
 
         updated = repository.save(entity);
@@ -64,6 +65,8 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         final DtoMemberPeriod data;
 
         data = new DtoMemberPeriod();
+        data.setId(entity.getId());
+        data.setMember(entity.getMember());
         data.setStartMonth(entity.getStartMonth());
         data.setStartYear(entity.getStartYear());
         data.setEndMonth(entity.getEndMonth());
@@ -77,6 +80,7 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
         entity = new PersistentMemberPeriod();
         entity.setId(data.getId());
+        entity.setMember(data.getMember());
         entity.setStartMonth(data.getStartMonth());
         entity.setStartYear(data.getStartYear());
         entity.setEndMonth(data.getEndMonth());

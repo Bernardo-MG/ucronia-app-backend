@@ -11,6 +11,6 @@ public interface MemberPeriodService {
 
     public Iterable<? extends MemberPeriod> getAll();
 
-    public MemberPeriod update(final Long member, final MemberPeriod period);
+    public MemberPeriod update(final Long member, final Long id, final MemberPeriod period);
 
 }
