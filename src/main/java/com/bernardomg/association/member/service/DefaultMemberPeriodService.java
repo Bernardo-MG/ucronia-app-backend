@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.member.service;
 
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -11,16 +10,13 @@ import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public final class DefaultMemberPeriodService implements MemberPeriodService {
 
     private final MemberPeriodRepository repository;
-
-    public DefaultMemberPeriodService(final MemberPeriodRepository repo) {
-        super();
-
-        repository = Objects.requireNonNull(repo, "Received a null pointer as repository");
-    }
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {

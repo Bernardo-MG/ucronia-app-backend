@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.member.service;
 
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -11,16 +10,13 @@ import com.bernardomg.association.member.model.MemberMonth;
 import com.bernardomg.association.member.model.PersistentPaidMonth;
 import com.bernardomg.association.member.repository.PaidMonthRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public final class DefaultPaidMonthService implements PaidMonthService {
 
     private final PaidMonthRepository repository;
-
-    public DefaultPaidMonthService(final PaidMonthRepository repo) {
-        super();
-
-        repository = Objects.requireNonNull(repo, "Received a null pointer as repository");
-    }
 
     @Override
     public final MemberMonth create(final Long member, final MemberMonth month) {
