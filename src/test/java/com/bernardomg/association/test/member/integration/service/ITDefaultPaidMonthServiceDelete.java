@@ -35,9 +35,9 @@ import com.bernardomg.association.member.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member paid month service - delete")
+@DisplayName("Default paid month service - delete")
 @Sql({ "/db/queries/paid_month/single.sql" })
-public class ITDefaultMemberPaidMonthServiceDelete {
+public class ITDefaultPaidMonthServiceDelete {
 
     @Autowired
     private PaidMonthRepository     repository;
@@ -45,7 +45,7 @@ public class ITDefaultMemberPaidMonthServiceDelete {
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultMemberPaidMonthServiceDelete() {
+    public ITDefaultPaidMonthServiceDelete() {
         super();
     }
 

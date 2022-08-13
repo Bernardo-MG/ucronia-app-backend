@@ -37,8 +37,8 @@ import com.bernardomg.association.member.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member paid month service - create")
-public class ITDefaultMemberPaidMonthServiceCreate {
+@DisplayName("Default paid month service - create")
+public class ITDefaultPaidMonthServiceCreate {
 
     @Autowired
     private PaidMonthRepository     repository;
@@ -46,7 +46,7 @@ public class ITDefaultMemberPaidMonthServiceCreate {
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultMemberPaidMonthServiceCreate() {
+    public ITDefaultPaidMonthServiceCreate() {
         super();
     }
 

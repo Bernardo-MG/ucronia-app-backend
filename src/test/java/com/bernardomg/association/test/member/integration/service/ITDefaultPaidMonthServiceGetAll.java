@@ -36,14 +36,14 @@ import com.bernardomg.association.member.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member paid month service - get all")
+@DisplayName("Default paid month service - get all")
 @Sql({ "/db/queries/paid_month/multiple.sql" })
-public class ITDefaultMemberPaidMonthServiceGetAll {
+public class ITDefaultPaidMonthServiceGetAll {
 
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultMemberPaidMonthServiceGetAll() {
+    public ITDefaultPaidMonthServiceGetAll() {
         super();
     }
 
