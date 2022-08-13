@@ -5,6 +5,7 @@ public interface MemberMonth {
 
     public Long getId();
 
+    @Deprecated
     public Long getMember();
 
     public Integer getMonth();

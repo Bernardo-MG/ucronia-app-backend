@@ -3,6 +3,7 @@ package com.bernardomg.association.member.service;
 
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMemberPeriod;
@@ -37,8 +38,17 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     }
 
     @Override
-    public final Iterable<? extends MemberPeriod> getAll() {
-        return repository.findAll()
+    public final Iterable<? extends MemberPeriod> getAllForMember(final Long member) {
+        final Example<PersistentMemberPeriod> example;
+        final PersistentMemberPeriod          entity;
+
+        entity = new PersistentMemberPeriod();
+        entity.setMember(member);
+
+        example = Example.of(entity);
+
+        // TODO: Sort by date
+        return repository.findAll(example)
             .stream()
             .map(this::toMemberPeriod)
             .collect(Collectors.toList());

@@ -9,6 +9,6 @@ public interface PaidMonthService {
 
     public Boolean delete(final Long id);
 
-    public Iterable<? extends MemberMonth> getAll();
+    public Iterable<? extends MemberMonth> getAllForMember(final Long member);
 
 }

@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +67,11 @@ public class MemberDetailPaidMonthController {
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean delete(@PathVariable("id") final Long id) {
         return service.delete(id);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends MemberMonth> readAllForMember(@PathVariable("member") final Long member) {
+        return service.getAllForMember(member);
     }
 
 }

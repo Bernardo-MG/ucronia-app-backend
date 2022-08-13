@@ -48,6 +48,9 @@ public class ITDefaultMemberPeriodServiceCreate {
 
     public ITDefaultMemberPeriodServiceCreate() {
         super();
+
+        // TODO: Check that periods can't be repeated
+        // TODO: Check that periods can't overlap
     }
 
     @Test

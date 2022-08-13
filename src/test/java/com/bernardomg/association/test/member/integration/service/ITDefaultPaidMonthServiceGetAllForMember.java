@@ -22,42 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.controller;
+package com.bernardomg.association.test.member.integration.service;
 
-import java.util.Objects;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.collections4.IterableUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.MemberMonth;
-import com.bernardomg.association.member.service.PaidMonthService;
+import com.bernardomg.association.member.service.DefaultPaidMonthService;
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
-@RestController
-@RequestMapping("/member/paid")
-public class MemberPaidMonthController {
+@IntegrationTest
+@DisplayName("Default paid month service - get all for member")
+@Sql({ "/db/queries/paid_month/multiple.sql" })
+public class ITDefaultPaidMonthServiceGetAllForMember {
 
-    /**
-     * Example entity service.
-     */
-    private final PaidMonthService service;
+    @Autowired
+    private DefaultPaidMonthService service;
 
-    /**
-     * Constructs a controller with the specified dependencies.
-     *
-     * @param srvc
-     *            example entity service
-     */
-    public MemberPaidMonthController(final PaidMonthService srvc) {
+    public ITDefaultPaidMonthServiceGetAllForMember() {
         super();
-
-        service = Objects.requireNonNull(srvc, "Received a null pointer as service");
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberMonth> readAll() {
-        return service.getAll();
+    @Test
+    @DisplayName("Returns all the entities for a member")
+    public void testGetAll_Count() {
+        final Iterable<? extends MemberMonth> result;
+
+        result = service.getAllForMember(1l);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
     }
 
 }

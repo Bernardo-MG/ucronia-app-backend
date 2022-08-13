@@ -36,25 +36,25 @@ import com.bernardomg.association.member.service.DefaultMemberPeriodService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member period service - get all")
+@DisplayName("Default member period service - get all for member")
 @Sql({ "/db/queries/member_period/multiple.sql" })
-public class ITDefaultMemberPeriodServiceGetAll {
+public class ITDefaultMemberPeriodServiceGetAllForMember {
 
     @Autowired
     private DefaultMemberPeriodService service;
 
-    public ITDefaultMemberPeriodServiceGetAll() {
+    public ITDefaultMemberPeriodServiceGetAllForMember() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
+    @DisplayName("Returns all the entities for a member")
     public void testGetAll_Count() {
         final Iterable<? extends MemberPeriod> result;
 
-        result = service.getAll();
+        result = service.getAllForMember(1L);
 
-        Assertions.assertEquals(5, IterableUtils.size(result));
+        Assertions.assertEquals(1, IterableUtils.size(result));
     }
 
 }

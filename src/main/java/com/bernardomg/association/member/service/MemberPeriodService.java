@@ -9,7 +9,7 @@ public interface MemberPeriodService {
 
     public Boolean delete(final Long id);
 
-    public Iterable<? extends MemberPeriod> getAll();
+    public Iterable<? extends MemberPeriod> getAllForMember(final Long member);
 
     public MemberPeriod update(final Long member, final Long id, final MemberPeriod period);
 
