@@ -24,10 +24,10 @@ public class PersistentMemberPeriod implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "endMonth", nullable = false, unique = true)
+    @Column(name = "end_month", nullable = false, unique = true)
     private Integer           endMonth         = -1;
 
-    @Column(name = "endYear", nullable = false, unique = true)
+    @Column(name = "end_year", nullable = false, unique = true)
     private Integer           endYear          = -1;
 
     @Id
@@ -38,10 +38,10 @@ public class PersistentMemberPeriod implements Serializable {
     @Column(name = "member", nullable = false, unique = true)
     private Long              member           = -1L;
 
-    @Column(name = "startMonth", nullable = false, unique = true)
+    @Column(name = "start_month", nullable = false, unique = true)
     private Integer           startMonth       = -1;
 
-    @Column(name = "startYear", nullable = false, unique = true)
+    @Column(name = "start_year", nullable = false, unique = true)
     private Integer           startYear        = -1;
 
 }

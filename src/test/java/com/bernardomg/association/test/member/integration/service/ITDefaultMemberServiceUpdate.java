@@ -92,8 +92,6 @@ public class ITDefaultMemberServiceUpdate {
         member.setName("Member 123");
 
         service.update(getId(), member);
-
-        service.create(member);
         entity = repository.findAll()
             .iterator()
             .next();

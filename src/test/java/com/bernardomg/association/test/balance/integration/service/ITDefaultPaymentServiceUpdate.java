@@ -108,8 +108,6 @@ public class ITDefaultPaymentServiceUpdate {
         payment.setYear(4);
 
         service.update(getId(), payment);
-
-        service.create(payment);
         entity = repository.findAll()
             .iterator()
             .next();

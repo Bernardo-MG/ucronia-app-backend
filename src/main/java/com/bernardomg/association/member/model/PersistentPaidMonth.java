@@ -32,10 +32,10 @@ public class PersistentPaidMonth implements Serializable {
     @Column(name = "member", nullable = false, unique = true)
     private Long              member           = -1L;
 
-    @Column(name = "month", nullable = false, unique = true)
+    @Column(name = "paid_month", nullable = false, unique = true)
     private Integer           month            = -1;
 
-    @Column(name = "year", nullable = false, unique = true)
+    @Column(name = "paid_year", nullable = false, unique = true)
     private Integer           year             = -1;
 
 }

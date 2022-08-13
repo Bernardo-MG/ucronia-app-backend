@@ -48,23 +48,12 @@ public final class DefaultPaidMonthService implements PaidMonthService {
             .collect(Collectors.toList());
     }
 
-    @Override
-    public final MemberMonth update(final Long member, final MemberMonth month) {
-        final PersistentPaidMonth entity;
-        final PersistentPaidMonth updated;
-
-        entity = toPersistentPaidMonth(month);
-        entity.setMember(member);
-
-        updated = repository.save(entity);
-        return toPaidMonth(updated);
-    }
-
     private final MemberMonth toPaidMonth(final PersistentPaidMonth entity) {
         final DtoMemberMonth data;
 
         data = new DtoMemberMonth();
         data.setId(entity.getId());
+        data.setMember(entity.getMember());
         data.setMonth(entity.getMonth());
         data.setYear(entity.getYear());
 

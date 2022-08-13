@@ -32,20 +32,20 @@ databaseChangeLog:
                   name: member
                   type: bigint
               - column:
-                  name: startYear
+                  name: start_month
                   type: int
                   constraints:
                     nullable: false
               - column:
-                  name: startMonth
+                  name: start_year
                   type: int
                   constraints:
                     nullable: false
               - column:
-                  name: endYear
+                  name: end_month
                   type: int
               - column:
-                  name: endMonth
+                  name: end_year
                   type: int
         - createTable:
             tableName: paid_months
@@ -61,10 +61,10 @@ databaseChangeLog:
                   name: member
                   type: bigint
               - column:
-                  name: year
+                  name: paid_month
                   type: int
               - column:
-                  name: month
+                  name: paid_year
                   type: int
       modifySql:
         - append:

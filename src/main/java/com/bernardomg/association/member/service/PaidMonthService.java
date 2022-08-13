@@ -11,6 +11,4 @@ public interface PaidMonthService {
 
     public Iterable<? extends MemberMonth> getAll();
 
-    public MemberMonth update(final Long member, final MemberMonth month);
-
 }
