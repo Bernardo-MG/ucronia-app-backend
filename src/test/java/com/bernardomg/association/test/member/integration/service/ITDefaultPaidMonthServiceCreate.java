@@ -29,8 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.model.DtoMemberMonth;
-import com.bernardomg.association.member.model.MemberMonth;
+import com.bernardomg.association.member.model.DtoPaidMonth;
+import com.bernardomg.association.member.model.PaidMonth;
 import com.bernardomg.association.member.model.PersistentPaidMonth;
 import com.bernardomg.association.member.repository.PaidMonthRepository;
 import com.bernardomg.association.member.service.DefaultPaidMonthService;
@@ -55,9 +55,9 @@ public class ITDefaultPaidMonthServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final DtoMemberMonth month;
+        final DtoPaidMonth month;
 
-        month = new DtoMemberMonth();
+        month = new DtoPaidMonth();
         month.setMonth(2);
         month.setYear(3);
 
@@ -69,10 +69,10 @@ public class ITDefaultPaidMonthServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final DtoMemberMonth      month;
+        final DtoPaidMonth        month;
         final PersistentPaidMonth entity;
 
-        month = new DtoMemberMonth();
+        month = new DtoPaidMonth();
         month.setMonth(2);
         month.setYear(3);
 
@@ -90,10 +90,10 @@ public class ITDefaultPaidMonthServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final MemberMonth    result;
-        final DtoMemberMonth month;
+        final PaidMonth    result;
+        final DtoPaidMonth month;
 
-        month = new DtoMemberMonth();
+        month = new DtoPaidMonth();
         month.setMonth(2);
         month.setYear(3);
 

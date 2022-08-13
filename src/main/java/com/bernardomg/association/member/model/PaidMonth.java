@@ -1,14 +1,15 @@
 
 package com.bernardomg.association.member.model;
 
-public interface MemberMonth {
+public interface PaidMonth {
 
     public Long getId();
 
-    @Deprecated
     public Long getMember();
 
     public Integer getMonth();
+
+    public Boolean getPaid();
 
     public Integer getYear();
 

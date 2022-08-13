@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.member.service;
 
-import com.bernardomg.association.member.model.MemberMonth;
+import com.bernardomg.association.member.model.PaidMonth;
 
 public interface PaidMonthService {
 
-    public MemberMonth create(final Long member, final MemberMonth month);
+    public PaidMonth create(final Long member, final PaidMonth month);
 
     public Boolean delete(final Long id);
 
-    public Iterable<? extends MemberMonth> getAllForMember(final Long member);
+    public Iterable<? extends PaidMonth> getAllForMember(final Long member);
 
 }

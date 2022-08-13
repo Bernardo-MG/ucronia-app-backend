@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,13 +39,13 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member_period/one_month.sql", "/db/queries/paid_month/multiple.sql" })
-public class ITDefaultPaidMonthServiceGetAllForMember {
+@Sql({ "/db/queries/member_period/full_year.sql", "/db/queries/paid_month/year_gaps.sql" })
+public class ITDefaultPaidMonthServiceGetAllForMemberFullYearPaid {
 
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultPaidMonthServiceGetAllForMember() {
+    public ITDefaultPaidMonthServiceGetAllForMemberFullYearPaid() {
         super();
     }
 
@@ -54,7 +56,31 @@ public class ITDefaultPaidMonthServiceGetAllForMember {
 
         result = service.getAllForMember(1L);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertEquals(12, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all data")
+    public void testGetAll_Data() {
+        final Iterator<? extends PaidMonth> data;
+        PaidMonth                           result;
+
+        data = service.getAllForMember(1L)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(1, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(2, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertFalse(result.getPaid());
     }
 
 }

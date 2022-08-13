@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.model.DtoMemberMonth;
-import com.bernardomg.association.member.model.MemberMonth;
+import com.bernardomg.association.member.model.DtoPaidMonth;
+import com.bernardomg.association.member.model.PaidMonth;
 import com.bernardomg.association.member.service.PaidMonthService;
 
 @RestController
@@ -60,7 +60,7 @@ public class MemberDetailPaidMonthController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberMonth create(@PathVariable("member") final Long member, final DtoMemberMonth paidMonth) {
+    public PaidMonth create(@PathVariable("member") final Long member, final DtoPaidMonth paidMonth) {
         return service.create(member, paidMonth);
     }
 
@@ -70,7 +70,7 @@ public class MemberDetailPaidMonthController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberMonth> readAllForMember(@PathVariable("member") final Long member) {
+    public Iterable<? extends PaidMonth> readAllForMember(@PathVariable("member") final Long member) {
         return service.getAllForMember(member);
     }
 

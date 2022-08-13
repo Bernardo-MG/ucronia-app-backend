@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.member.model.DtoMemberMonth;
-import com.bernardomg.association.member.model.MemberMonth;
+import com.bernardomg.association.member.model.DtoPaidMonth;
+import com.bernardomg.association.member.model.PaidMonth;
 import com.bernardomg.association.member.model.PersistentPaidMonth;
 import com.bernardomg.association.member.repository.PaidMonthRepository;
 
@@ -20,7 +20,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     private final PaidMonthRepository repository;
 
     @Override
-    public final MemberMonth create(final Long member, final MemberMonth month) {
+    public final PaidMonth create(final Long member, final PaidMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
 
@@ -38,7 +38,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final Iterable<? extends MemberMonth> getAllForMember(final Long member) {
+    public final Iterable<? extends PaidMonth> getAllForMember(final Long member) {
         final Example<PersistentPaidMonth> example;
         final PersistentPaidMonth          entity;
 
@@ -54,10 +54,10 @@ public final class DefaultPaidMonthService implements PaidMonthService {
             .collect(Collectors.toList());
     }
 
-    private final MemberMonth toPaidMonth(final PersistentPaidMonth entity) {
-        final DtoMemberMonth data;
+    private final PaidMonth toPaidMonth(final PersistentPaidMonth entity) {
+        final DtoPaidMonth data;
 
-        data = new DtoMemberMonth();
+        data = new DtoPaidMonth();
         data.setId(entity.getId());
         data.setMember(entity.getMember());
         data.setMonth(entity.getMonth());
@@ -66,7 +66,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         return data;
     }
 
-    private final PersistentPaidMonth toPersistentPaidMonth(final MemberMonth data) {
+    private final PersistentPaidMonth toPersistentPaidMonth(final PaidMonth data) {
         final PersistentPaidMonth entity;
 
         entity = new PersistentPaidMonth();

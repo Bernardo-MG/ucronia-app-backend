@@ -37,13 +37,13 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member_period/one_month.sql", "/db/queries/paid_month/multiple.sql" })
-public class ITDefaultPaidMonthServiceGetAllForMember {
+@Sql({ "/db/queries/member_period/one_month.sql" })
+public class ITDefaultPaidMonthServiceGetAllForMemberSingleMonthNotPaid {
 
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultPaidMonthServiceGetAllForMember() {
+    public ITDefaultPaidMonthServiceGetAllForMemberSingleMonthNotPaid() {
         super();
     }
 
@@ -55,6 +55,22 @@ public class ITDefaultPaidMonthServiceGetAllForMember {
         result = service.getAllForMember(1L);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all data")
+    public void testGetAll_Data() {
+        final PaidMonth result;
+
+        result = service.getAllForMember(1L)
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(1, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertFalse(result.getPaid());
     }
 
 }
