@@ -50,11 +50,11 @@ import com.bernardomg.association.response.controller.ResponseAdvice;
 import com.bernardomg.association.test.config.UrlConfig;
 
 @DisplayName("Example controller")
-public final class TestExampleEntityController {
+public final class TestMemberController {
 
     private MockMvc mockMvc;
 
-    public TestExampleEntityController() {
+    public TestMemberController() {
         super();
     }
 
