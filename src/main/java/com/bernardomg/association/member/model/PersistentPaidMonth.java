@@ -27,15 +27,15 @@ public class PersistentPaidMonth implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id               = -1L;
+    private Long              id;
 
     @Column(name = "member", nullable = false, unique = true)
-    private Long              member           = -1L;
+    private Long              member;
 
     @Column(name = "paid_month", nullable = false, unique = true)
-    private Integer           month            = -1;
+    private Integer           month;
 
     @Column(name = "paid_year", nullable = false, unique = true)
-    private Integer           year             = -1;
+    private Integer           year;
 
 }

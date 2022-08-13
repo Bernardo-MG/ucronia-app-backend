@@ -25,18 +25,18 @@ public class PersistentPayment implements Serializable {
     private Integer           day;
 
     @Column(name = "description", length = 200)
-    private String            description      = "";
+    private String            description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id               = -1L;
+    private Long              id;
 
     @Column(name = "pay_month", nullable = false)
     private Integer           month;
 
     @Column(name = "quantity", nullable = false)
-    private Long              quantity         = -1L;
+    private Long              quantity;
 
     @Column(name = "pay_type", nullable = false)
     @Enumerated(EnumType.STRING)

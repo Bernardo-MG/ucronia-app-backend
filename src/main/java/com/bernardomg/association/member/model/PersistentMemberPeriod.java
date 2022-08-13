@@ -25,23 +25,23 @@ public class PersistentMemberPeriod implements Serializable {
     private static final long serialVersionUID = 1328776989450853491L;
 
     @Column(name = "end_month", nullable = false, unique = true)
-    private Integer           endMonth         = -1;
+    private Integer           endMonth;
 
     @Column(name = "end_year", nullable = false, unique = true)
-    private Integer           endYear          = -1;
+    private Integer           endYear;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id               = -1L;
+    private Long              id;
 
     @Column(name = "member", nullable = false, unique = true)
-    private Long              member           = -1L;
+    private Long              member;
 
     @Column(name = "start_month", nullable = false, unique = true)
-    private Integer           startMonth       = -1;
+    private Integer           startMonth;
 
     @Column(name = "start_year", nullable = false, unique = true)
-    private Integer           startYear        = -1;
+    private Integer           startYear;
 
 }

@@ -27,9 +27,9 @@ public class PersistentMember implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id               = -1L;
+    private Long              id;
 
     @Column(name = "name", nullable = false, unique = true)
-    private String            name             = "";
+    private String            name;
 
 }

@@ -52,7 +52,7 @@ public class ITDefaultPaidMonthServiceGetAllForMember {
     public void testGetAll_Count() {
         final Iterable<? extends MemberMonth> result;
 
-        result = service.getAllForMember(1l);
+        result = service.getAllForMember(1L);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
