@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member_period/full_year.sql", "/db/queries/paid_month/full_year.sql" })
+@Sql({ "/db/queries/member_period/full_year.sql", "/db/queries/paid_month/year_gaps.sql" })
 public class ITDefaultPaidMonthServiceGetAllForMemberFullYearGaps {
 
     @Autowired
@@ -60,15 +62,93 @@ public class ITDefaultPaidMonthServiceGetAllForMemberFullYearGaps {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final PaidMonth result;
+        final Iterator<? extends PaidMonth> data;
+        PaidMonth                           result;
 
-        result = service.getAllForMember(1L)
-            .iterator()
-            .next();
+        data = service.getAllForMember(1L)
+            .iterator();
 
+        result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(1, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(2, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(3, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(4, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(5, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(6, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(7, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(8, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(9, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(10, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(11, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(12, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());
     }

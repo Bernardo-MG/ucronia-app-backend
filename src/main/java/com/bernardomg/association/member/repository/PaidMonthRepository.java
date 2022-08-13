@@ -24,10 +24,19 @@
 
 package com.bernardomg.association.member.repository;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.model.PersistentPaidMonth;
 
 public interface PaidMonthRepository extends JpaRepository<PersistentPaidMonth, Long> {
+
+    @Query("SELECT m FROM PaidMonth m WHERE m.member = :member AND m.month >= :startMonth AND m.month <= :endMonth AND m.year >= :startYear AND m.year <= :endYear")
+    public Collection<PersistentPaidMonth> findInRange(@Param("member") final Long member,
+            @Param("startMonth") final Integer startMonth, @Param("startYear") final Integer startYear,
+            @Param("endMonth") final Integer endMonth, @Param("endYear") final Integer endYear);
 
 }
