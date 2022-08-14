@@ -27,20 +27,20 @@ package com.bernardomg.association.test.member.integration.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMemberPeriod;
-import com.bernardomg.association.member.model.MemberPeriod;
-import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
 import com.bernardomg.association.member.service.DefaultMemberPeriodService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Default member period service - update")
+@DisplayName("Default member period service - update validation")
 @Sql({ "/db/queries/member_period/single.sql" })
-public class ITDefaultMemberPeriodServiceUpdate {
+public class ITDefaultMemberPeriodServiceUpdateValidation {
 
     @Autowired
     private MemberPeriodRepository     repository;
@@ -48,73 +48,48 @@ public class ITDefaultMemberPeriodServiceUpdate {
     @Autowired
     private DefaultMemberPeriodService service;
 
-    public ITDefaultMemberPeriodServiceUpdate() {
+    public ITDefaultMemberPeriodServiceUpdateValidation() {
         super();
-
-        // TODO: Check invalid ids
     }
 
     @Test
-    @DisplayName("Returns the previous data")
-    public void testUpdate_ReturnedData() {
-        final MemberPeriod    result;
+    @DisplayName("Throws an exception when the start month is after the end month")
+    public void testUpdate_StartMonthAfterEndMonth() {
         final DtoMemberPeriod period;
+        final Executable      executable;
+        final Exception       exception;
 
         period = new DtoMemberPeriod();
-        period.setStartMonth(20);
-        period.setStartYear(30);
-        period.setEndMonth(40);
-        period.setEndYear(50);
+        period.setStartMonth(4);
+        period.setStartYear(1);
+        period.setEndMonth(2);
+        period.setEndYear(1);
 
-        result = service.update(1L, getId(), period);
+        executable = () -> service.update(1L, getId(), period);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
-        Assertions.assertEquals(20, result.getStartMonth());
-        Assertions.assertEquals(30, result.getStartYear());
-        Assertions.assertEquals(40, result.getEndMonth());
-        Assertions.assertEquals(50, result.getEndYear());
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.memberPeriod.startMonthAfterEndMonth", exception.getMessage());
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
-    public void testUpdate_AddsNoEntity() {
+    @DisplayName("Throws an exception when the start year is after the end year")
+    public void testUpdate_StartYearAfterEndYear() {
         final DtoMemberPeriod period;
+        final Executable      executable;
+        final Exception       exception;
 
         period = new DtoMemberPeriod();
-        period.setStartMonth(20);
-        period.setStartYear(30);
-        period.setEndMonth(40);
-        period.setEndYear(50);
+        period.setStartMonth(3);
+        period.setStartYear(2);
+        period.setEndMonth(4);
+        period.setEndYear(1);
 
-        service.update(1L, getId(), period);
+        executable = () -> service.update(1L, getId(), period);
 
-        Assertions.assertEquals(1L, repository.count());
-    }
+        exception = Assertions.assertThrows(ValidationException.class, executable);
 
-    @Test
-    @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
-        final DtoMemberPeriod        period;
-        final PersistentMemberPeriod entity;
-
-        period = new DtoMemberPeriod();
-        period.setStartMonth(20);
-        period.setStartYear(30);
-        period.setEndMonth(40);
-        period.setEndYear(50);
-
-        service.update(1L, getId(), period);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(20, entity.getStartMonth());
-        Assertions.assertEquals(30, entity.getStartYear());
-        Assertions.assertEquals(40, entity.getEndMonth());
-        Assertions.assertEquals(50, entity.getEndYear());
+        Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", exception.getMessage());
     }
 
     private final Long getId() {

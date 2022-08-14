@@ -47,6 +47,10 @@ databaseChangeLog:
               - column:
                   name: end_year
                   type: int
+        -  addUniqueConstraint:
+            constraintName: member_periods_unique
+            tableName: member_periods
+            columnNames: member, start_month, start_year, end_month, end_year
         - createTable:
             tableName: paid_months
             columns:
@@ -66,6 +70,10 @@ databaseChangeLog:
               - column:
                   name: paid_year
                   type: int
+        -  addUniqueConstraint:
+            constraintName: paid_months_unique
+            tableName: paid_months
+            columnNames: member, paid_month, paid_year
       modifySql:
         - append:
             dbms: mysql
