@@ -1,10 +1,10 @@
 
 package com.bernardomg.validation;
 
-import java.util.Optional;
+import java.util.Collection;
 
 public interface ValidationRule<T> {
 
-    public Optional<ValidationError> test(final T value);
+    public Collection<ValidationError> test(final T value);
 
 }

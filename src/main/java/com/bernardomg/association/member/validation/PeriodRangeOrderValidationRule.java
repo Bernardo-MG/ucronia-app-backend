@@ -1,7 +1,8 @@
 
 package com.bernardomg.association.member.validation;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.validation.DefaultValidationError;
@@ -15,23 +16,23 @@ public final class PeriodRangeOrderValidationRule implements ValidationRule<Memb
     }
 
     @Override
-    public Optional<ValidationError> test(final MemberPeriod period) {
-        final Optional<ValidationError> result;
-        final DefaultValidationError    error;
+    public Collection<ValidationError> test(final MemberPeriod period) {
+        final Collection<ValidationError> result;
+        DefaultValidationError            error;
 
+        result = new ArrayList<>();
         if (period.getStartYear() > period.getEndYear()) {
             // Starting year after end year
             error = new DefaultValidationError();
             error.setError("error.memberPeriod.startYearAfterEndYear");
-            result = Optional.of(error);
-        } else if ((period.getStartYear().equals(period.getEndYear())) && (period.getStartMonth() > period.getEndMonth())) {
+            result.add(error);
+        } else if ((period.getStartYear()
+            .equals(period.getEndYear())) && (period.getStartMonth() > period.getEndMonth())) {
             // Same year
             // Starting month after end month
             error = new DefaultValidationError();
             error.setError("error.memberPeriod.startMonthAfterEndMonth");
-            result = Optional.of(error);
-        } else {
-            result = Optional.empty();
+            result.add(error);
         }
 
         return result;

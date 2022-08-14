@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.test.member.unit.validation;
 
-import java.util.Optional;
+import java.util.Collection;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +25,8 @@ public class TestPeriodRangeOrderValidationRule {
     @Test
     @DisplayName("Accepts a full year")
     public final void testValidator_FullYear() throws Exception {
-        final Optional<ValidationError> error;
-        final DtoMemberPeriod           period;
+        final Collection<ValidationError> error;
+        final DtoMemberPeriod             period;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(1);
@@ -36,14 +36,14 @@ public class TestPeriodRangeOrderValidationRule {
 
         error = validator.test(period);
 
-        Assertions.assertTrue(error.isEmpty());
+        Assertions.assertEquals(0, error.size());
     }
 
     @Test
     @DisplayName("Accepts a single month")
     public final void testValidator_SingleMonth() throws Exception {
-        final Optional<ValidationError> error;
-        final DtoMemberPeriod           period;
+        final Collection<ValidationError> error;
+        final DtoMemberPeriod             period;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(1);
@@ -53,14 +53,14 @@ public class TestPeriodRangeOrderValidationRule {
 
         error = validator.test(period);
 
-        Assertions.assertTrue(error.isEmpty());
+        Assertions.assertEquals(0, error.size());
     }
 
     @Test
     @DisplayName("Rejects a period in a single year where the starting month is after the end month")
     public final void testValidator_StartMonthAfterEnd() throws Exception {
-        final Optional<ValidationError> error;
-        final DtoMemberPeriod           period;
+        final Collection<ValidationError> error;
+        final DtoMemberPeriod             period;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(12);
@@ -70,16 +70,17 @@ public class TestPeriodRangeOrderValidationRule {
 
         error = validator.test(period);
 
-        Assertions.assertTrue(error.isPresent());
-        Assertions.assertEquals("error.memberPeriod.startMonthAfterEndMonth", error.get()
+        Assertions.assertEquals(1, error.size());
+        Assertions.assertEquals("error.memberPeriod.startMonthAfterEndMonth", error.iterator()
+            .next()
             .getError());
     }
 
     @Test
     @DisplayName("Rejects a period in two years where the starting year is after the end year")
     public final void testValidator_StartYearAfterEnd() throws Exception {
-        final Optional<ValidationError> error;
-        final DtoMemberPeriod           period;
+        final Collection<ValidationError> error;
+        final DtoMemberPeriod             period;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(1);
@@ -89,16 +90,17 @@ public class TestPeriodRangeOrderValidationRule {
 
         error = validator.test(period);
 
-        Assertions.assertTrue(error.isPresent());
-        Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", error.get()
+        Assertions.assertEquals(1, error.size());
+        Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", error.iterator()
+            .next()
             .getError());
     }
 
     @Test
     @DisplayName("Rejects a period in two years  where the starting month is after the end month and  the starting year is after the end year")
     public final void testValidator_StartYearAfterEnd_StartMonthAfterEnd() throws Exception {
-        final Optional<ValidationError> error;
-        final DtoMemberPeriod           period;
+        final Collection<ValidationError> error;
+        final DtoMemberPeriod             period;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(12);
@@ -108,16 +110,17 @@ public class TestPeriodRangeOrderValidationRule {
 
         error = validator.test(period);
 
-        Assertions.assertTrue(error.isPresent());
-        Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", error.get()
+        Assertions.assertEquals(1, error.size());
+        Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", error.iterator()
+            .next()
             .getError());
     }
 
     @Test
     @DisplayName("Accepts two full years")
     public final void testValidator_TwoFullYears() throws Exception {
-        final Optional<ValidationError> error;
-        final DtoMemberPeriod           period;
+        final Collection<ValidationError> error;
+        final DtoMemberPeriod             period;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(1);
@@ -127,7 +130,7 @@ public class TestPeriodRangeOrderValidationRule {
 
         error = validator.test(period);
 
-        Assertions.assertTrue(error.isEmpty());
+        Assertions.assertEquals(0, error.size());
     }
 
 }
