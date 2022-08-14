@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) ${currentYear} the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.config.annotation;
+/**
+ * Error classes.
+ */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.bernardomg.Application;
-
-@SpringJUnitConfig
-@Transactional
-@SpringBootTest(classes = Application.class)
-@Rollback
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface IntegrationTest {
-
-}
+package com.bernardomg.error;
