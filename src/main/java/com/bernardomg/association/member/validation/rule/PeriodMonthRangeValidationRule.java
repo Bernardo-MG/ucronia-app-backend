@@ -17,15 +17,15 @@ public final class PeriodMonthRangeValidationRule implements ValidationRule<Memb
     @Override
     public Collection<ValidationError> test(final MemberPeriod period) {
         final Collection<ValidationError> result;
-         ValidationError             error;
+        ValidationError                   error;
 
         result = new ArrayList<>();
-        if ((period.getStartMonth()<1)||(period.getStartMonth()>12)) {
+        if ((period.getStartMonth() < 1) || (period.getStartMonth() > 12)) {
             // Start month out of range
             error = ValidationError.of("error.memberPeriod.invalidStartMonth");
             result.add(error);
         }
-        if ((period.getEndMonth()<1)||(period.getEndMonth()>12)) {
+        if ((period.getEndMonth() < 1) || (period.getEndMonth() > 12)) {
             // Start month out of range
             error = ValidationError.of("error.memberPeriod.invalidEndMonth");
             result.add(error);

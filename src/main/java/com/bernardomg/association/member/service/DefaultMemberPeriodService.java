@@ -12,8 +12,6 @@ import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
 import com.bernardomg.association.member.validation.MemberPeriodValidator;
-import com.bernardomg.association.member.validation.rule.PeriodRangeOrderValidationRule;
-import com.bernardomg.validation.error.RuleValidator;
 import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.Validator;
 import com.bernardomg.validation.exception.ValidationException;
@@ -32,7 +30,7 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
-        
+
         // TODO: Check the member exists
 
         periodValidator.validate(period);

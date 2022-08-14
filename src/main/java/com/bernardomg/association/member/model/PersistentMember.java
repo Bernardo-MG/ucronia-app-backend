@@ -24,6 +24,9 @@ public class PersistentMember implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "active", nullable = false, unique = true)
+    private Boolean           active;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
@@ -31,8 +34,5 @@ public class PersistentMember implements Serializable {
 
     @Column(name = "name", nullable = false, unique = true)
     private String            name;
-
-    @Column(name = "active", nullable = false, unique = true)
-    private Boolean            active;
 
 }

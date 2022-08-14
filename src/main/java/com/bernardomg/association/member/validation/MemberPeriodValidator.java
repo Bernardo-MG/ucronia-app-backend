@@ -1,3 +1,4 @@
+
 package com.bernardomg.association.member.validation;
 
 import java.util.Arrays;
@@ -14,12 +15,13 @@ public final class MemberPeriodValidator implements Validator<MemberPeriod> {
 
     public MemberPeriodValidator() {
         super();
-        
-        validator = new RuleValidator<>(Arrays.asList(new PeriodRangeOrderValidationRule(), new PeriodMonthRangeValidationRule()));
+
+        validator = new RuleValidator<>(
+            Arrays.asList(new PeriodRangeOrderValidationRule(), new PeriodMonthRangeValidationRule()));
     }
-    
+
     @Override
-    public final void validate(MemberPeriod period) {
+    public final void validate(final MemberPeriod period) {
         validator.validate(period);
     }
 
