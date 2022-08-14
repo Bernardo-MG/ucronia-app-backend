@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.association.member.model.MemberPeriod;
-import com.bernardomg.validation.ValidationError;
-import com.bernardomg.validation.ValidationRule;
+import com.bernardomg.validation.error.ValidationError;
+import com.bernardomg.validation.error.ValidationRule;
 
 public final class PeriodRangeOrderValidationRule implements ValidationRule<MemberPeriod> {
 

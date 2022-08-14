@@ -1,5 +1,5 @@
 
-package com.bernardomg.validation;
+package com.bernardomg.validation.error;
 
 public interface ValidationError {
 
