@@ -7,7 +7,7 @@ public interface ValidationError {
         final DefaultValidationError error;
 
         error = new DefaultValidationError();
-        error.setError("error.memberPeriod.startMonthAfterEndMonth");
+        error.setError(code);
 
         return error;
     }
