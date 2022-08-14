@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoPaidMonth;
 import com.bernardomg.association.member.model.PaidMonth;
@@ -38,6 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - create")
+@Sql({ "/db/queries/member/single.sql" })
 public class ITDefaultPaidMonthServiceCreate {
 
     @Autowired

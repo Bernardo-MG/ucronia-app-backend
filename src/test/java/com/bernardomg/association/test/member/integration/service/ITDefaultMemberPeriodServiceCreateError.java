@@ -38,7 +38,7 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Default member period service - create errors")
-@Sql({ "/db/queries/member_period/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
 public class ITDefaultMemberPeriodServiceCreateError {
 
     @Autowired

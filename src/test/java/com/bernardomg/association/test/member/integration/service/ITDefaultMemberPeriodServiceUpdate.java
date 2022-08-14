@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default member period service - update")
-@Sql({ "/db/queries/member_period/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
 public class ITDefaultMemberPeriodServiceUpdate {
 
     @Autowired
@@ -61,12 +61,12 @@ public class ITDefaultMemberPeriodServiceUpdate {
         final DtoMemberPeriod period;
 
         period = new DtoMemberPeriod();
-        period.setStartMonth(20);
+        period.setStartMonth(3);
         period.setStartYear(30);
-        period.setEndMonth(40);
+        period.setEndMonth(6);
         period.setEndYear(50);
 
-        service.update(1L, getId(), period);
+        service.update(1L, 1L, period);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -78,21 +78,21 @@ public class ITDefaultMemberPeriodServiceUpdate {
         final PersistentMemberPeriod entity;
 
         period = new DtoMemberPeriod();
-        period.setStartMonth(20);
+        period.setStartMonth(3);
         period.setStartYear(30);
-        period.setEndMonth(40);
+        period.setEndMonth(6);
         period.setEndYear(50);
 
-        service.update(1L, getId(), period);
+        service.update(1L, 1L, period);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(20, entity.getStartMonth());
+        Assertions.assertEquals(3, entity.getStartMonth());
         Assertions.assertEquals(30, entity.getStartYear());
-        Assertions.assertEquals(40, entity.getEndMonth());
+        Assertions.assertEquals(6, entity.getEndMonth());
         Assertions.assertEquals(50, entity.getEndYear());
     }
 
@@ -103,26 +103,19 @@ public class ITDefaultMemberPeriodServiceUpdate {
         final DtoMemberPeriod period;
 
         period = new DtoMemberPeriod();
-        period.setStartMonth(20);
+        period.setStartMonth(3);
         period.setStartYear(30);
-        period.setEndMonth(40);
+        period.setEndMonth(6);
         period.setEndYear(50);
 
-        result = service.update(1L, getId(), period);
+        result = service.update(1L, 1L, period);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
-        Assertions.assertEquals(20, result.getStartMonth());
+        Assertions.assertEquals(3, result.getStartMonth());
         Assertions.assertEquals(30, result.getStartYear());
-        Assertions.assertEquals(40, result.getEndMonth());
+        Assertions.assertEquals(6, result.getEndMonth());
         Assertions.assertEquals(50, result.getEndYear());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

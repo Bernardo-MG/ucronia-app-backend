@@ -39,7 +39,8 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member_period/full_year.sql", "/db/queries/paid_month/full_year.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/full_year.sql",
+        "/db/queries/paid_month/full_year.sql" })
 public class ITDefaultPaidMonthServiceGetAllForMemberFullYearPaid {
 
     @Autowired

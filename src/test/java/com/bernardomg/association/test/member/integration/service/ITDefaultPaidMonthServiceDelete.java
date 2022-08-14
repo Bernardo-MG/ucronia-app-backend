@@ -36,7 +36,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - delete")
-@Sql({ "/db/queries/paid_month/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/single.sql" })
 public class ITDefaultPaidMonthServiceDelete {
 
     @Autowired
@@ -52,16 +52,9 @@ public class ITDefaultPaidMonthServiceDelete {
     @Test
     @DisplayName("Removes an entity when deleting")
     public void testDelete_RemovesEntity() {
-        service.delete(getId());
+        service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

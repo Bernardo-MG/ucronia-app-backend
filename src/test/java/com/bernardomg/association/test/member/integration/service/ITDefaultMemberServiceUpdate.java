@@ -63,7 +63,7 @@ public class ITDefaultMemberServiceUpdate {
         member = new DtoMember();
         member.setName("Member");
 
-        result = service.update(getId(), member);
+        result = service.update(1L, member);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Member", result.getName());
@@ -77,7 +77,7 @@ public class ITDefaultMemberServiceUpdate {
         member = new DtoMember();
         member.setName("Member 123");
 
-        service.update(getId(), member);
+        service.update(1L, member);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -91,20 +91,13 @@ public class ITDefaultMemberServiceUpdate {
         member = new DtoMember();
         member.setName("Member 123");
 
-        service.update(getId(), member);
+        service.update(1L, member);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Member 123", entity.getName());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

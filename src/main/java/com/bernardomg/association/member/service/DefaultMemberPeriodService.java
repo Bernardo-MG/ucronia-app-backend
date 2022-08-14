@@ -11,6 +11,7 @@ import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
+import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.association.member.validation.MemberPeriodValidator;
 import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.Validator;
@@ -25,6 +26,8 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     private final Validator<MemberPeriod> periodValidator = new MemberPeriodValidator();
 
     private final MemberPeriodRepository  repository;
+    
+    private final MemberRepository memberRepository;
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
@@ -36,6 +39,7 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         periodValidator.validate(period);
 
         validateOverlapped(member, period);
+        validateMemberExists(member);
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
@@ -75,6 +79,7 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         periodValidator.validate(period);
 
         validateOverlapped(member, period);
+        validateMemberExists(member);
 
         entity = toPersistentMemberPeriod(period);
         entity.setId(id);
@@ -121,6 +126,12 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
         if (!overlapped.isEmpty()) {
             throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
+        }
+    }
+    private final void validateMemberExists(final Long member) {
+        // TODO: Move to validator if possible
+        if(!memberRepository.existsById(member)) {
+            throw new ValidationException(ValidationError.of("error.member.notExists"));
         }
     }
 

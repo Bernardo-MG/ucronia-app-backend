@@ -39,7 +39,8 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member_period/two_months.sql", "/db/queries/paid_month/reverse_months.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/two_months.sql",
+        "/db/queries/paid_month/reverse_months.sql" })
 public class ITDefaultPaidMonthServiceGetAllForMemberReverseMonths {
 
     @Autowired

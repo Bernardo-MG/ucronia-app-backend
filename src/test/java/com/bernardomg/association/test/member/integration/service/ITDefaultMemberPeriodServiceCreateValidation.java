@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.service.DefaultMemberPeriodService;
@@ -37,6 +38,7 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Default member period service - create validation")
+@Sql({ "/db/queries/member/single.sql" })
 public class ITDefaultMemberPeriodServiceCreateValidation {
 
     @Autowired
@@ -84,6 +86,26 @@ public class ITDefaultMemberPeriodServiceCreateValidation {
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.memberPeriod.invalidEndMonth", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the member id does not exist")
+    public void testCreate_InvalidMember() {
+        final DtoMemberPeriod period;
+        final Executable      executable;
+        final Exception       exception;
+
+        period = new DtoMemberPeriod();
+        period.setStartMonth(2);
+        period.setStartYear(3);
+        period.setEndMonth(4);
+        period.setEndYear(5);
+
+        executable = () -> service.create(-1L, period);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.member.notExists", exception.getMessage());
     }
 
     @Test

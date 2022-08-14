@@ -69,7 +69,7 @@ public class ITDefaultPaymentServiceUpdate {
         payment.setMonth(3);
         payment.setYear(4);
 
-        result = service.update(getId(), payment);
+        result = service.update(1L, payment);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Payment", result.getDescription());
@@ -88,7 +88,7 @@ public class ITDefaultPaymentServiceUpdate {
         payment.setMonth(3);
         payment.setYear(4);
 
-        service.update(getId(), payment);
+        service.update(1L, payment);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -107,20 +107,13 @@ public class ITDefaultPaymentServiceUpdate {
         payment.setMonth(3);
         payment.setYear(4);
 
-        service.update(getId(), payment);
+        service.update(1L, payment);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Payment 123", entity.getDescription());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

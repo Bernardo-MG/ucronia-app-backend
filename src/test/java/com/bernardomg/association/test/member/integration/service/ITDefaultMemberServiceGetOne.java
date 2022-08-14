@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -41,9 +40,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @DisplayName("Default member service - get one")
 @Sql({ "/db/queries/member/single.sql" })
 public class ITDefaultMemberServiceGetOne {
-
-    @Autowired
-    private MemberRepository     repository;
 
     @Autowired
     private DefaultMemberService service;
@@ -57,7 +53,7 @@ public class ITDefaultMemberServiceGetOne {
     public void testGetOne_Contains() {
         final Optional<? extends Member> result;
 
-        result = service.getOne(getId());
+        result = service.getOne(1L);
 
         Assertions.assertTrue(result.isPresent());
     }
@@ -68,7 +64,7 @@ public class ITDefaultMemberServiceGetOne {
         final Member result;
         final Long   id;
 
-        id = getId();
+        id = 1L;
 
         result = service.getOne(id)
             .get();
@@ -86,13 +82,6 @@ public class ITDefaultMemberServiceGetOne {
         result = service.getOne(-1L);
 
         Assertions.assertFalse(result.isPresent());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

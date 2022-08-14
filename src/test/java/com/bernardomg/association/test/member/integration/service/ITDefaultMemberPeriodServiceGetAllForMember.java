@@ -37,7 +37,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default member period service - get all for member")
-@Sql({ "/db/queries/member_period/multiple.sql" })
+@Sql({ "/db/queries/member/multiple.sql", "/db/queries/member_period/multiple.sql" })
 public class ITDefaultMemberPeriodServiceGetAllForMember {
 
     @Autowired

@@ -32,18 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMemberPeriod;
-import com.bernardomg.association.member.repository.MemberPeriodRepository;
 import com.bernardomg.association.member.service.DefaultMemberPeriodService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Default member period service - update validation")
-@Sql({ "/db/queries/member_period/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
 public class ITDefaultMemberPeriodServiceUpdateValidation {
-
-    @Autowired
-    private MemberPeriodRepository     repository;
 
     @Autowired
     private DefaultMemberPeriodService service;
@@ -65,7 +61,7 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         period.setEndMonth(2);
         period.setEndYear(1);
 
-        executable = () -> service.update(1L, getId(), period);
+        executable = () -> service.update(1L, 1L, period);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -85,18 +81,11 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         period.setEndMonth(4);
         period.setEndYear(1);
 
-        executable = () -> service.update(1L, getId(), period);
+        executable = () -> service.update(1L, 1L, period);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", exception.getMessage());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

@@ -52,16 +52,9 @@ public class ITDefaultMemberServiceDelete {
     @Test
     @DisplayName("Removes an entity when deleting")
     public void testDelete_RemovesEntity() {
-        service.delete(getId());
+        service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

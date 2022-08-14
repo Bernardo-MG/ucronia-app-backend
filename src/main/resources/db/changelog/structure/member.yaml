@@ -36,6 +36,9 @@ databaseChangeLog:
               - column:
                   name: member
                   type: bigint
+                  constraints:
+                    foreignKeyName: fk_member_periods_member
+                    references: members(id)
               - column:
                   name: start_month
                   type: int
@@ -69,6 +72,9 @@ databaseChangeLog:
               - column:
                   name: member
                   type: bigint
+                  constraints:
+                    foreignKeyName: fk_paid_months_member
+                    references: members(id)
               - column:
                   name: paid_month
                   type: int
