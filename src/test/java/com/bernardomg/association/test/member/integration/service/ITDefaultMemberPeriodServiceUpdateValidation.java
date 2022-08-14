@@ -56,6 +56,7 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(3);
         period.setStartYear(30);
         period.setEndMonth(6);
@@ -76,6 +77,7 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(4);
         period.setStartYear(1);
         period.setEndMonth(2);
@@ -96,6 +98,7 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(3);
         period.setStartYear(2);
         period.setEndMonth(4);

@@ -56,6 +56,7 @@ public class ITDefaultMemberPeriodServiceCreateError {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(2);
         period.setStartYear(3);
         period.setEndMonth(4);

@@ -56,6 +56,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(4);
         period.setStartYear(5);
         period.setEndMonth(4);
@@ -76,6 +77,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(2);
         period.setStartYear(3);
         period.setEndMonth(2);
@@ -96,6 +98,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(3);
         period.setStartYear(5);
         period.setEndMonth(5);
@@ -116,6 +119,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(1);
         period.setStartYear(3);
         period.setEndMonth(5);
@@ -136,6 +140,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(1);
         period.setStartYear(3);
         period.setEndMonth(3);
@@ -156,6 +161,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(4);
         period.setStartYear(5);
         period.setEndMonth(5);
@@ -176,6 +182,7 @@ public class ITDefaultMemberPeriodServiceCreateValidationOverlap {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(1);
         period.setStartYear(3);
         period.setEndMonth(2);

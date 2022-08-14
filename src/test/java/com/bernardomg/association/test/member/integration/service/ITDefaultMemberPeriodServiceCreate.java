@@ -58,6 +58,7 @@ public class ITDefaultMemberPeriodServiceCreate {
         final DtoMemberPeriod period;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(2);
         period.setStartYear(3);
         period.setEndMonth(4);
@@ -75,6 +76,7 @@ public class ITDefaultMemberPeriodServiceCreate {
         final PersistentMemberPeriod entity;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(2);
         period.setStartYear(3);
         period.setEndMonth(4);
@@ -100,6 +102,7 @@ public class ITDefaultMemberPeriodServiceCreate {
         final DtoMemberPeriod period;
 
         period = new DtoMemberPeriod();
+        period.setMember(1L);
         period.setStartMonth(2);
         period.setStartYear(3);
         period.setEndMonth(4);

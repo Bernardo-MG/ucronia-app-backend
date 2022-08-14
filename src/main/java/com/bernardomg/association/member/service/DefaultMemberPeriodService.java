@@ -33,11 +33,13 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
+        
+        // Reject invalid values
 
         periodValidator.validate(period);
 
-        validateOverlapped(member, period);
-        validateMemberExists(member);
+        validateOverlapped(period);
+        validateMemberExists(period);
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
@@ -76,8 +78,8 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
         periodValidator.validate(period);
 
-        validateOverlapped(member, period);
-        validateMemberExists(member);
+        validateOverlapped(period);
+        validateMemberExists(period);
 
         entity = toPersistentMemberPeriod(period);
         entity.setId(id);
@@ -115,20 +117,20 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         return entity;
     }
 
-    private final void validateOverlapped(final Long member, final MemberPeriod period) {
+    private final void validateOverlapped(final MemberPeriod period) {
         final Collection<PersistentMemberPeriod> overlapped;
 
         // TODO: Move to validator if possible
-        overlapped = repository.findOverlapped(member, period.getStartMonth(), period.getStartYear(),
+        overlapped = repository.findOverlapped(period.getMember(), period.getStartMonth(), period.getStartYear(),
             period.getEndMonth(), period.getEndYear());
 
         if (!overlapped.isEmpty()) {
             throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
         }
     }
-    private final void validateMemberExists(final Long member) {
+    private final void validateMemberExists(final MemberPeriod period) {
         // TODO: Move to validator if possible
-        if(!memberRepository.existsById(member)) {
+        if(!memberRepository.existsById(period.getMember())) {
             throw new ValidationException(ValidationError.of("error.member.notExists"));
         }
     }

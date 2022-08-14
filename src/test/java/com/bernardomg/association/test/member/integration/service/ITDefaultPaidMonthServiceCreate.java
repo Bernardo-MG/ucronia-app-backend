@@ -58,6 +58,7 @@ public class ITDefaultPaidMonthServiceCreate {
         final DtoPaidMonth month;
 
         month = new DtoPaidMonth();
+        month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
 
@@ -73,6 +74,7 @@ public class ITDefaultPaidMonthServiceCreate {
         final PersistentPaidMonth entity;
 
         month = new DtoPaidMonth();
+        month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
 
@@ -94,6 +96,7 @@ public class ITDefaultPaidMonthServiceCreate {
         final DtoPaidMonth month;
 
         month = new DtoPaidMonth();
+        month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
 

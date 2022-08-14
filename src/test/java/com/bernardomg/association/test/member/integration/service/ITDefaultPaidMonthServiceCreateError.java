@@ -55,6 +55,7 @@ public class ITDefaultPaidMonthServiceCreateError {
         final Executable   executable;
 
         month = new DtoPaidMonth();
+        month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
 
