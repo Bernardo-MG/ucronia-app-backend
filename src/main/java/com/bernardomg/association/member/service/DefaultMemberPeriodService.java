@@ -34,8 +34,6 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
 
-        // TODO: Check the member exists
-
         periodValidator.validate(period);
 
         validateOverlapped(member, period);

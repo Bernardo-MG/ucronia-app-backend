@@ -49,6 +49,26 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
     }
 
     @Test
+    @DisplayName("Throws an exception when the member id does not exist")
+    public void testUpdate_InvalidMember() {
+        final DtoMemberPeriod period;
+        final Executable      executable;
+        final Exception       exception;
+
+        period = new DtoMemberPeriod();
+        period.setStartMonth(3);
+        period.setStartYear(30);
+        period.setEndMonth(6);
+        period.setEndYear(50);
+
+        executable = () -> service.create(-1L, period);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.member.notExists", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Throws an exception when the start month is after the end month")
     public void testUpdate_StartMonthAfterEndMonth() {
         final DtoMemberPeriod period;
