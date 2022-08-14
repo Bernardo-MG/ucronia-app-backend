@@ -1,6 +1,7 @@
 
 package com.bernardomg.validation.exception;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,12 @@ public class ValidationException extends RuntimeException {
         super(getMessage(errs));
 
         errors = errs;
+    }
+
+    public ValidationException(final ValidationError err) {
+        super(err.getError());
+
+        errors = Arrays.asList(err);
     }
 
     public final Collection<ValidationError> getErrors() {

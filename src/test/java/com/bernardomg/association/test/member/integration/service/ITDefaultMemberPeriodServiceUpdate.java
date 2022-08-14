@@ -52,28 +52,7 @@ public class ITDefaultMemberPeriodServiceUpdate {
         super();
 
         // TODO: Check invalid ids
-    }
-
-    @Test
-    @DisplayName("Returns the previous data")
-    public void testUpdate_ReturnedData() {
-        final MemberPeriod    result;
-        final DtoMemberPeriod period;
-
-        period = new DtoMemberPeriod();
-        period.setStartMonth(20);
-        period.setStartYear(30);
-        period.setEndMonth(40);
-        period.setEndYear(50);
-
-        result = service.update(1L, getId(), period);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
-        Assertions.assertEquals(20, result.getStartMonth());
-        Assertions.assertEquals(30, result.getStartYear());
-        Assertions.assertEquals(40, result.getEndMonth());
-        Assertions.assertEquals(50, result.getEndYear());
+        // TODO: Check that periods can't overlap
     }
 
     @Test
@@ -115,6 +94,28 @@ public class ITDefaultMemberPeriodServiceUpdate {
         Assertions.assertEquals(30, entity.getStartYear());
         Assertions.assertEquals(40, entity.getEndMonth());
         Assertions.assertEquals(50, entity.getEndYear());
+    }
+
+    @Test
+    @DisplayName("Returns the previous data")
+    public void testUpdate_ReturnedData() {
+        final MemberPeriod    result;
+        final DtoMemberPeriod period;
+
+        period = new DtoMemberPeriod();
+        period.setStartMonth(20);
+        period.setStartYear(30);
+        period.setEndMonth(40);
+        period.setEndYear(50);
+
+        result = service.update(1L, getId(), period);
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(20, result.getStartMonth());
+        Assertions.assertEquals(30, result.getStartYear());
+        Assertions.assertEquals(40, result.getEndMonth());
+        Assertions.assertEquals(50, result.getEndYear());
     }
 
     private final Long getId() {

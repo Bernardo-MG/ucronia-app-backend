@@ -24,10 +24,19 @@
 
 package com.bernardomg.association.member.repository;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.model.PersistentMemberPeriod;
 
 public interface MemberPeriodRepository extends JpaRepository<PersistentMemberPeriod, Long> {
+
+    @Query("SELECT p FROM MemberPeriod p WHERE p.member = :member AND ((:startMonth <= p.startMonth AND :startYear <= p.startYear AND :endMonth >= p.startMonth AND :endYear >= p.startYear) OR (:startMonth <= p.endMonth AND :startYear <= p.endYear AND :endMonth >= p.endMonth AND :endYear >= p.endYear))")
+    public Collection<PersistentMemberPeriod> findOverlapped(@Param("member") final Long member,
+            @Param("startMonth") final Integer startMonth, @Param("startYear") final Integer startYear,
+            @Param("endMonth") final Integer endMonth, @Param("endYear") final Integer endYear);
 
 }

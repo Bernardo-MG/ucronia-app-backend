@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.member.service;
 
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
@@ -12,7 +13,9 @@ import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
 import com.bernardomg.association.member.validation.PeriodRangeOrderValidationRule;
 import com.bernardomg.validation.error.RuleValidator;
+import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.Validator;
+import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.AllArgsConstructor;
 
@@ -26,10 +29,19 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
-        final PersistentMemberPeriod entity;
-        final PersistentMemberPeriod created;
+        final PersistentMemberPeriod             entity;
+        final PersistentMemberPeriod             created;
+        final Collection<PersistentMemberPeriod> overlapped;
 
         periodValidator.validate(period);
+
+        // TODO: Move to validator if possible
+        overlapped = repository.findOverlapped(member, period.getStartMonth(), period.getStartYear(),
+            period.getEndMonth(), period.getEndYear());
+
+        if (!overlapped.isEmpty()) {
+            throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
+        }
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
