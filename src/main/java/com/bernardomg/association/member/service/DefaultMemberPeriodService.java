@@ -10,6 +10,9 @@ import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
+import com.bernardomg.association.member.validation.PeriodRangeOrderValidationRule;
+import com.bernardomg.validation.error.RuleValidator;
+import com.bernardomg.validation.error.Validator;
 
 import lombok.AllArgsConstructor;
 
@@ -17,14 +20,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultMemberPeriodService implements MemberPeriodService {
 
-    private final MemberPeriodRepository repository;
+    private final Validator<MemberPeriod> periodValidator = new RuleValidator<>(new PeriodRangeOrderValidationRule());
+
+    private final MemberPeriodRepository  repository;
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
 
-        // TODO: Require lower range to be before upper range
+        periodValidator.validate(period);
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
@@ -60,6 +65,8 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
     public final MemberPeriod update(final Long member, final Long id, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod updated;
+
+        periodValidator.validate(period);
 
         entity = toPersistentMemberPeriod(period);
         entity.setId(id);
