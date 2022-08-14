@@ -46,8 +46,6 @@ public class ITDefaultPaidMonthServiceCreateError {
 
     public ITDefaultPaidMonthServiceCreateError() {
         super();
-
-        // TODO: Check that months can't be repeated
     }
 
     @Test

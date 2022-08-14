@@ -48,8 +48,6 @@ public class ITDefaultPaidMonthServiceCreate {
 
     public ITDefaultPaidMonthServiceCreate() {
         super();
-
-        // TODO: Check that months can't be repeated
     }
 
     @Test

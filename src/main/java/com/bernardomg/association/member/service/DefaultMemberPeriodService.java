@@ -29,19 +29,12 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
-        final PersistentMemberPeriod             entity;
-        final PersistentMemberPeriod             created;
-        final Collection<PersistentMemberPeriod> overlapped;
+        final PersistentMemberPeriod entity;
+        final PersistentMemberPeriod created;
 
         periodValidator.validate(period);
 
-        // TODO: Move to validator if possible
-        overlapped = repository.findOverlapped(member, period.getStartMonth(), period.getStartYear(),
-            period.getEndMonth(), period.getEndYear());
-
-        if (!overlapped.isEmpty()) {
-            throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
-        }
+        validateOverlapped(member, period);
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
@@ -80,6 +73,8 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
         periodValidator.validate(period);
 
+        validateOverlapped(member, period);
+
         entity = toPersistentMemberPeriod(period);
         entity.setId(id);
         entity.setMember(member);
@@ -114,6 +109,18 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         entity.setEndYear(data.getEndYear());
 
         return entity;
+    }
+
+    private final void validateOverlapped(final Long member, final MemberPeriod period) {
+        final Collection<PersistentMemberPeriod> overlapped;
+
+        // TODO: Move to validator if possible
+        overlapped = repository.findOverlapped(member, period.getStartMonth(), period.getStartYear(),
+            period.getEndMonth(), period.getEndYear());
+
+        if (!overlapped.isEmpty()) {
+            throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
+        }
     }
 
 }
