@@ -22,37 +22,73 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.pagination.model;
+package com.bernardomg.pagination.model;
+
+import java.util.Collections;
+import java.util.Iterator;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-/**
- * Disabled sorted data request. This serves as a null object to disable sorting.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
 @Data
-public final class DisabledSort implements Sort {
+@NoArgsConstructor
+public final class DefaultPageIterable<T> implements PageIterable<T> {
 
     /**
-     * Singleton for disabled sort.
+     * Actual content.
      */
-    public static final Sort INSTANCE  = new DisabledSort();
+    @NonNull
+    private Iterable<T> content        = Collections.emptyList();
 
     /**
-     * Default direction.
+     * Number of elements in the page.
      */
-    private final Direction  direction = Direction.ASC;
+    private Integer     elementsInPage = 0;
 
     /**
-     * Default property.
+     * Flags this is as the first page.
      */
-    private final String     property  = "";
+    private Boolean     first          = false;
 
     /**
-     * Disabled sort flag.
+     * Flags this is as the last page.
      */
-    private final Boolean    sorted    = false;
+    private Boolean     last           = false;
+
+    /**
+     * Number of this page.
+     */
+    private Integer     pageNumber     = 0;
+
+    /**
+     * Size of this page.
+     */
+    private Integer     size           = 0;
+
+    /**
+     * Total number of elements among all the pages.
+     */
+    private Long        totalElements  = 0L;
+
+    /**
+     * Total number of pages.
+     */
+    private Integer     totalPages     = 0;
+
+    @Override
+    public Boolean isFirst() {
+        return first;
+    }
+
+    @Override
+    public Boolean isLast() {
+        return last;
+    }
+
+    @Override
+    public final Iterator<T> iterator() {
+        return content.iterator();
+    }
 
 }

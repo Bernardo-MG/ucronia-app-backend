@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.bernardomg.association.pagination.model;
+package com.bernardomg.pagination.model;
 
 import lombok.Data;
 import lombok.NonNull;

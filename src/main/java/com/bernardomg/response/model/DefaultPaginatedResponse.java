@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.response.model;
+package com.bernardomg.response.model;
 
 import lombok.Data;
 import lombok.NonNull;

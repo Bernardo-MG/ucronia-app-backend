@@ -22,65 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.response.model;
+package com.bernardomg.pagination.model;
+
+import lombok.Data;
 
 /**
- * Paginated response to the frontend.
+ * Disabled sorted data request. This serves as a null object to disable sorting.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
- * @param <T>
- *            response content type
  */
-public interface PaginatedResponse<T> extends Response<T> {
+@Data
+public final class DisabledSort implements Sort {
 
     /**
-     * Number of elements in the page.
-     *
-     * @return number of elements
+     * Singleton for disabled sort.
      */
-    public Integer getElementsInPage();
+    public static final Sort INSTANCE  = new DisabledSort();
 
     /**
-     * Flags this is as the first page.
-     *
-     * @return {@code true} if this is the first page, {@code false} otherwise
+     * Default direction.
      */
-    public Boolean getFirst();
+    private final Direction  direction = Direction.ASC;
 
     /**
-     * Flags this is as the last page.
-     *
-     * @return {@code true} if this is the last page, {@code false} otherwise
+     * Default property.
      */
-    public Boolean getLast();
+    private final String     property  = "";
 
     /**
-     * Number of this page.
-     *
-     * @return the number of this page
+     * Disabled sort flag.
      */
-    public Integer getPageNumber();
-
-    /**
-     * Size of this page.
-     *
-     * @return the size of this page.
-     */
-    public Integer getSize();
-
-    /**
-     * Total number of elements among all the pages.
-     *
-     * @return the total number of elements
-     */
-    public Long getTotalElements();
-
-    /**
-     * Total number of pages.
-     *
-     * @return the total number of pages
-     */
-    public Integer getTotalPages();
+    private final Boolean    sorted    = false;
 
 }

@@ -11,8 +11,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.bernardomg.association.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.association.pagination.model.Pagination;
+import com.bernardomg.pagination.argument.PaginationArgumentResolver;
+import com.bernardomg.pagination.model.Pagination;
 
 @DisplayName("Pagination argument resolver")
 public class TestPaginationArgumentResolver {

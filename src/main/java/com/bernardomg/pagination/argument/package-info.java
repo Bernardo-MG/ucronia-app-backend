@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 /**
- * Response controllers.
+ * Pagination argument resolvers.
  */
 
-package com.bernardomg.association.response.controller;
+package com.bernardomg.pagination.argument;

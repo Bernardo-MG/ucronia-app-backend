@@ -22,73 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.pagination.model;
-
-import java.util.Collections;
-import java.util.Iterator;
+package com.bernardomg.pagination.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Disabled paginated data request. This serves as a null object to disable pagination.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Data
-@NoArgsConstructor
-public final class DefaultPageIterable<T> implements PageIterable<T> {
+public final class DisabledPagination implements Pagination {
 
     /**
-     * Actual content.
+     * Singleton for disabled pagination.
+     */
+    public static final Pagination INSTANCE = new DisabledPagination();
+
+    /**
+     * Default page.
      */
     @NonNull
-    private Iterable<T> content        = Collections.emptyList();
+    private final Integer          page     = -1;
 
     /**
-     * Number of elements in the page.
+     * Disabled pagination flag.
      */
-    private Integer     elementsInPage = 0;
+    @NonNull
+    private final Boolean          paged    = false;
 
     /**
-     * Flags this is as the first page.
+     * Default size.
      */
-    private Boolean     first          = false;
-
-    /**
-     * Flags this is as the last page.
-     */
-    private Boolean     last           = false;
-
-    /**
-     * Number of this page.
-     */
-    private Integer     pageNumber     = 0;
-
-    /**
-     * Size of this page.
-     */
-    private Integer     size           = 0;
-
-    /**
-     * Total number of elements among all the pages.
-     */
-    private Long        totalElements  = 0L;
-
-    /**
-     * Total number of pages.
-     */
-    private Integer     totalPages     = 0;
-
-    @Override
-    public Boolean isFirst() {
-        return first;
-    }
-
-    @Override
-    public Boolean isLast() {
-        return last;
-    }
-
-    @Override
-    public final Iterator<T> iterator() {
-        return content.iterator();
-    }
+    @NonNull
+    private final Integer          size     = -1;
 
 }

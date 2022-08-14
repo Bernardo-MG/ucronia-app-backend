@@ -22,23 +22,65 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.pagination.model;
+package com.bernardomg.response.model;
 
 /**
- * Direction for sorting.
+ * Paginated response to the frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param <T>
+ *            response content type
  */
-public enum Direction {
+public interface PaginatedResponse<T> extends Response<T> {
 
     /**
-     * Ascending.
+     * Number of elements in the page.
+     *
+     * @return number of elements
      */
-    ASC,
+    public Integer getElementsInPage();
+
     /**
-     * Descending.
+     * Flags this is as the first page.
+     *
+     * @return {@code true} if this is the first page, {@code false} otherwise
      */
-    DESC;
+    public Boolean getFirst();
+
+    /**
+     * Flags this is as the last page.
+     *
+     * @return {@code true} if this is the last page, {@code false} otherwise
+     */
+    public Boolean getLast();
+
+    /**
+     * Number of this page.
+     *
+     * @return the number of this page
+     */
+    public Integer getPageNumber();
+
+    /**
+     * Size of this page.
+     *
+     * @return the size of this page.
+     */
+    public Integer getSize();
+
+    /**
+     * Total number of elements among all the pages.
+     *
+     * @return the total number of elements
+     */
+    public Long getTotalElements();
+
+    /**
+     * Total number of pages.
+     *
+     * @return the total number of pages
+     */
+    public Integer getTotalPages();
 
 }

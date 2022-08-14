@@ -12,7 +12,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.bernardomg.association.pagination.argument.PaginationArgumentResolver;
+import com.bernardomg.pagination.argument.PaginationArgumentResolver;
 
 @DisplayName("Pagination argument resolver error handling")
 public class TestPaginationArgumentResolverError {

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 /**
- * Pagination argument resolvers.
+ * Pagination model.
  */
 
-package com.bernardomg.association.pagination.argument;
+package com.bernardomg.pagination.model;

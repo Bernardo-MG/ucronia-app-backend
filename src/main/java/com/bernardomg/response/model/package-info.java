@@ -21,24 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package com.bernardomg.association.response.model;
-
 /**
- * Response to the frontend.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- * @param <T>
- *            response content type
+ * Response model.
  */
-public interface Response<T> {
 
-    /**
-     * Returns the response content.
-     *
-     * @return the response content
-     */
-    public T getContent();
-
-}
+package com.bernardomg.response.model;

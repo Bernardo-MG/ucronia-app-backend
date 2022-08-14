@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.pagination.argument;
+package com.bernardomg.pagination.argument;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -30,7 +30,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.bernardomg.association.pagination.model.Pagination;
+import com.bernardomg.pagination.model.Pagination;
 
 import lombok.extern.slf4j.Slf4j;
 

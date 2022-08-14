@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.pagination.model;
+package com.bernardomg.pagination.model;
 
 /**
  * Paginated data request.

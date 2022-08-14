@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.pagination.utils;
+package com.bernardomg.pagination.utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.pagination.model.DefaultPageIterable;
-import com.bernardomg.association.pagination.model.Direction;
-import com.bernardomg.association.pagination.model.PageIterable;
-import com.bernardomg.association.pagination.model.Pagination;
-import com.bernardomg.association.pagination.model.Sort;
+import com.bernardomg.pagination.model.DefaultPageIterable;
+import com.bernardomg.pagination.model.Direction;
+import com.bernardomg.pagination.model.PageIterable;
+import com.bernardomg.pagination.model.Pagination;
+import com.bernardomg.pagination.model.Sort;
 
 /**
  * Pagination utility class.

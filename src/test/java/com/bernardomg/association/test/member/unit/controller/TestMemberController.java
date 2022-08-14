@@ -44,10 +44,10 @@ import com.bernardomg.association.member.controller.MemberController;
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.association.pagination.argument.SortArgumentResolver;
-import com.bernardomg.association.response.controller.ResponseAdvice;
 import com.bernardomg.association.test.config.UrlConfig;
+import com.bernardomg.pagination.argument.PaginationArgumentResolver;
+import com.bernardomg.pagination.argument.SortArgumentResolver;
+import com.bernardomg.response.controller.ResponseAdvice;
 
 @DisplayName("Example controller")
 public final class TestMemberController {
