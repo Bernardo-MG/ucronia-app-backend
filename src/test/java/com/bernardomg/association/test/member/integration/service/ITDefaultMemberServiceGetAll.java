@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -55,6 +57,40 @@ public class ITDefaultMemberServiceGetAll {
         result = service.getAll();
 
         Assertions.assertEquals(5, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all the entities")
+    public void testGetAll_Data() {
+        final Iterator<? extends Member> result;
+        Member data;
+
+        result = service.getAll().iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals(true, data.getActive());
     }
 
 }

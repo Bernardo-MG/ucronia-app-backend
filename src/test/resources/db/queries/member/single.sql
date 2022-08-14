@@ -1,2 +1,2 @@
-INSERT INTO members (name) VALUES
-   ('Member 1');
+INSERT INTO members (name, active) VALUES
+   ('Member 1', true);

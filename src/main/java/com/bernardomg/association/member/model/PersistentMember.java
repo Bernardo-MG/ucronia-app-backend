@@ -32,4 +32,7 @@ public class PersistentMember implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String            name;
 
+    @Column(name = "active", nullable = false, unique = true)
+    private Boolean            active;
+
 }

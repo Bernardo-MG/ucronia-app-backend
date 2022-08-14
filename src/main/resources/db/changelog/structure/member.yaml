@@ -18,6 +18,11 @@ databaseChangeLog:
                   type: varchar(50)
                   constraints:
                     nullable: false
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
         - createTable:
             tableName: member_periods
             columns:
