@@ -29,12 +29,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.service.DefaultMemberPeriodService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Default member period service - create errors")
@@ -53,6 +53,7 @@ public class ITDefaultMemberPeriodServiceCreateError {
     public void testCreate_RepeatedPeriod() {
         final DtoMemberPeriod period;
         final Executable      executable;
+        final Exception       exception;
 
         period = new DtoMemberPeriod();
         period.setStartMonth(2);
@@ -62,7 +63,9 @@ public class ITDefaultMemberPeriodServiceCreateError {
 
         executable = () -> service.create(1L, period);
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.memberPeriod.overlapsExisting", exception.getMessage());
     }
 
 }
