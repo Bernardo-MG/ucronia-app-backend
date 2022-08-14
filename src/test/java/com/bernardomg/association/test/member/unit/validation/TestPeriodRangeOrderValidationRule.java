@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.model.MemberPeriod;
-import com.bernardomg.association.member.validation.PeriodRangeOrderValidationRule;
+import com.bernardomg.association.member.validation.rule.PeriodRangeOrderValidationRule;
 import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.ValidationRule;
 

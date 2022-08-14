@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.validation;
+package com.bernardomg.association.member.validation.rule;
 
 import java.util.ArrayList;
 import java.util.Collection;

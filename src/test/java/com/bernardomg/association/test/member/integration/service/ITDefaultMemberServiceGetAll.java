@@ -63,9 +63,10 @@ public class ITDefaultMemberServiceGetAll {
     @DisplayName("Returns all the entities")
     public void testGetAll_Data() {
         final Iterator<? extends Member> result;
-        Member data;
+        Member                           data;
 
-        result = service.getAll().iterator();
+        result = service.getAll()
+            .iterator();
 
         data = result.next();
         Assertions.assertNotNull(data.getId());

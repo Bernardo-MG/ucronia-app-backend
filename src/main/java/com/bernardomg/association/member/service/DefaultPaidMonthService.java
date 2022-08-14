@@ -30,7 +30,8 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     public final PaidMonth create(final Long member, final PaidMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
-
+        
+        // TODO: Check the member exists
         // TODO: Reject invalid months
         // TODO: Reject months out of period
 
