@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.memberperiod.integration.service;
+package com.bernardomg.association.test.paidmonth.integration.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,43 +30,41 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.memberperiod.model.DtoMemberPeriod;
-import com.bernardomg.association.memberperiod.model.MemberPeriod;
-import com.bernardomg.association.memberperiod.model.PersistentMemberPeriod;
-import com.bernardomg.association.memberperiod.repository.MemberPeriodRepository;
-import com.bernardomg.association.memberperiod.service.DefaultMemberPeriodService;
+import com.bernardomg.association.paidmonth.model.DtoPaidMonth;
+import com.bernardomg.association.paidmonth.model.PaidMonth;
+import com.bernardomg.association.paidmonth.model.PersistentPaidMonth;
+import com.bernardomg.association.paidmonth.repository.PaidMonthRepository;
+import com.bernardomg.association.paidmonth.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member period service - update")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
-public class ITDefaultMemberPeriodServiceUpdate {
+@DisplayName("Default paid month service - update")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql", "/db/queries/paid_month/single.sql" })
+public class ITDefaultPaidMonthServiceUpdate {
 
     @Autowired
-    private MemberPeriodRepository     repository;
+    private PaidMonthRepository     repository;
 
     @Autowired
-    private DefaultMemberPeriodService service;
+    private DefaultPaidMonthService service;
 
-    public ITDefaultMemberPeriodServiceUpdate() {
+    public ITDefaultPaidMonthServiceUpdate() {
         super();
-
-        // TODO: Check invalid ids
     }
 
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoMemberPeriod period;
+        final DtoPaidMonth month;
 
-        period = new DtoMemberPeriod();
-        period.setMember(1L);
-        period.setStartMonth(3);
-        period.setStartYear(2025);
-        period.setEndMonth(6);
-        period.setEndYear(2030);
+        month = new DtoPaidMonth();
+        month.setId(1L);
+        month.setMember(1L);
+        month.setMonth(2);
+        month.setYear(2020);
+        month.setPaid(false);
 
-        service.update(1L, 1L, period);
+        service.update(1L, month);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -74,50 +72,48 @@ public class ITDefaultMemberPeriodServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoMemberPeriod        period;
-        final PersistentMemberPeriod entity;
+        final DtoPaidMonth        month;
+        final PersistentPaidMonth entity;
 
-        period = new DtoMemberPeriod();
-        period.setMember(1L);
-        period.setStartMonth(3);
-        period.setStartYear(2025);
-        period.setEndMonth(6);
-        period.setEndYear(2030);
+        month = new DtoPaidMonth();
+        month.setId(1L);
+        month.setMember(1L);
+        month.setMonth(2);
+        month.setYear(2020);
+        month.setPaid(false);
 
-        service.update(1L, 1L, period);
+        service.update(1L, month);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(3, entity.getStartMonth());
-        Assertions.assertEquals(2025, entity.getStartYear());
-        Assertions.assertEquals(6, entity.getEndMonth());
-        Assertions.assertEquals(2030, entity.getEndYear());
+        Assertions.assertEquals(2, entity.getMonth());
+        Assertions.assertEquals(2020, entity.getYear());
+        Assertions.assertEquals(false, entity.getPaid());
     }
 
     @Test
     @DisplayName("Returns the previous data")
     public void testUpdate_ReturnedData() {
-        final MemberPeriod    result;
-        final DtoMemberPeriod period;
+        final DtoPaidMonth month;
+        final PaidMonth    result;
 
-        period = new DtoMemberPeriod();
-        period.setMember(1L);
-        period.setStartMonth(3);
-        period.setStartYear(2025);
-        period.setEndMonth(6);
-        period.setEndYear(2030);
+        month = new DtoPaidMonth();
+        month.setId(1L);
+        month.setMember(1L);
+        month.setMonth(2);
+        month.setYear(2020);
+        month.setPaid(false);
 
-        result = service.update(1L, 1L, period);
+        result = service.update(1L, month);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
-        Assertions.assertEquals(3, result.getStartMonth());
-        Assertions.assertEquals(2025, result.getStartYear());
-        Assertions.assertEquals(6, result.getEndMonth());
-        Assertions.assertEquals(2030, result.getEndYear());
+        Assertions.assertEquals(2, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(false, result.getPaid());
     }
 
 }
