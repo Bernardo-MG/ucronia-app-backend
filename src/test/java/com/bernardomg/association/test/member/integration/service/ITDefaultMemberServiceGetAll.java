@@ -60,7 +60,7 @@ public class ITDefaultMemberServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities")
+    @DisplayName("Returns all the entities data")
     public void testGetAll_Data() {
         final Iterator<? extends Member> result;
         Member                           data;
@@ -80,32 +80,32 @@ public class ITDefaultMemberServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 2", data.getName());
         Assertions.assertEquals("Surname", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals("12346", data.getPhone());
+        Assertions.assertEquals("6780", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 3", data.getName());
         Assertions.assertEquals("Surname", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals("12347", data.getPhone());
+        Assertions.assertEquals("6781", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 4", data.getName());
         Assertions.assertEquals("Surname", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals("12348", data.getPhone());
+        Assertions.assertEquals("6782", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 5", data.getName());
         Assertions.assertEquals("Surname", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals("12349", data.getPhone());
+        Assertions.assertEquals("6783", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
     }
 

@@ -14,7 +14,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Paid month repository - find in range")
-@Sql({ "/db/queries/paid_month/year_gaps.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/year_gaps.sql" })
 public class ITPaidMonthRepositoryFindInRange {
 
     @Autowired

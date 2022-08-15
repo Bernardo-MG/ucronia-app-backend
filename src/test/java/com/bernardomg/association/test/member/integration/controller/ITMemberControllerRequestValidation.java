@@ -61,8 +61,11 @@ public final class ITMemberControllerRequestValidation {
         final DtoMember     member;
 
         member = new DtoMember();
+        member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
         member.setActive(true);
-        member.setName("name");
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -71,7 +74,7 @@ public final class ITMemberControllerRequestValidation {
             .isOk());
 
         // The response model contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content.name", Matchers.comparesEqualTo("name")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content.name", Matchers.comparesEqualTo("Member")));
     }
 
     @Test
@@ -81,6 +84,9 @@ public final class ITMemberControllerRequestValidation {
         final DtoMember     member;
 
         member = new DtoMember();
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
         member.setActive(true);
 
         result = mockMvc.perform(getPostRequest(member));
