@@ -98,7 +98,7 @@ public class ITDefaultMemberPeriodServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the previous data")
+    @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
         final MemberPeriod    result;
         final DtoMemberPeriod period;

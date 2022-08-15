@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.paidmonth.controller;
 
-import java.util.Objects;
-
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -42,26 +40,17 @@ import com.bernardomg.association.paidmonth.model.DtoPaidMonth;
 import com.bernardomg.association.paidmonth.model.PaidMonth;
 import com.bernardomg.association.paidmonth.service.PaidMonthService;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/member/{member}/paid")
+@AllArgsConstructor
 public class MemberDetailPaidMonthController {
 
     /**
      * Example entity service.
      */
     private final PaidMonthService service;
-
-    /**
-     * Constructs a controller with the specified dependencies.
-     *
-     * @param srvc
-     *            example entity service
-     */
-    public MemberDetailPaidMonthController(final PaidMonthService srvc) {
-        super();
-
-        service = Objects.requireNonNull(srvc, "Received a null pointer as service");
-    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PaidMonth create(@PathVariable("member") final Long member,

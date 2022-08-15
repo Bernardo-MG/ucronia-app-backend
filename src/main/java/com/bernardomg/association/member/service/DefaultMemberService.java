@@ -69,7 +69,6 @@ public final class DefaultMemberService implements MemberService {
         entity = toPersistentMember(member);
         entity.setId(id);
 
-        // TODO: It is returning the entity BEFORE the changes
         updated = repository.save(entity);
         return toMember(updated);
     }

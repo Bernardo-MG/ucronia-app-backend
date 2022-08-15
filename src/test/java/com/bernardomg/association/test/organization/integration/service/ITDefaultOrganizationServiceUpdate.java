@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.balance.integration.service;
+package com.bernardomg.association.test.organization.integration.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,26 +30,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.balance.model.DtoPayment;
-import com.bernardomg.association.balance.model.Payment;
-import com.bernardomg.association.balance.model.PaymentType;
-import com.bernardomg.association.balance.model.PersistentPayment;
-import com.bernardomg.association.balance.repository.PaymentRepository;
-import com.bernardomg.association.balance.service.DefaultPaymentService;
+import com.bernardomg.association.organization.model.DtoOrganization;
+import com.bernardomg.association.organization.model.Organization;
+import com.bernardomg.association.organization.model.PersistentOrganization;
+import com.bernardomg.association.organization.repository.OrganizationRepository;
+import com.bernardomg.association.organization.service.DefaultOrganizationService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default payment service - update")
-@Sql({ "/db/queries/payment/single.sql" })
-public class ITDefaultPaymentServiceUpdate {
+@DisplayName("Default organization service - update")
+@Sql({ "/db/queries/organization/single.sql" })
+public class ITDefaultOrganizationServiceUpdate {
 
     @Autowired
-    private PaymentRepository     repository;
+    private OrganizationRepository     repository;
 
     @Autowired
-    private DefaultPaymentService service;
+    private DefaultOrganizationService service;
 
-    public ITDefaultPaymentServiceUpdate() {
+    public ITDefaultOrganizationServiceUpdate() {
         super();
 
         // TODO: Check invalid ids
@@ -58,17 +57,12 @@ public class ITDefaultPaymentServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoPayment payment;
+        final DtoOrganization member;
 
-        payment = new DtoPayment();
-        payment.setDescription("Payment 123");
-        payment.setType(PaymentType.INCOME);
-        payment.setQuantity(1l);
-        payment.setDay(2);
-        payment.setMonth(3);
-        payment.setYear(4);
+        member = new DtoOrganization();
+        member.setName("Org 123");
 
-        service.update(1L, payment);
+        service.update(1L, member);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -76,44 +70,34 @@ public class ITDefaultPaymentServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoPayment        payment;
-        final PersistentPayment entity;
+        final DtoOrganization        member;
+        final PersistentOrganization entity;
 
-        payment = new DtoPayment();
-        payment.setDescription("Payment 123");
-        payment.setType(PaymentType.INCOME);
-        payment.setQuantity(1l);
-        payment.setDay(2);
-        payment.setMonth(3);
-        payment.setYear(4);
+        member = new DtoOrganization();
+        member.setName("Org 123");
 
-        service.update(1L, payment);
+        service.update(1L, member);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Payment 123", entity.getDescription());
+        Assertions.assertEquals("Org 123", entity.getName());
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("Returns the previous data")
     public void testUpdate_ReturnedData() {
-        final Payment    result;
-        final DtoPayment payment;
+        final Organization    result;
+        final DtoOrganization member;
 
-        payment = new DtoPayment();
-        payment.setDescription("Payment");
-        payment.setType(PaymentType.INCOME);
-        payment.setQuantity(1l);
-        payment.setDay(2);
-        payment.setMonth(3);
-        payment.setYear(4);
+        member = new DtoOrganization();
+        member.setName("Org 123");
 
-        result = service.update(1L, payment);
+        result = service.update(1L, member);
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Payment", result.getDescription());
+        Assertions.assertEquals("Org 123", result.getName());
     }
 
 }

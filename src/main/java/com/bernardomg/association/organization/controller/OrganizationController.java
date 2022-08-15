@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.controller;
+package com.bernardomg.association.organization.controller;
 
 import javax.validation.Valid;
 
@@ -36,25 +36,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.balance.model.DtoPayment;
-import com.bernardomg.association.balance.model.Payment;
-import com.bernardomg.association.balance.service.PaymentService;
+import com.bernardomg.association.organization.model.DtoOrganization;
+import com.bernardomg.association.organization.model.Organization;
+import com.bernardomg.association.organization.service.OrganizationService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("/organization")
 @AllArgsConstructor
-public class PaymentController {
+public class OrganizationController {
 
-    /**
-     * Example entity service.
-     */
-    private final PaymentService service;
+    private final OrganizationService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Payment create(@Valid @RequestBody final DtoPayment member) {
-        return service.create(member);
+    public Organization create(@Valid @RequestBody final DtoOrganization organization) {
+        return service.create(organization);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,13 +60,20 @@ public class PaymentController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Payment> readAll() {
+    public Iterable<? extends Organization> readAll() {
         return service.getAll();
     }
 
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Organization readOne(@PathVariable("id") final Long id) {
+        return service.getOne(id)
+            .orElse(null);
+    }
+
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Payment update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoPayment member) {
-        return service.update(id, member);
+    public Organization update(@PathVariable("id") final Long id,
+            @Valid @RequestBody final DtoOrganization organization) {
+        return service.update(id, organization);
     }
 
 }

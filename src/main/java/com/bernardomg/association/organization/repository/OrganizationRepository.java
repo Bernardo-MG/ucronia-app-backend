@@ -22,30 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.controller;
+package com.bernardomg.association.organization.repository;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.organization.model.PersistentOrganization;
 
-import lombok.AllArgsConstructor;
-
-@RestController
-@RequestMapping("/balance")
-@AllArgsConstructor
-public class BalanceController {
-
-    /**
-     * Example entity service.
-     */
-    private final BalanceService service;
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Integer current() {
-        return service.getCurrentBalance();
-    }
+public interface OrganizationRepository extends JpaRepository<PersistentOrganization, Long> {
 
 }

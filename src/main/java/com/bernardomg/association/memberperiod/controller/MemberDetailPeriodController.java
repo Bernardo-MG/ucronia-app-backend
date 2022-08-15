@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.memberperiod.controller;
 
-import java.util.Objects;
-
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -42,26 +40,17 @@ import com.bernardomg.association.memberperiod.model.DtoMemberPeriod;
 import com.bernardomg.association.memberperiod.model.MemberPeriod;
 import com.bernardomg.association.memberperiod.service.MemberPeriodService;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/member/{member}/period")
+@AllArgsConstructor
 public class MemberDetailPeriodController {
 
     /**
      * Example entity service.
      */
     private final MemberPeriodService service;
-
-    /**
-     * Constructs a controller with the specified dependencies.
-     *
-     * @param srvc
-     *            example entity service
-     */
-    public MemberDetailPeriodController(final MemberPeriodService srvc) {
-        super();
-
-        service = Objects.requireNonNull(srvc, "Received a null pointer as service");
-    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public MemberPeriod create(@PathVariable("member") final Long member,

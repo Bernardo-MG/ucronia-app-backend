@@ -95,7 +95,7 @@ public class ITDefaultPaidMonthServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the previous data")
+    @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
         final DtoPaidMonth month;
         final PaidMonth    result;

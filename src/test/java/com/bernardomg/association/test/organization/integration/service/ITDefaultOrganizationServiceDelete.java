@@ -22,30 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.controller;
+package com.bernardomg.association.test.organization.integration.service;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.organization.repository.OrganizationRepository;
+import com.bernardomg.association.organization.service.DefaultOrganizationService;
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
-import lombok.AllArgsConstructor;
+@IntegrationTest
+@DisplayName("Default organization service - delete")
+@Sql({ "/db/queries/organization/single.sql" })
+public class ITDefaultOrganizationServiceDelete {
 
-@RestController
-@RequestMapping("/balance")
-@AllArgsConstructor
-public class BalanceController {
+    @Autowired
+    private OrganizationRepository     repository;
 
-    /**
-     * Example entity service.
-     */
-    private final BalanceService service;
+    @Autowired
+    private DefaultOrganizationService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Integer current() {
-        return service.getCurrentBalance();
+    public ITDefaultOrganizationServiceDelete() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Removes an entity when deleting")
+    public void testDelete_RemovesEntity() {
+        service.delete(1L);
+
+        Assertions.assertEquals(0L, repository.count());
     }
 
 }
