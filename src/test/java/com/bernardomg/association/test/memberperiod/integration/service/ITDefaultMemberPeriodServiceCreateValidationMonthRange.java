@@ -58,9 +58,9 @@ public class ITDefaultMemberPeriodServiceCreateValidationMonthRange {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(2);
-        period.setStartYear(3);
+        period.setStartYear(2020);
         period.setEndMonth(13);
-        period.setEndYear(5);
+        period.setEndYear(2022);
 
         executable = () -> service.create(1L, period);
 
@@ -79,9 +79,9 @@ public class ITDefaultMemberPeriodServiceCreateValidationMonthRange {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(2);
-        period.setStartYear(3);
+        period.setStartYear(2020);
         period.setEndMonth(0);
-        period.setEndYear(5);
+        period.setEndYear(2022);
 
         executable = () -> service.create(1L, period);
 
@@ -100,9 +100,9 @@ public class ITDefaultMemberPeriodServiceCreateValidationMonthRange {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(13);
-        period.setStartYear(3);
+        period.setStartYear(2020);
         period.setEndMonth(4);
-        period.setEndYear(5);
+        period.setEndYear(2022);
 
         executable = () -> service.create(1L, period);
 
@@ -121,9 +121,9 @@ public class ITDefaultMemberPeriodServiceCreateValidationMonthRange {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(0);
-        period.setStartYear(3);
+        period.setStartYear(2020);
         period.setEndMonth(4);
-        period.setEndYear(5);
+        period.setEndYear(2022);
 
         executable = () -> service.create(1L, period);
 

@@ -63,9 +63,9 @@ public class ITDefaultMemberPeriodServiceUpdate {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(3);
-        period.setStartYear(30);
+        period.setStartYear(2025);
         period.setEndMonth(6);
-        period.setEndYear(50);
+        period.setEndYear(2030);
 
         service.update(1L, 1L, period);
 
@@ -81,9 +81,9 @@ public class ITDefaultMemberPeriodServiceUpdate {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(3);
-        period.setStartYear(30);
+        period.setStartYear(2025);
         period.setEndMonth(6);
-        period.setEndYear(50);
+        period.setEndYear(2030);
 
         service.update(1L, 1L, period);
         entity = repository.findAll()
@@ -93,9 +93,9 @@ public class ITDefaultMemberPeriodServiceUpdate {
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
         Assertions.assertEquals(3, entity.getStartMonth());
-        Assertions.assertEquals(30, entity.getStartYear());
+        Assertions.assertEquals(2025, entity.getStartYear());
         Assertions.assertEquals(6, entity.getEndMonth());
-        Assertions.assertEquals(50, entity.getEndYear());
+        Assertions.assertEquals(2030, entity.getEndYear());
     }
 
     @Test
@@ -107,18 +107,18 @@ public class ITDefaultMemberPeriodServiceUpdate {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(3);
-        period.setStartYear(30);
+        period.setStartYear(2025);
         period.setEndMonth(6);
-        period.setEndYear(50);
+        period.setEndYear(2030);
 
         result = service.update(1L, 1L, period);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(3, result.getStartMonth());
-        Assertions.assertEquals(30, result.getStartYear());
+        Assertions.assertEquals(2025, result.getStartYear());
         Assertions.assertEquals(6, result.getEndMonth());
-        Assertions.assertEquals(50, result.getEndYear());
+        Assertions.assertEquals(2030, result.getEndYear());
     }
 
 }

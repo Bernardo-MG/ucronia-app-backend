@@ -58,9 +58,9 @@ public class ITDefaultMemberPeriodServiceCreateError {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(2);
-        period.setStartYear(3);
+        period.setStartYear(2020);
         period.setEndMonth(4);
-        period.setEndYear(5);
+        period.setEndYear(2022);
 
         executable = () -> service.create(1L, period);
 

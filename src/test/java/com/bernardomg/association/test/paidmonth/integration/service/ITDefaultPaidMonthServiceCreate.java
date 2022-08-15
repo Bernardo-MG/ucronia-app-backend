@@ -60,7 +60,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month = new DtoPaidMonth();
         month.setMember(1L);
         month.setMonth(2);
-        month.setYear(3);
+        month.setYear(2020);
         month.setPaid(true);
 
         service.create(1L, month);
@@ -77,7 +77,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month = new DtoPaidMonth();
         month.setMember(1L);
         month.setMonth(2);
-        month.setYear(3);
+        month.setYear(2020);
         month.setPaid(true);
 
         service.create(1L, month);
@@ -88,7 +88,7 @@ public class ITDefaultPaidMonthServiceCreate {
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
         Assertions.assertEquals(2, entity.getMonth());
-        Assertions.assertEquals(3, entity.getYear());
+        Assertions.assertEquals(2020, entity.getYear());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month = new DtoPaidMonth();
         month.setMember(1L);
         month.setMonth(2);
-        month.setYear(3);
+        month.setYear(2020);
         month.setPaid(true);
 
         result = service.create(1L, month);
@@ -108,7 +108,7 @@ public class ITDefaultPaidMonthServiceCreate {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(2, result.getMonth());
-        Assertions.assertEquals(3, result.getYear());
+        Assertions.assertEquals(2020, result.getYear());
     }
 
 }

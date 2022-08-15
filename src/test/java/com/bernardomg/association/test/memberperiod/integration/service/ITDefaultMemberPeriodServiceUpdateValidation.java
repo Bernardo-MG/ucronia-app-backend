@@ -58,9 +58,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         period = new DtoMemberPeriod();
         period.setMember(-1L);
         period.setStartMonth(3);
-        period.setStartYear(30);
+        period.setStartYear(2025);
         period.setEndMonth(6);
-        period.setEndYear(50);
+        period.setEndYear(2030);
 
         executable = () -> service.update(-1L, 1L, period);
 
@@ -79,9 +79,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(4);
-        period.setStartYear(1);
+        period.setStartYear(2020);
         period.setEndMonth(2);
-        period.setEndYear(1);
+        period.setEndYear(2020);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -100,9 +100,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(3);
-        period.setStartYear(2);
+        period.setStartYear(2022);
         period.setEndMonth(4);
-        period.setEndYear(1);
+        period.setEndYear(2020);
 
         executable = () -> service.update(1L, 1L, period);
 

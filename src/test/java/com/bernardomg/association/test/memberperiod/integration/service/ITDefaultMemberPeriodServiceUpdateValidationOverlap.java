@@ -58,9 +58,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(4);
-        period.setStartYear(7);
+        period.setStartYear(2025);
         period.setEndMonth(4);
-        period.setEndYear(7);
+        period.setEndYear(2025);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -79,9 +79,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(2);
-        period.setStartYear(6);
+        period.setStartYear(2023);
         period.setEndMonth(2);
-        period.setEndYear(6);
+        period.setEndYear(2023);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -100,9 +100,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(3);
-        period.setStartYear(7);
+        period.setStartYear(2025);
         period.setEndMonth(5);
-        period.setEndYear(7);
+        period.setEndYear(2025);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -121,9 +121,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(1);
-        period.setStartYear(6);
+        period.setStartYear(2023);
         period.setEndMonth(5);
-        period.setEndYear(7);
+        period.setEndYear(2025);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -142,9 +142,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(1);
-        period.setStartYear(6);
+        period.setStartYear(2023);
         period.setEndMonth(3);
-        period.setEndYear(6);
+        period.setEndYear(2023);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -163,9 +163,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(4);
-        period.setStartYear(7);
+        period.setStartYear(2025);
         period.setEndMonth(5);
-        period.setEndYear(7);
+        period.setEndYear(2025);
 
         executable = () -> service.update(1L, 1L, period);
 
@@ -184,9 +184,9 @@ public class ITDefaultMemberPeriodServiceUpdateValidationOverlap {
         period = new DtoMemberPeriod();
         period.setMember(1L);
         period.setStartMonth(1);
-        period.setStartYear(6);
+        period.setStartYear(2023);
         period.setEndMonth(2);
-        period.setEndYear(6);
+        period.setEndYear(2023);
 
         executable = () -> service.update(1L, 1L, period);
 

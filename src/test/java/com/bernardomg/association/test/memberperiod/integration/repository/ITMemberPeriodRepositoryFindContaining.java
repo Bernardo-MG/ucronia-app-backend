@@ -25,7 +25,7 @@ public class ITMemberPeriodRepositoryFindContaining {
     public void testFindContaining_AfterPeriod_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
-        result = repository.findContaining(1L, 5, 5);
+        result = repository.findContaining(1L, 5, 2022);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }
@@ -35,7 +35,7 @@ public class ITMemberPeriodRepositoryFindContaining {
     public void testFindContaining_BeforePeriod_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
-        result = repository.findContaining(1L, 1, 3);
+        result = repository.findContaining(1L, 1, 2020);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }
@@ -45,7 +45,7 @@ public class ITMemberPeriodRepositoryFindContaining {
     public void testFindOverlapped_Inside_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
-        result = repository.findContaining(1L, 4, 4);
+        result = repository.findContaining(1L, 4, 2021);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -55,7 +55,7 @@ public class ITMemberPeriodRepositoryFindContaining {
     public void testFindOverlapped_MatchEndMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
-        result = repository.findContaining(1L, 4, 5);
+        result = repository.findContaining(1L, 4, 2022);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -65,7 +65,7 @@ public class ITMemberPeriodRepositoryFindContaining {
     public void testFindOverlapped_MatchStartMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
-        result = repository.findContaining(1L, 2, 3);
+        result = repository.findContaining(1L, 2, 2020);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
