@@ -1,23 +1,33 @@
 
 package com.bernardomg.association.balance.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 @Data
 public final class DtoPayment implements Payment {
 
+    @NotNull
     private Integer     day;
 
-    private String      description = "";
+    @NotEmpty
+    @NotNull
+    private String      description;
 
-    private Long        id          = -1L;
+    private Long        id;
 
+    @NotNull
     private Integer     month;
 
-    private Long        quantity    = -1L;
+    @NotNull
+    private Long        quantity;
 
+    @NotNull
     private PaymentType type;
 
+    @NotNull
     private Integer     year;
 
 }

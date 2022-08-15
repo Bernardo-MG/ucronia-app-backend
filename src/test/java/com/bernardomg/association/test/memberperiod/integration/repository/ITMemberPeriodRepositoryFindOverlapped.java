@@ -55,7 +55,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
     public void testFindOverlapped_MatchStartMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
-        result = repository.findOverlapped(1L, 2, 2020, 2,2020);
+        result = repository.findOverlapped(1L, 2, 2020, 2, 2020);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }

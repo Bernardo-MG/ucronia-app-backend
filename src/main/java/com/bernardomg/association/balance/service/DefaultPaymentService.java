@@ -9,6 +9,7 @@ import com.bernardomg.association.balance.model.DtoPayment;
 import com.bernardomg.association.balance.model.Payment;
 import com.bernardomg.association.balance.model.PersistentPayment;
 import com.bernardomg.association.balance.repository.PaymentRepository;
+import com.bernardomg.association.balance.validation.PaymentValidator;
 
 import lombok.AllArgsConstructor;
 
@@ -18,10 +19,14 @@ public final class DefaultPaymentService implements PaymentService {
 
     private final PaymentRepository repository;
 
+    private final PaymentValidator  validator;
+
     @Override
     public final Payment create(final Payment payment) {
         final PersistentPayment entity;
         final PersistentPayment created;
+
+        validator.validate(payment);
 
         entity = toPersistentPayment(payment);
         created = repository.save(entity);
