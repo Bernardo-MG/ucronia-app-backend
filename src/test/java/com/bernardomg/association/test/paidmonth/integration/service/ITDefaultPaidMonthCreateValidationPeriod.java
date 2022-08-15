@@ -29,40 +29,63 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.paidmonth.model.DtoPaidMonth;
 import com.bernardomg.association.paidmonth.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Default paid month service - create errors")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql", "/db/queries/paid_month/single.sql" })
-public class ITDefaultPaidMonthServiceCreateError {
+@DisplayName("Default paid month service - create in period validation")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
+public class ITDefaultPaidMonthCreateValidationPeriod {
 
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultPaidMonthServiceCreateError() {
+    public ITDefaultPaidMonthCreateValidationPeriod() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the data already exists")
-    public void testCreate_Existing() {
+    @DisplayName("Throws an exception when the month is after the period")
+    public void testCreate_AfterPeriod() {
         final DtoPaidMonth month;
         final Executable   executable;
+        final Exception    exception;
 
         month = new DtoPaidMonth();
         month.setMember(1L);
-        month.setMonth(2);
+        month.setMonth(1);
         month.setYear(3);
         month.setPaid(true);
 
         executable = () -> service.create(1L, month);
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.paidMonth.outOfPeriod", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the month is before the period")
+    public void testCreate_BeforePeriod() {
+        final DtoPaidMonth month;
+        final Executable   executable;
+        final Exception    exception;
+
+        month = new DtoPaidMonth();
+        month.setMember(1L);
+        month.setMonth(1);
+        month.setYear(3);
+        month.setPaid(true);
+
+        executable = () -> service.create(1L, month);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.paidMonth.outOfPeriod", exception.getMessage());
     }
 
 }

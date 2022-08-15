@@ -15,6 +15,7 @@ import com.bernardomg.association.paidmonth.model.DtoPaidMonth;
 import com.bernardomg.association.paidmonth.model.PaidMonth;
 import com.bernardomg.association.paidmonth.model.PersistentPaidMonth;
 import com.bernardomg.association.paidmonth.repository.PaidMonthRepository;
+import com.bernardomg.association.paidmonth.validation.PaidMonthValidator;
 
 import lombok.AllArgsConstructor;
 
@@ -26,14 +27,14 @@ public final class DefaultPaidMonthService implements PaidMonthService {
 
     private final PaidMonthRepository    repository;
 
+    private final PaidMonthValidator     validator;
+
     @Override
     public final PaidMonth create(final Long member, final PaidMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
 
-        // TODO: Check the member exists
-        // TODO: Reject invalid months
-        // TODO: Reject months out of period
+        validator.validate(month);
 
         entity = toPersistentPaidMonth(month);
         entity.setMember(member);

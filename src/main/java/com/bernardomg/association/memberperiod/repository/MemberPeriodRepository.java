@@ -34,6 +34,10 @@ import com.bernardomg.association.memberperiod.model.PersistentMemberPeriod;
 
 public interface MemberPeriodRepository extends JpaRepository<PersistentMemberPeriod, Long> {
 
+    @Query("SELECT p FROM MemberPeriod p WHERE p.member = :member AND ((p.startYear = :year AND p.startMonth <= :month) OR (p.endYear = :year AND p.endMonth >= :month) OR (p.startYear < :year AND p.endYear > :year))")
+    public Collection<PersistentMemberPeriod> findContaining(@Param("member") final Long member,
+            @Param("month") final Integer month, @Param("year") final Integer year);
+
     @Query("SELECT p FROM MemberPeriod p WHERE p.member = :member AND ((:startMonth <= p.startMonth AND :startYear <= p.startYear AND :endMonth >= p.startMonth AND :endYear >= p.startYear) OR (:startMonth <= p.endMonth AND :startYear <= p.endYear AND :endMonth >= p.endMonth AND :endYear >= p.endYear))")
     public Collection<PersistentMemberPeriod> findOverlapped(@Param("member") final Long member,
             @Param("startMonth") final Integer startMonth, @Param("startYear") final Integer startYear,

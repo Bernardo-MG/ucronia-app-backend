@@ -14,7 +14,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Paid month repository - find overlapped")
-@Sql({ "/db/queries/member_period/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
 public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Autowired
@@ -22,7 +22,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns no period when querying after the period")
-    public void testFindInRange_AfterPeriod_Count() {
+    public void testFindOverlapped_AfterPeriod_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 5, 5, 5, 6);
@@ -32,7 +32,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns no period when querying before the period")
-    public void testFindInRange_BeforePeriod_Count() {
+    public void testFindOverlapped_BeforePeriod_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 1, 2, 5, 2);
@@ -42,7 +42,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when the period matches the end month")
-    public void testFindInRange_MatchEndMonth_Count() {
+    public void testFindOverlapped_MatchEndMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 4, 5, 4, 5);
@@ -52,7 +52,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when the period matches the start month")
-    public void testFindInRange_MatchStartMonth_Count() {
+    public void testFindOverlapped_MatchStartMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 2, 3, 2, 3);
@@ -62,7 +62,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when the period overlaps the end month")
-    public void testFindInRange_OverlapsEndMonth_Count() {
+    public void testFindOverlapped_OverlapsEndMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 3, 5, 5, 5);
@@ -72,7 +72,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when overlapped")
-    public void testFindInRange_OverlapsFullPeriod_Count() {
+    public void testFindOverlapped_OverlapsFullPeriod_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 1, 3, 5, 5);
@@ -82,7 +82,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when the period overlaps the start month")
-    public void testFindInRange_OverlapsStartMonth_Count() {
+    public void testFindOverlapped_OverlapsStartMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 1, 3, 3, 3);
@@ -92,7 +92,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when the period touches the end month")
-    public void testFindInRange_TouchEndMonth_Count() {
+    public void testFindOverlapped_TouchEndMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 4, 5, 5, 5);
@@ -102,7 +102,7 @@ public class ITMemberPeriodRepositoryFindOverlapped {
 
     @Test
     @DisplayName("Returns the period when the period touches the start month")
-    public void testFindInRange_TouchStartMonth_Count() {
+    public void testFindOverlapped_TouchStartMonth_Count() {
         final Iterable<PersistentMemberPeriod> result;
 
         result = repository.findOverlapped(1L, 1, 3, 2, 3);

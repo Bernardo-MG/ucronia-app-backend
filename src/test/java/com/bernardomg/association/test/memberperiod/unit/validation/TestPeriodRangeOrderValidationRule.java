@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.member.unit.validation;
+package com.bernardomg.association.test.memberperiod.unit.validation;
 
 import java.util.Collection;
 

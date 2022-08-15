@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - create")
-@Sql({ "/db/queries/member/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
 public class ITDefaultPaidMonthServiceCreate {
 
     @Autowired
@@ -61,6 +61,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
+        month.setPaid(true);
 
         service.create(1L, month);
 
@@ -77,6 +78,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
+        month.setPaid(true);
 
         service.create(1L, month);
         entity = repository.findAll()
@@ -99,6 +101,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month.setMember(1L);
         month.setMonth(2);
         month.setYear(3);
+        month.setPaid(true);
 
         result = service.create(1L, month);
 
