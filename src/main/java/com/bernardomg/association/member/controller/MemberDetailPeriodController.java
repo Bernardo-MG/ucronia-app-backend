@@ -26,12 +26,15 @@ package com.bernardomg.association.member.controller;
 
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,7 +64,7 @@ public class MemberDetailPeriodController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberPeriod create(@PathVariable("member") final Long member, final DtoMemberPeriod period) {
+    public MemberPeriod create(@PathVariable("member") final Long member, @Valid @RequestBody final DtoMemberPeriod period) {
         return service.create(member, period);
     }
 
@@ -77,7 +80,7 @@ public class MemberDetailPeriodController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public MemberPeriod update(@PathVariable("member") final Long member, @PathVariable("id") final Long id,
-            final DtoMemberPeriod period) {
+            @Valid @RequestBody final DtoMemberPeriod period) {
         return service.update(member, id, period);
     }
 

@@ -1,21 +1,28 @@
 
 package com.bernardomg.association.member.model;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 @Data
 public final class DtoMemberPeriod implements MemberPeriod {
 
-    private Integer endMonth   = -1;
+    @NotNull
+    private Integer endMonth;
 
-    private Integer endYear    = -1;
+    @NotNull
+    private Integer endYear;
 
-    private Long    id         = -1L;
+    private Long    id;
 
-    private Long    member     = -1L;
+    @NotNull
+    private Long    member;
 
-    private Integer startMonth = -1;
+    @NotNull
+    private Integer startMonth;
 
-    private Integer startYear  = -1;
+    @NotNull
+    private Integer startYear;
 
 }

@@ -1,19 +1,25 @@
 
 package com.bernardomg.association.member.model;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 @Data
 public final class DtoPaidMonth implements PaidMonth {
 
-    private Long    id     = -1L;
+    private Long    id;
 
-    private Long    member = -1L;
+    @NotNull
+    private Long    member;
 
-    private Integer month  = -1;
+    @NotNull
+    private Integer month;
 
-    private Boolean paid   = false;
+    @NotNull
+    private Boolean paid;
 
-    private Integer year   = -1;
+    @NotNull
+    private Integer year;
 
 }

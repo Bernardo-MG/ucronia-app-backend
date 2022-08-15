@@ -23,17 +23,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultMemberPeriodService implements MemberPeriodService {
 
+    private final MemberRepository        memberRepository;
+
     private final Validator<MemberPeriod> periodValidator = new MemberPeriodValidator();
 
     private final MemberPeriodRepository  repository;
-    
-    private final MemberRepository memberRepository;
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
-        
+
         // Reject invalid values
 
         periodValidator.validate(period);
@@ -117,6 +117,13 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         return entity;
     }
 
+    private final void validateMemberExists(final MemberPeriod period) {
+        // TODO: Move to validator if possible
+        if (!memberRepository.existsById(period.getMember())) {
+            throw new ValidationException(ValidationError.of("error.member.notExists"));
+        }
+    }
+
     private final void validateOverlapped(final MemberPeriod period) {
         final Collection<PersistentMemberPeriod> overlapped;
 
@@ -126,12 +133,6 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
         if (!overlapped.isEmpty()) {
             throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
-        }
-    }
-    private final void validateMemberExists(final MemberPeriod period) {
-        // TODO: Move to validator if possible
-        if(!memberRepository.existsById(period.getMember())) {
-            throw new ValidationException(ValidationError.of("error.member.notExists"));
         }
     }
 

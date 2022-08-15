@@ -29,6 +29,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -38,10 +39,11 @@ import com.bernardomg.Application;
 
 @SpringJUnitConfig
 @SpringBootTest(classes = Application.class)
+@AutoConfigureMockMvc
 @Transactional
 @Rollback
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface IntegrationTest {
+public @interface MvcIntegrationTest {
 
 }
