@@ -95,9 +95,18 @@ databaseChangeLog:
               - column:
                   name: paid_month
                   type: int
+                  constraints:
+                    nullable: false
               - column:
                   name: paid_year
                   type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
         -  addUniqueConstraint:
             constraintName: paid_months_unique
             tableName: paid_months

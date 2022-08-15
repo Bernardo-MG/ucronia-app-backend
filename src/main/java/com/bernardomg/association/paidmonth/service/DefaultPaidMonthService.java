@@ -108,7 +108,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         data.setMember(entity.getMember());
         data.setMonth(entity.getMonth());
         data.setYear(entity.getYear());
-        data.setPaid(true);
+        data.setPaid(entity.getPaid());
 
         return data;
     }
@@ -121,6 +121,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         entity.setMember(data.getMember());
         entity.setMonth(data.getMonth());
         entity.setYear(data.getYear());
+        entity.setPaid(data.getPaid());
 
         return entity;
     }

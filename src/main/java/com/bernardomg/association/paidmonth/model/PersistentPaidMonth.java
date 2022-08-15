@@ -35,6 +35,9 @@ public class PersistentPaidMonth implements Serializable {
     @Column(name = "paid_month", nullable = false, unique = true)
     private Integer           month;
 
+    @Column(name = "paid", nullable = false, unique = true)
+    private Boolean           paid;
+
     @Column(name = "paid_year", nullable = false, unique = true)
     private Integer           year;
 
