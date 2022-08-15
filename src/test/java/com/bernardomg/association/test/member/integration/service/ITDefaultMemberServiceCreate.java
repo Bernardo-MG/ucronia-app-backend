@@ -57,6 +57,9 @@ public class ITDefaultMemberServiceCreate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
         member.setActive(true);
 
         service.create(member);
@@ -72,6 +75,9 @@ public class ITDefaultMemberServiceCreate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
         member.setActive(true);
 
         service.create(member);
@@ -81,6 +87,10 @@ public class ITDefaultMemberServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Member", entity.getName());
+        Assertions.assertEquals("Surname", entity.getSurname());
+        Assertions.assertEquals("12345", entity.getPhone());
+        Assertions.assertEquals("6789", entity.getIdentifier());
+        Assertions.assertEquals(true, entity.getActive());
     }
 
     @Test
@@ -91,12 +101,19 @@ public class ITDefaultMemberServiceCreate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
         member.setActive(true);
 
         result = service.create(member);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Member", result.getName());
+        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("12345", result.getPhone());
+        Assertions.assertEquals("6789", result.getIdentifier());
+        Assertions.assertEquals(true, result.getActive());
     }
 
 }

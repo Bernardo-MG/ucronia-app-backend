@@ -80,6 +80,9 @@ public final class DefaultMemberService implements MemberService {
         data = new DtoMember();
         data.setId(entity.getId());
         data.setName(entity.getName());
+        data.setSurname(entity.getSurname());
+        data.setIdentifier(entity.getIdentifier());
+        data.setPhone(entity.getPhone());
         data.setActive(entity.getActive());
 
         return data;
@@ -91,6 +94,9 @@ public final class DefaultMemberService implements MemberService {
         entity = new PersistentMember();
         entity.setId(data.getId());
         entity.setName(data.getName());
+        entity.setSurname(data.getSurname());
+        entity.setIdentifier(data.getIdentifier());
+        entity.setPhone(data.getPhone());
         entity.setActive(data.getActive());
 
         return entity;

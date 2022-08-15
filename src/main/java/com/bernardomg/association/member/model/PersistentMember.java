@@ -32,7 +32,16 @@ public class PersistentMember implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    @Column(name = "identifier", nullable = false, unique = true)
+    private String            identifier;
+
     @Column(name = "name", nullable = false, unique = true)
     private String            name;
+
+    @Column(name = "phone", nullable = false, unique = true)
+    private String            phone;
+
+    @Column(name = "surname", nullable = false, unique = true)
+    private String            surname;
 
 }

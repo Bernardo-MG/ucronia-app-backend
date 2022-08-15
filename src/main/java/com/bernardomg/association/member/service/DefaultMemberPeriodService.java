@@ -66,6 +66,8 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod updated;
 
+        // TODO: Check the member id matches the period
+
         periodValidator.validate(period);
 
         entity = toPersistentMemberPeriod(period);

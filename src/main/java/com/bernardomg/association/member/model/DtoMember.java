@@ -16,6 +16,18 @@ public final class DtoMember implements Member {
 
     @NotEmpty
     @NotNull
+    private String  identifier;
+
+    @NotEmpty
+    @NotNull
     private String  name;
+
+    @NotEmpty
+    @NotNull
+    private String  phone;
+
+    @NotEmpty
+    @NotNull
+    private String  surname;
 
 }

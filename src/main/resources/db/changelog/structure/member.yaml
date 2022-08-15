@@ -19,6 +19,21 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: surname
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: identifier
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
                   name: active
                   type: boolean
                   constraints:

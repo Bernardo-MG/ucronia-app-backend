@@ -71,6 +71,9 @@ public class ITDefaultMemberServiceGetOne {
 
         Assertions.assertEquals(id, result.getId());
         Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("12345", result.getPhone());
+        Assertions.assertEquals("6789", result.getIdentifier());
         Assertions.assertEquals(true, result.getActive());
     }
 

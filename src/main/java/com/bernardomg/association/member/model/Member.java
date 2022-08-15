@@ -7,6 +7,12 @@ public interface Member {
 
     public Long getId();
 
+    public String getIdentifier();
+
     public String getName();
+
+    public String getPhone();
+
+    public String getSurname();
 
 }
