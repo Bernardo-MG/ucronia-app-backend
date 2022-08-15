@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.controller;
+package com.bernardomg.association.payment.controller;
 
 import javax.validation.Valid;
 
@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.balance.model.DtoPayment;
-import com.bernardomg.association.balance.model.Payment;
-import com.bernardomg.association.balance.service.PaymentService;
+import com.bernardomg.association.payment.model.DtoPayment;
+import com.bernardomg.association.payment.model.Payment;
+import com.bernardomg.association.payment.service.PaymentService;
 
 import lombok.AllArgsConstructor;
 

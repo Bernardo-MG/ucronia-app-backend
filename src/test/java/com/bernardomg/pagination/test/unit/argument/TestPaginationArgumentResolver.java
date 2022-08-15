@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.pagination.test.unit.argument;
+package com.bernardomg.pagination.test.unit.argument;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

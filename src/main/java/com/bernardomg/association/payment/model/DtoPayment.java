@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.balance.model;
+package com.bernardomg.association.payment.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

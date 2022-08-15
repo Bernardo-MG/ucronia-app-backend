@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.balance.model.Payment;
 import com.bernardomg.association.balance.validation.rule.PaymentMonthRangeValidationRule;
+import com.bernardomg.association.payment.model.Payment;
 import com.bernardomg.validation.error.RuleValidator;
 import com.bernardomg.validation.error.Validator;
 

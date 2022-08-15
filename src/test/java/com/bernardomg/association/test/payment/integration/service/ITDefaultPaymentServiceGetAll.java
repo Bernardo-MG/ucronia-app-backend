@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.balance.integration.service;
+package com.bernardomg.association.test.payment.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.balance.model.Payment;
-import com.bernardomg.association.balance.service.DefaultPaymentService;
+import com.bernardomg.association.payment.model.Payment;
+import com.bernardomg.association.payment.service.DefaultPaymentService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

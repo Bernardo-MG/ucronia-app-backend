@@ -1,7 +1,7 @@
 
-package com.bernardomg.association.balance.service;
+package com.bernardomg.association.payment.service;
 
-import com.bernardomg.association.balance.model.Payment;
+import com.bernardomg.association.payment.model.Payment;
 
 public interface PaymentService {
 

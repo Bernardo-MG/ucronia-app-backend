@@ -1,15 +1,15 @@
 
-package com.bernardomg.association.balance.service;
+package com.bernardomg.association.payment.service;
 
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.balance.model.DtoPayment;
-import com.bernardomg.association.balance.model.Payment;
-import com.bernardomg.association.balance.model.PersistentPayment;
-import com.bernardomg.association.balance.repository.PaymentRepository;
 import com.bernardomg.association.balance.validation.PaymentValidator;
+import com.bernardomg.association.payment.model.DtoPayment;
+import com.bernardomg.association.payment.model.Payment;
+import com.bernardomg.association.payment.model.PersistentPayment;
+import com.bernardomg.association.payment.repository.PaymentRepository;
 
 import lombok.AllArgsConstructor;
 

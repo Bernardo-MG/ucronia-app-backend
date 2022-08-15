@@ -4,7 +4,7 @@ package com.bernardomg.association.balance.validation.rule;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bernardomg.association.balance.model.Payment;
+import com.bernardomg.association.payment.model.Payment;
 import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.ValidationRule;
 

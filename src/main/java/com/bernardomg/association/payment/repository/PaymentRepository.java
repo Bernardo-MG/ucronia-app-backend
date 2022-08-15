@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.repository;
+package com.bernardomg.association.payment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.balance.model.PersistentPayment;
+import com.bernardomg.association.payment.model.PersistentPayment;
 
 public interface PaymentRepository extends JpaRepository<PersistentPayment, Long> {
 
