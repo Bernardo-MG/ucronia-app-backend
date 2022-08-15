@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.member.service;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
@@ -11,11 +10,7 @@ import com.bernardomg.association.member.model.DtoMemberPeriod;
 import com.bernardomg.association.member.model.MemberPeriod;
 import com.bernardomg.association.member.model.PersistentMemberPeriod;
 import com.bernardomg.association.member.repository.MemberPeriodRepository;
-import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.association.member.validation.MemberPeriodValidator;
-import com.bernardomg.validation.error.ValidationError;
-import com.bernardomg.validation.error.Validator;
-import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.AllArgsConstructor;
 
@@ -23,23 +18,18 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultMemberPeriodService implements MemberPeriodService {
 
-    private final MemberRepository        memberRepository;
+    private final MemberPeriodValidator  periodValidator;
 
-    private final Validator<MemberPeriod> periodValidator = new MemberPeriodValidator();
-
-    private final MemberPeriodRepository  repository;
+    private final MemberPeriodRepository repository;
 
     @Override
     public final MemberPeriod create(final Long member, final MemberPeriod period) {
         final PersistentMemberPeriod entity;
         final PersistentMemberPeriod created;
 
-        // Reject invalid values
+        // TODO: Check the member id matches the period
 
         periodValidator.validate(period);
-
-        validateOverlapped(period);
-        validateMemberExists(period);
 
         entity = toPersistentMemberPeriod(period);
         entity.setMember(member);
@@ -78,9 +68,6 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
 
         periodValidator.validate(period);
 
-        validateOverlapped(period);
-        validateMemberExists(period);
-
         entity = toPersistentMemberPeriod(period);
         entity.setId(id);
         entity.setMember(member);
@@ -115,25 +102,6 @@ public final class DefaultMemberPeriodService implements MemberPeriodService {
         entity.setEndYear(data.getEndYear());
 
         return entity;
-    }
-
-    private final void validateMemberExists(final MemberPeriod period) {
-        // TODO: Move to validator if possible
-        if (!memberRepository.existsById(period.getMember())) {
-            throw new ValidationException(ValidationError.of("error.member.notExists"));
-        }
-    }
-
-    private final void validateOverlapped(final MemberPeriod period) {
-        final Collection<PersistentMemberPeriod> overlapped;
-
-        // TODO: Move to validator if possible
-        overlapped = repository.findOverlapped(period.getMember(), period.getStartMonth(), period.getStartYear(),
-            period.getEndMonth(), period.getEndYear());
-
-        if (!overlapped.isEmpty()) {
-            throw new ValidationException(ValidationError.of("error.memberPeriod.overlapsExisting"));
-        }
     }
 
 }

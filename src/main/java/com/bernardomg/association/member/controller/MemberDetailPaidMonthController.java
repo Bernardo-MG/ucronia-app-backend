@@ -63,7 +63,8 @@ public class MemberDetailPaidMonthController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaidMonth create(@PathVariable("member") final Long member,@Valid @RequestBody  final DtoPaidMonth paidMonth) {
+    public PaidMonth create(@PathVariable("member") final Long member,
+            @Valid @RequestBody final DtoPaidMonth paidMonth) {
         return service.create(member, paidMonth);
     }
 

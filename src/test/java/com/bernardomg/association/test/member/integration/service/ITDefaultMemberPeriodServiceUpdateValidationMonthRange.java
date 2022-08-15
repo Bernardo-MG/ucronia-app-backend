@@ -37,78 +37,99 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Default member period service - create validation")
+@DisplayName("Default member period service - create month range validation")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITDefaultMemberPeriodServiceCreateValidation {
+public class ITDefaultMemberPeriodServiceUpdateValidationMonthRange {
 
     @Autowired
     private DefaultMemberPeriodService service;
 
-    public ITDefaultMemberPeriodServiceCreateValidation() {
+    public ITDefaultMemberPeriodServiceUpdateValidationMonthRange() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the member id does not exist")
-    public void testCreate_InvalidMember() {
+    @DisplayName("Throws an exception when the end month is above the maximum range")
+    public void testUpdate_EndMonthAfterMax() {
         final DtoMemberPeriod period;
         final Executable      executable;
         final Exception       exception;
 
         period = new DtoMemberPeriod();
-        period.setMember(-1L);
+        period.setMember(1L);
         period.setStartMonth(2);
+        period.setStartYear(3);
+        period.setEndMonth(13);
+        period.setEndYear(5);
+
+        executable = () -> service.update(1L, 1L, period);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.memberPeriod.invalidEndMonth", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the end month is below the minimum range")
+    public void testUpdate_EndMonthBeforeMinimum() {
+        final DtoMemberPeriod period;
+        final Executable      executable;
+        final Exception       exception;
+
+        period = new DtoMemberPeriod();
+        period.setMember(1L);
+        period.setStartMonth(2);
+        period.setStartYear(3);
+        period.setEndMonth(0);
+        period.setEndYear(5);
+
+        executable = () -> service.update(1L, 1L, period);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.memberPeriod.invalidEndMonth", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the start month is above the maximum range")
+    public void testUpdate_StartMonthAfterMax() {
+        final DtoMemberPeriod period;
+        final Executable      executable;
+        final Exception       exception;
+
+        period = new DtoMemberPeriod();
+        period.setMember(1L);
+        period.setStartMonth(13);
         period.setStartYear(3);
         period.setEndMonth(4);
         period.setEndYear(5);
 
-        executable = () -> service.create(-1L, period);
+        executable = () -> service.update(1L, 1L, period);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.member.notExists", exception.getMessage());
+        Assertions.assertEquals("error.memberPeriod.invalidStartMonth", exception.getMessage());
     }
 
     @Test
-    @DisplayName("Throws an exception when the start month is after the end month")
-    public void testCreate_StartMonthAfterEndMonth() {
+    @DisplayName("Throws an exception when the start month is below the minimum range")
+    public void testUpdate_StartMonthBeforeMinimum() {
         final DtoMemberPeriod period;
         final Executable      executable;
         final Exception       exception;
 
         period = new DtoMemberPeriod();
         period.setMember(1L);
-        period.setStartMonth(4);
-        period.setStartYear(1);
-        period.setEndMonth(2);
-        period.setEndYear(1);
-
-        executable = () -> service.create(1L, period);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.memberPeriod.startMonthAfterEndMonth", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the start year is after the end year")
-    public void testCreate_StartYearAfterEndYear() {
-        final DtoMemberPeriod period;
-        final Executable      executable;
-        final Exception       exception;
-
-        period = new DtoMemberPeriod();
-        period.setMember(1L);
-        period.setStartMonth(3);
-        period.setStartYear(2);
+        period.setStartMonth(0);
+        period.setStartYear(3);
         period.setEndMonth(4);
-        period.setEndYear(1);
+        period.setEndYear(5);
 
-        executable = () -> service.create(1L, period);
+        executable = () -> service.update(1L, 1L, period);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.memberPeriod.startYearAfterEndYear", exception.getMessage());
+        Assertions.assertEquals("error.memberPeriod.invalidStartMonth", exception.getMessage());
     }
 
 }

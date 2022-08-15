@@ -79,7 +79,7 @@ public class PaymentController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Payment update(@PathVariable("id") final Long id,@Valid @RequestBody  final DtoPayment member) {
+    public Payment update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoPayment member) {
         return service.update(id, member);
     }
 

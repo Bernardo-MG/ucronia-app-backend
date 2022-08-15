@@ -56,13 +56,13 @@ public class ITDefaultMemberPeriodServiceUpdateValidation {
         final Exception       exception;
 
         period = new DtoMemberPeriod();
-        period.setMember(1L);
+        period.setMember(-1L);
         period.setStartMonth(3);
         period.setStartYear(30);
         period.setEndMonth(6);
         period.setEndYear(50);
 
-        executable = () -> service.create(-1L, period);
+        executable = () -> service.update(-1L, 1L, period);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

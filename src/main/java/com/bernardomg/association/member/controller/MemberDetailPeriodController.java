@@ -64,7 +64,8 @@ public class MemberDetailPeriodController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberPeriod create(@PathVariable("member") final Long member, @Valid @RequestBody final DtoMemberPeriod period) {
+    public MemberPeriod create(@PathVariable("member") final Long member,
+            @Valid @RequestBody final DtoMemberPeriod period) {
         return service.create(member, period);
     }
 
