@@ -62,6 +62,7 @@ public class ITDefaultMemberServiceUpdate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setActive(true);
 
         result = service.update(1L, member);
 
@@ -76,6 +77,7 @@ public class ITDefaultMemberServiceUpdate {
 
         member = new DtoMember();
         member.setName("Member 123");
+        member.setActive(true);
 
         service.update(1L, member);
 
@@ -90,6 +92,7 @@ public class ITDefaultMemberServiceUpdate {
 
         member = new DtoMember();
         member.setName("Member 123");
+        member.setActive(true);
 
         service.update(1L, member);
         entity = repository.findAll()

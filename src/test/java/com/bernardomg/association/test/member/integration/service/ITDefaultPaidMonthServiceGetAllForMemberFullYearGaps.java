@@ -77,14 +77,14 @@ public class ITDefaultPaidMonthServiceGetAllForMemberFullYearGaps {
         Assertions.assertTrue(result.getPaid());
 
         result = data.next();
-        Assertions.assertEquals(-1, result.getId());
+        Assertions.assertNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertFalse(result.getPaid());
 
         result = data.next();
-        Assertions.assertEquals(-1, result.getId());
+        Assertions.assertNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(3, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
@@ -119,14 +119,14 @@ public class ITDefaultPaidMonthServiceGetAllForMemberFullYearGaps {
         Assertions.assertTrue(result.getPaid());
 
         result = data.next();
-        Assertions.assertEquals(-1, result.getId());
+        Assertions.assertNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(8, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertFalse(result.getPaid());
 
         result = data.next();
-        Assertions.assertEquals(-1, result.getId());
+        Assertions.assertNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(9, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
@@ -147,7 +147,7 @@ public class ITDefaultPaidMonthServiceGetAllForMemberFullYearGaps {
         Assertions.assertTrue(result.getPaid());
 
         result = data.next();
-        Assertions.assertEquals(-1, result.getId());
+        Assertions.assertNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(12, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());

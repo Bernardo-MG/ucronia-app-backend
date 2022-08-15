@@ -66,7 +66,7 @@ public class ITDefaultPaidMonthServiceGetAllForMemberSingleMonthNotPaid {
             .iterator()
             .next();
 
-        Assertions.assertEquals(-1, result.getId());
+        Assertions.assertNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(1, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());

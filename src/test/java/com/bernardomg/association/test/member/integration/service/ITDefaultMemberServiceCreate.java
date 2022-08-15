@@ -57,6 +57,7 @@ public class ITDefaultMemberServiceCreate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setActive(true);
 
         service.create(member);
 
@@ -71,6 +72,7 @@ public class ITDefaultMemberServiceCreate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setActive(true);
 
         service.create(member);
         entity = repository.findAll()
@@ -89,6 +91,7 @@ public class ITDefaultMemberServiceCreate {
 
         member = new DtoMember();
         member.setName("Member");
+        member.setActive(true);
 
         result = service.create(member);
 
