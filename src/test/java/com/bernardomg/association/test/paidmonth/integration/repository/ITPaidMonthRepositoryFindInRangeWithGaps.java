@@ -13,14 +13,14 @@ import com.bernardomg.association.paidmonth.repository.PaidMonthRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Paid month repository - find in range")
+@DisplayName("Paid month repository - find in range with unpaid months")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/year_gaps.sql" })
-public class ITPaidMonthRepositoryFindInRange {
+public class ITPaidMonthRepositoryFindInRangeWithGaps {
 
     @Autowired
     private PaidMonthRepository repository;
 
-    public ITPaidMonthRepositoryFindInRange() {
+    public ITPaidMonthRepositoryFindInRangeWithGaps() {
         super();
     }
 
@@ -31,7 +31,7 @@ public class ITPaidMonthRepositoryFindInRange {
 
         result = repository.findInRange(1L, 1, 2020, 12, 2020);
 
-        Assertions.assertEquals(7, IterableUtils.size(result));
+        Assertions.assertEquals(12, IterableUtils.size(result));
     }
 
     @Test

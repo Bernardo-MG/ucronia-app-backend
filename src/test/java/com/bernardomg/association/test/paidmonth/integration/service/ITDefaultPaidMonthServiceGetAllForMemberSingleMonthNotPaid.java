@@ -37,7 +37,8 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/one_month.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/one_month.sql",
+        "/db/queries/paid_month/not_paid.sql" })
 public class ITDefaultPaidMonthServiceGetAllForMemberSingleMonthNotPaid {
 
     @Autowired
@@ -66,7 +67,7 @@ public class ITDefaultPaidMonthServiceGetAllForMemberSingleMonthNotPaid {
             .iterator()
             .next();
 
-        Assertions.assertNull(result.getId());
+        Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(1, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
