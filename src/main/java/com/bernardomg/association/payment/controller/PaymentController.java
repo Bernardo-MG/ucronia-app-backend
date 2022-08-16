@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.model.DtoMonthRequest;
 import com.bernardomg.association.payment.model.DtoPayment;
 import com.bernardomg.association.payment.model.Payment;
 import com.bernardomg.association.payment.service.PaymentService;
@@ -65,6 +66,11 @@ public class PaymentController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<? extends Payment> readAll() {
         return service.getAll();
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Payment> readForMonth(@Valid @RequestBody final DtoMonthRequest month) {
+        return service.getAllForMonth(month.getMonth(), month.getYear());
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

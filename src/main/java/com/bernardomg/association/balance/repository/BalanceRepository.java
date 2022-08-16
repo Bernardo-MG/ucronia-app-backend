@@ -22,40 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.controller;
+package com.bernardomg.association.balance.repository;
 
-import javax.validation.Valid;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bernardomg.association.balance.model.PersistentBalance;
 
-import com.bernardomg.association.balance.model.Balance;
-import com.bernardomg.association.balance.service.BalanceService;
-import com.bernardomg.association.model.DtoMonthRequest;
-
-import lombok.AllArgsConstructor;
-
-@RestController
-@RequestMapping("/balance")
-@AllArgsConstructor
-public class BalanceController {
-
-    /**
-     * Example entity service.
-     */
-    private final BalanceService service;
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Balance> readAll() {
-        return service.getAll();
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Balance readForMonth(@Valid @RequestBody final DtoMonthRequest month) {
-        return service.getForMonth(month.getMonth(), month.getYear());
-    }
+public interface BalanceRepository extends JpaRepository<PersistentBalance, Long> {
 
 }

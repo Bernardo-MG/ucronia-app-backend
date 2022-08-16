@@ -6,5 +6,5 @@ databaseChangeLog:
       file: structure/member.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/payment.yaml
+      file: structure/balance.yaml
       relativeToChangelogFile: true
