@@ -38,7 +38,7 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Default paid month service - create validation")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
+@Sql({ "/db/queries/member/single.sql" })
 public class ITDefaultPaidMonthCreateValidation {
 
     @Autowired
@@ -65,7 +65,7 @@ public class ITDefaultPaidMonthCreateValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.member.notExists,error.paidMonth.outOfPeriod", exception.getMessage());
+        Assertions.assertEquals("error.member.notExists", exception.getMessage());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class ITDefaultPaidMonthCreateValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.paidMonth.invalidMonth,error.paidMonth.outOfPeriod", exception.getMessage());
+        Assertions.assertEquals("error.paidMonth.invalidMonth", exception.getMessage());
     }
 
 }

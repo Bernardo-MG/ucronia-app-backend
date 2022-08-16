@@ -1,14 +1,13 @@
 
 package com.bernardomg.association.paidmonth.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.memberperiod.model.PersistentMemberPeriod;
-import com.bernardomg.association.memberperiod.repository.MemberPeriodRepository;
 import com.bernardomg.association.paidmonth.model.DtoPaidMonth;
 import com.bernardomg.association.paidmonth.model.PaidMonth;
 import com.bernardomg.association.paidmonth.model.PersistentPaidMonth;
@@ -21,11 +20,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultPaidMonthService implements PaidMonthService {
 
-    private final MemberPeriodRepository periodRepository;
+    private final PaidMonthRepository repository;
 
-    private final PaidMonthRepository    repository;
-
-    private final PaidMonthValidator     validator;
+    private final PaidMonthValidator  validator;
 
     @Override
     public final PaidMonth create(final Long member, final PaidMonth month) {
@@ -49,31 +46,19 @@ public final class DefaultPaidMonthService implements PaidMonthService {
 
     @Override
     public final Iterable<? extends PaidMonth> getAllForMember(final Long member) {
-        final Iterable<PersistentMemberPeriod>  periods;
-        final Collection<Collection<PaidMonth>> months;
-        Collection<PaidMonth>                   periodMonths;
-        PersistentPaidMonth                     entity;
+        final PersistentPaidMonth entity;
+        final Sort                sort;
 
-        periods = periodRepository.findAll();
+        entity = new PersistentPaidMonth();
+        entity.setMember(member);
 
-        months = new ArrayList<>();
-        for (final PersistentMemberPeriod period : periods) {
-            entity = new PersistentPaidMonth();
-            entity.setMember(member);
+        repository.findAll(Example.of(entity));
 
-            // TODO: Sort by date
-            periodMonths = repository
-                .findInRange(member, period.getStartMonth(), period.getStartYear(), period.getEndMonth(),
-                    period.getEndYear())
-                .stream()
-                .map(this::toPaidMonth)
-                .collect(Collectors.toList());
+        sort = Sort.by(Direction.ASC, "month", "year");
 
-            months.add(periodMonths);
-        }
-
-        return months.stream()
-            .flatMap(Collection::stream)
+        return repository.findAll(sort)
+            .stream()
+            .map(this::toPaidMonth)
             .collect(Collectors.toList());
     }
 

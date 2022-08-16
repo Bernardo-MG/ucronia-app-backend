@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default paid month service - create")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/single.sql" })
+@Sql({ "/db/queries/member/single.sql" })
 public class ITDefaultPaidMonthServiceCreate {
 
     @Autowired

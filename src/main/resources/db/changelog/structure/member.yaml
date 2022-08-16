@@ -41,42 +41,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
-            tableName: member_periods
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: member
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_member_periods_member
-                    references: members(id)
-              - column:
-                  name: start_month
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: start_year
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: end_month
-                  type: int
-              - column:
-                  name: end_year
-                  type: int
-        -  addUniqueConstraint:
-            constraintName: member_periods_unique
-            tableName: member_periods
-            columnNames: member, start_month, start_year, end_month, end_year
-        - createTable:
             tableName: paid_months
             columns:
               - column:

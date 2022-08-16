@@ -11,8 +11,6 @@ public interface PaymentService {
 
     public Iterable<Payment> getAll();
 
-    public Iterable<Payment> getAllForMonth(final Integer month, final Integer year);
-
     public Payment update(final Long id, final Payment payment);
 
 }

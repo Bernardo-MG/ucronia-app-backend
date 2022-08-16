@@ -20,16 +20,11 @@ public final class DefaultBalanceService implements BalanceService {
 
     @Override
     public final Iterable<Balance> getAll() {
+        // TODO: Read by month
         return repository.findAll()
             .stream()
             .map(this::toBalance)
             .collect(Collectors.toList());
-    }
-
-    @Override
-    public final Balance getForMonth(final Integer month, final Integer year) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     private final Balance toBalance(final PersistentBalance entity) {

@@ -38,9 +38,8 @@ import com.bernardomg.association.paidmonth.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default paid month service - get all for member")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member_period/full_year.sql",
-        "/db/queries/paid_month/year_gaps.sql" })
+@DisplayName("Default paid month service - get all for member - year with gaps")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/year_gaps.sql" })
 public class ITDefaultPaidMonthServiceGetAllForMemberFullYearGaps {
 
     @Autowired

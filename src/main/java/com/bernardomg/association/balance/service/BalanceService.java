@@ -7,6 +7,4 @@ public interface BalanceService {
 
     public Iterable<? extends Balance> getAll();
 
-    public Balance getForMonth(final Integer month, final Integer year);
-
 }

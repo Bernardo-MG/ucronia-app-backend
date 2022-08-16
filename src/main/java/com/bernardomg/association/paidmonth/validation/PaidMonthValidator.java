@@ -6,7 +6,6 @@ import java.util.Arrays;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.paidmonth.model.PaidMonth;
-import com.bernardomg.association.paidmonth.validation.rule.PaidMonthContainedInPeriodValidationRule;
 import com.bernardomg.association.paidmonth.validation.rule.PaidMonthMemberExistsValidationRule;
 import com.bernardomg.association.paidmonth.validation.rule.PaidMonthRangeValidationRule;
 import com.bernardomg.validation.error.RuleValidator;
@@ -17,12 +16,10 @@ public final class PaidMonthValidator implements Validator<PaidMonth> {
 
     private final Validator<PaidMonth> validator;
 
-    public PaidMonthValidator(final PaidMonthMemberExistsValidationRule periodMemberExists,
-            final PaidMonthContainedInPeriodValidationRule paidMonthContainedInPeriod) {
+    public PaidMonthValidator(final PaidMonthMemberExistsValidationRule periodMemberExists) {
         super();
 
-        validator = new RuleValidator<>(
-            Arrays.asList(new PaidMonthRangeValidationRule(), periodMemberExists, paidMonthContainedInPeriod));
+        validator = new RuleValidator<>(Arrays.asList(new PaidMonthRangeValidationRule(), periodMemberExists));
     }
 
     @Override

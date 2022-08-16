@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.payment.service;
 
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -42,16 +41,12 @@ public final class DefaultPaymentService implements PaymentService {
 
     @Override
     public final Iterable<Payment> getAll() {
+        // TODO: Read by month
+        // TODO: Read by member
         return repository.findAll()
             .stream()
             .map(this::toPayment)
             .collect(Collectors.toList());
-    }
-
-    @Override
-    public final Iterable<Payment> getAllForMonth(final Integer month, final Integer year) {
-        // TODO Auto-generated method stub
-        return Collections.emptyList();
     }
 
     @Override
