@@ -22,39 +22,80 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.mvc.response.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
- * Request configuration.
+ * Default implementation of the paginated response.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param <T>
+ *            response content type
  */
-@Configuration
-public class RequestConfig {
+@Data
+public final class DefaultPaginatedResponse<T> implements PaginatedResponse<T> {
+
+    /**
+     * Response content.
+     */
+    @NonNull
+    private T       content;
+
+    /**
+     * Number of elements in the page.
+     */
+    private Integer elementsInPage = -1;
+
+    /**
+     * Flags this is as the first page.
+     */
+    private Boolean first          = false;
+
+    /**
+     * Flags this is as the last page.
+     */
+    private Boolean last           = false;
+
+    /**
+     * Number of this page.
+     */
+    private Integer pageNumber     = -1;
+
+    /**
+     * Size of this page.
+     */
+    private Integer size           = -1;
+
+    /**
+     * Total number of elements among all the pages.
+     */
+    private Long    totalElements  = -1L;
+
+    /**
+     * Total number of pages.
+     */
+    private Integer totalPages     = -1;
 
     /**
      * Default constructor.
      */
-    public RequestConfig() {
+    public DefaultPaginatedResponse() {
         super();
     }
 
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
+    /**
+     * Constructs a response with the specified content.
+     *
+     * @param cont
+     *            content
+     */
+    public DefaultPaginatedResponse(@NonNull final T cont) {
+        super();
 
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
+        content = cont;
     }
 
 }

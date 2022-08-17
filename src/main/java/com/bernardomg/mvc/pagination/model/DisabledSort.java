@@ -22,39 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.mvc.pagination.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import lombok.Data;
 
 /**
- * Request configuration.
+ * Disabled sorted data request. This serves as a null object to disable sorting.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class RequestConfig {
+@Data
+public final class DisabledSort implements Sort {
 
     /**
-     * Default constructor.
+     * Singleton for disabled sort.
      */
-    public RequestConfig() {
-        super();
-    }
+    public static final Sort INSTANCE  = new DisabledSort();
 
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
+    /**
+     * Default direction.
+     */
+    private final Direction  direction = Direction.ASC;
 
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
-    }
+    /**
+     * Default property.
+     */
+    private final String     property  = "";
+
+    /**
+     * Disabled sort flag.
+     */
+    private final Boolean    sorted    = false;
 
 }

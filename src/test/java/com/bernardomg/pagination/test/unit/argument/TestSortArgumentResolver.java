@@ -11,9 +11,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.bernardomg.pagination.argument.SortArgumentResolver;
-import com.bernardomg.pagination.model.Direction;
-import com.bernardomg.pagination.model.Sort;
+import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import com.bernardomg.mvc.pagination.model.Direction;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 @DisplayName("Sort argument resolver")
 public class TestSortArgumentResolver {

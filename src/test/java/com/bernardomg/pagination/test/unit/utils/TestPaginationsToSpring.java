@@ -6,10 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.pagination.model.Direction;
-import com.bernardomg.pagination.model.Pagination;
-import com.bernardomg.pagination.model.Sort;
-import com.bernardomg.pagination.utils.Paginations;
+import com.bernardomg.mvc.pagination.model.Direction;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
+import com.bernardomg.mvc.pagination.utils.Paginations;
 
 @DisplayName("Pagination utils - Pagination to Spring model")
 public class TestPaginationsToSpring {

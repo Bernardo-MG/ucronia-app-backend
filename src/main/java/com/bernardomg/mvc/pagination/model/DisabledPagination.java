@@ -22,39 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.mvc.pagination.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
- * Request configuration.
+ * Disabled paginated data request. This serves as a null object to disable pagination.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class RequestConfig {
+@Data
+public final class DisabledPagination implements Pagination {
 
     /**
-     * Default constructor.
+     * Singleton for disabled pagination.
      */
-    public RequestConfig() {
-        super();
-    }
+    public static final Pagination INSTANCE = new DisabledPagination();
 
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
+    /**
+     * Default page.
+     */
+    @NonNull
+    private final Integer          page     = -1;
 
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
-    }
+    /**
+     * Disabled pagination flag.
+     */
+    @NonNull
+    private final Boolean          paged    = false;
+
+    /**
+     * Default size.
+     */
+    @NonNull
+    private final Integer          size     = -1;
 
 }

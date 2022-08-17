@@ -22,39 +22,65 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+package com.bernardomg.mvc.response.model;
 
 /**
- * Request configuration.
+ * Paginated response to the frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param <T>
+ *            response content type
  */
-@Configuration
-public class RequestConfig {
+public interface PaginatedResponse<T> extends Response<T> {
 
     /**
-     * Default constructor.
+     * Number of elements in the page.
+     *
+     * @return number of elements
      */
-    public RequestConfig() {
-        super();
-    }
+    public Integer getElementsInPage();
 
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
+    /**
+     * Flags this is as the first page.
+     *
+     * @return {@code true} if this is the first page, {@code false} otherwise
+     */
+    public Boolean getFirst();
 
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
-    }
+    /**
+     * Flags this is as the last page.
+     *
+     * @return {@code true} if this is the last page, {@code false} otherwise
+     */
+    public Boolean getLast();
+
+    /**
+     * Number of this page.
+     *
+     * @return the number of this page
+     */
+    public Integer getPageNumber();
+
+    /**
+     * Size of this page.
+     *
+     * @return the size of this page.
+     */
+    public Integer getSize();
+
+    /**
+     * Total number of elements among all the pages.
+     *
+     * @return the total number of elements
+     */
+    public Long getTotalElements();
+
+    /**
+     * Total number of pages.
+     *
+     * @return the total number of pages
+     */
+    public Integer getTotalPages();
 
 }

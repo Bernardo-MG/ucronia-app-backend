@@ -45,9 +45,9 @@ import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.UrlConfig;
-import com.bernardomg.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.pagination.argument.SortArgumentResolver;
-import com.bernardomg.response.controller.ResponseAdvice;
+import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
+import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import com.bernardomg.mvc.response.controller.ResponseAdvice;
 
 @DisplayName("Example controller")
 public final class TestMemberController {

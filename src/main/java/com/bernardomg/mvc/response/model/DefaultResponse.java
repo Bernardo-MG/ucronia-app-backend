@@ -22,39 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.mvc.response.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
- * Request configuration.
+ * Default implementation of the response.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param <T>
+ *            response content type
  */
-@Configuration
-public class RequestConfig {
+@Data
+public class DefaultResponse<T> implements Response<T> {
+
+    /**
+     * Response content.
+     */
+    @NonNull
+    private T content;
 
     /**
      * Default constructor.
      */
-    public RequestConfig() {
+    public DefaultResponse() {
         super();
     }
 
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
+    /**
+     * Constructs a response with the specified content.
+     *
+     * @param cont
+     *            content
+     */
+    public DefaultResponse(@NonNull final T cont) {
+        super();
 
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
+        content = cont;
     }
 
 }

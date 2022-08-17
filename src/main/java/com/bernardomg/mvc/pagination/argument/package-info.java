@@ -21,40 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package com.bernardomg.association.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
-
 /**
- * Request configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Pagination argument resolvers.
  */
-@Configuration
-public class RequestConfig {
 
-    /**
-     * Default constructor.
-     */
-    public RequestConfig() {
-        super();
-    }
-
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
-
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
-    }
-
-}
+package com.bernardomg.mvc.pagination.argument;

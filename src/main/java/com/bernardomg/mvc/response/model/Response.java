@@ -22,39 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+package com.bernardomg.mvc.response.model;
 
 /**
- * Request configuration.
+ * Response to the frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param <T>
+ *            response content type
  */
-@Configuration
-public class RequestConfig {
+public interface Response<T> {
 
     /**
-     * Default constructor.
+     * Returns the response content.
+     *
+     * @return the response content
      */
-    public RequestConfig() {
-        super();
-    }
-
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
-
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
-    }
+    public T getContent();
 
 }
