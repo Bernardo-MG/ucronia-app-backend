@@ -39,7 +39,7 @@ public interface PaidMonthService {
      *            sample for filtering
      * @return all the paid months matching the sample
      */
-    public Iterable<? extends PaidMonth> getAll(final PaidMonth example);
+    public Iterable<? extends PaidMonth> getAll(final PaidMonth sample);
 
     /**
      * Returns the paid month for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
