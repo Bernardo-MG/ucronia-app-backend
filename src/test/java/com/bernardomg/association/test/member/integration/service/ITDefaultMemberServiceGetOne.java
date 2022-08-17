@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -41,9 +40,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @DisplayName("Default member service - get one")
 @Sql({ "/db/queries/member/single.sql" })
 public class ITDefaultMemberServiceGetOne {
-
-    @Autowired
-    private MemberRepository     repository;
 
     @Autowired
     private DefaultMemberService service;
@@ -57,41 +53,48 @@ public class ITDefaultMemberServiceGetOne {
     public void testGetOne_Contains() {
         final Optional<? extends Member> result;
 
-        result = service.getOne(getId());
+        result = service.getOne(1L);
+
+        Assertions.assertTrue(result.isPresent());
+    }
+
+    @Test
+    @DisplayName("When reading a single entity with a valid id, an entity is returned")
+    public void testGetOne_Existing() {
+        final Optional<? extends Member> result;
+
+        result = service.getOne(1L);
 
         Assertions.assertTrue(result.isPresent());
     }
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Data() {
+    public void testGetOne_Existing_Data() {
         final Member result;
         final Long   id;
 
-        id = getId();
+        id = 1L;
 
         result = service.getOne(id)
             .get();
 
         Assertions.assertEquals(id, result.getId());
         Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("12345", result.getPhone());
+        Assertions.assertEquals("6789", result.getIdentifier());
+        Assertions.assertEquals(true, result.getActive());
     }
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting_NotContains() {
+    public void testGetOne_NotExisting() {
         final Optional<? extends Member> result;
 
         result = service.getOne(-1L);
 
         Assertions.assertFalse(result.isPresent());
-    }
-
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
     }
 
 }

@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.member.controller;
 
-import java.util.Objects;
+import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,8 +40,17 @@ import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 
+import lombok.AllArgsConstructor;
+
+/**
+ * Member REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @RestController
 @RequestMapping("/member")
+@AllArgsConstructor
 public class MemberController {
 
     /**
@@ -48,20 +58,8 @@ public class MemberController {
      */
     private final MemberService service;
 
-    /**
-     * Constructs a controller with the specified dependencies.
-     *
-     * @param srvc
-     *            example entity service
-     */
-    public MemberController(final MemberService srvc) {
-        super();
-
-        service = Objects.requireNonNull(srvc, "Received a null pointer as service");
-    }
-
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member create(final DtoMember member) {
+    public Member create(@Valid @RequestBody final DtoMember member) {
         return service.create(member);
     }
 
@@ -71,8 +69,8 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Member> readAll() {
-        return service.getAll();
+    public Iterable<? extends Member> readAll(final DtoMember member) {
+        return service.getAll(member);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -82,7 +80,7 @@ public class MemberController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member update(@PathVariable("id") final Long id, final DtoMember member) {
+    public Member update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoMember member) {
         return service.update(id, member);
     }
 

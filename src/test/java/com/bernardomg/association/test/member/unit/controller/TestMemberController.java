@@ -44,10 +44,10 @@ import com.bernardomg.association.member.controller.MemberController;
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.association.pagination.argument.SortArgumentResolver;
-import com.bernardomg.association.response.controller.ResponseAdvice;
 import com.bernardomg.association.test.config.UrlConfig;
+import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
+import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
+import com.bernardomg.mvc.response.controller.ResponseAdvice;
 
 @DisplayName("Example controller")
 public final class TestMemberController {
@@ -94,6 +94,7 @@ public final class TestMemberController {
     private final MemberController getController() {
         final MemberService      service;
         final Collection<Member> data;
+        final Member             sample;
 
         service = Mockito.mock(MemberService.class);
 
@@ -102,7 +103,9 @@ public final class TestMemberController {
         data.add(new DtoMember());
         data.add(new DtoMember());
 
-        Mockito.when(service.getAll())
+        sample = new DtoMember();
+
+        Mockito.when(service.getAll(sample))
             .thenReturn((Iterable) data);
 
         return new MemberController(service);

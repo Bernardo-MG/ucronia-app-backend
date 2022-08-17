@@ -55,29 +55,18 @@ public class ITDefaultMemberServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the previous data")
-    public void testCreate_ReturnedData() {
-        final Member    result;
-        final DtoMember member;
-
-        member = new DtoMember();
-        member.setName("Member");
-
-        result = service.update(getId(), member);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Member", result.getName());
-    }
-
-    @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
         final DtoMember member;
 
         member = new DtoMember();
         member.setName("Member 123");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
 
-        service.update(getId(), member);
+        service.update(1L, member);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -90,21 +79,45 @@ public class ITDefaultMemberServiceUpdate {
 
         member = new DtoMember();
         member.setName("Member 123");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
 
-        service.update(getId(), member);
+        service.update(1L, member);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Member 123", entity.getName());
+        Assertions.assertEquals("Surname", entity.getSurname());
+        Assertions.assertEquals("12345", entity.getPhone());
+        Assertions.assertEquals("6789", entity.getIdentifier());
+        Assertions.assertEquals(true, entity.getActive());
     }
 
-    private final Long getId() {
-        return repository.findAll()
-            .iterator()
-            .next()
-            .getId();
+    @Test
+    @DisplayName("Returns the updated data")
+    public void testUpdate_ReturnedData() {
+        final Member    result;
+        final DtoMember member;
+
+        member = new DtoMember();
+        member.setName("Member 123");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        result = service.update(1L, member);
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals("Member 123", result.getName());
+        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("12345", result.getPhone());
+        Assertions.assertEquals("6789", result.getIdentifier());
+        Assertions.assertEquals(true, result.getActive());
     }
 
 }

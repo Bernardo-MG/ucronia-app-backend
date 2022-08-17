@@ -18,35 +18,28 @@ databaseChangeLog:
                   type: varchar(50)
                   constraints:
                     nullable: false
-        - createTable:
-            tableName: member_periods
-            columns:
               - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: member
-                  type: bigint
-              - column:
-                  name: start_month
-                  type: int
+                  name: surname
+                  type: varchar(50)
                   constraints:
                     nullable: false
               - column:
-                  name: start_year
-                  type: int
+                  name: phone
+                  type: varchar(15)
                   constraints:
                     nullable: false
+                    unique: true
               - column:
-                  name: end_month
-                  type: int
+                  name: identifier
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+                    unique: true
               - column:
-                  name: end_year
-                  type: int
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
         - createTable:
             tableName: paid_months
             columns:
@@ -60,13 +53,33 @@ databaseChangeLog:
               - column:
                   name: member
                   type: bigint
+                  constraints:
+                    foreignKeyName: fk_paid_months_member
+                    references: members(id)
               - column:
                   name: paid_month
                   type: int
+                  constraints:
+                    nullable: false
               - column:
                   name: paid_year
                   type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
       modifySql:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: members_unique_constraints
+      author: Bernardo
+      changes:
+        -  addUniqueConstraint:
+            constraintName: paid_months_unique
+            tableName: paid_months
+            columnNames: member, paid_month, paid_year

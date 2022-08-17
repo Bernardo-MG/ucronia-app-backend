@@ -34,11 +34,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.Application;
+import com.bernardomg.Application;
 
 @SpringJUnitConfig
-@Transactional
 @SpringBootTest(classes = Application.class)
+@Transactional
 @Rollback
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

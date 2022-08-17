@@ -1,2 +1,2 @@
-INSERT INTO paid_months (member, paid_month, paid_year) VALUES
-   (1, 2, 3);
+INSERT INTO paid_months (id, member, paid_month, paid_year, paid) VALUES
+   (1, 1, 2, 2020, true);

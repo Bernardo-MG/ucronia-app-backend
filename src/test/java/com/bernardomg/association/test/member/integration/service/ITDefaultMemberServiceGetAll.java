@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -51,10 +54,66 @@ public class ITDefaultMemberServiceGetAll {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
+        final Member                     sample;
 
-        result = service.getAll();
+        sample = new DtoMember();
+
+        result = service.getAll(sample);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all the entities data")
+    public void testGetAll_Data() {
+        final Iterator<? extends Member> result;
+        final Member                     sample;
+        Member                           data;
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("12345", data.getPhone());
+        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("12346", data.getPhone());
+        Assertions.assertEquals("6780", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("12347", data.getPhone());
+        Assertions.assertEquals("6781", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("12348", data.getPhone());
+        Assertions.assertEquals("6782", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("12349", data.getPhone());
+        Assertions.assertEquals("6783", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
     }
 
 }

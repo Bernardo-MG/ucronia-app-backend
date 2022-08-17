@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: members
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: balances
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: amount
+                  type: float
+                  constraints:
+                    nullable: false
+              - column:
+                  name: month
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: year
+                  type: smallint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  defaultValue: ''
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: float
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pay_day
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pay_month
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pay_year
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pay_type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

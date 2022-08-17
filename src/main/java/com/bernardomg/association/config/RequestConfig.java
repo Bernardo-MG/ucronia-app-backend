@@ -28,8 +28,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
-import com.bernardomg.association.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.association.pagination.argument.SortArgumentResolver;
+import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
+import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
 
 /**
  * Request configuration.

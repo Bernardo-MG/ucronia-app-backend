@@ -24,12 +24,24 @@ public class PersistentMember implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "active", nullable = false, unique = true)
+    private Boolean           active;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id               = -1L;
+    private Long              id;
+
+    @Column(name = "identifier", nullable = false, unique = true)
+    private String            identifier;
 
     @Column(name = "name", nullable = false, unique = true)
-    private String            name             = "";
+    private String            name;
+
+    @Column(name = "phone", nullable = false, unique = true)
+    private String            phone;
+
+    @Column(name = "surname", nullable = false, unique = true)
+    private String            surname;
 
 }
