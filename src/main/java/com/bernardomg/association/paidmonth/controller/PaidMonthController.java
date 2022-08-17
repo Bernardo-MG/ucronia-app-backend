@@ -42,6 +42,12 @@ import com.bernardomg.association.paidmonth.service.PaidMonthService;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Paid month REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @RestController
 @RequestMapping("/paidmonth")
 @AllArgsConstructor

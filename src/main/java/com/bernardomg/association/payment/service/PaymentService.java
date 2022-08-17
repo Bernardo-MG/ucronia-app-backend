@@ -5,6 +5,12 @@ import java.util.Optional;
 
 import com.bernardomg.association.payment.model.Payment;
 
+/**
+ * Payment service. Supports all the CRUD operations.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface PaymentService {
 
     public Payment create(final Payment payment);

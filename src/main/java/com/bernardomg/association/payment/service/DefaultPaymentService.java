@@ -4,6 +4,7 @@ package com.bernardomg.association.payment.service;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,19 @@ import com.bernardomg.association.payment.repository.PaymentRepository;
 import com.bernardomg.association.payment.validation.PaymentValidator;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default implementation of the payment service.
+ * <p>
+ * Applies validation through the included {@link #validator}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Service
 @AllArgsConstructor
+@Slf4j
 public final class DefaultPaymentService implements PaymentService {
 
     private final PaymentRepository repository;
@@ -37,8 +48,17 @@ public final class DefaultPaymentService implements PaymentService {
 
     @Override
     public final Boolean delete(final Long id) {
-        repository.deleteById(id);
-        return true;
+        Boolean deleted;
+        
+        try {
+            repository.deleteById(id);
+            deleted = true;
+        } catch (final EmptyResultDataAccessException e) {
+            log.error("Tried to delete id {}, which doesn't exist", id);
+            deleted = false;
+        }
+        
+        return deleted;
     }
 
     @Override

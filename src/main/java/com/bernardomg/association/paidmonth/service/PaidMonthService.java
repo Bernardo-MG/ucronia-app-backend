@@ -5,6 +5,12 @@ import java.util.Optional;
 
 import com.bernardomg.association.paidmonth.model.PaidMonth;
 
+/**
+ * Paid month service. Supports all the CRUD operations.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface PaidMonthService {
 
     public PaidMonth create(final PaidMonth month);

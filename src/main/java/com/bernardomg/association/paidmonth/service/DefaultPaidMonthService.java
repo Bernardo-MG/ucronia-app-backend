@@ -4,6 +4,7 @@ package com.bernardomg.association.paidmonth.service;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -16,9 +17,19 @@ import com.bernardomg.association.paidmonth.repository.PaidMonthRepository;
 import com.bernardomg.association.paidmonth.validation.PaidMonthValidator;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default implementation of the paid month service.
+ * <p>
+ * Applies validation through the included {@link #validator}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Service
 @AllArgsConstructor
+@Slf4j
 public final class DefaultPaidMonthService implements PaidMonthService {
 
     private final PaidMonthRepository repository;
@@ -40,8 +51,17 @@ public final class DefaultPaidMonthService implements PaidMonthService {
 
     @Override
     public final Boolean delete(final Long id) {
-        repository.deleteById(id);
-        return true;
+        Boolean deleted;
+        
+        try {
+            repository.deleteById(id);
+            deleted = true;
+        } catch (final EmptyResultDataAccessException e) {
+            log.error("Tried to delete id {}, which doesn't exist", id);
+            deleted = false;
+        }
+        
+        return deleted;
     }
 
     @Override

@@ -42,6 +42,12 @@ import com.bernardomg.association.payment.service.PaymentService;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Payment REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @RestController
 @RequestMapping("/payment")
 @AllArgsConstructor

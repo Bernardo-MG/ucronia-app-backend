@@ -50,11 +50,39 @@ public class ITDefaultPaymentServiceDelete {
     }
 
     @Test
+    @DisplayName("Removes no entity when deleting an invalid id")
+    public void testDelete_NotExisting_NotRemovesEntity() {
+        service.delete(-1L);
+
+        Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Removes a false flag when deleting an invalid id")
+    public void testDelete_NotExisting_ReturnsFalse() {
+        final Boolean deleted;
+
+        deleted = service.delete(-1L);
+
+        Assertions.assertFalse(deleted);
+    }
+
+    @Test
     @DisplayName("Removes an entity when deleting")
     public void testDelete_RemovesEntity() {
         service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Removes a true flag when deleting an entity")
+    public void testDelete_ReturnsTrue() {
+        final Boolean deleted;
+
+        deleted = service.delete(1L);
+
+        Assertions.assertTrue(deleted);
     }
 
 }

@@ -42,6 +42,12 @@ import com.bernardomg.association.member.service.MemberService;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Member REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @RestController
 @RequestMapping("/member")
 @AllArgsConstructor
