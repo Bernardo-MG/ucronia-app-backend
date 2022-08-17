@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: members
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: members
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: surname
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: identifier
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: paid_months
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_paid_months_member
+                    references: members(id)
+              - column:
+                  name: paid_month
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid_year
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: members_unique_constraints
+      author: Bernardo
+      changes:
+        -  addUniqueConstraint:
+            constraintName: paid_months_unique
+            tableName: paid_months
+            columnNames: member, paid_month, paid_year

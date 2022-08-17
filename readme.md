@@ -8,16 +8,6 @@ Backend for handling a small association.
 [![Release javadocs](https://img.shields.io/badge/javadocs-release-blue.svg)][javadoc-release]
 [![Development javadocs](https://img.shields.io/badge/javadocs-develop-blue.svg)][javadoc-develop]
 
-## Features
-
-The project by default comes with a useful series of features:
-
-- Preconfigured POM to begin developing a new library fast.
-- Prepared for [Github Workflow](https://docs.github.com/en/actions/configuring-and-managing-workflows), including configuration files and deployment scripts. Check the [Archetype documentation](https://docs.bernardomg.com/maven/spring-web-service-maven-archetype) to find out more.
-- Unit and integration tests suites ready to be run with [JUnit](http://junit.org) just by using the Maven test and verify commands.
-- A Maven site, using the [Docs Maven Skin](https://github.com/Bernardo-MG/docs-maven-skin), to contain the documentation, the Javadocs and several reports.
-- A bunch of useful files, such as readme, gitignore and gitattributes.
-
 ## Documentation
 
 Documentation is always generated for the latest release, kept in the 'master' branch:
@@ -49,6 +39,12 @@ mvn spring-boot:run
 ```
 
 Then you can query at [http://localhost:8080/entity](http://localhost:8080/entity), or use the [Swagger UI](http://localhost:8080/swagger-ui.html).
+
+### Docker image
+
+```
+docker-compose -f docker/docker-compose.yml --project-name association-app up
+```
 
 ## Collaborate
 
