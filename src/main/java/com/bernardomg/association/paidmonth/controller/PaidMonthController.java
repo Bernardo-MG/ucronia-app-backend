@@ -43,9 +43,9 @@ import com.bernardomg.association.paidmonth.service.PaidMonthService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/member/{member}/paid")
+@RequestMapping("/paidmonth")
 @AllArgsConstructor
-public class MemberDetailPaidMonthController {
+public class PaidMonthController {
 
     /**
      * Example entity service.
@@ -53,9 +53,8 @@ public class MemberDetailPaidMonthController {
     private final PaidMonthService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaidMonth create(@PathVariable("member") final Long member,
-            @Valid @RequestBody final DtoPaidMonth paidMonth) {
-        return service.create(member, paidMonth);
+    public PaidMonth create(@Valid @RequestBody final DtoPaidMonth paidMonth) {
+        return service.create(paidMonth);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,14 +63,19 @@ public class MemberDetailPaidMonthController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends PaidMonth> readAllForMember(@PathVariable("member") final Long member) {
-        return service.getAllForMember(member);
+    public Iterable<? extends PaidMonth> readAll(final DtoPaidMonth month) {
+        return service.getAll(month);
+    }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PaidMonth readOne(@PathVariable("id") final Long id) {
+        return service.getOne(id)
+            .orElse(null);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PaidMonth update(@PathVariable("member") final Long member,
-            @Valid @RequestBody final DtoPaidMonth paidMonth) {
-        return service.update(member, paidMonth);
+    public PaidMonth update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoPaidMonth paidMonth) {
+        return service.update(id, paidMonth);
     }
 
 }

@@ -94,6 +94,7 @@ public final class TestMemberController {
     private final MemberController getController() {
         final MemberService      service;
         final Collection<Member> data;
+        final Member             sample;
 
         service = Mockito.mock(MemberService.class);
 
@@ -102,7 +103,9 @@ public final class TestMemberController {
         data.add(new DtoMember());
         data.add(new DtoMember());
 
-        Mockito.when(service.getAll())
+        sample = new DtoMember();
+
+        Mockito.when(service.getAll(sample))
             .thenReturn((Iterable) data);
 
         return new MemberController(service);

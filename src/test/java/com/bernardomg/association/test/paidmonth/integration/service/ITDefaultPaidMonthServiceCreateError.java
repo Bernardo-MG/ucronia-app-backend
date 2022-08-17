@@ -60,7 +60,7 @@ public class ITDefaultPaidMonthServiceCreateError {
         month.setYear(2020);
         month.setPaid(true);
 
-        executable = () -> service.create(1L, month);
+        executable = () -> service.create(month);
 
         Assertions.assertThrows(DataIntegrityViolationException.class, executable);
     }

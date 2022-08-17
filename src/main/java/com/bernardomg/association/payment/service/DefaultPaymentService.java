@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.payment.service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.balance.validation.PaymentValidator;
@@ -28,9 +30,9 @@ public final class DefaultPaymentService implements PaymentService {
 
         validator.validate(payment);
 
-        entity = toPersistentPayment(payment);
+        entity = toEntity(payment);
         created = repository.save(entity);
-        return toPayment(created);
+        return toDto(created);
     }
 
     @Override
@@ -40,13 +42,33 @@ public final class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-    public final Iterable<Payment> getAll() {
-        // TODO: Read by month
-        // TODO: Read by member
-        return repository.findAll()
+    public final Iterable<Payment> getAll(final Payment sample) {
+        final PersistentPayment entity;
+
+        entity = toEntity(sample);
+
+        return repository.findAll(Example.of(entity))
             .stream()
-            .map(this::toPayment)
+            .map(this::toDto)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public final Optional<? extends Payment> getOne(final Long id) {
+        final Optional<PersistentPayment> found;
+        final Optional<? extends Payment> result;
+        final Payment                     member;
+
+        found = repository.findById(id);
+
+        if (found.isPresent()) {
+            member = toDto(found.get());
+            result = Optional.of(member);
+        } else {
+            result = Optional.empty();
+        }
+
+        return result;
     }
 
     @Override
@@ -54,14 +76,14 @@ public final class DefaultPaymentService implements PaymentService {
         final PersistentPayment entity;
         final PersistentPayment updated;
 
-        entity = toPersistentPayment(payment);
+        entity = toEntity(payment);
         entity.setId(id);
 
         updated = repository.save(entity);
-        return toPayment(updated);
+        return toDto(updated);
     }
 
-    private final Payment toPayment(final PersistentPayment payment) {
+    private final Payment toDto(final PersistentPayment payment) {
         final DtoPayment result;
 
         result = new DtoPayment();
@@ -76,7 +98,7 @@ public final class DefaultPaymentService implements PaymentService {
         return result;
     }
 
-    private final PersistentPayment toPersistentPayment(final Payment payment) {
+    private final PersistentPayment toEntity(final Payment payment) {
         final PersistentPayment result;
 
         result = new PersistentPayment();

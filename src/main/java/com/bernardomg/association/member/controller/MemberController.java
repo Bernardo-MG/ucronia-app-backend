@@ -63,8 +63,8 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Member> readAll() {
-        return service.getAll();
+    public Iterable<? extends Member> readAll(final DtoMember member) {
+        return service.getAll(member);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

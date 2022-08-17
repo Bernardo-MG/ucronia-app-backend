@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.member.integration.service;
+package com.bernardomg.association.test.payment.integration.service;
 
 import java.util.Optional;
 
@@ -32,26 +32,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.service.DefaultMemberService;
+import com.bernardomg.association.payment.model.Payment;
+import com.bernardomg.association.payment.model.PaymentType;
+import com.bernardomg.association.payment.service.DefaultPaymentService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - get one")
-@Sql({ "/db/queries/member/single.sql" })
-public class ITDefaultMemberServiceGetOne {
+@DisplayName("Default payment service - get one")
+@Sql({ "/db/queries/payment/single.sql" })
+public class ITDefaultPaymentServiceGetOne {
 
     @Autowired
-    private DefaultMemberService service;
+    private DefaultPaymentService service;
 
-    public ITDefaultMemberServiceGetOne() {
+    public ITDefaultPaymentServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Contains() {
-        final Optional<? extends Member> result;
+        final Optional<? extends Payment> result;
 
         result = service.getOne(1L);
 
@@ -61,7 +62,7 @@ public class ITDefaultMemberServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     public void testGetOne_Existing() {
-        final Optional<? extends Member> result;
+        final Optional<? extends Payment> result;
 
         result = service.getOne(1L);
 
@@ -71,8 +72,8 @@ public class ITDefaultMemberServiceGetOne {
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
     public void testGetOne_Existing_Data() {
-        final Member result;
-        final Long   id;
+        final Payment result;
+        final Long    id;
 
         id = 1L;
 
@@ -80,17 +81,18 @@ public class ITDefaultMemberServiceGetOne {
             .get();
 
         Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname", result.getSurname());
-        Assertions.assertEquals("12345", result.getPhone());
-        Assertions.assertEquals("6789", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertEquals("Payment 1", result.getDescription());
+        Assertions.assertEquals(1, result.getQuantity());
+        Assertions.assertEquals(PaymentType.INCOME, result.getType());
+        Assertions.assertEquals(2, result.getDay());
+        Assertions.assertEquals(3, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
     }
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Member> result;
+        final Optional<? extends Payment> result;
 
         result = service.getOne(-1L);
 

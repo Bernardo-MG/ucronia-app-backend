@@ -4,6 +4,7 @@ package com.bernardomg.association.member.service;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMember;
@@ -24,9 +25,9 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember entity;
         final PersistentMember created;
 
-        entity = toPersistentMember(member);
+        entity = toEntity(member);
         created = repository.save(entity);
-        return toMember(created);
+        return toDto(created);
     }
 
     @Override
@@ -36,10 +37,14 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Iterable<? extends Member> getAll() {
-        return repository.findAll()
+    public final Iterable<? extends Member> getAll(final Member sample) {
+        final PersistentMember entity;
+
+        entity = toEntity(sample);
+
+        return repository.findAll(Example.of(entity))
             .stream()
-            .map(this::toMember)
+            .map(this::toDto)
             .collect(Collectors.toList());
     }
 
@@ -52,7 +57,7 @@ public final class DefaultMemberService implements MemberService {
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            member = toMember(found.get());
+            member = toDto(found.get());
             result = Optional.of(member);
         } else {
             result = Optional.empty();
@@ -66,14 +71,14 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember entity;
         final PersistentMember updated;
 
-        entity = toPersistentMember(member);
+        entity = toEntity(member);
         entity.setId(id);
 
         updated = repository.save(entity);
-        return toMember(updated);
+        return toDto(updated);
     }
 
-    private final Member toMember(final PersistentMember entity) {
+    private final Member toDto(final PersistentMember entity) {
         final DtoMember data;
 
         data = new DtoMember();
@@ -87,7 +92,7 @@ public final class DefaultMemberService implements MemberService {
         return data;
     }
 
-    private final PersistentMember toPersistentMember(final Member data) {
+    private final PersistentMember toEntity(final Member data) {
         final PersistentMember entity;
 
         entity = new PersistentMember();

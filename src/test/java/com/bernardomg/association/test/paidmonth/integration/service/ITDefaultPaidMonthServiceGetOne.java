@@ -24,9 +24,8 @@
 
 package com.bernardomg.association.test.paidmonth.integration.service;
 
-import java.util.Iterator;
+import java.util.Optional;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,49 +37,63 @@ import com.bernardomg.association.paidmonth.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default paid month service - get all for member - reversed months")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/reverse_months.sql" })
-public class ITDefaultPaidMonthServiceGetAllForMemberReverseMonths {
+@DisplayName("Default member service - get one")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/single.sql" })
+public class ITDefaultPaidMonthServiceGetOne {
 
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultPaidMonthServiceGetAllForMemberReverseMonths() {
+    public ITDefaultPaidMonthServiceGetOne() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities for a member")
-    public void testGetAll_Count() {
-        final Iterable<? extends PaidMonth> result;
+    @DisplayName("Returns a single entity by id")
+    public void testGetOne_Contains() {
+        final Optional<? extends PaidMonth> result;
 
-        result = service.getAllForMember(1L);
+        result = service.getOne(1L);
 
-        Assertions.assertEquals(2, IterableUtils.size(result));
+        Assertions.assertTrue(result.isPresent());
     }
 
     @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
-        final Iterator<? extends PaidMonth> data;
-        PaidMonth                           result;
+    @DisplayName("When reading a single entity with a valid id, an entity is returned")
+    public void testGetOne_Existing() {
+        final Optional<? extends PaidMonth> result;
 
-        data = service.getAllForMember(1L)
-            .iterator();
+        result = service.getOne(1L);
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
-        Assertions.assertEquals(1, result.getMonth());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertTrue(result.getPaid());
+        Assertions.assertTrue(result.isPresent());
+    }
 
-        result = data.next();
+    @Test
+    @DisplayName("Returns the correct data when reading a single entity")
+    public void testGetOne_Existing_Data() {
+        final PaidMonth result;
+        final Long      id;
+
+        id = 1L;
+
+        result = service.getOne(id)
+            .get();
+
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());
+    }
+
+    @Test
+    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
+    public void testGetOne_NotExisting() {
+        final Optional<? extends PaidMonth> result;
+
+        result = service.getOne(-1L);
+
+        Assertions.assertFalse(result.isPresent());
     }
 
 }

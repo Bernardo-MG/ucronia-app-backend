@@ -63,8 +63,14 @@ public class PaymentController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Payment> readAll() {
-        return service.getAll();
+    public Iterable<? extends Payment> readAll(final DtoPayment member) {
+        return service.getAll(member);
+    }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Payment readOne(@PathVariable("id") final Long id) {
+        return service.getOne(id)
+            .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

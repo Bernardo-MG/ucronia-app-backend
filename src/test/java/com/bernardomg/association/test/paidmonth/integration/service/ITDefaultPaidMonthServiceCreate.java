@@ -63,7 +63,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month.setYear(2020);
         month.setPaid(true);
 
-        service.create(1L, month);
+        service.create(month);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -80,7 +80,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month.setYear(2020);
         month.setPaid(true);
 
-        service.create(1L, month);
+        service.create(month);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -103,7 +103,7 @@ public class ITDefaultPaidMonthServiceCreate {
         month.setYear(2020);
         month.setPaid(true);
 
-        result = service.create(1L, month);
+        result = service.create(month);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());

@@ -61,7 +61,7 @@ public class ITDefaultPaidMonthCreateValidation {
         month.setYear(3);
         month.setPaid(true);
 
-        executable = () -> service.create(-1L, month);
+        executable = () -> service.create(month);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -81,7 +81,7 @@ public class ITDefaultPaidMonthCreateValidation {
         month.setYear(2020);
         month.setPaid(true);
 
-        executable = () -> service.create(1L, month);
+        executable = () -> service.create(month);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -101,7 +101,7 @@ public class ITDefaultPaidMonthCreateValidation {
         month.setYear(3);
         month.setPaid(true);
 
-        executable = () -> service.create(1L, month);
+        executable = () -> service.create(month);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

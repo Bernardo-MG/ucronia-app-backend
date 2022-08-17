@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.paidmonth.service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
@@ -25,17 +26,16 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     private final PaidMonthValidator  validator;
 
     @Override
-    public final PaidMonth create(final Long member, final PaidMonth month) {
+    public final PaidMonth create(final PaidMonth month) {
         final PersistentPaidMonth entity;
         final PersistentPaidMonth created;
 
         validator.validate(month);
 
-        entity = toPersistentPaidMonth(month);
-        entity.setMember(member);
+        entity = toEntity(month);
 
         created = repository.save(entity);
-        return toPaidMonth(created);
+        return toDto(created);
     }
 
     @Override
@@ -45,21 +45,36 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     }
 
     @Override
-    public final Iterable<? extends PaidMonth> getAllForMember(final Long member) {
+    public final Iterable<? extends PaidMonth> getAll(final PaidMonth sample) {
         final PersistentPaidMonth entity;
         final Sort                sort;
 
-        entity = new PersistentPaidMonth();
-        entity.setMember(member);
-
-        repository.findAll(Example.of(entity));
+        entity = toEntity(sample);
 
         sort = Sort.by(Direction.ASC, "month", "year");
 
-        return repository.findAll(sort)
+        return repository.findAll(Example.of(entity), sort)
             .stream()
-            .map(this::toPaidMonth)
+            .map(this::toDto)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public final Optional<? extends PaidMonth> getOne(final Long id) {
+        final Optional<PersistentPaidMonth> found;
+        final Optional<? extends PaidMonth> result;
+        final PaidMonth                     member;
+
+        found = repository.findById(id);
+
+        if (found.isPresent()) {
+            member = toDto(found.get());
+            result = Optional.of(member);
+        } else {
+            result = Optional.empty();
+        }
+
+        return result;
     }
 
     @Override
@@ -69,14 +84,14 @@ public final class DefaultPaidMonthService implements PaidMonthService {
 
         validator.validate(month);
 
-        entity = toPersistentPaidMonth(month);
+        entity = toEntity(month);
         entity.setMember(member);
 
         created = repository.save(entity);
-        return toPaidMonth(created);
+        return toDto(created);
     }
 
-    private final PaidMonth toPaidMonth(final PersistentPaidMonth entity) {
+    private final PaidMonth toDto(final PersistentPaidMonth entity) {
         final DtoPaidMonth data;
 
         data = new DtoPaidMonth();
@@ -89,7 +104,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
         return data;
     }
 
-    private final PersistentPaidMonth toPersistentPaidMonth(final PaidMonth data) {
+    private final PersistentPaidMonth toEntity(final PaidMonth data) {
         final PersistentPaidMonth entity;
 
         entity = new PersistentPaidMonth();

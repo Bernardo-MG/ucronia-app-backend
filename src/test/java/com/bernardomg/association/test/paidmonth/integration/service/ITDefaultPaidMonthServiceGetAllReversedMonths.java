@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.paidmonth.integration.service;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,44 +33,59 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.paidmonth.model.DtoPaidMonth;
 import com.bernardomg.association.paidmonth.model.PaidMonth;
 import com.bernardomg.association.paidmonth.service.DefaultPaidMonthService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default paid month service - get all for member - single month")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/first_month.sql" })
-public class ITDefaultPaidMonthServiceGetAllForMemberSingleMonth {
+@DisplayName("Default paid month service - get all for member - reversed months")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/reverse_months.sql" })
+public class ITDefaultPaidMonthServiceGetAllReversedMonths {
 
     @Autowired
     private DefaultPaidMonthService service;
 
-    public ITDefaultPaidMonthServiceGetAllForMemberSingleMonth() {
+    public ITDefaultPaidMonthServiceGetAllReversedMonths() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities for a member")
+    @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends PaidMonth> result;
+        final DtoPaidMonth                  sample;
 
-        result = service.getAllForMember(1L);
+        sample = new DtoPaidMonth();
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        result = service.getAll(sample);
+
+        Assertions.assertEquals(2, IterableUtils.size(result));
     }
 
     @Test
-    @DisplayName("Returns all data")
+    @DisplayName("Returns all data in order")
     public void testGetAll_Data() {
-        final PaidMonth result;
+        final Iterator<? extends PaidMonth> data;
+        final DtoPaidMonth                  sample;
+        PaidMonth                           result;
 
-        result = service.getAllForMember(1L)
-            .iterator()
-            .next();
+        sample = new DtoPaidMonth();
 
+        data = service.getAll(sample)
+            .iterator();
+
+        result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMember());
         Assertions.assertEquals(1, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());
     }

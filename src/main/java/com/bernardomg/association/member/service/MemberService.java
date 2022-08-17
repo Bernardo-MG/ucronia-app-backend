@@ -11,7 +11,7 @@ public interface MemberService {
 
     public Boolean delete(final Long id);
 
-    public Iterable<? extends Member> getAll();
+    public Iterable<? extends Member> getAll(final Member sample);
 
     public Optional<? extends Member> getOne(final Long id);
 

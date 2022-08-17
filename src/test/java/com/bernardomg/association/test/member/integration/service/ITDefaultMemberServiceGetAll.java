@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -53,8 +54,11 @@ public class ITDefaultMemberServiceGetAll {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
+        final Member                     sample;
 
-        result = service.getAll();
+        sample = new DtoMember();
+
+        result = service.getAll(sample);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }
@@ -63,9 +67,12 @@ public class ITDefaultMemberServiceGetAll {
     @DisplayName("Returns all the entities data")
     public void testGetAll_Data() {
         final Iterator<? extends Member> result;
+        final Member                     sample;
         Member                           data;
 
-        result = service.getAll()
+        sample = new DtoMember();
+
+        result = service.getAll(sample)
             .iterator();
 
         data = result.next();
