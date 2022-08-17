@@ -52,7 +52,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
     @Override
     public final Boolean delete(final Long id) {
         Boolean deleted;
-        
+
         try {
             repository.deleteById(id);
             deleted = true;
@@ -60,7 +60,7 @@ public final class DefaultPaidMonthService implements PaidMonthService {
             log.error("Tried to delete id {}, which doesn't exist", id);
             deleted = false;
         }
-        
+
         return deleted;
     }
 
