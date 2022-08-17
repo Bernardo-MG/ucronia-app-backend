@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.balance.validation.rule.PaymentMonthRangeValidationRule;
 import com.bernardomg.association.payment.model.DtoPayment;
 import com.bernardomg.association.payment.model.Payment;
 import com.bernardomg.association.payment.model.PaymentType;
+import com.bernardomg.association.payment.validation.rule.PaymentMonthRangeValidationRule;
 import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.ValidationRule;
 

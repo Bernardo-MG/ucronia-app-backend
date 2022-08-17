@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.balance.validation.rule;
+package com.bernardomg.association.payment.validation.rule;
 
 import java.util.ArrayList;
 import java.util.Collection;

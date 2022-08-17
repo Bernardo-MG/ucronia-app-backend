@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.balance.validation.PaymentValidator;
 import com.bernardomg.association.payment.model.DtoPayment;
 import com.bernardomg.association.payment.model.Payment;
 import com.bernardomg.association.payment.model.PersistentPayment;
 import com.bernardomg.association.payment.repository.PaymentRepository;
+import com.bernardomg.association.payment.validation.PaymentValidator;
 
 import lombok.AllArgsConstructor;
 
