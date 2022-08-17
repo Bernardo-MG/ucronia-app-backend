@@ -71,11 +71,15 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-        -  addUniqueConstraint:
-            constraintName: paid_months_unique
-            tableName: paid_months
-            columnNames: member, paid_month, paid_year
       modifySql:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: members_unique_constraints
+      author: Bernardo
+      changes:
+        -  addUniqueConstraint:
+            constraintName: paid_months_unique
+            tableName: paid_months
+            columnNames: member, paid_month, paid_year
