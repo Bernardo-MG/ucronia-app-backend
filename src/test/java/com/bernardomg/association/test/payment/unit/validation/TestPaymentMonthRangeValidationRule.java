@@ -14,7 +14,7 @@ import com.bernardomg.association.payment.validation.rule.PaymentMonthRangeValid
 import com.bernardomg.validation.error.ValidationError;
 import com.bernardomg.validation.error.ValidationRule;
 
-@DisplayName("Paid month range validation rule")
+@DisplayName("Fee range validation rule")
 public class TestPaymentMonthRangeValidationRule {
 
     private final ValidationRule<Payment> validator = new PaymentMonthRangeValidationRule();

@@ -39,7 +39,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
-            tableName: paid_months
+            tableName: fees
             columns:
               - column:
                   name: id
