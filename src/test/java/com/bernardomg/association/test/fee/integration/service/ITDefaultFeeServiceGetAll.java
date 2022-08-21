@@ -40,7 +40,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default fee service - get all for member")
-@Sql({ "/db/queries/member/multiple.sql", "/db/queries/paid_month/multiple.sql" })
+@Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
 public class ITDefaultFeeServiceGetAll {
 
     @Autowired

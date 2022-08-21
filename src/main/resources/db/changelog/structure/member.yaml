@@ -52,7 +52,7 @@ databaseChangeLog:
                   name: member
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_paid_months_member
+                    foreignKeyName: fk_fees_member
                     references: members(id)
               - column:
                   name: paid_month
@@ -78,6 +78,6 @@ databaseChangeLog:
       author: Bernardo
       changes:
         -  addUniqueConstraint:
-            constraintName: paid_months_unique
-            tableName: paid_months
+            constraintName: fees_unique
+            tableName: fees
             columnNames: member, paid_month, paid_year

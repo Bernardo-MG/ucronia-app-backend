@@ -36,7 +36,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default fee service - delete")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/paid_month/single.sql" })
+@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITDefaultFeeServiceDelete {
 
     @Autowired
