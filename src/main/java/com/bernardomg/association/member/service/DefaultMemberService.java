@@ -36,8 +36,9 @@ public final class DefaultMemberService implements MemberService {
     public final Member create(final Member member) {
         final PersistentMember entity;
         final PersistentMember created;
-        
+
         // TODO: Return error messages for duplicate data
+        // TODO: Phone and identifier should be unique or empty
 
         entity = toEntity(member);
         created = repository.save(entity);
@@ -50,7 +51,7 @@ public final class DefaultMemberService implements MemberService {
         Boolean deleted;
 
         // TODO: Handle deleting related data
-        
+
         try {
             repository.deleteById(id);
             deleted = true;

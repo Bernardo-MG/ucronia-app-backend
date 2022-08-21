@@ -59,7 +59,9 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         // TODO: Allow this only for a development profile
-        registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:4200");
+        registry.addMapping("/**")
+            .allowedMethods("*")
+            .allowedOrigins("http://localhost:4200");
     }
 
 }
