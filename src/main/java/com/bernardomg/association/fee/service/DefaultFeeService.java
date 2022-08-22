@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.Fee;
+import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.fee.validation.FeeValidator;
@@ -37,7 +38,7 @@ public final class DefaultFeeService implements FeeService {
     private final FeeValidator  validator;
 
     @Override
-    public final Fee create(final Fee month) {
+    public final Fee create(final FeeForm month) {
         final PersistentFee entity;
         final PersistentFee created;
 
@@ -73,22 +74,21 @@ public final class DefaultFeeService implements FeeService {
 
         sort = Sort.by(Direction.ASC, "month", "year");
 
-        return repository.findAll(Example.of(entity), sort)
+        return repository.findAllWithEmployee(Example.of(entity), sort)
             .stream()
-            .map(this::toDto)
             .collect(Collectors.toList());
     }
 
     @Override
     public final Optional<? extends Fee> getOne(final Long id) {
-        final Optional<PersistentFee> found;
+        final Optional<Fee>           found;
         final Optional<? extends Fee> result;
         final Fee                     member;
 
-        found = repository.findById(id);
+        found = repository.findByIdWithEmployee(id);
 
         if (found.isPresent()) {
-            member = toDto(found.get());
+            member = found.get();
             result = Optional.of(member);
         } else {
             result = Optional.empty();
@@ -98,7 +98,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee update(final Long member, final Fee month) {
+    public final Fee update(final Long member, final FeeForm month) {
         final PersistentFee entity;
         final PersistentFee created;
 
@@ -116,7 +116,7 @@ public final class DefaultFeeService implements FeeService {
 
         data = new DtoFee();
         data.setId(entity.getId());
-        data.setMember(entity.getMember());
+        data.setMemberId(entity.getMember());
         data.setMonth(entity.getMonth());
         data.setYear(entity.getYear());
         data.setPaid(entity.getPaid());
@@ -129,7 +129,20 @@ public final class DefaultFeeService implements FeeService {
 
         entity = new PersistentFee();
         entity.setId(data.getId());
-        entity.setMember(data.getMember());
+        entity.setMember(data.getMemberId());
+        entity.setMonth(data.getMonth());
+        entity.setYear(data.getYear());
+        entity.setPaid(data.getPaid());
+
+        return entity;
+    }
+
+    private final PersistentFee toEntity(final FeeForm data) {
+        final PersistentFee entity;
+
+        entity = new PersistentFee();
+        entity.setId(data.getId());
+        entity.setMember(data.getMemberId());
         entity.setMonth(data.getMonth());
         entity.setYear(data.getYear());
         entity.setPaid(data.getPaid());

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFee;
+import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
@@ -55,10 +55,10 @@ public class ITDefaultFeeServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final DtoFee month;
+        final DtoFeeForm month;
 
-        month = new DtoFee();
-        month.setMember(1L);
+        month = new DtoFeeForm();
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(true);
@@ -71,11 +71,11 @@ public class ITDefaultFeeServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final DtoFee        month;
+        final DtoFeeForm    month;
         final PersistentFee entity;
 
-        month = new DtoFee();
-        month.setMember(1L);
+        month = new DtoFeeForm();
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(true);
@@ -94,11 +94,11 @@ public class ITDefaultFeeServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final Fee    result;
-        final DtoFee month;
+        final Fee        result;
+        final DtoFeeForm month;
 
-        month = new DtoFee();
-        month.setMember(1L);
+        month = new DtoFeeForm();
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(true);
@@ -106,7 +106,7 @@ public class ITDefaultFeeServiceCreate {
         result = service.create(month);
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
     }

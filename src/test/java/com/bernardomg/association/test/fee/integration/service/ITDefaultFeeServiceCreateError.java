@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFee;
+import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -51,11 +51,11 @@ public class ITDefaultFeeServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the data already exists")
     public void testCreate_Existing() {
-        final DtoFee     month;
+        final DtoFeeForm month;
         final Executable executable;
 
-        month = new DtoFee();
-        month.setMember(1L);
+        month = new DtoFeeForm();
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(true);

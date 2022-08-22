@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFee;
+import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
@@ -55,11 +55,11 @@ public class ITDefaultFeeServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoFee month;
+        final DtoFeeForm month;
 
-        month = new DtoFee();
+        month = new DtoFeeForm();
         month.setId(1L);
-        month.setMember(1L);
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(false);
@@ -72,12 +72,12 @@ public class ITDefaultFeeServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoFee        month;
+        final DtoFeeForm    month;
         final PersistentFee entity;
 
-        month = new DtoFee();
+        month = new DtoFeeForm();
         month.setId(1L);
-        month.setMember(1L);
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(false);
@@ -97,12 +97,12 @@ public class ITDefaultFeeServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final DtoFee month;
-        final Fee    result;
+        final DtoFeeForm month;
+        final Fee        result;
 
-        month = new DtoFee();
+        month = new DtoFeeForm();
         month.setId(1L);
-        month.setMember(1L);
+        month.setMemberId(1L);
         month.setMonth(2);
         month.setYear(2020);
         month.setPaid(false);
@@ -110,7 +110,7 @@ public class ITDefaultFeeServiceUpdate {
         result = service.update(1L, month);
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(false, result.getPaid());

@@ -1,11 +1,9 @@
 
 package com.bernardomg.association.fee.model;
 
-public interface Fee {
+public interface FeeForm {
 
     public Long getId();
-
-    public String getMember();
 
     public Long getMemberId();
 

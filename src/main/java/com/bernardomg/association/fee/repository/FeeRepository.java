@@ -24,10 +24,24 @@
 
 package com.bernardomg.association.fee.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.PersistentFee;
 
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+
+    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id")
+    public List<Fee> findAllWithEmployee(final Example<PersistentFee> example, final Sort sort);
+
+    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE f.id = :id")
+    public Optional<Fee> findByIdWithEmployee(@Param("id") final Long id);
 
 }

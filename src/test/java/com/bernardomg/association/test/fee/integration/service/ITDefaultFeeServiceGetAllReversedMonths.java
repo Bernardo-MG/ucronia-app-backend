@@ -77,14 +77,16 @@ public class ITDefaultFeeServiceGetAllReversedMonths {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1 Surname", result.getMember());
         Assertions.assertEquals(1, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMember());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1 Surname", result.getMember());
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());

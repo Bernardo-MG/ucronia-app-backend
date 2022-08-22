@@ -38,13 +38,13 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default member service - get one")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-public class ITDefaultFeeServiceGetOne {
+@Sql({ "/db/queries/member/minimal.sql", "/db/queries/fee/single.sql" })
+public class ITDefaultFeeServiceGetOneMinimalMember {
 
     @Autowired
     private DefaultFeeService service;
 
-    public ITDefaultFeeServiceGetOne() {
+    public ITDefaultFeeServiceGetOneMinimalMember() {
         super();
     }
 
@@ -81,7 +81,7 @@ public class ITDefaultFeeServiceGetOne {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getMember());
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());

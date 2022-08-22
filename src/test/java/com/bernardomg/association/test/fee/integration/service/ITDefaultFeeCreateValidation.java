@@ -31,7 +31,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFee;
+import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.exception.ValidationException;
@@ -51,12 +51,12 @@ public class ITDefaultFeeCreateValidation {
     @Test
     @DisplayName("Throws an exception when the member id does not exist")
     public void testCreate_InvalidMember() {
-        final DtoFee     month;
+        final DtoFeeForm month;
         final Executable executable;
         final Exception  exception;
 
-        month = new DtoFee();
-        month.setMember(-1L);
+        month = new DtoFeeForm();
+        month.setMemberId(-1L);
         month.setMonth(2);
         month.setYear(3);
         month.setPaid(true);
@@ -71,12 +71,12 @@ public class ITDefaultFeeCreateValidation {
     @Test
     @DisplayName("Throws an exception when the month is above the range")
     public void testCreate_MonthAboveRange() {
-        final DtoFee     month;
+        final DtoFeeForm month;
         final Executable executable;
         final Exception  exception;
 
-        month = new DtoFee();
-        month.setMember(1L);
+        month = new DtoFeeForm();
+        month.setMemberId(1L);
         month.setMonth(13);
         month.setYear(2020);
         month.setPaid(true);
@@ -91,12 +91,12 @@ public class ITDefaultFeeCreateValidation {
     @Test
     @DisplayName("Throws an exception when the month is below the range")
     public void testCreate_MonthBelowRange() {
-        final DtoFee     month;
+        final DtoFeeForm month;
         final Executable executable;
         final Exception  exception;
 
-        month = new DtoFee();
-        month.setMember(1L);
+        month = new DtoFeeForm();
+        month.setMemberId(1L);
         month.setMonth(0);
         month.setYear(3);
         month.setPaid(true);

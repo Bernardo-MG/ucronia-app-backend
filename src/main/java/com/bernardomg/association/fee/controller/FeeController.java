@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.model.DtoFee;
+import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.FeeService;
 
@@ -59,7 +60,7 @@ public class FeeController {
     private final FeeService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Fee create(@Valid @RequestBody final DtoFee fee) {
+    public Fee create(@Valid @RequestBody final DtoFeeForm fee) {
         return service.create(fee);
     }
 
@@ -80,7 +81,7 @@ public class FeeController {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Fee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFee fee) {
+    public Fee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeForm fee) {
         return service.update(id, fee);
     }
 

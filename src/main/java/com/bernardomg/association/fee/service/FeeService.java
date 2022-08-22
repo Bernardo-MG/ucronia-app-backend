@@ -4,6 +4,7 @@ package com.bernardomg.association.fee.service;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.model.Fee;
+import com.bernardomg.association.fee.model.FeeForm;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -20,7 +21,7 @@ public interface FeeService {
      *            fee to persist
      * @return the persisted fee
      */
-    public Fee create(final Fee fee);
+    public Fee create(final FeeForm fee);
 
     /**
      * Deletes the fee with the received id.
@@ -58,6 +59,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public Fee update(final Long id, final Fee fee);
+    public Fee update(final Long id, final FeeForm fee);
 
 }
