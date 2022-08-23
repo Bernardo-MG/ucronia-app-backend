@@ -91,7 +91,7 @@ public final class DefaultFeeYearService implements FeeYearService {
         sort = Sort.by(Direction.ASC, "member", "year", "month");
 
         // TODO: Tests repository
-        return feeRepository.findAllWithEmployee(Example.of(entity), sort)
+        return feeRepository.findAllWithMember(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
     }

@@ -39,9 +39,9 @@ import com.bernardomg.association.fee.model.PersistentFee;
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
     @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id")
-    public List<Fee> findAllWithEmployee(final Example<PersistentFee> example, final Sort sort);
+    public List<Fee> findAllWithMember(final Example<PersistentFee> example, final Sort sort);
 
     @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE f.id = :id")
-    public Optional<Fee> findByIdWithEmployee(@Param("id") final Long id);
+    public Optional<Fee> findByIdWithMember(@Param("id") final Long id);
 
 }

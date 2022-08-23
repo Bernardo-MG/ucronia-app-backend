@@ -76,7 +76,7 @@ public final class DefaultFeeService implements FeeService {
         sort = Sort.by(Direction.ASC, "year", "month");
 
         // TODO: Tests repository
-        return repository.findAllWithEmployee(Example.of(entity), sort)
+        return repository.findAllWithMember(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
     }
@@ -88,7 +88,7 @@ public final class DefaultFeeService implements FeeService {
         final Fee                     member;
 
         // TODO: Tests repository
-        found = repository.findByIdWithEmployee(id);
+        found = repository.findByIdWithMember(id);
 
         if (found.isPresent()) {
             member = found.get();
