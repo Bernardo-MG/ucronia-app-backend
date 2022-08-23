@@ -29,7 +29,7 @@ public final class DefaultFeeYearService implements FeeYearService {
     private final FeeRepository feeRepository;
 
     @Override
-    public final Iterable<? extends FeeYear> getAll(final FeeYear sample) {
+    public final Iterable<? extends FeeYear> getAll(final Integer year) {
         final Collection<Fee>      readFees;
         final Map<Long, List<Fee>> memberFees;
         final Collection<FeeYear>  years;
@@ -38,7 +38,7 @@ public final class DefaultFeeYearService implements FeeYearService {
         List<Fee>                  fees;
         DtoFeeYear                 feeYear;
 
-        readFees = getAllFees(sample);
+        readFees = getAllFees(year);
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(Fee::getMemberId));
 
@@ -48,14 +48,16 @@ public final class DefaultFeeYearService implements FeeYearService {
             yearFees = fees.stream()
                 .collect(Collectors.groupingBy(Fee::getYear));
 
-            for (final Integer year : yearFees.keySet()) {
+            for (final Integer yearFee : yearFees.keySet()) {
                 feeYear = new DtoFeeYear();
                 // TODO: Handle empty list
-                feeYear.setMember(fees.iterator().next().getMember());
+                feeYear.setMember(fees.iterator()
+                    .next()
+                    .getMember());
                 feeYear.setMemberId(member);
-                feeYear.setYear(year);
+                feeYear.setYear(yearFee);
 
-                fees = yearFees.get(year);
+                fees = yearFees.get(yearFee);
                 months = fees.stream()
                     .map(this::toFeeMonth)
                     .collect(Collectors.toList());
@@ -69,27 +71,18 @@ public final class DefaultFeeYearService implements FeeYearService {
         return years;
     }
 
-    private final Collection<Fee> getAllFees(final FeeYear sample) {
+    private final Collection<Fee> getAllFees(final Integer year) {
         final PersistentFee entity;
         final Sort          sort;
 
-        entity = toFeeEntity(sample);
+        entity = new PersistentFee();
+        entity.setYear(year);
 
-        sort = Sort.by(Direction.ASC, "member", "month", "year");
+        sort = Sort.by(Direction.ASC, "member", "year", "month");
 
         return feeRepository.findAllWithEmployee(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
-    }
-
-    private final PersistentFee toFeeEntity(final FeeYear data) {
-        final PersistentFee entity;
-
-        entity = new PersistentFee();
-        entity.setMember(data.getMemberId());
-        entity.setYear(data.getYear());
-
-        return entity;
     }
 
     private final FeeMonth toFeeMonth(final Fee fee) {

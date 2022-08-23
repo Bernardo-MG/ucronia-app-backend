@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.feeyear.model.DtoFeeYear;
 import com.bernardomg.association.feeyear.model.FeeMonth;
 import com.bernardomg.association.feeyear.model.FeeYear;
 import com.bernardomg.association.feeyear.service.DefaultFeeYearService;
@@ -55,11 +54,8 @@ public class ITDefaultFeeYearServiceGetAllSingleMonth {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends FeeYear> result;
-        final DtoFeeYear                  sample;
 
-        sample = new DtoFeeYear();
-
-        result = service.getAll(sample);
+        result = service.getAll(2020);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(12, IterableUtils.size(result.iterator()
@@ -71,14 +67,11 @@ public class ITDefaultFeeYearServiceGetAllSingleMonth {
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
         final Iterator<? extends FeeYear> data;
-        final DtoFeeYear                  sample;
         FeeYear                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
 
-        sample = new DtoFeeYear();
-
-        data = service.getAll(sample)
+        data = service.getAll(2020)
             .iterator();
 
         result = data.next();

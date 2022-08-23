@@ -11,14 +11,6 @@ import com.bernardomg.association.feeyear.model.FeeYear;
  */
 public interface FeeYearService {
 
-    /**
-     * Returns all the fee years matching the sample. If the sample fields are empty, then all the fee years are
-     * returned.
-     *
-     * @param sample
-     *            sample for filtering
-     * @return all the fee years matching the sample
-     */
-    public Iterable<? extends FeeYear> getAll(final FeeYear sample);
+    public Iterable<? extends FeeYear> getAll(final Integer year);
 
 }

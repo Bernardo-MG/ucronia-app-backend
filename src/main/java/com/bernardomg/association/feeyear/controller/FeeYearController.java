@@ -26,10 +26,10 @@ package com.bernardomg.association.feeyear.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.feeyear.model.DtoFeeYear;
 import com.bernardomg.association.feeyear.model.FeeYear;
 import com.bernardomg.association.feeyear.service.FeeYearService;
 
@@ -48,9 +48,9 @@ public class FeeYearController {
 
     private final FeeYearService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends FeeYear> readAll(final DtoFeeYear month) {
-        return service.getAll(month);
+    @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends FeeYear> readAll(@PathVariable("year") final Integer year) {
+        return service.getAll(year);
     }
 
 }
