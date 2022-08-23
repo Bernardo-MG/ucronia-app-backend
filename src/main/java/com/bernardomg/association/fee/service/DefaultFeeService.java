@@ -72,8 +72,10 @@ public final class DefaultFeeService implements FeeService {
 
         entity = toEntity(sample);
 
-        sort = Sort.by(Direction.ASC, "month", "year");
+        // TODO: Tests sorting
+        sort = Sort.by(Direction.ASC, "year", "month");
 
+        // TODO: Tests repository
         return repository.findAllWithEmployee(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
@@ -85,6 +87,7 @@ public final class DefaultFeeService implements FeeService {
         final Optional<? extends Fee> result;
         final Fee                     member;
 
+        // TODO: Tests repository
         found = repository.findByIdWithEmployee(id);
 
         if (found.isPresent()) {
