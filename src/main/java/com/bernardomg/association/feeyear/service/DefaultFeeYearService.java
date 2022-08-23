@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
@@ -33,10 +34,12 @@ public final class DefaultFeeYearService implements FeeYearService {
         final Collection<Fee>      readFees;
         final Map<Long, List<Fee>> memberFees;
         final Collection<FeeYear>  years;
-        Map<Integer, List<Fee>>    yearFees;
+        Map<Integer, Fee>          monthFees;
         Collection<FeeMonth>       months;
         List<Fee>                  fees;
         DtoFeeYear                 feeYear;
+        DtoFeeMonth                feeMonth;
+        Fee                        fee;
 
         readFees = getAllFees(year);
         memberFees = readFees.stream()
@@ -45,27 +48,33 @@ public final class DefaultFeeYearService implements FeeYearService {
         years = new ArrayList<>();
         for (final Long member : memberFees.keySet()) {
             fees = memberFees.get(member);
-            yearFees = fees.stream()
-                .collect(Collectors.groupingBy(Fee::getYear));
+            feeYear = new DtoFeeYear();
+            // TODO: Handle empty list
+            feeYear.setMember(fees.iterator()
+                .next()
+                .getMember());
+            feeYear.setMemberId(member);
+            feeYear.setYear(year);
 
-            for (final Integer yearFee : yearFees.keySet()) {
-                feeYear = new DtoFeeYear();
-                // TODO: Handle empty list
-                feeYear.setMember(fees.iterator()
-                    .next()
-                    .getMember());
-                feeYear.setMemberId(member);
-                feeYear.setYear(yearFee);
-
-                fees = yearFees.get(yearFee);
-                months = fees.stream()
-                    .map(this::toFeeMonth)
-                    .collect(Collectors.toList());
-
-                feeYear.setMonths(months);
-
-                years.add(feeYear);
+            monthFees = fees.stream()
+                .collect(Collectors.toMap(Fee::getMonth, Function.identity()));
+            months = new ArrayList<>();
+            for (Integer month = 1; month <= 12; month++) {
+                feeMonth = new DtoFeeMonth();
+                feeMonth.setMonth(month);
+                if (monthFees.containsKey(month)) {
+                    // Existing month
+                    fee = monthFees.get(month);
+                    feeMonth.setPaid(fee.getPaid());
+                } else {
+                    // Default month
+                    feeMonth.setPaid(false);
+                }
+                months.add(feeMonth);
             }
+            feeYear.setMonths(months);
+
+            years.add(feeYear);
         }
 
         return years;
@@ -83,16 +92,6 @@ public final class DefaultFeeYearService implements FeeYearService {
         return feeRepository.findAllWithEmployee(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
-    }
-
-    private final FeeMonth toFeeMonth(final Fee fee) {
-        final DtoFeeMonth month;
-
-        month = new DtoFeeMonth();
-        month.setMonth(fee.getMonth());
-        month.setPaid(fee.getPaid());
-
-        return month;
     }
 
 }

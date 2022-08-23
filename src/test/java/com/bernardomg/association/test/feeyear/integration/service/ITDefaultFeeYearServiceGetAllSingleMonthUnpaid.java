@@ -39,7 +39,7 @@ import com.bernardomg.association.feeyear.service.DefaultFeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee year service - get all - single month")
+@DisplayName("Default fee year service - get all - single month unpaid")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
 public class ITDefaultFeeYearServiceGetAllSingleMonthUnpaid {
 
