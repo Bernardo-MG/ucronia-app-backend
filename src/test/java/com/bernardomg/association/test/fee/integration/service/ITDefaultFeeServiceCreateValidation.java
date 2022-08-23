@@ -39,12 +39,12 @@ import com.bernardomg.validation.exception.ValidationException;
 @IntegrationTest
 @DisplayName("Default fee service - create validation")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITDefaultFeeCreateValidation {
+public class ITDefaultFeeServiceCreateValidation {
 
     @Autowired
     private DefaultFeeService service;
 
-    public ITDefaultFeeCreateValidation() {
+    public ITDefaultFeeServiceCreateValidation() {
         super();
     }
 
