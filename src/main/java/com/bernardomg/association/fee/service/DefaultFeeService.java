@@ -76,6 +76,7 @@ public final class DefaultFeeService implements FeeService {
         sort = Sort.by(Direction.ASC, "year", "month");
 
         // TODO: Tests repository
+        // TODO: Tests reading with no name or surname
         return repository.findAllWithMember(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
@@ -88,6 +89,7 @@ public final class DefaultFeeService implements FeeService {
         final Fee                     member;
 
         // TODO: Tests repository
+        // TODO: Tests reading with no name or surname
         found = repository.findByIdWithMember(id);
 
         if (found.isPresent()) {
