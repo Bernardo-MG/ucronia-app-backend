@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.fee.integration.repository;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -39,14 +41,14 @@ import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member - no fees")
-@Sql({ "/db/queries/member/multiple.sql" })
-public class ITFeeRepositoryFindAllWithMemberNoFee {
+@DisplayName("Fee repository - find all with member - inactive member")
+@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
+public class ITFeeRepositoryFindAllWithMemberInactiveMember {
 
     @Autowired
     private FeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberNoFee() {
+    public ITFeeRepositoryFindAllWithMemberInactiveMember() {
         super();
     }
 
@@ -62,7 +64,30 @@ public class ITFeeRepositoryFindAllWithMemberNoFee {
 
         result = repository.findAllWithMember(Example.of(sample), sort);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all data")
+    public void testGetAll_Data() {
+        final Iterator<? extends Fee> data;
+        final PersistentFee           sample;
+        Fee                           result;
+        final Sort                    sort;
+
+        sample = new PersistentFee();
+        sort = Sort.unsorted();
+
+        data = repository.findAllWithMember(Example.of(sample), sort)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals(2, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
     }
 
 }

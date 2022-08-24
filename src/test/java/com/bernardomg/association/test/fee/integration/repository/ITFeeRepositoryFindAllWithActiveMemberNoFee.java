@@ -22,29 +22,47 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.repository;
+package com.bernardomg.association.test.fee.integration.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import org.apache.commons.collections4.IterableUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.PersistentFee;
+import com.bernardomg.association.fee.repository.FeeRepository;
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+@IntegrationTest
+@DisplayName("Fee repository - find all with active member - no fees")
+@Sql({ "/db/queries/member/single.sql" })
+public class ITFeeRepositoryFindAllWithActiveMemberNoFee {
 
-    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE m.active = true")
-    public List<Fee> findAllWithActiveMember(final Example<PersistentFee> example, final Sort sort);
+    @Autowired
+    private FeeRepository repository;
 
-    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id")
-    public List<Fee> findAllWithMember(final Example<PersistentFee> example, final Sort sort);
+    public ITFeeRepositoryFindAllWithActiveMemberNoFee() {
+        super();
+    }
 
-    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE f.id = :id")
-    public Optional<Fee> findByIdWithMember(@Param("id") final Long id);
+    @Test
+    @DisplayName("Returns all the entities")
+    public void testGetAll_Count() {
+        final Iterable<? extends Fee> result;
+        final PersistentFee           sample;
+        final Sort                    sort;
+
+        sample = new PersistentFee();
+        sort = Sort.unsorted();
+
+        result = repository.findAllWithActiveMember(Example.of(sample), sort);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
+    }
 
 }
