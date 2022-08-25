@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
@@ -82,20 +81,12 @@ public final class DefaultFeeYearService implements FeeYearService {
             .collect(Collectors.toList());
     }
 
-    private final FeeMonth toFeeMonth(final Integer month, final Map<Integer, Fee> monthFees) {
+    private final FeeMonth toFeeMonth(final Fee fee) {
         final DtoFeeMonth feeMonth;
-        final Fee         fee;
 
         feeMonth = new DtoFeeMonth();
-        feeMonth.setMonth(month);
-        if (monthFees.containsKey(month)) {
-            // Existing month
-            fee = monthFees.get(month);
-            feeMonth.setPaid(fee.getPaid());
-        } else {
-            // Default month
-            feeMonth.setPaid(false);
-        }
+        feeMonth.setMonth(fee.getMonth());
+        feeMonth.setPaid(fee.getPaid());
 
         return feeMonth;
     }
@@ -103,7 +94,6 @@ public final class DefaultFeeYearService implements FeeYearService {
     private final FeeYear toFeeYear(final Long member, final Integer year, final Boolean active, final List<Fee> fees) {
         final DtoFeeYear           feeYear;
         final Collection<FeeMonth> months;
-        final Map<Integer, Fee>    monthFees;
         FeeMonth                   feeMonth;
 
         feeYear = new DtoFeeYear();
@@ -115,11 +105,9 @@ public final class DefaultFeeYearService implements FeeYearService {
         feeYear.setYear(year);
         feeYear.setActive(active);
 
-        monthFees = fees.stream()
-            .collect(Collectors.toMap(Fee::getMonth, Function.identity()));
         months = new ArrayList<>();
-        for (Integer month = 1; month <= 12; month++) {
-            feeMonth = toFeeMonth(month, monthFees);
+        for (final Fee fee : fees) {
+            feeMonth = toFeeMonth(fee);
             months.add(feeMonth);
         }
         feeYear.setMonths(months);
