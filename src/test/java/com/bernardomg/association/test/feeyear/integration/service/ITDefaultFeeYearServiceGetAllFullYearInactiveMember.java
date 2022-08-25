@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.feeyear.integration.service;
 
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.feeyear.model.FeeMonth;
 import com.bernardomg.association.feeyear.model.FeeYear;
 import com.bernardomg.association.feeyear.service.DefaultFeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -48,13 +51,85 @@ public class ITDefaultFeeYearServiceGetAllFullYearInactiveMember {
     }
 
     @Test
-    @DisplayName("Returns no entities")
+    @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends FeeYear> result;
 
         result = service.getAll(2020);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertEquals(12, IterableUtils.size(result.iterator()
+            .next()
+            .getMonths()));
+    }
+
+    @Test
+    @DisplayName("Returns all data")
+    public void testGetAll_Data() {
+        final Iterator<? extends FeeYear> data;
+        FeeYear                           result;
+        Iterator<FeeMonth>                months;
+        FeeMonth                          month;
+
+        data = service.getAll(2020)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(false, result.getActive());
+
+        months = result.getMonths()
+            .iterator();
+
+        month = months.next();
+        Assertions.assertEquals(1, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(2, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(3, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(4, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(5, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(6, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(7, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(8, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(9, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(10, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(11, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(12, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
     }
 
 }

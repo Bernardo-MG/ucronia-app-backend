@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public final class DtoFeeYear implements FeeYear {
 
+    private Boolean              active;
+
     private String               member;
 
     private Long                 memberId;

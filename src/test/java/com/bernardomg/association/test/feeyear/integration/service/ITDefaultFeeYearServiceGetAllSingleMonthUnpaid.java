@@ -78,6 +78,7 @@ public class ITDefaultFeeYearServiceGetAllSingleMonthUnpaid {
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
         Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(true, result.getActive());
 
         months = result.getMonths()
             .iterator();

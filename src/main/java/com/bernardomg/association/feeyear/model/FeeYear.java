@@ -3,6 +3,8 @@ package com.bernardomg.association.feeyear.model;
 
 public interface FeeYear {
 
+    public Boolean getActive();
+
     public String getMember();
 
     public Long getMemberId();
