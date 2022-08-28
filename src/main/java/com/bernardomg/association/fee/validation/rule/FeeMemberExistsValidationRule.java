@@ -33,4 +33,10 @@ public final class FeeMemberExistsValidationRule implements ValidationRule<FeeFo
         return result;
     }
 
+    @Override
+    public final String toString() {
+        return this.getClass()
+            .getName();
+    }
+
 }

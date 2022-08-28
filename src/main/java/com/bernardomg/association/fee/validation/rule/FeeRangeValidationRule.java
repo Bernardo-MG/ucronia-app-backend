@@ -29,4 +29,10 @@ public final class FeeRangeValidationRule implements ValidationRule<FeeForm> {
         return result;
     }
 
+    @Override
+    public final String toString() {
+        return this.getClass()
+            .getName();
+    }
+
 }

@@ -29,4 +29,10 @@ public final class TransactionMonthRangeValidationRule implements ValidationRule
         return result;
     }
 
+    @Override
+    public final String toString() {
+        return this.getClass()
+            .getName();
+    }
+
 }
