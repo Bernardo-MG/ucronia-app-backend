@@ -26,7 +26,7 @@ public class TestFeeRangeValidationRule {
     @DisplayName("Rejects the end month when it is above limits")
     public final void testValidator_EndMonthAbove() throws Exception {
         final Collection<ValidationFailure> error;
-        final DtoFeeForm                  period;
+        final DtoFeeForm                    period;
 
         period = new DtoFeeForm();
         period.setMonth(13);
@@ -43,7 +43,7 @@ public class TestFeeRangeValidationRule {
     @DisplayName("Rejects the end month when it is below limits")
     public final void testValidator_EndMonthBelow() throws Exception {
         final Collection<ValidationFailure> error;
-        final DtoFeeForm                  period;
+        final DtoFeeForm                    period;
 
         period = new DtoFeeForm();
         period.setMonth(0);
@@ -60,7 +60,7 @@ public class TestFeeRangeValidationRule {
     @DisplayName("Accepts a valid month")
     public final void testValidator_Valid() throws Exception {
         final Collection<ValidationFailure> error;
-        final DtoFeeForm                  period;
+        final DtoFeeForm                    period;
 
         period = new DtoFeeForm();
         period.setMonth(3);

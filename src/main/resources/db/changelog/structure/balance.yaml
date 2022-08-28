@@ -29,7 +29,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
-            tableName: payments
+            tableName: transactions
             columns:
               - column:
                   name: id

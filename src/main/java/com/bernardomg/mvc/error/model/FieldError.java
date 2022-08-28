@@ -25,8 +25,8 @@
 package com.bernardomg.mvc.error.model;
 
 /**
- * Field error message. Usually represents an error when validation a single field from an object. The validation process
- * may generate several of these.
+ * Field error message. Usually represents an error when validation a single field from an object. The validation
+ * process may generate several of these.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -46,8 +46,7 @@ public interface FieldError extends Error {
      *            field value during the validation process
      * @return {@code FieldValidationError} for the received arguments
      */
-    public static FieldError of(final String message, final String object, final String field,
-            final Object value) {
+    public static FieldError of(final String message, final String object, final String field, final Object value) {
         final DtoFieldError error;
 
         error = new DtoFieldError();
