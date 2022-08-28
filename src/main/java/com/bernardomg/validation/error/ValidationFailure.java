@@ -7,12 +7,12 @@ package com.bernardomg.validation.error;
  * @author Bernardo
  *
  */
-public interface ValidationError {
+public interface ValidationFailure {
 
-    public static ValidationError of(final String code) {
-        final DefaultValidationError error;
+    public static ValidationFailure of(final String code) {
+        final DefaultValidationFailure error;
 
-        error = new DefaultValidationError();
+        error = new DefaultValidationFailure();
         error.setError(code);
 
         return error;

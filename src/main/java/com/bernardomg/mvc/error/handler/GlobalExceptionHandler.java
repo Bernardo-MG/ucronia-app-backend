@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) ${currentYear} the original author or authors.
+ * Copyright (c) 2022 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.error;
+package com.bernardomg.mvc.error.handler;
 
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +35,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.bernardomg.mvc.error.model.FieldError;
 import com.bernardomg.mvc.response.model.DefaultResponse;
 import com.bernardomg.mvc.response.model.Response;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Captures and handles exceptions for all the controllers.
@@ -46,12 +47,8 @@ import com.bernardomg.mvc.response.model.Response;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-    /**
-     * Logger for the exception handler.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * Default constructor.
@@ -63,7 +60,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ RuntimeException.class })
     public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request)
             throws Exception {
-        LOGGER.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -73,6 +70,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         final Response<String> response;
         final String           message;
+
+        log.error(ex.getMessage(), ex);
 
         if (ex.getMessage() == null) {
             message = "";
@@ -88,13 +87,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final Iterable<String>           errors;
-        final Response<Iterable<String>> response;
+        final Iterable<FieldError>           errors;
+        final Response<Iterable<FieldError>> response;
+
+        log.error(ex.getMessage());
 
         errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()
-            .map(x -> x.getDefaultMessage())
+            .map(error -> FieldError.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
+                error.getRejectedValue()))
             .collect(Collectors.toList());
 
         response = new DefaultResponse<>(errors);

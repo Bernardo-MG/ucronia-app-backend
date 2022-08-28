@@ -11,7 +11,7 @@ import com.bernardomg.association.payment.model.DtoPayment;
 import com.bernardomg.association.payment.model.Payment;
 import com.bernardomg.association.payment.model.PaymentType;
 import com.bernardomg.association.payment.validation.rule.PaymentMonthRangeValidationRule;
-import com.bernardomg.validation.error.ValidationError;
+import com.bernardomg.validation.error.ValidationFailure;
 import com.bernardomg.validation.error.ValidationRule;
 
 @DisplayName("Fee range validation rule")
@@ -26,7 +26,7 @@ public class TestPaymentMonthRangeValidationRule {
     @Test
     @DisplayName("Rejects the end month when it is above limits")
     public final void testValidator_EndMonthAbove() throws Exception {
-        final Collection<ValidationError> error;
+        final Collection<ValidationFailure> error;
         final DtoPayment                  payment;
 
         payment = new DtoPayment();
@@ -48,7 +48,7 @@ public class TestPaymentMonthRangeValidationRule {
     @Test
     @DisplayName("Rejects the end month when it is below limits")
     public final void testValidator_EndMonthBelow() throws Exception {
-        final Collection<ValidationError> error;
+        final Collection<ValidationFailure> error;
         final DtoPayment                  payment;
 
         payment = new DtoPayment();
@@ -70,7 +70,7 @@ public class TestPaymentMonthRangeValidationRule {
     @Test
     @DisplayName("Accepts a valid month")
     public final void testValidator_Valid() throws Exception {
-        final Collection<ValidationError> error;
+        final Collection<ValidationFailure> error;
         final DtoPayment                  payment;
 
         payment = new DtoPayment();
