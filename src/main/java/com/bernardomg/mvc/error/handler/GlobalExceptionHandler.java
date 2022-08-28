@@ -65,13 +65,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Transforms Spring's field error into our custom field error.
+     *
+     * @param error
+     *            error object to transform
+     * @return our custom error object
+     */
+    private final FieldError toFieldError(final org.springframework.validation.FieldError error) {
+        log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
+            error.getDefaultMessage());
+
+        return FieldError.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
+            error.getRejectedValue());
+    }
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         final Response<String> response;
         final String           message;
 
-        log.error(ex.getMessage(), ex);
+        log.error(ex.getMessage());
 
         if (ex.getMessage() == null) {
             message = "";
@@ -90,13 +105,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final Iterable<FieldError>           errors;
         final Response<Iterable<FieldError>> response;
 
-        log.error(ex.getMessage());
-
         errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()
-            .map(error -> FieldError.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
-                error.getRejectedValue()))
+            .map(this::toFieldError)
             .collect(Collectors.toList());
 
         response = new DefaultResponse<>(errors);
