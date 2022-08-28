@@ -72,10 +72,10 @@ public final class DefaultFeeYearService implements FeeYearService {
         entity = new PersistentFee();
         entity.setYear(year);
 
-        // TODO: Tests sorting
+        // TODO: Test sorting
         sort = Sort.by(Direction.ASC, "member", "year", "month");
 
-        // TODO: Tests repository
+        // TODO: Test repository
         return feeRepository.findAllWithMember(Example.of(entity), sort)
             .stream()
             .collect(Collectors.toList());
