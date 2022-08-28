@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionType;
 import com.bernardomg.association.transaction.validation.rule.TransactionMonthRangeValidationRule;
 import com.bernardomg.validation.error.ValidationFailure;
 import com.bernardomg.validation.error.ValidationRule;
@@ -31,7 +30,6 @@ public class TestTransactionMonthRangeValidationRule {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(13);
@@ -53,7 +51,6 @@ public class TestTransactionMonthRangeValidationRule {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(0);
@@ -75,7 +72,6 @@ public class TestTransactionMonthRangeValidationRule {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(3);

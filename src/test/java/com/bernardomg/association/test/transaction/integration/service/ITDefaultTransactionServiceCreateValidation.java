@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.model.DtoTransaction;
-import com.bernardomg.association.transaction.model.TransactionType;
 import com.bernardomg.association.transaction.service.DefaultTransactionService;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -56,7 +55,6 @@ public class ITDefaultTransactionServiceCreateValidation {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(13);
@@ -78,7 +76,6 @@ public class ITDefaultTransactionServiceCreateValidation {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(0);

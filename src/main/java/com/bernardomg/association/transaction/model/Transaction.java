@@ -13,8 +13,6 @@ public interface Transaction {
 
     public Long getQuantity();
 
-    public TransactionType getType();
-
     public Integer getYear();
 
 }

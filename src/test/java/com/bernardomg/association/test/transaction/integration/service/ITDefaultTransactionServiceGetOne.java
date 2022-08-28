@@ -34,7 +34,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionType;
 import com.bernardomg.association.transaction.service.DefaultTransactionService;
 
 @IntegrationTest
@@ -83,7 +82,6 @@ public class ITDefaultTransactionServiceGetOne {
         Assertions.assertEquals(id, result.getId());
         Assertions.assertEquals("Transaction 1", result.getDescription());
         Assertions.assertEquals(1, result.getQuantity());
-        Assertions.assertEquals(TransactionType.INCOME, result.getType());
         Assertions.assertEquals(2, result.getDay());
         Assertions.assertEquals(3, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());

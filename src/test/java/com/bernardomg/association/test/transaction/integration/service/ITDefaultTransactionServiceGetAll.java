@@ -36,7 +36,6 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionType;
 import com.bernardomg.association.transaction.service.DefaultTransactionService;
 
 @IntegrationTest
@@ -80,7 +79,6 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(TransactionType.INCOME, data.getType());
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());
@@ -89,7 +87,6 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(TransactionType.INCOME, data.getType());
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());
@@ -98,7 +95,6 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(TransactionType.INCOME, data.getType());
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());
@@ -107,7 +103,6 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(TransactionType.INCOME, data.getType());
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());
@@ -116,7 +111,6 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(TransactionType.INCOME, data.getType());
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());

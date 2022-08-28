@@ -64,11 +64,6 @@ databaseChangeLog:
                   type: smallint
                   constraints:
                     nullable: false
-              - column:
-                  name: pay_type
-                  type: varchar(10)
-                  constraints:
-                    nullable: false
       modifySql:
         - append:
             dbms: mysql

@@ -113,7 +113,6 @@ public final class DefaultTransactionService implements TransactionService {
         result.setMonth(transaction.getMonth());
         result.setYear(transaction.getYear());
         result.setQuantity(transaction.getQuantity());
-        result.setType(transaction.getType());
 
         return result;
     }
@@ -128,7 +127,6 @@ public final class DefaultTransactionService implements TransactionService {
         result.setMonth(transaction.getMonth());
         result.setYear(transaction.getYear());
         result.setQuantity(transaction.getQuantity());
-        result.setType(transaction.getType());
 
         return result;
     }

@@ -10,24 +10,21 @@ import lombok.Data;
 public final class DtoTransaction implements Transaction {
 
     @NotNull
-    private Integer         day;
+    private Integer day;
 
     @NotEmpty
     @NotNull
-    private String          description;
+    private String  description;
 
-    private Long            id;
-
-    @NotNull
-    private Integer         month;
+    private Long    id;
 
     @NotNull
-    private Long            quantity;
+    private Integer month;
 
     @NotNull
-    private TransactionType type;
+    private Long    quantity;
 
     @NotNull
-    private Integer         year;
+    private Integer year;
 
 }

@@ -34,7 +34,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionType;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.DefaultTransactionService;
 
@@ -62,7 +61,6 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(3);
@@ -81,7 +79,6 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(3);
@@ -104,7 +101,6 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setType(TransactionType.INCOME);
         transaction.setQuantity(1l);
         transaction.setDay(2);
         transaction.setMonth(3);
