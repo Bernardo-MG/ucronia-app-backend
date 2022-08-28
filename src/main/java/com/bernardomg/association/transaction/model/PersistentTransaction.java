@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "Transaction")
-@Table(name = "transaction")
+@Table(name = "transactions")
 public class PersistentTransaction implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
