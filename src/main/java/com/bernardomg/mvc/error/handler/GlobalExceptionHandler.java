@@ -105,6 +105,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final Iterable<FieldError>           errors;
         final Response<Iterable<FieldError>> response;
 
+        // TODO: Test this transformation
         errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()
