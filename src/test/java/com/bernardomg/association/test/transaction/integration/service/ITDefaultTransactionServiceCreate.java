@@ -90,6 +90,25 @@ public class ITDefaultTransactionServiceCreate {
     }
 
     @Test
+    @DisplayName("Adds entities when creating the same twice")
+    public void testCreate_Repeat_AddsEntity() {
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setQuantity(1l);
+        transaction.setDay(2);
+        transaction.setMonth(3);
+        transaction.setYear(4);
+
+        service.create(transaction);
+
+        service.create(transaction);
+
+        Assertions.assertEquals(2L, repository.count());
+    }
+
+    @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
         final Transaction    result;
