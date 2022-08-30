@@ -23,7 +23,7 @@ public final class DefaultBalanceService implements BalanceService {
         sum = transactionRepository.findSumAll();
 
         balance = new DtoBalance();
-        balance.setBalance(sum);
+        balance.setQuantity(sum);
 
         return balance;
     }
