@@ -35,7 +35,7 @@ import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - get all")
+@DisplayName("Default transaction service - get balance")
 @Sql({ "/db/queries/transaction/multiple.sql" })
 public class ITBalanceServiceGetBalance {
 

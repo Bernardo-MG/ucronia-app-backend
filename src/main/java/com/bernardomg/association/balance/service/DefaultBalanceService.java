@@ -18,9 +18,15 @@ public final class DefaultBalanceService implements BalanceService {
     @Override
     public final Balance getBalance() {
         final DtoBalance balance;
+        final Long       readSum;
         final Long       sum;
 
-        sum = transactionRepository.findSumAll();
+        readSum = transactionRepository.findSumAll();
+        if (readSum == null) {
+            sum = 0L;
+        } else {
+            sum = readSum;
+        }
 
         balance = new DtoBalance();
         balance.setQuantity(sum);

@@ -22,35 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
+package com.bernardomg.association.test.transaction.balance.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.balance.model.Balance;
+import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
 
 @IntegrationTest
-@DisplayName("Transaction repository - sum all - no data")
-public class TransactionRepositoryFindSumAllNoData {
+@DisplayName("Default transaction service - get balance - no data")
+public class ITBalanceServiceGetBalanceNoData {
 
     @Autowired
-    private TransactionRepository repository;
+    private BalanceService service;
 
-    public TransactionRepositoryFindSumAllNoData() {
+    public ITBalanceServiceGetBalanceNoData() {
         super();
     }
 
     @Test
-    @DisplayName("Returns the correct sum")
-    public void testFindSumAll() {
-        final Long result;
+    @DisplayName("Returns the expected balance")
+    public void testGetAll_Count() {
+        final Balance result;
 
-        result = repository.findSumAll();
+        result = service.getBalance();
 
-        Assertions.assertNull(result);
+        Assertions.assertEquals(0, result.getQuantity());
     }
 
 }
