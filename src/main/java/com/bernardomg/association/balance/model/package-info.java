@@ -22,16 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.repository;
+/**
+ * Balance model.
+ */
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.bernardomg.association.transaction.model.PersistentTransaction;
-
-public interface TransactionRepository extends JpaRepository<PersistentTransaction, Long> {
-
-    @Query("SELECT SUM(t.quantity) AS balance FROM Transaction t")
-    public Long findSumAll();
-
-}
+package com.bernardomg.association.balance.model;

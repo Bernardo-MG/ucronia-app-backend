@@ -22,16 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.repository;
+package com.bernardomg.association.test.transaction.balance.service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.transaction.model.PersistentTransaction;
+import com.bernardomg.association.balance.model.Balance;
+import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
-public interface TransactionRepository extends JpaRepository<PersistentTransaction, Long> {
+@IntegrationTest
+@DisplayName("Default transaction service - get all")
+@Sql({ "/db/queries/transaction/multiple.sql" })
+public class ITBalanceServiceGetBalance {
 
-    @Query("SELECT SUM(t.quantity) AS balance FROM Transaction t")
-    public Long findSumAll();
+    @Autowired
+    private BalanceService service;
+
+    public ITBalanceServiceGetBalance() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance")
+    public void testGetAll_Count() {
+        final Balance result;
+
+        result = service.getBalance();
+
+        Assertions.assertEquals(5, result.getBalance());
+    }
 
 }

@@ -22,16 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.repository;
+package com.bernardomg.association.balance.controller;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.model.PersistentTransaction;
+import com.bernardomg.association.balance.model.Balance;
+import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.fee.model.DtoFee;
 
-public interface TransactionRepository extends JpaRepository<PersistentTransaction, Long> {
+import lombok.AllArgsConstructor;
 
-    @Query("SELECT SUM(t.quantity) AS balance FROM Transaction t")
-    public Long findSumAll();
+/**
+ * Fee REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+@RequestMapping("/balance")
+@AllArgsConstructor
+public class BalanceController {
+
+    private final BalanceService service;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Balance readBalance(final DtoFee month) {
+        return service.getBalance();
+    }
 
 }

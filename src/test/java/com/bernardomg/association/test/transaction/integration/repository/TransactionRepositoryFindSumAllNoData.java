@@ -22,16 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.repository;
+package com.bernardomg.association.test.transaction.integration.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.model.PersistentTransaction;
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.transaction.repository.TransactionRepository;
 
-public interface TransactionRepository extends JpaRepository<PersistentTransaction, Long> {
+@IntegrationTest
+@DisplayName("Transaction repository - sum all - no data")
+public class TransactionRepositoryFindSumAllNoData {
 
-    @Query("SELECT SUM(t.quantity) AS balance FROM Transaction t")
-    public Long findSumAll();
+    @Autowired
+    private TransactionRepository repository;
+
+    public TransactionRepositoryFindSumAllNoData() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Returns the correct sum")
+    public void testFindSumAll() {
+        final Long result;
+
+        result = repository.findSumAll();
+
+        Assertions.assertEquals(0, result);
+    }
 
 }
