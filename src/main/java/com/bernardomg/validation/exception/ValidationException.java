@@ -5,33 +5,33 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.bernardomg.validation.error.ValidationError;
+import com.bernardomg.validation.error.ValidationFailure;
 
 public class ValidationException extends RuntimeException {
 
     private static final long serialVersionUID = 5252694690217611607L;
 
-    private static final String getMessage(final Collection<ValidationError> errs) {
+    private static final String getMessage(final Collection<ValidationFailure> errs) {
         return errs.stream()
-            .map(ValidationError::getError)
+            .map(ValidationFailure::getError)
             .collect(Collectors.joining(","));
     }
 
-    private final Collection<ValidationError> errors;
+    private final Collection<ValidationFailure> errors;
 
-    public ValidationException(final Collection<ValidationError> errs) {
+    public ValidationException(final Collection<ValidationFailure> errs) {
         super(getMessage(errs));
 
         errors = errs;
     }
 
-    public ValidationException(final ValidationError err) {
+    public ValidationException(final ValidationFailure err) {
         super(err.getError());
 
         errors = Arrays.asList(err);
     }
 
-    public final Collection<ValidationError> getErrors() {
+    public final Collection<ValidationFailure> getErrors() {
         return errors;
     }
 

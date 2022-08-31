@@ -28,7 +28,7 @@ public final class RuleValidator<T> implements Validator<T> {
 
     @Override
     public final void validate(final T obj) {
-        final Collection<ValidationError> errors;
+        final Collection<ValidationFailure> errors;
 
         errors = rules.stream()
             .map((r) -> r.test(obj))
