@@ -40,6 +40,8 @@ import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 
@@ -70,8 +72,8 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Fee> readAll(final DtoFee month) {
-        return service.getAll(month);
+    public Iterable<? extends Fee> readAll(final DtoFee month, final Pagination pagination, final Sort sort) {
+        return service.getAll(month, pagination, sort);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

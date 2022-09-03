@@ -4,6 +4,8 @@ package com.bernardomg.association.member.service;
 import java.util.Optional;
 
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -36,9 +38,13 @@ public interface MemberService {
      *
      * @param sample
      *            sample for filtering
+     * @param pagination
+     *            pagination to apply
+     * @param sort
+     *            sorting to apply
      * @return all the members matching the sample
      */
-    public Iterable<? extends Member> getAll(final Member sample);
+    public Iterable<? extends Member> getAll(final Member sample, final Pagination pagination, final Sort sort);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

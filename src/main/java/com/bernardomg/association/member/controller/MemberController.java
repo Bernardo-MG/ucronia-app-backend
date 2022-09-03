@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 
@@ -69,8 +71,8 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Member> readAll(final DtoMember member) {
-        return service.getAll(member);
+    public Iterable<? extends Member> readAll(final DtoMember member, final Pagination pagination, final Sort sort) {
+        return service.getAll(member, pagination, sort);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

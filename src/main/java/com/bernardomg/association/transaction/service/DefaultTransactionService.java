@@ -13,6 +13,8 @@ import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.bernardomg.association.transaction.validation.TransactionValidator;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +64,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final Transaction sample) {
+    public final Iterable<Transaction> getAll(final Transaction sample, final Pagination pagination, final Sort sort) {
         final PersistentTransaction entity;
 
         entity = toEntity(sample);

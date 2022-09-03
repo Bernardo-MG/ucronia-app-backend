@@ -4,6 +4,8 @@ package com.bernardomg.association.transaction.service;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 /**
  * Transaction service. Supports all the CRUD operations.
@@ -37,9 +39,13 @@ public interface TransactionService {
      *
      * @param sample
      *            sample for filtering
+     * @param pagination
+     *            pagination to apply
+     * @param sort
+     *            sorting to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<Transaction> getAll(final Transaction sample);
+    public Iterable<Transaction> getAll(final Transaction sample, final Pagination pagination, final Sort sort);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

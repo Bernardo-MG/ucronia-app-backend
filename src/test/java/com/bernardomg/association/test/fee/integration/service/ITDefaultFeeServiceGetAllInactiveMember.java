@@ -37,6 +37,8 @@ import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default fee service - get all - inactive member")
@@ -55,10 +57,15 @@ public class ITDefaultFeeServiceGetAllInactiveMember {
     public void testGetAll_Count() {
         final Iterable<? extends Fee> result;
         final DtoFee                  sample;
+        final Pagination              pagination;
+        final Sort                    sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoFee();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pagination, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -68,11 +75,16 @@ public class ITDefaultFeeServiceGetAllInactiveMember {
     public void testGetAll_Data() {
         final Iterator<? extends Fee> data;
         final DtoFee                  sample;
-        Fee                           result;
+        final Fee                     result;
+        final Pagination              pagination;
+        final Sort                    sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoFee();
 
-        data = service.getAll(sample)
+        data = service.getAll(sample, pagination, sort)
             .iterator();
 
         result = data.next();

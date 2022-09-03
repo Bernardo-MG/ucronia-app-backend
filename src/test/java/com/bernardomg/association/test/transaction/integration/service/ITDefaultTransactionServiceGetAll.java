@@ -37,6 +37,8 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.service.DefaultTransactionService;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default transaction service - get all")
@@ -55,10 +57,15 @@ public class ITDefaultTransactionServiceGetAll {
     public void testGetAll_Count() {
         final Iterable<Transaction> result;
         final Transaction           sample;
+        final Pagination            pagination;
+        final Sort                  sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoTransaction();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pagination, sort);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }
@@ -69,10 +76,15 @@ public class ITDefaultTransactionServiceGetAll {
         final Iterator<? extends Transaction> result;
         Transaction                           data;
         final Transaction                     sample;
+        final Pagination                      pagination;
+        final Sort                            sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoTransaction();
 
-        result = service.getAll(sample)
+        result = service.getAll(sample, pagination, sort)
             .iterator();
 
         data = result.next();

@@ -35,6 +35,8 @@ import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default fee service - get all")
@@ -53,10 +55,15 @@ public class ITDefaultFeeServiceGetAllNoFee {
     public void testGetAll_Count() {
         final Iterable<? extends Fee> result;
         final DtoFee                  sample;
+        final Pagination              pagination;
+        final Sort                    sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoFee();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pagination, sort);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }

@@ -31,6 +31,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -105,7 +106,7 @@ public final class TestMemberController {
 
         sample = new DtoMember();
 
-        Mockito.when(service.getAll(sample))
+        Mockito.when(service.getAll(sample, ArgumentMatchers.any(), ArgumentMatchers.any()))
             .thenReturn((Iterable) data);
 
         return new MemberController(service);

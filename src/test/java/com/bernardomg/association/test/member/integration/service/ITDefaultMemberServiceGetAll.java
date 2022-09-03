@@ -37,6 +37,8 @@ import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default member service - get all")
@@ -55,10 +57,15 @@ public class ITDefaultMemberServiceGetAll {
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
         final Member                     sample;
+        final Pagination                 pagination;
+        final Sort                       sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pagination, sort);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }
@@ -69,10 +76,15 @@ public class ITDefaultMemberServiceGetAll {
         final Iterator<? extends Member> result;
         final Member                     sample;
         Member                           data;
+        final Pagination                 pagination;
+        final Sort                       sort;
+
+        pagination = Pagination.disabled();
+        sort = Sort.disabled();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample)
+        result = service.getAll(sample, pagination, sort)
             .iterator();
 
         data = result.next();

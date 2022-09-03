@@ -12,6 +12,8 @@ import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +66,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Iterable<? extends Member> getAll(final Member sample) {
+    public final Iterable<? extends Member> getAll(final Member sample, final Pagination pagination, final Sort sort) {
         final PersistentMember entity;
 
         entity = toEntity(sample);

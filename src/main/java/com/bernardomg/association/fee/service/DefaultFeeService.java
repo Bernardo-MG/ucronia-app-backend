@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,8 @@ import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.fee.validation.FeeValidator;
+import com.bernardomg.mvc.pagination.model.Pagination;
+import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,18 +67,18 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<? extends Fee> getAll(final Fee sample) {
-        final PersistentFee entity;
-        final Sort          sort;
+    public final Iterable<? extends Fee> getAll(final Fee sample, final Pagination pagination, final Sort sort) {
+        final PersistentFee                        entity;
+        final org.springframework.data.domain.Sort spSort;
 
         entity = toEntity(sample);
 
         // TODO: Test sorting
-        sort = Sort.by(Direction.ASC, "year", "month");
+        spSort = org.springframework.data.domain.Sort.by(Direction.ASC, "year", "month");
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return repository.findAllWithMember(Example.of(entity), sort)
+        return repository.findAllWithMember(Example.of(entity), spSort)
             .stream()
             .collect(Collectors.toList());
     }
