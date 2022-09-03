@@ -50,7 +50,7 @@ import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
 import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
 import com.bernardomg.mvc.response.controller.ResponseAdvice;
 
-@DisplayName("Example controller")
+@DisplayName("Member controller")
 public final class TestMemberController {
 
     private MockMvc mockMvc;
@@ -95,7 +95,6 @@ public final class TestMemberController {
     private final MemberController getController() {
         final MemberService      service;
         final Collection<Member> data;
-        final Member             sample;
 
         service = Mockito.mock(MemberService.class);
 
@@ -104,9 +103,7 @@ public final class TestMemberController {
         data.add(new DtoMember());
         data.add(new DtoMember());
 
-        sample = new DtoMember();
-
-        Mockito.when(service.getAll(sample, ArgumentMatchers.any(), ArgumentMatchers.any()))
+        Mockito.when(service.getAll(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
             .thenReturn((Iterable) data);
 
         return new MemberController(service);
