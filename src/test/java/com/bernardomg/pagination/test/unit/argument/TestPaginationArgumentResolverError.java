@@ -14,7 +14,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
 
-@DisplayName("Pagination argument resolver error handling")
+@DisplayName("Pagination argument resolver - error handling")
 public class TestPaginationArgumentResolverError {
 
     private final HandlerMethodArgumentResolver resolver = new PaginationArgumentResolver();

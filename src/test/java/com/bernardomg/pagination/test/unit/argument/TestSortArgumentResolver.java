@@ -232,6 +232,85 @@ public class TestSortArgumentResolver {
     }
 
     @Test
+    @DisplayName("Disabling sorting overrides sorted status")
+    public void testResolve_FullSort_Disabled_NotSorted() throws Exception {
+        final MethodParameter       parameter;
+        final ModelAndViewContainer mavContainer;
+        final NativeWebRequest      webRequest;
+        final WebDataBinderFactory  binderFactory;
+        final Sort                  sort;
+
+        parameter = Mockito.mock(MethodParameter.class);
+        mavContainer = Mockito.mock(ModelAndViewContainer.class);
+        webRequest = Mockito.mock(NativeWebRequest.class);
+        binderFactory = Mockito.mock(WebDataBinderFactory.class);
+
+        Mockito.when(webRequest.getParameter("sorted"))
+            .thenReturn("false");
+        Mockito.when(webRequest.getParameter("property"))
+            .thenReturn("field");
+        Mockito.when(webRequest.getParameter("direction"))
+            .thenReturn("asc");
+
+        sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+
+        Assertions.assertFalse(sort.getSorted());
+    }
+
+    @Test
+    @DisplayName("Enabling sorting keeps sorted status")
+    public void testResolve_FullSort_Enabled_Sorted() throws Exception {
+        final MethodParameter       parameter;
+        final ModelAndViewContainer mavContainer;
+        final NativeWebRequest      webRequest;
+        final WebDataBinderFactory  binderFactory;
+        final Sort                  sort;
+
+        parameter = Mockito.mock(MethodParameter.class);
+        mavContainer = Mockito.mock(ModelAndViewContainer.class);
+        webRequest = Mockito.mock(NativeWebRequest.class);
+        binderFactory = Mockito.mock(WebDataBinderFactory.class);
+
+        Mockito.when(webRequest.getParameter("sorted"))
+            .thenReturn("true");
+        Mockito.when(webRequest.getParameter("property"))
+            .thenReturn("field");
+        Mockito.when(webRequest.getParameter("direction"))
+            .thenReturn("asc");
+
+        sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+
+        Assertions.assertTrue(sort.getSorted());
+    }
+
+    @Test
+    @DisplayName("Enabling sorting keeps the sorted values")
+    public void testResolve_FullSort_Enabled_Values() throws Exception {
+        final MethodParameter       parameter;
+        final ModelAndViewContainer mavContainer;
+        final NativeWebRequest      webRequest;
+        final WebDataBinderFactory  binderFactory;
+        final Sort                  sort;
+
+        parameter = Mockito.mock(MethodParameter.class);
+        mavContainer = Mockito.mock(ModelAndViewContainer.class);
+        webRequest = Mockito.mock(NativeWebRequest.class);
+        binderFactory = Mockito.mock(WebDataBinderFactory.class);
+
+        Mockito.when(webRequest.getParameter("sorted"))
+            .thenReturn("true");
+        Mockito.when(webRequest.getParameter("property"))
+            .thenReturn("field");
+        Mockito.when(webRequest.getParameter("direction"))
+            .thenReturn("asc");
+
+        sort = (Sort) resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+
+        Assertions.assertEquals("field", sort.getProperty());
+        Assertions.assertEquals(Direction.ASC, sort.getDirection());
+    }
+
+    @Test
     @DisplayName("Returns the default direction when an invalid direction is received")
     public void testResolve_FullSort_InvalidDirection_Values() throws Exception {
         final MethodParameter       parameter;
