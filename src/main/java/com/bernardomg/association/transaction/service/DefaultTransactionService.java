@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
@@ -15,6 +16,7 @@ import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.bernardomg.association.transaction.validation.TransactionValidator;
 import com.bernardomg.mvc.pagination.model.Pagination;
 import com.bernardomg.mvc.pagination.model.Sort;
+import com.bernardomg.mvc.pagination.utils.Paginations;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,10 +68,13 @@ public final class DefaultTransactionService implements TransactionService {
     @Override
     public final Iterable<Transaction> getAll(final Transaction sample, final Pagination pagination, final Sort sort) {
         final PersistentTransaction entity;
+        final Pageable              pageable;
+
+        pageable = Paginations.toSpring(pagination, sort);
 
         entity = toEntity(sample);
 
-        return repository.findAll(Example.of(entity))
+        return repository.findAll(Example.of(entity), pageable)
             .stream()
             .map(this::toDto)
             .collect(Collectors.toList());
