@@ -1,5 +1,5 @@
 
-package com.bernardomg.pagination.test.tool.service;
+package com.bernardomg.mvc.pagination.test.tool.service;
 
 import java.util.Collections;
 

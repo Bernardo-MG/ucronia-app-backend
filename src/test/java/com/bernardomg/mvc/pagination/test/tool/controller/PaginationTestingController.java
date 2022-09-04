@@ -1,5 +1,5 @@
 
-package com.bernardomg.pagination.test.tool.controller;
+package com.bernardomg.mvc.pagination.test.tool.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.mvc.pagination.model.Pagination;
 import com.bernardomg.mvc.pagination.model.Sort;
-import com.bernardomg.pagination.test.tool.service.PaginationTestingService;
+import com.bernardomg.mvc.pagination.test.tool.service.PaginationTestingService;
 
 import lombok.AllArgsConstructor;
 

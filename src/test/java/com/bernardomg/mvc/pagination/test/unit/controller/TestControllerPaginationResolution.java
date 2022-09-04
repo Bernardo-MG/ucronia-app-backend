@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.pagination.test.unit.controller;
+package com.bernardomg.mvc.pagination.test.unit.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,8 +46,8 @@ import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
 import com.bernardomg.mvc.pagination.model.Direction;
 import com.bernardomg.mvc.pagination.model.Pagination;
 import com.bernardomg.mvc.pagination.model.Sort;
-import com.bernardomg.pagination.test.tool.controller.PaginationTestingController;
-import com.bernardomg.pagination.test.tool.service.PaginationTestingService;
+import com.bernardomg.mvc.pagination.test.tool.controller.PaginationTestingController;
+import com.bernardomg.mvc.pagination.test.tool.service.PaginationTestingService;
 
 @DisplayName("Pagination arguments resolution on controllers")
 public final class TestControllerPaginationResolution {
