@@ -70,7 +70,7 @@ public final class PaginationArgumentResolver implements HandlerMethodArgumentRe
 
             if ((pageText == null) && (sizeText == null)) {
                 // No pagination parameters
-                log.trace("No pagination data received, using disabled pagination");
+                log.trace("No pagination data received, using default pagination");
                 pagination = Pagination.first();
             } else {
                 page = parseInteger(pageText);

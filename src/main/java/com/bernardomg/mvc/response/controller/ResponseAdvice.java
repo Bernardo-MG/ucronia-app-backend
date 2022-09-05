@@ -34,9 +34,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.bernardomg.mvc.pagination.model.PageIterable;
-import com.bernardomg.mvc.response.model.DefaultPaginatedResponse;
 import com.bernardomg.mvc.response.model.DefaultResponse;
+import com.bernardomg.mvc.response.model.ImmutableSpringPageResponse;
 import com.bernardomg.mvc.response.model.PaginatedResponse;
 import com.bernardomg.mvc.response.model.Response;
 
@@ -76,9 +75,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             // Avoid wrapping responses
             result = body;
         } else if (body instanceof Page<?>) {
-            result = toPaginatedResponse((Page<?>) body);
-        } else if (body instanceof PageIterable<?>) {
-            result = toPaginatedResponse((PageIterable<?>) body);
+            // Spring pagination
+            result = new ImmutableSpringPageResponse<>((Page<?>) body);
         } else if (body == null) {
             log.debug("Received null as response body");
             result = new DefaultResponse<>();
@@ -95,48 +93,5 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return true;
     }
 
-    /**
-     * Wraps the page into a paginated response.
-     *
-     * @param page
-     *            page to wrap
-     * @return paginated response
-     */
-    private final PaginatedResponse<?> toPaginatedResponse(final Page<?> page) {
-        final DefaultPaginatedResponse<?> paginatedResponse;
-
-        paginatedResponse = new DefaultPaginatedResponse<>(page.getContent());
-        paginatedResponse.setElementsInPage(page.getNumberOfElements());
-        paginatedResponse.setTotalElements(page.getTotalElements());
-        paginatedResponse.setTotalPages(page.getTotalPages());
-        paginatedResponse.setPageNumber(page.getNumber());
-        paginatedResponse.setSize(page.getSize());
-        paginatedResponse.setFirst(page.isFirst());
-        paginatedResponse.setLast(page.isLast());
-
-        return paginatedResponse;
-    }
-
-    /**
-     * Wraps the page iterable into a paginated response.
-     *
-     * @param page
-     *            page to wrap
-     * @return paginated response
-     */
-    private final PaginatedResponse<?> toPaginatedResponse(final PageIterable<?> page) {
-        final DefaultPaginatedResponse<?> paginatedResponse;
-
-        paginatedResponse = new DefaultPaginatedResponse<>(page.getContent());
-        paginatedResponse.setElementsInPage(page.getElementsInPage());
-        paginatedResponse.setTotalElements(page.getTotalElements());
-        paginatedResponse.setTotalPages(page.getTotalPages());
-        paginatedResponse.setPageNumber(page.getPageNumber());
-        paginatedResponse.setSize(page.getSize());
-        paginatedResponse.setFirst(page.isFirst());
-        paginatedResponse.setLast(page.isLast());
-
-        return paginatedResponse;
-    }
 
 }

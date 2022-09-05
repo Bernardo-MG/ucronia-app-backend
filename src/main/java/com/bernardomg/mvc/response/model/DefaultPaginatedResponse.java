@@ -62,7 +62,7 @@ public final class DefaultPaginatedResponse<T> implements PaginatedResponse<T> {
     /**
      * Number of this page.
      */
-    private Integer pageNumber     = -1;
+    private Integer page           = -1;
 
     /**
      * Size of this page.

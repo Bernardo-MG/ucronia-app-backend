@@ -24,13 +24,10 @@
 
 package com.bernardomg.mvc.pagination.utils;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.mvc.pagination.model.DefaultPageIterable;
 import com.bernardomg.mvc.pagination.model.Direction;
-import com.bernardomg.mvc.pagination.model.PageIterable;
 import com.bernardomg.mvc.pagination.model.Pagination;
 import com.bernardomg.mvc.pagination.model.Sort;
 
@@ -41,22 +38,6 @@ import com.bernardomg.mvc.pagination.model.Sort;
  *
  */
 public final class Paginations {
-
-    public static final <T> PageIterable<T> fromSpring(final Page<T> page) {
-        final DefaultPageIterable<T> result;
-
-        result = new DefaultPageIterable<>();
-        result.setContent(page.getContent());
-        result.setElementsInPage(page.getNumberOfElements());
-        result.setFirst(page.isFirst());
-        result.setLast(page.isLast());
-        result.setPageNumber(page.getNumber());
-        result.setSize(page.getSize());
-        result.setTotalElements(page.getTotalElements());
-        result.setTotalPages(page.getTotalPages());
-
-        return result;
-    }
 
     public static final Pageable toSpring(final Pagination pagination, final Sort sort) {
         final Pageable                                       pageable;

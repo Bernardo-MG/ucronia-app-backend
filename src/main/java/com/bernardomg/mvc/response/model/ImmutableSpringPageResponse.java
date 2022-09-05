@@ -22,73 +22,80 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.pagination.model;
+package com.bernardomg.mvc.response.model;
 
-import java.util.Collections;
-import java.util.Iterator;
+import org.springframework.data.domain.Page;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Paginated response wrapping a Spring page.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ * @param <T>
+ *            response content type
+ */
 @Data
-@NoArgsConstructor
-public final class DefaultPageIterable<T> implements PageIterable<T> {
+public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<Iterable<T>> {
 
     /**
-     * Actual content.
+     * Wrapped page.
      */
     @NonNull
-    private Iterable<T> content        = Collections.emptyList();
+    private final Page<T> page;
 
     /**
-     * Number of elements in the page.
+     * Constructs a response wrapping the received page.
+     *
+     * @param pg
+     *            wrapped page
      */
-    private Integer     elementsInPage = 0;
+    public ImmutableSpringPageResponse(@NonNull final Page<T> pg) {
+        super();
 
-    /**
-     * Flags this is as the first page.
-     */
-    private Boolean     first          = false;
-
-    /**
-     * Flags this is as the last page.
-     */
-    private Boolean     last           = false;
-
-    /**
-     * Number of this page.
-     */
-    private Integer     pageNumber     = 0;
-
-    /**
-     * Size of this page.
-     */
-    private Integer     size           = 0;
-
-    /**
-     * Total number of elements among all the pages.
-     */
-    private Long        totalElements  = 0L;
-
-    /**
-     * Total number of pages.
-     */
-    private Integer     totalPages     = 0;
-
-    @Override
-    public Boolean isFirst() {
-        return first;
+        page = pg;
     }
 
     @Override
-    public Boolean isLast() {
-        return last;
+    public final Iterable<T> getContent() {
+        return page.getContent();
     }
 
     @Override
-    public final Iterator<T> iterator() {
-        return content.iterator();
+    public final Integer getElementsInPage() {
+        return page.getNumberOfElements();
+    }
+
+    @Override
+    public final Boolean getFirst() {
+        return page.isFirst();
+    }
+
+    @Override
+    public final Boolean getLast() {
+        return page.isLast();
+    }
+
+    @Override
+    public final Integer getPage() {
+        return page.getNumber();
+    }
+
+    @Override
+    public final Integer getSize() {
+        return page.getSize();
+    }
+
+    @Override
+    public final Long getTotalElements() {
+        return page.getTotalElements();
+    }
+
+    @Override
+    public final Integer getTotalPages() {
+        return page.getTotalPages();
     }
 
 }

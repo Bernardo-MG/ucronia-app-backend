@@ -60,7 +60,7 @@ public interface PaginatedResponse<T> extends Response<T> {
      *
      * @return the number of this page
      */
-    public Integer getPageNumber();
+    public Integer getPage();
 
     /**
      * Size of this page.
