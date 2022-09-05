@@ -42,6 +42,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public final class PaginationArgumentResolver implements HandlerMethodArgumentResolver {
+    
+    private static final Pagination DEFAULT_PAGINATION = Pagination.first();
 
     /**
      * Default constructor.
@@ -71,7 +73,7 @@ public final class PaginationArgumentResolver implements HandlerMethodArgumentRe
             if ((pageText == null) && (sizeText == null)) {
                 // No pagination parameters
                 log.trace("No pagination data received, using default pagination");
-                pagination = Pagination.first();
+                pagination = DEFAULT_PAGINATION;
             } else {
                 page = parseInteger(pageText);
                 size = parseSize(sizeText);
@@ -87,6 +89,7 @@ public final class PaginationArgumentResolver implements HandlerMethodArgumentRe
             }
         } else {
             // No pagination
+            // TODO: Not all endpoints may allow disabling pagination
             log.trace("Pagination disabled for request");
             pagination = Pagination.disabled();
         }
