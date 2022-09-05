@@ -31,4 +31,14 @@ public class PaginationTestingController {
         return service.getAll(Pagination.disabled(), Sort.disabled());
     }
 
+    @GetMapping(path = "/pass/pagination", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Pagination readPagination(final Pagination pagination) {
+        return pagination;
+    }
+
+    @GetMapping(path = "/pass/sort", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Sort readSort(final Sort sort) {
+        return sort;
+    }
+
 }
