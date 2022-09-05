@@ -22,39 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.mvc.config;
 
-import org.springframework.context.annotation.Bean;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
 import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
 
 /**
- * Request configuration.
+ * Web configuration for adding pagination and sort support.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Configuration
-public class RequestConfig {
+public class PaginationWebConfiguration implements WebMvcConfigurer {
 
     /**
      * Default constructor.
      */
-    public RequestConfig() {
+    public PaginationWebConfiguration() {
         super();
     }
 
-    @Bean("paginationArgumentResolver")
-    public HandlerMethodArgumentResolver getPaginationArgumentResolver() {
-        return new PaginationArgumentResolver();
-    }
-
-    @Bean("sortArgumentResolver")
-    public HandlerMethodArgumentResolver getSortArgumentResolver() {
-        return new SortArgumentResolver();
+    @Override
+    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new PaginationArgumentResolver());
+        argumentResolvers.add(new SortArgumentResolver());
     }
 
 }
