@@ -22,87 +22,53 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.member.integration.controller;
+package com.bernardomg.mvc.response.test;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.member.model.DtoMember;
-import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.test.config.UrlConfig;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
-import com.google.gson.Gson;
 
 @MvcIntegrationTest
-@DisplayName("Member controller - request validation")
-public final class ITMemberControllerRequestValidation {
-
-    private final Gson gson = new Gson();
+@DisplayName("Member controller - response structure")
+@Sql({ "/db/queries/member/multiple.sql" })
+public final class ITMemberControllerResponse {
 
     @Autowired
-    private MockMvc    mockMvc;
+    private MockMvc mockMvc;
 
-    public ITMemberControllerRequestValidation() {
+    public ITMemberControllerResponse() {
         super();
     }
 
     @Test
-    @DisplayName("Creates an entity")
-    public final void testPost_Full_Valid() throws Exception {
+    @DisplayName("Returns the response structure")
+    public final void testGet_Response() throws Exception {
         final ResultActions result;
-        final DtoMember     member;
 
-        member = new DtoMember();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
-
-        result = mockMvc.perform(getPostRequest(member));
+        result = mockMvc.perform(getGetRequest());
 
         // The operation was accepted
         result.andExpect(MockMvcResultMatchers.status()
             .isOk());
 
         // The response model contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content.name", Matchers.comparesEqualTo("Member")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
+            .exists());
     }
 
-    @Test
-    @DisplayName("Rejects an entity with no name")
-    public final void testPost_NoName_Invalid() throws Exception {
-        final ResultActions result;
-        final DtoMember     member;
-
-        member = new DtoMember();
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
-
-        result = mockMvc.perform(getPostRequest(member));
-
-        // The operation was accepted
-        result.andExpect(MockMvcResultMatchers.status()
-            .isBadRequest());
-    }
-
-    private final RequestBuilder getPostRequest(final Member member) {
-        final String json;
-
-        json = gson.toJson(member);
-        return MockMvcRequestBuilders.post(UrlConfig.MEMBER)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json);
+    private final RequestBuilder getGetRequest() {
+        return MockMvcRequestBuilders.get(UrlConfig.MEMBER)
+            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }
