@@ -51,6 +51,21 @@ public final class ITControllerPaginationStructure {
     }
 
     @Test
+    @DisplayName("Handles disabled pagination arguments")
+    public final void testGet_Disabled_Pagination() throws Exception {
+        final ResultActions result;
+
+        result = mockMvc.perform(getGetDisabledPaginationRequest());
+
+        // The operation was accepted
+        result.andExpect(MockMvcResultMatchers.status()
+            .isOk());
+
+        // The response model contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content.paged", Matchers.comparesEqualTo(false)));
+    }
+
+    @Test
     @DisplayName("Handles pagination arguments")
     public final void testGet_Pagination() throws Exception {
         final ResultActions result;
@@ -62,6 +77,7 @@ public final class ITControllerPaginationStructure {
             .isOk());
 
         // The response model contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content.paged", Matchers.comparesEqualTo(true)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content.page", Matchers.comparesEqualTo(123)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content.size", Matchers.comparesEqualTo(456)));
     }
@@ -81,6 +97,12 @@ public final class ITControllerPaginationStructure {
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content.property", Matchers.comparesEqualTo("field")));
         result.andExpect(
             MockMvcResultMatchers.jsonPath("$.content.direction", Matchers.comparesEqualTo(Direction.DESC.toString())));
+    }
+
+    private final RequestBuilder getGetDisabledPaginationRequest() {
+        return MockMvcRequestBuilders.get(PaginationTestingController.URL + "/pass/pagination")
+            .queryParam("paged", "false")
+            .contentType(MediaType.APPLICATION_JSON);
     }
 
     private final RequestBuilder getGetPaginationRequest() {
