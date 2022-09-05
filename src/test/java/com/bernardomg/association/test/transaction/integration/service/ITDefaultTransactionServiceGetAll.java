@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -55,10 +56,13 @@ public class ITDefaultTransactionServiceGetAll {
     public void testGetAll_Count() {
         final Iterable<Transaction> result;
         final Transaction           sample;
+        final Pageable              pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoTransaction();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }
@@ -69,10 +73,13 @@ public class ITDefaultTransactionServiceGetAll {
         final Iterator<? extends Transaction> result;
         Transaction                           data;
         final Transaction                     sample;
+        final Pageable                        pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoTransaction();
 
-        result = service.getAll(sample)
+        result = service.getAll(sample, pageable)
             .iterator();
 
         data = result.next();

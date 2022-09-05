@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMember;
@@ -55,10 +56,13 @@ public class ITDefaultMemberServiceGetAllInactive {
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
         final Member                     sample;
+        final Pageable                   pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -69,10 +73,13 @@ public class ITDefaultMemberServiceGetAllInactive {
         final Iterator<? extends Member> result;
         final Member                     sample;
         Member                           data;
+        final Pageable                   pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample)
+        result = service.getAll(sample, pageable)
             .iterator();
 
         data = result.next();

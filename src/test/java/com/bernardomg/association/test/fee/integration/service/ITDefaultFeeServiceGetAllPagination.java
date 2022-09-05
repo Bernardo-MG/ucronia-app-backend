@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.integration.repository;
+package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.Iterator;
 
@@ -31,55 +31,105 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.Fee;
-import com.bernardomg.association.fee.model.PersistentFee;
-import com.bernardomg.association.fee.repository.FeeRepository;
+import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with active member")
+@DisplayName("Default fee service - get all - pagination")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-public class ITFeeRepositoryFindAllWithActiveMember {
+public class ITDefaultFeeServiceGetAllPagination {
 
     @Autowired
-    private FeeRepository repository;
+    private DefaultFeeService service;
 
-    public ITFeeRepositoryFindAllWithActiveMember() {
+    public ITDefaultFeeServiceGetAllPagination() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final PersistentFee           sample;
-        final Sort                    sort;
+    @DisplayName("Returns all the data for the first page")
+    public void testGetAll_Page1_Data() {
+        final DtoFee                  sample;
+        final Iterator<? extends Fee> data;
+        final Fee                     result;
+        final Pageable                pageable;
 
-        sample = new PersistentFee();
-        sort = Sort.unsorted();
+        pageable = PageRequest.of(0, 1);
 
-        result = repository.findAllWithActiveMember(Example.of(sample), sort);
+        sample = new DtoFee();
 
-        Assertions.assertEquals(5, IterableUtils.size(result));
+        data = service.getAll(sample, pageable)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals(2, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
     }
 
     @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    @DisplayName("Returns all the data for the second page")
+    public void testGetAll_Page2_Data() {
+        final DtoFee                  sample;
         final Iterator<? extends Fee> data;
-        final PersistentFee           sample;
+        final Fee                     result;
+        final Pageable                pageable;
+
+        pageable = PageRequest.of(1, 1);
+
+        sample = new DtoFee();
+
+        data = service.getAll(sample, pageable)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(2, result.getMemberId());
+        Assertions.assertEquals("Member 2 Surname", result.getMember());
+        Assertions.assertEquals(2, result.getMonth());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertTrue(result.getPaid());
+    }
+
+    @Test
+    @DisplayName("Returns the page entities")
+    public void testGetAll_Paged_Count() {
+        final Iterable<? extends Fee> result;
+        final DtoFee                  sample;
+        final Pageable                pageable;
+
+        pageable = PageRequest.of(0, 1);
+
+        sample = new DtoFee();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all data in ascending order")
+    public void testGetAll_Sorted_Asc_Data() {
+        final Iterator<? extends Fee> data;
+        final DtoFee                  sample;
         Fee                           result;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        sample = new PersistentFee();
-        sort = Sort.unsorted();
+        pageable = PageRequest.of(0, 10, Direction.ASC, "id");
 
-        data = repository.findAllWithActiveMember(Example.of(sample), sort)
+        sample = new DtoFee();
+
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();
@@ -124,17 +174,18 @@ public class ITFeeRepositoryFindAllWithActiveMember {
     }
 
     @Test
-    @DisplayName("Returns all data sorted")
-    public void testGetAll_Sort_Data() {
+    @DisplayName("Returns all data in descending order")
+    public void testGetAll_Sorted_Desc_Data() {
         final Iterator<? extends Fee> data;
-        final PersistentFee           sample;
+        final DtoFee                  sample;
         Fee                           result;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        sample = new PersistentFee();
-        sort = Sort.by(Direction.DESC, "member");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "id");
 
-        data = repository.findAllWithActiveMember(Example.of(sample), sort)
+        sample = new DtoFee();
+
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();

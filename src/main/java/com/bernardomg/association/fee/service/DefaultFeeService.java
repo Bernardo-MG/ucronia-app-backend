@@ -6,8 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.DtoFee;
@@ -66,18 +65,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<? extends Fee> getAll(final Fee sample) {
+    public final Iterable<? extends Fee> getAll(final Fee sample, final Pageable pageable) {
         final PersistentFee entity;
-        final Sort          sort;
 
         entity = toEntity(sample);
 
-        // TODO: Test sorting
-        sort = Sort.by(Direction.ASC, "year", "month");
-
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return repository.findAllWithMember(Example.of(entity), sort)
+        return repository.findAllWithMember(Example.of(entity), pageable)
             .stream()
             .collect(Collectors.toList());
     }

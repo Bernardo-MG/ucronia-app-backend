@@ -22,47 +22,53 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.integration.repository;
+package com.bernardomg.mvc.response.test;
 
-import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.fee.model.Fee;
-import com.bernardomg.association.fee.model.PersistentFee;
-import com.bernardomg.association.fee.repository.FeeRepository;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.UrlConfig;
+import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 
-@IntegrationTest
-@DisplayName("Fee repository - find all with active member - inactive member")
-@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-public class ITFeeRepositoryFindAllWithActiveMemberInactiveMember {
+@MvcIntegrationTest
+@DisplayName("Member controller - response structure")
+@Sql({ "/db/queries/member/multiple.sql" })
+public final class ITMemberControllerResponse {
 
     @Autowired
-    private FeeRepository repository;
+    private MockMvc mockMvc;
 
-    public ITFeeRepositoryFindAllWithActiveMemberInactiveMember() {
+    public ITMemberControllerResponse() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final PersistentFee           sample;
-        final Sort                    sort;
+    @DisplayName("Returns the response structure")
+    public final void testGet_Response() throws Exception {
+        final ResultActions result;
 
-        sample = new PersistentFee();
-        sort = Sort.unsorted();
+        result = mockMvc.perform(getGetRequest());
 
-        result = repository.findAllWithActiveMember(Example.of(sample), sort);
+        // The operation was accepted
+        result.andExpect(MockMvcResultMatchers.status()
+            .isOk());
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        // The response model contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
+            .exists());
+    }
+
+    private final RequestBuilder getGetRequest() {
+        return MockMvcRequestBuilders.get(UrlConfig.MEMBER)
+            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

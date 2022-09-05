@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.DtoFee;
@@ -53,10 +54,13 @@ public class ITDefaultFeeServiceGetAllNoFee {
     public void testGetAll_Count() {
         final Iterable<? extends Fee> result;
         final DtoFee                  sample;
+        final Pageable                pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoFee();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }

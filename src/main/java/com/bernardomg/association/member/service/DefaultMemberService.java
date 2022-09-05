@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMember;
@@ -64,12 +65,12 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Iterable<? extends Member> getAll(final Member sample) {
+    public final Iterable<? extends Member> getAll(final Member sample, final Pageable pageable) {
         final PersistentMember entity;
 
         entity = toEntity(sample);
 
-        return repository.findAll(Example.of(entity))
+        return repository.findAll(Example.of(entity), pageable)
             .stream()
             .map(this::toDto)
             .collect(Collectors.toList());

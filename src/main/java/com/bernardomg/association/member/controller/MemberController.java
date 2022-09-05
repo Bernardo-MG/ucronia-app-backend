@@ -26,6 +26,7 @@ package com.bernardomg.association.member.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,8 +70,8 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Member> readAll(final DtoMember member) {
-        return service.getAll(member);
+    public Iterable<? extends Member> readAll(final DtoMember member, final Pageable pageable) {
+        return service.getAll(member, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,8 +39,8 @@ import com.bernardomg.association.fee.model.PersistentFee;
 
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
-    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE m.active = true")
-    public List<Fee> findAllWithActiveMember(final Example<PersistentFee> example, final Sort sort);
+    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id")
+    public List<Fee> findAllWithMember(final Example<PersistentFee> example, final Pageable pageable);
 
     @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.month AS month, f.year AS year, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id")
     public List<Fee> findAllWithMember(final Example<PersistentFee> example, final Sort sort);
