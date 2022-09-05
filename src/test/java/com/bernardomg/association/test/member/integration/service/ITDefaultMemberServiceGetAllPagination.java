@@ -125,7 +125,7 @@ public class ITDefaultMemberServiceGetAllPagination {
         Member                           data;
         final Pageable                   pageable;
 
-        pageable = PageRequest.of(0, 1, Direction.ASC, "id");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "id");
 
         sample = new DtoMember();
 
@@ -181,7 +181,7 @@ public class ITDefaultMemberServiceGetAllPagination {
         Member                           data;
         final Pageable                   pageable;
 
-        pageable = PageRequest.of(0, 1, Direction.DESC, "id");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "id");
 
         sample = new DtoMember();
 
