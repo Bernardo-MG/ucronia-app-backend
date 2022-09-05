@@ -3,10 +3,10 @@ package com.bernardomg.association.fee.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.FeeForm;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -39,13 +39,11 @@ public interface FeeService {
      *
      * @param sample
      *            sample for filtering
-     * @param pagination
+     * @param pageable
      *            pagination to apply
-     * @param sort
-     *            sorting to apply
      * @return all the fees matching the sample
      */
-    public Iterable<? extends Fee> getAll(final Fee sample, final Pagination pagination, final Sort sort);
+    public Iterable<? extends Fee> getAll(final Fee sample, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

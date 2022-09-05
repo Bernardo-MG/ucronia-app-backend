@@ -26,6 +26,7 @@ package com.bernardomg.association.transaction.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.service.TransactionService;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 
@@ -71,9 +70,8 @@ public class TransactionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Transaction> readAll(final DtoTransaction member, final Pagination pagination,
-            final Sort sort) {
-        return service.getAll(member, pagination, sort);
+    public Iterable<? extends Transaction> readAll(final DtoTransaction member, final Pageable pageable) {
+        return service.getAll(member, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

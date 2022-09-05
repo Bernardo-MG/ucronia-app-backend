@@ -3,9 +3,9 @@ package com.bernardomg.association.member.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -38,13 +38,11 @@ public interface MemberService {
      *
      * @param sample
      *            sample for filtering
-     * @param pagination
+     * @param pageable
      *            pagination to apply
-     * @param sort
-     *            sorting to apply
      * @return all the members matching the sample
      */
-    public Iterable<? extends Member> getAll(final Member sample, final Pagination pagination, final Sort sort);
+    public Iterable<? extends Member> getAll(final Member sample, final Pageable pageable);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

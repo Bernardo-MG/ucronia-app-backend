@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.mvc.pagination.model.Direction;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default fee service - get all - pagination")
@@ -57,17 +57,15 @@ public class ITDefaultFeeServiceGetAllPagination {
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
         final DtoFee                  sample;
-        final Pagination              pagination;
-        final Sort                    sort;
         final Iterator<? extends Fee> data;
         final Fee                     result;
+        final Pageable                pageable;
 
-        pagination = Pagination.of(0, 1);
-        sort = Sort.disabled();
+        pageable = PageRequest.of(0, 1);
 
         sample = new DtoFee();
 
-        data = service.getAll(sample, pagination, sort)
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();
@@ -83,17 +81,15 @@ public class ITDefaultFeeServiceGetAllPagination {
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
         final DtoFee                  sample;
-        final Pagination              pagination;
-        final Sort                    sort;
         final Iterator<? extends Fee> data;
         final Fee                     result;
+        final Pageable                pageable;
 
-        pagination = Pagination.of(1, 1);
-        sort = Sort.disabled();
+        pageable = PageRequest.of(1, 1);
 
         sample = new DtoFee();
 
-        data = service.getAll(sample, pagination, sort)
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();
@@ -110,15 +106,13 @@ public class ITDefaultFeeServiceGetAllPagination {
     public void testGetAll_Paged_Count() {
         final Iterable<? extends Fee> result;
         final DtoFee                  sample;
-        final Pagination              pagination;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        pagination = Pagination.of(0, 1);
-        sort = Sort.disabled();
+        pageable = PageRequest.of(0, 1);
 
         sample = new DtoFee();
 
-        result = service.getAll(sample, pagination, sort);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -129,15 +123,13 @@ public class ITDefaultFeeServiceGetAllPagination {
         final Iterator<? extends Fee> data;
         final DtoFee                  sample;
         Fee                           result;
-        final Pagination              pagination;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        pagination = Pagination.disabled();
-        sort = Sort.of("id", Direction.ASC);
+        pageable = PageRequest.of(0, 1, Direction.ASC, "id");
 
         sample = new DtoFee();
 
-        data = service.getAll(sample, pagination, sort)
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();
@@ -187,15 +179,13 @@ public class ITDefaultFeeServiceGetAllPagination {
         final Iterator<? extends Fee> data;
         final DtoFee                  sample;
         Fee                           result;
-        final Pagination              pagination;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        pagination = Pagination.disabled();
-        sort = Sort.of("id", Direction.DESC);
+        pageable = PageRequest.of(0, 1, Direction.DESC, "id");
 
         sample = new DtoFee();
 
-        data = service.getAll(sample, pagination, sort)
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();

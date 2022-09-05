@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +41,6 @@ import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 import lombok.AllArgsConstructor;
 
@@ -72,8 +71,8 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Fee> readAll(final DtoFee month, final Pagination pagination, final Sort sort) {
-        return service.getAll(month, pagination, sort);
+    public Iterable<? extends Fee> readAll(final DtoFee month, final Pageable pageable) {
+        return service.getAll(month, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

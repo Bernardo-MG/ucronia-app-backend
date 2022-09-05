@@ -3,9 +3,9 @@ package com.bernardomg.association.transaction.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 /**
  * Transaction service. Supports all the CRUD operations.
@@ -39,13 +39,11 @@ public interface TransactionService {
      *
      * @param sample
      *            sample for filtering
-     * @param pagination
+     * @param pageable
      *            pagination to apply
-     * @param sort
-     *            sorting to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<Transaction> getAll(final Transaction sample, final Pagination pagination, final Sort sort);
+    public Iterable<Transaction> getAll(final Transaction sample, final Pageable pageable);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

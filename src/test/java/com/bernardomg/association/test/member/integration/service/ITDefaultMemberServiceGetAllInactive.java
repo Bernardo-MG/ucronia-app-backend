@@ -31,14 +31,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default member service - get all")
@@ -57,15 +56,13 @@ public class ITDefaultMemberServiceGetAllInactive {
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
         final Member                     sample;
-        final Pagination                 pagination;
-        final Sort                       sort;
+        final Pageable                   pageable;
 
-        pagination = Pagination.disabled();
-        sort = Sort.disabled();
+        pageable = Pageable.unpaged();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample, pagination, sort);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -76,15 +73,13 @@ public class ITDefaultMemberServiceGetAllInactive {
         final Iterator<? extends Member> result;
         final Member                     sample;
         Member                           data;
-        final Pagination                 pagination;
-        final Sort                       sort;
+        final Pageable                   pageable;
 
-        pagination = Pagination.disabled();
-        sort = Sort.disabled();
+        pageable = Pageable.unpaged();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample, pagination, sort)
+        result = service.getAll(sample, pageable)
             .iterator();
 
         data = result.next();

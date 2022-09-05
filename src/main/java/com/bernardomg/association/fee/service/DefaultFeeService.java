@@ -15,9 +15,6 @@ import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.fee.validation.FeeValidator;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
-import com.bernardomg.mvc.pagination.utils.Paginations;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,11 +65,8 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<? extends Fee> getAll(final Fee sample, final Pagination pagination, final Sort sort) {
+    public final Iterable<? extends Fee> getAll(final Fee sample, final Pageable pageable) {
         final PersistentFee entity;
-        final Pageable      pageable;
-
-        pageable = Paginations.toSpring(pagination, sort);
 
         entity = toEntity(sample);
 

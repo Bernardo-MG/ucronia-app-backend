@@ -31,14 +31,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.DtoFee;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.mvc.pagination.model.Pagination;
-import com.bernardomg.mvc.pagination.model.Sort;
 
 @IntegrationTest
 @DisplayName("Default fee service - get all")
@@ -57,15 +56,13 @@ public class ITDefaultFeeServiceGetAll {
     public void testGetAll_Count() {
         final Iterable<? extends Fee> result;
         final DtoFee                  sample;
-        final Pagination              pagination;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        pagination = Pagination.disabled();
-        sort = Sort.disabled();
+        pageable = Pageable.unpaged();
 
         sample = new DtoFee();
 
-        result = service.getAll(sample, pagination, sort);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }
@@ -76,15 +73,13 @@ public class ITDefaultFeeServiceGetAll {
         final Iterator<? extends Fee> data;
         final DtoFee                  sample;
         Fee                           result;
-        final Pagination              pagination;
-        final Sort                    sort;
+        final Pageable                pageable;
 
-        pagination = Pagination.disabled();
-        sort = Sort.disabled();
+        pageable = Pageable.unpaged();
 
         sample = new DtoFee();
 
-        data = service.getAll(sample, pagination, sort)
+        data = service.getAll(sample, pageable)
             .iterator();
 
         result = data.next();

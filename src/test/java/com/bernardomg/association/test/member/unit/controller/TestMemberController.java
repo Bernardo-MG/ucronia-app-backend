@@ -46,8 +46,6 @@ import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.UrlConfig;
-import com.bernardomg.mvc.pagination.argument.PaginationArgumentResolver;
-import com.bernardomg.mvc.pagination.argument.SortArgumentResolver;
 import com.bernardomg.mvc.response.controller.ResponseAdvice;
 
 @DisplayName("Member controller")
@@ -63,7 +61,6 @@ public final class TestMemberController {
     public final void setUpMockContext() {
         mockMvc = MockMvcBuilders.standaloneSetup(getController())
             .setControllerAdvice(ResponseAdvice.class)
-            .setCustomArgumentResolvers(new PaginationArgumentResolver(), new SortArgumentResolver())
             .alwaysExpect(MockMvcResultMatchers.status()
                 .isOk())
             .alwaysExpect(MockMvcResultMatchers.content()
@@ -103,7 +100,7 @@ public final class TestMemberController {
         data.add(new DtoMember());
         data.add(new DtoMember());
 
-        Mockito.when(service.getAll(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+        Mockito.when(service.getAll(ArgumentMatchers.any(), ArgumentMatchers.any()))
             .thenReturn((Iterable) data);
 
         return new MemberController(service);
