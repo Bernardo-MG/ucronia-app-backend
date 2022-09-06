@@ -22,31 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.response.test;
+package com.bernardomg.mvc.response.test.unit.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.test.config.UrlConfig;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
+import com.bernardomg.mvc.response.test.util.controller.ResponseTestController;
 
 @MvcIntegrationTest
-@DisplayName("Member controller - response structure")
-@Sql({ "/db/queries/member/multiple.sql" })
-public final class ITMemberControllerResponse {
+@DisplayName("Controller advices - response structure")
+public final class ITControllerResponse {
 
     @Autowired
     private MockMvc mockMvc;
 
-    public ITMemberControllerResponse() {
+    public ITControllerResponse() {
         super();
     }
 
@@ -67,7 +65,7 @@ public final class ITMemberControllerResponse {
     }
 
     private final RequestBuilder getGetRequest() {
-        return MockMvcRequestBuilders.get(UrlConfig.MEMBER)
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH)
             .contentType(MediaType.APPLICATION_JSON);
     }
 

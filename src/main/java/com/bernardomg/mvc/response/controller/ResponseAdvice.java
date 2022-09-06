@@ -50,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+// TODO: This path should be parameterized
 @ControllerAdvice("com.bernardomg")
 @Slf4j
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
@@ -69,7 +70,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         log.trace("Received {} as response body", body);
         if (body instanceof ResponseEntity<?>) {
-            // Avoid wrapping responses
+            // Avoid wrapping Spring responses
             result = body;
         } else if (body instanceof Response) {
             // Avoid wrapping responses
