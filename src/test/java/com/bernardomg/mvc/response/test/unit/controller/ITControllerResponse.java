@@ -78,6 +78,10 @@ public final class ITControllerResponse {
             .doesNotExist());
         result.andExpect(MockMvcResultMatchers.jsonPath("$.last")
             .doesNotExist());
+
+        // The response contains no error attribute
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
+            .doesNotExist());
     }
 
     @Test

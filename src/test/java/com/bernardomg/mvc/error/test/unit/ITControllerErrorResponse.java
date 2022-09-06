@@ -60,13 +60,16 @@ public final class ITControllerErrorResponse {
         result.andExpect(MockMvcResultMatchers.status()
             .isBadRequest());
 
-        // The response model contains the expected attributes
+        // The response contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Error message")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("field")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("object")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo("value")));
+
+        // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .exists());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].message", Matchers.equalTo("Error message")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].field", Matchers.equalTo("field")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].object", Matchers.equalTo("object")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].value", Matchers.equalTo("value")));
+            .doesNotExist());
     }
 
     @Test
@@ -80,14 +83,16 @@ public final class ITControllerErrorResponse {
         result.andExpect(MockMvcResultMatchers.status()
             .isBadRequest());
 
-        // The response model contains the expected attributes
+        // The response contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("name")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo(null)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("errorTestObject")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("must not be null")));
+
+        // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .exists());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].field", Matchers.equalTo("name")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].value", Matchers.equalTo(null)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].object", Matchers.equalTo("errorTestObject")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].message", Matchers.equalTo("must not be null")));
+            .doesNotExist());
     }
 
     @Test
@@ -101,10 +106,21 @@ public final class ITControllerErrorResponse {
         result.andExpect(MockMvcResultMatchers.status()
             .isBadRequest());
 
-        // The response model contains the expected attributes
+        // The response contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Error message")));
+
+        // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .exists());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].message", Matchers.equalTo("Error message")));
+            .doesNotExist());
+
+        // The response contains no field error attribute
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field")
+            .doesNotExist());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value")
+            .doesNotExist());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object")
+            .doesNotExist());
     }
 
     private final RequestBuilder getFieldValidationRequest() {

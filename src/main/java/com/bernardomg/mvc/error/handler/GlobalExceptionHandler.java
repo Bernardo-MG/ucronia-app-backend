@@ -24,6 +24,7 @@
 
 package com.bernardomg.mvc.error.handler;
 
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
@@ -37,7 +38,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
-import com.bernardomg.mvc.response.model.ImmutableResponse;
+import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -70,11 +71,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ ValidationException.class })
     public final ResponseEntity<Object> handleValidationException(final ValidationException ex,
             final WebRequest request) throws Exception {
-        final Response<Iterable<Failure>> response;
+        final ErrorResponse response;
 
         log.warn(ex.getMessage(), ex);
 
-        response = new ImmutableResponse<>(ex.getFailures());
+        response = Response.error(ex.getFailures());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -97,8 +98,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final Response<String> response;
-        final String           message;
+        final ErrorResponse response;
+        final String        message;
+        final Failure       failure;
 
         log.error(ex.getMessage());
 
@@ -108,7 +110,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             message = ex.getMessage();
         }
 
-        response = new ImmutableResponse<>(message);
+        failure = Failure.of(message);
+        response = Response.error(failure);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }
@@ -116,8 +119,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final Iterable<FieldFailure>           errors;
-        final Response<Iterable<FieldFailure>> response;
+        final Collection<FieldFailure> errors;
+        final ErrorResponse            response;
 
         errors = ex.getBindingResult()
             .getFieldErrors()
@@ -125,7 +128,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .map(this::toFieldError)
             .collect(Collectors.toList());
 
-        response = new ImmutableResponse<>(errors);
+        response = Response.error(errors);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }
