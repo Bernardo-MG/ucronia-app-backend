@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
 
 public final class FeeRangeValidationRule implements ValidationRule<FeeForm> {
@@ -15,14 +16,14 @@ public final class FeeRangeValidationRule implements ValidationRule<FeeForm> {
     }
 
     @Override
-    public Collection<Failure> test(final FeeForm period) {
+    public Collection<Failure> test(final FeeForm form) {
         final Collection<Failure> result;
         Failure                   error;
 
         result = new ArrayList<>();
-        if ((period.getMonth() < 1) || (period.getMonth() > 12)) {
+        if ((form.getMonth() < 1) || (form.getMonth() > 12)) {
             // Start month out of range
-            error = Failure.of("error.fee.invalidMonth");
+            error = FieldFailure.of("error.fee.invalidMonth", "feeForm", "month", form.getMonth());
             result.add(error);
         }
 

@@ -11,6 +11,7 @@ import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.validation.rule.TransactionMonthRangeValidationRule;
 import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
 
 @DisplayName("Fee range validation rule")
@@ -25,8 +26,9 @@ public class TestTransactionMonthRangeValidationRule {
     @Test
     @DisplayName("Rejects the end month when it is above limits")
     public final void testValidator_EndMonthAbove() throws Exception {
-        final Collection<Failure> error;
+        final Collection<Failure> failures;
         final DtoTransaction      transaction;
+        final FieldFailure        failure;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
@@ -35,12 +37,16 @@ public class TestTransactionMonthRangeValidationRule {
         transaction.setMonth(13);
         transaction.setYear(4);
 
-        error = validator.test(transaction);
+        failures = validator.test(transaction);
 
-        Assertions.assertEquals(1, error.size());
-        Assertions.assertEquals("error.transaction.invalidMonth", error.iterator()
-            .next()
-            .getMessage());
+        Assertions.assertEquals(1, failures.size());
+
+        failure = (FieldFailure) failures.iterator()
+            .next();
+        Assertions.assertEquals("error.transaction.invalidMonth", failure.getMessage());
+        Assertions.assertEquals("transaction", failure.getObject());
+        Assertions.assertEquals("month", failure.getField());
+        Assertions.assertEquals(13, failure.getValue());
     }
 
     @Test
@@ -48,6 +54,7 @@ public class TestTransactionMonthRangeValidationRule {
     public final void testValidator_EndMonthBelow() throws Exception {
         final Collection<Failure> error;
         final DtoTransaction      transaction;
+        final FieldFailure        failure;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
@@ -59,9 +66,13 @@ public class TestTransactionMonthRangeValidationRule {
         error = validator.test(transaction);
 
         Assertions.assertEquals(1, error.size());
-        Assertions.assertEquals("error.transaction.invalidMonth", error.iterator()
-            .next()
-            .getMessage());
+
+        failure = (FieldFailure) error.iterator()
+            .next();
+        Assertions.assertEquals("error.transaction.invalidMonth", failure.getMessage());
+        Assertions.assertEquals("transaction", failure.getObject());
+        Assertions.assertEquals("month", failure.getField());
+        Assertions.assertEquals(0, failure.getValue());
     }
 
     @Test

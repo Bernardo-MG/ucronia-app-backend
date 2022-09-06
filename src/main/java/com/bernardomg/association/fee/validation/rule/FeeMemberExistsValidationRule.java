@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
 
 import lombok.AllArgsConstructor;
@@ -20,13 +21,13 @@ public final class FeeMemberExistsValidationRule implements ValidationRule<FeeFo
     private final MemberRepository repository;
 
     @Override
-    public final Collection<Failure> test(final FeeForm period) {
+    public final Collection<Failure> test(final FeeForm form) {
         final Collection<Failure> result;
         final Failure             error;
 
         result = new ArrayList<>();
-        if (!repository.existsById(period.getMemberId())) {
-            error = Failure.of("error.member.notExists");
+        if (!repository.existsById(form.getMemberId())) {
+            error = FieldFailure.of("error.member.notExists", "feeForm", "memberId", form.getMemberId());
             result.add(error);
         }
 

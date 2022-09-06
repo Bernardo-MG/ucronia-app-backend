@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
 
 public final class TransactionMonthRangeValidationRule implements ValidationRule<Transaction> {
@@ -22,7 +23,7 @@ public final class TransactionMonthRangeValidationRule implements ValidationRule
         result = new ArrayList<>();
         if ((transaction.getMonth() < 1) || (transaction.getMonth() > 12)) {
             // Start month out of range
-            error = Failure.of("error.transaction.invalidMonth");
+            error = FieldFailure.of("error.transaction.invalidMonth", "transaction", "month", transaction.getMonth());
             result.add(error);
         }
 
