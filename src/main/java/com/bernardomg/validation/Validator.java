@@ -1,5 +1,5 @@
 
-package com.bernardomg.validation.error;
+package com.bernardomg.validation;
 
 public interface Validator<T> {
 

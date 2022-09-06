@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.validation.rule.TransactionMonthRangeValidationRule;
-import com.bernardomg.validation.error.RuleValidator;
-import com.bernardomg.validation.error.Validator;
+import com.bernardomg.validation.RuleValidator;
+import com.bernardomg.validation.Validator;
 
 @Component
 public final class TransactionValidator implements Validator<Transaction> {

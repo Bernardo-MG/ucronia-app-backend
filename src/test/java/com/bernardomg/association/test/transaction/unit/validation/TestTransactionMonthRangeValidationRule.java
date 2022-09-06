@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.validation.rule.TransactionMonthRangeValidationRule;
-import com.bernardomg.validation.error.ValidationFailure;
-import com.bernardomg.validation.error.ValidationRule;
+import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.ValidationRule;
 
 @DisplayName("Fee range validation rule")
 public class TestTransactionMonthRangeValidationRule {
@@ -25,8 +25,8 @@ public class TestTransactionMonthRangeValidationRule {
     @Test
     @DisplayName("Rejects the end month when it is above limits")
     public final void testValidator_EndMonthAbove() throws Exception {
-        final Collection<ValidationFailure> error;
-        final DtoTransaction                transaction;
+        final Collection<Failure> error;
+        final DtoTransaction      transaction;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
@@ -40,14 +40,14 @@ public class TestTransactionMonthRangeValidationRule {
         Assertions.assertEquals(1, error.size());
         Assertions.assertEquals("error.transaction.invalidMonth", error.iterator()
             .next()
-            .getError());
+            .getMessage());
     }
 
     @Test
     @DisplayName("Rejects the end month when it is below limits")
     public final void testValidator_EndMonthBelow() throws Exception {
-        final Collection<ValidationFailure> error;
-        final DtoTransaction                transaction;
+        final Collection<Failure> error;
+        final DtoTransaction      transaction;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
@@ -61,14 +61,14 @@ public class TestTransactionMonthRangeValidationRule {
         Assertions.assertEquals(1, error.size());
         Assertions.assertEquals("error.transaction.invalidMonth", error.iterator()
             .next()
-            .getError());
+            .getMessage());
     }
 
     @Test
     @DisplayName("Accepts a valid month")
     public final void testValidator_Valid() throws Exception {
-        final Collection<ValidationFailure> error;
-        final DtoTransaction                transaction;
+        final Collection<Failure> error;
+        final DtoTransaction      transaction;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");

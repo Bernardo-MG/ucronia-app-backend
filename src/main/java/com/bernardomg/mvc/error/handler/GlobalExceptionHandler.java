@@ -35,10 +35,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.bernardomg.mvc.error.model.FieldError;
+import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.mvc.response.model.DefaultResponse;
 import com.bernardomg.mvc.response.model.Response;
-import com.bernardomg.validation.error.ValidationFailure;
 import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         messages = ex.getFailures()
             .stream()
-            .map(ValidationFailure::getError)
+            .map(Failure::getMessage)
             .collect(Collectors.toList());
 
         response = new DefaultResponse<>(messages);
@@ -92,11 +92,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      *            error object to transform
      * @return our custom error object
      */
-    private final FieldError toFieldError(final org.springframework.validation.FieldError error) {
+    private final FieldFailure toFieldError(final org.springframework.validation.FieldError error) {
         log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
             error.getDefaultMessage());
 
-        return FieldError.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
+        return FieldFailure.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
             error.getRejectedValue());
     }
 
@@ -122,8 +122,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final Iterable<FieldError>           errors;
-        final Response<Iterable<FieldError>> response;
+        final Iterable<FieldFailure>           errors;
+        final Response<Iterable<FieldFailure>> response;
 
         // TODO: Test this transformation
         errors = ex.getBindingResult()

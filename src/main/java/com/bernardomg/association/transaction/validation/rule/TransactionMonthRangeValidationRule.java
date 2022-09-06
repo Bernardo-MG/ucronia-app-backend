@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.validation.error.ValidationFailure;
-import com.bernardomg.validation.error.ValidationRule;
+import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.ValidationRule;
 
 public final class TransactionMonthRangeValidationRule implements ValidationRule<Transaction> {
 
@@ -15,14 +15,14 @@ public final class TransactionMonthRangeValidationRule implements ValidationRule
     }
 
     @Override
-    public Collection<ValidationFailure> test(final Transaction transaction) {
-        final Collection<ValidationFailure> result;
-        ValidationFailure                   error;
+    public Collection<Failure> test(final Transaction transaction) {
+        final Collection<Failure> result;
+        Failure                   error;
 
         result = new ArrayList<>();
         if ((transaction.getMonth() < 1) || (transaction.getMonth() > 12)) {
             // Start month out of range
-            error = ValidationFailure.of("error.transaction.invalidMonth");
+            error = Failure.of("error.transaction.invalidMonth");
             result.add(error);
         }
 

@@ -33,7 +33,7 @@ import lombok.Data;
  *
  */
 @Data
-public final class DtoFieldError implements FieldError {
+public final class DtoFieldFailure implements FieldFailure {
 
     private String field;
 

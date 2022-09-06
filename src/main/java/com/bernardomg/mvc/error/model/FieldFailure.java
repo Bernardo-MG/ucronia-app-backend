@@ -31,7 +31,7 @@ package com.bernardomg.mvc.error.model;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface FieldError extends Error {
+public interface FieldFailure extends Failure {
 
     /**
      * Creates a {@code FieldValidationError} for the received arguments.
@@ -46,10 +46,10 @@ public interface FieldError extends Error {
      *            field value during the validation process
      * @return {@code FieldValidationError} for the received arguments
      */
-    public static FieldError of(final String message, final String object, final String field, final Object value) {
-        final DtoFieldError error;
+    public static FieldFailure of(final String message, final String object, final String field, final Object value) {
+        final DtoFieldFailure error;
 
-        error = new DtoFieldError();
+        error = new DtoFieldFailure();
         error.setMessage(message);
         error.setObject(object);
         error.setField(field);

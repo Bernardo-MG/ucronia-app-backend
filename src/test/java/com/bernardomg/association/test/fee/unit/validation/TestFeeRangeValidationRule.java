@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.fee.validation.rule.FeeRangeValidationRule;
-import com.bernardomg.validation.error.ValidationFailure;
-import com.bernardomg.validation.error.ValidationRule;
+import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.ValidationRule;
 
 @DisplayName("Fee range validation rule")
 public class TestFeeRangeValidationRule {
@@ -25,8 +25,8 @@ public class TestFeeRangeValidationRule {
     @Test
     @DisplayName("Rejects the end month when it is above limits")
     public final void testValidator_EndMonthAbove() throws Exception {
-        final Collection<ValidationFailure> error;
-        final DtoFeeForm                    period;
+        final Collection<Failure> error;
+        final DtoFeeForm          period;
 
         period = new DtoFeeForm();
         period.setMonth(13);
@@ -36,14 +36,14 @@ public class TestFeeRangeValidationRule {
         Assertions.assertEquals(1, error.size());
         Assertions.assertEquals("error.fee.invalidMonth", error.iterator()
             .next()
-            .getError());
+            .getMessage());
     }
 
     @Test
     @DisplayName("Rejects the end month when it is below limits")
     public final void testValidator_EndMonthBelow() throws Exception {
-        final Collection<ValidationFailure> error;
-        final DtoFeeForm                    period;
+        final Collection<Failure> error;
+        final DtoFeeForm          period;
 
         period = new DtoFeeForm();
         period.setMonth(0);
@@ -53,14 +53,14 @@ public class TestFeeRangeValidationRule {
         Assertions.assertEquals(1, error.size());
         Assertions.assertEquals("error.fee.invalidMonth", error.iterator()
             .next()
-            .getError());
+            .getMessage());
     }
 
     @Test
     @DisplayName("Accepts a valid month")
     public final void testValidator_Valid() throws Exception {
-        final Collection<ValidationFailure> error;
-        final DtoFeeForm                    period;
+        final Collection<Failure> error;
+        final DtoFeeForm          period;
 
         period = new DtoFeeForm();
         period.setMonth(3);

@@ -1,10 +1,11 @@
 
-package com.bernardomg.validation.error;
+package com.bernardomg.validation;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public final class RuleValidator<T> implements Validator<T> {
 
     @Override
     public final void validate(final T obj) {
-        final Collection<ValidationFailure> errors;
+        final Collection<Failure> errors;
 
         errors = rules.stream()
             .map((r) -> r.test(obj))

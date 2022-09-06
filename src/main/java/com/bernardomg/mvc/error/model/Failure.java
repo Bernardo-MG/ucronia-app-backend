@@ -30,7 +30,16 @@ package com.bernardomg.mvc.error.model;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface Error {
+public interface Failure {
+
+    public static Failure of(final String code) {
+        final DtoFailure error;
+
+        error = new DtoFailure();
+        error.setMessage(code);
+
+        return error;
+    }
 
     /**
      * Returns the error message.
