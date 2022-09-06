@@ -38,6 +38,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.bernardomg.mvc.error.model.FieldError;
 import com.bernardomg.mvc.response.model.DefaultResponse;
 import com.bernardomg.mvc.response.model.Response;
+import com.bernardomg.validation.error.ValidationFailure;
+import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,6 +65,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ex.getMessage(), ex);
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ ValidationException.class })
+    public final ResponseEntity<Object> handleValidationException(final ValidationException ex,
+            final WebRequest request) throws Exception {
+        final Iterable<String>           messages;
+        final Response<Iterable<String>> response;
+
+        log.warn(ex.getMessage(), ex);
+
+        messages = ex.getFailures()
+            .stream()
+            .map(ValidationFailure::getError)
+            .collect(Collectors.toList());
+
+        response = new DefaultResponse<>(messages);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**

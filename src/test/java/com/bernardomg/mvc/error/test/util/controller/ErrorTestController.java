@@ -1,7 +1,8 @@
 
 package com.bernardomg.mvc.error.test.util.controller;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.mvc.error.test.util.model.ErrorTestObject;
+import com.bernardomg.validation.error.DefaultValidationFailure;
+import com.bernardomg.validation.error.ValidationFailure;
 import com.bernardomg.validation.exception.ValidationException;
 
 @RestController
@@ -39,7 +42,16 @@ public class ErrorTestController {
 
     @GetMapping(path = "/validation", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> exceptionValidation() {
-        throw new ValidationException(Collections.emptyList());
+        final DefaultValidationFailure      failure;
+        final Collection<ValidationFailure> failures;
+
+        failure = new DefaultValidationFailure();
+        failure.setError("Error message");
+
+        failures = new ArrayList<>();
+        failures.add(failure);
+
+        throw new ValidationException(failures);
     }
 
 }

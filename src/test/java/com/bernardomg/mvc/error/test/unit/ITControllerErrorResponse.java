@@ -25,7 +25,6 @@
 package com.bernardomg.mvc.error.test.unit;
 
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,6 @@ public final class ITControllerErrorResponse {
     }
 
     @Test
-    @Disabled
     @DisplayName("Returns the response structure for validation errors")
     public final void testErrorHandling_ValidationError_Response() throws Exception {
         final ResultActions result;
@@ -81,11 +79,12 @@ public final class ITControllerErrorResponse {
 
         // The operation was rejected
         result.andExpect(MockMvcResultMatchers.status()
-            .isInternalServerError());
+            .isBadRequest());
 
         // The response model contains the expected attributes
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
             .exists());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0]", Matchers.equalTo("Error message")));
     }
 
     private final RequestBuilder getMethodArgumentRequest() {
