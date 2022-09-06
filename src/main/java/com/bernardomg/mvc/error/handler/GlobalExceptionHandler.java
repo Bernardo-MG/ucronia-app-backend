@@ -37,7 +37,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
-import com.bernardomg.mvc.response.model.DefaultResponse;
+import com.bernardomg.mvc.response.model.ImmutableResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         log.warn(ex.getMessage(), ex);
 
-        response = new DefaultResponse<>(ex.getFailures());
+        response = new ImmutableResponse<>(ex.getFailures());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -108,7 +108,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             message = ex.getMessage();
         }
 
-        response = new DefaultResponse<>(message);
+        response = new ImmutableResponse<>(message);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }
@@ -125,7 +125,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .map(this::toFieldError)
             .collect(Collectors.toList());
 
-        response = new DefaultResponse<>(errors);
+        response = new ImmutableResponse<>(errors);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }

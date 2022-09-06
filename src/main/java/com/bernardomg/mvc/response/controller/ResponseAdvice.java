@@ -34,7 +34,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.bernardomg.mvc.response.model.DefaultResponse;
 import com.bernardomg.mvc.response.model.ImmutableSpringPageResponse;
 import com.bernardomg.mvc.response.model.PaginatedResponse;
 import com.bernardomg.mvc.response.model.Response;
@@ -80,9 +79,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             result = new ImmutableSpringPageResponse<>((Page<?>) body);
         } else if (body == null) {
             log.debug("Received null as response body");
-            result = new DefaultResponse<>();
+            result = Response.empty();
         } else {
-            result = new DefaultResponse<>(body);
+            result = Response.of(body);
         }
 
         return result;

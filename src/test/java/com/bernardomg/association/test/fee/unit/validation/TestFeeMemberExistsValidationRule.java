@@ -28,9 +28,9 @@ public class TestFeeMemberExistsValidationRule {
 
         repository = Mockito.mock(MemberRepository.class);
         Mockito.when(repository.existsById(ArgumentMatchers.anyLong()))
-        .thenReturn(false);
+            .thenReturn(false);
         Mockito.when(repository.existsById(ArgumentMatchers.eq(1L)))
-        .thenReturn(true);
+            .thenReturn(true);
 
         validator = new FeeMemberExistsValidationRule(repository);
     }

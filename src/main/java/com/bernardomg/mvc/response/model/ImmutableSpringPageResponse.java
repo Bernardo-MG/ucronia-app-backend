@@ -26,7 +26,6 @@ package com.bernardomg.mvc.response.model;
 
 import org.springframework.data.domain.Page;
 
-import lombok.Data;
 import lombok.NonNull;
 
 /**
@@ -37,7 +36,6 @@ import lombok.NonNull;
  * @param <T>
  *            response content type
  */
-@Data
 public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<Iterable<T>> {
 
     /**

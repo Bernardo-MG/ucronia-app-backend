@@ -28,7 +28,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 /**
- * Default implementation of the response.
+ * Immutable implementation of the response.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -36,19 +36,20 @@ import lombok.NonNull;
  *            response content type
  */
 @Data
-public class DefaultResponse<T> implements Response<T> {
+public class ImmutableResponse<T> implements Response<T> {
 
     /**
      * Response content.
      */
-    @NonNull
-    private T content;
+    private final T content;
 
     /**
      * Default constructor.
      */
-    public DefaultResponse() {
+    public ImmutableResponse() {
         super();
+
+        content = null;
     }
 
     /**
@@ -57,7 +58,7 @@ public class DefaultResponse<T> implements Response<T> {
      * @param cont
      *            content
      */
-    public DefaultResponse(@NonNull final T cont) {
+    public ImmutableResponse(@NonNull final T cont) {
         super();
 
         content = cont;

@@ -34,6 +34,14 @@ package com.bernardomg.mvc.response.model;
  */
 public interface Response<T> {
 
+    public static <T> Response<T> empty() {
+        return new ImmutableResponse<>();
+    }
+
+    public static <T> Response<T> of(final T content) {
+        return new ImmutableResponse<>(content);
+    }
+
     /**
      * Returns the response content.
      *
