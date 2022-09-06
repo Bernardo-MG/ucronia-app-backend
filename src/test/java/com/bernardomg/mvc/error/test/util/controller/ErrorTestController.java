@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.mvc.error.model.DtoFailure;
+import com.bernardomg.mvc.error.model.DtoFieldFailure;
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.test.util.model.ErrorTestObject;
 import com.bernardomg.validation.exception.ValidationException;
@@ -24,14 +25,33 @@ import com.bernardomg.validation.exception.ValidationException;
 @RequestMapping(ErrorTestController.PATH)
 public class ErrorTestController {
 
-    public static final String PATH            = "/test/error";
+    public static final String PATH                  = "/test/error";
 
-    public static final String PATH_METHOD_ARG = PATH + "/methodArg";
+    public static final String PATH_FIELD_VALIDATION = PATH + "/fieldValidation";
 
-    public static final String PATH_VALIDATION = PATH + "/validation";
+    public static final String PATH_METHOD_ARG       = PATH + "/methodArg";
+
+    public static final String PATH_VALIDATION       = PATH + "/validation";
 
     public ErrorTestController() {
         super();
+    }
+
+    @GetMapping(path = "/fieldValidation", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Object> exceptionFieldValidation() {
+        final DtoFieldFailure     failure;
+        final Collection<Failure> failures;
+
+        failure = new DtoFieldFailure();
+        failure.setMessage("Error message");
+        failure.setField("field");
+        failure.setObject("object");
+        failure.setValue("value");
+
+        failures = new ArrayList<>();
+        failures.add(failure);
+
+        throw new ValidationException(failures);
     }
 
     @PostMapping(path = "/methodArg", produces = MediaType.APPLICATION_JSON_VALUE)

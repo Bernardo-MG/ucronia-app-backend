@@ -50,6 +50,26 @@ public final class ITControllerErrorResponse {
     }
 
     @Test
+    @DisplayName("Returns the response structure for field validation errors")
+    public final void testErrorHandling_FieldValidationError_Response() throws Exception {
+        final ResultActions result;
+
+        result = mockMvc.perform(getFieldValidationRequest());
+
+        // The operation was rejected
+        result.andExpect(MockMvcResultMatchers.status()
+            .isBadRequest());
+
+        // The response model contains the expected attributes
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
+            .exists());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].message", Matchers.equalTo("Error message")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].field", Matchers.equalTo("field")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].object", Matchers.equalTo("object")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].value", Matchers.equalTo("value")));
+    }
+
+    @Test
     @DisplayName("Returns the response structure for method argument errors")
     public final void testErrorHandling_MethodArgumentError_Response() throws Exception {
         final ResultActions result;
@@ -84,7 +104,12 @@ public final class ITControllerErrorResponse {
         // The response model contains the expected attributes
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
             .exists());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0]", Matchers.equalTo("Error message")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.content[0].message", Matchers.equalTo("Error message")));
+    }
+
+    private final RequestBuilder getFieldValidationRequest() {
+        return MockMvcRequestBuilders.get(ErrorTestController.PATH_FIELD_VALIDATION)
+            .contentType(MediaType.APPLICATION_JSON);
     }
 
     private final RequestBuilder getMethodArgumentRequest() {

@@ -70,17 +70,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ ValidationException.class })
     public final ResponseEntity<Object> handleValidationException(final ValidationException ex,
             final WebRequest request) throws Exception {
-        final Iterable<String>           messages;
-        final Response<Iterable<String>> response;
+        final Response<Iterable<Failure>> response;
 
         log.warn(ex.getMessage(), ex);
 
-        messages = ex.getFailures()
-            .stream()
-            .map(Failure::getMessage)
-            .collect(Collectors.toList());
-
-        response = new DefaultResponse<>(messages);
+        response = new DefaultResponse<>(ex.getFailures());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -125,7 +119,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final Iterable<FieldFailure>           errors;
         final Response<Iterable<FieldFailure>> response;
 
-        // TODO: Test this transformation
         errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()
