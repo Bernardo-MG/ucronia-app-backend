@@ -61,8 +61,6 @@ public final class ITControllerResponse {
             .isOk());
 
         // The response model contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .exists());
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(1)));
 
         // The response contains no pagination attribute
@@ -94,8 +92,6 @@ public final class ITControllerResponse {
             .isOk());
 
         // The response model contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .exists());
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(5)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.page", Matchers.equalTo(0)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.size", Matchers.equalTo(5)));
