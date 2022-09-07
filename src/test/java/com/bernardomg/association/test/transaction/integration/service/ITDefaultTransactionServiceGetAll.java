@@ -55,9 +55,9 @@ public class ITDefaultTransactionServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<Transaction> result;
-        final Transaction           sample;
-        final Pageable              pageable;
+        final Iterable<? extends Transaction> result;
+        final Transaction                     sample;
+        final Pageable                        pageable;
 
         pageable = Pageable.unpaged();
 

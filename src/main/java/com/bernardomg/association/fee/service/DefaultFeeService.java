@@ -2,7 +2,6 @@
 package com.bernardomg.association.fee.service;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
@@ -72,9 +71,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return repository.findAllWithMember(Example.of(entity), pageable)
-            .stream()
-            .collect(Collectors.toList());
+        return repository.findAllWithMember(Example.of(entity), pageable);
     }
 
     @Override
