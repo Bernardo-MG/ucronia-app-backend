@@ -27,6 +27,7 @@ package com.bernardomg.association.test.transaction.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
+import org.h2.mvstore.Page;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -121,6 +122,22 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetAll_Page() {
+        final Iterable<? extends Transaction> result;
+        final Transaction                     sample;
+        final Pageable                        pageable;
+
+        pageable = Pageable.ofSize(10);
+
+        sample = new DtoTransaction();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }

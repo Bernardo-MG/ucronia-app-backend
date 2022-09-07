@@ -27,6 +27,7 @@ package com.bernardomg.association.test.fee.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
+import org.h2.mvstore.Page;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -121,6 +122,22 @@ public class ITDefaultFeeServiceGetAll {
         Assertions.assertEquals(2, result.getMonth());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertTrue(result.getPaid());
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetAll_Page() {
+        final Iterable<? extends Fee> result;
+        final Fee                     sample;
+        final Pageable                pageable;
+
+        pageable = Pageable.ofSize(10);
+
+        sample = new DtoFee();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }
