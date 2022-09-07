@@ -43,7 +43,7 @@ public interface TransactionService {
      *            pagination to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<Transaction> getAll(final Transaction sample, final Pageable pageable);
+    public Iterable<? extends Transaction> getAll(final Transaction sample, final Pageable pageable);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

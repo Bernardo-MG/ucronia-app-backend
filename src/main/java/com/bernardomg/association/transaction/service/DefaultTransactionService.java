@@ -1,12 +1,15 @@
 
 package com.bernardomg.association.transaction.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
@@ -63,15 +66,19 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final Transaction sample, final Pageable pageable) {
-        final PersistentTransaction entity;
+    public final Iterable<? extends Transaction> getAll(final Transaction sample, final Pageable pageable) {
+        final PersistentTransaction       entity;
+        final List<? extends Transaction> dtos;
+        final Page<PersistentTransaction> read;
 
         entity = toEntity(sample);
 
-        return repository.findAll(Example.of(entity), pageable)
-            .stream()
+        read = repository.findAll(Example.of(entity), pageable);
+        dtos = read.stream()
             .map(this::toDto)
             .collect(Collectors.toList());
+
+        return PageableExecutionUtils.getPage(dtos, pageable, read::getTotalElements);
     }
 
     @Override

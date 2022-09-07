@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -54,9 +55,9 @@ public class ITDefaultTransactionServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<Transaction> result;
-        final Transaction           sample;
-        final Pageable              pageable;
+        final Iterable<? extends Transaction> result;
+        final Transaction                     sample;
+        final Pageable                        pageable;
 
         pageable = Pageable.unpaged();
 
@@ -121,6 +122,22 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertEquals(2, data.getDay());
         Assertions.assertEquals(3, data.getMonth());
         Assertions.assertEquals(2020, data.getYear());
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetAll_Page() {
+        final Iterable<? extends Transaction> result;
+        final Transaction                     sample;
+        final Pageable                        pageable;
+
+        pageable = Pageable.ofSize(10);
+
+        sample = new DtoTransaction();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }

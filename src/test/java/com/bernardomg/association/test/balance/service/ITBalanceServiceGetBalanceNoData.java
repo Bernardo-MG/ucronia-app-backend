@@ -22,27 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.balance.service;
+package com.bernardomg.association.test.balance.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - get balance")
-@Sql({ "/db/queries/transaction/multiple.sql" })
-public class ITBalanceServiceGetBalance {
+@DisplayName("Default transaction service - get balance - no data")
+public class ITBalanceServiceGetBalanceNoData {
 
     @Autowired
     private BalanceService service;
 
-    public ITBalanceServiceGetBalance() {
+    public ITBalanceServiceGetBalanceNoData() {
         super();
     }
 
@@ -53,7 +51,7 @@ public class ITBalanceServiceGetBalance {
 
         result = service.getBalance();
 
-        Assertions.assertEquals(5, result.getQuantity());
+        Assertions.assertEquals(0, result.getQuantity());
     }
 
 }

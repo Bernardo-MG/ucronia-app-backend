@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -121,6 +122,22 @@ public class ITDefaultMemberServiceGetAll {
         Assertions.assertEquals("12349", data.getPhone());
         Assertions.assertEquals("6783", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetAll_Page() {
+        final Iterable<? extends Member> result;
+        final Member                     sample;
+        final Pageable                   pageable;
+
+        pageable = Pageable.ofSize(10);
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }
