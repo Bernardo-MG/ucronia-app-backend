@@ -5,34 +5,33 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.bernardomg.validation.error.ValidationError;
+import com.bernardomg.mvc.error.model.Failure;
 
+import lombok.Getter;
+
+@Getter
 public class ValidationException extends RuntimeException {
 
     private static final long serialVersionUID = 5252694690217611607L;
 
-    private static final String getMessage(final Collection<ValidationError> errs) {
-        return errs.stream()
-            .map(ValidationError::getError)
+    private static final String getMessage(final Collection<Failure> fails) {
+        return fails.stream()
+            .map(Failure::getMessage)
             .collect(Collectors.joining(","));
     }
 
-    private final Collection<ValidationError> errors;
+    private final Collection<Failure> failures;
 
-    public ValidationException(final Collection<ValidationError> errs) {
-        super(getMessage(errs));
+    public ValidationException(final Collection<Failure> fails) {
+        super(getMessage(fails));
 
-        errors = errs;
+        failures = fails;
     }
 
-    public ValidationException(final ValidationError err) {
-        super(err.getError());
+    public ValidationException(final Failure err) {
+        super(err.getMessage());
 
-        errors = Arrays.asList(err);
-    }
-
-    public final Collection<ValidationError> getErrors() {
-        return errors;
+        failures = Arrays.asList(err);
     }
 
 }

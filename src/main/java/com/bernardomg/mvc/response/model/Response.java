@@ -24,6 +24,11 @@
 
 package com.bernardomg.mvc.response.model;
 
+import java.util.Arrays;
+import java.util.Collection;
+
+import com.bernardomg.mvc.error.model.Failure;
+
 /**
  * Response to the frontend.
  *
@@ -33,6 +38,22 @@ package com.bernardomg.mvc.response.model;
  *            response content type
  */
 public interface Response<T> {
+
+    public static <T> Response<T> empty() {
+        return new ImmutableResponse<>();
+    }
+
+    public static ErrorResponse error(final Collection<? extends Failure> errors) {
+        return new ImmutableErrorResponse<>(errors);
+    }
+
+    public static ErrorResponse error(final Failure error) {
+        return new ImmutableErrorResponse<>(Arrays.asList(error));
+    }
+
+    public static <T> Response<T> of(final T content) {
+        return new ImmutableResponse<>(content);
+    }
 
     /**
      * Returns the response content.

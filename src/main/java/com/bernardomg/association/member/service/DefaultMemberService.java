@@ -1,11 +1,15 @@
 
 package com.bernardomg.association.member.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMember;
@@ -37,6 +41,9 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember entity;
         final PersistentMember created;
 
+        // TODO: Return error messages for duplicate data
+        // TODO: Phone and identifier should be unique or empty
+
         entity = toEntity(member);
         created = repository.save(entity);
 
@@ -46,6 +53,8 @@ public final class DefaultMemberService implements MemberService {
     @Override
     public final Boolean delete(final Long id) {
         Boolean deleted;
+
+        // TODO: Handle deleting related data
 
         try {
             repository.deleteById(id);
@@ -59,15 +68,19 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Iterable<? extends Member> getAll(final Member sample) {
-        final PersistentMember entity;
+    public final Iterable<? extends Member> getAll(final Member sample, final Pageable pageable) {
+        final PersistentMember       entity;
+        final List<? extends Member> dtos;
+        final Page<PersistentMember> read;
 
         entity = toEntity(sample);
 
-        return repository.findAll(Example.of(entity))
-            .stream()
+        read = repository.findAll(Example.of(entity), pageable);
+        dtos = read.stream()
             .map(this::toDto)
             .collect(Collectors.toList());
+
+        return PageableExecutionUtils.getPage(dtos, pageable, read::getTotalElements);
     }
 
     @Override

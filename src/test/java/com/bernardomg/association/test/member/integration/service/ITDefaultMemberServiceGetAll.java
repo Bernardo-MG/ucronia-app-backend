@@ -31,6 +31,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.DtoMember;
@@ -55,10 +57,13 @@ public class ITDefaultMemberServiceGetAll {
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
         final Member                     sample;
+        final Pageable                   pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample);
+        result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(5, IterableUtils.size(result));
     }
@@ -69,10 +74,13 @@ public class ITDefaultMemberServiceGetAll {
         final Iterator<? extends Member> result;
         final Member                     sample;
         Member                           data;
+        final Pageable                   pageable;
+
+        pageable = Pageable.unpaged();
 
         sample = new DtoMember();
 
-        result = service.getAll(sample)
+        result = service.getAll(sample, pageable)
             .iterator();
 
         data = result.next();
@@ -114,6 +122,22 @@ public class ITDefaultMemberServiceGetAll {
         Assertions.assertEquals("12349", data.getPhone());
         Assertions.assertEquals("6783", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetAll_Page() {
+        final Iterable<? extends Member> result;
+        final Member                     sample;
+        final Pageable                   pageable;
+
+        pageable = Pageable.ofSize(10);
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }

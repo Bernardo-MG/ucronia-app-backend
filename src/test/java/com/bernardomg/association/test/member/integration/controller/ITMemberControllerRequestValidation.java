@@ -42,7 +42,7 @@ import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 import com.google.gson.Gson;
 
 @MvcIntegrationTest
-@DisplayName("Member controller request validation")
+@DisplayName("Member controller - request validation")
 public final class ITMemberControllerRequestValidation {
 
     private final Gson gson = new Gson();

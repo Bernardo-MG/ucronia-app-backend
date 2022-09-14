@@ -29,7 +29,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
-            tableName: payments
+            tableName: transactions
             columns:
               - column:
                   name: id
@@ -62,11 +62,6 @@ databaseChangeLog:
               - column:
                   name: pay_year
                   type: smallint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: pay_type
-                  type: varchar(10)
                   constraints:
                     nullable: false
       modifySql:

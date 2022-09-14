@@ -68,6 +68,32 @@ public class ITDefaultMemberServiceCreate {
     }
 
     @Test
+    @DisplayName("Adds two entities with minimal data")
+    public void testCreate_Minimal_Additional_AddsEntity() {
+        DtoMember member;
+
+        member = new DtoMember();
+        member.setName("Member");
+        member.setSurname("");
+        member.setPhone("");
+        member.setIdentifier("");
+        member.setActive(true);
+
+        service.create(member);
+
+        member = new DtoMember();
+        member.setName("Member 2");
+        member.setSurname("");
+        member.setPhone("");
+        member.setIdentifier("");
+        member.setActive(true);
+
+        service.create(member);
+
+        Assertions.assertEquals(2L, repository.count());
+    }
+
+    @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
         final DtoMember        member;

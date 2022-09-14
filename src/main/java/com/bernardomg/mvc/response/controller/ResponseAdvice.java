@@ -34,9 +34,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.bernardomg.mvc.pagination.model.PageIterable;
-import com.bernardomg.mvc.response.model.DefaultPaginatedResponse;
-import com.bernardomg.mvc.response.model.DefaultResponse;
+import com.bernardomg.mvc.response.model.ErrorResponse;
+import com.bernardomg.mvc.response.model.ImmutableSpringPageResponse;
 import com.bernardomg.mvc.response.model.PaginatedResponse;
 import com.bernardomg.mvc.response.model.Response;
 
@@ -51,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+// TODO: This path should be parameterized
 @ControllerAdvice("com.bernardomg")
 @Slf4j
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
@@ -70,20 +70,22 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         log.trace("Received {} as response body", body);
         if (body instanceof ResponseEntity<?>) {
-            // Avoid wrapping responses
+            // Avoid wrapping Spring responses
             result = body;
         } else if (body instanceof Response) {
             // Avoid wrapping responses
             result = body;
+        } else if (body instanceof ErrorResponse) {
+            // Avoid wrapping error responses
+            result = body;
         } else if (body instanceof Page<?>) {
-            result = toPaginatedResponse((Page<?>) body);
-        } else if (body instanceof PageIterable<?>) {
-            result = toPaginatedResponse((PageIterable<?>) body);
+            // Spring pagination
+            result = new ImmutableSpringPageResponse<>((Page<?>) body);
         } else if (body == null) {
             log.debug("Received null as response body");
-            result = new DefaultResponse<>();
+            result = Response.empty();
         } else {
-            result = new DefaultResponse<>(body);
+            result = Response.of(body);
         }
 
         return result;
@@ -93,50 +95,6 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     public boolean supports(final MethodParameter returnType,
             final Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
-    }
-
-    /**
-     * Wraps the page into a paginated response.
-     *
-     * @param page
-     *            page to wrap
-     * @return paginated response
-     */
-    private final PaginatedResponse<?> toPaginatedResponse(final Page<?> page) {
-        final DefaultPaginatedResponse<?> paginatedResponse;
-
-        paginatedResponse = new DefaultPaginatedResponse<>(page.getContent());
-        paginatedResponse.setElementsInPage(page.getNumberOfElements());
-        paginatedResponse.setTotalElements(page.getTotalElements());
-        paginatedResponse.setTotalPages(page.getTotalPages());
-        paginatedResponse.setPageNumber(page.getNumber());
-        paginatedResponse.setSize(page.getSize());
-        paginatedResponse.setFirst(page.isFirst());
-        paginatedResponse.setLast(page.isLast());
-
-        return paginatedResponse;
-    }
-
-    /**
-     * Wraps the page iterable into a paginated response.
-     *
-     * @param page
-     *            page to wrap
-     * @return paginated response
-     */
-    private final PaginatedResponse<?> toPaginatedResponse(final PageIterable<?> page) {
-        final DefaultPaginatedResponse<?> paginatedResponse;
-
-        paginatedResponse = new DefaultPaginatedResponse<>(page.getContent());
-        paginatedResponse.setElementsInPage(page.getElementsInPage());
-        paginatedResponse.setTotalElements(page.getTotalElements());
-        paginatedResponse.setTotalPages(page.getTotalPages());
-        paginatedResponse.setPageNumber(page.getPageNumber());
-        paginatedResponse.setSize(page.getSize());
-        paginatedResponse.setFirst(page.isFirst());
-        paginatedResponse.setLast(page.isLast());
-
-        return paginatedResponse;
     }
 
 }

@@ -25,6 +25,7 @@
 package com.bernardomg.association.test.member.integration.service;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -39,6 +40,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Default member service - create errors")
 @Sql({ "/db/queries/member/single.sql" })
+@Disabled
 public class ITDefaultMemberServiceCreateError {
 
     @Autowired

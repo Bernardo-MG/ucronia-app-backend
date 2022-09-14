@@ -14,7 +14,6 @@ public final class DtoMember implements Member {
 
     private Long    id;
 
-    @NotEmpty
     @NotNull
     private String  identifier;
 
@@ -22,11 +21,9 @@ public final class DtoMember implements Member {
     @NotNull
     private String  name;
 
-    @NotEmpty
     @NotNull
     private String  phone;
 
-    @NotEmpty
     @NotNull
     private String  surname;
 
