@@ -31,24 +31,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.Fee;
-import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee repository - find all with member - inactive member")
 @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-public class ITFeeRepositoryFindAllWithMemberInactiveMember {
+public class ITFeeRepositoryFindAllWithMemberForYearInactiveMember {
 
     @Autowired
     private FeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberInactiveMember() {
+    public ITFeeRepositoryFindAllWithMemberForYearInactiveMember() {
         super();
     }
 
@@ -56,13 +54,11 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Fee> result;
-        final PersistentFee           sample;
         final Sort                    sort;
 
-        sample = new PersistentFee();
         sort = Sort.unsorted();
 
-        result = repository.findAllWithMember(Example.of(sample), sort);
+        result = repository.findAllWithMemberForYear(2020, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
     }
@@ -71,14 +67,12 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
         final Iterator<? extends Fee> data;
-        final PersistentFee           sample;
         Fee                           result;
         final Sort                    sort;
 
-        sample = new PersistentFee();
         sort = Sort.unsorted();
 
-        data = repository.findAllWithMember(Example.of(sample), sort)
+        data = repository.findAllWithMemberForYear(2020, sort)
             .iterator();
 
         result = data.next();

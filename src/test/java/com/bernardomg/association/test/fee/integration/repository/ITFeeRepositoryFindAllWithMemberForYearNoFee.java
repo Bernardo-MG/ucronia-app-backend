@@ -29,24 +29,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.Fee;
-import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee repository - find all with member - no fees")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITFeeRepositoryFindAllWithMemberNoFee {
+public class ITFeeRepositoryFindAllWithMemberForYearNoFee {
 
     @Autowired
     private FeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberNoFee() {
+    public ITFeeRepositoryFindAllWithMemberForYearNoFee() {
         super();
     }
 
@@ -54,13 +52,11 @@ public class ITFeeRepositoryFindAllWithMemberNoFee {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Fee> result;
-        final PersistentFee           sample;
         final Sort                    sort;
 
-        sample = new PersistentFee();
         sort = Sort.unsorted();
 
-        result = repository.findAllWithMember(Example.of(sample), sort);
+        result = repository.findAllWithMemberForYear(2020, sort);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }

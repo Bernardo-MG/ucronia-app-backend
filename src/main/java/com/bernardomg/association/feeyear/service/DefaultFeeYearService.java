@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.Fee;
-import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.feeyear.model.DtoFeeMonth;
 import com.bernardomg.association.feeyear.model.DtoFeeYear;
@@ -66,17 +64,13 @@ public final class DefaultFeeYearService implements FeeYearService {
     }
 
     private final Collection<Fee> getAllFees(final Integer year) {
-        final PersistentFee entity;
-        final Sort          sort;
-
-        entity = new PersistentFee();
-        entity.setYear(year);
+        final Sort sort;
 
         // TODO: Test sorting
         sort = Sort.by(Direction.ASC, "member", "year", "month");
 
         // TODO: Test repository
-        return feeRepository.findAllWithMember(Example.of(entity), sort)
+        return feeRepository.findAllWithMemberForYear(year, sort)
             .stream()
             .collect(Collectors.toList());
     }
