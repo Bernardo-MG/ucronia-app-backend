@@ -40,6 +40,7 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee entity;
         final PersistentFee created;
 
+        // TODO: Validate that the entity doesn't exist, or handle DB exceptions
         validator.validate(month);
 
         entity = toEntity(month);
