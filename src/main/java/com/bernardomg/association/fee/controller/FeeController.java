@@ -81,7 +81,7 @@ public class FeeController {
             .orElse(null);
     }
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Fee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeForm fee) {
         return service.update(id, fee);
     }
