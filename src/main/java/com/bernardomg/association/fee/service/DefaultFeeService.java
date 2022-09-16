@@ -96,14 +96,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee update(final Long member, final FeeForm month) {
+    public final Fee update(final Long id, final FeeForm fee) {
         final PersistentFee entity;
         final PersistentFee created;
 
-        validator.validate(month);
+        validator.validate(fee);
 
-        entity = toEntity(month);
-        entity.setMember(member);
+        entity = toEntity(fee);
+        entity.setId(id);
 
         created = repository.save(entity);
         return toDto(created);
