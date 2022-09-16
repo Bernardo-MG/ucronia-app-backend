@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.feeyear.service;
 
+import org.springframework.data.domain.Sort;
+
 import com.bernardomg.association.feeyear.model.FeeYear;
 
 /**
@@ -11,6 +13,6 @@ import com.bernardomg.association.feeyear.model.FeeYear;
  */
 public interface FeeYearService {
 
-    public Iterable<? extends FeeYear> getAll(final Integer year);
+    public Iterable<? extends FeeYear> getAll(final Integer year, final Sort sort);
 
 }

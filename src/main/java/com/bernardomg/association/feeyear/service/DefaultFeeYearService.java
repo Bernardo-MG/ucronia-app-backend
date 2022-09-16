@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.Fee;
@@ -31,7 +30,7 @@ public final class DefaultFeeYearService implements FeeYearService {
     private final MemberRepository memberRepository;
 
     @Override
-    public final Iterable<? extends FeeYear> getAll(final Integer year) {
+    public final Iterable<? extends FeeYear> getAll(final Integer year, final Sort sort) {
         final Collection<Fee>      readFees;
         final Map<Long, List<Fee>> memberFees;
         final Collection<FeeYear>  years;
@@ -41,7 +40,7 @@ public final class DefaultFeeYearService implements FeeYearService {
         FeeYear                    feeYear;
         Boolean                    active;
 
-        readFees = getAllFees(year);
+        readFees = getAllFees(year, sort);
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(Fee::getMemberId));
         memberIds = readFees.stream()
@@ -63,11 +62,8 @@ public final class DefaultFeeYearService implements FeeYearService {
         return years;
     }
 
-    private final Collection<Fee> getAllFees(final Integer year) {
-        final Sort sort;
-
+    private final Collection<Fee> getAllFees(final Integer year, final Sort sort) {
         // TODO: Test sorting
-        sort = Sort.by(Direction.ASC, "member", "year", "month");
 
         // TODO: Test repository
         return feeRepository.findAllWithMemberForYear(year, sort)

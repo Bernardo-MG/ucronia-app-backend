@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.feeyear.controller;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,8 +50,9 @@ public class FeeYearController {
     private final FeeYearService service;
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends FeeYear> readAll(@PathVariable("year") final Integer year) {
-        return service.getAll(year);
+    public Iterable<? extends FeeYear> readAll(@PathVariable("year") final Integer year, final Pageable pageable) {
+        // TODO: Support full pagination
+        return service.getAll(year, pageable.getSort());
     }
 
 }

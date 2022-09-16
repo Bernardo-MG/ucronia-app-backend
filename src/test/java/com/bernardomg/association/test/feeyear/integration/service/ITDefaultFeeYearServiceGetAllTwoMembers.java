@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.feeyear.model.FeeMonth;
@@ -41,7 +42,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Default fee year service - get all - full year")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-    "/db/queries/fee/full_year_alternative.sql" })
+        "/db/queries/fee/full_year_alternative.sql" })
 public class ITDefaultFeeYearServiceGetAllTwoMembers {
 
     @Autowired
@@ -56,8 +57,11 @@ public class ITDefaultFeeYearServiceGetAllTwoMembers {
     public void testGetAll_Count() {
         final Iterable<? extends FeeYear> result;
         final Iterator<? extends FeeYear> itr;
+        final Sort                        sort;
 
-        result = service.getAll(2020);
+        sort = Sort.unsorted();
+
+        result = service.getAll(2020, sort);
 
         Assertions.assertEquals(2, IterableUtils.size(result));
 
@@ -75,8 +79,11 @@ public class ITDefaultFeeYearServiceGetAllTwoMembers {
         FeeYear                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
+        final Sort                        sort;
 
-        data = service.getAll(2020)
+        sort = Sort.unsorted();
+
+        data = service.getAll(2020, sort)
             .iterator();
 
         // First member

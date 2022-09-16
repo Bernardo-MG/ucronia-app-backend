@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.feeyear.model.FeeMonth;
@@ -54,8 +55,11 @@ public class ITDefaultFeeYearServiceGetAllFullYearInactiveMember {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends FeeYear> result;
+        final Sort                        sort;
 
-        result = service.getAll(2020);
+        sort = Sort.unsorted();
+
+        result = service.getAll(2020, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(12, IterableUtils.size(result.iterator()
@@ -70,8 +74,11 @@ public class ITDefaultFeeYearServiceGetAllFullYearInactiveMember {
         FeeYear                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
+        final Sort                        sort;
 
-        data = service.getAll(2020)
+        sort = Sort.unsorted();
+
+        data = service.getAll(2020, sort)
             .iterator();
 
         result = data.next();
