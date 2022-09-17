@@ -76,8 +76,9 @@ public final class DefaultFeeYearService implements FeeYearService {
         final DtoFeeMonth feeMonth;
         final Integer     month;
 
+        // Calendar months start at index 0, this has to be corrected
         month = fee.getPayDate()
-            .get(Calendar.MONTH);
+            .get(Calendar.MONTH) + 1;
 
         feeMonth = new DtoFeeMonth();
         feeMonth.setMonth(month);

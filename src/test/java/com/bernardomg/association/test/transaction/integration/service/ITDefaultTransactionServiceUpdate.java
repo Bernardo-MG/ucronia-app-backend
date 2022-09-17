@@ -64,7 +64,7 @@ public class ITDefaultTransactionServiceUpdate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
 
@@ -80,7 +80,7 @@ public class ITDefaultTransactionServiceUpdate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
         entity = repository.findAll()
@@ -89,7 +89,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
     }
 
@@ -102,13 +102,13 @@ public class ITDefaultTransactionServiceUpdate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.update(1L, transaction);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
     }
 

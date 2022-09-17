@@ -43,7 +43,7 @@ public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
     @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.payDate AS payDate, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id")
     public Page<Fee> findAllWithMember(final Example<PersistentFee> example, final Pageable pageable);
 
-    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.payDate AS payDate, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE f.payDate = :year")
+    @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.payDate AS payDate, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE YEAR(f.payDate) = :year")
     public List<Fee> findAllWithMemberForYear(@Param("year") final Integer year, final Sort sort);
 
     @Query("SELECT f.id AS id, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, f.payDate AS payDate, f.paid AS paid FROM Fee f JOIN Member m ON f.member = m.id WHERE f.id = :id")

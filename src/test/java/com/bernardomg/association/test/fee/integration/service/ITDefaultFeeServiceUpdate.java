@@ -62,7 +62,7 @@ public class ITDefaultFeeServiceUpdate {
         fee = new DtoFeeForm();
         fee.setId(1L);
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
 
         service.update(1L, fee);
@@ -79,7 +79,7 @@ public class ITDefaultFeeServiceUpdate {
         fee = new DtoFeeForm();
         fee.setId(1L);
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
 
         service.update(1L, fee);
@@ -89,7 +89,7 @@ public class ITDefaultFeeServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
         Assertions.assertEquals(false, entity.getPaid());
     }
@@ -103,14 +103,14 @@ public class ITDefaultFeeServiceUpdate {
         fee = new DtoFeeForm();
         fee.setId(1L);
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
 
         result = service.update(1L, fee);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
         Assertions.assertEquals(false, result.getPaid());
     }

@@ -80,7 +80,7 @@ public class ITFeeRepositoryFindAllWithMemberForYearInactiveMember {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }

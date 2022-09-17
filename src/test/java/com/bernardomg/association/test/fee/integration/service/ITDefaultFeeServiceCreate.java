@@ -61,12 +61,35 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         service.create(fee);
 
         Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Persists the data with a day which is not the first of the month")
+    public void testCreate_AnotherDay_PersistedData() {
+        final DtoFeeForm    fee;
+        final PersistentFee entity;
+
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 2, 2));
+        fee.setPaid(true);
+
+        service.create(fee);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals(1, entity.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(true, entity.getPaid());
     }
 
     @Test
@@ -77,7 +100,7 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         service.create(fee);
@@ -87,7 +110,7 @@ public class ITDefaultFeeServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
         Assertions.assertEquals(true, entity.getPaid());
     }
@@ -100,14 +123,14 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         result = service.create(fee);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
         Assertions.assertEquals(true, result.getPaid());
     }

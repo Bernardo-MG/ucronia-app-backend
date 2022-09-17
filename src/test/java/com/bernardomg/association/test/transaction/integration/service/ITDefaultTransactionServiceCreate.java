@@ -60,7 +60,7 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
 
@@ -76,7 +76,7 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
         entity = repository.findAll()
@@ -85,7 +85,7 @@ public class ITDefaultTransactionServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
     }
 
@@ -97,7 +97,7 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
 
@@ -115,13 +115,13 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.create(transaction);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
     }
 
