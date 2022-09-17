@@ -88,7 +88,7 @@ public class ITDefaultFeeServiceUpdate {
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMember());
+        Assertions.assertEquals(1, entity.getMemberId());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
         Assertions.assertEquals(false, entity.getPaid());

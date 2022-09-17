@@ -86,7 +86,7 @@ public class ITDefaultFeeServiceCreate {
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMember());
+        Assertions.assertEquals(1, entity.getMemberId());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
         Assertions.assertEquals(true, entity.getPaid());
@@ -109,7 +109,7 @@ public class ITDefaultFeeServiceCreate {
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMember());
+        Assertions.assertEquals(1, entity.getMemberId());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
         Assertions.assertEquals(true, entity.getPaid());

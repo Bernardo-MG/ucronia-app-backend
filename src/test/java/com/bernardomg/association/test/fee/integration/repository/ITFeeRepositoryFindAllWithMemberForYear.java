@@ -125,7 +125,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Fee                           result;
         final Sort                    sort;
 
-        sort = Sort.by(Direction.DESC, "member");
+        sort = Sort.by(Direction.DESC, "memberId");
 
         data = repository.findAllWithMemberForYear(2020, sort)
             .iterator();
