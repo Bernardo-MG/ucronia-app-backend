@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,9 +20,6 @@ public class PersistentTransaction implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
-    @Column(name = "pay_day", nullable = false)
-    private Integer           day;
-
     @Column(name = "description", length = 200)
     private String            description;
 
@@ -30,13 +28,10 @@ public class PersistentTransaction implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "pay_month", nullable = false)
-    private Integer           month;
+    @Column(name = "pay_date", nullable = false)
+    private Calendar          payDate;
 
     @Column(name = "quantity", nullable = false)
     private Long              quantity;
-
-    @Column(name = "pay_year", nullable = false)
-    private Integer           year;
 
 }

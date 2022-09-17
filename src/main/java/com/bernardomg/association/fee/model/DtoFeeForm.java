@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.fee.model;
 
+import java.util.Calendar;
+
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -8,18 +10,15 @@ import lombok.Data;
 @Data
 public final class DtoFeeForm implements FeeForm {
 
-    private Long    id;
+    private Long     id;
 
     @NotNull
-    private Long    memberId;
+    private Long     memberId;
 
     @NotNull
-    private Integer month;
+    private Boolean  paid;
 
     @NotNull
-    private Boolean paid;
-
-    @NotNull
-    private Integer year;
+    private Calendar payDate;
 
 }

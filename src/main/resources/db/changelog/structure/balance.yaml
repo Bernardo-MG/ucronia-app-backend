@@ -25,21 +25,45 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: pay_day
-                  type: smallint
+                  name: pay_date
+                  type: date
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: fees
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_fees_member
+                    references: members(id)
+              - column:
+                  name: pay_date
+                  type: date
                   constraints:
                     nullable: false
               - column:
-                  name: pay_month
-                  type: smallint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: pay_year
-                  type: smallint
+                  name: paid
+                  type: boolean
                   constraints:
                     nullable: false
       modifySql:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: balance_unique_constraints
+      author: Bernardo
+      changes:
+        -  addUniqueConstraint:
+            constraintName: fees_unique
+            tableName: fees
+            columnNames: member, pay_date

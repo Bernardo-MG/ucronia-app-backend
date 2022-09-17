@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,16 +57,15 @@ public class ITDefaultFeeServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoFeeForm month;
+        final DtoFeeForm fee;
 
-        month = new DtoFeeForm();
-        month.setId(1L);
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(false);
+        fee = new DtoFeeForm();
+        fee.setId(1L);
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPaid(false);
 
-        service.update(1L, month);
+        service.update(1L, fee);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -72,47 +73,45 @@ public class ITDefaultFeeServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoFeeForm    month;
+        final DtoFeeForm    fee;
         final PersistentFee entity;
 
-        month = new DtoFeeForm();
-        month.setId(1L);
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(false);
+        fee = new DtoFeeForm();
+        fee.setId(1L);
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPaid(false);
 
-        service.update(1L, month);
+        service.update(1L, fee);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(2, entity.getMonth());
-        Assertions.assertEquals(2020, entity.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), entity.getPayDate()
+            .toInstant());
         Assertions.assertEquals(false, entity.getPaid());
     }
 
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final DtoFeeForm month;
+        final DtoFeeForm fee;
         final Fee        result;
 
-        month = new DtoFeeForm();
-        month.setId(1L);
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(false);
+        fee = new DtoFeeForm();
+        fee.setId(1L);
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 2, 0));
+        fee.setPaid(false);
 
-        result = service.update(1L, month);
+        result = service.update(1L, fee);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(2, result.getMonth());
-        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 0).toInstant(), result.getPayDate()
+            .toInstant());
         Assertions.assertEquals(false, result.getPaid());
     }
 

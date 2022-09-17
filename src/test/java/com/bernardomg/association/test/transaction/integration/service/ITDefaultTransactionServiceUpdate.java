@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,9 +64,7 @@ public class ITDefaultTransactionServiceUpdate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
 
         service.update(1L, transaction);
 
@@ -80,9 +80,7 @@ public class ITDefaultTransactionServiceUpdate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
 
         service.update(1L, transaction);
         entity = repository.findAll()
@@ -91,6 +89,8 @@ public class ITDefaultTransactionServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction 123", entity.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), entity.getPayDate()
+            .toInstant());
     }
 
     @Test
@@ -102,14 +102,14 @@ public class ITDefaultTransactionServiceUpdate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 2, 1));
 
         result = service.update(1L, transaction);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getPayDate()
+            .toInstant());
     }
 
 }

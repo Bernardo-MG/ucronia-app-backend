@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.transaction.model;
 
+import java.util.Calendar;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -9,22 +11,16 @@ import lombok.Data;
 @Data
 public final class DtoTransaction implements Transaction {
 
-    @NotNull
-    private Integer day;
-
     @NotEmpty
     @NotNull
-    private String  description;
+    private String   description;
 
-    private Long    id;
-
-    @NotNull
-    private Integer month;
+    private Long     id;
 
     @NotNull
-    private Long    quantity;
+    private Calendar payDate;
 
     @NotNull
-    private Integer year;
+    private Long     quantity;
 
 }

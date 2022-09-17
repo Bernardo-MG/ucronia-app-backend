@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -87,41 +88,36 @@ public class ITDefaultTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(2, data.getDay());
-        Assertions.assertEquals(3, data.getMonth());
-        Assertions.assertEquals(2020, data.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
+            .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(2, data.getDay());
-        Assertions.assertEquals(3, data.getMonth());
-        Assertions.assertEquals(2020, data.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
+            .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(2, data.getDay());
-        Assertions.assertEquals(3, data.getMonth());
-        Assertions.assertEquals(2020, data.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
+            .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(2, data.getDay());
-        Assertions.assertEquals(3, data.getMonth());
-        Assertions.assertEquals(2020, data.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
+            .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getQuantity());
-        Assertions.assertEquals(2, data.getDay());
-        Assertions.assertEquals(3, data.getMonth());
-        Assertions.assertEquals(2020, data.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
+            .toInstant());
     }
 
     @Test

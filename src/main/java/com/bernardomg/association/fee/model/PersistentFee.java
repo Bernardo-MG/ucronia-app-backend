@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,13 +33,10 @@ public class PersistentFee implements Serializable {
     @Column(name = "member", nullable = false, unique = true)
     private Long              member;
 
-    @Column(name = "paid_month", nullable = false, unique = true)
-    private Integer           month;
-
     @Column(name = "paid", nullable = false, unique = true)
     private Boolean           paid;
 
-    @Column(name = "paid_year", nullable = false, unique = true)
-    private Integer           year;
+    @Column(name = "pay_date", nullable = false)
+    private Calendar          payDate;
 
 }
