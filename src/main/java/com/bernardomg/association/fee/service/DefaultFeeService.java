@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.fee.service;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -109,13 +111,30 @@ public final class DefaultFeeService implements FeeService {
         return toDto(created);
     }
 
+    private final Calendar removeDay(final Calendar calendar) {
+        final Integer year;
+        final Integer month;
+
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+
+        return new GregorianCalendar(year, month, 1);
+    }
+
     private final Fee toDto(final PersistentFee entity) {
-        final DtoFee data;
+        final DtoFee   data;
+        final Calendar date;
+
+        if (entity.getPayDate() != null) {
+            date = removeDay(entity.getPayDate());
+        } else {
+            date = null;
+        }
 
         data = new DtoFee();
         data.setId(entity.getId());
         data.setMemberId(entity.getMember());
-        data.setPayDate(entity.getPayDate());
+        data.setPayDate(date);
         data.setPaid(entity.getPaid());
 
         return data;
@@ -123,11 +142,18 @@ public final class DefaultFeeService implements FeeService {
 
     private final PersistentFee toEntity(final Fee data) {
         final PersistentFee entity;
+        final Calendar      date;
+
+        if (data.getPayDate() != null) {
+            date = removeDay(data.getPayDate());
+        } else {
+            date = null;
+        }
 
         entity = new PersistentFee();
         entity.setId(data.getId());
         entity.setMember(data.getMemberId());
-        entity.setPayDate(data.getPayDate());
+        entity.setPayDate(date);
         entity.setPaid(data.getPaid());
 
         return entity;
@@ -135,11 +161,18 @@ public final class DefaultFeeService implements FeeService {
 
     private final PersistentFee toEntity(final FeeForm data) {
         final PersistentFee entity;
+        final Calendar      date;
+
+        if (data.getPayDate() != null) {
+            date = removeDay(data.getPayDate());
+        } else {
+            date = null;
+        }
 
         entity = new PersistentFee();
         entity.setId(data.getId());
         entity.setMember(data.getMemberId());
-        entity.setPayDate(data.getPayDate());
+        entity.setPayDate(date);
         entity.setPaid(data.getPaid());
 
         return entity;

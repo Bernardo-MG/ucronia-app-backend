@@ -77,7 +77,7 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 2, 2));
+        fee.setPayDate(new GregorianCalendar(2020, 1, 2));
         fee.setPaid(true);
 
         service.create(fee);
