@@ -16,15 +16,12 @@ import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
-import com.bernardomg.association.transaction.validation.TransactionValidator;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the transaction service.
- * <p>
- * Applies validation through the included {@link #validator}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -36,14 +33,10 @@ public final class DefaultTransactionService implements TransactionService {
 
     private final TransactionRepository repository;
 
-    private final TransactionValidator  validator;
-
     @Override
     public final Transaction create(final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
-
-        validator.validate(transaction);
 
         entity = toEntity(transaction);
         created = repository.save(entity);
@@ -117,9 +110,7 @@ public final class DefaultTransactionService implements TransactionService {
         result = new DtoTransaction();
         result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
-        result.setDay(transaction.getDay());
-        result.setMonth(transaction.getMonth());
-        result.setYear(transaction.getYear());
+        result.setPayDate(transaction.getPayDate());
         result.setQuantity(transaction.getQuantity());
 
         return result;
@@ -131,9 +122,7 @@ public final class DefaultTransactionService implements TransactionService {
         result = new PersistentTransaction();
         result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
-        result.setDay(transaction.getDay());
-        result.setMonth(transaction.getMonth());
-        result.setYear(transaction.getYear());
+        result.setPayDate(transaction.getPayDate());
         result.setQuantity(transaction.getQuantity());
 
         return result;

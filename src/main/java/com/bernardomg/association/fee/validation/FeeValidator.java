@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.fee.validation.rule.FeeMemberExistsValidationRule;
-import com.bernardomg.association.fee.validation.rule.FeeRangeValidationRule;
 import com.bernardomg.validation.RuleValidator;
 import com.bernardomg.validation.Validator;
 
@@ -19,7 +18,7 @@ public final class FeeValidator implements Validator<FeeForm> {
     public FeeValidator(final FeeMemberExistsValidationRule periodMemberExists) {
         super();
 
-        validator = new RuleValidator<>(Arrays.asList(new FeeRangeValidationRule(), periodMemberExists));
+        validator = new RuleValidator<>(Arrays.asList(periodMemberExists));
     }
 
     @Override

@@ -1,18 +1,16 @@
 
 package com.bernardomg.association.transaction.model;
 
-public interface Transaction {
+import java.util.Calendar;
 
-    public Integer getDay();
+public interface Transaction {
 
     public String getDescription();
 
     public Long getId();
 
-    public Integer getMonth();
+    public Calendar getPayDate();
 
     public Long getQuantity();
-
-    public Integer getYear();
 
 }

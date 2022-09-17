@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.test.fee.integration.repository;
 
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -82,8 +83,8 @@ public class ITFeeRepositoryFindByIdWithMember {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(2, result.getMonth());
-        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+            .toInstant());
         Assertions.assertTrue(result.getPaid());
     }
 

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -82,9 +83,8 @@ public class ITDefaultTransactionServiceGetOne {
         Assertions.assertEquals(id, result.getId());
         Assertions.assertEquals("Transaction 1", result.getDescription());
         Assertions.assertEquals(1, result.getQuantity());
-        Assertions.assertEquals(2, result.getDay());
-        Assertions.assertEquals(3, result.getMonth());
-        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+            .toInstant());
     }
 
     @Test

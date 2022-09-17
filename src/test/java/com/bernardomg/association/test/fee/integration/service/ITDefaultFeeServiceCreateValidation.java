@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,61 +53,20 @@ public class ITDefaultFeeServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the member id does not exist")
     public void testCreate_InvalidMember() {
-        final DtoFeeForm month;
+        final DtoFeeForm fee;
         final Executable executable;
         final Exception  exception;
 
-        month = new DtoFeeForm();
-        month.setMemberId(-1L);
-        month.setMonth(2);
-        month.setYear(3);
-        month.setPaid(true);
+        fee = new DtoFeeForm();
+        fee.setMemberId(-1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(true);
 
-        executable = () -> service.create(month);
+        executable = () -> service.create(fee);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.member.notExists", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the month is above the range")
-    public void testCreate_MonthAboveRange() {
-        final DtoFeeForm month;
-        final Executable executable;
-        final Exception  exception;
-
-        month = new DtoFeeForm();
-        month.setMemberId(1L);
-        month.setMonth(13);
-        month.setYear(2020);
-        month.setPaid(true);
-
-        executable = () -> service.create(month);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.fee.invalidMonth", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the month is below the range")
-    public void testCreate_MonthBelowRange() {
-        final DtoFeeForm month;
-        final Executable executable;
-        final Exception  exception;
-
-        month = new DtoFeeForm();
-        month.setMemberId(1L);
-        month.setMonth(0);
-        month.setYear(3);
-        month.setPaid(true);
-
-        executable = () -> service.create(month);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.fee.invalidMonth", exception.getMessage());
     }
 
 }

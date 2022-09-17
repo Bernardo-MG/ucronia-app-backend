@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,16 +53,31 @@ public class ITDefaultFeeServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the data already exists")
     public void testCreate_Existing() {
-        final DtoFeeForm month;
+        final DtoFeeForm fee;
         final Executable executable;
 
-        month = new DtoFeeForm();
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(true);
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(true);
 
-        executable = () -> service.create(month);
+        executable = () -> service.create(fee);
+
+        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the data already exists")
+    public void testCreate_Existing_ChangesDay() {
+        final DtoFeeForm fee;
+        final Executable executable;
+
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 2));
+        fee.setPaid(true);
+
+        executable = () -> service.create(fee);
 
         Assertions.assertThrows(DataIntegrityViolationException.class, executable);
     }

@@ -2,6 +2,7 @@
 package com.bernardomg.association.feeyear.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -73,9 +74,14 @@ public final class DefaultFeeYearService implements FeeYearService {
 
     private final FeeMonth toFeeMonth(final Fee fee) {
         final DtoFeeMonth feeMonth;
+        final Integer     month;
+
+        // Calendar months start at index 0, this has to be corrected
+        month = fee.getPayDate()
+            .get(Calendar.MONTH) + 1;
 
         feeMonth = new DtoFeeMonth();
-        feeMonth.setMonth(fee.getMonth());
+        feeMonth.setMonth(month);
         feeMonth.setPaid(fee.getPaid());
 
         return feeMonth;

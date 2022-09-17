@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,9 +60,7 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
 
@@ -76,9 +76,7 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
         entity = repository.findAll()
@@ -87,6 +85,8 @@ public class ITDefaultTransactionServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction", entity.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+            .toInstant());
     }
 
     @Test
@@ -97,9 +97,7 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
 
@@ -117,14 +115,14 @@ public class ITDefaultTransactionServiceCreate {
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
         transaction.setQuantity(1l);
-        transaction.setDay(2);
-        transaction.setMonth(3);
-        transaction.setYear(4);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.create(transaction);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+            .toInstant());
     }
 
 }

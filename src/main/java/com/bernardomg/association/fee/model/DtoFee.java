@@ -1,21 +1,21 @@
 
 package com.bernardomg.association.fee.model;
 
+import java.util.Calendar;
+
 import lombok.Data;
 
 @Data
 public final class DtoFee implements Fee {
 
-    private Long    id;
+    private Long     id;
 
-    private String  member;
+    private String   member;
 
-    private Long    memberId;
+    private Long     memberId;
 
-    private Integer month;
+    private Boolean  paid;
 
-    private Boolean paid;
-
-    private Integer year;
+    private Calendar payDate;
 
 }

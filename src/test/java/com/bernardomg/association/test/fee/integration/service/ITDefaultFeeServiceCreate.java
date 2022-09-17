@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,60 +57,82 @@ public class ITDefaultFeeServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final DtoFeeForm month;
+        final DtoFeeForm fee;
 
-        month = new DtoFeeForm();
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(true);
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(true);
 
-        service.create(month);
+        service.create(fee);
 
         Assertions.assertEquals(1L, repository.count());
     }
 
     @Test
-    @DisplayName("Persists the data")
-    public void testCreate_PersistedData() {
-        final DtoFeeForm    month;
+    @DisplayName("Persists the data with a day which is not the first of the month")
+    public void testCreate_AnotherDay_PersistedData() {
+        final DtoFeeForm    fee;
         final PersistentFee entity;
 
-        month = new DtoFeeForm();
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(true);
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 2));
+        fee.setPaid(true);
 
-        service.create(month);
+        service.create(fee);
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMember());
-        Assertions.assertEquals(2, entity.getMonth());
-        Assertions.assertEquals(2020, entity.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(true, entity.getPaid());
+    }
+
+    @Test
+    @DisplayName("Persists the data")
+    public void testCreate_PersistedData() {
+        final DtoFeeForm    fee;
+        final PersistentFee entity;
+
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(true);
+
+        service.create(fee);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals(1, entity.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(true, entity.getPaid());
     }
 
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
         final Fee        result;
-        final DtoFeeForm month;
+        final DtoFeeForm fee;
 
-        month = new DtoFeeForm();
-        month.setMemberId(1L);
-        month.setMonth(2);
-        month.setYear(2020);
-        month.setPaid(true);
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(true);
 
-        result = service.create(month);
+        result = service.create(fee);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(2, result.getMonth());
-        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(true, result.getPaid());
     }
 
 }
