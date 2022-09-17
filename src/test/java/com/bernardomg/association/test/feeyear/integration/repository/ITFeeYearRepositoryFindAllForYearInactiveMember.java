@@ -40,14 +40,14 @@ import com.bernardomg.association.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year repository - find all for year - full year")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeYearRepositoryFindAllForYear {
+@DisplayName("Fee year repository - find all for year - inactive member")
+@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+public class ITFeeYearRepositoryFindAllForYearInactiveMember {
 
     @Autowired
     private FeeYearRepository repository;
 
-    public ITFeeYearRepositoryFindAllForYear() {
+    public ITFeeYearRepositoryFindAllForYearInactiveMember() {
         super();
     }
 
@@ -85,7 +85,7 @@ public class ITFeeYearRepositoryFindAllForYear {
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
         Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertEquals(false, result.getActive());
 
         months = result.getMonths()
             .iterator();

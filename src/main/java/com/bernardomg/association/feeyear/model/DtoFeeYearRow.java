@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public final class DtoFeeYearRow implements FeeYearRow {
 
+    private Boolean  active;
+
     private Long     id;
 
     private String   member;
@@ -17,7 +19,5 @@ public final class DtoFeeYearRow implements FeeYearRow {
     private Boolean  paid;
 
     private Calendar payDate;
-    
-    private Boolean active;
 
 }
