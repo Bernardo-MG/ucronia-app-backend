@@ -29,7 +29,7 @@ public final class DefaultBalanceService implements BalanceService {
         }
 
         balance = new DtoBalance();
-        balance.setQuantity(sum);
+        balance.setAmount(sum);
 
         return balance;
     }

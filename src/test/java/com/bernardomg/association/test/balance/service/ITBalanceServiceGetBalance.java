@@ -53,7 +53,7 @@ public class ITBalanceServiceGetBalance {
 
         result = service.getBalance();
 
-        Assertions.assertEquals(5, result.getQuantity());
+        Assertions.assertEquals(5, result.getAmount());
     }
 
 }

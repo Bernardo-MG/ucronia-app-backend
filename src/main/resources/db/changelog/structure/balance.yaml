@@ -20,7 +20,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: quantity
+                  name: amount
                   type: float
                   constraints:
                     nullable: false

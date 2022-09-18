@@ -87,35 +87,35 @@ public class ITDefaultTransactionServiceGetAll {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getQuantity());
+        Assertions.assertEquals(1, data.getAmount());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getQuantity());
+        Assertions.assertEquals(1, data.getAmount());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getQuantity());
+        Assertions.assertEquals(1, data.getAmount());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getQuantity());
+        Assertions.assertEquals(1, data.getAmount());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getQuantity());
+        Assertions.assertEquals(1, data.getAmount());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
             .toInstant());
     }

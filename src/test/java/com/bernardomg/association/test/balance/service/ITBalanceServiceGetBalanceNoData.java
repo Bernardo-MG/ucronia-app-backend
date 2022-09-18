@@ -51,7 +51,7 @@ public class ITBalanceServiceGetBalanceNoData {
 
         result = service.getBalance();
 
-        Assertions.assertEquals(0, result.getQuantity());
+        Assertions.assertEquals(0, result.getAmount());
     }
 
 }

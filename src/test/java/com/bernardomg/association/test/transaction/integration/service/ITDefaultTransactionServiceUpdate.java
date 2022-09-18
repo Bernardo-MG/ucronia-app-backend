@@ -63,7 +63,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setQuantity(1f);
+        transaction.setAmount(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
@@ -79,7 +79,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setQuantity(1.2f);
+        transaction.setAmount(1.2f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
@@ -91,7 +91,7 @@ public class ITDefaultTransactionServiceUpdate {
         Assertions.assertEquals("Transaction 123", entity.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
-        Assertions.assertEquals(1.2f, entity.getQuantity());
+        Assertions.assertEquals(1.2f, entity.getAmount());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1.2f);
+        transaction.setAmount(1.2f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.update(1L, transaction);
@@ -111,7 +111,7 @@ public class ITDefaultTransactionServiceUpdate {
         Assertions.assertEquals("Transaction", result.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
-        Assertions.assertEquals(1.2f, result.getQuantity());
+        Assertions.assertEquals(1.2f, result.getAmount());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setQuantity(1f);
+        transaction.setAmount(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
@@ -134,7 +134,7 @@ public class ITDefaultTransactionServiceUpdate {
         Assertions.assertEquals("Transaction 123", entity.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
-        Assertions.assertEquals(1f, entity.getQuantity());
+        Assertions.assertEquals(1f, entity.getAmount());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1f);
+        transaction.setAmount(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.update(1L, transaction);
@@ -154,7 +154,7 @@ public class ITDefaultTransactionServiceUpdate {
         Assertions.assertEquals("Transaction", result.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
-        Assertions.assertEquals(1f, result.getQuantity());
+        Assertions.assertEquals(1f, result.getAmount());
     }
 
 }
