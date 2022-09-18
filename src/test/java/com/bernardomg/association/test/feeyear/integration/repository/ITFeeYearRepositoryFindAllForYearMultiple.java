@@ -35,6 +35,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.feeyear.model.FeeMonth;
 import com.bernardomg.association.feeyear.model.FeeYear;
 import com.bernardomg.association.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -69,8 +70,10 @@ public class ITFeeYearRepositoryFindAllForYearMultiple {
     @DisplayName("Returns all data sorted")
     public void testGetAll_Sort_Data() {
         final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
         final Sort                        sort;
+        FeeYear                           result;
+        Iterator<FeeMonth>                months;
+        FeeMonth                          month;
 
         sort = Sort.by(Order.desc("member"));
 
@@ -78,16 +81,118 @@ public class ITFeeYearRepositoryFindAllForYearMultiple {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals(2, result.getMemberId());
         Assertions.assertEquals("Member 2 Surname", result.getMember());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
+
+        months = result.getMonths()
+            .iterator();
+
+        month = months.next();
+        Assertions.assertEquals(1, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(2, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(3, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(4, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(5, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(6, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(7, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(8, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(9, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(10, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(11, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(12, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
 
         result = data.next();
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
+
+        months = result.getMonths()
+            .iterator();
+
+        month = months.next();
+        Assertions.assertEquals(1, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(2, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(3, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(4, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(5, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(6, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(7, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(8, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(9, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(10, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(11, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(12, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
     }
 
 }

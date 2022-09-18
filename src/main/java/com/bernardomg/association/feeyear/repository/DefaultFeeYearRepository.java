@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.feeyear.repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -11,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bernardomg.association.feeyear.model.DtoFeeMonth;
 import com.bernardomg.association.feeyear.model.DtoFeeYear;
-import com.bernardomg.association.feeyear.model.DtoFeeYearRow;
 import com.bernardomg.association.feeyear.model.FeeMonth;
 import com.bernardomg.association.feeyear.model.FeeYear;
 import com.bernardomg.association.feeyear.model.FeeYearRow;
@@ -38,6 +36,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         final Collection<FeeYearRow>      readFees;
         final Map<Long, List<FeeYearRow>> memberFees;
         final Collection<FeeYear>         years;
+        final Iterable<Long>              memberIds;
         List<FeeYearRow>                  fees;
         FeeYear                           feeYear;
         Boolean                           active;
@@ -45,9 +44,13 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         readFees = getAllFees(year, sort);
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
+        memberIds = readFees.stream()
+            .map(FeeYearRow::getMemberId)
+            .distinct()
+            .collect(Collectors.toList());
 
         years = new ArrayList<>();
-        for (final Long member : memberFees.keySet()) {
+        for (final Long member : memberIds) {
             fees = memberFees.get(member);
             if (fees.isEmpty()) {
                 active = false;
@@ -65,12 +68,23 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
     }
 
     private final List<FeeYearRow> getAllFees(final Integer year, final Sort sort) {
+        final SqlParameterSource namedParameters;
+        final String             where;
+        final String             sorting;
+
         // TODO: Test sorting
 
-        final SqlParameterSource namedParameters;
+        where = " WHERE YEAR(f.pay_date) = :year";
+        if (sort.isSorted()) {
+            sorting = " ORDER BY " + sort.get()
+                .map(this::toSorting)
+                .collect(Collectors.joining(" ,"));
+        } else {
+            sorting = "";
+        }
 
         namedParameters = new MapSqlParameterSource().addValue("year", year);
-        return jdbcTemplate.query(query + " WHERE YEAR(f.pay_date) = :year", namedParameters, this::toFeeYearRow);
+        return jdbcTemplate.query(query + where + sorting, namedParameters, new FeeYearRowRowMapper());
     }
 
     private final FeeMonth toFeeMonth(final FeeYearRow fee) {
@@ -113,28 +127,16 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return feeYear;
     }
 
-    private final FeeYearRow toFeeYearRow(final ResultSet rs, final Integer rowNum) {
-        final DtoFeeYearRow fee;
-        final Calendar      calendar;
+    private final String toSorting(final Order order) {
+        final String direction;
 
-        calendar = Calendar.getInstance();
-        try {
-
-            fee = new DtoFeeYearRow();
-            fee.setId(rs.getLong("id"));
-            fee.setMember(rs.getString("member"));
-            fee.setMemberId(rs.getLong("memberId"));
-            fee.setPaid(rs.getBoolean("paid"));
-            fee.setActive(rs.getBoolean("active"));
-
-            calendar.setTime(rs.getDate("payDate"));
-            fee.setPayDate(calendar);
-        } catch (final SQLException e) {
-            // TODO: Handle better
-            throw new RuntimeException(e);
+        if (order.isAscending()) {
+            direction = "ASC";
+        } else {
+            direction = "DESC";
         }
 
-        return fee;
+        return order.getProperty() + " " + direction;
     }
 
 }

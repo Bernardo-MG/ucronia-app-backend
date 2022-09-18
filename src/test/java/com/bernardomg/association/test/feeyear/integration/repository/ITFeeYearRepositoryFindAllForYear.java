@@ -71,10 +71,10 @@ public class ITFeeYearRepositoryFindAllForYear {
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
         final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
+        final FeeYear                     result;
+        final Iterator<FeeMonth>          months;
         final Sort                        sort;
+        FeeMonth                          month;
 
         sort = Sort.unsorted();
 
