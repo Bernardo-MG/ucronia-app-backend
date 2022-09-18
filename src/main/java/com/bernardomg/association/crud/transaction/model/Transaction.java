@@ -5,12 +5,12 @@ import java.util.Calendar;
 
 public interface Transaction {
 
+    public Float getAmount();
+
     public String getDescription();
 
     public Long getId();
 
     public Calendar getPayDate();
-
-    public Float getAmount();
 
 }

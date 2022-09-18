@@ -11,6 +11,9 @@ import lombok.Data;
 @Data
 public final class DtoTransaction implements Transaction {
 
+    @NotNull
+    private Float    amount;
+
     @NotEmpty
     @NotNull
     private String   description;
@@ -19,8 +22,5 @@ public final class DtoTransaction implements Transaction {
 
     @NotNull
     private Calendar payDate;
-
-    @NotNull
-    private Float    amount;
 
 }

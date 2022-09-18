@@ -20,6 +20,9 @@ public class PersistentTransaction implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
+    @Column(name = "amount", nullable = false)
+    private Float             amount;
+
     @Column(name = "description", length = 200)
     private String            description;
 
@@ -30,8 +33,5 @@ public class PersistentTransaction implements Serializable {
 
     @Column(name = "pay_date", nullable = false)
     private Calendar          payDate;
-
-    @Column(name = "amount", nullable = false)
-    private Float             amount;
 
 }
