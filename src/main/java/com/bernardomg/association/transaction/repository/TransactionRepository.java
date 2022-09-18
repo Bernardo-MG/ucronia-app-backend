@@ -31,7 +31,7 @@ import com.bernardomg.association.transaction.model.PersistentTransaction;
 
 public interface TransactionRepository extends JpaRepository<PersistentTransaction, Long> {
 
-    @Query("SELECT SUM(t.quantity) AS balance FROM Transaction t")
+    @Query("SELECT SUM(t.amount) AS balance FROM Transaction t")
     public Long findSumAll();
 
 }

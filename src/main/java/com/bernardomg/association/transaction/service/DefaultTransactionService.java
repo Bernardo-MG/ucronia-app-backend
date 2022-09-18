@@ -111,7 +111,7 @@ public final class DefaultTransactionService implements TransactionService {
         result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
         result.setPayDate(transaction.getPayDate());
-        result.setQuantity(transaction.getQuantity());
+        result.setAmount(transaction.getAmount());
 
         return result;
     }
@@ -123,7 +123,7 @@ public final class DefaultTransactionService implements TransactionService {
         result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
         result.setPayDate(transaction.getPayDate());
-        result.setQuantity(transaction.getQuantity());
+        result.setAmount(transaction.getAmount());
 
         return result;
     }

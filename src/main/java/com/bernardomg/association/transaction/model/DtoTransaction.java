@@ -21,6 +21,6 @@ public final class DtoTransaction implements Transaction {
     private Calendar payDate;
 
     @NotNull
-    private Float    quantity;
+    private Float    amount;
 
 }

@@ -31,7 +31,7 @@ public class PersistentTransaction implements Serializable {
     @Column(name = "pay_date", nullable = false)
     private Calendar          payDate;
 
-    @Column(name = "quantity", nullable = false)
-    private Float             quantity;
+    @Column(name = "amount", nullable = false)
+    private Float             amount;
 
 }

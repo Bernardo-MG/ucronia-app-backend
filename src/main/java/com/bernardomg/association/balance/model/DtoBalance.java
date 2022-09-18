@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class DtoBalance implements Balance {
 
-    private Long quantity;
+    private Long amount;
 
 }
