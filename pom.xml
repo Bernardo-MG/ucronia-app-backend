@@ -179,10 +179,10 @@
       <apache.commons.collections.version>4.4</apache.commons.collections.version>
       <jackson.version>2.13.3</jackson.version>
       <junit.jupiter.version>5.9.0</junit.jupiter.version>
-      <spring.boot.version>2.7.2</spring.boot.version>
+      <spring.boot.version>2.7.3</spring.boot.version>
       <spring.data.version>2021.2.2</spring.data.version>
-      <spring.version>5.3.22</spring.version>
-      <springdoc.version>1.6.9</springdoc.version>
+      <spring.version>5.3.23</spring.version>
+      <springdoc.version>1.6.11</springdoc.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -196,7 +196,7 @@
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
-      <site.skin.version>2.2.6</site.skin.version>
+      <site.skin.version>2.2.7</site.skin.version>
       <mavenURL>http://mvnrepository.com/artifact/${project.groupId}/${project.artifactId}</mavenURL>
       <githubArtifactURL>
          <![CDATA[https://github.com/bernardo-mg?tab=packages&amp;repo_name={project.artifactId}]]>

@@ -30,8 +30,8 @@ public class PersistentFee implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "member", nullable = false, unique = true)
-    private Long              member;
+    @Column(name = "member_id", nullable = false, unique = true)
+    private Long              memberId;
 
     @Column(name = "paid", nullable = false, unique = true)
     private Boolean           paid;

@@ -133,7 +133,7 @@ public final class DefaultFeeService implements FeeService {
 
         data = new DtoFee();
         data.setId(entity.getId());
-        data.setMemberId(entity.getMember());
+        data.setMemberId(entity.getMemberId());
         data.setPayDate(date);
         data.setPaid(entity.getPaid());
 
@@ -152,7 +152,7 @@ public final class DefaultFeeService implements FeeService {
 
         entity = new PersistentFee();
         entity.setId(data.getId());
-        entity.setMember(data.getMemberId());
+        entity.setMemberId(data.getMemberId());
         entity.setPayDate(date);
         entity.setPaid(data.getPaid());
 
@@ -171,7 +171,7 @@ public final class DefaultFeeService implements FeeService {
 
         entity = new PersistentFee();
         entity.setId(data.getId());
-        entity.setMember(data.getMemberId());
+        entity.setMemberId(data.getMemberId());
         entity.setPayDate(date);
         entity.setPaid(data.getPaid());
 
