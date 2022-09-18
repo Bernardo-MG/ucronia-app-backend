@@ -59,7 +59,7 @@ public class ITDefaultTransactionServiceCreate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
@@ -68,14 +68,14 @@ public class ITDefaultTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Persists the data")
-    public void testCreate_PersistedData() {
+    @DisplayName("Persists the data with decimal values")
+    public void testCreate_Decimal_PersistedData() {
         final DtoTransaction        transaction;
         final PersistentTransaction entity;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1.2f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
@@ -87,6 +87,50 @@ public class ITDefaultTransactionServiceCreate {
         Assertions.assertEquals("Transaction", entity.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
+        Assertions.assertEquals(1.2f, entity.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Returns the created data with decimal values")
+    public void testCreate_Decimal_ReturnedData() {
+        final Transaction    result;
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setQuantity(1f);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
+
+        result = service.create(transaction);
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals("Transaction", result.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(1f, result.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Persists the data")
+    public void testCreate_PersistedData() {
+        final DtoTransaction        transaction;
+        final PersistentTransaction entity;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setQuantity(1f);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
+
+        service.create(transaction);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals("Transaction", entity.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(1f, entity.getQuantity());
     }
 
     @Test
@@ -96,7 +140,7 @@ public class ITDefaultTransactionServiceCreate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.create(transaction);
@@ -114,7 +158,7 @@ public class ITDefaultTransactionServiceCreate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.create(transaction);
@@ -123,6 +167,7 @@ public class ITDefaultTransactionServiceCreate {
         Assertions.assertEquals("Transaction", result.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
+        Assertions.assertEquals(1f, result.getQuantity());
     }
 
 }

@@ -63,7 +63,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
@@ -72,14 +72,14 @@ public class ITDefaultTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
+    @DisplayName("Updates persisted data with decimal values")
+    public void testUpdate_Decimal_PersistedData() {
         final DtoTransaction        transaction;
         final PersistentTransaction entity;
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction 123");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1.2f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         service.update(1L, transaction);
@@ -91,6 +91,50 @@ public class ITDefaultTransactionServiceUpdate {
         Assertions.assertEquals("Transaction 123", entity.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
             .toInstant());
+        Assertions.assertEquals(1.2f, entity.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Returns the updated data with decimal values")
+    public void testUpdate_Decimal_ReturnedData() {
+        final Transaction    result;
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setQuantity(1.2f);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
+
+        result = service.update(1L, transaction);
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals("Transaction", result.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(1.2f, result.getQuantity());
+    }
+
+    @Test
+    @DisplayName("Updates persisted data")
+    public void testUpdate_PersistedData() {
+        final DtoTransaction        transaction;
+        final PersistentTransaction entity;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction 123");
+        transaction.setQuantity(1f);
+        transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
+
+        service.update(1L, transaction);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals("Transaction 123", entity.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+            .toInstant());
+        Assertions.assertEquals(1f, entity.getQuantity());
     }
 
     @Test
@@ -101,7 +145,7 @@ public class ITDefaultTransactionServiceUpdate {
 
         transaction = new DtoTransaction();
         transaction.setDescription("Transaction");
-        transaction.setQuantity(1l);
+        transaction.setQuantity(1f);
         transaction.setPayDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.update(1L, transaction);
@@ -110,6 +154,7 @@ public class ITDefaultTransactionServiceUpdate {
         Assertions.assertEquals("Transaction", result.getDescription());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
             .toInstant());
+        Assertions.assertEquals(1f, result.getQuantity());
     }
 
 }

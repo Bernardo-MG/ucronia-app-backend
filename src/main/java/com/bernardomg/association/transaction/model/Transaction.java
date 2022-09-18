@@ -11,6 +11,6 @@ public interface Transaction {
 
     public Calendar getPayDate();
 
-    public Long getQuantity();
+    public Float getQuantity();
 
 }
