@@ -25,7 +25,7 @@
 package com.bernardomg.mvc.error.model;
 
 /**
- * Error object. Containing a message to tell which error ocurred.
+ * Failure object. Containing a message to tell which error ocurred.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -33,12 +33,7 @@ package com.bernardomg.mvc.error.model;
 public interface Failure {
 
     public static Failure of(final String code) {
-        final DtoFailure error;
-
-        error = new DtoFailure();
-        error.setMessage(code);
-
-        return error;
+        return new ImmutableFailure(code);
     }
 
     /**
