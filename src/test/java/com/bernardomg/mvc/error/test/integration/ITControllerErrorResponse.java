@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.error.test.unit;
+package com.bernardomg.mvc.error.test.integration;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
