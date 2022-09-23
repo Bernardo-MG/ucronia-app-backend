@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.response.test.unit.controller;
+package com.bernardomg.mvc.response.test.controller.integration;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
-import com.bernardomg.mvc.response.test.util.controller.ResponseTestController;
+import com.bernardomg.mvc.response.test.controller.util.ResponseTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller advices - response structure")

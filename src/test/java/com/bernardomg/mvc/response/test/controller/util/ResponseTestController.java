@@ -1,5 +1,5 @@
 
-package com.bernardomg.mvc.response.test.util.controller;
+package com.bernardomg.mvc.response.test.controller.util;
 
 import java.util.Arrays;
 import java.util.List;
