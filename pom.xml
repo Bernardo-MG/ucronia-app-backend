@@ -418,13 +418,6 @@
          <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
-      <!-- =================== GSON ===================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>com.google.code.gson</groupId>
-         <artifactId>gson</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -556,6 +549,12 @@
          <!-- H2 database -->
          <groupId>com.h2database</groupId>
          <artifactId>h2</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- GSON -->
+         <groupId>com.google.code.gson</groupId>
+         <artifactId>gson</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
