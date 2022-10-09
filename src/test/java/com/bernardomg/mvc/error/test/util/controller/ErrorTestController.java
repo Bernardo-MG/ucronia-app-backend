@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.mvc.error.model.DtoFailure;
 import com.bernardomg.mvc.error.model.DtoFieldFailure;
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.test.util.model.ErrorTestObject;
@@ -62,11 +61,10 @@ public class ErrorTestController {
 
     @GetMapping(path = "/validation", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> exceptionValidation() {
-        final DtoFailure          failure;
+        final Failure             failure;
         final Collection<Failure> failures;
 
-        failure = new DtoFailure();
-        failure.setMessage("Error message");
+        failure = Failure.of("Error message");
 
         failures = new ArrayList<>();
         failures.add(failure);

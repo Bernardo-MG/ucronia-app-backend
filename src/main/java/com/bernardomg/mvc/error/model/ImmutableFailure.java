@@ -25,10 +25,18 @@
 package com.bernardomg.mvc.error.model;
 
 import lombok.Data;
+import lombok.NonNull;
 
+/**
+ * Immutable failure object.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Data
-public class DtoFailure implements Failure {
+public class ImmutableFailure implements Failure {
 
-    private String message;
+    @NonNull
+    private final String message;
 
 }
