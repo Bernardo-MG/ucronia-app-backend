@@ -35,6 +35,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
+import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -42,6 +43,9 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @DisplayName("Default fee service - create errors")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITDefaultFeeServiceCreateError {
+
+    @Autowired
+    private FeeRepository     repository;
 
     @Autowired
     private DefaultFeeService service;
@@ -61,7 +65,10 @@ public class ITDefaultFeeServiceCreateError {
         fee.setPayDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
-        executable = () -> service.create(fee);
+        executable = () -> {
+            service.create(fee);
+            repository.flush();
+        };
 
         Assertions.assertThrows(DataIntegrityViolationException.class, executable);
     }
@@ -77,7 +84,10 @@ public class ITDefaultFeeServiceCreateError {
         fee.setPayDate(new GregorianCalendar(2020, 1, 2));
         fee.setPaid(true);
 
-        executable = () -> service.create(fee);
+        executable = () -> {
+            service.create(fee);
+            repository.flush();
+        };
 
         Assertions.assertThrows(DataIntegrityViolationException.class, executable);
     }

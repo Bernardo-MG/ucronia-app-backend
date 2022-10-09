@@ -10,12 +10,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import lombok.Data;
 
 @Data
 @Entity(name = "Transaction")
 @Table(name = "transactions")
+@TableGenerator(name = "seq_transactions_id", table = "sequences", pkColumnName = "seq_name",
+        valueColumnName = "seq_count", initialValue = 10, allocationSize = 1)
 public class PersistentTransaction implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
@@ -27,7 +30,7 @@ public class PersistentTransaction implements Serializable {
     private String            description;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_transactions_id")
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 

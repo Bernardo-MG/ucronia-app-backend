@@ -9,12 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
 import lombok.Data;
 
 @Entity(name = "Member")
 @Table(name = "members")
+@TableGenerator(name = "seq_members_id", table = "sequences", pkColumnName = "seq_name", valueColumnName = "seq_count",
+        initialValue = 10, allocationSize = 1)
 @Data
 public class PersistentMember implements Serializable {
 
@@ -28,7 +31,7 @@ public class PersistentMember implements Serializable {
     private Boolean           active;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_members_id")
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 

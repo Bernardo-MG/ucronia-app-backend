@@ -64,6 +64,6 @@ databaseChangeLog:
       author: Bernardo
       changes:
         -  addUniqueConstraint:
-            constraintName: fees_unique
+            constraintName: fees_unique_date
             tableName: fees
             columnNames: member_id, pay_date
