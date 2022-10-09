@@ -44,12 +44,12 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Fee repository - find all with member")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-public class ITFeeRepositoryFindAllWithMemberForYear {
+public class ITFeeRepositoryFindAllWithMember {
 
     @Autowired
     private FeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberForYear() {
+    public ITFeeRepositoryFindAllWithMember() {
         super();
     }
 

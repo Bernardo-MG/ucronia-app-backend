@@ -27,13 +27,15 @@ package com.bernardomg.association.test.crud.fee.integration.repository;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.Fee;
@@ -42,47 +44,65 @@ import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member - inactive member")
-@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-public class ITFeeRepositoryFindAllWithMemberForYearInactiveMember {
+@DisplayName("Fee repository - find all with member - sort")
+@Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+public class ITFeeRepositoryFindAllWithMemberSort {
 
     @Autowired
     private FeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberForYearInactiveMember() {
+    public ITFeeRepositoryFindAllWithMemberSort() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final Example<PersistentFee>  example;
-        final Pageable                pageable;
-
-        pageable = Pageable.unpaged();
-
-        example = Example.of(new PersistentFee());
-
-        result = repository.findAllWithMember(example, pageable);
-
-        Assertions.assertEquals(1, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    @DisplayName("Returns all data in descending order by member id")
+    public void testGetAll_Sorted_Desc_MemberId() {
         final Iterator<? extends Fee> data;
-        Fee                           result;
         final Example<PersistentFee>  example;
         final Pageable                pageable;
+        final Sort                    sort;
+        Fee                           result;
 
-        pageable = Pageable.unpaged();
+        sort = Sort.by(Direction.DESC, "memberId");
+        pageable = PageRequest.of(0, 10, sort);
 
         example = Example.of(new PersistentFee());
 
         data = repository.findAllWithMember(example, pageable)
             .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(5, result.getMemberId());
+        Assertions.assertEquals("Member 5 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(4, result.getMemberId());
+        Assertions.assertEquals("Member 4 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(3, result.getMemberId());
+        Assertions.assertEquals("Member 3 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(2, result.getMemberId());
+        Assertions.assertEquals("Member 2 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
