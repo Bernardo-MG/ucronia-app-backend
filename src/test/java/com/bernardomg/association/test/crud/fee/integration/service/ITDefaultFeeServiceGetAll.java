@@ -96,7 +96,7 @@ public class ITDefaultFeeServiceGetAll {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
         Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -104,7 +104,7 @@ public class ITDefaultFeeServiceGetAll {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(3, result.getMemberId());
         Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -112,7 +112,7 @@ public class ITDefaultFeeServiceGetAll {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(4, result.getMemberId());
         Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -120,9 +120,9 @@ public class ITDefaultFeeServiceGetAll {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(5, result.getMemberId());
         Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
             .toInstant());
-        Assertions.assertTrue(result.getPaid());
+        Assertions.assertFalse(result.getPaid());
     }
 
     @Test

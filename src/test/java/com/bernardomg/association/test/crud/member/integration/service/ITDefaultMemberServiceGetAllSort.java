@@ -43,12 +43,12 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Default member service - get all - sort")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITDefaultMemberServiceGetAllSorted {
+public class ITDefaultMemberServiceGetAllSort {
 
     @Autowired
     private DefaultMemberService service;
 
-    public ITDefaultMemberServiceGetAllSorted() {
+    public ITDefaultMemberServiceGetAllSort() {
         super();
     }
 

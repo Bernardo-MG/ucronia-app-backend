@@ -33,7 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.Fee;
@@ -89,7 +88,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
         Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -97,7 +96,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(3, result.getMemberId());
         Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -105,7 +104,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(4, result.getMemberId());
         Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -113,62 +112,9 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(5, result.getMemberId());
         Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
             .toInstant());
-        Assertions.assertTrue(result.getPaid());
-    }
-
-    @Test
-    @DisplayName("Returns all data sorted")
-    public void testGetAll_Sort_Data() {
-        final Iterator<? extends Fee> data;
-        Fee                           result;
-        final Sort                    sort;
-
-        sort = Sort.by(Direction.DESC, "memberId");
-
-        data = repository.findAllWithMemberForYear(2020, sort)
-            .iterator();
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(5, result.getMemberId());
-        Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(4, result.getMemberId());
-        Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(3, result.getMemberId());
-        Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
+        Assertions.assertFalse(result.getPaid());
     }
 
 }

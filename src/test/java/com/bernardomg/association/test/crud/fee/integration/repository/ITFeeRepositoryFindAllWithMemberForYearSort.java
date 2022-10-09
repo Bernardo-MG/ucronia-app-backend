@@ -22,75 +22,70 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.crud.fee.integration.service;
+package com.bernardomg.association.test.crud.fee.integration.repository;
 
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
 import com.bernardomg.association.crud.fee.model.Fee;
-import com.bernardomg.association.crud.fee.service.DefaultFeeService;
+import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee service - get all - pagination")
+@DisplayName("Fee repository - find all with member - sort")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-public class ITDefaultFeeServiceGetAllPagination {
+public class ITFeeRepositoryFindAllWithMemberForYearSort {
 
     @Autowired
-    private DefaultFeeService service;
+    private FeeRepository repository;
 
-    public ITDefaultFeeServiceGetAllPagination() {
+    public ITFeeRepositoryFindAllWithMemberForYearSort() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
-        final DtoFee                  sample;
+    @DisplayName("Returns all data in descending order by member id")
+    public void testGetAll_Sorted_Desc_MemberId() {
         final Iterator<? extends Fee> data;
-        final Fee                     result;
-        final Pageable                pageable;
+        Fee                           result;
+        final Sort                    sort;
 
-        pageable = PageRequest.of(0, 1);
+        sort = Sort.by(Direction.DESC, "memberId");
 
-        sample = new DtoFee();
-
-        data = service.getAll(sample, pageable)
+        data = repository.findAllWithMemberForYear(2020, sort)
             .iterator();
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(5, result.getMemberId());
+        Assertions.assertEquals("Member 5 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(4, result.getMemberId());
+        Assertions.assertEquals("Member 4 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
-    }
 
-    @Test
-    @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
-        final DtoFee                  sample;
-        final Iterator<? extends Fee> data;
-        final Fee                     result;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(1, 1);
-
-        sample = new DtoFee();
-
-        data = service.getAll(sample, pageable)
-            .iterator();
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(3, result.getMemberId());
+        Assertions.assertEquals("Member 3 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
@@ -99,22 +94,14 @@ public class ITDefaultFeeServiceGetAllPagination {
         Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
-    }
 
-    @Test
-    @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
-        final Iterable<? extends Fee> result;
-        final DtoFee                  sample;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        sample = new DtoFee();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
     }
 
 }

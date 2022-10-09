@@ -44,12 +44,12 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Default transaction service - get all - sort")
 @Sql({ "/db/queries/transaction/multiple.sql" })
-public class ITDefaultTransactionServiceGetAllSorted {
+public class ITDefaultTransactionServiceGetAllSort {
 
     @Autowired
     private DefaultTransactionService service;
 
-    public ITDefaultTransactionServiceGetAllSorted() {
+    public ITDefaultTransactionServiceGetAllSort() {
         super();
     }
 
