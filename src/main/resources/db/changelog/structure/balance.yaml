@@ -25,7 +25,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: pay_date
+                  name: date
                   type: date
                   constraints:
                     nullable: false
@@ -46,7 +46,7 @@ databaseChangeLog:
                     foreignKeyName: fk_fees_member
                     references: members(id)
               - column:
-                  name: pay_date
+                  name: date
                   type: date
                   constraints:
                     nullable: false
@@ -66,4 +66,4 @@ databaseChangeLog:
         -  addUniqueConstraint:
             constraintName: fees_unique_date
             tableName: fees
-            columnNames: member_id, pay_date
+            columnNames: member_id, date

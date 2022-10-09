@@ -29,7 +29,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String                     query = "SELECT f.id AS id, f.pay_date AS payDate, f.paid AS paid, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                     query = "SELECT f.id AS id, f.date AS date, f.paid AS paid, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
@@ -74,7 +74,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
         // TODO: Test sorting
 
-        where = " WHERE YEAR(f.pay_date) = :year";
+        where = " WHERE YEAR(f.date) = :year";
         if (sort.isSorted()) {
             sorting = " ORDER BY " + sort.get()
                 .map(this::toSorting)
@@ -92,7 +92,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         final Integer     month;
 
         // Calendar months start at index 0, this has to be corrected
-        month = fee.getPayDate()
+        month = fee.getDate()
             .get(Calendar.MONTH) + 1;
 
         feeMonth = new DtoFeeMonth();

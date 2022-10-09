@@ -110,7 +110,7 @@ public final class DefaultTransactionService implements TransactionService {
         result = new DtoTransaction();
         result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
-        result.setPayDate(transaction.getPayDate());
+        result.setDate(transaction.getDate());
         result.setAmount(transaction.getAmount());
 
         return result;
@@ -122,7 +122,7 @@ public final class DefaultTransactionService implements TransactionService {
         result = new PersistentTransaction();
         result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
-        result.setPayDate(transaction.getPayDate());
+        result.setDate(transaction.getDate());
         result.setAmount(transaction.getAmount());
 
         return result;

@@ -59,7 +59,7 @@ public class ITDefaultFeeServiceCreateValidation {
 
         fee = new DtoFeeForm();
         fee.setMemberId(-1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         executable = () -> service.create(fee);

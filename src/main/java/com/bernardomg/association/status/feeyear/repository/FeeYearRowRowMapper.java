@@ -31,8 +31,8 @@ public final class FeeYearRowRowMapper implements RowMapper<FeeYearRow> {
             fee.setPaid(rs.getBoolean("paid"));
             fee.setActive(rs.getBoolean("active"));
 
-            calendar.setTime(rs.getDate("payDate"));
-            fee.setPayDate(calendar);
+            calendar.setTime(rs.getDate("date"));
+            fee.setDate(calendar);
         } catch (final SQLException e) {
             // TODO: Handle better
             throw new RuntimeException(e);

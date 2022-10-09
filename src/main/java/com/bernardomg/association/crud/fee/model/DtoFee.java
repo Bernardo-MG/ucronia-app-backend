@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public final class DtoFee implements Fee {
 
+    private Calendar date;
+
     private Long     id;
 
     private String   member;
@@ -15,7 +17,5 @@ public final class DtoFee implements Fee {
     private Long     memberId;
 
     private Boolean  paid;
-
-    private Calendar payDate;
 
 }

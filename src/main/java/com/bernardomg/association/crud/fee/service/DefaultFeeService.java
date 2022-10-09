@@ -125,8 +125,8 @@ public final class DefaultFeeService implements FeeService {
         final DtoFee   data;
         final Calendar date;
 
-        if (entity.getPayDate() != null) {
-            date = removeDay(entity.getPayDate());
+        if (entity.getDate() != null) {
+            date = removeDay(entity.getDate());
         } else {
             date = null;
         }
@@ -134,7 +134,7 @@ public final class DefaultFeeService implements FeeService {
         data = new DtoFee();
         data.setId(entity.getId());
         data.setMemberId(entity.getMemberId());
-        data.setPayDate(date);
+        data.setDate(date);
         data.setPaid(entity.getPaid());
 
         return data;
@@ -144,8 +144,8 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee entity;
         final Calendar      date;
 
-        if (data.getPayDate() != null) {
-            date = removeDay(data.getPayDate());
+        if (data.getDate() != null) {
+            date = removeDay(data.getDate());
         } else {
             date = null;
         }
@@ -153,7 +153,7 @@ public final class DefaultFeeService implements FeeService {
         entity = new PersistentFee();
         entity.setId(data.getId());
         entity.setMemberId(data.getMemberId());
-        entity.setPayDate(date);
+        entity.setDate(date);
         entity.setPaid(data.getPaid());
 
         return entity;
@@ -163,8 +163,8 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee entity;
         final Calendar      date;
 
-        if (data.getPayDate() != null) {
-            date = removeDay(data.getPayDate());
+        if (data.getDate() != null) {
+            date = removeDay(data.getDate());
         } else {
             date = null;
         }
@@ -172,7 +172,7 @@ public final class DefaultFeeService implements FeeService {
         entity = new PersistentFee();
         entity.setId(data.getId());
         entity.setMemberId(data.getMemberId());
-        entity.setPayDate(date);
+        entity.setDate(date);
         entity.setPaid(data.getPaid());
 
         return entity;

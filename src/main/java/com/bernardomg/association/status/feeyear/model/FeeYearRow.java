@@ -7,6 +7,8 @@ public interface FeeYearRow {
 
     public Boolean getActive();
 
+    public Calendar getDate();
+
     public Long getId();
 
     public String getMember();
@@ -14,7 +16,5 @@ public interface FeeYearRow {
     public Long getMemberId();
 
     public Boolean getPaid();
-
-    public Calendar getPayDate();
 
 }

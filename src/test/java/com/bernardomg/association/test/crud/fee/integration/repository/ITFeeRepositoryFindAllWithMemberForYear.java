@@ -81,7 +81,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -89,7 +89,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
         Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -97,7 +97,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(3, result.getMemberId());
         Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -105,7 +105,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(4, result.getMemberId());
         Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -113,7 +113,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(5, result.getMemberId());
         Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }
@@ -134,7 +134,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(5, result.getMemberId());
         Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -142,7 +142,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(4, result.getMemberId());
         Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -150,7 +150,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(3, result.getMemberId());
         Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -158,7 +158,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
         Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
 
@@ -166,7 +166,7 @@ public class ITFeeRepositoryFindAllWithMemberForYear {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }

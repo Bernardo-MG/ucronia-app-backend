@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 public interface Fee {
 
+    public Calendar getDate();
+
     public Long getId();
 
     public String getMember();
@@ -12,7 +14,5 @@ public interface Fee {
     public Long getMemberId();
 
     public Boolean getPaid();
-
-    public Calendar getPayDate();
 
 }

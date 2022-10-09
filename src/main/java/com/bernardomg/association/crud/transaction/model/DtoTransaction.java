@@ -14,13 +14,13 @@ public final class DtoTransaction implements Transaction {
     @NotNull
     private Float    amount;
 
+    @NotNull
+    private Calendar date;
+
     @NotEmpty
     @NotNull
     private String   description;
 
     private Long     id;
-
-    @NotNull
-    private Calendar payDate;
 
 }

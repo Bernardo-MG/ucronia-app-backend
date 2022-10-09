@@ -26,6 +26,9 @@ public class PersistentTransaction implements Serializable {
     @Column(name = "amount", nullable = false)
     private Float             amount;
 
+    @Column(name = "date", nullable = false)
+    private Calendar          date;
+
     @Column(name = "description", length = 200)
     private String            description;
 
@@ -33,8 +36,5 @@ public class PersistentTransaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_transactions_id")
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
-
-    @Column(name = "pay_date", nullable = false)
-    private Calendar          payDate;
 
 }
