@@ -38,18 +38,18 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
+import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member - inactive member")
-@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-public class ITFeeRepositoryFindAllWithMemberInactiveMember {
+@DisplayName("Fee repository - find all with member")
+@Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+public class ITMemberFeeRepositoryFindAllWithMember {
 
     @Autowired
-    private FeeRepository repository;
+    private MemberFeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberInactiveMember() {
+    public ITMemberFeeRepositoryFindAllWithMember() {
         super();
     }
 
@@ -66,7 +66,7 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
 
         result = repository.findAllWithMember(example, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertEquals(5, IterableUtils.size(result));
     }
 
     @Test
@@ -92,6 +92,42 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(2, result.getMemberId());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(3, result.getMemberId());
+        Assertions.assertEquals("Member 3", result.getName());
+        Assertions.assertEquals("Surname 3", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(4, result.getMemberId());
+        Assertions.assertEquals("Member 4", result.getName());
+        Assertions.assertEquals("Surname 4", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(5, result.getMemberId());
+        Assertions.assertEquals("Member 5", result.getName());
+        Assertions.assertEquals("Surname 5", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertFalse(result.getPaid());
     }
 
 }

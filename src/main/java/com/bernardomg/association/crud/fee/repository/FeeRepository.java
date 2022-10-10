@@ -24,24 +24,10 @@
 
 package com.bernardomg.association.crud.fee.repository;
 
-import java.util.Optional;
-
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
-
-    @Query("SELECT f.id AS id, m.name AS name, m.surname AS surname, m.id AS memberId, f.date AS date, f.paid AS paid FROM Fee f JOIN Member m ON f.memberId = m.id")
-    public Page<MemberFee> findAllWithMember(final Example<PersistentFee> example, final Pageable pageable);
-
-    @Query("SELECT f.id AS id, m.name AS name, m.surname AS surname, m.id AS memberId, f.date AS date, f.paid AS paid FROM Fee f JOIN Member m ON f.memberId = m.id WHERE f.id = :id")
-    public Optional<MemberFee> findOneByIdWithMember(@Param("id") final Long id);
 
 }

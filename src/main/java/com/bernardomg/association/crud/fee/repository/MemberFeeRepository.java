@@ -22,48 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.crud.fee.integration.repository;
+package com.bernardomg.association.crud.fee.repository;
 
-import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
-@DisplayName("Fee repository - find all with member - no fees")
-@Sql({ "/db/queries/member/multiple.sql" })
-public class ITFeeRepositoryFindAllWithMemberNoFee {
+public interface MemberFeeRepository {
 
-    @Autowired
-    private FeeRepository repository;
+    public Page<MemberFee> findAllWithMember(final Example<PersistentFee> example, final Pageable pageable);
 
-    public ITFeeRepositoryFindAllWithMemberNoFee() {
-        super();
-    }
-
-    @Test
-    @DisplayName("Returns all the entities")
-    public void testFindAllWithMember_Count() {
-        final Iterable<? extends MemberFee> result;
-        final Example<PersistentFee>        example;
-        final Pageable                      pageable;
-
-        pageable = Pageable.unpaged();
-
-        example = Example.of(new PersistentFee());
-
-        result = repository.findAllWithMember(example, pageable);
-
-        Assertions.assertEquals(0, IterableUtils.size(result));
-    }
+    public Optional<MemberFee> findOneByIdWithMember(@Param("id") final Long id);
 
 }

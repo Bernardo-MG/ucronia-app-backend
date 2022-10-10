@@ -176,14 +176,14 @@ public class ITDefaultFeeServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by member name")
-    public void testGetAll_Member_Asc() {
+    @DisplayName("Returns all data in ascending order by name")
+    public void testGetAll_Name_Asc() {
         final Iterator<? extends MemberFee> data;
         final DtoMemberFee                  sample;
         MemberFee                           result;
         final Pageable                      pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.ASC, "member");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
         sample = new DtoMemberFee();
 
@@ -234,6 +234,67 @@ public class ITDefaultFeeServiceGetAllSort {
         Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertFalse(result.getPaid());
+    }
+
+    @Test
+    @DisplayName("Returns all data in descending order by name")
+    public void testGetAll_Name_Desc() {
+        final Iterator<? extends MemberFee> data;
+        final DtoMemberFee                  sample;
+        MemberFee                           result;
+        final Pageable                      pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.DESC, "name");
+
+        sample = new DtoMemberFee();
+
+        data = service.getAll(sample, pageable)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(5, result.getMemberId());
+        Assertions.assertEquals("Member 5", result.getName());
+        Assertions.assertEquals("Surname 5", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(4, result.getMemberId());
+        Assertions.assertEquals("Member 4", result.getName());
+        Assertions.assertEquals("Surname 4", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(3, result.getMemberId());
+        Assertions.assertEquals("Member 3", result.getName());
+        Assertions.assertEquals("Surname 3", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(2, result.getMemberId());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+            .toInstant());
+        Assertions.assertTrue(result.getPaid());
     }
 
     @Test
@@ -356,67 +417,6 @@ public class ITDefaultFeeServiceGetAllSort {
         Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertFalse(result.getPaid());
-    }
-
-    @Test
-    @DisplayName("Returns all data in descending order by member name")
-    public void testGetAll_Username_Desc() {
-        final Iterator<? extends MemberFee> data;
-        final DtoMemberFee                  sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
-
-        pageable = PageRequest.of(0, 10, Direction.DESC, "member");
-
-        sample = new DtoMemberFee();
-
-        data = service.getAll(sample, pageable)
-            .iterator();
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(5, result.getMemberId());
-        Assertions.assertEquals("Member 5", result.getName());
-        Assertions.assertEquals("Surname 5", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertFalse(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(4, result.getMemberId());
-        Assertions.assertEquals("Member 4", result.getName());
-        Assertions.assertEquals("Surname 4", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(3, result.getMemberId());
-        Assertions.assertEquals("Member 3", result.getName());
-        Assertions.assertEquals("Surname 3", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2", result.getName());
-        Assertions.assertEquals("Surname 2", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
     }
 
 }

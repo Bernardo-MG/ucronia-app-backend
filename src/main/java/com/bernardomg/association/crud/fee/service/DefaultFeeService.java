@@ -15,6 +15,7 @@ import com.bernardomg.association.crud.fee.model.FeeForm;
 import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
+import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.crud.fee.validation.FeeValidator;
 
 import lombok.AllArgsConstructor;
@@ -33,9 +34,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final FeeRepository repository;
+    private final MemberFeeRepository memberFeeRepository;
 
-    private final FeeValidator  validator;
+    private final FeeRepository       repository;
+
+    private final FeeValidator        validator;
 
     @Override
     public final MemberFee create(final FeeForm month) {
@@ -74,7 +77,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return repository.findAllWithMember(Example.of(entity), pageable);
+        return memberFeeRepository.findAllWithMember(Example.of(entity), pageable);
     }
 
     @Override
@@ -85,7 +88,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        found = repository.findOneByIdWithMember(id);
+        found = memberFeeRepository.findOneByIdWithMember(id);
 
         if (found.isPresent()) {
             member = found.get();
