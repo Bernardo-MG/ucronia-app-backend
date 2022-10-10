@@ -86,7 +86,7 @@ public class ITDefaultMemberServiceGetAll {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 1", data.getSurname());
         Assertions.assertEquals("12345", data.getPhone());
         Assertions.assertEquals("6789", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -94,7 +94,7 @@ public class ITDefaultMemberServiceGetAll {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 2", data.getSurname());
         Assertions.assertEquals("12346", data.getPhone());
         Assertions.assertEquals("6780", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -102,7 +102,7 @@ public class ITDefaultMemberServiceGetAll {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 3", data.getSurname());
         Assertions.assertEquals("12347", data.getPhone());
         Assertions.assertEquals("6781", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -110,7 +110,7 @@ public class ITDefaultMemberServiceGetAll {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 4", data.getSurname());
         Assertions.assertEquals("12348", data.getPhone());
         Assertions.assertEquals("6782", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -118,10 +118,10 @@ public class ITDefaultMemberServiceGetAll {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 5", data.getSurname());
         Assertions.assertEquals("12349", data.getPhone());
         Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        Assertions.assertEquals(false, data.getActive());
     }
 
     @Test

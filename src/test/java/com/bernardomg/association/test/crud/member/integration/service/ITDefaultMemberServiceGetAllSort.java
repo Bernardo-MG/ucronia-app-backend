@@ -53,14 +53,14 @@ public class ITDefaultMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by id")
-    public void testGetAll_Sorted_Asc_Id() {
+    @DisplayName("Returns all data in ascending order by active flag")
+    public void testGetAll_Active_Asc() {
         final Iterator<? extends Member> result;
         final Member                     sample;
         Member                           data;
         final Pageable                   pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.ASC, "id");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "active");
 
         sample = new DtoMember();
 
@@ -69,8 +69,16 @@ public class ITDefaultMemberServiceGetAllSort {
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname 5", data.getSurname());
+        Assertions.assertEquals("12349", data.getPhone());
+        Assertions.assertEquals("6783", data.getIdentifier());
+        Assertions.assertEquals(false, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 1", data.getSurname());
         Assertions.assertEquals("12345", data.getPhone());
         Assertions.assertEquals("6789", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -78,7 +86,7 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 2", data.getSurname());
         Assertions.assertEquals("12346", data.getPhone());
         Assertions.assertEquals("6780", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -86,7 +94,7 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 3", data.getSurname());
         Assertions.assertEquals("12347", data.getPhone());
         Assertions.assertEquals("6781", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -94,7 +102,55 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 4", data.getSurname());
+        Assertions.assertEquals("12348", data.getPhone());
+        Assertions.assertEquals("6782", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+    }
+
+    @Test
+    @DisplayName("Returns all data in descending order by active flag")
+    public void testGetAll_Active_Desc() {
+        final Iterator<? extends Member> result;
+        final Member                     sample;
+        Member                           data;
+        final Pageable                   pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.DESC, "active");
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals("Surname 1", data.getSurname());
+        Assertions.assertEquals("12345", data.getPhone());
+        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals("12346", data.getPhone());
+        Assertions.assertEquals("6780", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals("Surname 3", data.getSurname());
+        Assertions.assertEquals("12347", data.getPhone());
+        Assertions.assertEquals("6781", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals("Surname 4", data.getSurname());
         Assertions.assertEquals("12348", data.getPhone());
         Assertions.assertEquals("6782", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -102,21 +158,77 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 5", data.getSurname());
         Assertions.assertEquals("12349", data.getPhone());
         Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        Assertions.assertEquals(false, data.getActive());
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by id")
-    public void testGetAll_Sorted_Desc_Id() {
+    @DisplayName("Returns all data in ascending order by name")
+    public void testGetAll_Name_Asc() {
         final Iterator<? extends Member> result;
         final Member                     sample;
         Member                           data;
         final Pageable                   pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.DESC, "id");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "name");
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals("Surname 1", data.getSurname());
+        Assertions.assertEquals("12345", data.getPhone());
+        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals("12346", data.getPhone());
+        Assertions.assertEquals("6780", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals("Surname 3", data.getSurname());
+        Assertions.assertEquals("12347", data.getPhone());
+        Assertions.assertEquals("6781", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals("Surname 4", data.getSurname());
+        Assertions.assertEquals("12348", data.getPhone());
+        Assertions.assertEquals("6782", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname 5", data.getSurname());
+        Assertions.assertEquals("12349", data.getPhone());
+        Assertions.assertEquals("6783", data.getIdentifier());
+        Assertions.assertEquals(false, data.getActive());
+    }
+
+    @Test
+    @DisplayName("Returns all data in descending order by name")
+    public void testGetAll_Name_Desc() {
+        final Iterator<? extends Member> result;
+        final Member                     sample;
+        Member                           data;
+        final Pageable                   pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
         sample = new DtoMember();
 
@@ -126,15 +238,15 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 5", data.getSurname());
         Assertions.assertEquals("12349", data.getPhone());
         Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        Assertions.assertEquals(false, data.getActive());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 4", data.getSurname());
         Assertions.assertEquals("12348", data.getPhone());
         Assertions.assertEquals("6782", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -142,7 +254,7 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 3", data.getSurname());
         Assertions.assertEquals("12347", data.getPhone());
         Assertions.assertEquals("6781", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -150,7 +262,7 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 2", data.getSurname());
         Assertions.assertEquals("12346", data.getPhone());
         Assertions.assertEquals("6780", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());
@@ -158,7 +270,119 @@ public class ITDefaultMemberServiceGetAllSort {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 1", data.getSurname());
+        Assertions.assertEquals("12345", data.getPhone());
+        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+    }
+
+    @Test
+    @DisplayName("Returns all data in ascending order by surname")
+    public void testGetAll_Surname_Asc() {
+        final Iterator<? extends Member> result;
+        final Member                     sample;
+        Member                           data;
+        final Pageable                   pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals("Surname 1", data.getSurname());
+        Assertions.assertEquals("12345", data.getPhone());
+        Assertions.assertEquals("6789", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals("12346", data.getPhone());
+        Assertions.assertEquals("6780", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals("Surname 3", data.getSurname());
+        Assertions.assertEquals("12347", data.getPhone());
+        Assertions.assertEquals("6781", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals("Surname 4", data.getSurname());
+        Assertions.assertEquals("12348", data.getPhone());
+        Assertions.assertEquals("6782", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname 5", data.getSurname());
+        Assertions.assertEquals("12349", data.getPhone());
+        Assertions.assertEquals("6783", data.getIdentifier());
+        Assertions.assertEquals(false, data.getActive());
+    }
+
+    @Test
+    @DisplayName("Returns all data in descending order by surname")
+    public void testGetAll_Surname_Desc() {
+        final Iterator<? extends Member> result;
+        final Member                     sample;
+        Member                           data;
+        final Pageable                   pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname 5", data.getSurname());
+        Assertions.assertEquals("12349", data.getPhone());
+        Assertions.assertEquals("6783", data.getIdentifier());
+        Assertions.assertEquals(false, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals("Surname 4", data.getSurname());
+        Assertions.assertEquals("12348", data.getPhone());
+        Assertions.assertEquals("6782", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals("Surname 3", data.getSurname());
+        Assertions.assertEquals("12347", data.getPhone());
+        Assertions.assertEquals("6781", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals("12346", data.getPhone());
+        Assertions.assertEquals("6780", data.getIdentifier());
+        Assertions.assertEquals(true, data.getActive());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals("Surname 1", data.getSurname());
         Assertions.assertEquals("12345", data.getPhone());
         Assertions.assertEquals("6789", data.getIdentifier());
         Assertions.assertEquals(true, data.getActive());

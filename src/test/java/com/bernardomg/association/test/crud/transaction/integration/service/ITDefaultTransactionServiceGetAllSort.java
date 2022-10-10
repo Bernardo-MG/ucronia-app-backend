@@ -54,14 +54,14 @@ public class ITDefaultTransactionServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by id")
-    public void testGetAll_Sorted_Asc_Id() {
+    @DisplayName("Returns all data in ascending order by date")
+    public void testGetAll_Asc_Date() {
         final Iterator<? extends Transaction> result;
         final Transaction                     sample;
         Transaction                           data;
         final Pageable                        pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.ASC, "id");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
         sample = new DtoTransaction();
 
@@ -79,40 +79,91 @@ public class ITDefaultTransactionServiceGetAllSort {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
             .toInstant());
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by id")
-    public void testGetAll_Sorted_Desc_Id() {
+    @DisplayName("Returns all data in ascending order by description")
+    public void testGetAll_Asc_Description() {
         final Iterator<? extends Transaction> result;
         final Transaction                     sample;
         Transaction                           data;
         final Pageable                        pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.DESC, "id");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "description");
+
+        sample = new DtoTransaction();
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 1", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 2", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 3", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 4", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 5", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
+            .toInstant());
+    }
+
+    @Test
+    @DisplayName("Returns all data in descending order by date")
+    public void testGetAll_Desc_Date() {
+        final Iterator<? extends Transaction> result;
+        final Transaction                     sample;
+        Transaction                           data;
+        final Pageable                        pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
         sample = new DtoTransaction();
 
@@ -123,28 +174,79 @@ public class ITDefaultTransactionServiceGetAllSort {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 1", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+            .toInstant());
+    }
+
+    @Test
+    @DisplayName("Returns all data in descending order by description")
+    public void testGetAll_Desc_Description() {
+        final Iterator<? extends Transaction> result;
+        final Transaction                     sample;
+        Transaction                           data;
+        final Pageable                        pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.DESC, "description");
+
+        sample = new DtoTransaction();
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 5", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 4", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 3", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 2", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();

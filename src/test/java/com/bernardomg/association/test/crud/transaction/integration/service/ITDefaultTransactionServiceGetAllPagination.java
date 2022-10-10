@@ -95,7 +95,7 @@ public class ITDefaultTransactionServiceGetAllPagination {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction 2", result.getDescription());
         Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), result.getDate()
             .toInstant());
     }
 

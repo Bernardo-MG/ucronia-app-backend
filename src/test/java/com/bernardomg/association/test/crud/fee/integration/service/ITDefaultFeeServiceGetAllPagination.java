@@ -71,7 +71,7 @@ public class ITDefaultFeeServiceGetAllPagination {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1 Surname 1", result.getMember());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
@@ -95,7 +95,7 @@ public class ITDefaultFeeServiceGetAllPagination {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
+        Assertions.assertEquals("Member 2 Surname 2", result.getMember());
         Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());

@@ -70,7 +70,7 @@ public class ITDefaultMemberServiceGetAllPagination {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals("12345", result.getPhone());
         Assertions.assertEquals("6789", result.getIdentifier());
         Assertions.assertEquals(true, result.getActive());
@@ -94,7 +94,7 @@ public class ITDefaultMemberServiceGetAllPagination {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Member 2", result.getName());
-        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("Surname 2", result.getSurname());
         Assertions.assertEquals("12346", result.getPhone());
         Assertions.assertEquals("6780", result.getIdentifier());
         Assertions.assertEquals(true, result.getActive());
