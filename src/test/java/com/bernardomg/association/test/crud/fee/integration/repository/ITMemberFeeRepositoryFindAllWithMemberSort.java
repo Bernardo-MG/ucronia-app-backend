@@ -64,7 +64,7 @@ public class ITMemberFeeRepositoryFindAllWithMemberSort {
         final Sort                          sort;
         MemberFee                           result;
 
-        sort = Sort.by(Direction.DESC, "memberId");
+        sort = Sort.by(Direction.DESC, "member_id");
         pageable = PageRequest.of(0, 10, sort);
 
         example = Example.of(new PersistentFee());
