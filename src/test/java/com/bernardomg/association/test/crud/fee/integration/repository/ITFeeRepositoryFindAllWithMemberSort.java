@@ -38,7 +38,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -58,11 +58,11 @@ public class ITFeeRepositoryFindAllWithMemberSort {
     @Test
     @DisplayName("Returns all data in descending order by member id")
     public void testGetAll_Sorted_Desc_MemberId() {
-        final Iterator<? extends Fee> data;
-        final Example<PersistentFee>  example;
-        final Pageable                pageable;
-        final Sort                    sort;
-        Fee                           result;
+        final Iterator<? extends MemberFee> data;
+        final Example<PersistentFee>        example;
+        final Pageable                      pageable;
+        final Sort                          sort;
+        MemberFee                           result;
 
         sort = Sort.by(Direction.DESC, "memberId");
         pageable = PageRequest.of(0, 10, sort);
@@ -75,7 +75,8 @@ public class ITFeeRepositoryFindAllWithMemberSort {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(5, result.getMemberId());
-        Assertions.assertEquals("Member 5 Surname 5", result.getMember());
+        Assertions.assertEquals("Member 5", result.getName());
+        Assertions.assertEquals("Surname 5", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertFalse(result.getPaid());
@@ -83,7 +84,8 @@ public class ITFeeRepositoryFindAllWithMemberSort {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(4, result.getMemberId());
-        Assertions.assertEquals("Member 4 Surname 4", result.getMember());
+        Assertions.assertEquals("Member 4", result.getName());
+        Assertions.assertEquals("Surname 4", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
@@ -91,7 +93,8 @@ public class ITFeeRepositoryFindAllWithMemberSort {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(3, result.getMemberId());
-        Assertions.assertEquals("Member 3 Surname 3", result.getMember());
+        Assertions.assertEquals("Member 3", result.getName());
+        Assertions.assertEquals("Surname 3", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
@@ -99,7 +102,8 @@ public class ITFeeRepositoryFindAllWithMemberSort {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname 2", result.getMember());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
@@ -107,7 +111,8 @@ public class ITFeeRepositoryFindAllWithMemberSort {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname 1", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());

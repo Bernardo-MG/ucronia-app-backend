@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.crud.fee.model.Fee;
 import com.bernardomg.association.crud.fee.model.FeeForm;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -23,7 +23,7 @@ public interface FeeService {
      *            fee to persist
      * @return the persisted fee
      */
-    public Fee create(final FeeForm fee);
+    public MemberFee create(final FeeForm fee);
 
     /**
      * Deletes the fee with the received id.
@@ -43,7 +43,7 @@ public interface FeeService {
      *            pagination to apply
      * @return all the fees matching the sample
      */
-    public Iterable<? extends Fee> getAll(final Fee sample, final Pageable pageable);
+    public Iterable<? extends MemberFee> getAll(final MemberFee sample, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -52,7 +52,7 @@ public interface FeeService {
      *            id of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends Fee> getOne(final Long id);
+    public Optional<? extends MemberFee> getOne(final Long id);
 
     /**
      * Updates the fee for the received id with the received data.
@@ -63,6 +63,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public Fee update(final Long id, final FeeForm fee);
+    public MemberFee update(final Long id, final FeeForm fee);
 
 }

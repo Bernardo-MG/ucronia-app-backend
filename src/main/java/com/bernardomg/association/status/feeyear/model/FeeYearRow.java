@@ -11,10 +11,12 @@ public interface FeeYearRow {
 
     public Long getId();
 
-    public String getMember();
-
     public Long getMemberId();
 
+    public String getName();
+
     public Boolean getPaid();
+
+    public String getSurname();
 
 }

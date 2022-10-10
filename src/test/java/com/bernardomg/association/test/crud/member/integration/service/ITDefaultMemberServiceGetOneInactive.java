@@ -81,7 +81,7 @@ public class ITDefaultMemberServiceGetOneInactive {
 
         Assertions.assertEquals(id, result.getId());
         Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname", result.getSurname());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals("12345", result.getPhone());
         Assertions.assertEquals("6789", result.getIdentifier());
         Assertions.assertEquals(false, result.getActive());

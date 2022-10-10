@@ -14,10 +14,12 @@ public final class DtoFeeYearRow implements FeeYearRow {
 
     private Long     id;
 
-    private String   member;
-
     private Long     memberId;
 
+    private String   name;
+
     private Boolean  paid;
+
+    private String   surname;
 
 }

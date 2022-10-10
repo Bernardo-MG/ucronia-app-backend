@@ -36,7 +36,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -56,9 +56,9 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final Example<PersistentFee>  example;
-        final Pageable                pageable;
+        final Iterable<? extends MemberFee> result;
+        final Example<PersistentFee>        example;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -72,10 +72,10 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterator<? extends Fee> data;
-        Fee                           result;
-        final Example<PersistentFee>  example;
-        final Pageable                pageable;
+        final Iterator<? extends MemberFee> data;
+        MemberFee                           result;
+        final Example<PersistentFee>        example;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -87,7 +87,8 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());

@@ -83,7 +83,8 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         result = data.next();
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
 

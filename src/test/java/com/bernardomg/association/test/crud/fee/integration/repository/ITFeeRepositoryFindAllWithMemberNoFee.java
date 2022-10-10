@@ -33,7 +33,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -53,9 +53,9 @@ public class ITFeeRepositoryFindAllWithMemberNoFee {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final Example<PersistentFee>  example;
-        final Pageable                pageable;
+        final Iterable<? extends MemberFee> result;
+        final Example<PersistentFee>        example;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 

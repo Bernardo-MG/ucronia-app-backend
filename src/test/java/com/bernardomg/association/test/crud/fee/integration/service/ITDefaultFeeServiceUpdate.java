@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
@@ -98,7 +98,7 @@ public class ITDefaultFeeServiceUpdate {
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
         final DtoFeeForm fee;
-        final Fee        result;
+        final MemberFee  result;
 
         fee = new DtoFeeForm();
         fee.setId(1L);

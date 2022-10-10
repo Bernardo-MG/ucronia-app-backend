@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
+import com.bernardomg.association.crud.fee.model.DtoMemberFee;
 import com.bernardomg.association.status.balance.model.Balance;
 import com.bernardomg.association.status.balance.service.BalanceService;
 
@@ -49,7 +49,7 @@ public class BalanceController {
     private final BalanceService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Balance readBalance(final DtoFee month) {
+    public Balance readBalance(final DtoMemberFee month) {
         return service.getBalance();
     }
 

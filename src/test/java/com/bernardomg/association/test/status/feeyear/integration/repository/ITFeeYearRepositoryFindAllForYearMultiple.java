@@ -75,14 +75,15 @@ public class ITFeeYearRepositoryFindAllForYearMultiple {
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
 
-        sort = Sort.by(Order.desc("member"));
+        sort = Sort.by(Order.desc("name"));
 
         data = repository.findAllForYear(2020, sort)
             .iterator();
 
         result = data.next();
         Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
 
@@ -139,7 +140,8 @@ public class ITFeeYearRepositoryFindAllForYearMultiple {
 
         result = data.next();
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
 

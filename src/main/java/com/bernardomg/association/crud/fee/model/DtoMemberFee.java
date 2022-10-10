@@ -6,16 +6,18 @@ import java.util.Calendar;
 import lombok.Data;
 
 @Data
-public final class DtoFee implements Fee {
+public final class DtoMemberFee implements MemberFee {
 
     private Calendar date;
 
     private Long     id;
 
-    private String   member;
-
     private Long     memberId;
 
+    private String   name;
+
     private Boolean  paid;
+
+    private String   surname;
 
 }

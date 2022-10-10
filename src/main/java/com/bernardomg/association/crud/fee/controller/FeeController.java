@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.DtoMemberFee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.service.FeeService;
 
 import lombok.AllArgsConstructor;
@@ -61,7 +61,7 @@ public class FeeController {
     private final FeeService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Fee create(@Valid @RequestBody final DtoFeeForm fee) {
+    public MemberFee create(@Valid @RequestBody final DtoFeeForm fee) {
         return service.create(fee);
     }
 
@@ -71,18 +71,18 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Fee> readAll(final DtoFee month, final Pageable pageable) {
+    public Iterable<? extends MemberFee> readAll(final DtoMemberFee month, final Pageable pageable) {
         return service.getAll(month, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Fee readOne(@PathVariable("id") final Long id) {
+    public MemberFee readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Fee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeForm fee) {
+    public MemberFee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeForm fee) {
         return service.update(id, fee);
     }
 

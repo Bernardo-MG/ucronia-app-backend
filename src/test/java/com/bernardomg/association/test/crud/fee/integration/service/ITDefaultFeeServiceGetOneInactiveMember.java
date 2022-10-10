@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -52,7 +52,7 @@ public class ITDefaultFeeServiceGetOneInactiveMember {
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Contains() {
-        final Optional<? extends Fee> result;
+        final Optional<? extends MemberFee> result;
 
         result = service.getOne(1L);
 
@@ -62,7 +62,7 @@ public class ITDefaultFeeServiceGetOneInactiveMember {
     @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     public void testGetOne_Existing() {
-        final Optional<? extends Fee> result;
+        final Optional<? extends MemberFee> result;
 
         result = service.getOne(1L);
 
@@ -72,8 +72,8 @@ public class ITDefaultFeeServiceGetOneInactiveMember {
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
     public void testGetOne_Existing_Data() {
-        final Fee  result;
-        final Long id;
+        final MemberFee result;
+        final Long      id;
 
         id = 1L;
 
@@ -82,7 +82,8 @@ public class ITDefaultFeeServiceGetOneInactiveMember {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
@@ -91,7 +92,7 @@ public class ITDefaultFeeServiceGetOneInactiveMember {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Fee> result;
+        final Optional<? extends MemberFee> result;
 
         result = service.getOne(-1L);
 
