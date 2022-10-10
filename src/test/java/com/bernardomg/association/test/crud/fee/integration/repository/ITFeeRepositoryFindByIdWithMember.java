@@ -51,33 +51,33 @@ public class ITFeeRepositoryFindByIdWithMember {
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Contains() {
+    public void testFindOneByIdWithMember_Contains() {
         final Optional<? extends MemberFee> result;
 
-        result = repository.findByIdWithMember(1L);
+        result = repository.findOneByIdWithMember(1L);
 
         Assertions.assertTrue(result.isPresent());
     }
 
     @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
-    public void testGetOne_Existing() {
+    public void testFindOneByIdWithMember_Existing() {
         final Optional<? extends MemberFee> result;
 
-        result = repository.findByIdWithMember(1L);
+        result = repository.findOneByIdWithMember(1L);
 
         Assertions.assertTrue(result.isPresent());
     }
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
+    public void testFindOneByIdWithMember_Existing_Data() {
         final MemberFee result;
         final Long      id;
 
         id = 1L;
 
-        result = repository.findByIdWithMember(id)
+        result = repository.findOneByIdWithMember(id)
             .get();
 
         Assertions.assertNotNull(result.getId());
@@ -91,10 +91,10 @@ public class ITFeeRepositoryFindByIdWithMember {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    public void testFindOneByIdWithMember_NotExisting() {
         final Optional<? extends MemberFee> result;
 
-        result = repository.findByIdWithMember(-1L);
+        result = repository.findOneByIdWithMember(-1L);
 
         Assertions.assertFalse(result.isPresent());
     }

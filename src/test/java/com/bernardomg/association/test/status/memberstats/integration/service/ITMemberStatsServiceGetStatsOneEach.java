@@ -48,7 +48,7 @@ public class ITMemberStatsServiceGetStatsOneEach {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    public void testGetStats_Count() {
         final MemberStats result;
 
         result = service.getStats();

@@ -53,7 +53,7 @@ public class ITFeeYearRepositoryFindAllForYearInactiveMember {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    public void testFindAllForYear_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
@@ -69,7 +69,7 @@ public class ITFeeYearRepositoryFindAllForYearInactiveMember {
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    public void testFindAllForYear_Data() {
         final Iterator<? extends FeeYear> data;
         FeeYear                           result;
         Iterator<FeeMonth>                months;

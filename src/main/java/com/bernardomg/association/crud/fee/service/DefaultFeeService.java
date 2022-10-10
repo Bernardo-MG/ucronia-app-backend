@@ -85,7 +85,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        found = repository.findByIdWithMember(id);
+        found = repository.findOneByIdWithMember(id);
 
         if (found.isPresent()) {
             member = found.get();

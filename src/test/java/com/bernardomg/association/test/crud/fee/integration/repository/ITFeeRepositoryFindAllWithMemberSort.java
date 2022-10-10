@@ -57,7 +57,7 @@ public class ITFeeRepositoryFindAllWithMemberSort {
 
     @Test
     @DisplayName("Returns all data in descending order by member id")
-    public void testGetAll_Sorted_Desc_MemberId() {
+    public void testFindAllWithMember_Desc_MemberId() {
         final Iterator<? extends MemberFee> data;
         final Example<PersistentFee>        example;
         final Pageable                      pageable;

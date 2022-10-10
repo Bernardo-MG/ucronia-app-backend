@@ -42,6 +42,6 @@ public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
     public Page<MemberFee> findAllWithMember(final Example<PersistentFee> example, final Pageable pageable);
 
     @Query("SELECT f.id AS id, m.name AS name, m.surname AS surname, m.id AS memberId, f.date AS date, f.paid AS paid FROM Fee f JOIN Member m ON f.memberId = m.id WHERE f.id = :id")
-    public Optional<MemberFee> findByIdWithMember(@Param("id") final Long id);
+    public Optional<MemberFee> findOneByIdWithMember(@Param("id") final Long id);
 
 }

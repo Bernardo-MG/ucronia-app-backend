@@ -46,7 +46,7 @@ public class ITBalanceServiceGetBalanceNoData {
 
     @Test
     @DisplayName("Returns the expected balance")
-    public void testGetAll_Count() {
+    public void testGetBalance_Count() {
         final Balance result;
 
         result = service.getBalance();
