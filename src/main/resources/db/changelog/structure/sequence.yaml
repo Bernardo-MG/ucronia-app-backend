@@ -10,6 +10,7 @@ databaseChangeLog:
                   name: seq_name
                   type: varchar(50)
                   constraints:
+                    primaryKey: true
                     nullable: false
               - column:
                   name: seq_count
