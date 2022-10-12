@@ -18,7 +18,7 @@ import lombok.Data;
 @Entity(name = "Fee")
 @Table(name = "fees")
 @Data
-@TableGenerator(name = "seq_fees_id", table = "sequences", pkColumnName = "seq_name", valueColumnName = "seq_count",
+@TableGenerator(name = "seq_fees_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
 public class PersistentFee implements Serializable {
 

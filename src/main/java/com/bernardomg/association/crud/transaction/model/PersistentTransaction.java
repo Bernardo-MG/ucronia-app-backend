@@ -17,8 +17,8 @@ import lombok.Data;
 @Data
 @Entity(name = "Transaction")
 @Table(name = "transactions")
-@TableGenerator(name = "seq_transactions_id", table = "sequences", pkColumnName = "seq_name",
-        valueColumnName = "seq_count", allocationSize = 1)
+@TableGenerator(name = "seq_transactions_id", table = "sequences", pkColumnName = "sequence",
+        valueColumnName = "count", allocationSize = 1)
 public class PersistentTransaction implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;

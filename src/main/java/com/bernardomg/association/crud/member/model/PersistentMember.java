@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Entity(name = "Member")
 @Table(name = "members")
-@TableGenerator(name = "seq_members_id", table = "sequences", pkColumnName = "seq_name", valueColumnName = "seq_count",
+@TableGenerator(name = "seq_members_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
 @Data
 public class PersistentMember implements Serializable {

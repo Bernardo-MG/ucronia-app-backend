@@ -27,7 +27,7 @@
 -- This SQL script populates the initial sequences.
 -- ****************************************
 
-INSERT INTO sequences (seq_name, seq_count) VALUES
+INSERT INTO sequences (sequence, count) VALUES
    ('seq_fees_id', 0),
    ('seq_members_id', 0),
    ('seq_transactions_id', 0);
