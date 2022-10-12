@@ -35,8 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.DtoMemberFee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,13 +55,13 @@ public class ITDefaultFeeServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final DtoFee                  sample;
-        final Pageable                pageable;
+        final Iterable<? extends MemberFee> result;
+        final DtoMemberFee                  sample;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFee();
+        sample = new DtoMemberFee();
 
         result = service.getAll(sample, pageable);
 
@@ -71,14 +71,14 @@ public class ITDefaultFeeServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterator<? extends Fee> data;
-        final DtoFee                  sample;
-        final Fee                     result;
-        final Pageable                pageable;
+        final Iterator<? extends MemberFee> data;
+        final DtoMemberFee                  sample;
+        final MemberFee                     result;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFee();
+        sample = new DtoMemberFee();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -86,8 +86,9 @@ public class ITDefaultFeeServiceGetAllInactiveMember {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }

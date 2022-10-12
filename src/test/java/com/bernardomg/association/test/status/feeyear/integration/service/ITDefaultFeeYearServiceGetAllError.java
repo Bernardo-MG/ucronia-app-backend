@@ -22,43 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.crud.fee.integration.repository;
+package com.bernardomg.association.test.status.feeyear.integration.service;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
+import com.bernardomg.association.status.feeyear.service.DefaultFeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member - no fees")
-@Sql({ "/db/queries/member/multiple.sql" })
-public class ITFeeRepositoryFindAllWithMemberForYearNoFee {
+@DisplayName("Default fee year service - get all - error")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+public class ITDefaultFeeYearServiceGetAllError {
 
     @Autowired
-    private FeeRepository repository;
+    private DefaultFeeYearService service;
 
-    public ITFeeRepositoryFindAllWithMemberForYearNoFee() {
+    public ITDefaultFeeYearServiceGetAllError() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final Sort                    sort;
+    @DisplayName("Ordering by a not existing field generates an error")
+    public void testGetAll_NotExisting() {
+        final Sort       sort;
+        final Executable executable;
 
-        sort = Sort.unsorted();
+        sort = Sort.by(Direction.ASC, "abc");
 
-        result = repository.findAllWithMemberForYear(2020, sort);
+        executable = () -> service.getAll(2020, sort)
+            .iterator();
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThrows(BadSqlGrammarException.class, executable);
     }
 
 }

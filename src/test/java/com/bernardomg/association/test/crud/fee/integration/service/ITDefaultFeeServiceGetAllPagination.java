@@ -34,11 +34,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.DtoMemberFee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -57,14 +56,14 @@ public class ITDefaultFeeServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final DtoFee                  sample;
-        final Iterator<? extends Fee> data;
-        final Fee                     result;
-        final Pageable                pageable;
+        final DtoMemberFee                  sample;
+        final Iterator<? extends MemberFee> data;
+        final MemberFee                     result;
+        final Pageable                      pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoFee();
+        sample = new DtoMemberFee();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -72,8 +71,9 @@ public class ITDefaultFeeServiceGetAllPagination {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }
@@ -81,14 +81,14 @@ public class ITDefaultFeeServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final DtoFee                  sample;
-        final Iterator<? extends Fee> data;
-        final Fee                     result;
-        final Pageable                pageable;
+        final DtoMemberFee                  sample;
+        final Iterator<? extends MemberFee> data;
+        final MemberFee                     result;
+        final Pageable                      pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoFee();
+        sample = new DtoMemberFee();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -96,8 +96,9 @@ public class ITDefaultFeeServiceGetAllPagination {
         result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }
@@ -105,129 +106,17 @@ public class ITDefaultFeeServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final Iterable<? extends Fee> result;
-        final DtoFee                  sample;
-        final Pageable                pageable;
+        final Iterable<? extends MemberFee> result;
+        final DtoMemberFee                  sample;
+        final Pageable                      pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoFee();
+        sample = new DtoMemberFee();
 
         result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns all data in ascending order")
-    public void testGetAll_Sorted_Asc_Data() {
-        final Iterator<? extends Fee> data;
-        final DtoFee                  sample;
-        Fee                           result;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(0, 10, Direction.ASC, "id");
-
-        sample = new DtoFee();
-
-        data = service.getAll(sample, pageable)
-            .iterator();
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(3, result.getMemberId());
-        Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(4, result.getMemberId());
-        Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(5, result.getMemberId());
-        Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-    }
-
-    @Test
-    @DisplayName("Returns all data in descending order")
-    public void testGetAll_Sorted_Desc_Data() {
-        final Iterator<? extends Fee> data;
-        final DtoFee                  sample;
-        Fee                           result;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(0, 10, Direction.DESC, "id");
-
-        sample = new DtoFee();
-
-        data = service.getAll(sample, pageable)
-            .iterator();
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(5, result.getMemberId());
-        Assertions.assertEquals("Member 5 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(4, result.getMemberId());
-        Assertions.assertEquals("Member 4 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(3, result.getMemberId());
-        Assertions.assertEquals("Member 3 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
     }
 
 }

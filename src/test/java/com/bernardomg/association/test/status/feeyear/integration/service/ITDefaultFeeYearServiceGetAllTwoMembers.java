@@ -40,7 +40,7 @@ import com.bernardomg.association.status.feeyear.service.DefaultFeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee year service - get all - full year")
+@DisplayName("Default fee year service - get all - two members")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
         "/db/queries/fee/full_year_alternative.sql" })
 public class ITDefaultFeeYearServiceGetAllTwoMembers {
@@ -89,7 +89,8 @@ public class ITDefaultFeeYearServiceGetAllTwoMembers {
         // First member
         result = data.next();
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
 
@@ -147,7 +148,8 @@ public class ITDefaultFeeYearServiceGetAllTwoMembers {
         // Second member
         result = data.next();
         Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2 Surname", result.getMember());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
 

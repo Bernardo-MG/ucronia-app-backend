@@ -10,14 +10,16 @@ public final class DtoFeeYearRow implements FeeYearRow {
 
     private Boolean  active;
 
-    private Long     id;
+    private Calendar date;
 
-    private String   member;
+    private Long     id;
 
     private Long     memberId;
 
+    private String   name;
+
     private Boolean  paid;
 
-    private Calendar payDate;
+    private String   surname;
 
 }

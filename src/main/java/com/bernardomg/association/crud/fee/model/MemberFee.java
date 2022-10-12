@@ -3,16 +3,18 @@ package com.bernardomg.association.crud.fee.model;
 
 import java.util.Calendar;
 
-public interface Fee {
+public interface MemberFee {
+
+    public Calendar getDate();
 
     public Long getId();
 
-    public String getMember();
-
     public Long getMemberId();
+
+    public String getName();
 
     public Boolean getPaid();
 
-    public Calendar getPayDate();
+    public String getSurname();
 
 }

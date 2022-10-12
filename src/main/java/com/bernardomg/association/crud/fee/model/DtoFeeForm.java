@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public final class DtoFeeForm implements FeeForm {
 
+    @NotNull
+    private Calendar date;
+
     private Long     id;
 
     @NotNull
@@ -17,8 +20,5 @@ public final class DtoFeeForm implements FeeForm {
 
     @NotNull
     private Boolean  paid;
-
-    @NotNull
-    private Calendar payDate;
 
 }

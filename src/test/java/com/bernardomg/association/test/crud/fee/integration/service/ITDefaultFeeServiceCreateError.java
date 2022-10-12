@@ -62,7 +62,7 @@ public class ITDefaultFeeServiceCreateError {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         executable = () -> {
@@ -81,7 +81,7 @@ public class ITDefaultFeeServiceCreateError {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 2));
+        fee.setDate(new GregorianCalendar(2020, 1, 2));
         fee.setPaid(true);
 
         executable = () -> {

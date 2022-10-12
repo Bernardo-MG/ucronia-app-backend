@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.transaction.model.DtoTransaction;
@@ -73,7 +72,7 @@ public class ITDefaultTransactionServiceGetAllPagination {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction 1", result.getDescription());
         Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
     }
 
@@ -96,7 +95,7 @@ public class ITDefaultTransactionServiceGetAllPagination {
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction 2", result.getDescription());
         Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), result.getDate()
             .toInstant());
     }
 
@@ -114,108 +113,6 @@ public class ITDefaultTransactionServiceGetAllPagination {
         result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns all data in ascending order")
-    public void testGetAll_Sorted_Asc_Data() {
-        final Iterator<? extends Transaction> result;
-        final Transaction                     sample;
-        Transaction                           data;
-        final Pageable                        pageable;
-
-        pageable = PageRequest.of(0, 10, Direction.ASC, "id");
-
-        sample = new DtoTransaction();
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-    }
-
-    @Test
-    @DisplayName("Returns all data in descending order")
-    public void testGetAll_Sorted_Desc_Data() {
-        final Iterator<? extends Transaction> result;
-        final Transaction                     sample;
-        Transaction                           data;
-        final Pageable                        pageable;
-
-        pageable = PageRequest.of(0, 10, Direction.DESC, "id");
-
-        sample = new DtoTransaction();
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getPayDate()
-            .toInstant());
     }
 
 }

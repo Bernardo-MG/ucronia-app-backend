@@ -36,16 +36,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
-import com.bernardomg.mvc.error.test.util.controller.ErrorTestController;
+import com.bernardomg.mvc.error.test.util.controller.ValidationExceptionTestController;
 
 @MvcIntegrationTest
-@DisplayName("Controller advices - error response structure")
-public final class ITControllerErrorResponse {
+@DisplayName("Controller error handling - validation exceptions")
+public final class ITControllerValidationException {
 
     @Autowired
     private MockMvc mockMvc;
 
-    public ITControllerErrorResponse() {
+    public ITControllerValidationException() {
         super();
     }
 
@@ -66,29 +66,6 @@ public final class ITControllerErrorResponse {
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("field")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("object")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo("value")));
-
-        // The response contains no content field
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .doesNotExist());
-    }
-
-    @Test
-    @DisplayName("Returns the response structure for method argument errors")
-    public final void testErrorHandling_MethodArgumentError_Response() throws Exception {
-        final ResultActions result;
-
-        result = mockMvc.perform(getMethodArgumentRequest());
-
-        // The operation was rejected
-        result.andExpect(MockMvcResultMatchers.status()
-            .isBadRequest());
-
-        // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("name")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo(null)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("errorTestObject")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("must not be null")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
@@ -124,18 +101,12 @@ public final class ITControllerErrorResponse {
     }
 
     private final RequestBuilder getFieldValidationRequest() {
-        return MockMvcRequestBuilders.get(ErrorTestController.PATH_FIELD_VALIDATION)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getMethodArgumentRequest() {
-        return MockMvcRequestBuilders.post(ErrorTestController.PATH_METHOD_ARG)
-            .content("{}")
+        return MockMvcRequestBuilders.get(ValidationExceptionTestController.PATH_FIELD_VALIDATION)
             .contentType(MediaType.APPLICATION_JSON);
     }
 
     private final RequestBuilder getValidationRequest() {
-        return MockMvcRequestBuilders.get(ErrorTestController.PATH_VALIDATION)
+        return MockMvcRequestBuilders.get(ValidationExceptionTestController.PATH_VALIDATION)
             .contentType(MediaType.APPLICATION_JSON);
     }
 

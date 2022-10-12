@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
@@ -62,7 +62,7 @@ public class ITDefaultFeeServiceUpdate {
         fee = new DtoFeeForm();
         fee.setId(1L);
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
 
         service.update(1L, fee);
@@ -79,7 +79,7 @@ public class ITDefaultFeeServiceUpdate {
         fee = new DtoFeeForm();
         fee.setId(1L);
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
 
         service.update(1L, fee);
@@ -89,7 +89,7 @@ public class ITDefaultFeeServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
             .toInstant());
         Assertions.assertEquals(false, entity.getPaid());
     }
@@ -98,19 +98,19 @@ public class ITDefaultFeeServiceUpdate {
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
         final DtoFeeForm fee;
-        final Fee        result;
+        final MemberFee  result;
 
         fee = new DtoFeeForm();
         fee.setId(1L);
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
 
         result = service.update(1L, fee);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertEquals(false, result.getPaid());
     }

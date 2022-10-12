@@ -7,14 +7,16 @@ public interface FeeYearRow {
 
     public Boolean getActive();
 
-    public Long getId();
+    public Calendar getDate();
 
-    public String getMember();
+    public Long getId();
 
     public Long getMemberId();
 
+    public String getName();
+
     public Boolean getPaid();
 
-    public Calendar getPayDate();
+    public String getSurname();
 
 }

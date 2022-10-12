@@ -10,11 +10,13 @@ public final class DtoFeeYear implements FeeYear {
 
     private Boolean              active;
 
-    private String               member;
-
     private Long                 memberId;
 
     private Collection<FeeMonth> months;
+
+    private String               name;
+
+    private String               surname;
 
     private Integer              year;
 

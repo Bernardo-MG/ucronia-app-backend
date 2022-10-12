@@ -24,65 +24,46 @@
 
 package com.bernardomg.association.test.crud.fee.integration.repository;
 
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
+import com.bernardomg.association.crud.fee.model.MemberFee;
+import com.bernardomg.association.crud.fee.model.PersistentFee;
+import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member - inactive member")
-@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-public class ITFeeRepositoryFindAllWithMemberForYearInactiveMember {
+@DisplayName("Fee repository - find all with member - no fees")
+@Sql({ "/db/queries/member/multiple.sql" })
+public class ITMemberFeeRepositoryFindAllWithMemberNoFee {
 
     @Autowired
-    private FeeRepository repository;
+    private MemberFeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMemberForYearInactiveMember() {
+    public ITMemberFeeRepositoryFindAllWithMemberNoFee() {
         super();
     }
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final Sort                    sort;
+    public void testFindAllWithMember_Count() {
+        final Iterable<? extends MemberFee> result;
+        final Example<PersistentFee>        example;
+        final Pageable                      pageable;
 
-        sort = Sort.unsorted();
+        pageable = Pageable.unpaged();
 
-        result = repository.findAllWithMemberForYear(2020, sort);
+        example = Example.of(new PersistentFee());
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-    }
+        result = repository.findAllWithMember(example, pageable);
 
-    @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
-        final Iterator<? extends Fee> data;
-        Fee                           result;
-        final Sort                    sort;
-
-        sort = Sort.unsorted();
-
-        data = repository.findAllWithMemberForYear(2020, sort)
-            .iterator();
-
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
-            .toInstant());
-        Assertions.assertTrue(result.getPaid());
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }

@@ -33,67 +33,68 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.Fee;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
+import com.bernardomg.association.crud.fee.model.MemberFee;
+import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Default member service - get one")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-public class ITFeeRepositoryFindByIdWithMember {
+public class ITMemberFeeRepositoryFindByIdWithMember {
 
     @Autowired
-    private FeeRepository repository;
+    private MemberFeeRepository repository;
 
-    public ITFeeRepositoryFindByIdWithMember() {
+    public ITMemberFeeRepositoryFindByIdWithMember() {
         super();
     }
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Contains() {
-        final Optional<? extends Fee> result;
+    public void testFindOneByIdWithMember_Contains() {
+        final Optional<? extends MemberFee> result;
 
-        result = repository.findByIdWithMember(1L);
+        result = repository.findOneByIdWithMember(1L);
 
         Assertions.assertTrue(result.isPresent());
     }
 
     @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
-    public void testGetOne_Existing() {
-        final Optional<? extends Fee> result;
+    public void testFindOneByIdWithMember_Existing() {
+        final Optional<? extends MemberFee> result;
 
-        result = repository.findByIdWithMember(1L);
+        result = repository.findOneByIdWithMember(1L);
 
         Assertions.assertTrue(result.isPresent());
     }
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
-        final Fee  result;
-        final Long id;
+    public void testFindOneByIdWithMember_Existing_Data() {
+        final MemberFee result;
+        final Long      id;
 
         id = 1L;
 
-        result = repository.findByIdWithMember(id)
+        result = repository.findOneByIdWithMember(id)
             .get();
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertTrue(result.getPaid());
     }
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
-        final Optional<? extends Fee> result;
+    public void testFindOneByIdWithMember_NotExisting() {
+        final Optional<? extends MemberFee> result;
 
-        result = repository.findByIdWithMember(-1L);
+        result = repository.findOneByIdWithMember(-1L);
 
         Assertions.assertFalse(result.isPresent());
     }

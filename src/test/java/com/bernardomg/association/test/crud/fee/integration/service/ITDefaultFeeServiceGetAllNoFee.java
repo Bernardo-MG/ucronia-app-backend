@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.DtoMemberFee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -52,13 +52,13 @@ public class ITDefaultFeeServiceGetAllNoFee {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Fee> result;
-        final DtoFee                  sample;
-        final Pageable                pageable;
+        final Iterable<? extends MemberFee> result;
+        final DtoMemberFee                  sample;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFee();
+        sample = new DtoMemberFee();
 
         result = service.getAll(sample, pageable);
 

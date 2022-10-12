@@ -29,7 +29,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String                     query = "SELECT f.id AS id, f.pay_date AS payDate, f.paid AS paid, TRIM(CONCAT(m.name, ' ',  m.surname)) AS member, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                     query = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
@@ -41,7 +41,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         FeeYear                           feeYear;
         Boolean                           active;
 
-        readFees = getAllFees(year, sort);
+        readFees = findAll(year, sort);
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
         memberIds = readFees.stream()
@@ -67,14 +67,12 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return years;
     }
 
-    private final List<FeeYearRow> getAllFees(final Integer year, final Sort sort) {
+    private final List<FeeYearRow> findAll(final Integer year, final Sort sort) {
         final SqlParameterSource namedParameters;
         final String             where;
         final String             sorting;
 
-        // TODO: Test sorting
-
-        where = " WHERE YEAR(f.pay_date) = :year";
+        where = " WHERE YEAR(f.date) = :year";
         if (sort.isSorted()) {
             sorting = " ORDER BY " + sort.get()
                 .map(this::toSorting)
@@ -92,7 +90,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         final Integer     month;
 
         // Calendar months start at index 0, this has to be corrected
-        month = fee.getPayDate()
+        month = fee.getDate()
             .get(Calendar.MONTH) + 1;
 
         feeMonth = new DtoFeeMonth();
@@ -106,13 +104,15 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
             final List<FeeYearRow> fees) {
         final DtoFeeYear           feeYear;
         final Collection<FeeMonth> months;
+        final FeeYearRow           row;
         FeeMonth                   feeMonth;
 
         feeYear = new DtoFeeYear();
         // TODO: Handle empty list
-        feeYear.setMember(fees.iterator()
-            .next()
-            .getMember());
+        row = fees.iterator()
+            .next();
+        feeYear.setName(row.getName());
+        feeYear.setSurname(row.getSurname());
         feeYear.setMemberId(member);
         feeYear.setYear(year);
         feeYear.setActive(active);
@@ -129,6 +129,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
     private final String toSorting(final Order order) {
         final String direction;
+        // TODO: Duplicated in other repositories
 
         if (order.isAscending()) {
             direction = "ASC";

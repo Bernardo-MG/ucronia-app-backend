@@ -53,7 +53,7 @@ public class ITFeeYearRepositoryFindAllForYearInactiveMember {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    public void testFindAllForYear_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
@@ -69,7 +69,7 @@ public class ITFeeYearRepositoryFindAllForYearInactiveMember {
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    public void testFindAllForYear_Data() {
         final Iterator<? extends FeeYear> data;
         FeeYear                           result;
         Iterator<FeeMonth>                months;
@@ -83,7 +83,8 @@ public class ITFeeYearRepositoryFindAllForYearInactiveMember {
 
         result = data.next();
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1 Surname", result.getMember());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(false, result.getActive());
 

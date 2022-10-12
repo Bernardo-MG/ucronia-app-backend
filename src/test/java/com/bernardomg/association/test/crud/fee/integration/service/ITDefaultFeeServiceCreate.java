@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.crud.fee.service.DefaultFeeService;
@@ -61,7 +61,7 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         service.create(fee);
@@ -77,7 +77,7 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 2));
+        fee.setDate(new GregorianCalendar(2020, 1, 2));
         fee.setPaid(true);
 
         service.create(fee);
@@ -87,7 +87,7 @@ public class ITDefaultFeeServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
             .toInstant());
         Assertions.assertEquals(true, entity.getPaid());
     }
@@ -100,7 +100,7 @@ public class ITDefaultFeeServiceCreate {
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         service.create(fee);
@@ -110,7 +110,7 @@ public class ITDefaultFeeServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
             .toInstant());
         Assertions.assertEquals(true, entity.getPaid());
     }
@@ -118,19 +118,19 @@ public class ITDefaultFeeServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final Fee        result;
+        final MemberFee  result;
         final DtoFeeForm fee;
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
-        fee.setPayDate(new GregorianCalendar(2020, 1, 1));
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
 
         result = service.create(fee);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getPayDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertEquals(true, result.getPaid());
     }

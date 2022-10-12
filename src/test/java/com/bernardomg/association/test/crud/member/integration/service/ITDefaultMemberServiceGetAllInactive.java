@@ -85,7 +85,7 @@ public class ITDefaultMemberServiceGetAllInactive {
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname", data.getSurname());
+        Assertions.assertEquals("Surname 1", data.getSurname());
         Assertions.assertEquals("12345", data.getPhone());
         Assertions.assertEquals("6789", data.getIdentifier());
         Assertions.assertEquals(false, data.getActive());

@@ -10,11 +10,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.crud.fee.model.DtoFee;
-import com.bernardomg.association.crud.fee.model.Fee;
+import com.bernardomg.association.crud.fee.model.DtoMemberFee;
 import com.bernardomg.association.crud.fee.model.FeeForm;
+import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
+import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.crud.fee.validation.FeeValidator;
 
 import lombok.AllArgsConstructor;
@@ -33,12 +34,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final FeeRepository repository;
+    private final MemberFeeRepository memberFeeRepository;
 
-    private final FeeValidator  validator;
+    private final FeeRepository       repository;
+
+    private final FeeValidator        validator;
 
     @Override
-    public final Fee create(final FeeForm month) {
+    public final MemberFee create(final FeeForm month) {
         final PersistentFee entity;
         final PersistentFee created;
 
@@ -67,25 +70,25 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<? extends Fee> getAll(final Fee sample, final Pageable pageable) {
+    public final Iterable<? extends MemberFee> getAll(final MemberFee sample, final Pageable pageable) {
         final PersistentFee entity;
 
         entity = toEntity(sample);
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return repository.findAllWithMember(Example.of(entity), pageable);
+        return memberFeeRepository.findAllWithMember(Example.of(entity), pageable);
     }
 
     @Override
-    public final Optional<? extends Fee> getOne(final Long id) {
-        final Optional<Fee>           found;
-        final Optional<? extends Fee> result;
-        final Fee                     member;
+    public final Optional<? extends MemberFee> getOne(final Long id) {
+        final Optional<MemberFee>           found;
+        final Optional<? extends MemberFee> result;
+        final MemberFee                     member;
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        found = repository.findByIdWithMember(id);
+        found = memberFeeRepository.findOneByIdWithMember(id);
 
         if (found.isPresent()) {
             member = found.get();
@@ -98,7 +101,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee update(final Long id, final FeeForm fee) {
+    public final MemberFee update(final Long id, final FeeForm fee) {
         final PersistentFee entity;
         final PersistentFee created;
 
@@ -121,50 +124,31 @@ public final class DefaultFeeService implements FeeService {
         return new GregorianCalendar(year, month, 1);
     }
 
-    private final Fee toDto(final PersistentFee entity) {
-        final DtoFee   data;
-        final Calendar date;
+    private final MemberFee toDto(final PersistentFee entity) {
+        final DtoMemberFee data;
+        final Calendar     date;
 
-        if (entity.getPayDate() != null) {
-            date = removeDay(entity.getPayDate());
+        if (entity.getDate() != null) {
+            date = removeDay(entity.getDate());
         } else {
             date = null;
         }
 
-        data = new DtoFee();
+        data = new DtoMemberFee();
         data.setId(entity.getId());
         data.setMemberId(entity.getMemberId());
-        data.setPayDate(date);
+        data.setDate(date);
         data.setPaid(entity.getPaid());
 
         return data;
-    }
-
-    private final PersistentFee toEntity(final Fee data) {
-        final PersistentFee entity;
-        final Calendar      date;
-
-        if (data.getPayDate() != null) {
-            date = removeDay(data.getPayDate());
-        } else {
-            date = null;
-        }
-
-        entity = new PersistentFee();
-        entity.setId(data.getId());
-        entity.setMemberId(data.getMemberId());
-        entity.setPayDate(date);
-        entity.setPaid(data.getPaid());
-
-        return entity;
     }
 
     private final PersistentFee toEntity(final FeeForm data) {
         final PersistentFee entity;
         final Calendar      date;
 
-        if (data.getPayDate() != null) {
-            date = removeDay(data.getPayDate());
+        if (data.getDate() != null) {
+            date = removeDay(data.getDate());
         } else {
             date = null;
         }
@@ -172,7 +156,26 @@ public final class DefaultFeeService implements FeeService {
         entity = new PersistentFee();
         entity.setId(data.getId());
         entity.setMemberId(data.getMemberId());
-        entity.setPayDate(date);
+        entity.setDate(date);
+        entity.setPaid(data.getPaid());
+
+        return entity;
+    }
+
+    private final PersistentFee toEntity(final MemberFee data) {
+        final PersistentFee entity;
+        final Calendar      date;
+
+        if (data.getDate() != null) {
+            date = removeDay(data.getDate());
+        } else {
+            date = null;
+        }
+
+        entity = new PersistentFee();
+        entity.setId(data.getId());
+        entity.setMemberId(data.getMemberId());
+        entity.setDate(date);
         entity.setPaid(data.getPaid());
 
         return entity;

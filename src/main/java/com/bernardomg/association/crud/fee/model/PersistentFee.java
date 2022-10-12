@@ -28,6 +28,9 @@ public class PersistentFee implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "date", nullable = false)
+    private Calendar          date;
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_fees_id")
     @Column(name = "id", nullable = false, unique = true)
@@ -38,8 +41,5 @@ public class PersistentFee implements Serializable {
 
     @Column(name = "paid", nullable = false, unique = true)
     private Boolean           paid;
-
-    @Column(name = "pay_date", nullable = false)
-    private Calendar          payDate;
 
 }

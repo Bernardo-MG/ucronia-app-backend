@@ -26,13 +26,14 @@ public final class FeeYearRowRowMapper implements RowMapper<FeeYearRow> {
 
             fee = new DtoFeeYearRow();
             fee.setId(rs.getLong("id"));
-            fee.setMember(rs.getString("member"));
+            fee.setName(rs.getString("name"));
+            fee.setSurname(rs.getString("surname"));
             fee.setMemberId(rs.getLong("memberId"));
             fee.setPaid(rs.getBoolean("paid"));
             fee.setActive(rs.getBoolean("active"));
 
-            calendar.setTime(rs.getDate("payDate"));
-            fee.setPayDate(calendar);
+            calendar.setTime(rs.getDate("date"));
+            fee.setDate(calendar);
         } catch (final SQLException e) {
             // TODO: Handle better
             throw new RuntimeException(e);

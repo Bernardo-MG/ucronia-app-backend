@@ -7,10 +7,10 @@ public interface Transaction {
 
     public Float getAmount();
 
+    public Calendar getDate();
+
     public String getDescription();
 
     public Long getId();
-
-    public Calendar getPayDate();
 
 }

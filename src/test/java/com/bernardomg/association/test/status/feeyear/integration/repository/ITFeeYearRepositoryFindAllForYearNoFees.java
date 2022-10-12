@@ -50,7 +50,7 @@ public class ITFeeYearRepositoryFindAllForYearNoFees {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    public void testFindAllForYear_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
