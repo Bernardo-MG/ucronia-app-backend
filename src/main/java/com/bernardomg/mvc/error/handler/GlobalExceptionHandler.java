@@ -27,6 +27,8 @@ package com.bernardomg.mvc.error.handler;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,9 +65,29 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ RuntimeException.class })
     public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request)
             throws Exception {
-        log.error(ex.getMessage(), ex);
+        final ErrorResponse response;
+        final Failure       failure;
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        log.warn(ex.getMessage(), ex);
+
+        failure = Failure.of("Internal error");
+        response = Response.error(failure);
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ DataAccessException.class, PropertyReferenceException.class })
+    public final ResponseEntity<Object> handlePersistenceException(final Exception ex, final WebRequest request)
+            throws Exception {
+        final ErrorResponse response;
+        final Failure       failure;
+
+        log.warn(ex.getMessage(), ex);
+
+        failure = Failure.of("Invalid query");
+        response = Response.error(failure);
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({ ValidationException.class })
