@@ -28,6 +28,6 @@
 -- ****************************************
 
 INSERT INTO sequences (sequence, count) VALUES
-   ('seq_fees_id', 0),
-   ('seq_members_id', 0),
-   ('seq_transactions_id', 0);
+   ('fees', 0),
+   ('members', 0),
+   ('transactions', 0);
