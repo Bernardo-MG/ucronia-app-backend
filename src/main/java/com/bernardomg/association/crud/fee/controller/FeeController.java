@@ -71,8 +71,8 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberFee> readAll(final DtoMemberFee month, final Pageable pageable) {
-        return service.getAll(month, pageable);
+    public Iterable<? extends MemberFee> readAll(final DtoMemberFee fee, final Pageable pageable) {
+        return service.getAll(fee, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
