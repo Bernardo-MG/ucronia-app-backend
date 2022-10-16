@@ -24,7 +24,10 @@
 
 package com.bernardomg.mvc.response.model;
 
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort.Order;
 
 import lombok.NonNull;
 
@@ -42,7 +45,9 @@ public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<I
      * Wrapped page.
      */
     @NonNull
-    private final Page<T> page;
+    private final Page<T>                page;
+
+    private final Iterable<PropertySort> sort;
 
     /**
      * Constructs a response wrapping the received page.
@@ -52,6 +57,11 @@ public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<I
      */
     public ImmutableSpringPageResponse(@NonNull final Page<T> pg) {
         super();
+
+        sort = pg.getSort()
+            .stream()
+            .map(this::getPropertySort)
+            .collect(Collectors.toList());
 
         page = pg;
     }
@@ -87,6 +97,11 @@ public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<I
     }
 
     @Override
+    public final Iterable<PropertySort> getSort() {
+        return sort;
+    }
+
+    @Override
     public final Long getTotalElements() {
         return page.getTotalElements();
     }
@@ -94,6 +109,18 @@ public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<I
     @Override
     public final Integer getTotalPages() {
         return page.getTotalPages();
+    }
+
+    private final PropertySort getPropertySort(final Order order) {
+        final String direction;
+
+        if (order.isAscending()) {
+            direction = "asc";
+        } else {
+            direction = "desc";
+        }
+
+        return new ImmutablePropertySort(order.getProperty(), direction);
     }
 
 }

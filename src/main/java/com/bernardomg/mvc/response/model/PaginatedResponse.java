@@ -70,6 +70,13 @@ public interface PaginatedResponse<T> extends Response<T> {
     public Integer getSize();
 
     /**
+     * Properties used for sorting.
+     *
+     * @return properties used for sorting
+     */
+    public Iterable<PropertySort> getSort();
+
+    /**
      * Total number of elements among all the pages.
      *
      * @return the total number of elements

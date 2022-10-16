@@ -51,7 +51,7 @@ public final class ITControllerResponse {
 
     @Test
     @DisplayName("Returns the response structure when returning a collection")
-    public final void testResponseStructure_Collection_Response() throws Exception {
+    public final void testResponseStructure_Collection() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getCollectionRequest());
@@ -60,10 +60,10 @@ public final class ITControllerResponse {
         result.andExpect(MockMvcResultMatchers.status()
             .isOk());
 
-        // The response model contains the expected attributes
+        // The response model has content
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(1)));
 
-        // The response contains no pagination attribute
+        // The response contains no pagination properties
         result.andExpect(MockMvcResultMatchers.jsonPath("$.page")
             .doesNotExist());
         result.andExpect(MockMvcResultMatchers.jsonPath("$.size")
@@ -84,35 +84,8 @@ public final class ITControllerResponse {
             .doesNotExist());
     }
 
-    @Test
-    @DisplayName("Returns the paginated response structure when returning a page")
-    public final void testResponseStructure_Page_Response() throws Exception {
-        final ResultActions result;
-
-        result = mockMvc.perform(getPageRequest());
-
-        // The operation was accepted
-        result.andExpect(MockMvcResultMatchers.status()
-            .isOk());
-
-        // The response model contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(5)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.page", Matchers.equalTo(0)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.size", Matchers.equalTo(5)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.elementsInPage", Matchers.equalTo(5)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.totalElements", Matchers.equalTo(20)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.totalPages", Matchers.equalTo(4)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.first", Matchers.equalTo(true)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.last", Matchers.equalTo(false)));
-    }
-
     private final RequestBuilder getCollectionRequest() {
         return MockMvcRequestBuilders.get(ResponseTestController.PATH_COLLECTION)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getPageRequest() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE)
             .contentType(MediaType.APPLICATION_JSON);
     }
 

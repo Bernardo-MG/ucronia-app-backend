@@ -24,6 +24,8 @@
 
 package com.bernardomg.mvc.response.model;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 import lombok.NonNull;
 
@@ -42,42 +44,44 @@ public final class DefaultPaginatedResponse<T> implements PaginatedResponse<T> {
      * Response content.
      */
     @NonNull
-    private T       content;
+    private T                      content;
 
     /**
      * Number of elements in the page.
      */
-    private Integer elementsInPage = -1;
+    private Integer                elementsInPage = -1;
 
     /**
      * Flags this is as the first page.
      */
-    private Boolean first          = false;
+    private Boolean                first          = false;
 
     /**
      * Flags this is as the last page.
      */
-    private Boolean last           = false;
+    private Boolean                last           = false;
 
     /**
      * Number of this page.
      */
-    private Integer page           = -1;
+    private Integer                page           = -1;
 
     /**
      * Size of this page.
      */
-    private Integer size           = -1;
+    private Integer                size           = -1;
+
+    private Iterable<PropertySort> sort           = new ArrayList<>();
 
     /**
      * Total number of elements among all the pages.
      */
-    private Long    totalElements  = -1L;
+    private Long                   totalElements  = -1L;
 
     /**
      * Total number of pages.
      */
-    private Integer totalPages     = -1;
+    private Integer                totalPages     = -1;
 
     /**
      * Default constructor.
