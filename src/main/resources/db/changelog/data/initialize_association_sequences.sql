@@ -30,7 +30,4 @@
 INSERT INTO sequences (sequence, count) VALUES
    ('fees', 0),
    ('members', 0),
-   ('transactions', 0)
-   ('users', 0),
-   ('roles', 0),
-   ('privileges', 0);
+   ('transactions', 0);

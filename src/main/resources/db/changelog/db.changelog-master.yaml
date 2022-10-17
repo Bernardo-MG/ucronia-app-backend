@@ -12,12 +12,18 @@ databaseChangeLog:
       file: structure/security.yaml
       relativeToChangelogFile: true
   - changeSet:
-      id: initial_data
+      id: initial_sequences
       author: Bernardo
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: data/initialize_sequences.sql
+            path: data/initialize_association_sequences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+        - sqlFile:
+            encoding: UTF-8
+            path: data/initialize_security_sequences.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
