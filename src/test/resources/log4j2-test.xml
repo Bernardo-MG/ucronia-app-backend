@@ -18,11 +18,11 @@
 
    <Loggers>
       <!-- Application log -->
-      <Logger name="com.bernardomg.association" level="debug" additivity="false">
-         <AppenderRef ref="file" />
+      <Logger name="com.bernardomg.association" level="off" additivity="false">
+         <AppenderRef ref="console" />
       </Logger>
 
-      <Root level="error">
+      <Root level="off">
          <AppenderRef ref="console" />
       </Root>
    </Loggers>

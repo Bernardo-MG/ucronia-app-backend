@@ -1,2 +1,2 @@
-INSERT INTO fees (id, member, paid_month, paid_year, paid) VALUES
-   (1, 1, 2, 2020, true);
+INSERT INTO fees (id, member_id, date, paid) VALUES
+   (1, 1, '2020-02-01', true);

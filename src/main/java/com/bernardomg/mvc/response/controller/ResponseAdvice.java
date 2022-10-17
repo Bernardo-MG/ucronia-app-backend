@@ -42,10 +42,11 @@ import com.bernardomg.mvc.response.model.Response;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Advice to wrap all the responses into the response object.
+ * Advice to wrap all the responses into an instance of {@link Response}. Unless it is already an instance of
+ * {@code Response}, or the Spring {@link ResponseEntity}.
+ * <h2>Pagination</h2>
  * <p>
- * Unless the response is already an instance of {@link Response}, or the Spring {@link ResponseEntity}, it will be
- * wrapped into a {@code Response}. Paginated data will be wrapped into a {@link PaginatedResponse}.
+ * Paginated data will be wrapped into an instance of {@link PaginatedResponse}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

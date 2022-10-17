@@ -1,10 +1,20 @@
 databaseChangeLog:
   - include:
-      file: structure/organization.yaml
-      relativeToChangelogFile: true
-  - include:
       file: structure/member.yaml
       relativeToChangelogFile: true
   - include:
       file: structure/balance.yaml
       relativeToChangelogFile: true
+  - include:
+      file: structure/sequence.yaml
+      relativeToChangelogFile: true
+  - changeSet:
+      id: initial_data
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: data/initialize_sequences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

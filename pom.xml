@@ -177,12 +177,12 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <apache.commons.collections.version>4.4</apache.commons.collections.version>
-      <jackson.version>2.13.3</jackson.version>
-      <junit.jupiter.version>5.9.0</junit.jupiter.version>
-      <spring.boot.version>2.7.2</spring.boot.version>
-      <spring.data.version>2021.2.2</spring.data.version>
-      <spring.version>5.3.22</spring.version>
-      <springdoc.version>1.6.9</springdoc.version>
+      <jackson.version>2.13.4.20221013</jackson.version>
+      <junit.jupiter.version>5.9.1</junit.jupiter.version>
+      <spring.boot.version>2.7.4</spring.boot.version>
+      <spring.data.version>2021.2.5</spring.data.version>
+      <spring.version>5.3.23</spring.version>
+      <springdoc.version>1.6.11</springdoc.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -196,7 +196,7 @@
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
-      <site.skin.version>2.2.6</site.skin.version>
+      <site.skin.version>2.2.7</site.skin.version>
       <mavenURL>http://mvnrepository.com/artifact/${project.groupId}/${project.artifactId}</mavenURL>
       <githubArtifactURL>
          <![CDATA[https://github.com/bernardo-mg?tab=packages&amp;repo_name={project.artifactId}]]>
@@ -418,13 +418,6 @@
          <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
-      <!-- =================== GSON ===================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>com.google.code.gson</groupId>
-         <artifactId>gson</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -556,6 +549,12 @@
          <!-- H2 database -->
          <groupId>com.h2database</groupId>
          <artifactId>h2</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- GSON -->
+         <groupId>com.google.code.gson</groupId>
+         <artifactId>gson</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

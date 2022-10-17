@@ -4,31 +4,6 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            tableName: balances
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: amount
-                  type: float
-                  constraints:
-                    nullable: false
-              - column:
-                  name: month
-                  type: smallint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: year
-                  type: smallint
-                  constraints:
-                    nullable: false
-        - createTable:
             tableName: transactions
             columns:
               - column:
@@ -45,26 +20,50 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: quantity
+                  name: amount
                   type: float
                   constraints:
                     nullable: false
               - column:
-                  name: pay_day
-                  type: smallint
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: fees
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_fees_member
+                    references: members(id)
+              - column:
+                  name: date
+                  type: date
                   constraints:
                     nullable: false
               - column:
-                  name: pay_month
-                  type: smallint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: pay_year
-                  type: smallint
+                  name: paid
+                  type: boolean
                   constraints:
                     nullable: false
       modifySql:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: balance_unique_constraints
+      author: Bernardo
+      changes:
+        -  addUniqueConstraint:
+            constraintName: fees_unique_date
+            tableName: fees
+            columnNames: member_id, date
