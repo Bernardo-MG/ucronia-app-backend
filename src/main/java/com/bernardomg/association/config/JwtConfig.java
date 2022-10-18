@@ -22,50 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.user.model;
+package com.bernardomg.association.config;
 
-import java.io.Serializable;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
-import lombok.Data;
+import com.bernardomg.auth.jwt.filter.JwtTokenFilter;
+import com.bernardomg.auth.property.JwtProperties;
+import com.bernardomg.auth.token.TokenValidator;
 
 /**
- * Dto implementation of {@code Privilege}.
+ * Authentication configuration.
  *
- * @author Bernardo Mart&iacute;nez Garrido
+ * @author Bernardo Martínez Garrido
  *
  */
-@Data
-@Entity(name = "Privilege")
-@Table(name = "privileges")
-@TableGenerator(name = "seq_privileges_id", table = "sequences", pkColumnName = "seq_name",
-        valueColumnName = "seq_count", allocationSize = 1)
-public class PersistentPrivilege implements Serializable {
+@Configuration
+@EnableConfigurationProperties(JwtProperties.class)
+public class JwtConfig {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 8513041662486312372L;
+    public JwtConfig() {
+        super();
+    }
 
-    /**
-     * Entity id.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_privileges_id")
-    @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
-
-    /**
-     * Privilege name.
-     */
-    @Column(name = "name", nullable = false, unique = true, length = 60)
-    private String            name;
+    @Bean("jwtTokenFilter")
+    public JwtTokenFilter getJwtTokenFilter(final UserDetailsService userDetService, final TokenValidator processor) {
+        return new JwtTokenFilter(userDetService, processor);
+    }
 
 }

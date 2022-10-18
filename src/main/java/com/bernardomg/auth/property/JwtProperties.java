@@ -22,50 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.user.model;
+package com.bernardomg.auth.property;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 
 /**
- * Dto implementation of {@code Privilege}.
+ * JWT configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-@Entity(name = "Privilege")
-@Table(name = "privileges")
-@TableGenerator(name = "seq_privileges_id", table = "sequences", pkColumnName = "seq_name",
-        valueColumnName = "seq_count", allocationSize = 1)
-public class PersistentPrivilege implements Serializable {
+@ConfigurationProperties(prefix = "jwt")
+public final class JwtProperties {
 
     /**
-     * Serialization id.
+     * Secret seed for generating JWT tokens.
      */
-    private static final long serialVersionUID = 8513041662486312372L;
+    private String  secret;
 
     /**
-     * Entity id.
+     * Validity length, in seconds, for JWT tokens.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_privileges_id")
-    @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
-
-    /**
-     * Privilege name.
-     */
-    @Column(name = "name", nullable = false, unique = true, length = 60)
-    private String            name;
+    private Integer validity;
 
 }
