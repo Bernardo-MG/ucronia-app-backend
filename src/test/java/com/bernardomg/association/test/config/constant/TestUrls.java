@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.config;
+package com.bernardomg.association.test.config.constant;
 
 /**
  * Contains configuration information for the controller URLs.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class UrlConfig {
+public final class TestUrls {
 
     public static final String MEMBER = "/member";
 
     /**
      * Default constructor to avoid initialization.
      */
-    private UrlConfig() {
+    private TestUrls() {
         super();
     }
 
