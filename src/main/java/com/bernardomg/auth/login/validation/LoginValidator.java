@@ -24,6 +24,12 @@
 
 package com.bernardomg.auth.login.validation;
 
+/**
+ * Validator which checks if a user can log into the application.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface LoginValidator {
 
     /**
@@ -33,7 +39,7 @@ public interface LoginValidator {
      *            username to authenticate
      * @param password
      *            password to authenticate
-     * @return {@true} if the user is valid, {@code false} otherwise
+     * @return {@code true} if the user is valid, {@code false} otherwise
      */
     public Boolean isValid(final String username, final String password);
 
