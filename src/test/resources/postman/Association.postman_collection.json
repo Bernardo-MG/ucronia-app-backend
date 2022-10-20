@@ -28,10 +28,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/member?page=1&size=5",
-							"host": [
-								"{{url}}"
-							],
+							"raw": "/member?page=1&size=5",
 							"path": [
 								"member"
 							],
@@ -55,10 +52,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/member?sort=name,desc",
-							"host": [
-								"{{url}}"
-							],
+							"raw": "/member?sort=name,desc",
 							"path": [
 								"member"
 							],
@@ -121,7 +115,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"1234\"\r\n}",
+							"raw": "{\r\n    \"username\": \"root\",\r\n    \"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -144,7 +138,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"pm.request.url=\"http://localhost:8080\"+pm.request.url;"
+							""
 						]
 					}
 				},
@@ -166,7 +160,7 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"pm.request.url=pm.collectionVariables.get('url')"
+					"pm.request.url= pm.collectionVariables.get('url') + pm.request.url;"
 				]
 			}
 		},
