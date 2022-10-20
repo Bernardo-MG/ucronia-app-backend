@@ -41,9 +41,9 @@ INSERT INTO privileges (id, name) VALUES
    (11, 'READ_TRANSACTION'),
    (12, 'UPDATE_TRANSACTION'),
    (13, 'DELETE_TRANSACTION'),
-   (13, 'READ_BALANCE'),
-   (13, 'READ_FEE_YEAR'),
-   (13, 'READ_MEMBER_STATS');
+   (14, 'READ_BALANCE'),
+   (15, 'READ_FEE_YEAR'),
+   (16, 'READ_MEMBER_STATS');
 
 INSERT INTO roles (id, name) VALUES
    (1, 'ADMIN');
