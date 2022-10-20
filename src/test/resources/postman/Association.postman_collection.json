@@ -67,6 +67,16 @@
 					"response": []
 				}
 			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiaWF0IjoxNjY2Mjk5NDI0LCJleHAiOjE2NjYzMTc0MjR9.Yww6VDZ-qVGFB-CfgWT-nX4v_eF29CcuWpi2epXGv0p3bDkbjU3urCGQ1CDwdQGy6JWgmds_D0xv3NIr1f2sAA",
+						"type": "string"
+					}
+				]
+			},
 			"event": [
 				{
 					"listen": "prerequest",
