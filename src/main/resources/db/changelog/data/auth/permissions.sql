@@ -28,7 +28,22 @@
 -- ****************************************
 
 INSERT INTO privileges (id, name) VALUES
-   (1, 'DEFAULT');
+   (1, 'DEFAULT'),
+   (2, 'CREATE_FEE'),
+   (3, 'READ_FEE'),
+   (4, 'UPDATE_FEE'),
+   (5, 'DELETE_FEE'),
+   (6, 'CREATE_MEMBER'),
+   (7, 'READ_MEMBER'),
+   (8, 'UPDATE_MEMBER'),
+   (9, 'DELETE_MEMBER'),
+   (10, 'CREATE_TRANSACTION'),
+   (11, 'READ_TRANSACTION'),
+   (12, 'UPDATE_TRANSACTION'),
+   (13, 'DELETE_TRANSACTION'),
+   (13, 'READ_BALANCE'),
+   (13, 'READ_FEE_YEAR'),
+   (13, 'READ_MEMBER_STATS');
 
 INSERT INTO roles (id, name) VALUES
    (1, 'ADMIN');
