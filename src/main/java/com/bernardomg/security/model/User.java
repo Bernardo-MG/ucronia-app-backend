@@ -49,12 +49,6 @@ public interface User {
      */
     public Boolean getLocked();
 
-    /**
-     * Returns the user password.
-     *
-     * @return the user password
-     */
-    public String getPassword();
 
     public Iterable<Role> getRoles();
 

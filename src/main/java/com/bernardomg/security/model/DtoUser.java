@@ -39,10 +39,6 @@ public final class DtoUser implements User {
      */
     private Boolean          locked             = false;
 
-    /**
-     * User password.
-     */
-    private String           password;
 
     private Collection<Role> roles              = Collections.emptyList();
 

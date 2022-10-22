@@ -12,11 +12,11 @@ public interface UserService {
     /**
      * Persists the received user.
      *
-     * @param fee
+     * @param user
      *            fee to persist
      * @return the persisted fee
      */
-    public User create(final User fee);
+    public User create(final User user);
 
     /**
      * Deletes the fee with the received id.
@@ -52,10 +52,10 @@ public interface UserService {
      *
      * @param id
      *            id of the fee to update
-     * @param fee
+     * @param user
      *            new data for the fee
      * @return the updated fee
      */
-    public User update(final Long id, final User fee);
+    public User update(final Long id, final User user);
 
 }

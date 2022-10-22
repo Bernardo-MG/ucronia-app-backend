@@ -12,11 +12,11 @@ public interface RoleService {
     /**
      * Persists the received user.
      *
-     * @param fee
+     * @param role
      *            fee to persist
      * @return the persisted fee
      */
-    public Role create(final Role fee);
+    public Role create(final Role role);
 
     /**
      * Deletes the fee with the received id.
@@ -52,10 +52,10 @@ public interface RoleService {
      *
      * @param id
      *            id of the fee to update
-     * @param fee
+     * @param role
      *            new data for the fee
      * @return the updated fee
      */
-    public Role update(final Long id, final Role fee);
+    public Role update(final Long id, final Role role);
 
 }
