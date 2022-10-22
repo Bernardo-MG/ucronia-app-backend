@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.model.DtoUser;
 import com.bernardomg.security.model.User;
-import com.bernardomg.security.service.SecurityUserService;
+import com.bernardomg.security.service.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -46,9 +46,9 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/permission")
 @AllArgsConstructor
-public class SecurityPermissionController {
+public class PermissionController {
 
-    private final SecurityUserService service;
+    private final UserService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<? extends User> readAll(final DtoUser user, final Pageable pageable) {

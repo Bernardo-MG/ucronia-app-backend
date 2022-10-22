@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.model.User;
 
-public interface SecurityUserService {
+public interface UserService {
 
     /**
      * Persists the received user.

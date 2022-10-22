@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.model.DtoRole;
-import com.bernardomg.security.model.Role;
-import com.bernardomg.security.service.SecurityRoleService;
+import com.bernardomg.security.model.DtoUser;
+import com.bernardomg.security.model.User;
+import com.bernardomg.security.service.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -50,14 +50,14 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/role")
+@RequestMapping("/security/user")
 @AllArgsConstructor
-public class SecurityRoleController {
+public class UserController {
 
-    private final SecurityRoleService service;
+    private final UserService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role create(@Valid @RequestBody final DtoRole user) {
+    public User create(@Valid @RequestBody final DtoUser user) {
         return service.create(user);
     }
 
@@ -67,18 +67,18 @@ public class SecurityRoleController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Role> readAll(final DtoRole user, final Pageable pageable) {
+    public Iterable<? extends User> readAll(final DtoUser user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role readOne(@PathVariable("id") final Long id) {
+    public User readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoRole user) {
+    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUser user) {
         return service.update(id, user);
     }
 

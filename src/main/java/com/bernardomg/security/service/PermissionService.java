@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.model.Permission;
 
-public interface SecurityPermissionService {
+public interface PermissionService {
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.

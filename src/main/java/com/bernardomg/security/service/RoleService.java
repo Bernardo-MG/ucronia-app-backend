@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.model.Role;
 
-public interface SecurityRoleService {
+public interface RoleService {
 
     /**
      * Persists the received user.

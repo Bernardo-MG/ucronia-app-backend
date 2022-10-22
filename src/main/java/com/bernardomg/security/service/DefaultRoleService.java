@@ -6,13 +6,13 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.model.User;
+import com.bernardomg.security.model.Role;
 
 @Service
-public final class DefaultSecurityUserService implements SecurityUserService {
+public final class DefaultRoleService implements RoleService {
 
     @Override
-    public User create(final User fee) {
+    public Role create(final Role fee) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -24,19 +24,19 @@ public final class DefaultSecurityUserService implements SecurityUserService {
     }
 
     @Override
-    public Iterable<? extends User> getAll(final User sample, final Pageable pageable) {
+    public Iterable<? extends Role> getAll(final Role sample, final Pageable pageable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Optional<? extends User> getOne(final Long id) {
+    public Optional<? extends Role> getOne(final Long id) {
         // TODO Auto-generated method stub
         return Optional.empty();
     }
 
     @Override
-    public User update(final Long id, final User fee) {
+    public Role update(final Long id, final Role fee) {
         // TODO Auto-generated method stub
         return null;
     }
