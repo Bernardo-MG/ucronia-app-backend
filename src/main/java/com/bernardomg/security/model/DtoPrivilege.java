@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoPermission implements Permission {
+public final class DtoPrivilege implements Privilege {
 
     @NotNull
     private Long   id;

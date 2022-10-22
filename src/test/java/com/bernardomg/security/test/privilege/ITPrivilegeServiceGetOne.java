@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.test.permission;
+package com.bernardomg.security.test.privilege;
 
 import java.util.Optional;
 
@@ -10,25 +10,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.Permission;
-import com.bernardomg.security.service.PermissionService;
+import com.bernardomg.security.model.Privilege;
+import com.bernardomg.security.service.PrivilegeService;
 
 @IntegrationTest
-@DisplayName("Permission service - get one")
-@Sql({ "/db/queries/security/permission/multiple.sql" })
-public class ITPermissionServiceGetOne {
+@DisplayName("Privilege service - get one")
+@Sql({ "/db/queries/security/privilege/multiple.sql" })
+public class ITPrivilegeServiceGetOne {
 
     @Autowired
-    private PermissionService service;
+    private PrivilegeService service;
 
-    public ITPermissionServiceGetOne() {
+    public ITPrivilegeServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends Permission> result;
+        final Optional<? extends Privilege> result;
 
         result = service.getOne(1l);
 
@@ -38,7 +38,7 @@ public class ITPermissionServiceGetOne {
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
     public void testGetOne_Existing_Data() {
-        final Permission result;
+        final Privilege result;
 
         result = service.getOne(1l)
             .get();
@@ -49,7 +49,7 @@ public class ITPermissionServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Permission> result;
+        final Optional<? extends Privilege> result;
 
         result = service.getOne(-1L);
 

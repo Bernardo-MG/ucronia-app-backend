@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.test.permission;
+package com.bernardomg.security.test.privilege;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -14,32 +14,32 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.DtoPermission;
-import com.bernardomg.security.model.Permission;
-import com.bernardomg.security.service.PermissionService;
+import com.bernardomg.security.model.DtoPrivilege;
+import com.bernardomg.security.model.Privilege;
+import com.bernardomg.security.service.PrivilegeService;
 
 @IntegrationTest
-@DisplayName("Permission service - get all")
-@Sql({ "/db/queries/security/permission/multiple.sql" })
-public class ITPermissionServiceGetAll {
+@DisplayName("Privilege service - get all")
+@Sql({ "/db/queries/security/privilege/multiple.sql" })
+public class ITPrivilegeServiceGetAll {
 
     @Autowired
-    private PermissionService service;
+    private PrivilegeService service;
 
-    public ITPermissionServiceGetAll() {
+    public ITPrivilegeServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Permission> result;
-        final DtoPermission                  sample;
-        final Pageable                       pageable;
+        final Iterable<? extends Privilege> result;
+        final DtoPrivilege                  sample;
+        final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoPermission();
+        sample = new DtoPrivilege();
 
         result = service.getAll(sample, pageable);
 
@@ -49,19 +49,19 @@ public class ITPermissionServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<? extends Permission> data;
-        final DtoPermission                  sample;
-        final Pageable                       pageable;
-        final Collection<String>             names;
+        final Iterable<? extends Privilege> data;
+        final DtoPrivilege                  sample;
+        final Pageable                      pageable;
+        final Collection<String>            names;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoPermission();
+        sample = new DtoPrivilege();
 
         data = service.getAll(sample, pageable);
 
         names = StreamSupport.stream(data.spliterator(), false)
-            .map(Permission::getName)
+            .map(Privilege::getName)
             .collect(Collectors.toList());
 
         Assertions.assertTrue(names.contains("CREATE_DATA"));

@@ -46,7 +46,7 @@ public class ITRoleServiceGetOne {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("ADMIN", result.getName());
-        Assertions.assertEquals(0, IterableUtils.size(result.getPermissions()));
+        Assertions.assertEquals(0, IterableUtils.size(result.getPrivileges()));
     }
 
     @Test

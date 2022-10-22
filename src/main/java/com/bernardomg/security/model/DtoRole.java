@@ -11,12 +11,12 @@ import lombok.Data;
 public final class DtoRole implements Role {
 
     @NotNull
-    private Long                   id;
+    private Long                  id;
 
     @NotNull
-    private String                 name;
+    private String                name;
 
     @NotNull
-    private Collection<Permission> permissions;
+    private Collection<Privilege> privileges;
 
 }

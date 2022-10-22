@@ -7,6 +7,6 @@ public interface Role {
 
     public String getName();
 
-    public Iterable<Permission> getPermissions();
+    public Iterable<Privilege> getPrivileges();
 
 }
