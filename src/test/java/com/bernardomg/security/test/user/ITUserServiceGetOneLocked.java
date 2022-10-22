@@ -3,6 +3,7 @@ package com.bernardomg.security.test.user;
 
 import java.util.Optional;
 
+import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import com.bernardomg.security.model.User;
 import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - get one")
+@DisplayName("User service - get one - locked")
 @Sql({ "/db/queries/security/user/locked.sql" })
 public class ITUserServiceGetOneLocked {
 
@@ -50,6 +51,7 @@ public class ITUserServiceGetOneLocked {
         Assertions.assertFalse(result.getEnabled());
         Assertions.assertFalse(result.getExpired());
         Assertions.assertTrue(result.getLocked());
+        Assertions.assertEquals(0, IterableUtils.size(result.getRoles()));
     }
 
 }

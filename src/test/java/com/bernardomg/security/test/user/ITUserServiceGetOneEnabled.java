@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.test.role;
+package com.bernardomg.security.test.user;
 
 import java.util.Optional;
 
@@ -11,25 +11,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.Role;
-import com.bernardomg.security.service.RoleService;
+import com.bernardomg.security.model.User;
+import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
-@DisplayName("Role service - get one")
-@Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetOne {
+@DisplayName("User service - get one - enabled")
+@Sql({ "/db/queries/security/user/single.sql" })
+public class ITUserServiceGetOneEnabled {
 
     @Autowired
-    private RoleService service;
+    private UserService service;
 
-    public ITRoleServiceGetOne() {
+    public ITUserServiceGetOneEnabled() {
         super();
     }
 
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends Role> result;
+        final Optional<? extends User> result;
 
         result = service.getOne(1l);
 
@@ -39,20 +39,25 @@ public class ITRoleServiceGetOne {
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
     public void testGetOne_Existing_Data() {
-        final Role result;
+        final User result;
 
         result = service.getOne(1l)
             .get();
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getName());
-        Assertions.assertEquals(0, IterableUtils.size(result.getPrivileges()));
+        Assertions.assertEquals("ADMIN", result.getUsername());
+        Assertions.assertEquals("ADMIN", result.getEmail());
+        Assertions.assertFalse(result.getCredentialsExpired());
+        Assertions.assertTrue(result.getEnabled());
+        Assertions.assertFalse(result.getExpired());
+        Assertions.assertFalse(result.getLocked());
+        Assertions.assertEquals(0, IterableUtils.size(result.getRoles()));
     }
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Role> result;
+        final Optional<? extends User> result;
 
         result = service.getOne(-1L);
 
