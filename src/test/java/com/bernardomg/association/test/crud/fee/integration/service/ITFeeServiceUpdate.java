@@ -60,7 +60,6 @@ public class ITFeeServiceUpdate {
         final DtoFeeForm fee;
 
         fee = new DtoFeeForm();
-        fee.setId(1L);
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
@@ -71,13 +70,27 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("When updating a not existing entity a new one is added")
+    public void testUpdate_NotExisting_AddsEntity() {
+        final DtoFeeForm fee;
+
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setDate(new GregorianCalendar(2020, 2, 1));
+        fee.setPaid(false);
+
+        service.update(10L, fee);
+
+        Assertions.assertEquals(2L, repository.count());
+    }
+
+    @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
         final DtoFeeForm    fee;
         final PersistentFee entity;
 
         fee = new DtoFeeForm();
-        fee.setId(1L);
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
@@ -101,7 +114,6 @@ public class ITFeeServiceUpdate {
         final MemberFee  result;
 
         fee = new DtoFeeForm();
-        fee.setId(1L);
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);

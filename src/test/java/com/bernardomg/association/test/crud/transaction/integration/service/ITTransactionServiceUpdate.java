@@ -52,8 +52,6 @@ public class ITTransactionServiceUpdate {
 
     public ITTransactionServiceUpdate() {
         super();
-
-        // TODO: Check invalid ids
     }
 
     @Test
@@ -112,6 +110,21 @@ public class ITTransactionServiceUpdate {
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertEquals(1.2f, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("When updating a not existing entity a new one is added")
+    public void testUpdate_NotExisting_AddsEntity() {
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction 123");
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+
+        service.update(10L, transaction);
+
+        Assertions.assertEquals(2L, repository.count());
     }
 
     @Test

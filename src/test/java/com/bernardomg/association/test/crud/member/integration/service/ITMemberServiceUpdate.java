@@ -50,8 +50,6 @@ public class ITMemberServiceUpdate {
 
     public ITMemberServiceUpdate() {
         super();
-
-        // TODO: Check invalid ids
     }
 
     @Test
@@ -69,6 +67,23 @@ public class ITMemberServiceUpdate {
         service.update(1L, member);
 
         Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("When updating a not existing entity a new one is added")
+    public void testUpdate_NotExisting_AddsEntity() {
+        final DtoMember member;
+
+        member = new DtoMember();
+        member.setName("Member 123");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        service.update(10L, member);
+
+        Assertions.assertEquals(2L, repository.count());
     }
 
     @Test

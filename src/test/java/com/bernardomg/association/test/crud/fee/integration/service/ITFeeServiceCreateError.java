@@ -55,8 +55,8 @@ public class ITFeeServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the data already exists")
-    public void testCreate_Existing() {
+    @DisplayName("Throws an exception when there is an entry for that member and date")
+    public void testCreate_ExistingDateAndMember() {
         final DtoFeeForm fee;
         final Executable executable;
 
@@ -74,8 +74,8 @@ public class ITFeeServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the data already exists")
-    public void testCreate_Existing_ChangesDay() {
+    @DisplayName("Throws an exception when there is an entry for that member and date, ignoring the day")
+    public void testCreate_ExistingDateAndMember_ChangesDay() {
         final DtoFeeForm fee;
         final Executable executable;
 

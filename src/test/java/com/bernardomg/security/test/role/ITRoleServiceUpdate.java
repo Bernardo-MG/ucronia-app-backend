@@ -58,12 +58,24 @@ public class ITRoleServiceUpdate {
         final DtoRole data;
 
         data = new DtoRole();
-        data.setId(1L);
         data.setName("Role");
 
         service.update(1L, data);
 
         Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("When updating a not existing entity a new one is added")
+    public void testUpdate_NotExisting_AddsEntity() {
+        final DtoRole data;
+
+        data = new DtoRole();
+        data.setName("Role");
+
+        service.update(10L, data);
+
+        Assertions.assertEquals(2L, repository.count());
     }
 
     @Test
@@ -73,7 +85,6 @@ public class ITRoleServiceUpdate {
         final PersistentRole entity;
 
         data = new DtoRole();
-        data.setId(1L);
         data.setName("Role");
 
         service.update(1L, data);
@@ -92,7 +103,6 @@ public class ITRoleServiceUpdate {
         final Role    result;
 
         data = new DtoRole();
-        data.setId(1L);
         data.setName("Role");
 
         result = service.update(1L, data);
