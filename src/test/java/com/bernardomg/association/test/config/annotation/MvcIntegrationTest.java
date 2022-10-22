@@ -42,6 +42,7 @@ import com.bernardomg.Application;
 @AutoConfigureMockMvc
 @Transactional
 @Rollback
+@AllAuthoritiesMockUser
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MvcIntegrationTest {

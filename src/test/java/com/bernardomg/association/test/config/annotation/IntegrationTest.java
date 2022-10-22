@@ -40,6 +40,7 @@ import com.bernardomg.Application;
 @SpringBootTest(classes = Application.class)
 @Transactional
 @Rollback
+@AllAuthoritiesMockUser
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface IntegrationTest {
