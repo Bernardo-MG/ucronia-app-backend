@@ -4,9 +4,11 @@ package com.bernardomg.security.service;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.model.Permission;
 
+@Service
 public final class DefaultSecurityPermissionService implements SecurityPermissionService {
 
     @Override
