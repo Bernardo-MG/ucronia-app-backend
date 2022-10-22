@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoProfile implements Profile {
+public final class DtoRole implements Role {
 
     @NotNull
     private Long                   id;

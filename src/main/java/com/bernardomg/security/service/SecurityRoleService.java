@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.model.Profile;
+import com.bernardomg.security.model.Role;
 
-public interface SecurityProfileService {
+public interface SecurityRoleService {
 
     /**
      * Persists the received user.
@@ -16,7 +16,7 @@ public interface SecurityProfileService {
      *            fee to persist
      * @return the persisted fee
      */
-    public Profile create(final Profile fee);
+    public Role create(final Role fee);
 
     /**
      * Deletes the fee with the received id.
@@ -36,7 +36,7 @@ public interface SecurityProfileService {
      *            pagination to apply
      * @return all the fees matching the sample
      */
-    public Iterable<? extends Profile> getAll(final Profile sample, final Pageable pageable);
+    public Iterable<? extends Role> getAll(final Role sample, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -45,7 +45,7 @@ public interface SecurityProfileService {
      *            id of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends Profile> getOne(final Long id);
+    public Optional<? extends Role> getOne(final Long id);
 
     /**
      * Updates the fee for the received id with the received data.
@@ -56,6 +56,6 @@ public interface SecurityProfileService {
      *            new data for the fee
      * @return the updated fee
      */
-    public Profile update(final Long id, final Profile fee);
+    public Role update(final Long id, final Role fee);
 
 }

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.model;
 
-public interface Profile {
+public interface Role {
 
     public Long getId();
 

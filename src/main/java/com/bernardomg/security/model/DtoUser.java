@@ -12,43 +12,43 @@ public final class DtoUser implements User {
     /**
      * User expired flag.
      */
-    private Boolean             credentialsExpired = false;
+    private Boolean          credentialsExpired = false;
 
     /**
      * User email.
      */
-    private String              email;
+    private String           email;
 
     /**
      * User enabled flag.
      */
-    private Boolean             enabled            = true;
+    private Boolean          enabled            = true;
 
     /**
      * User expired flag.
      */
-    private Boolean             expired            = false;
+    private Boolean          expired            = false;
 
     /**
      * User id.
      */
-    private Long                id;
+    private Long             id;
 
     /**
      * User locked flag.
      */
-    private Boolean             locked             = false;
+    private Boolean          locked             = false;
 
     /**
      * User password.
      */
-    private String              password;
+    private String           password;
 
-    private Collection<Profile> profiles           = Collections.emptyList();
+    private Collection<Role> roles              = Collections.emptyList();
 
     /**
      * User name.
      */
-    private String              username;
+    private String           username;
 
 }

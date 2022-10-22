@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.model.DtoProfile;
-import com.bernardomg.security.model.Profile;
-import com.bernardomg.security.service.SecurityProfileService;
+import com.bernardomg.security.model.DtoRole;
+import com.bernardomg.security.model.Role;
+import com.bernardomg.security.service.SecurityRoleService;
 
 import lombok.AllArgsConstructor;
 
@@ -50,14 +50,14 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/profile")
+@RequestMapping("/security/role")
 @AllArgsConstructor
-public class SecurityProfileController {
+public class SecurityRoleController {
 
-    private final SecurityProfileService service;
+    private final SecurityRoleService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Profile create(@Valid @RequestBody final DtoProfile user) {
+    public Role create(@Valid @RequestBody final DtoRole user) {
         return service.create(user);
     }
 
@@ -67,18 +67,18 @@ public class SecurityProfileController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Profile> readAll(final DtoProfile user, final Pageable pageable) {
+    public Iterable<? extends Role> readAll(final DtoRole user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Profile readOne(@PathVariable("id") final Long id) {
+    public Role readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Profile update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoProfile user) {
+    public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoRole user) {
         return service.update(id, user);
     }
 

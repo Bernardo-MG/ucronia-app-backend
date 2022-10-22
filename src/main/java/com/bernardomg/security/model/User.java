@@ -56,7 +56,7 @@ public interface User {
      */
     public String getPassword();
 
-    public Iterable<Profile> getProfiles();
+    public Iterable<Role> getRoles();
 
     /**
      * Returns the user username.
