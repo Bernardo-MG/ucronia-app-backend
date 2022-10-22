@@ -44,9 +44,9 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user")
+@RequestMapping("/security/permission")
 @AllArgsConstructor
-public class SecurityUserController {
+public class SecurityPermissionController {
 
     private final SecurityUserService service;
 

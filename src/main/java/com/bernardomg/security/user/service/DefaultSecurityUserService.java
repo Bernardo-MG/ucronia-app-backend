@@ -6,12 +6,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.SecurityUser;
-import com.bernardomg.security.user.model.SecurityUserForm;
 
 public final class DefaultSecurityUserService implements SecurityUserService {
 
     @Override
-    public SecurityUser create(final SecurityUserForm fee) {
+    public SecurityUser create(final SecurityUser fee) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -35,7 +34,7 @@ public final class DefaultSecurityUserService implements SecurityUserService {
     }
 
     @Override
-    public SecurityUser update(final Long id, final SecurityUserForm fee) {
+    public SecurityUser update(final Long id, final SecurityUser fee) {
         // TODO Auto-generated method stub
         return null;
     }

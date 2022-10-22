@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.profile.model.DtoSecurityProfile;
-import com.bernardomg.security.profile.model.DtoSecurityProfileForm;
 import com.bernardomg.security.profile.model.SecurityProfile;
 import com.bernardomg.security.profile.service.SecurityProfileService;
 
@@ -51,14 +50,14 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user")
+@RequestMapping("/security/profile")
 @AllArgsConstructor
 public class SecurityProfileController {
 
     private final SecurityProfileService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SecurityProfile create(@Valid @RequestBody final DtoSecurityProfileForm user) {
+    public SecurityProfile create(@Valid @RequestBody final DtoSecurityProfile user) {
         return service.create(user);
     }
 
@@ -80,7 +79,7 @@ public class SecurityProfileController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public SecurityProfile update(@PathVariable("id") final Long id,
-            @Valid @RequestBody final DtoSecurityProfileForm user) {
+            @Valid @RequestBody final DtoSecurityProfile user) {
         return service.update(id, user);
     }
 

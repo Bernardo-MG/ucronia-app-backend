@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.SecurityUser;
-import com.bernardomg.security.user.model.SecurityUserForm;
 
 public interface SecurityUserService {
 
@@ -17,7 +16,7 @@ public interface SecurityUserService {
      *            fee to persist
      * @return the persisted fee
      */
-    public SecurityUser create(final SecurityUserForm fee);
+    public SecurityUser create(final SecurityUser fee);
 
     /**
      * Deletes the fee with the received id.
@@ -57,6 +56,6 @@ public interface SecurityUserService {
      *            new data for the fee
      * @return the updated fee
      */
-    public SecurityUser update(final Long id, final SecurityUserForm fee);
+    public SecurityUser update(final Long id, final SecurityUser fee);
 
 }

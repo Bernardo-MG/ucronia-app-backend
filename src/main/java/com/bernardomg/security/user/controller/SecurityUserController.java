@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.DtoSecurityUser;
-import com.bernardomg.security.user.model.DtoSecurityUserForm;
 import com.bernardomg.security.user.model.SecurityUser;
 import com.bernardomg.security.user.service.SecurityUserService;
 
@@ -58,7 +57,7 @@ public class SecurityUserController {
     private final SecurityUserService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SecurityUser create(@Valid @RequestBody final DtoSecurityUserForm user) {
+    public SecurityUser create(@Valid @RequestBody final DtoSecurityUser user) {
         return service.create(user);
     }
 
@@ -79,7 +78,7 @@ public class SecurityUserController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SecurityUser update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoSecurityUserForm user) {
+    public SecurityUser update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoSecurityUser user) {
         return service.update(id, user);
     }
 

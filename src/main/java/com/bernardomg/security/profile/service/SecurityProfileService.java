@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.profile.model.SecurityProfile;
-import com.bernardomg.security.profile.model.SecurityProfileForm;
 
 public interface SecurityProfileService {
 
@@ -17,7 +16,7 @@ public interface SecurityProfileService {
      *            fee to persist
      * @return the persisted fee
      */
-    public SecurityProfile create(final SecurityProfileForm fee);
+    public SecurityProfile create(final SecurityProfile fee);
 
     /**
      * Deletes the fee with the received id.
@@ -57,6 +56,6 @@ public interface SecurityProfileService {
      *            new data for the fee
      * @return the updated fee
      */
-    public SecurityProfile update(final Long id, final SecurityProfileForm fee);
+    public SecurityProfile update(final Long id, final SecurityProfile fee);
 
 }

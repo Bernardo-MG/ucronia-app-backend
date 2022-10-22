@@ -6,12 +6,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.profile.model.SecurityProfile;
-import com.bernardomg.security.profile.model.SecurityProfileForm;
 
 public final class DefaultSecurityProfileService implements SecurityProfileService {
 
     @Override
-    public SecurityProfile create(final SecurityProfileForm fee) {
+    public SecurityProfile create(final SecurityProfile fee) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -35,7 +34,7 @@ public final class DefaultSecurityProfileService implements SecurityProfileServi
     }
 
     @Override
-    public SecurityProfile update(final Long id, final SecurityProfileForm fee) {
+    public SecurityProfile update(final Long id, final SecurityProfile fee) {
         // TODO Auto-generated method stub
         return null;
     }
