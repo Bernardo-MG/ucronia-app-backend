@@ -49,7 +49,6 @@ public interface User {
      */
     public Boolean getLocked();
 
-
     public Iterable<Role> getRoles();
 
     /**
