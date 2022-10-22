@@ -50,16 +50,6 @@ public class ITFeeServiceGetOneInactiveMember {
     }
 
     @Test
-    @DisplayName("Returns a single entity by id")
-    public void testGetOne_Contains() {
-        final Optional<? extends MemberFee> result;
-
-        result = service.getOne(1L);
-
-        Assertions.assertTrue(result.isPresent());
-    }
-
-    @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     public void testGetOne_Existing() {
         final Optional<? extends MemberFee> result;
