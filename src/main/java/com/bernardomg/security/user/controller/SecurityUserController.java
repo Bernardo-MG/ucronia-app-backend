@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.crud.fee.controller;
+package com.bernardomg.security.user.controller;
 
 import javax.validation.Valid;
 
@@ -37,10 +37,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.model.DtoMemberFee;
-import com.bernardomg.association.crud.fee.model.MemberFee;
-import com.bernardomg.association.crud.fee.service.FeeService;
+import com.bernardomg.security.user.model.DtoSecurityUser;
+import com.bernardomg.security.user.model.DtoSecurityUserForm;
+import com.bernardomg.security.user.model.SecurityUser;
+import com.bernardomg.security.user.service.SecurityUserService;
 
 import lombok.AllArgsConstructor;
 
@@ -51,18 +51,15 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/fee")
+@RequestMapping("/security/user")
 @AllArgsConstructor
-public class FeeController {
+public class SecurityUserController {
 
-    /**
-     * Fee service.
-     */
-    private final FeeService service;
+    private final SecurityUserService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberFee create(@Valid @RequestBody final DtoFeeForm fee) {
-        return service.create(fee);
+    public SecurityUser create(@Valid @RequestBody final DtoSecurityUserForm user) {
+        return service.create(user);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,19 +68,19 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberFee> readAll(final DtoMemberFee fee, final Pageable pageable) {
-        return service.getAll(fee, pageable);
+    public Iterable<? extends SecurityUser> readAll(final DtoSecurityUser user, final Pageable pageable) {
+        return service.getAll(user, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberFee readOne(@PathVariable("id") final Long id) {
+    public SecurityUser readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberFee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeForm fee) {
-        return service.update(id, fee);
+    public SecurityUser update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoSecurityUserForm user) {
+        return service.update(id, user);
     }
 
 }
