@@ -41,7 +41,7 @@ import com.bernardomg.association.crud.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - get all - errors")
+@DisplayName("Transaction service - get all - errors")
 @Sql({ "/db/queries/transaction/multiple.sql" })
 public class ITTransactionServiceGetAllError {
 

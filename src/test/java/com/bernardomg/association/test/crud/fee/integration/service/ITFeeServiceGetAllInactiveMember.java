@@ -41,7 +41,7 @@ import com.bernardomg.association.crud.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee service - get all - inactive member")
+@DisplayName("Fee service - get all - inactive member")
 @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
 public class ITFeeServiceGetAllInactiveMember {
 

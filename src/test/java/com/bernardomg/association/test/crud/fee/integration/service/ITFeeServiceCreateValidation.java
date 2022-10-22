@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Default fee service - create validation")
+@DisplayName("Fee service - create validation")
 @Sql({ "/db/queries/member/single.sql" })
 public class ITFeeServiceCreateValidation {
 

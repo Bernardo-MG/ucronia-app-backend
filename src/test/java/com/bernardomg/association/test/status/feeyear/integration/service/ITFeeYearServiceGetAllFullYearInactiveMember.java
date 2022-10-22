@@ -40,7 +40,7 @@ import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee year service - get all - full year - inactive member")
+@DisplayName("Fee year service - get all - full year - inactive member")
 @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
 public class ITFeeYearServiceGetAllFullYearInactiveMember {
 

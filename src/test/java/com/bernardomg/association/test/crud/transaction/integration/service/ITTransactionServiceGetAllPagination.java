@@ -42,7 +42,7 @@ import com.bernardomg.association.crud.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - get all - pagination")
+@DisplayName("Transaction service - get all - pagination")
 @Sql({ "/db/queries/transaction/multiple.sql" })
 public class ITTransactionServiceGetAllPagination {
 

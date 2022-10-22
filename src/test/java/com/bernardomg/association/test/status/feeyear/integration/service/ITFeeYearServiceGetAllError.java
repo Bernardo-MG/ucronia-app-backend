@@ -38,7 +38,7 @@ import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee year service - get all - error")
+@DisplayName("Fee year service - get all - error")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
 public class ITFeeYearServiceGetAllError {
 

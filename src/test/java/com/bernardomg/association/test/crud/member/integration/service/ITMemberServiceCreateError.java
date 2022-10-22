@@ -38,7 +38,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - create errors")
+@DisplayName("Member service - create errors")
 @Sql({ "/db/queries/member/single.sql" })
 @Disabled
 public class ITMemberServiceCreateError {

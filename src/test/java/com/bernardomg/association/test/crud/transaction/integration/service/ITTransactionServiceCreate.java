@@ -39,7 +39,7 @@ import com.bernardomg.association.crud.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - create")
+@DisplayName("Transaction service - create")
 public class ITTransactionServiceCreate {
 
     @Autowired

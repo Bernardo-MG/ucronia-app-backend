@@ -35,7 +35,7 @@ import com.bernardomg.association.crud.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - delete")
+@DisplayName("Transaction service - delete")
 @Sql({ "/db/queries/transaction/single.sql" })
 public class ITTransactionServiceDelete {
 

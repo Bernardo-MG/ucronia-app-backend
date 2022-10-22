@@ -37,7 +37,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - create")
+@DisplayName("Member service - create")
 public class ITMemberServiceCreate {
 
     @Autowired

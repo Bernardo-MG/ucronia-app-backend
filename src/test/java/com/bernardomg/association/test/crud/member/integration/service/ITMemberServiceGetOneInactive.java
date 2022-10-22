@@ -37,7 +37,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - get one - inactive")
+@DisplayName("Member service - get one - inactive")
 @Sql({ "/db/queries/member/inactive.sql" })
 public class ITMemberServiceGetOneInactive {
 

@@ -35,7 +35,7 @@ import com.bernardomg.association.crud.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee service - delete")
+@DisplayName("Fee service - delete")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITFeeServiceDelete {
 

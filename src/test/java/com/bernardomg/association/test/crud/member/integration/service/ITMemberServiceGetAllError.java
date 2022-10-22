@@ -41,7 +41,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - get all - errors")
+@DisplayName("Member service - get all - errors")
 @Sql({ "/db/queries/member/multiple.sql" })
 public class ITMemberServiceGetAllError {
 

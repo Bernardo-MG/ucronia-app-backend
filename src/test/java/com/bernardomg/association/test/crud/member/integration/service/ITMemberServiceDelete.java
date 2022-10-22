@@ -35,7 +35,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - delete")
+@DisplayName("Member service - delete")
 @Sql({ "/db/queries/member/single.sql" })
 public class ITMemberServiceDelete {
 

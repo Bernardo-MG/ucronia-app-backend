@@ -38,7 +38,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - update")
+@DisplayName("Member service - update")
 @Sql({ "/db/queries/member/single.sql" })
 public class ITMemberServiceUpdate {
 

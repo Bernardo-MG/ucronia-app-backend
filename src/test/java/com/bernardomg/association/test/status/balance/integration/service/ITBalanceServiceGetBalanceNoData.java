@@ -34,7 +34,7 @@ import com.bernardomg.association.status.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default transaction service - get balance - no data")
+@DisplayName("Balance service - get balance - no data")
 public class ITBalanceServiceGetBalanceNoData {
 
     @Autowired

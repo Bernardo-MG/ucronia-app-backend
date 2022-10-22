@@ -40,7 +40,7 @@ import com.bernardomg.association.crud.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee service - create errors")
+@DisplayName("Fee service - create errors")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITFeeServiceCreateError {
 

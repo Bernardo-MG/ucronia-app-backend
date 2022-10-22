@@ -41,7 +41,7 @@ import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - get all - sort")
+@DisplayName("Member service - get all - sort")
 @Sql({ "/db/queries/member/multiple.sql" })
 public class ITMemberServiceGetAllSort {
 

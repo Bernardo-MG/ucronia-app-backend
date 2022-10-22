@@ -42,7 +42,7 @@ import com.bernardomg.association.crud.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default fee service - get all - sort")
+@DisplayName("Fee service - get all - sort")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
 public class ITFeeServiceGetAllSort {
 
