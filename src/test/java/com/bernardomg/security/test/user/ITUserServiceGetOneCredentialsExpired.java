@@ -44,10 +44,10 @@ public class ITUserServiceGetOneCredentialsExpired {
             .get();
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getUsername());
-        Assertions.assertEquals("ADMIN", result.getEmail());
+        Assertions.assertEquals("admin", result.getUsername());
+        Assertions.assertEquals("email", result.getEmail());
         Assertions.assertTrue(result.getCredentialsExpired());
-        Assertions.assertFalse(result.getEnabled());
+        Assertions.assertTrue(result.getEnabled());
         Assertions.assertFalse(result.getExpired());
         Assertions.assertFalse(result.getLocked());
     }

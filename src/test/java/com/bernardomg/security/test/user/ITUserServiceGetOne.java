@@ -45,8 +45,8 @@ public class ITUserServiceGetOne {
             .get();
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getUsername());
-        Assertions.assertEquals("ADMIN", result.getEmail());
+        Assertions.assertEquals("admin", result.getUsername());
+        Assertions.assertEquals("email", result.getEmail());
         Assertions.assertFalse(result.getCredentialsExpired());
         Assertions.assertTrue(result.getEnabled());
         Assertions.assertFalse(result.getExpired());

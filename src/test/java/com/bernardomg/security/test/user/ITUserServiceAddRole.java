@@ -16,7 +16,7 @@ import com.bernardomg.security.model.Role;
 import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - get roles")
+@DisplayName("User service - add roles")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
 public class ITUserServiceAddRole {

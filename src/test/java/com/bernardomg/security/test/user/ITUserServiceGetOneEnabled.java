@@ -44,22 +44,12 @@ public class ITUserServiceGetOneEnabled {
             .get();
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getUsername());
-        Assertions.assertEquals("ADMIN", result.getEmail());
+        Assertions.assertEquals("admin", result.getUsername());
+        Assertions.assertEquals("email", result.getEmail());
         Assertions.assertFalse(result.getCredentialsExpired());
         Assertions.assertTrue(result.getEnabled());
         Assertions.assertFalse(result.getExpired());
         Assertions.assertFalse(result.getLocked());
-    }
-
-    @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
-        final Optional<? extends User> result;
-
-        result = service.getOne(-1L);
-
-        Assertions.assertFalse(result.isPresent());
     }
 
 }
