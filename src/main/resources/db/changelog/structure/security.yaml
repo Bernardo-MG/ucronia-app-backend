@@ -28,27 +28,27 @@ databaseChangeLog:
             - column:
                 name: credentials_expired
                 type: boolean
-                defaultValue: 'false'
                 constraints:
                    nullable: false
+                defaultValueBoolean: false
             - column:
                 name: enabled
                 type: boolean
-                defaultValue: 'true'
                 constraints:
                    nullable: false
+                defaultValueBoolean: true
             - column:
                 name: expired
                 type: boolean
-                defaultValue: 'false'
                 constraints:
                    nullable: false
+                defaultValueBoolean: false
             - column:
                 name: locked
                 type: boolean
-                defaultValue: 'false'
                 constraints:
                    nullable: false
+                defaultValueBoolean: false
   - changeSet:
       id: security_roles
       author: Bernardo

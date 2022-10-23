@@ -34,6 +34,11 @@ public class ITUserServiceCreate {
 
         data = new DtoUser();
         data.setUsername("User");
+        data.setEmail("email");
+        data.setCredentialsExpired(false);
+        data.setEnabled(true);
+        data.setExpired(false);
+        data.setLocked(false);
 
         service.create(data);
 

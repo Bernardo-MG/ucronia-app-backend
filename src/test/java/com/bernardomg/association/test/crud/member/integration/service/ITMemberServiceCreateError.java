@@ -25,7 +25,6 @@
 package com.bernardomg.association.test.crud.member.integration.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -34,25 +33,28 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.crud.member.model.DtoMember;
+import com.bernardomg.association.crud.member.repository.MemberRepository;
 import com.bernardomg.association.crud.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Member service - create errors")
 @Sql({ "/db/queries/member/single.sql" })
-@Disabled
 public class ITMemberServiceCreateError {
 
     @Autowired
-    private MemberService service;
+    private MemberRepository repository;
+
+    @Autowired
+    private MemberService    service;
 
     public ITMemberServiceCreateError() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the identifier already exists")
-    public void testCreate_ExistingIdentifier() {
+    @DisplayName("Throws an exception when the active flag is missing")
+    public void testCreate_MissingActive() {
         final DtoMember  member;
         final Executable executable;
 
@@ -61,27 +63,96 @@ public class ITMemberServiceCreateError {
         member.setSurname("Surname");
         member.setPhone("111");
         member.setIdentifier("6789");
-        member.setActive(true);
+        member.setActive(null);
 
-        executable = () -> service.create(member);
+        executable = () -> {
+            service.create(member);
+            repository.flush();
+        };
 
         Assertions.assertThrows(DataIntegrityViolationException.class, executable);
     }
 
     @Test
-    @DisplayName("Throws an exception when the phone already exists")
-    public void testCreate_ExistingPhone() {
+    @DisplayName("Throws an exception when the identifier is missing")
+    public void testCreate_MissingIdentifier() {
         final DtoMember  member;
         final Executable executable;
 
         member = new DtoMember();
         member.setName("Member");
         member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("111");
+        member.setPhone("111");
+        member.setIdentifier(null);
         member.setActive(true);
 
-        executable = () -> service.create(member);
+        executable = () -> {
+            service.create(member);
+            repository.flush();
+        };
+
+        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the name is missing")
+    public void testCreate_MissingName() {
+        final DtoMember  member;
+        final Executable executable;
+
+        member = new DtoMember();
+        member.setName(null);
+        member.setSurname("Surname");
+        member.setPhone("111");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        executable = () -> {
+            service.create(member);
+            repository.flush();
+        };
+
+        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the phone is missing")
+    public void testCreate_MissingPhone() {
+        final DtoMember  member;
+        final Executable executable;
+
+        member = new DtoMember();
+        member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone(null);
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        executable = () -> {
+            service.create(member);
+            repository.flush();
+        };
+
+        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the surname is missing")
+    public void testCreate_MissingSurname() {
+        final DtoMember  member;
+        final Executable executable;
+
+        member = new DtoMember();
+        member.setName("Member");
+        member.setSurname(null);
+        member.setPhone("111");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        executable = () -> {
+            service.create(member);
+            repository.flush();
+        };
 
         Assertions.assertThrows(DataIntegrityViolationException.class, executable);
     }

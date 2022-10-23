@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.crud.fee.integration.service;
+package com.bernardomg.association.test.crud.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
@@ -34,58 +34,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
-import com.bernardomg.association.crud.fee.service.FeeService;
+import com.bernardomg.association.crud.transaction.model.DtoTransaction;
+import com.bernardomg.association.crud.transaction.repository.TransactionRepository;
+import com.bernardomg.association.crud.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - create errors")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-public class ITFeeServiceCreateError {
+@DisplayName("Transaction service - create errors")
+@Sql({ "/db/queries/member/single.sql" })
+public class ITTransactionServiceCreateError {
 
     @Autowired
-    private FeeRepository repository;
+    private TransactionRepository repository;
 
     @Autowired
-    private FeeService    service;
+    private TransactionService    service;
 
-    public ITFeeServiceCreateError() {
+    public ITTransactionServiceCreateError() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when there is an entry for that member and date")
-    public void testCreate_ExistingDateAndMember() {
-        final DtoFeeForm fee;
-        final Executable executable;
+    @DisplayName("Throws an exception when the amount is missing")
+    public void testCreate_MissingAmount() {
+        final DtoTransaction transaction;
+        final Executable     executable;
 
-        fee = new DtoFeeForm();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
-
-        executable = () -> {
-            service.create(fee);
-            repository.flush();
-        };
-
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when there is an entry for that member and date, ignoring the day")
-    public void testCreate_ExistingDateAndMember_ChangesDay() {
-        final DtoFeeForm fee;
-        final Executable executable;
-
-        fee = new DtoFeeForm();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 2));
-        fee.setPaid(true);
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(null);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
 
         executable = () -> {
-            service.create(fee);
+            service.create(transaction);
             repository.flush();
         };
 
@@ -95,16 +76,16 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the date is missing")
     public void testCreate_MissingDate() {
-        final DtoFeeForm fee;
-        final Executable executable;
+        final DtoTransaction transaction;
+        final Executable     executable;
 
-        fee = new DtoFeeForm();
-        fee.setMemberId(1L);
-        fee.setDate(null);
-        fee.setPaid(true);
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(1f);
+        transaction.setDate(null);
 
         executable = () -> {
-            service.create(fee);
+            service.create(transaction);
             repository.flush();
         };
 
@@ -112,18 +93,18 @@ public class ITFeeServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the paid flag is missing")
-    public void testCreate_MissingPaid() {
-        final DtoFeeForm fee;
-        final Executable executable;
+    @DisplayName("Throws an exception when the description is missing")
+    public void testCreate_MissingName() {
+        final DtoTransaction transaction;
+        final Executable     executable;
 
-        fee = new DtoFeeForm();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2021, 1, 1));
-        fee.setPaid(null);
+        transaction = new DtoTransaction();
+        transaction.setDescription(null);
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
 
         executable = () -> {
-            service.create(fee);
+            service.create(transaction);
             repository.flush();
         };
 
