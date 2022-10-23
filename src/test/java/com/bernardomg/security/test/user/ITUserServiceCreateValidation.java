@@ -10,7 +10,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.model.DtoUser;
-import com.bernardomg.security.persistence.repository.UserRepository;
 import com.bernardomg.security.service.UserService;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -20,10 +19,7 @@ import com.bernardomg.validation.exception.ValidationException;
 public class ITUserServiceCreateValidation {
 
     @Autowired
-    private UserRepository repository;
-
-    @Autowired
-    private UserService    service;
+    private UserService service;
 
     public ITUserServiceCreateValidation() {
         super();
