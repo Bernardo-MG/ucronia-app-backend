@@ -24,42 +24,17 @@
 
 package com.bernardomg.security.persistence.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.model.Role;
-import com.bernardomg.security.persistence.model.PersistentUser;
+import com.bernardomg.security.persistence.model.PersistentUserRoles;
+import com.bernardomg.security.persistence.model.UserRolesKey;
 
 /**
- * Repository for users.
+ * Repository for privileges.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserRepository extends JpaRepository<PersistentUser, Long> {
-
-    @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Iterable<Role> findAllRoles(@Param("id") final Long id);
-
-    /**
-     * Returns the user details for the received email.
-     *
-     * @param email
-     *            email to search for
-     * @return the user details for the received email
-     */
-    public Optional<PersistentUser> findOneByEmail(final String email);
-
-    /**
-     * Returns the user details for the received username.
-     *
-     * @param username
-     *            username to search for
-     * @return the user details for the received username
-     */
-    public Optional<PersistentUser> findOneByUsername(final String username);
+public interface UserRolesRepository extends JpaRepository<PersistentUserRoles, UserRolesKey> {
 
 }

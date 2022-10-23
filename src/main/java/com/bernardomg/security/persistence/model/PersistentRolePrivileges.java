@@ -22,44 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.persistence.repository;
+package com.bernardomg.security.persistence.model;
 
-import java.util.Optional;
+import java.io.Serializable;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
-import com.bernardomg.security.model.Role;
-import com.bernardomg.security.persistence.model.PersistentUser;
+import lombok.Data;
 
 /**
- * Repository for users.
+ * Dto implementation of {@code Privilege}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserRepository extends JpaRepository<PersistentUser, Long> {
-
-    @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Iterable<Role> findAllRoles(@Param("id") final Long id);
-
-    /**
-     * Returns the user details for the received email.
-     *
-     * @param email
-     *            email to search for
-     * @return the user details for the received email
-     */
-    public Optional<PersistentUser> findOneByEmail(final String email);
+@Data
+@Entity(name = "RolePrivileges")
+@Table(name = "role_privileges")
+@IdClass(RolePrivilegesKey.class)
+public class PersistentRolePrivileges implements Serializable {
 
     /**
-     * Returns the user details for the received username.
-     *
-     * @param username
-     *            username to search for
-     * @return the user details for the received username
+     * Serialization id.
      */
-    public Optional<PersistentUser> findOneByUsername(final String username);
+    private static final long serialVersionUID = 8513041662486312372L;
+
+    @Id
+    @Column(name = "privilege_id", nullable = false, unique = true)
+    private Long              privilegeId;
+
+    @Id
+    @Column(name = "role_id", nullable = false, unique = true)
+    private Long              roleId;
 
 }

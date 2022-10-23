@@ -1,17 +1,25 @@
 
 package com.bernardomg.security.service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.security.model.DtoPrivilege;
 import com.bernardomg.security.model.DtoRole;
 import com.bernardomg.security.model.Privilege;
 import com.bernardomg.security.model.Role;
+import com.bernardomg.security.persistence.model.PersistentPrivilege;
 import com.bernardomg.security.persistence.model.PersistentRole;
+import com.bernardomg.security.persistence.model.PersistentRolePrivileges;
+import com.bernardomg.security.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.persistence.repository.RolePrivilegesRepository;
 import com.bernardomg.security.persistence.repository.RoleRepository;
 
 import lombok.AllArgsConstructor;
@@ -20,12 +28,36 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultRoleService implements RoleService {
 
-    private final RoleRepository repository;
+    private final PrivilegeRepository      privilegeRepository;
+
+    private final RoleRepository           repository;
+
+    private final RolePrivilegesRepository rolePrivilegesRepository;
 
     @Override
     public final Iterable<? extends Privilege> addPrivileges(final Long id, final Iterable<Long> privileges) {
-        // TODO Auto-generated method stub
-        return null;
+        final Collection<PersistentRolePrivileges> relationships;
+        final Iterable<Long>                       ids;
+        final List<PersistentRolePrivileges>       created;
+        final List<PersistentPrivilege>            addedPrivileges;
+
+        // Build relationship entities
+        relationships = StreamSupport.stream(privileges.spliterator(), false)
+            .map(p -> getRelationships(id, p))
+            .collect(Collectors.toList());
+
+        // Persist relationship entities
+        created = rolePrivilegesRepository.saveAll(relationships);
+
+        // Get privileges added to the role
+        ids = created.stream()
+            .map(PersistentRolePrivileges::getPrivilegeId)
+            .collect(Collectors.toList());
+        addedPrivileges = privilegeRepository.findAllById(ids);
+
+        return addedPrivileges.stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -65,8 +97,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<? extends Privilege> getPrivileges(final Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findAllPrivileges(id);
     }
 
     @Override
@@ -76,10 +107,30 @@ public final class DefaultRoleService implements RoleService {
 
         entity = toEntity(role);
         entity.setId(id);
-        
+
         created = repository.save(entity);
 
         return toDto(created);
+    }
+
+    private final PersistentRolePrivileges getRelationships(final Long role, final Long privilege) {
+        final PersistentRolePrivileges relationship;
+
+        relationship = new PersistentRolePrivileges();
+        relationship.setRoleId(role);
+        relationship.setPrivilegeId(privilege);
+
+        return relationship;
+    }
+
+    private final Privilege toDto(final PersistentPrivilege entity) {
+        final DtoPrivilege data;
+
+        data = new DtoPrivilege();
+        data.setId(entity.getId());
+        data.setName(entity.getName());
+
+        return data;
     }
 
     private final Role toDto(final PersistentRole entity) {

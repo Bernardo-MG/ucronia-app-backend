@@ -25,7 +25,10 @@
 package com.bernardomg.security.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import com.bernardomg.security.model.Privilege;
 import com.bernardomg.security.persistence.model.PersistentRole;
 
 /**
@@ -35,5 +38,8 @@ import com.bernardomg.security.persistence.model.PersistentRole;
  *
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
+
+    @Query("SELECT p FROM Privilege p JOIN RolePrivileges rp ON p.id = rp.privilegeId JOIN Role r ON rp.roleId = r.id WHERE r.id = :id")
+    public Iterable<Privilege> findAllPrivileges(@Param("id") final Long id);
 
 }

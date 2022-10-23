@@ -106,7 +106,7 @@ public class ITRoleServiceAddPrivileges {
 
         result = service.addPrivileges(1l, privileges);
 
-        Assertions.assertEquals(4L, IterableUtils.size(result));
+        Assertions.assertEquals(1L, IterableUtils.size(result));
 
         privilegeNames = StreamSupport.stream(result.spliterator(), false)
             .map(Privilege::getName)
