@@ -79,7 +79,7 @@ public class UserController {
             .orElse(null);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Role> readRoles(@PathVariable("id") final Long id) {
         return service.getRoles(id);
     }
