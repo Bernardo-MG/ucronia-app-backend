@@ -36,7 +36,7 @@ import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
 @DisplayName("User service - delete without roles")
-@Sql({ "/db/queries/user/security/single.sql" })
+@Sql({ "/db/queries/security/user/single.sql" })
 public class ITUserServiceDeleteNoRoles {
 
     @Autowired

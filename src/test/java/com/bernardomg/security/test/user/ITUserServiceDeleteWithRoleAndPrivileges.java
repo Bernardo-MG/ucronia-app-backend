@@ -39,7 +39,7 @@ import com.bernardomg.security.service.UserService;
 @IntegrationTest
 @DisplayName("User service - delete with role and privileges")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/user/security/single.sql", "/db/queries/security/relationship/role_privilege.sql",
+        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
         "/db/queries/security/relationship/user_role.sql" })
 public class ITUserServiceDeleteWithRoleAndPrivileges {
 
