@@ -97,6 +97,7 @@ databaseChangeLog:
                    foreignKeyName: fk_role_privileges_role_id
                    references: roles(id)
                    nullable: false
+                   deleteCascade: true
             - column:
                 name: privilege_id
                 type: bigint
@@ -114,6 +115,7 @@ databaseChangeLog:
                    foreignKeyName: fk_user_roles_user_id
                    references: users(id)
                    nullable: false
+                   deleteCascade: true
             - column:
                 name: role_id
                 type: bigint
