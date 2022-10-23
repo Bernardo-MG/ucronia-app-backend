@@ -52,21 +52,6 @@ public class ITRoleServiceAddPrivileges {
     }
 
     @Test
-    @DisplayName("Reading the role privileges after adding a not existing privilege return none")
-    public void testAddPrivileges_NotExistingPrivilege_CallBack() {
-        final Collection<Long>              privileges;
-        final Iterable<? extends Privilege> result;
-
-        privileges = new ArrayList<>();
-        privileges.add(-1L);
-
-        service.addPrivileges(1l, privileges);
-        result = service.getPrivileges(1l);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
-    }
-
-    @Test
     @DisplayName("Returns no privileges when adding a not existing privilege")
     public void testAddPrivileges_NotExistingPrivilege_ReturnedData() {
         final Collection<Long>              privileges;
@@ -76,20 +61,6 @@ public class ITRoleServiceAddPrivileges {
         privileges.add(-1L);
 
         result = service.addPrivileges(1l, privileges);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns no privileges when adding to a not existing role")
-    public void testAddPrivileges_NotExistingRole() {
-        final Collection<Long>              privileges;
-        final Iterable<? extends Privilege> result;
-
-        privileges = new ArrayList<>();
-        privileges.add(1L);
-
-        result = service.addPrivileges(-1l, privileges);
 
         Assertions.assertEquals(0L, IterableUtils.size(result));
     }

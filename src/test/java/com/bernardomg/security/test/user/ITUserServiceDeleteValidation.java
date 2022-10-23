@@ -22,32 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.test.role;
+package com.bernardomg.security.test.user;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.service.RoleService;
+import com.bernardomg.security.service.UserService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Role service - delete validation")
-public class ITRoleServiceDeleteValidation {
+@DisplayName("User service - delete without roles")
+public class ITUserServiceDeleteValidation {
 
     @Autowired
-    private RoleService service;
+    private UserService service;
 
-    public ITRoleServiceDeleteValidation() {
+    public ITUserServiceDeleteValidation() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the role doesn't exist")
+    @DisplayName("Throws an exception when the user doesn't exist")
     public void testDelete_NotExisting() {
         final Executable executable;
         final Exception  exception;
@@ -57,22 +56,6 @@ public class ITRoleServiceDeleteValidation {
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.notExisting", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the role has an user")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    public void testDelete_UserWithRole() {
-        final Executable executable;
-        final Exception  exception;
-
-        executable = () -> service.delete(1L);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.user.existing", exception.getMessage());
     }
 
 }

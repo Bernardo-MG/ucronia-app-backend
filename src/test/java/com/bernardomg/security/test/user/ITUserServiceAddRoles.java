@@ -19,12 +19,12 @@ import com.bernardomg.security.service.UserService;
 @DisplayName("User service - add roles")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITUserServiceAddRole {
+public class ITUserServiceAddRoles {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceAddRole() {
+    public ITUserServiceAddRoles() {
         super();
     }
 
@@ -48,52 +48,6 @@ public class ITUserServiceAddRole {
             .next();
 
         Assertions.assertEquals("ADMIN", role.getName());
-    }
-
-    @Test
-    @DisplayName("Reading the role roles after adding a not existing role return none")
-    public void testAddRoles_NotExistingRole_CallBack() {
-        final Iterable<? extends Role> result;
-        final Collection<Long>         roles;
-
-        roles = new ArrayList<>();
-
-        roles.add(-1L);
-
-        service.addRoles(1L, roles);
-        result = service.getRoles(1L);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns no roles when adding a not existing role")
-    public void testAddRoles_NotExistingRole_ReturnedData() {
-        final Iterable<? extends Role> result;
-        final Collection<Long>         roles;
-
-        roles = new ArrayList<>();
-
-        roles.add(-1L);
-
-        result = service.addRoles(1L, roles);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns no roles when adding to a not existing user")
-    public void testAddRoles_NotExistingUser() {
-        final Iterable<? extends Role> result;
-        final Collection<Long>         roles;
-
-        roles = new ArrayList<>();
-
-        roles.add(1L);
-
-        result = service.addRoles(-1L, roles);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
     }
 
     @Test
