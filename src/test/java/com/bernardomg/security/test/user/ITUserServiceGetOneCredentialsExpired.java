@@ -3,7 +3,6 @@ package com.bernardomg.security.test.user;
 
 import java.util.Optional;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,6 @@ public class ITUserServiceGetOneCredentialsExpired {
         Assertions.assertFalse(result.getEnabled());
         Assertions.assertFalse(result.getExpired());
         Assertions.assertFalse(result.getLocked());
-        Assertions.assertEquals(0, IterableUtils.size(result.getRoles()));
     }
 
 }

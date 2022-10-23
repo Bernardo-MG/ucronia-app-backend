@@ -24,10 +24,6 @@
 
 package com.bernardomg.security.test.role;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,9 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.DtoPrivilege;
 import com.bernardomg.security.model.DtoRole;
-import com.bernardomg.security.model.Privilege;
 import com.bernardomg.security.model.Role;
 import com.bernardomg.security.persistence.model.PersistentRole;
 import com.bernardomg.security.persistence.repository.RoleRepository;
@@ -45,8 +39,8 @@ import com.bernardomg.security.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - update with no privileges")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
-public class ITRoleServiceUpdateNoPrivileges {
+@Sql({ "/db/queries/security/role/single.sql" })
+public class ITRoleServiceUpdate {
 
     @Autowired
     private RoleRepository repository;
@@ -54,7 +48,7 @@ public class ITRoleServiceUpdateNoPrivileges {
     @Autowired
     private RoleService    service;
 
-    public ITRoleServiceUpdateNoPrivileges() {
+    public ITRoleServiceUpdate() {
         super();
     }
 
@@ -113,79 +107,11 @@ public class ITRoleServiceUpdateNoPrivileges {
         Assertions.assertEquals("Role", result.getName());
     }
 
-    @Test
-    @DisplayName("Reading the updated data returns the privileges")
-    public void testUpdate_WithPrivilege_ReadBack() {
-        final Role      data;
-        final Role      result;
-        final Role      read;
-        final Privilege privilegeResult;
-
-        data = getRoleWithPrivileges();
-
-        result = service.update(1L, data);
-        read = service.getOne(result.getId())
-            .get();
-
-        Assertions.assertNotNull(read.getId());
-        Assertions.assertEquals("Role", read.getName());
-        Assertions.assertEquals(1, IterableUtils.size(read.getPrivileges()));
-
-        privilegeResult = read.getPrivileges()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(privilegeResult.getId());
-        Assertions.assertEquals("Privilege", privilegeResult.getName());
-    }
-
-    @Test
-    @DisplayName("Updating a role and including a privilege returns the updated data with the privilege")
-    public void testUpdate_WithPrivilege_ReturnedData() {
-        final Role      data;
-        final Role      result;
-        final Privilege privilegeResult;
-
-        data = getRoleWithPrivileges();
-
-        result = service.update(1L, data);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Role", result.getName());
-        Assertions.assertEquals(1, IterableUtils.size(result.getPrivileges()));
-
-        privilegeResult = result.getPrivileges()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(privilegeResult.getId());
-        Assertions.assertEquals("Privilege", privilegeResult.getName());
-    }
-
     private final Role getRoleWithNoPrivileges() {
         final DtoRole role;
 
         role = new DtoRole();
         role.setName("Role");
-
-        return role;
-    }
-
-    private final Role getRoleWithPrivileges() {
-        final DtoRole               role;
-        final DtoPrivilege          privilege;
-        final Collection<Privilege> privileges;
-
-        role = new DtoRole();
-        role.setName("Role");
-
-        privileges = new ArrayList<>();
-
-        privilege = new DtoPrivilege();
-        privilege.setId(1L);
-        privileges.add(privilege);
-
-        role.setPrivileges(privileges);
 
         return role;
     }

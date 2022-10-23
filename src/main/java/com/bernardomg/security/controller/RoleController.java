@@ -37,7 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.model.DtoIds;
 import com.bernardomg.security.model.DtoRole;
+import com.bernardomg.security.model.Privilege;
 import com.bernardomg.security.model.Role;
 import com.bernardomg.security.service.RoleService;
 
@@ -77,9 +79,20 @@ public class RoleController {
             .orElse(null);
     }
 
+    @GetMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Privilege> readPrivileges(@PathVariable("id") final Long id) {
+        return service.getPrivileges(id);
+    }
+
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoRole user) {
         return service.update(id, user);
+    }
+
+    @PutMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Privilege> updatePrivileges(@PathVariable("id") final Long id,
+            @Valid @RequestBody final DtoIds ids) {
+        return service.addPrivileges(id, ids.getIds());
     }
 
 }

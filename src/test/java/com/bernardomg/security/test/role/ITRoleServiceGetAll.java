@@ -61,7 +61,6 @@ public class ITRoleServiceGetAll {
 
         Assertions.assertNotNull(role.getId());
         Assertions.assertEquals("ADMIN", role.getName());
-        Assertions.assertEquals(0, IterableUtils.size(role.getPrivileges()));
     }
 
 }

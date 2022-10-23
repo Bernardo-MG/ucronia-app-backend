@@ -49,8 +49,6 @@ public interface User {
      */
     public Boolean getLocked();
 
-    public Iterable<Role> getRoles();
-
     /**
      * Returns the user username.
      *

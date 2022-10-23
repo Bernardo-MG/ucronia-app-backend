@@ -1,9 +1,6 @@
 
 package com.bernardomg.security.test.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.DtoRole;
 import com.bernardomg.security.model.DtoUser;
-import com.bernardomg.security.model.Role;
 import com.bernardomg.security.service.UserService;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -160,38 +155,6 @@ public class ITUserServiceCreateValidation {
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.username.missing", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the role doesn't exist")
-    public void testCreate_NotExistingRole() {
-        final DtoUser          data;
-        final DtoRole          role;
-        final Collection<Role> roles;
-        final Executable       executable;
-        final Exception        exception;
-
-        data = new DtoUser();
-        data.setUsername("User");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
-
-        role = new DtoRole();
-        role.setId(111L);
-
-        roles = new ArrayList<>();
-        roles.add(role);
-
-        data.setRoles(roles);
-
-        executable = () -> service.create(data);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.username.existing", exception.getMessage());
     }
 
 }

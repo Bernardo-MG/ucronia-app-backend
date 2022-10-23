@@ -3,7 +3,6 @@ package com.bernardomg.security.test.role;
 
 import java.util.Optional;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +16,12 @@ import com.bernardomg.security.service.RoleService;
 @IntegrationTest
 @DisplayName("Role service - get one - no privileges")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetOneNoPrivileges {
+public class ITRoleServiceGetOne {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceGetOneNoPrivileges() {
+    public ITRoleServiceGetOne() {
         super();
     }
 
@@ -46,7 +45,6 @@ public class ITRoleServiceGetOneNoPrivileges {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("ADMIN", result.getName());
-        Assertions.assertEquals(0, IterableUtils.size(result.getPrivileges()));
     }
 
     @Test

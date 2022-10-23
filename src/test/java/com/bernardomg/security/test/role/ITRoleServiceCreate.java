@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.test.role;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,7 +71,6 @@ public class ITRoleServiceCreate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Role", result.getName());
-        Assertions.assertEquals(0, IterableUtils.size(result.getPrivileges()));
     }
 
 }

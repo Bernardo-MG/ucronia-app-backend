@@ -24,12 +24,6 @@
 
 package com.bernardomg.security.test.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,10 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.DtoRole;
 import com.bernardomg.security.model.DtoUser;
-import com.bernardomg.security.model.Privilege;
-import com.bernardomg.security.model.Role;
 import com.bernardomg.security.model.User;
 import com.bernardomg.security.persistence.model.PersistentUser;
 import com.bernardomg.security.persistence.repository.UserRepository;
@@ -50,7 +41,7 @@ import com.bernardomg.security.service.UserService;
 @DisplayName("Role service - update with no roles")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITUserServiceUpdateNoRoles {
+public class ITUserServiceUpdate {
 
     @Autowired
     private UserRepository repository;
@@ -58,7 +49,7 @@ public class ITUserServiceUpdateNoRoles {
     @Autowired
     private UserService    service;
 
-    public ITUserServiceUpdateNoRoles() {
+    public ITUserServiceUpdate() {
         super();
     }
 
@@ -125,95 +116,6 @@ public class ITUserServiceUpdateNoRoles {
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());
         Assertions.assertEquals(false, result.getLocked());
-
-        Assertions.assertEquals(0, IterableUtils.size(result.getRoles()));
-    }
-
-    @Test
-    @DisplayName("Reading the updated data returns the role and privileges")
-    public void testUpdate_WithRole_ReadBack() {
-        final User               data;
-        final User               result;
-        final Role               roleResult;
-        final User               read;
-        final Collection<String> privileges;
-
-        data = getUserWithRole();
-
-        result = service.update(1L, data);
-        read = service.getOne(result.getId())
-            .get();
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("New name", read.getUsername());
-        Assertions.assertEquals("email", read.getEmail());
-        Assertions.assertEquals(false, read.getCredentialsExpired());
-        Assertions.assertEquals(true, read.getEnabled());
-        Assertions.assertEquals(false, read.getExpired());
-        Assertions.assertEquals(false, read.getLocked());
-
-        Assertions.assertEquals(1, IterableUtils.size(read.getRoles()));
-
-        roleResult = read.getRoles()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(roleResult.getId());
-        Assertions.assertEquals("ADMIN", roleResult.getName());
-
-        Assertions.assertEquals(4, IterableUtils.size(roleResult.getPrivileges()));
-
-        privileges = StreamSupport.stream(roleResult.getPrivileges()
-            .spliterator(), false)
-            .map(Privilege::getName)
-            .collect(Collectors.toList());
-
-        Assertions.assertTrue(privileges.contains("CREATE_DATA"));
-        Assertions.assertTrue(privileges.contains("READ_DATA"));
-        Assertions.assertTrue(privileges.contains("UPDATE_DATA"));
-        Assertions.assertTrue(privileges.contains("DELETE_DATA"));
-    }
-
-    @Test
-    @DisplayName("Returns the updated data when updating with a role")
-    public void testUpdate_WithRole_ReturnedData() {
-        final User               data;
-        final User               result;
-        final Role               roleResult;
-        final Collection<String> privileges;
-
-        data = getUserWithRole();
-
-        result = service.update(1L, data);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("New name", result.getUsername());
-        Assertions.assertEquals("email", result.getEmail());
-        Assertions.assertEquals(false, result.getCredentialsExpired());
-        Assertions.assertEquals(true, result.getEnabled());
-        Assertions.assertEquals(false, result.getExpired());
-        Assertions.assertEquals(false, result.getLocked());
-
-        Assertions.assertEquals(1, IterableUtils.size(result.getRoles()));
-
-        roleResult = result.getRoles()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(roleResult.getId());
-        Assertions.assertEquals("ADMIN", roleResult.getName());
-
-        Assertions.assertEquals(4, IterableUtils.size(roleResult.getPrivileges()));
-
-        privileges = StreamSupport.stream(roleResult.getPrivileges()
-            .spliterator(), false)
-            .map(Privilege::getName)
-            .collect(Collectors.toList());
-
-        Assertions.assertTrue(privileges.contains("CREATE_DATA"));
-        Assertions.assertTrue(privileges.contains("READ_DATA"));
-        Assertions.assertTrue(privileges.contains("UPDATE_DATA"));
-        Assertions.assertTrue(privileges.contains("DELETE_DATA"));
     }
 
     private final User getUser() {
@@ -226,30 +128,6 @@ public class ITUserServiceUpdateNoRoles {
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(false);
-
-        return user;
-    }
-
-    private final User getUserWithRole() {
-        final DtoUser          user;
-        final DtoRole          role;
-        final Collection<Role> roles;
-
-        role = new DtoRole();
-        role.setId(1L);
-
-        roles = new ArrayList<>();
-        roles.add(role);
-
-        user = new DtoUser();
-        user.setUsername("User");
-        user.setEmail("email");
-        user.setCredentialsExpired(false);
-        user.setEnabled(true);
-        user.setExpired(false);
-        user.setLocked(false);
-
-        user.setRoles(roles);
 
         return user;
     }

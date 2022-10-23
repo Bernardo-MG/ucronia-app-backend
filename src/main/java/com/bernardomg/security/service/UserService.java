@@ -5,56 +5,77 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.model.Role;
 import com.bernardomg.security.model.User;
 
 public interface UserService {
 
     /**
+     * Adds the roles to the user.
+     *
+     * @param id
+     *            user to add the roles to
+     * @param roles
+     *            role ids to add
+     * @return roles added
+     */
+    public Iterable<? extends Role> addRoles(final Long id, final Iterable<Long> roles);
+
+    /**
      * Persists the received user.
      *
      * @param user
-     *            fee to persist
-     * @return the persisted fee
+     *            user to persist
+     * @return the persisted user
      */
     public User create(final User user);
 
     /**
-     * Deletes the fee with the received id.
+     * Deletes the user with the received id.
      *
      * @param id
-     *            id of the fee to delete
+     *            id of the user to delete
      * @return {@code true} if it managed to delete, {@code false} otherwise
      */
     public Boolean delete(final Long id);
 
     /**
-     * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
+     * Returns all the users matching the sample. If the sample fields are empty, then all the users are returned.
      *
      * @param sample
      *            sample for filtering
      * @param pageable
      *            pagination to apply
-     * @return all the fees matching the sample
+     * @return all the users matching the sample
      */
     public Iterable<? extends User> getAll(final User sample, final Pageable pageable);
 
     /**
-     * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
      * @param id
-     *            id of the fee to acquire
-     * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
+     *            id of the user to acquire
+     * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<? extends User> getOne(final Long id);
 
     /**
-     * Updates the fee for the received id with the received data.
+     * Returns all the roles for the user.
      *
      * @param id
-     *            id of the fee to update
+     *            user id
+     * @return roles for the rules
+     */
+    public Iterable<Role> getRoles(final Long id);
+
+    /**
+     * Updates the user for the received id with the received data.
+     *
+     * @param id
+     *            id of the user to update
      * @param user
-     *            new data for the fee
-     * @return the updated fee
+     *            new data for the user
+     * @return the updated user
      */
     public User update(final Long id, final User user);
 

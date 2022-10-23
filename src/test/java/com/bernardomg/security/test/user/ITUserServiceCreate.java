@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.test.user;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,8 +78,6 @@ public class ITUserServiceCreate {
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());
         Assertions.assertEquals(false, result.getLocked());
-
-        Assertions.assertEquals(0, IterableUtils.size(result.getRoles()));
     }
 
     private final User getUser() {

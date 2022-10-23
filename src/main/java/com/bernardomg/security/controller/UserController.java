@@ -37,7 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.model.DtoIds;
 import com.bernardomg.security.model.DtoUser;
+import com.bernardomg.security.model.Role;
 import com.bernardomg.security.model.User;
 import com.bernardomg.security.service.UserService;
 
@@ -77,9 +79,20 @@ public class UserController {
             .orElse(null);
     }
 
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<Role> readRoles(@PathVariable("id") final Long id) {
+        return service.getRoles(id);
+    }
+
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUser user) {
         return service.update(id, user);
+    }
+
+    @PutMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Role> updateRoles(@PathVariable("id") final Long id,
+            @Valid @RequestBody final DtoIds ids) {
+        return service.addRoles(id, ids.getIds());
     }
 
 }
