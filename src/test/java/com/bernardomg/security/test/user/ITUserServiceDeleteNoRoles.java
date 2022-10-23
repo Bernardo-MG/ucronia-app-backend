@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.test.role;
+package com.bernardomg.security.test.user;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,21 +31,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.persistence.repository.RoleRepository;
-import com.bernardomg.security.service.RoleService;
+import com.bernardomg.security.persistence.repository.UserRepository;
+import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
-@DisplayName("Role service - delete")
-@Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceDelete {
+@DisplayName("User service - delete without roles")
+@Sql({ "/db/queries/user/security/single.sql" })
+public class ITUserServiceDeleteNoRoles {
 
     @Autowired
-    private RoleRepository repository;
+    private UserRepository repository;
 
     @Autowired
-    private RoleService    service;
+    private UserService    service;
 
-    public ITRoleServiceDelete() {
+    public ITUserServiceDeleteNoRoles() {
         super();
     }
 

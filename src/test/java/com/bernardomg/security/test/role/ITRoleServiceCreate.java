@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.test.role;
 
+import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,24 +42,6 @@ public class ITRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Persists the data with a day which is not the first of the month")
-    public void testCreate_AnotherDay_PersistedData() {
-        final DtoRole        data;
-        final PersistentRole entity;
-
-        data = new DtoRole();
-        data.setName("Role");
-
-        service.create(data);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Role", entity.getName());
-    }
-
-    @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
         final DtoRole        data;
@@ -79,8 +62,8 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final Role    result;
         final DtoRole data;
+        final Role    result;
 
         data = new DtoRole();
         data.setName("Role");
@@ -89,6 +72,7 @@ public class ITRoleServiceCreate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Role", result.getName());
+        Assertions.assertEquals(0, IterableUtils.size(result.getPrivileges()));
     }
 
 }

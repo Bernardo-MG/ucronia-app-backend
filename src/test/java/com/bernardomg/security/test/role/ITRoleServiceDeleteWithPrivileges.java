@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.test.user;
+package com.bernardomg.security.test.role;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,58 +31,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.persistence.repository.UserRepository;
-import com.bernardomg.security.service.UserService;
+import com.bernardomg.security.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.persistence.repository.RoleRepository;
+import com.bernardomg.security.service.RoleService;
 
 @IntegrationTest
-@DisplayName("User service - delete")
-@Sql({ "/db/queries/user/security/single.sql" })
-public class ITUserServiceDelete {
+@DisplayName("Role service - delete with privileges")
+@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/relationship/role_privilege.sql" })
+public class ITRoleServiceDeleteWithPrivileges {
 
     @Autowired
-    private UserRepository repository;
+    private PrivilegeRepository privilegeRepository;
 
     @Autowired
-    private UserService    service;
+    private RoleRepository      repository;
 
-    public ITUserServiceDelete() {
+    @Autowired
+    private RoleService         service;
+
+    public ITRoleServiceDeleteWithPrivileges() {
         super();
     }
 
     @Test
-    @DisplayName("Removes no entity when deleting an invalid id")
-    public void testDelete_NotExisting_NotRemovesEntity() {
-        service.delete(-1L);
-
-        Assertions.assertEquals(1L, repository.count());
-    }
-
-    @Test
-    @DisplayName("Removes a false flag when deleting an invalid id")
-    public void testDelete_NotExisting_ReturnsFalse() {
-        final Boolean deleted;
-
-        deleted = service.delete(-1L);
-
-        Assertions.assertFalse(deleted);
-    }
-
-    @Test
-    @DisplayName("Removes an entity when deleting")
-    public void testDelete_RemovesEntity() {
+    @DisplayName("Does not remove privileges when deleting")
+    public void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
-    }
-
-    @Test
-    @DisplayName("Removes a true flag when deleting an entity")
-    public void testDelete_ReturnsTrue() {
-        final Boolean deleted;
-
-        deleted = service.delete(1L);
-
-        Assertions.assertTrue(deleted);
+        Assertions.assertEquals(4L, privilegeRepository.count());
     }
 
 }

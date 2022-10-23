@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.test.user;
 
+import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,64 +31,24 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final DtoUser data;
+        final User user;
 
-        data = new DtoUser();
-        data.setUsername("User");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
+        user = getUser();
 
-        service.create(data);
+        service.create(user);
 
         Assertions.assertEquals(1L, repository.count());
     }
 
     @Test
-    @DisplayName("Persists the data with a day which is not the first of the month")
-    public void testCreate_AnotherDay_PersistedData() {
-        final DtoUser        data;
-        final PersistentUser entity;
-
-        data = new DtoUser();
-        data.setUsername("User");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
-
-        service.create(data);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("User", entity.getUsername());
-        Assertions.assertEquals("email", entity.getEmail());
-        Assertions.assertEquals(false, entity.getCredentialsExpired());
-        Assertions.assertEquals(true, entity.getEnabled());
-        Assertions.assertEquals(false, entity.getExpired());
-        Assertions.assertEquals(false, entity.getLocked());
-    }
-
-    @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final DtoUser        data;
+        final User           user;
         final PersistentUser entity;
 
-        data = new DtoUser();
-        data.setUsername("User");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
+        user = getUser();
 
-        service.create(data);
+        service.create(user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -104,18 +65,12 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final User    result;
-        final DtoUser data;
+        final User user;
+        final User result;
 
-        data = new DtoUser();
-        data.setUsername("User");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
+        user = getUser();
 
-        result = service.create(data);
+        result = service.create(user);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("User", result.getUsername());
@@ -124,6 +79,22 @@ public class ITUserServiceCreate {
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());
         Assertions.assertEquals(false, result.getLocked());
+
+        Assertions.assertEquals(0, IterableUtils.size(result.getRoles()));
+    }
+
+    private final User getUser() {
+        final DtoUser user;
+
+        user = new DtoUser();
+        user.setUsername("User");
+        user.setEmail("email");
+        user.setCredentialsExpired(false);
+        user.setEnabled(true);
+        user.setExpired(false);
+        user.setLocked(false);
+
+        return user;
     }
 
 }

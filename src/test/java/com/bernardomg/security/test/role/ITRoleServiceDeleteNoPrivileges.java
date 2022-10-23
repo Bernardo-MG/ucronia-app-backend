@@ -31,16 +31,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.model.DtoRole;
-import com.bernardomg.security.model.Role;
-import com.bernardomg.security.persistence.model.PersistentRole;
 import com.bernardomg.security.persistence.repository.RoleRepository;
 import com.bernardomg.security.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - update")
-@Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceUpdate {
+@DisplayName("Role service - delete with no privileges")
+@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/relationship/role_privilege.sql" })
+public class ITRoleServiceDeleteNoPrivileges {
 
     @Autowired
     private RoleRepository repository;
@@ -48,67 +46,44 @@ public class ITRoleServiceUpdate {
     @Autowired
     private RoleService    service;
 
-    public ITRoleServiceUpdate() {
+    public ITRoleServiceDeleteNoPrivileges() {
         super();
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
-    public void testUpdate_AddsNoEntity() {
-        final DtoRole data;
-
-        data = new DtoRole();
-        data.setName("Role");
-
-        service.update(1L, data);
+    @DisplayName("Removes no entity when deleting an invalid id")
+    public void testDelete_NotExisting_NotRemovesEntity() {
+        service.delete(-1L);
 
         Assertions.assertEquals(1L, repository.count());
     }
 
     @Test
-    @DisplayName("When updating a not existing entity a new one is added")
-    public void testUpdate_NotExisting_AddsEntity() {
-        final DtoRole data;
+    @DisplayName("Returns a false flag when deleting an invalid id")
+    public void testDelete_NotExisting_ReturnsFalse() {
+        final Boolean deleted;
 
-        data = new DtoRole();
-        data.setName("Role");
+        deleted = service.delete(-1L);
 
-        service.update(10L, data);
-
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertFalse(deleted);
     }
 
     @Test
-    @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
-        final DtoRole        data;
-        final PersistentRole entity;
+    @DisplayName("Removes an entity when deleting")
+    public void testDelete_RemovesEntity() {
+        service.delete(1L);
 
-        data = new DtoRole();
-        data.setName("Role");
-
-        service.update(1L, data);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Role", entity.getName());
+        Assertions.assertEquals(0L, repository.count());
     }
 
     @Test
-    @DisplayName("Returns the updated data")
-    public void testUpdate_ReturnedData() {
-        final DtoRole data;
-        final Role    result;
+    @DisplayName("Returns a true flag when deleting an entity")
+    public void testDelete_ReturnsTrue() {
+        final Boolean deleted;
 
-        data = new DtoRole();
-        data.setName("Role");
+        deleted = service.delete(1L);
 
-        result = service.update(1L, data);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Role", result.getName());
+        Assertions.assertTrue(deleted);
     }
 
 }
