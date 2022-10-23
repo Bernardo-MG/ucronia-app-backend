@@ -74,7 +74,7 @@ public class ITUserServiceUpdate {
 
         service.update(10L, data);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertEquals(2L, repository.count());
     }
 
     @Test

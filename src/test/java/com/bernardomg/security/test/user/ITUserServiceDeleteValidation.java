@@ -35,7 +35,7 @@ import com.bernardomg.security.service.UserService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("User service - delete without roles")
+@DisplayName("User service - delete validation")
 public class ITUserServiceDeleteValidation {
 
     @Autowired
