@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.crud.transaction.model.DtoTransaction;
@@ -34,16 +35,21 @@ public final class DefaultTransactionService implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
+    @PreAuthorize("hasAuthority('CREATE_TRANSACTION')")
     public final Transaction create(final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
         entity = toEntity(transaction);
+        entity.setId(null);
+
         created = repository.save(entity);
+
         return toDto(created);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('DELETE_TRANSACTION')")
     public final Boolean delete(final Long id) {
         Boolean deleted;
 
@@ -59,6 +65,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_TRANSACTION')")
     public final Iterable<? extends Transaction> getAll(final Transaction sample, final Pageable pageable) {
         final PersistentTransaction       entity;
         final List<? extends Transaction> dtos;
@@ -75,6 +82,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_TRANSACTION')")
     public final Optional<? extends Transaction> getOne(final Long id) {
         final Optional<PersistentTransaction> found;
         final Optional<? extends Transaction> result;
@@ -93,6 +101,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('UPDATE_TRANSACTION')")
     public final Transaction update(final Long id, final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;

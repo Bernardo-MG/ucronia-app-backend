@@ -16,19 +16,21 @@ databaseChangeLog:
               - column:
                   name: description
                   type: varchar(200)
-                  defaultValue: ''
                   constraints:
                     nullable: false
+                  defaultValue: ''
               - column:
                   name: amount
                   type: float
                   constraints:
                     nullable: false
+                  defaultValueNumeric: 0
               - column:
                   name: date
                   type: date
                   constraints:
                     nullable: false
+                  defaultValueDate: now()
         - createTable:
             tableName: fees
             columns:
@@ -50,11 +52,13 @@ databaseChangeLog:
                   type: date
                   constraints:
                     nullable: false
+                  defaultValueDate: now()
               - column:
                   name: paid
                   type: boolean
                   constraints:
                     nullable: false
+                  defaultValueBoolean: false
       modifySql:
         - append:
             dbms: mysql

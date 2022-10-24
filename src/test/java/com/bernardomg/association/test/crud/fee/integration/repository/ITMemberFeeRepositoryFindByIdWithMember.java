@@ -38,7 +38,7 @@ import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member service - get one")
+@DisplayName("Member service - get one")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITMemberFeeRepositoryFindByIdWithMember {
 

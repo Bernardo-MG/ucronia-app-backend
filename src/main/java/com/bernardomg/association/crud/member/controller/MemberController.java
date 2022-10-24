@@ -55,7 +55,7 @@ import lombok.AllArgsConstructor;
 public class MemberController {
 
     /**
-     * Example entity service.
+     * Member service.
      */
     private final MemberService service;
 

@@ -14,10 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/member",
-							"host": [
-								"{{url}}"
-							],
+							"raw": "/member",
 							"path": [
 								"member"
 							]
@@ -31,12 +28,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/member",
-							"host": [
-								"{{url}}"
-							],
+							"raw": "/member?page=1&size=5",
 							"path": [
 								"member"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -48,16 +52,114 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/member",
-							"host": [
-								"{{url}}"
-							],
+							"raw": "/member?sort=name,desc",
 							"path": [
 								"member"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "name,desc"
+								}
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiaWF0IjoxNjY2Mjk5NDI0LCJleHAiOjE2NjYzMTc0MjR9.Yww6VDZ-qVGFB-CfgWT-nX4v_eF29CcuWpi2epXGv0p3bDkbjU3urCGQ1CDwdQGy6JWgmds_D0xv3NIr1f2sAA",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Authorized request\",()=>{\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"pm.test('Returns token', function() {\r",
+									"  pm.expect(pm.response.json()).to.have.property(\"content\");\r",
+									"  pm.expect(pm.response.json().content).to.have.property(\"token\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"root\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/login",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
@@ -68,7 +170,7 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"pm.request.url= pm.collectionVariables.get('url') + pm.request.url;"
 				]
 			}
 		},

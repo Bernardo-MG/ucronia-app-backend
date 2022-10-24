@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.crud.member.model.DtoMember;
@@ -37,6 +38,7 @@ public final class DefaultMemberService implements MemberService {
     private final MemberRepository repository;
 
     @Override
+    @PreAuthorize("hasAuthority('CREATE_MEMBER')")
     public final Member create(final Member member) {
         final PersistentMember entity;
         final PersistentMember created;
@@ -45,12 +47,15 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Phone and identifier should be unique or empty
 
         entity = toEntity(member);
+        entity.setId(null);
+
         created = repository.save(entity);
 
         return toDto(created);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('DELETE_MEMBER')")
     public final Boolean delete(final Long id) {
         Boolean deleted;
 
@@ -68,6 +73,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_MEMBER')")
     public final Iterable<? extends Member> getAll(final Member sample, final Pageable pageable) {
         final PersistentMember       entity;
         final List<? extends Member> dtos;
@@ -84,6 +90,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_MEMBER')")
     public final Optional<? extends Member> getOne(final Long id) {
         final Optional<PersistentMember> found;
         final Optional<? extends Member> result;
@@ -102,6 +109,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('UPDATE_MEMBER')")
     public final Member update(final Long id, final Member member) {
         final PersistentMember entity;
         final PersistentMember updated;

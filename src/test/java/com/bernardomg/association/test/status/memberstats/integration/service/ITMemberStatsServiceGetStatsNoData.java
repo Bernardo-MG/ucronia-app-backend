@@ -34,7 +34,7 @@ import com.bernardomg.association.status.memberstats.service.MemberStatsService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member stats service - get stats - no data")
+@DisplayName("Member stats service - get stats - no data")
 public class ITMemberStatsServiceGetStatsNoData {
 
     @Autowired

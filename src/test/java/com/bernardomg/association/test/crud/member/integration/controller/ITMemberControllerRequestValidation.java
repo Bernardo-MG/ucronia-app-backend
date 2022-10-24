@@ -37,8 +37,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.bernardomg.association.crud.member.model.DtoMember;
 import com.bernardomg.association.crud.member.model.Member;
-import com.bernardomg.association.test.config.UrlConfig;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
+import com.bernardomg.association.test.config.constant.TestUrls;
 import com.google.gson.Gson;
 
 @MvcIntegrationTest
@@ -100,7 +100,7 @@ public final class ITMemberControllerRequestValidation {
         final String json;
 
         json = gson.toJson(member);
-        return MockMvcRequestBuilders.post(UrlConfig.MEMBER)
+        return MockMvcRequestBuilders.post(TestUrls.MEMBER)
             .contentType(MediaType.APPLICATION_JSON)
             .content(json);
     }

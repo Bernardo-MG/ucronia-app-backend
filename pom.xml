@@ -179,6 +179,7 @@
       <apache.commons.collections.version>4.4</apache.commons.collections.version>
       <jackson.version>2.13.4.20221013</jackson.version>
       <junit.jupiter.version>5.9.1</junit.jupiter.version>
+      <jjwt.version>0.11.5</jjwt.version>
       <spring.boot.version>2.7.4</spring.boot.version>
       <spring.data.version>2021.2.5</spring.data.version>
       <spring.version>5.3.23</spring.version>
@@ -345,11 +346,42 @@
          <artifactId>spring-boot-starter-log4j2</artifactId>
       </dependency>
       <dependency>
+         <!-- Spring Boot Starter: Security -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-security</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Actuator -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+      <dependency>
          <!-- Spring Boot Starter: Devtools -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-devtools</artifactId>
          <scope>runtime</scope>
          <optional>true</optional>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== JSON Web Token =============== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JSON Web Token API -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-api</artifactId>
+         <version>${jjwt.version}</version>
+      </dependency>
+      <dependency>
+         <!-- JSON Web Token Impl -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-impl</artifactId>
+         <version>${jjwt.version}</version>
+      </dependency>
+      <dependency>
+         <!-- JSON Jackson -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-jackson</artifactId>
+         <version>${jjwt.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ============== JPA DEPENDENCIES ============== -->
@@ -532,6 +564,11 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
          <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Spring Security Test -->
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-test</artifactId>
       </dependency>
       <dependency>
          <!-- Spring Boot Starter: Test -->

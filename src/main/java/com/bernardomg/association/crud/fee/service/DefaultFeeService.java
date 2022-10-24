@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.crud.fee.model.DtoMemberFee;
@@ -41,6 +42,7 @@ public final class DefaultFeeService implements FeeService {
     private final FeeValidator        validator;
 
     @Override
+    @PreAuthorize("hasAuthority('CREATE_FEE')")
     public final MemberFee create(final FeeForm month) {
         final PersistentFee entity;
         final PersistentFee created;
@@ -49,12 +51,15 @@ public final class DefaultFeeService implements FeeService {
         validator.validate(month);
 
         entity = toEntity(month);
+        entity.setId(null);
 
         created = repository.save(entity);
+
         return toDto(created);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('DELETE_FEE')")
     public final Boolean delete(final Long id) {
         Boolean deleted;
 
@@ -70,6 +75,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_FEE')")
     public final Iterable<? extends MemberFee> getAll(final MemberFee sample, final Pageable pageable) {
         final PersistentFee entity;
 
@@ -81,6 +87,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_FEE')")
     public final Optional<? extends MemberFee> getOne(final Long id) {
         final Optional<MemberFee>           found;
         final Optional<? extends MemberFee> result;
@@ -101,6 +108,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('UPDATE_FEE')")
     public final MemberFee update(final Long id, final FeeForm fee) {
         final PersistentFee entity;
         final PersistentFee created;
