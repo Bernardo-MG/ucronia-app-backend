@@ -11,17 +11,6 @@ import com.bernardomg.security.model.User;
 public interface UserService {
 
     /**
-     * Adds the roles to the user.
-     *
-     * @param id
-     *            user to add the roles to
-     * @param roles
-     *            role ids to add
-     * @return roles added
-     */
-    public Iterable<? extends Role> addRoles(final Long id, final Iterable<Long> roles);
-
-    /**
      * Persists the received user.
      *
      * @param user
@@ -67,6 +56,17 @@ public interface UserService {
      * @return roles for the rules
      */
     public Iterable<Role> getRoles(final Long id);
+
+    /**
+     * Sets the roles to the user.
+     *
+     * @param id
+     *            user to set the roles to
+     * @param roles
+     *            role ids to set
+     * @return roles set
+     */
+    public Iterable<? extends Role> setRoles(final Long id, final Iterable<Long> roles);
 
     /**
      * Updates the user for the received id with the received data.

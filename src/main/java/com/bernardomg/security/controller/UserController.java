@@ -92,7 +92,7 @@ public class UserController {
     @PutMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<? extends Role> updateRoles(@PathVariable("id") final Long id,
             @Valid @RequestBody final DtoIds ids) {
-        return service.addRoles(id, ids.getIds());
+        return service.setRoles(id, ids.getIds());
     }
 
 }

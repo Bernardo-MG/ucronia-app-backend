@@ -16,15 +16,15 @@ import com.bernardomg.security.model.Role;
 import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - add roles")
+@DisplayName("User service - set roles")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITUserServiceAddRoles {
+public class ITUserServiceSetRoles {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceAddRoles() {
+    public ITUserServiceSetRoles() {
         super();
     }
 
@@ -39,7 +39,7 @@ public class ITUserServiceAddRoles {
 
         roles.add(1L);
 
-        service.addRoles(1L, roles);
+        service.setRoles(1L, roles);
         result = service.getRoles(1L);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
@@ -61,7 +61,7 @@ public class ITUserServiceAddRoles {
 
         roles.add(1L);
 
-        result = service.addRoles(1L, roles);
+        result = service.setRoles(1L, roles);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 

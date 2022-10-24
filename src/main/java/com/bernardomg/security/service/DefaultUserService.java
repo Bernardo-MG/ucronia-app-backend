@@ -35,32 +35,6 @@ public final class DefaultUserService implements UserService {
     private final UserRolesRepository userRolesRepository;
 
     @Override
-    public final Iterable<? extends Role> addRoles(final Long id, final Iterable<Long> roles) {
-        final Collection<PersistentUserRoles> relationships;
-        final Iterable<Long>                  ids;
-        final List<PersistentUserRoles>       created;
-        final List<PersistentRole>            addedRoles;
-
-        // Build relationship entities
-        relationships = StreamSupport.stream(roles.spliterator(), false)
-            .map(p -> getRelationships(id, p))
-            .collect(Collectors.toList());
-
-        // Persist relationship entities
-        created = userRolesRepository.saveAll(relationships);
-
-        // Get privileges added to the role
-        ids = created.stream()
-            .map(PersistentUserRoles::getRoleId)
-            .collect(Collectors.toList());
-        addedRoles = roleRepository.findAllById(ids);
-
-        return addedRoles.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
-    }
-
-    @Override
     public final User create(final User user) {
         final PersistentUser entity;
         final PersistentUser created;
@@ -100,6 +74,32 @@ public final class DefaultUserService implements UserService {
     @Override
     public final Iterable<Role> getRoles(final Long id) {
         return repository.findAllRoles(id);
+    }
+
+    @Override
+    public final Iterable<? extends Role> setRoles(final Long id, final Iterable<Long> roles) {
+        final Collection<PersistentUserRoles> relationships;
+        final Iterable<Long>                  ids;
+        final List<PersistentUserRoles>       created;
+        final List<PersistentRole>            addedRoles;
+
+        // Build relationship entities
+        relationships = StreamSupport.stream(roles.spliterator(), false)
+            .map(p -> getRelationships(id, p))
+            .collect(Collectors.toList());
+
+        // Persist relationship entities
+        created = userRolesRepository.saveAll(relationships);
+
+        // Get privileges added to the role
+        ids = created.stream()
+            .map(PersistentUserRoles::getRoleId)
+            .collect(Collectors.toList());
+        addedRoles = roleRepository.findAllById(ids);
+
+        return addedRoles.stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
     }
 
     @Override

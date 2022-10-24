@@ -18,21 +18,20 @@ import com.bernardomg.security.model.Privilege;
 import com.bernardomg.security.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - add privileges - with privileges")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/relationship/role_privilege.sql" })
-public class ITRoleServiceAddPrivilegesWithPrivileges {
+@DisplayName("Role service - set privileges")
+@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
+public class ITRoleServiceSetPrivileges {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceAddPrivilegesWithPrivileges() {
+    public ITRoleServiceSetPrivileges() {
         super();
     }
 
     @Test
-    @DisplayName("Reading the role privileges after changing privileges returns them")
-    public void testAddPrivileges_Change_CallBack() {
+    @DisplayName("Reading the role privileges after adding privileges returns them")
+    public void testSetPrivileges_CallBack() {
         final Collection<Long>              privileges;
         final Iterable<? extends Privilege> result;
         final Collection<String>            privilegeNames;
@@ -40,7 +39,7 @@ public class ITRoleServiceAddPrivilegesWithPrivileges {
         privileges = new ArrayList<>();
         privileges.add(1L);
 
-        service.addPrivileges(1l, privileges);
+        service.setPrivileges(1l, privileges);
         result = service.getPrivileges(1l);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
@@ -53,8 +52,8 @@ public class ITRoleServiceAddPrivilegesWithPrivileges {
     }
 
     @Test
-    @DisplayName("Adding a different privilege and returns the changed privileges")
-    public void testAddPrivileges_Change_ReturnedData() {
+    @DisplayName("Adds and returns privileges")
+    public void testSetPrivileges_ReturnedData() {
         final Collection<Long>              privileges;
         final Iterable<? extends Privilege> result;
         final Collection<String>            privilegeNames;
@@ -62,7 +61,7 @@ public class ITRoleServiceAddPrivilegesWithPrivileges {
         privileges = new ArrayList<>();
         privileges.add(1L);
 
-        result = service.addPrivileges(1l, privileges);
+        result = service.setPrivileges(1l, privileges);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
@@ -71,33 +70,6 @@ public class ITRoleServiceAddPrivilegesWithPrivileges {
             .collect(Collectors.toList());
 
         Assertions.assertTrue(privilegeNames.contains("CREATE_DATA"));
-    }
-
-    @Test
-    @DisplayName("Reading the role privileges after adding empty privileges returns none")
-    public void testAddPrivileges_Empty_CallBack() {
-        final Collection<Long>              privileges;
-        final Iterable<? extends Privilege> result;
-
-        privileges = new ArrayList<>();
-
-        service.addPrivileges(1l, privileges);
-        result = service.getPrivileges(1l);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Adding empty privileges returns not privileges")
-    public void testAddPrivileges_Empty_ReturnedData() {
-        final Collection<Long>              privileges;
-        final Iterable<? extends Privilege> result;
-
-        privileges = new ArrayList<>();
-
-        result = service.addPrivileges(1l, privileges);
-
-        Assertions.assertEquals(0L, IterableUtils.size(result));
     }
 
 }

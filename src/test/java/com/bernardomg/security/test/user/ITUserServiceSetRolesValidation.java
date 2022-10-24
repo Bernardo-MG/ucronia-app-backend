@@ -16,15 +16,15 @@ import com.bernardomg.security.service.UserService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("User service - add roles validation")
+@DisplayName("User service - set roles validation")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITUserServiceAddRolesValidation {
+public class ITUserServiceSetRolesValidation {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceAddRolesValidation() {
+    public ITUserServiceSetRolesValidation() {
         super();
     }
 
@@ -38,7 +38,7 @@ public class ITUserServiceAddRolesValidation {
         roles = new ArrayList<>();
         roles.add(1L);
 
-        executable = () -> service.addRoles(-1l, roles);
+        executable = () -> service.setRoles(-1l, roles);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -55,7 +55,7 @@ public class ITUserServiceAddRolesValidation {
         roles = new ArrayList<>();
         roles.add(1L);
 
-        executable = () -> service.addRoles(-1l, roles);
+        executable = () -> service.setRoles(-1l, roles);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

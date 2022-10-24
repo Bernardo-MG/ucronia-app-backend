@@ -94,7 +94,7 @@ public class RoleController {
     @PutMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<? extends Privilege> updatePrivileges(@PathVariable("id") final Long id,
             @Valid @RequestBody final DtoIds ids) {
-        return service.addPrivileges(id, ids.getIds());
+        return service.setPrivileges(id, ids.getIds());
     }
 
 }

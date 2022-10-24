@@ -11,17 +11,6 @@ import com.bernardomg.security.model.Role;
 public interface RoleService {
 
     /**
-     * Adds the privileges to the role.
-     *
-     * @param id
-     *            role to add the privileges to
-     * @param privileges
-     *            privilege ids to add
-     * @return privileges added
-     */
-    public Iterable<? extends Privilege> addPrivileges(final Long id, final Iterable<Long> privileges);
-
-    /**
      * Persists the received user.
      *
      * @param role
@@ -67,6 +56,17 @@ public interface RoleService {
      * @return privileges for the role
      */
     public Iterable<? extends Privilege> getPrivileges(final Long id);
+
+    /**
+     * Sets the privileges for the role.
+     *
+     * @param id
+     *            role to set the privileges to
+     * @param privileges
+     *            privilege ids to set
+     * @return privileges set
+     */
+    public Iterable<? extends Privilege> setPrivileges(final Long id, final Iterable<Long> privileges);
 
     /**
      * Updates the role for the received id with the received data.

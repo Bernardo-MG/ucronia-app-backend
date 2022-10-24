@@ -18,15 +18,15 @@ import com.bernardomg.security.model.Role;
 import com.bernardomg.security.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - add roles - with role")
+@DisplayName("User service - set roles - with role")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITUserServiceAddRolesWithRoles {
+public class ITUserServiceSetRolesWithRoles {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceAddRolesWithRoles() {
+    public ITUserServiceSetRolesWithRoles() {
         super();
     }
 
@@ -40,7 +40,7 @@ public class ITUserServiceAddRolesWithRoles {
         roles = new ArrayList<>();
         roles.add(1L);
 
-        service.addRoles(1l, roles);
+        service.setRoles(1l, roles);
         result = service.getRoles(1l);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
@@ -62,7 +62,7 @@ public class ITUserServiceAddRolesWithRoles {
         roles = new ArrayList<>();
         roles.add(1L);
 
-        result = service.addRoles(1l, roles);
+        result = service.setRoles(1l, roles);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
@@ -81,7 +81,7 @@ public class ITUserServiceAddRolesWithRoles {
 
         roles = new ArrayList<>();
 
-        service.addRoles(1l, roles);
+        service.setRoles(1l, roles);
         result = service.getRoles(1l);
 
         Assertions.assertEquals(0L, IterableUtils.size(result));
@@ -95,7 +95,7 @@ public class ITUserServiceAddRolesWithRoles {
 
         roles = new ArrayList<>();
 
-        result = service.addRoles(1l, roles);
+        result = service.setRoles(1l, roles);
 
         Assertions.assertEquals(0L, IterableUtils.size(result));
     }

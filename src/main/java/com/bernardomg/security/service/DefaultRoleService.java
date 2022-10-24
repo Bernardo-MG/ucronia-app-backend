@@ -44,37 +44,6 @@ public final class DefaultRoleService implements RoleService {
     private final RoleUpdateValidator          updateValidator;
 
     @Override
-    public final Iterable<? extends Privilege> addPrivileges(final Long id, final Iterable<Long> privileges) {
-        final Collection<PersistentRolePrivileges> relationships;
-        final Iterable<Long>                       ids;
-        final List<PersistentRolePrivileges>       created;
-        final List<PersistentPrivilege>            addedPrivileges;
-
-        updateValidator.validate(id);
-
-        StreamSupport.stream(privileges.spliterator(), false)
-            .forEach(p -> rolePrivilegeUpdateValidator.validate(p));
-
-        // Build relationship entities
-        relationships = StreamSupport.stream(privileges.spliterator(), false)
-            .map(p -> getRelationships(id, p))
-            .collect(Collectors.toList());
-
-        // Persist relationship entities
-        created = rolePrivilegesRepository.saveAll(relationships);
-
-        // Get privileges added to the role
-        ids = created.stream()
-            .map(PersistentRolePrivileges::getPrivilegeId)
-            .collect(Collectors.toList());
-        addedPrivileges = privilegeRepository.findAllById(ids);
-
-        return addedPrivileges.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
-    }
-
-    @Override
     public final Role create(final Role role) {
         final PersistentRole entity;
         final PersistentRole created;
@@ -116,6 +85,37 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final Iterable<? extends Privilege> getPrivileges(final Long id) {
         return repository.findAllPrivileges(id);
+    }
+
+    @Override
+    public final Iterable<? extends Privilege> setPrivileges(final Long id, final Iterable<Long> privileges) {
+        final Collection<PersistentRolePrivileges> relationships;
+        final Iterable<Long>                       ids;
+        final List<PersistentRolePrivileges>       created;
+        final List<PersistentPrivilege>            addedPrivileges;
+
+        updateValidator.validate(id);
+
+        StreamSupport.stream(privileges.spliterator(), false)
+            .forEach(p -> rolePrivilegeUpdateValidator.validate(p));
+
+        // Build relationship entities
+        relationships = StreamSupport.stream(privileges.spliterator(), false)
+            .map(p -> getRelationships(id, p))
+            .collect(Collectors.toList());
+
+        // Persist relationship entities
+        created = rolePrivilegesRepository.saveAll(relationships);
+
+        // Get privileges added to the role
+        ids = created.stream()
+            .map(PersistentRolePrivileges::getPrivilegeId)
+            .collect(Collectors.toList());
+        addedPrivileges = privilegeRepository.findAllById(ids);
+
+        return addedPrivileges.stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
     }
 
     @Override

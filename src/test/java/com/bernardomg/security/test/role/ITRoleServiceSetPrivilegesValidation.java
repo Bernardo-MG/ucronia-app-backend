@@ -16,20 +16,20 @@ import com.bernardomg.security.service.RoleService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Role service - add privileges validation")
-public class ITRoleServiceAddPrivilegesValidation {
+@DisplayName("Role service - set privileges validation")
+public class ITRoleServiceSetPrivilegesValidation {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceAddPrivilegesValidation() {
+    public ITRoleServiceSetPrivilegesValidation() {
         super();
     }
 
     @Test
     @DisplayName("Throws an exception when the privilege doesn't exist")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
-    public void testAddPrivileges_NotExistingPrivilege() {
+    public void testSetPrivileges_NotExistingPrivilege() {
         final Collection<Long> privileges;
         final Executable       executable;
         final Exception        exception;
@@ -37,7 +37,7 @@ public class ITRoleServiceAddPrivilegesValidation {
         privileges = new ArrayList<>();
         privileges.add(-1L);
 
-        executable = () -> service.addPrivileges(1l, privileges);
+        executable = () -> service.setPrivileges(1l, privileges);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -47,7 +47,7 @@ public class ITRoleServiceAddPrivilegesValidation {
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     @Sql({ "/db/queries/security/privilege/multiple.sql" })
-    public void testAddPrivileges_NotExistingRole() {
+    public void testSetPrivileges_NotExistingRole() {
         final Collection<Long> privileges;
         final Executable       executable;
         final Exception        exception;
@@ -55,7 +55,7 @@ public class ITRoleServiceAddPrivilegesValidation {
         privileges = new ArrayList<>();
         privileges.add(1L);
 
-        executable = () -> service.addPrivileges(1l, privileges);
+        executable = () -> service.setPrivileges(1l, privileges);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
