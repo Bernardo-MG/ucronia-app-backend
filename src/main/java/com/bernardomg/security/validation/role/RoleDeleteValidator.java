@@ -23,8 +23,8 @@ public final class RoleDeleteValidator implements Validator<Long> {
     }
 
     @Override
-    public final void validate(final Long period) {
-        validator.validate(period);
+    public final void validate(final Long id) {
+        validator.validate(id);
     }
 
 }

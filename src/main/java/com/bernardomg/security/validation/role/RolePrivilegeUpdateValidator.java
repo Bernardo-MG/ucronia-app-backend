@@ -14,15 +14,15 @@ public final class RolePrivilegeUpdateValidator implements Validator<Long> {
 
     private final Validator<Long> validator;
 
-    public RolePrivilegeUpdateValidator(final PrivilegeIdExistsValidationRule roleIdExistsValidationRule) {
+    public RolePrivilegeUpdateValidator(final PrivilegeIdExistsValidationRule privilegeIdExistsValidationRule) {
         super();
 
-        validator = new RuleValidator<>(Arrays.asList(roleIdExistsValidationRule));
+        validator = new RuleValidator<>(Arrays.asList(privilegeIdExistsValidationRule));
     }
 
     @Override
-    public final void validate(final Long period) {
-        validator.validate(period);
+    public final void validate(final Long id) {
+        validator.validate(id);
     }
 
 }

@@ -36,9 +36,9 @@ public class ITUserServiceSetRolesValidation {
         final Exception        exception;
 
         roles = new ArrayList<>();
-        roles.add(1L);
+        roles.add(-1L);
 
-        executable = () -> service.setRoles(-1l, roles);
+        executable = () -> service.setRoles(1l, roles);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -59,7 +59,7 @@ public class ITUserServiceSetRolesValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.notExisting", exception.getMessage());
+        Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }
 
 }

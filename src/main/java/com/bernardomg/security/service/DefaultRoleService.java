@@ -20,6 +20,7 @@ import com.bernardomg.security.persistence.model.PersistentRolePrivileges;
 import com.bernardomg.security.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.persistence.repository.RolePrivilegesRepository;
 import com.bernardomg.security.persistence.repository.RoleRepository;
+import com.bernardomg.security.validation.role.RoleCreateValidator;
 import com.bernardomg.security.validation.role.RoleDeleteValidator;
 import com.bernardomg.security.validation.role.RolePrivilegeUpdateValidator;
 import com.bernardomg.security.validation.role.RoleUpdateValidator;
@@ -36,6 +37,8 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleRepository               repository;
 
+    private final RoleCreateValidator          roleCreateValidator;
+
     private final RolePrivilegesRepository     rolePrivilegesRepository;
 
     private final RolePrivilegeUpdateValidator rolePrivilegeUpdateValidator;
@@ -46,6 +49,8 @@ public final class DefaultRoleService implements RoleService {
     public final Role create(final Role role) {
         final PersistentRole entity;
         final PersistentRole created;
+
+        roleCreateValidator.validate(role);
 
         entity = toEntity(role);
         entity.setId(null);

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.model.DtoUser;
@@ -16,8 +15,6 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("User service - add roles validation")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
 public class ITUserServiceUpdateValidation {
 
     @Autowired

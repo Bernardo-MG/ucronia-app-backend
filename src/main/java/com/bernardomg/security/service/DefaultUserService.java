@@ -21,6 +21,10 @@ import com.bernardomg.security.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.persistence.repository.RoleRepository;
 import com.bernardomg.security.persistence.repository.UserRepository;
 import com.bernardomg.security.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.validation.user.UserCreateValidator;
+import com.bernardomg.security.validation.user.UserDeleteValidator;
+import com.bernardomg.security.validation.user.UserRoleUpdateValidator;
+import com.bernardomg.security.validation.user.UserUpdateValidator;
 
 import lombok.AllArgsConstructor;
 
@@ -28,16 +32,26 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultUserService implements UserService {
 
-    private final UserRepository      repository;
+    private final UserDeleteValidator     deleteValidator;
 
-    private final RoleRepository      roleRepository;
+    private final UserRepository          repository;
 
-    private final UserRolesRepository userRolesRepository;
+    private final RoleRepository          roleRepository;
+
+    private final UserRoleUpdateValidator roleUpdateValidator;
+
+    private final UserCreateValidator     userCreateValidator;
+
+    private final UserRolesRepository     userRolesRepository;
+
+    private final UserUpdateValidator     userUpdateValidator;
 
     @Override
     public final User create(final User user) {
         final PersistentUser entity;
         final PersistentUser created;
+
+        userCreateValidator.validate(user);
 
         entity = toEntity(user);
         entity.setId(null);
@@ -49,6 +63,8 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean delete(final Long id) {
+        deleteValidator.validate(id);
+
         repository.deleteById(id);
 
         return true;
@@ -85,6 +101,11 @@ public final class DefaultUserService implements UserService {
         final PersistentUserRoles             relSample;
         final Collection<PersistentUserRoles> rels;
 
+        userUpdateValidator.validate(id);
+
+        StreamSupport.stream(roles.spliterator(), false)
+            .forEach(p -> roleUpdateValidator.validate(p));
+
         // Removes exiting relationships
         relSample = new PersistentUserRoles();
         relSample.setUserId(id);
@@ -114,6 +135,8 @@ public final class DefaultUserService implements UserService {
     public final User update(final Long id, final User user) {
         final PersistentUser entity;
         final PersistentUser created;
+
+        userUpdateValidator.validate(id);
 
         entity = toEntity(user);
         entity.setId(id);

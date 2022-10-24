@@ -66,18 +66,6 @@ public class ITUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a not existing entity a new one is added")
-    public void testUpdate_NotExisting_AddsEntity() {
-        final User data;
-
-        data = getUser();
-
-        service.update(10L, data);
-
-        Assertions.assertEquals(2L, repository.count());
-    }
-
-    @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
         final User           data;

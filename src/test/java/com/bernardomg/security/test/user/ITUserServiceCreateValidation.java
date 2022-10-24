@@ -15,7 +15,7 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("User service - create validation")
-@Sql({ "/db/queries/security/role/single.sql" })
+@Sql({ "/db/queries/security/user/single.sql" })
 public class ITUserServiceCreateValidation {
 
     @Autowired
@@ -33,7 +33,7 @@ public class ITUserServiceCreateValidation {
         final Exception  exception;
 
         data = new DtoUser();
-        data.setUsername("User");
+        data.setUsername("admin");
         data.setEmail("email");
         data.setCredentialsExpired(false);
         data.setEnabled(true);
@@ -45,116 +45,6 @@ public class ITUserServiceCreateValidation {
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.username.existing", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the credentials expired flag is not received")
-    public void testCreate_MissingCredentialsExpired() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
-
-        data = new DtoUser();
-        data.setUsername("User2");
-        data.setEmail("email");
-        data.setCredentialsExpired(null);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
-
-        executable = () -> service.create(data);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.username.existing", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the enabled flag is not received")
-    public void testCreate_MissingEnabled() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
-
-        data = new DtoUser();
-        data.setUsername("User2");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(null);
-        data.setExpired(false);
-        data.setLocked(false);
-
-        executable = () -> service.create(data);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.username.existing", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the expired flag is not received")
-    public void testCreate_MissingExpired() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
-
-        data = new DtoUser();
-        data.setUsername("User2");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(null);
-        data.setLocked(false);
-
-        executable = () -> service.create(data);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.username.existing", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the locked flag is not received")
-    public void testCreate_MissingLocked() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
-
-        data = new DtoUser();
-        data.setUsername("User2");
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(null);
-
-        executable = () -> service.create(data);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.username.existing", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the username is not received")
-    public void testCreate_MissingUsername() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
-
-        data = new DtoUser();
-        data.setUsername(null);
-        data.setEmail("email");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
-
-        executable = () -> service.create(data);
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.username.missing", exception.getMessage());
     }
 
 }
