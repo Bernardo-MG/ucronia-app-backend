@@ -17,7 +17,6 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Role service - add privileges validation")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
 public class ITRoleServiceAddPrivilegesValidation {
 
     @Autowired
@@ -29,7 +28,8 @@ public class ITRoleServiceAddPrivilegesValidation {
 
     @Test
     @DisplayName("Throws an exception when the privilege doesn't exist")
-    public void testDelete_NotExistingPrivilege() {
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
+    public void testAddPrivileges_NotExistingPrivilege() {
         final Collection<Long> privileges;
         final Executable       executable;
         final Exception        exception;
@@ -41,12 +41,13 @@ public class ITRoleServiceAddPrivilegesValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.privilege.notExisting", exception.getMessage());
+        Assertions.assertEquals("error.privilege.id.notExisting", exception.getMessage());
     }
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testDelete_NotExistingRole() {
+    @Sql({ "/db/queries/security/privilege/multiple.sql" })
+    public void testAddPrivileges_NotExistingRole() {
         final Collection<Long> privileges;
         final Executable       executable;
         final Exception        exception;
@@ -54,11 +55,11 @@ public class ITRoleServiceAddPrivilegesValidation {
         privileges = new ArrayList<>();
         privileges.add(1L);
 
-        executable = () -> service.addPrivileges(-1l, privileges);
+        executable = () -> service.addPrivileges(1l, privileges);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.notExisting", exception.getMessage());
+        Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }
 
 }

@@ -55,7 +55,7 @@ public class ITUserServiceDeleteValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.notExisting", exception.getMessage());
+        Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }
 
 }

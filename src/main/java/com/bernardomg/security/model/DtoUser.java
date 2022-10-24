@@ -9,7 +9,7 @@ public final class DtoUser implements User {
     /**
      * User expired flag.
      */
-    private Boolean credentialsExpired = false;
+    private Boolean credentialsExpired;
 
     /**
      * User email.
@@ -19,12 +19,12 @@ public final class DtoUser implements User {
     /**
      * User enabled flag.
      */
-    private Boolean enabled            = true;
+    private Boolean enabled;
 
     /**
      * User expired flag.
      */
-    private Boolean expired            = false;
+    private Boolean expired;
 
     /**
      * User id.
@@ -34,7 +34,7 @@ public final class DtoUser implements User {
     /**
      * User locked flag.
      */
-    private Boolean locked             = false;
+    private Boolean locked;
 
     /**
      * User name.

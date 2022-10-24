@@ -47,6 +47,8 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Phone and identifier should be unique or empty
 
         entity = toEntity(member);
+        entity.setId(null);
+
         created = repository.save(entity);
 
         return toDto(created);

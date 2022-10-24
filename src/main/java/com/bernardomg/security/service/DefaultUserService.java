@@ -66,6 +66,8 @@ public final class DefaultUserService implements UserService {
         final PersistentUser created;
 
         entity = toEntity(user);
+        entity.setId(null);
+
         created = repository.save(entity);
 
         return toDto(created);

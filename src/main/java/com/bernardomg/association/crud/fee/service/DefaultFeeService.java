@@ -51,8 +51,10 @@ public final class DefaultFeeService implements FeeService {
         validator.validate(month);
 
         entity = toEntity(month);
+        entity.setId(null);
 
         created = repository.save(entity);
+
         return toDto(created);
     }
 

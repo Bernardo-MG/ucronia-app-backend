@@ -56,7 +56,7 @@ public class ITRoleServiceDeleteValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.notExisting", exception.getMessage());
+        Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }
 
     @Test

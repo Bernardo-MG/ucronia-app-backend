@@ -38,7 +38,7 @@ import com.bernardomg.security.persistence.repository.RoleRepository;
 import com.bernardomg.security.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - update with no privileges")
+@DisplayName("Role service - update")
 @Sql({ "/db/queries/security/role/single.sql" })
 public class ITRoleServiceUpdate {
 
@@ -62,18 +62,6 @@ public class ITRoleServiceUpdate {
         service.update(1L, data);
 
         Assertions.assertEquals(1L, repository.count());
-    }
-
-    @Test
-    @DisplayName("When updating a not existing entity a new one is added")
-    public void testUpdate_NotExisting_AddsEntity() {
-        final Role data;
-
-        data = getRoleWithNoPrivileges();
-
-        service.update(10L, data);
-
-        Assertions.assertEquals(2L, repository.count());
     }
 
     @Test

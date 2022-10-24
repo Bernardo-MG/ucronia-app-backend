@@ -30,7 +30,7 @@ public class ITUserServiceAddRolesValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testDelete_NotExistingRole() {
+    public void testAddRoles_NotExistingRole() {
         final Collection<Long> roles;
         final Executable       executable;
         final Exception        exception;
@@ -47,7 +47,7 @@ public class ITUserServiceAddRolesValidation {
 
     @Test
     @DisplayName("Throws an exception when the user doesn't exist")
-    public void testDelete_NotExistingUser() {
+    public void testAddRoles_NotExistingUser() {
         final Collection<Long> roles;
         final Executable       executable;
         final Exception        exception;

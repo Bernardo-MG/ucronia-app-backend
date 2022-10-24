@@ -41,7 +41,10 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction created;
 
         entity = toEntity(transaction);
+        entity.setId(null);
+
         created = repository.save(entity);
+
         return toDto(created);
     }
 
