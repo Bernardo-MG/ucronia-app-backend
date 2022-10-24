@@ -82,6 +82,14 @@ public final class DefaultUserService implements UserService {
         final Iterable<Long>                  ids;
         final List<PersistentUserRoles>       created;
         final List<PersistentRole>            addedRoles;
+        final PersistentUserRoles             relSample;
+        final Collection<PersistentUserRoles> rels;
+
+        // Removes exiting relationships
+        relSample = new PersistentUserRoles();
+        relSample.setUserId(id);
+        rels = userRolesRepository.findAll(Example.of(relSample));
+        userRolesRepository.deleteAll(rels);
 
         // Build relationship entities
         relationships = StreamSupport.stream(roles.spliterator(), false)

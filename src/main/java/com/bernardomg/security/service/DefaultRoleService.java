@@ -2,7 +2,6 @@
 package com.bernardomg.security.service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -91,13 +90,21 @@ public final class DefaultRoleService implements RoleService {
     public final Iterable<? extends Privilege> setPrivileges(final Long id, final Iterable<Long> privileges) {
         final Collection<PersistentRolePrivileges> relationships;
         final Iterable<Long>                       ids;
-        final List<PersistentRolePrivileges>       created;
-        final List<PersistentPrivilege>            addedPrivileges;
+        final Collection<PersistentRolePrivileges> created;
+        final Collection<PersistentPrivilege>      addedPrivileges;
+        final PersistentRolePrivileges             relSample;
+        final Collection<PersistentRolePrivileges> rels;
 
         updateValidator.validate(id);
 
         StreamSupport.stream(privileges.spliterator(), false)
             .forEach(p -> rolePrivilegeUpdateValidator.validate(p));
+
+        // Removes exiting relationships
+        relSample = new PersistentRolePrivileges();
+        relSample.setRoleId(id);
+        rels = rolePrivilegesRepository.findAll(Example.of(relSample));
+        rolePrivilegesRepository.deleteAll(rels);
 
         // Build relationship entities
         relationships = StreamSupport.stream(privileges.spliterator(), false)
