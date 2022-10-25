@@ -59,7 +59,7 @@ public class ITRoleServiceUpdate {
 
         data = getRoleWithNoPrivileges();
 
-        service.update(1L, data);
+        service.update(data);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -72,7 +72,7 @@ public class ITRoleServiceUpdate {
 
         data = getRoleWithNoPrivileges();
 
-        service.update(1L, data);
+        service.update(data);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -89,7 +89,7 @@ public class ITRoleServiceUpdate {
 
         data = getRoleWithNoPrivileges();
 
-        result = service.update(1L, data);
+        result = service.update(data);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Role", result.getName());
@@ -99,6 +99,7 @@ public class ITRoleServiceUpdate {
         final DtoRole role;
 
         role = new DtoRole();
+        role.setId(1L);
         role.setName("Role");
 
         return role;

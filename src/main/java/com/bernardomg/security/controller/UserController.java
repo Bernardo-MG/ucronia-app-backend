@@ -87,8 +87,10 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUpdateUserForm user) {
-        return service.update(id, user);
+    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUpdateUserForm form) {
+        form.setId(id);
+
+        return service.update(form);
     }
 
     @PutMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)

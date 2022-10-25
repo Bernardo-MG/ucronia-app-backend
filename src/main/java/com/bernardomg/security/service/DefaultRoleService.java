@@ -62,7 +62,12 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Boolean delete(final Long id) {
-        deleteValidator.validate(id);
+        final DtoRole role;
+
+        role = new DtoRole();
+        role.setId(id);
+
+        deleteValidator.validate(role);
 
         repository.deleteById(id);
 
@@ -99,8 +104,12 @@ public final class DefaultRoleService implements RoleService {
         final Collection<PersistentPrivilege>      addedPrivileges;
         final PersistentRolePrivileges             relSample;
         final Collection<PersistentRolePrivileges> rels;
+        final DtoRole                              role;
 
-        updateValidator.validate(id);
+        role = new DtoRole();
+        role.setId(id);
+
+        updateValidator.validate(role);
 
         StreamSupport.stream(privileges.spliterator(), false)
             .forEach(p -> rolePrivilegeUpdateValidator.validate(p));
@@ -131,14 +140,13 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role update(final Long id, final Role role) {
+    public final Role update(final Role role) {
         final PersistentRole entity;
         final PersistentRole created;
 
-        updateValidator.validate(id);
+        updateValidator.validate(role);
 
         entity = toEntity(role);
-        entity.setId(id);
 
         created = repository.save(entity);
 

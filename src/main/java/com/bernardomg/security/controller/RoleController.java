@@ -88,7 +88,9 @@ public class RoleController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUpdateRoleForm form) {
-        return service.update(id, form);
+        form.setId(id);
+
+        return service.update(form);
     }
 
     @PutMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)

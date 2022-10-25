@@ -56,7 +56,7 @@ public class ITRoleServiceUpdateValidation {
 
         data = getRoleWithNoPrivileges();
 
-        executable = () -> service.update(1L, data);
+        executable = () -> service.update(data);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -67,6 +67,7 @@ public class ITRoleServiceUpdateValidation {
         final DtoRole role;
 
         role = new DtoRole();
+        role.setId(1L);
         role.setName("Role");
 
         return role;

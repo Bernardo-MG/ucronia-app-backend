@@ -71,12 +71,10 @@ public interface RoleService {
     /**
      * Updates the role for the received id with the received data.
      *
-     * @param id
-     *            id of the role to update
      * @param role
      *            new data for the role
      * @return the updated role
      */
-    public Role update(final Long id, final Role role);
+    public Role update(final Role role);
 
 }

@@ -63,7 +63,12 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean delete(final Long id) {
-        deleteValidator.validate(id);
+        final DtoUser user;
+
+        user = new DtoUser();
+        user.setId(id);
+
+        deleteValidator.validate(user);
 
         repository.deleteById(id);
 
@@ -100,8 +105,12 @@ public final class DefaultUserService implements UserService {
         final List<PersistentRole>            addedRoles;
         final PersistentUserRoles             relSample;
         final Collection<PersistentUserRoles> rels;
+        final DtoUser                         user;
 
-        userUpdateValidator.validate(id);
+        user = new DtoUser();
+        user.setId(id);
+
+        userUpdateValidator.validate(user);
 
         StreamSupport.stream(roles.spliterator(), false)
             .forEach(p -> roleUpdateValidator.validate(p));
@@ -132,14 +141,13 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User update(final Long id, final User user) {
+    public final User update(final User user) {
         final PersistentUser entity;
         final PersistentUser created;
 
-        userUpdateValidator.validate(id);
+        userUpdateValidator.validate(user);
 
         entity = toEntity(user);
-        entity.setId(id);
 
         created = repository.save(entity);
 
