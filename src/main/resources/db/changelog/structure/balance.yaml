@@ -27,10 +27,10 @@ databaseChangeLog:
                   defaultValueNumeric: 0
               - column:
                   name: date
-                  type: date
+                  type: datetime
                   constraints:
                     nullable: false
-                  defaultValueDate: now()
+                  defaultValueComputed: CURRENT_TIMESTAMP
         - createTable:
             tableName: fees
             columns:
@@ -49,10 +49,10 @@ databaseChangeLog:
                     references: members(id)
               - column:
                   name: date
-                  type: date
+                  type: datetime
                   constraints:
                     nullable: false
-                  defaultValueDate: now()
+                  defaultValueComputed: CURRENT_TIMESTAMP
               - column:
                   name: paid
                   type: boolean
