@@ -79,8 +79,8 @@ public class ITUserServiceUpdate {
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("New name", entity.getUsername());
-        Assertions.assertEquals("email", entity.getEmail());
+        Assertions.assertEquals("admin", entity.getUsername());
+        Assertions.assertEquals("New email", entity.getEmail());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
         Assertions.assertEquals(false, entity.getExpired());
@@ -98,8 +98,8 @@ public class ITUserServiceUpdate {
         result = service.update(data);
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("New name", result.getUsername());
-        Assertions.assertEquals("email", result.getEmail());
+        Assertions.assertEquals("admin", result.getUsername());
+        Assertions.assertEquals("New email", result.getEmail());
         Assertions.assertEquals(false, result.getCredentialsExpired());
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());
@@ -111,8 +111,8 @@ public class ITUserServiceUpdate {
 
         user = new DtoUser();
         user.setId(1L);
-        user.setUsername("New name");
-        user.setEmail("email");
+        user.setUsername("admin");
+        user.setEmail("new email");
         user.setCredentialsExpired(false);
         user.setEnabled(true);
         user.setExpired(false);

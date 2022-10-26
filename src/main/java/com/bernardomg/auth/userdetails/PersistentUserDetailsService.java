@@ -108,7 +108,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         user = userRepo.findOneByUsername(username.toLowerCase(Locale.getDefault()));
 
         if (!user.isPresent()) {
-            log.warn("Username {} not found in DB", username);
+            log.error("Username {} not found in DB", username);
             throw new UsernameNotFoundException(username);
         }
 
@@ -116,7 +116,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
             .getId());
 
         if (authorities.isEmpty()) {
-            log.warn("Username {} has no authorities", username);
+            log.error("Username {} has no authorities", username);
             throw new UsernameNotFoundException(username);
         }
 
@@ -124,10 +124,10 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         log.debug("User {} exists", username);
         log.debug("Authorities for {}: {}", username, details.getAuthorities());
-        log.debug("User {} is enabled: {}", username, details.isEnabled());
-        log.debug("User {} is non expired: {}", username, details.isAccountNonExpired());
-        log.debug("User {} is non locked: {}", username, details.isAccountNonLocked());
-        log.debug("User {} has credentials non expired: {}", username, details.isCredentialsNonExpired());
+        log.debug("User {} enabled: {}", username, details.isEnabled());
+        log.debug("User {} non expired: {}", username, details.isAccountNonExpired());
+        log.debug("User {} non locked: {}", username, details.isAccountNonLocked());
+        log.debug("User {} credentials non expired: {}", username, details.isCredentialsNonExpired());
 
         return details;
     }
