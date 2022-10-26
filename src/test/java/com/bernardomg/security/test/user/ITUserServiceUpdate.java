@@ -60,7 +60,7 @@ public class ITUserServiceUpdate {
 
         data = getUser();
 
-        service.update(1L, data);
+        service.update(data);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -73,7 +73,7 @@ public class ITUserServiceUpdate {
 
         data = getUser();
 
-        service.update(1L, data);
+        service.update(data);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -95,7 +95,7 @@ public class ITUserServiceUpdate {
 
         data = getUser();
 
-        result = service.update(1L, data);
+        result = service.update(data);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("New name", result.getUsername());
@@ -110,6 +110,7 @@ public class ITUserServiceUpdate {
         final DtoUser user;
 
         user = new DtoUser();
+        user.setId(1L);
         user.setUsername("New name");
         user.setEmail("email");
         user.setCredentialsExpired(false);

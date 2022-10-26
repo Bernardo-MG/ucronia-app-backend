@@ -33,7 +33,7 @@ public class ITUserServiceUpdateValidation {
 
         data = getUser();
 
-        executable = () -> service.update(1L, data);
+        executable = () -> service.update(data);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -44,6 +44,7 @@ public class ITUserServiceUpdateValidation {
         final DtoUser user;
 
         user = new DtoUser();
+        user.setId(1L);
         user.setUsername("New name");
         user.setEmail("email");
         user.setCredentialsExpired(false);
