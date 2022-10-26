@@ -80,7 +80,7 @@ public class ITUserServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("New email", entity.getEmail());
+        Assertions.assertEquals("new email", entity.getEmail());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
         Assertions.assertEquals(false, entity.getExpired());
@@ -99,7 +99,7 @@ public class ITUserServiceUpdate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("New email", result.getEmail());
+        Assertions.assertEquals("new email", result.getEmail());
         Assertions.assertEquals(false, result.getCredentialsExpired());
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());

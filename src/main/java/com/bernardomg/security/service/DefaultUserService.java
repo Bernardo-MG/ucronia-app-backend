@@ -21,6 +21,7 @@ import com.bernardomg.security.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.persistence.repository.RoleRepository;
 import com.bernardomg.security.persistence.repository.UserRepository;
 import com.bernardomg.security.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.validation.user.RoleInUserUpdateValidator;
 import com.bernardomg.security.validation.user.UserCreateValidator;
 import com.bernardomg.security.validation.user.UserDeleteValidator;
 import com.bernardomg.security.validation.user.UserRoleUpdateValidator;
@@ -32,19 +33,21 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultUserService implements UserService {
 
-    private final UserDeleteValidator     deleteValidator;
+    private final UserDeleteValidator       deleteValidator;
 
-    private final UserRepository          repository;
+    private final UserRepository            repository;
 
-    private final RoleRepository          roleRepository;
+    private final RoleRepository            roleRepository;
 
-    private final UserRoleUpdateValidator roleUpdateValidator;
+    private final RoleInUserUpdateValidator roleUpdateValidator;
 
-    private final UserCreateValidator     userCreateValidator;
+    private final UserCreateValidator       userCreateValidator;
 
-    private final UserRolesRepository     userRolesRepository;
+    private final UserRolesRepository       userRolesRepository;
 
-    private final UserUpdateValidator     userUpdateValidator;
+    private final UserRoleUpdateValidator   userRoleUpdateValidator;
+
+    private final UserUpdateValidator       userUpdateValidator;
 
     @Override
     public final User create(final User user) {
@@ -110,7 +113,7 @@ public final class DefaultUserService implements UserService {
         user = new DtoUser();
         user.setId(id);
 
-        userUpdateValidator.validate(user);
+        userRoleUpdateValidator.validate(user);
 
         StreamSupport.stream(roles.spliterator(), false)
             .forEach(p -> roleUpdateValidator.validate(p));

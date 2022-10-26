@@ -16,8 +16,6 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("User service - add roles validation")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
 public class ITUserServiceUpdateValidation {
 
     @Autowired
@@ -29,6 +27,8 @@ public class ITUserServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when changing the username")
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
     public void testUpdate_ChangeUsername() {
         final Executable executable;
         final Exception  exception;
@@ -65,7 +65,7 @@ public class ITUserServiceUpdateValidation {
 
         user = new DtoUser();
         user.setId(1L);
-        user.setUsername("New name");
+        user.setUsername("admin");
         user.setEmail("email");
         user.setCredentialsExpired(false);
         user.setEnabled(true);
