@@ -17,7 +17,7 @@ public final class DefaultRegisterUserService implements RegisterUserService {
     private final UserRepository repository;
 
     @Override
-    public final User registerUser(final String username, final String email, final String user) {
+    public final User registerUser(final String username, final String email, final String password) {
         final PersistentUser entity;
         final PersistentUser created;
 
@@ -28,7 +28,7 @@ public final class DefaultRegisterUserService implements RegisterUserService {
         entity.setUsername(username);
         entity.setEmail(email);
         // TODO: Encode
-        entity.setPassword(user);
+        entity.setPassword(password);
         entity.setCredentialsExpired(false);
         entity.setEnabled(true);
         entity.setExpired(false);
