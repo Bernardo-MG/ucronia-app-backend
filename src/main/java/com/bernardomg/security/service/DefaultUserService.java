@@ -152,8 +152,9 @@ public final class DefaultUserService implements UserService {
         userUpdateValidator.validate(user);
 
         entity = toEntity(user);
-        
-        old = repository.findById(user.getId()).get();
+
+        old = repository.findById(user.getId())
+            .get();
         entity.setPassword(old.getPassword());
 
         created = repository.save(entity);

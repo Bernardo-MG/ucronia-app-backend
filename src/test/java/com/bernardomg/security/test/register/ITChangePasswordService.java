@@ -38,13 +38,23 @@ public class ITChangePasswordService {
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("user", entity.getUsername());
+        Assertions.assertEquals("admin", entity.getUsername());
         Assertions.assertEquals("1", entity.getPassword());
         Assertions.assertEquals("email", entity.getEmail());
         Assertions.assertFalse(entity.getCredentialsExpired());
         Assertions.assertTrue(entity.getEnabled());
         Assertions.assertFalse(entity.getExpired());
         Assertions.assertFalse(entity.getLocked());
+    }
+
+    @Test
+    @DisplayName("Returns the expected flag")
+    public void testChangePassword_ReturnedData() {
+        final Boolean changed;
+
+        changed = service.changePassword("admin", "1");
+
+        Assertions.assertTrue(changed);
     }
 
 }
