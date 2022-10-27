@@ -13,7 +13,7 @@ import com.bernardomg.security.service.RegisterUserService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("User service - create validation")
+@DisplayName("Register user - validation")
 @Sql({ "/db/queries/security/user/single.sql" })
 public class ITRegisterUserServiceValidation {
 

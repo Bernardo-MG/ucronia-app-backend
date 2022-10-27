@@ -7,6 +7,7 @@ import com.bernardomg.security.model.DtoUser;
 import com.bernardomg.security.model.User;
 import com.bernardomg.security.persistence.model.PersistentUser;
 import com.bernardomg.security.persistence.repository.UserRepository;
+import com.bernardomg.security.validation.register.RegisterUserValidator;
 
 import lombok.AllArgsConstructor;
 
@@ -14,15 +15,21 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultRegisterUserService implements RegisterUserService {
 
-    private final UserRepository repository;
+    private final UserRepository        repository;
+
+    private final RegisterUserValidator validator;
 
     @Override
     public final User registerUser(final String username, final String email, final String password) {
         final PersistentUser entity;
         final PersistentUser created;
+        final DtoUser        user;
 
-        // TODO: Validate
-        // userCreateValidator.validate(user);
+        user = new DtoUser();
+        user.setUsername(username);
+        user.setEmail(email);
+
+        validator.validate(user);
 
         entity = new PersistentUser();
         entity.setUsername(username);

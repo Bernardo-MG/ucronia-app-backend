@@ -13,7 +13,7 @@ import com.bernardomg.security.service.ChangePasswordService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("User service - create validation")
+@DisplayName("Change password service - validation")
 @Sql({ "/db/queries/security/user/single.sql" })
 public class ITChangePasswordServiceValidation {
 
