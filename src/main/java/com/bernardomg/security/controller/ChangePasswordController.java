@@ -27,7 +27,7 @@ package com.bernardomg.security.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,13 +38,13 @@ import com.bernardomg.security.service.ChangePasswordService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/security/register")
+@RequestMapping("/security/password")
 @AllArgsConstructor
 public class ChangePasswordController {
 
     private final ChangePasswordService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean create(@Valid @RequestBody final DtoChangePasswordForm form) {
         return service.changePassword(form.getUsername(), form.getPassword());
     }
