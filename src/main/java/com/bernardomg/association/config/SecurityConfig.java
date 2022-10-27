@@ -87,6 +87,7 @@ public class SecurityConfig {
 
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
+        // TODO: Shouldn't be using a seed?
         return new BCryptPasswordEncoder();
     }
 

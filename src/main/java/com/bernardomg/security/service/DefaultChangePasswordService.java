@@ -13,21 +13,21 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultChangePasswordService implements ChangePasswordService {
 
-    private final UserRepository repository;
-    
     private final PasswordEncoder passwordEncoder;
+
+    private final UserRepository  repository;
 
     @Override
     public final Boolean changePassword(final String username, final String password) {
         final PersistentUser entity;
-        final String encoded;
+        final String         encoded;
 
         // TODO: validate
         // userUpdateValidator.validate(user);
 
         entity = repository.findOneByUsername(username)
             .get();
-        
+
         encoded = passwordEncoder.encode(password);
         entity.setPassword(encoded);
 
