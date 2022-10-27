@@ -39,7 +39,7 @@ public class ITChangePasswordService {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("1", entity.getPassword());
+        Assertions.assertEquals("$2a$10$5F/6VI00m8mcAJ0c/uHdv.8LyFoNmeMp7PfYmSVhH4bKkU8/6jfSu", entity.getPassword());
         Assertions.assertEquals("email", entity.getEmail());
         Assertions.assertFalse(entity.getCredentialsExpired());
         Assertions.assertTrue(entity.getEnabled());

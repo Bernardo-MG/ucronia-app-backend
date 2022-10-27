@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.persistence.model.PersistentUser;
@@ -13,19 +14,22 @@ import lombok.AllArgsConstructor;
 public final class DefaultChangePasswordService implements ChangePasswordService {
 
     private final UserRepository repository;
+    
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public final Boolean changePassword(final String username, final String password) {
         final PersistentUser entity;
+        final String encoded;
 
-        // TODO: update
+        // TODO: validate
         // userUpdateValidator.validate(user);
 
         entity = repository.findOneByUsername(username)
             .get();
         
-        // TODO: Encode
-        entity.setPassword(password);
+        encoded = passwordEncoder.encode(password);
+        entity.setPassword(encoded);
 
         repository.save(entity);
 
