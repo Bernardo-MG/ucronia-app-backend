@@ -44,7 +44,7 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Doesn't create over existing ids")
     @Sql({ "/db/queries/security/role/single.sql" })
-    public void testCreate_existing() {
+    public void testCreate_Existing() {
         final DtoRole data;
         final Role    result;
 
