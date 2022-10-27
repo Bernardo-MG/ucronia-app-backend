@@ -22,52 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.security.controller;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import javax.validation.Valid;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.validation.exception.ValidationException;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.security.controller.form.DtoRegisterUserForm;
+import com.bernardomg.security.model.User;
+import com.bernardomg.security.service.RegisterUserService;
 
-@Slf4j
-public final class RuleValidator<T> implements Validator<T> {
+import lombok.AllArgsConstructor;
 
-    private final Collection<ValidationRule<T>> rules;
+@RestController
+@RequestMapping("/security/register")
+@AllArgsConstructor
+public class RegisterUserController {
 
-    public RuleValidator(final Collection<ValidationRule<T>> rls) {
-        super();
+    private final RegisterUserService service;
 
-        this.rules = rls;
-    }
-
-    public RuleValidator(final ValidationRule<T> rule) {
-        super();
-
-        this.rules = Arrays.asList(rule);
-    }
-
-    @Override
-    public final void validate(final T obj) {
-        final Collection<Failure> errors;
-
-        errors = rules.stream()
-            .peek(r -> log.debug("Applying validation rule {}", r))
-            .map((r) -> r.test(obj))
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-
-        log.debug("Applied rules: {}", rules);
-
-        if (!errors.isEmpty()) {
-            log.debug("Got errors: {}", errors);
-            throw new ValidationException(errors);
-        }
-
-        log.debug("No errors");
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public User create(@Valid @RequestBody final DtoRegisterUserForm form) {
+        return service.registerUser(form.getUsername(), form.getEmail(), form.getPassword());
     }
 
 }

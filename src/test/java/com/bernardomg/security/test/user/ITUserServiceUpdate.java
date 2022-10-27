@@ -81,6 +81,7 @@ public class ITUserServiceUpdate {
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("admin", entity.getUsername());
         Assertions.assertEquals("new email", entity.getEmail());
+        Assertions.assertEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", entity.getPassword());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
         Assertions.assertEquals(false, entity.getExpired());
