@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.register.validation.rule;
+package com.bernardomg.security.password.validation.rule;
 
 import java.util.ArrayList;
 import java.util.Collection;

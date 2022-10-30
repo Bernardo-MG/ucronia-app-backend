@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.register.validation.ChangePasswordPassValidator;
-import com.bernardomg.security.register.validation.ChangePasswordValidator;
+import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
+import com.bernardomg.security.password.validation.ChangePasswordValidator;
 
 import lombok.AllArgsConstructor;
 

@@ -1,11 +1,11 @@
 
-package com.bernardomg.security.register.validation;
+package com.bernardomg.security.password.validation;
 
 import java.util.Arrays;
 
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.security.register.validation.rule.PasswordNotEmptyValidationRule;
+import com.bernardomg.security.password.validation.rule.PasswordNotEmptyValidationRule;
 import com.bernardomg.validation.RuleValidator;
 import com.bernardomg.validation.Validator;
 

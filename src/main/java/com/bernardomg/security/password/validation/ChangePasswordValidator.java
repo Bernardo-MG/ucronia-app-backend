@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.register.validation;
+package com.bernardomg.security.password.validation;
 
 import java.util.Arrays;
 
