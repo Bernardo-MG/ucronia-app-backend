@@ -46,8 +46,8 @@ import com.bernardomg.auth.login.validation.LoginValidator;
 import com.bernardomg.auth.property.JwtProperties;
 import com.bernardomg.auth.token.TokenProvider;
 import com.bernardomg.auth.userdetails.PersistentUserDetailsService;
-import com.bernardomg.security.persistence.repository.PrivilegeRepository;
-import com.bernardomg.security.persistence.repository.UserRepository;
+import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.persistence.repository.UserRepository;
 
 import io.jsonwebtoken.security.Keys;
 

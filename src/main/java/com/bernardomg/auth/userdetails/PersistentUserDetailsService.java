@@ -37,10 +37,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.persistence.model.PersistentPrivilege;
-import com.bernardomg.security.persistence.model.PersistentUser;
-import com.bernardomg.security.persistence.repository.PrivilegeRepository;
-import com.bernardomg.security.persistence.repository.UserRepository;
+import com.bernardomg.security.data.persistence.model.PersistentPrivilege;
+import com.bernardomg.security.data.persistence.model.PersistentUser;
+import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

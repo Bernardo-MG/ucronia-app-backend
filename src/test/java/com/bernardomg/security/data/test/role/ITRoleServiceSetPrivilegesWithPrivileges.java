@@ -1,0 +1,103 @@
+
+package com.bernardomg.security.data.test.role;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.collections4.IterableUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
+
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.service.RoleService;
+
+@IntegrationTest
+@DisplayName("Role service - set privileges - with privileges")
+@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/relationship/role_privilege.sql" })
+public class ITRoleServiceSetPrivilegesWithPrivileges {
+
+    @Autowired
+    private RoleService service;
+
+    public ITRoleServiceSetPrivilegesWithPrivileges() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Reading the role privileges after changing privileges returns them")
+    public void testSetPrivileges_Change_CallBack() {
+        final Collection<Long>              privileges;
+        final Iterable<? extends Privilege> result;
+        final Collection<String>            privilegeNames;
+
+        privileges = new ArrayList<>();
+        privileges.add(1L);
+
+        service.setPrivileges(1l, privileges);
+        result = service.getPrivileges(1l);
+
+        Assertions.assertEquals(1L, IterableUtils.size(result));
+
+        privilegeNames = StreamSupport.stream(result.spliterator(), false)
+            .map(Privilege::getName)
+            .collect(Collectors.toList());
+
+        Assertions.assertTrue(privilegeNames.contains("CREATE_DATA"));
+    }
+
+    @Test
+    @DisplayName("Adding a different privilege and returns the changed privileges")
+    public void testSetPrivileges_Change_ReturnedData() {
+        final Collection<Long>              privileges;
+        final Iterable<? extends Privilege> result;
+        final Collection<String>            privilegeNames;
+
+        privileges = new ArrayList<>();
+        privileges.add(1L);
+
+        result = service.setPrivileges(1l, privileges);
+
+        Assertions.assertEquals(1L, IterableUtils.size(result));
+
+        privilegeNames = StreamSupport.stream(result.spliterator(), false)
+            .map(Privilege::getName)
+            .collect(Collectors.toList());
+
+        Assertions.assertTrue(privilegeNames.contains("CREATE_DATA"));
+    }
+
+    @Test
+    @DisplayName("Reading the role privileges after adding empty privileges returns none")
+    public void testSetPrivileges_Empty_CallBack() {
+        final Collection<Long>              privileges;
+        final Iterable<? extends Privilege> result;
+
+        privileges = new ArrayList<>();
+
+        service.setPrivileges(1l, privileges);
+        result = service.getPrivileges(1l);
+
+        Assertions.assertEquals(0L, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Adding empty privileges returns not privileges")
+    public void testSetPrivileges_Empty_ReturnedData() {
+        final Collection<Long>              privileges;
+        final Iterable<? extends Privilege> result;
+
+        privileges = new ArrayList<>();
+
+        result = service.setPrivileges(1l, privileges);
+
+        Assertions.assertEquals(0L, IterableUtils.size(result));
+    }
+
+}
