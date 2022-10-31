@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
@@ -51,6 +52,22 @@ public class ITFeeServiceGetAllPagination {
 
     public ITFeeServiceGetAllPagination() {
         super();
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetAll_Page_Container() {
+        final Iterable<? extends MemberFee> result;
+        final MemberFee                     sample;
+        final Pageable                      pageable;
+
+        pageable = Pageable.ofSize(10);
+
+        sample = new DtoMemberFee();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
     @Test
@@ -117,6 +134,22 @@ public class ITFeeServiceGetAllPagination {
         result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns a page when the pagination is disabled")
+    public void testGetAll_Unpaged_Container() {
+        final Iterable<? extends MemberFee> result;
+        final MemberFee                     sample;
+        final Pageable                      pageable;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoMemberFee();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }

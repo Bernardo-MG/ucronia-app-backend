@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -128,22 +127,6 @@ public class ITFeeServiceGetAll {
         Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), result.getDate()
             .toInstant());
         Assertions.assertFalse(result.getPaid());
-    }
-
-    @Test
-    @DisplayName("Returns a page")
-    public void testGetAll_Page() {
-        final Iterable<? extends MemberFee> result;
-        final MemberFee                     sample;
-        final Pageable                      pageable;
-
-        pageable = Pageable.ofSize(10);
-
-        sample = new DtoMemberFee();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertInstanceOf(Page.class, result);
     }
 
 }
