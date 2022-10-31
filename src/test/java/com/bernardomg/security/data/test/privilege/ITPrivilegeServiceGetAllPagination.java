@@ -83,7 +83,7 @@ public class ITPrivilegeServiceGetAllPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("READ_DATA", result.getName());
+        Assertions.assertEquals("DELETE_DATA", result.getName());
     }
 
     @Test

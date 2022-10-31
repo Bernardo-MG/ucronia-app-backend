@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.data.model.DtoRole;
@@ -80,13 +82,17 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Iterable<? extends User> getAll(final User sample, final Pageable pageable) {
-        final PersistentUser entity;
+        final PersistentUser       entity;
+        final List<User>           dtos;
+        final Page<PersistentUser> read;
 
         entity = toEntity(sample);
-        return repository.findAll(Example.of(entity), pageable)
-            .stream()
+        read = repository.findAll(Example.of(entity), pageable);
+        dtos = read.stream()
             .map(this::toDto)
             .collect(Collectors.toList());
+
+        return PageableExecutionUtils.getPage(dtos, pageable, read::getTotalElements);
     }
 
     @Override
