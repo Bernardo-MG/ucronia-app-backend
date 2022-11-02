@@ -84,6 +84,8 @@ public class WebSecurityConfig {
             try {
                 c.antMatchers("/actuator/**", "/login/**")
                     .permitAll()
+                    .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/restapi/**")
+                    .permitAll()
                     .anyRequest()
                     .authenticated()
                     .and()
