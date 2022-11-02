@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -81,9 +80,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Iterable<? extends User> getAll(final User sample, final Pageable pageable) {
-        final PersistentUser       entity;
-        final List<User>           dtos;
-        final Page<PersistentUser> read;
+        final PersistentUser entity;
 
         entity = toEntity(sample);
 
