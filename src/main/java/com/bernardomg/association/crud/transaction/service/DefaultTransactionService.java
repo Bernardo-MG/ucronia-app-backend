@@ -1,15 +1,11 @@
 
 package com.bernardomg.association.crud.transaction.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -67,18 +63,12 @@ public final class DefaultTransactionService implements TransactionService {
     @Override
     @PreAuthorize("hasAuthority('READ_TRANSACTION')")
     public final Iterable<? extends Transaction> getAll(final Transaction sample, final Pageable pageable) {
-        final PersistentTransaction       entity;
-        final List<? extends Transaction> dtos;
-        final Page<PersistentTransaction> read;
+        final PersistentTransaction entity;
 
         entity = toEntity(sample);
 
-        read = repository.findAll(Example.of(entity), pageable);
-        dtos = read.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
-
-        return PageableExecutionUtils.getPage(dtos, pageable, read::getTotalElements);
+        return repository.findAll(Example.of(entity), pageable)
+            .map(this::toDto);
     }
 
     @Override

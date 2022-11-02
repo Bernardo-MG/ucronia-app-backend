@@ -2,15 +2,12 @@
 package com.bernardomg.security.data.service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.data.model.DtoPrivilege;
@@ -79,17 +76,12 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<? extends Role> getAll(final Role sample, final Pageable pageable) {
-        final PersistentRole       entity;
-        final List<Role>           dtos;
-        final Page<PersistentRole> read;
+        final PersistentRole entity;
 
         entity = toEntity(sample);
-        read = repository.findAll(Example.of(entity), pageable);
-        dtos = read.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
 
-        return PageableExecutionUtils.getPage(dtos, pageable, read::getTotalElements);
+        return repository.findAll(Example.of(entity), pageable)
+            .map(this::toDto);
     }
 
     @Override
