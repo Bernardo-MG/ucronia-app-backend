@@ -37,9 +37,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.bernardomg.auth.jwt.filter.JwtTokenFilter;
+import com.bernardomg.auth.jwt.configuration.JwtSecurityConfigurer;
+import com.bernardomg.auth.token.TokenValidator;
 
 /**
  * Web security configuration.
@@ -58,10 +58,10 @@ public class WebSecurityConfig {
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     /**
-     * Token filter.
+     * JWT token validator.
      */
     @Autowired
-    private JwtTokenFilter           tokenFilter;
+    private TokenValidator           tokenValidator;
 
     /**
      * User details service.
@@ -114,8 +114,8 @@ public class WebSecurityConfig {
 
         http.userDetailsService(userDetailsService);
 
-        // Add a filter to validate the tokens with every request
-        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        // Applies JWT configuration
+        http.apply(new JwtSecurityConfigurer(userDetailsService, tokenValidator));
 
         return http.build();
     }

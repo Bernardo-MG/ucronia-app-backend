@@ -23,7 +23,7 @@
  */
 
 /**
- * JWT token components.
+ * JWT configuration components.
  */
 
-package com.bernardomg.auth.jwt.token;
+package com.bernardomg.auth.jwt.configuration;
