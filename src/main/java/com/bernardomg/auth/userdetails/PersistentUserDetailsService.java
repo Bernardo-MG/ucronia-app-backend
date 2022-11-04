@@ -104,6 +104,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         final Optional<PersistentUser>               user;
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            details;
+        
+        // TODO: Test this
 
         user = userRepo.findOneByUsername(username.toLowerCase(Locale.getDefault()));
 
@@ -140,6 +142,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final Collection<GrantedAuthority> getAuthorities(final Long id) {
+        // TODO: Tests than no duplicate privilege is returned
+        // TODO: Increase isolation from the privilege repository
         return privilegeRepo.findForUser(id)
             .stream()
             .map(PersistentPrivilege::getName)
