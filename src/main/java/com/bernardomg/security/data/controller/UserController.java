@@ -82,8 +82,8 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Role> readRoles(@PathVariable("id") final Long id) {
-        return service.getRoles(id);
+    public Iterable<Role> readRoles(@PathVariable("id") final Long id, final Pageable pageable) {
+        return service.getRoles(id, pageable);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

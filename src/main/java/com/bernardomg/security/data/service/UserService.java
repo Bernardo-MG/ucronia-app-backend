@@ -53,9 +53,11 @@ public interface UserService {
      *
      * @param id
      *            user id
+     * @param pageable
+     *            pagination to apply
      * @return roles for the rules
      */
-    public Iterable<Role> getRoles(final Long id);
+    public Iterable<Role> getRoles(final Long id, final Pageable pageable);
 
     /**
      * Sets the roles to the user.

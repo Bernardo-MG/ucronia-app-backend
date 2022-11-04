@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -36,12 +37,15 @@ public class ITUserServiceSetRolesWithRoles {
         final Collection<Long>   roles;
         final Iterable<Role>     result;
         final Collection<String> roleNames;
+        final Pageable           pageable;
+
+        pageable = Pageable.unpaged();
 
         roles = new ArrayList<>();
         roles.add(1L);
 
         service.setRoles(1l, roles);
-        result = service.getRoles(1l);
+        result = service.getRoles(1l, pageable);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
@@ -78,11 +82,14 @@ public class ITUserServiceSetRolesWithRoles {
     public void testAddRoles_Empty_CallBack() {
         final Collection<Long> roles;
         final Iterable<Role>   result;
+        final Pageable         pageable;
+
+        pageable = Pageable.unpaged();
 
         roles = new ArrayList<>();
 
         service.setRoles(1l, roles);
-        result = service.getRoles(1l);
+        result = service.getRoles(1l, pageable);
 
         Assertions.assertEquals(0L, IterableUtils.size(result));
     }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -29,8 +30,11 @@ public class ITUserServiceGetRolesNoRoles {
     @DisplayName("Returns no roles for a user")
     public void testGetRoles() {
         final Iterable<Role> result;
+        final Pageable       pageable;
 
-        result = service.getRoles(1L);
+        pageable = Pageable.unpaged();
+
+        result = service.getRoles(1L, pageable);
 
         Assertions.assertEquals(0L, IterableUtils.size(result));
     }

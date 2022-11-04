@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -35,12 +36,15 @@ public class ITRoleServiceSetPrivileges {
         final Collection<Long>              privileges;
         final Iterable<? extends Privilege> result;
         final Collection<String>            privilegeNames;
+        final Pageable                      pageable;
+
+        pageable = Pageable.unpaged();
 
         privileges = new ArrayList<>();
         privileges.add(1L);
 
         service.setPrivileges(1l, privileges);
-        result = service.getPrivileges(1l);
+        result = service.getPrivileges(1l, pageable);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 

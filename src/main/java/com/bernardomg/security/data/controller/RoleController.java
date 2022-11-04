@@ -82,8 +82,8 @@ public class RoleController {
     }
 
     @GetMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Privilege> readPrivileges(@PathVariable("id") final Long id) {
-        return service.getPrivileges(id);
+    public Iterable<? extends Privilege> readPrivileges(@PathVariable("id") final Long id, final Pageable pageable) {
+        return service.getPrivileges(id, pageable);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

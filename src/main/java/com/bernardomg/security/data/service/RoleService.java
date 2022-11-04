@@ -53,9 +53,11 @@ public interface RoleService {
      *
      * @param id
      *            role id
+     * @param pageable
+     *            pagination to apply
      * @return privileges for the role
      */
-    public Iterable<? extends Privilege> getPrivileges(final Long id);
+    public Iterable<? extends Privilege> getPrivileges(final Long id, final Pageable pageable);
 
     /**
      * Sets the privileges for the role.

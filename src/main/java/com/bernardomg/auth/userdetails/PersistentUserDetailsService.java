@@ -104,7 +104,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         final Optional<PersistentUser>               user;
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            details;
-        
+
         // TODO: Test this
 
         user = userRepo.findOneByUsername(username.toLowerCase(Locale.getDefault()));
