@@ -92,7 +92,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<? extends Privilege> getPrivileges(final Long id, final Pageable pageable) {
-        return repository.findAllPrivileges(id);
+        return repository.findAllPrivileges(id, pageable);
     }
 
     @Override

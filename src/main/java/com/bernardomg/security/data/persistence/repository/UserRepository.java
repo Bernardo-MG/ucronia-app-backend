@@ -26,6 +26,8 @@ package com.bernardomg.security.data.persistence.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,7 +44,7 @@ import com.bernardomg.security.data.persistence.model.PersistentUser;
 public interface UserRepository extends JpaRepository<PersistentUser, Long> {
 
     @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Iterable<Role> findAllRoles(@Param("id") final Long id);
+    public Page<Role> findAllRoles(@Param("id") final Long id, final Pageable pageable);
 
     /**
      * Returns the user details for the received email.

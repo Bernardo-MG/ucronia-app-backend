@@ -51,18 +51,14 @@ public class ITUserServiceGetRolesPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final Iterator<Role> data;
-        final Role           result;
+        final Iterable<Role> data;
         final Pageable       pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        data = service.getRoles(1l, pageable)
-            .iterator();
+        data = service.getRoles(1l, pageable);
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getName());
+        Assertions.assertTrue(IterableUtils.isEmpty(data));
     }
 
     @Test

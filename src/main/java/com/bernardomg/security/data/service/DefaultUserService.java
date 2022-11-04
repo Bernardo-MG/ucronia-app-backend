@@ -96,7 +96,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Iterable<Role> getRoles(final Long id, final Pageable pageable) {
-        return repository.findAllRoles(id);
+        return repository.findAllRoles(id, pageable);
     }
 
     @Override

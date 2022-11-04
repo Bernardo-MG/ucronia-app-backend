@@ -44,7 +44,7 @@ public class ITRoleServiceGetPrivilegesPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getName());
+        Assertions.assertEquals("CREATE_DATA", result.getName());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ITRoleServiceGetPrivilegesPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getName());
+        Assertions.assertEquals("READ_DATA", result.getName());
     }
 
     @Test
