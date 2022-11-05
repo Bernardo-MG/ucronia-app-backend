@@ -1,23 +1,17 @@
 
 package com.bernardomg.security.data.service;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.data.model.DtoPrivilege;
 import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.model.Privilege;
 import com.bernardomg.security.data.model.Role;
-import com.bernardomg.security.data.persistence.model.PersistentPrivilege;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.model.PersistentRolePrivileges;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.RolePrivilegesRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.validation.role.RoleCreateValidator;
@@ -33,8 +27,6 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleDeleteValidator          deleteValidator;
 
-    private final PrivilegeRepository          privilegeRepository;
-
     private final RoleRepository               repository;
 
     private final RoleCreateValidator          roleCreateValidator;
@@ -44,6 +36,26 @@ public final class DefaultRoleService implements RoleService {
     private final RolePrivilegeUpdateValidator rolePrivilegeUpdateValidator;
 
     private final RoleUpdateValidator          updateValidator;
+
+    @Override
+    public final Boolean addPrivilege(final Long id, final Long privilege) {
+        final PersistentRolePrivileges relationship;
+        final DtoRole                  role;
+
+        role = new DtoRole();
+        role.setId(id);
+
+        updateValidator.validate(role);
+        rolePrivilegeUpdateValidator.validate(privilege);
+
+        // Build relationship entities
+        relationship = getRelationships(id, privilege);
+
+        // Persist relationship entities
+        rolePrivilegesRepository.save(relationship);
+
+        return true;
+    }
 
     @Override
     public final Role create(final Role role) {
@@ -96,46 +108,23 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<? extends Privilege> setPrivileges(final Long id, final Iterable<Long> privileges) {
-        final Collection<PersistentRolePrivileges> relationships;
-        final Iterable<Long>                       ids;
-        final Collection<PersistentRolePrivileges> created;
-        final Collection<PersistentPrivilege>      addedPrivileges;
-        final PersistentRolePrivileges             relSample;
-        final Collection<PersistentRolePrivileges> rels;
-        final DtoRole                              role;
+    public final Boolean removePrivilege(final Long id, final Long privilege) {
+        final PersistentRolePrivileges relationship;
+        final DtoRole                  role;
 
         role = new DtoRole();
         role.setId(id);
 
         updateValidator.validate(role);
-
-        StreamSupport.stream(privileges.spliterator(), false)
-            .forEach(p -> rolePrivilegeUpdateValidator.validate(p));
-
-        // Removes exiting relationships
-        relSample = new PersistentRolePrivileges();
-        relSample.setRoleId(id);
-        rels = rolePrivilegesRepository.findAll(Example.of(relSample));
-        rolePrivilegesRepository.deleteAll(rels);
+        rolePrivilegeUpdateValidator.validate(privilege);
 
         // Build relationship entities
-        relationships = StreamSupport.stream(privileges.spliterator(), false)
-            .map(p -> getRelationships(id, p))
-            .collect(Collectors.toList());
+        relationship = getRelationships(id, privilege);
 
-        // Persist relationship entities
-        created = rolePrivilegesRepository.saveAll(relationships);
+        // Delete relationship entities
+        rolePrivilegesRepository.delete(relationship);
 
-        // Get privileges added to the role
-        ids = created.stream()
-            .map(PersistentRolePrivileges::getPrivilegeId)
-            .collect(Collectors.toList());
-        addedPrivileges = privilegeRepository.findAllById(ids);
-
-        return addedPrivileges.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
+        return true;
     }
 
     @Override
@@ -160,16 +149,6 @@ public final class DefaultRoleService implements RoleService {
         relationship.setPrivilegeId(privilege);
 
         return relationship;
-    }
-
-    private final Privilege toDto(final PersistentPrivilege entity) {
-        final DtoPrivilege data;
-
-        data = new DtoPrivilege();
-        data.setId(entity.getId());
-        data.setName(entity.getName());
-
-        return data;
     }
 
     private final Role toDto(final PersistentRole entity) {

@@ -11,6 +11,17 @@ import com.bernardomg.security.data.model.Role;
 public interface RoleService {
 
     /**
+     * Adds a privilege to a role.
+     *
+     * @param id
+     *            role id
+     * @param privilege
+     *            privilege id to add
+     * @return {@code true} if it managed to add the privilege, {@code false} otherwise
+     */
+    public Boolean addPrivilege(final Long id, final Long privilege);
+
+    /**
      * Persists the received user.
      *
      * @param role
@@ -60,15 +71,15 @@ public interface RoleService {
     public Iterable<? extends Privilege> getPrivileges(final Long id, final Pageable pageable);
 
     /**
-     * Sets the privileges for the role.
+     * Removes a privilege from a role.
      *
      * @param id
-     *            role to set the privileges to
-     * @param privileges
-     *            privilege ids to set
-     * @return privileges set
+     *            role id
+     * @param privilege
+     *            privilege id to remove
+     * @return {@code true} if it managed to remove the privilege, {@code false} otherwise
      */
-    public Iterable<? extends Privilege> setPrivileges(final Long id, final Iterable<Long> privileges);
+    public Boolean removePrivilege(final Long id, final Long privilege);
 
     /**
      * Updates the role for the received id with the received data.

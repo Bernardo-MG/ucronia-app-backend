@@ -17,19 +17,19 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Role service - set privileges validation")
-public class ITRoleServiceSetPrivilegesValidation {
+public class ITRoleServiceAddPrivilegeValidation {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceSetPrivilegesValidation() {
+    public ITRoleServiceAddPrivilegeValidation() {
         super();
     }
 
     @Test
     @DisplayName("Throws an exception when the privilege doesn't exist")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
-    public void testSetPrivileges_NotExistingPrivilege() {
+    public void testAddPrivilege_NotExistingPrivilege() {
         final Collection<Long> privileges;
         final Executable       executable;
         final Exception        exception;
@@ -37,7 +37,7 @@ public class ITRoleServiceSetPrivilegesValidation {
         privileges = new ArrayList<>();
         privileges.add(-1L);
 
-        executable = () -> service.setPrivileges(1l, privileges);
+        executable = () -> service.addPrivilege(1l, -1l);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -47,7 +47,7 @@ public class ITRoleServiceSetPrivilegesValidation {
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     @Sql({ "/db/queries/security/privilege/multiple.sql" })
-    public void testSetPrivileges_NotExistingRole() {
+    public void testAddPrivilege_NotExistingRole() {
         final Collection<Long> privileges;
         final Executable       executable;
         final Exception        exception;
@@ -55,7 +55,7 @@ public class ITRoleServiceSetPrivilegesValidation {
         privileges = new ArrayList<>();
         privileges.add(1L);
 
-        executable = () -> service.setPrivileges(1l, privileges);
+        executable = () -> service.addPrivilege(1l, 1l);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

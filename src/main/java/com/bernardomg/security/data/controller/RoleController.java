@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.data.controller.model.DtoCreateRoleForm;
 import com.bernardomg.security.data.controller.model.DtoUpdateRoleForm;
-import com.bernardomg.security.data.model.DtoIds;
+import com.bernardomg.security.data.model.DtoId;
 import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.model.Privilege;
 import com.bernardomg.security.data.model.Role;
@@ -59,6 +59,11 @@ import lombok.AllArgsConstructor;
 public class RoleController {
 
     private final RoleService service;
+
+    @PutMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean addPrivilege(@PathVariable("id") final Long id, @Valid @RequestBody final DtoId privilege) {
+        return service.addPrivilege(id, privilege.getId());
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Role create(@Valid @RequestBody final DtoCreateRoleForm form) {
@@ -86,17 +91,16 @@ public class RoleController {
         return service.getPrivileges(id, pageable);
     }
 
+    @DeleteMapping(path = "/{id}/privilege/{privilege}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean removePrivilege(@PathVariable("id") final Long id, @PathVariable("privilege") final Long privilege) {
+        return service.removePrivilege(id, privilege);
+    }
+
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUpdateRoleForm form) {
         form.setId(id);
 
         return service.update(form);
-    }
-
-    @PutMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Privilege> updatePrivileges(@PathVariable("id") final Long id,
-            @Valid @RequestBody final DtoIds ids) {
-        return service.setPrivileges(id, ids.getIds());
     }
 
 }

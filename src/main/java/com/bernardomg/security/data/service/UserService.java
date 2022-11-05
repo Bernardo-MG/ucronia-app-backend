@@ -11,6 +11,17 @@ import com.bernardomg.security.data.model.User;
 public interface UserService {
 
     /**
+     * Adds a role to a user.
+     *
+     * @param id
+     *            user id
+     * @param role
+     *            role id to add
+     * @return {@code true} if it managed to add the role, {@code false} otherwise
+     */
+    public Boolean addRole(final Long id, final Long role);
+
+    /**
      * Persists the received user.
      *
      * @param user
@@ -60,15 +71,15 @@ public interface UserService {
     public Iterable<Role> getRoles(final Long id, final Pageable pageable);
 
     /**
-     * Sets the roles to the user.
+     * Removes a role from a user.
      *
      * @param id
-     *            user to set the roles to
-     * @param roles
-     *            role ids to set
-     * @return roles set
+     *            user id
+     * @param role
+     *            role id to remove
+     * @return {@code true} if it managed to remove the role, {@code false} otherwise
      */
-    public Iterable<? extends Role> setRoles(final Long id, final Iterable<Long> roles);
+    public Boolean removeRole(final Long id, final Long role);
 
     /**
      * Updates the user for the received id with the received data.

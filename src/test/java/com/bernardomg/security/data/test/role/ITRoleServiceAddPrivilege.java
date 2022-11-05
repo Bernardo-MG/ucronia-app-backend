@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.data.test.role;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -21,51 +20,26 @@ import com.bernardomg.security.data.service.RoleService;
 @IntegrationTest
 @DisplayName("Role service - set privileges")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
-public class ITRoleServiceSetPrivileges {
+public class ITRoleServiceAddPrivilege {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceSetPrivileges() {
+    public ITRoleServiceAddPrivilege() {
         super();
     }
 
     @Test
-    @DisplayName("Reading the role privileges after adding privileges returns them")
-    public void testSetPrivileges_CallBack() {
-        final Collection<Long>              privileges;
+    @DisplayName("Reading the role privileges after adding a privilege returns them")
+    public void testAddPrivilege_CallBack() {
         final Iterable<? extends Privilege> result;
         final Collection<String>            privilegeNames;
         final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        privileges = new ArrayList<>();
-        privileges.add(1L);
-
-        service.setPrivileges(1l, privileges);
+        service.addPrivilege(1l, 1l);
         result = service.getPrivileges(1l, pageable);
-
-        Assertions.assertEquals(1L, IterableUtils.size(result));
-
-        privilegeNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Privilege::getName)
-            .collect(Collectors.toList());
-
-        Assertions.assertTrue(privilegeNames.contains("CREATE_DATA"));
-    }
-
-    @Test
-    @DisplayName("Adds and returns privileges")
-    public void testSetPrivileges_ReturnedData() {
-        final Collection<Long>              privileges;
-        final Iterable<? extends Privilege> result;
-        final Collection<String>            privilegeNames;
-
-        privileges = new ArrayList<>();
-        privileges.add(1L);
-
-        result = service.setPrivileges(1l, privileges);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 

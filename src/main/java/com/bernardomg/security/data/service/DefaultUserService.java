@@ -1,24 +1,17 @@
 
 package com.bernardomg.security.data.service;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.User;
-import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.model.PersistentUserRoles;
-import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.data.persistence.repository.UserRolesRepository;
 import com.bernardomg.security.data.validation.user.RoleInUserUpdateValidator;
@@ -37,8 +30,6 @@ public final class DefaultUserService implements UserService {
 
     private final UserRepository            repository;
 
-    private final RoleRepository            roleRepository;
-
     private final RoleInUserUpdateValidator roleUpdateValidator;
 
     private final UserCreateValidator       userCreateValidator;
@@ -48,6 +39,25 @@ public final class DefaultUserService implements UserService {
     private final UserRoleUpdateValidator   userRoleUpdateValidator;
 
     private final UserUpdateValidator       userUpdateValidator;
+
+    @Override
+    public final Boolean addRole(final Long id, final Long role) {
+        final PersistentUserRoles relationship;
+        final DtoUser             user;
+
+        user = new DtoUser();
+        user.setId(id);
+
+        userRoleUpdateValidator.validate(user);
+        roleUpdateValidator.validate(role);
+
+        relationship = getRelationships(id, role);
+
+        // Persist relationship
+        userRolesRepository.save(relationship);
+
+        return true;
+    }
 
     @Override
     public final User create(final User user) {
@@ -100,46 +110,22 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Iterable<? extends Role> setRoles(final Long id, final Iterable<Long> roles) {
-        final Collection<PersistentUserRoles> relationships;
-        final Iterable<Long>                  ids;
-        final List<PersistentUserRoles>       created;
-        final List<PersistentRole>            addedRoles;
-        final PersistentUserRoles             relSample;
-        final Collection<PersistentUserRoles> rels;
-        final DtoUser                         user;
+    public final Boolean removeRole(final Long id, final Long role) {
+        final PersistentUserRoles relationship;
+        final DtoUser             user;
 
         user = new DtoUser();
         user.setId(id);
 
         userRoleUpdateValidator.validate(user);
+        roleUpdateValidator.validate(role);
 
-        StreamSupport.stream(roles.spliterator(), false)
-            .forEach(p -> roleUpdateValidator.validate(p));
+        relationship = getRelationships(id, role);
 
-        // Removes exiting relationships
-        relSample = new PersistentUserRoles();
-        relSample.setUserId(id);
-        rels = userRolesRepository.findAll(Example.of(relSample));
-        userRolesRepository.deleteAll(rels);
+        // Persist relationship
+        userRolesRepository.delete(relationship);
 
-        // Build relationship entities
-        relationships = StreamSupport.stream(roles.spliterator(), false)
-            .map(p -> getRelationships(id, p))
-            .collect(Collectors.toList());
-
-        // Persist relationship entities
-        created = userRolesRepository.saveAll(relationships);
-
-        // Get privileges added to the role
-        ids = created.stream()
-            .map(PersistentUserRoles::getRoleId)
-            .collect(Collectors.toList());
-        addedRoles = roleRepository.findAllById(ids);
-
-        return addedRoles.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
+        return true;
     }
 
     @Override
@@ -169,16 +155,6 @@ public final class DefaultUserService implements UserService {
         relationship.setRoleId(role);
 
         return relationship;
-    }
-
-    private final Role toDto(final PersistentRole entity) {
-        final DtoRole data;
-
-        data = new DtoRole();
-        data.setId(entity.getId());
-        data.setName(entity.getName());
-
-        return data;
     }
 
     private final User toDto(final PersistentUser entity) {
