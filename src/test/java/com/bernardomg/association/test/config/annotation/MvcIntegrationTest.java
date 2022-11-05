@@ -32,6 +32,7 @@ import java.lang.annotation.Target;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +40,11 @@ import com.bernardomg.Application;
 
 @SpringJUnitConfig
 @SpringBootTest(classes = Application.class)
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
 @Rollback
+@AllAuthoritiesMockUser
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MvcIntegrationTest {

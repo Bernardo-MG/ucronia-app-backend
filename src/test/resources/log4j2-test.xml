@@ -18,7 +18,7 @@
 
    <Loggers>
       <!-- Application log -->
-      <Logger name="com.bernardomg.association" level="off" additivity="false">
+      <Logger name="com.bernardomg.association" level="debug" additivity="false">
          <AppenderRef ref="console" />
       </Logger>
 

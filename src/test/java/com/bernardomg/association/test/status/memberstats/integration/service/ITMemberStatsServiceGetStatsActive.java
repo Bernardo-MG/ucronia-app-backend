@@ -35,7 +35,7 @@ import com.bernardomg.association.status.memberstats.service.MemberStatsService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Default member stats service - get stats - active member")
+@DisplayName("Member stats service - get stats - active member")
 @Sql({ "/db/queries/member/single.sql" })
 public class ITMemberStatsServiceGetStatsActive {
 

@@ -56,7 +56,7 @@ import lombok.AllArgsConstructor;
 public class FeeController {
 
     /**
-     * Example entity service.
+     * Fee service.
      */
     private final FeeService service;
 

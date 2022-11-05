@@ -55,7 +55,7 @@ import lombok.AllArgsConstructor;
 public class TransactionController {
 
     /**
-     * Example entity service.
+     * Transaction service.
      */
     private final TransactionService service;
 

@@ -55,6 +55,7 @@ public final class RuleValidator<T> implements Validator<T> {
         final Collection<Failure> errors;
 
         errors = rules.stream()
+            .peek(r -> log.debug("Applying validation rule {}", r))
             .map((r) -> r.test(obj))
             .flatMap(Collection::stream)
             .collect(Collectors.toList());

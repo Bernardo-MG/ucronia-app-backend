@@ -25,6 +25,7 @@
 package com.bernardomg.association.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -35,6 +36,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  */
 @Configuration
+@Profile("development")
 public class WebConfiguration implements WebMvcConfigurer {
 
     /**
@@ -46,7 +48,6 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
-        // TODO: Allow this only for a development profile
         registry.addMapping("/**")
             .allowedMethods("*")
             .allowedOrigins("http://localhost:4200");
