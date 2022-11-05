@@ -91,9 +91,9 @@ public class UserController {
         return service.getRoles(id, pageable);
     }
 
-    @DeleteMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean removeRole(@PathVariable("id") final Long id, @Valid @RequestBody final DtoId role) {
-        return service.removeRole(id, role.getId());
+    @DeleteMapping(path = "/{id}/role/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean removeRole(@PathVariable("id") final Long id, @PathVariable("role") final Long role) {
+        return service.removeRole(id, role);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
