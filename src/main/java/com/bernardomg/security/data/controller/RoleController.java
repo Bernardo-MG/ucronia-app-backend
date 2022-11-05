@@ -91,7 +91,7 @@ public class RoleController {
         return service.getPrivileges(id, pageable);
     }
 
-    @DeleteMapping(path = "/{id}/privilege/{privilege}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean removePrivilege(@PathVariable("id") final Long id, @Valid @RequestBody final DtoId privilege) {
         return service.removePrivilege(id, privilege.getId());
     }
