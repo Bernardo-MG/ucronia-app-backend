@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.data.model.DtoUser;
-import com.bernardomg.security.data.model.User;
-import com.bernardomg.security.data.service.UserService;
+import com.bernardomg.security.data.model.DtoPrivilege;
+import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.service.PrivilegeService;
 
 import lombok.AllArgsConstructor;
 
@@ -44,19 +44,19 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/permission")
+@RequestMapping("/security/privilege")
 @AllArgsConstructor
-public class PermissionController {
+public class PrivilegeController {
 
-    private final UserService service;
+    private final PrivilegeService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends User> readAll(final DtoUser user, final Pageable pageable) {
-        return service.getAll(user, pageable);
+    public Iterable<? extends Privilege> readAll(final DtoPrivilege privilege, final Pageable pageable) {
+        return service.getAll(privilege, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User readOne(@PathVariable("id") final Long id) {
+    public Privilege readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }

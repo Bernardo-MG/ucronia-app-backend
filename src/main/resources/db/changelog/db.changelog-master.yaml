@@ -27,7 +27,7 @@ databaseChangeLog:
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: data/auth/permissions.sql
+            path: data/auth/privileges.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
