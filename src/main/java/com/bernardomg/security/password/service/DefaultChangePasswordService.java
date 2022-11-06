@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.exception.InvalidPasswordException;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
 
@@ -27,7 +28,7 @@ public final class DefaultChangePasswordService implements ChangePasswordService
     private final ChangePasswordValidator     validator;
 
     @Override
-    public final Boolean changePassword(final String username, final String password) {
+    public final Boolean changePassword(final String username, final String password, final String newPassword) {
         final Optional<PersistentUser> read;
         final PersistentUser           entity;
         final String                   encoded;
@@ -37,9 +38,15 @@ public final class DefaultChangePasswordService implements ChangePasswordService
         user.setUsername(username);
 
         validator.validate(user);
-        passValidator.validate(password);
+        passValidator.validate(newPassword);
 
         read = repository.findOneByUsername(username);
+
+        if (!passwordEncoder.matches(password, read.get()
+            .getPassword())) {
+            throw new InvalidPasswordException();
+        }
+
         if (read.isPresent()) {
             entity = read.get();
 

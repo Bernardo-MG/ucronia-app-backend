@@ -32,7 +32,7 @@ public class ITChangePasswordService {
     public void testChangePassword_PersistedData() {
         final PersistentUser entity;
 
-        service.changePassword("admin", "1");
+        service.changePassword("admin", "1234", "1");
         entity = repository.findAll()
             .iterator()
             .next();
@@ -52,7 +52,7 @@ public class ITChangePasswordService {
     public void testChangePassword_ReturnedData() {
         final Boolean changed;
 
-        changed = service.changePassword("admin", "1");
+        changed = service.changePassword("admin", "1234", "1");
 
         Assertions.assertTrue(changed);
     }
