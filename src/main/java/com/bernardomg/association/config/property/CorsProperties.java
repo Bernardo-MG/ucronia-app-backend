@@ -22,43 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.association.config.property;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.bernardomg.association.config.property.CorsProperties;
+import lombok.Data;
 
-/**
- * Web configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Configuration
-public class WebConfiguration implements WebMvcConfigurer {
+@Data
+@ConfigurationProperties(prefix = "cors")
+public final class CorsProperties {
 
-    @Autowired
-    private CorsProperties corsProperties;
-
-    /**
-     * Default constructor.
-     */
-    public WebConfiguration() {
-        super();
-    }
-
-    @Override
-    public void addCorsMappings(final CorsRegistry registry) {
-        if ((corsProperties.getOrigins() != null) && (!corsProperties.getOrigins()
-            .isBlank())) {
-            registry.addMapping("/**")
-                .allowedMethods("*")
-                .allowedOrigins(corsProperties.getOrigins()
-                    .split(","));
-        }
-    }
+    private String origins;
 
 }
