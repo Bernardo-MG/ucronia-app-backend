@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.login.service;
+package com.bernardomg.security.login.service;
 
-import com.bernardomg.auth.login.model.ImmutableLoginDetails;
-import com.bernardomg.auth.login.model.LoginDetails;
-import com.bernardomg.auth.login.validation.LoginValidator;
 import com.bernardomg.auth.token.TokenProvider;
+import com.bernardomg.security.login.model.ImmutableLoginDetails;
+import com.bernardomg.security.login.model.LoginDetails;
+import com.bernardomg.security.login.validation.LoginValidator;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

@@ -22,41 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.login.model;
-
-import lombok.Data;
-import lombok.NonNull;
+package com.bernardomg.security.login.validation;
 
 /**
- * Immutable implementation of {@link LoginDetails}.
+ * Validator which checks if a user can log into the application.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-public final class ImmutableLoginDetails implements LoginDetails {
+public interface LoginValidator {
 
     /**
-     * Flag telling if the login was successful.
+     * Checks if the user is valid and allows to attempt a login.
+     *
+     * @param username
+     *            username to authenticate
+     * @param password
+     *            password to authenticate
+     * @return {@code true} if the user is valid, {@code false} otherwise
      */
-    private final Boolean logged;
-
-    /**
-     * Security token.
-     */
-    private final String  token;
-
-    /**
-     * Username of the user who attempted login.
-     */
-    private final String  username;
-
-    public ImmutableLoginDetails(@NonNull final String usnm, @NonNull final Boolean lgd, @NonNull final String tkn) {
-        super();
-
-        username = usnm;
-        logged = lgd;
-        token = tkn;
-    }
+    public Boolean isValid(final String username, final String password);
 
 }

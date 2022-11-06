@@ -22,35 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.login.model;
+package com.bernardomg.security.login.model;
+
+import lombok.Data;
 
 /**
- * Status after a login attempt.
+ * Contains all the data for a login attempt.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginDetails {
+@Data
+public class UserForm {
 
     /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
+     * User password.
      */
-    public Boolean getLogged();
+    private String password;
 
     /**
-     * Returns the security token.
-     *
-     * @return the security token
+     * User username.
      */
-    public String getToken();
-
-    /**
-     * Returns the username of the user who attempted login.
-     *
-     * @return the username
-     */
-    public String getUsername();
+    private String username;
 
 }

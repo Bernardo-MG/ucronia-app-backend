@@ -39,15 +39,15 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import com.bernardomg.auth.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.auth.jwt.token.JwtTokenProvider;
 import com.bernardomg.auth.jwt.token.JwtTokenValidator;
-import com.bernardomg.auth.login.service.LoginService;
-import com.bernardomg.auth.login.service.TokenLoginService;
-import com.bernardomg.auth.login.validation.CredentialsLoginValidator;
-import com.bernardomg.auth.login.validation.LoginValidator;
 import com.bernardomg.auth.property.JwtProperties;
 import com.bernardomg.auth.token.TokenProvider;
 import com.bernardomg.auth.userdetails.PersistentUserDetailsService;
 import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.service.TokenLoginService;
+import com.bernardomg.security.login.validation.CredentialsLoginValidator;
+import com.bernardomg.security.login.validation.LoginValidator;
 
 import io.jsonwebtoken.security.Keys;
 
