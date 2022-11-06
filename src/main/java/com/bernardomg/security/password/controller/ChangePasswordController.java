@@ -46,7 +46,8 @@ public class ChangePasswordController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean create(@Valid @RequestBody final DtoChangePasswordForm form) {
-        return service.changePassword(form.getUsername(), form.getPassword());
+        // return service.changePassword(form.getUsername(), form.getPassword());
+        return false;
     }
 
 }
