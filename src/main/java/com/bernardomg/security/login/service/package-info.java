@@ -22,27 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.login.service;
-
-import com.bernardomg.auth.login.model.LoginDetails;
-
 /**
- * Login service. Takes the user credentials and returns a token.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login services.
  */
-public interface LoginService {
 
-    /**
-     * Receives credentials and returns the login status. If it was valid then it contains a token.
-     *
-     * @param username
-     *            username to authenticate
-     * @param password
-     *            password to authenticate
-     * @return login status
-     */
-    public LoginDetails login(final String username, final String password);
-
-}
+package com.bernardomg.security.login.service;

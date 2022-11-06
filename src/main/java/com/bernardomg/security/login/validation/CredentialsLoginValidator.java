@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.login.validation;
+package com.bernardomg.security.login.validation;
 
 import java.util.Optional;
 

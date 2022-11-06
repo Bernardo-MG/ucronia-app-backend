@@ -22,8 +22,45 @@
  * SOFTWARE.
  */
 
-/**
- * Login validation.
- */
+package com.bernardomg.security.login.controller;
 
-package com.bernardomg.auth.login.validation;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bernardomg.security.login.model.LoginDetails;
+import com.bernardomg.security.login.model.UserForm;
+import com.bernardomg.security.login.service.LoginService;
+
+import lombok.AllArgsConstructor;
+
+/**
+ * Login controller. Allows a user to log into the application.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+@RequestMapping("/login")
+@AllArgsConstructor
+public class LoginController {
+
+    /**
+     * Login service.
+     */
+    private final LoginService service;
+
+    /**
+     * Logs in a user.
+     *
+     * @param user
+     *            user details
+     * @return the login status after the login attempt
+     */
+    @PostMapping
+    public LoginDetails login(@RequestBody final UserForm user) {
+        return service.login(user.getUsername(), user.getPassword());
+    }
+
+}

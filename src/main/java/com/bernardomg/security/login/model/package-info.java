@@ -26,4 +26,4 @@
  * Login model.
  */
 
-package com.bernardomg.auth.login.model;
+package com.bernardomg.security.login.model;

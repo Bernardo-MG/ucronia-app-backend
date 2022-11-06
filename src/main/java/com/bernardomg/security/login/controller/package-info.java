@@ -22,27 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.login.model;
-
-import lombok.Data;
-
 /**
- * Contains all the data for a login attempt.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login controller.
  */
-@Data
-public class UserForm {
 
-    /**
-     * User password.
-     */
-    private String password;
-
-    /**
-     * User username.
-     */
-    private String username;
-
-}
+package com.bernardomg.security.login.controller;
