@@ -423,12 +423,12 @@
          </exclusions>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== MYSQL ===================== -->
+      <!-- ================ POSTGRES ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- MySQL connector -->
-         <groupId>mysql</groupId>
-         <artifactId>mysql-connector-java</artifactId>
+         <!-- Postgres connector -->
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ SERVLET ===================== -->

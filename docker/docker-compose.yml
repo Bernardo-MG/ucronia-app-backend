@@ -1,21 +1,21 @@
 version: '3'
 services:
     association-db:
-        image: mysql:8
+        image: postgres:15.0-alpine
         environment:
-            MYSQL_DATABASE: 'data'
-            MYSQL_USER: 'user'
-            MYSQL_PASSWORD: 'password'
-            MYSQL_ROOT_PASSWORD: 'password'
+            PGUSER: 'postgres'
+            POSTGRES_DB: 'postgres'
+            POSTGRES_USER: 'postgres'
+            POSTGRES_PASSWORD: 'password'
         ports:
-            - "3306:3306"
+            - "5432:5432"
         healthcheck:
-            test: mysql --user=$$MYSQL_USER --password=$$MYSQL_PASSWORD -e 'SHOW DATABASES;'
+            test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
             interval: 30s
             timeout: 10s
             retries: 5
         volumes:
-            - association-data:/var/lib/mysql
+            - association-data:/var/lib/postgresql/data
     association-backend:
         build:
             context: ../
@@ -30,8 +30,8 @@ services:
             - "association-db"
         environment:
             # JDBC
-            - spring.datasource.url=jdbc:mysql://association-db:3306/data
-            - spring.datasource.username=user
+            - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
+            - spring.datasource.username=postgres
             - spring.datasource.password=password
             - spring.profiles.active=development
 volumes:
