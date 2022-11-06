@@ -34,5 +34,6 @@ services:
             - spring.datasource.username=postgres
             - spring.datasource.password=password
             - spring.profiles.active=development
+            - cors.origins=http://localhost:4200
 volumes:
     association-data:

@@ -24,10 +24,13 @@
 
 package com.bernardomg.association.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.bernardomg.association.config.property.CorsProperties;
 
 /**
  * Web configuration.
@@ -36,8 +39,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  */
 @Configuration
-@Profile("development")
+@EnableConfigurationProperties(CorsProperties.class)
 public class WebConfiguration implements WebMvcConfigurer {
+
+    @Autowired
+    private CorsProperties corsProperties;
 
     /**
      * Default constructor.
@@ -48,9 +54,13 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedMethods("*")
-            .allowedOrigins("http://localhost:4200");
+        if ((corsProperties.getOrigins() != null) && (!corsProperties.getOrigins()
+            .isBlank())) {
+            registry.addMapping("/**")
+                .allowedMethods("*")
+                .allowedOrigins(corsProperties.getOrigins()
+                    .split(","));
+        }
     }
 
 }
