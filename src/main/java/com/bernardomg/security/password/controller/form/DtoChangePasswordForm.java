@@ -9,13 +9,7 @@ import lombok.Data;
 public final class DtoChangePasswordForm {
 
     /**
-     * New password.
-     */
-    @NotNull
-    private String newPassword;
-
-    /**
-     * User password.
+     * User name.
      */
     @NotNull
     private String password;

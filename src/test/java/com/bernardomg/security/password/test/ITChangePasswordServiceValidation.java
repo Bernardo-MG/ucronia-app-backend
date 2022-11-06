@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.exception.InvalidPasswordException;
 import com.bernardomg.security.password.service.ChangePasswordService;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -26,12 +25,12 @@ public class ITChangePasswordServiceValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the new password is empty")
+    @DisplayName("Throws an exception when the password is empty")
     public void testChangePassword_EmptyPassword() {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.changePassword("admin", "1234", "");
+        executable = () -> service.changePassword("admin", "");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -44,24 +43,11 @@ public class ITChangePasswordServiceValidation {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.changePassword("abc", "1234", "1");
+        executable = () -> service.changePassword("abc", "1234");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.username.notExisting", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the password doesn't match the user's")
-    public void testChangePassword_PasswordNotMatches() {
-        final Executable executable;
-        final Exception  exception;
-
-        executable = () -> service.changePassword("admin", "1", "12");
-
-        exception = Assertions.assertThrows(InvalidPasswordException.class, executable);
-
-        Assertions.assertEquals("Incorrect password", exception.getMessage());
     }
 
 }
