@@ -85,7 +85,7 @@ public final class CredentialsLoginValidator implements LoginValidator {
             // No user found for username
             log.debug("No user for username {}", username);
             valid = false;
-        } else {
+        } else if (isValid(details.get())) {
             // User exists
             // Validate password
             valid = passwordEncoder.matches(password, details.get()
@@ -93,9 +93,41 @@ public final class CredentialsLoginValidator implements LoginValidator {
             if (!valid) {
                 log.debug("Received password doesn't match the one stored for username {}", username);
             }
+        } else {
+            // Invalid user
+            log.debug("User {} is in an invalid state invalid", username);
+            if (!details.get()
+                .isAccountNonExpired()) {
+                log.debug("User {} account expired", username);
+            }
+            if (!details.get()
+                .isAccountNonLocked()) {
+                log.debug("User {} account is locked", username);
+            }
+            if (!details.get()
+                .isCredentialsNonExpired()) {
+                log.debug("User {} credentials expired", username);
+            }
+            if (!details.get()
+                .isEnabled()) {
+                log.debug("User {} is disabled", username);
+            }
+            valid = false;
         }
 
         return valid;
+    }
+
+    /**
+     * Checks if the user is valid. This means it has no flag marking it as not usable.
+     *
+     * @param userDetails
+     *            user the check
+     * @return {@code true} if the user is valid, {@code false} otherwise
+     */
+    private final Boolean isValid(final UserDetails userDetails) {
+        return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
+                && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }
 
 }
