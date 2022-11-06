@@ -25,6 +25,7 @@
 package com.bernardomg.association.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -38,6 +39,7 @@ import com.bernardomg.association.config.property.CorsProperties;
  *
  */
 @Configuration
+@EnableConfigurationProperties(CorsProperties.class)
 public class WebConfiguration implements WebMvcConfigurer {
 
     @Autowired
