@@ -55,7 +55,7 @@ public class ITUserServiceCreate {
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("User", entity.getUsername());
         Assertions.assertEquals("email", entity.getEmail());
-        Assertions.assertNull(entity.getPassword());
+        Assertions.assertEquals("", entity.getPassword());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
         Assertions.assertEquals(false, entity.getExpired());

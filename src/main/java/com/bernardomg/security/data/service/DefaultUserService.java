@@ -68,6 +68,7 @@ public final class DefaultUserService implements UserService {
 
         entity = toEntity(user);
         entity.setId(null);
+        entity.setPassword("");
 
         created = repository.save(entity);
 
@@ -137,6 +138,7 @@ public final class DefaultUserService implements UserService {
         userUpdateValidator.validate(user);
 
         entity = toEntity(user);
+        entity.setPassword("");
 
         old = repository.findById(user.getId())
             .get();
