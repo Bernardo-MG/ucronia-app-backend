@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.jwt.token;
+package com.bernardomg.security.jwt.token;
 
 import java.util.Date;
 import java.util.Objects;
@@ -30,7 +30,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.auth.token.TokenValidator;
+import com.bernardomg.security.token.TokenValidator;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

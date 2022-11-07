@@ -36,18 +36,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.auth.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
-import com.bernardomg.auth.jwt.token.JwtTokenProvider;
-import com.bernardomg.auth.jwt.token.JwtTokenValidator;
-import com.bernardomg.auth.property.JwtProperties;
-import com.bernardomg.auth.token.TokenProvider;
-import com.bernardomg.auth.userdetails.PersistentUserDetailsService;
 import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
+import com.bernardomg.security.jwt.property.JwtProperties;
+import com.bernardomg.security.jwt.token.JwtTokenProvider;
+import com.bernardomg.security.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.validation.CredentialsLoginValidator;
 import com.bernardomg.security.login.validation.LoginValidator;
+import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.token.TokenProvider;
 
 import io.jsonwebtoken.security.Keys;
 

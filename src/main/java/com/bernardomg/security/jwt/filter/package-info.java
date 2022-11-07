@@ -26,4 +26,4 @@
  * JWT request filters.
  */
 
-package com.bernardomg.auth.jwt.filter;
+package com.bernardomg.security.jwt.filter;

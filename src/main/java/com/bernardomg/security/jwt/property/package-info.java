@@ -23,7 +23,7 @@
  */
 
 /**
- * Authentication logging.
+ * Property components.
  */
 
-package com.bernardomg.auth.audit;
+package com.bernardomg.security.jwt.property;

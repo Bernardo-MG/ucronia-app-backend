@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.jwt.token;
+package com.bernardomg.security.jwt.token;
 
 import java.util.Date;
 import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.auth.token.TokenProvider;
+import com.bernardomg.security.token.TokenProvider;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

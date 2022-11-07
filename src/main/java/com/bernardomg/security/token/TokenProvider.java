@@ -22,32 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.token;
+package com.bernardomg.security.token;
 
 /**
- * Token validator.
+ * Token provider.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenValidator {
+public interface TokenProvider {
 
     /**
-     * Returns the subject from the received token.
+     * Returns a token for the subject.
      *
-     * @param token
-     *            to parse and extract the subject
-     * @return subject from the token
+     * @param subject
+     *            subject of the token
+     * @return token for the subject
      */
-    public String getSubject(final String token);
-
-    /**
-     * Check if the token has expired.
-     *
-     * @param token
-     *            token to validate
-     * @return {@code true} if the token has expired, {@code false} otherwise
-     */
-    public Boolean hasExpired(final String token);
+    public String generateToken(final String subject);
 
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.jwt.entrypoint;
+package com.bernardomg.security.jwt.entrypoint;
 
 import java.io.IOException;
 

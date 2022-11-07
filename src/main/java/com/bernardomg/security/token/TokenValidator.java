@@ -22,8 +22,32 @@
  * SOFTWARE.
  */
 
-/**
- * JWT token components.
- */
+package com.bernardomg.security.token;
 
-package com.bernardomg.auth.jwt.token;
+/**
+ * Token validator.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface TokenValidator {
+
+    /**
+     * Returns the subject from the received token.
+     *
+     * @param token
+     *            to parse and extract the subject
+     * @return subject from the token
+     */
+    public String getSubject(final String token);
+
+    /**
+     * Check if the token has expired.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token has expired, {@code false} otherwise
+     */
+    public Boolean hasExpired(final String token);
+
+}

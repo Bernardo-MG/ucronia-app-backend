@@ -23,7 +23,7 @@
  */
 
 /**
- * JWT entry points.
+ * JWT token components.
  */
 
-package com.bernardomg.auth.jwt.entrypoint;
+package com.bernardomg.security.jwt.token;

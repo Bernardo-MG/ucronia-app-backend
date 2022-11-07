@@ -38,8 +38,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.bernardomg.auth.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.auth.token.TokenValidator;
+import com.bernardomg.security.jwt.configuration.JwtSecurityConfigurer;
+import com.bernardomg.security.token.TokenValidator;
 
 /**
  * Web security configuration.

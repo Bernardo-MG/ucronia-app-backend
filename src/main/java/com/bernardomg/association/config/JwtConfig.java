@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.auth.jwt.filter.JwtTokenFilter;
-import com.bernardomg.auth.property.JwtProperties;
-import com.bernardomg.auth.token.TokenValidator;
+import com.bernardomg.security.jwt.filter.JwtTokenFilter;
+import com.bernardomg.security.jwt.property.JwtProperties;
+import com.bernardomg.security.token.TokenValidator;
 
 /**
  * Authentication configuration.

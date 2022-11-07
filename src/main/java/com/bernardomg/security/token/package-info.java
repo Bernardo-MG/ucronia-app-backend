@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.token;
-
 /**
- * Token provider.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Token components.
  */
-public interface TokenProvider {
 
-    /**
-     * Returns a token for the subject.
-     *
-     * @param subject
-     *            subject of the token
-     * @return token for the subject
-     */
-    public String generateToken(final String subject);
-
-}
+package com.bernardomg.security.token;

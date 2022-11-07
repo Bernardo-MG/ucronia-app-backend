@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.auth.audit;
+package com.bernardomg.security.audit;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;

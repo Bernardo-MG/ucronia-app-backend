@@ -23,7 +23,7 @@
  */
 
 /**
- * Property components.
+ * JWT entry points.
  */
 
-package com.bernardomg.auth.property;
+package com.bernardomg.security.jwt.entrypoint;

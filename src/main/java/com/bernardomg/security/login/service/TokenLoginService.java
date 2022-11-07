@@ -24,10 +24,10 @@
 
 package com.bernardomg.security.login.service;
 
-import com.bernardomg.auth.token.TokenProvider;
 import com.bernardomg.security.login.model.ImmutableLoginDetails;
 import com.bernardomg.security.login.model.LoginDetails;
 import com.bernardomg.security.login.validation.LoginValidator;
+import com.bernardomg.security.token.TokenProvider;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

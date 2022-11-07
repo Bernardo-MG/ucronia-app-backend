@@ -26,4 +26,4 @@
  * JWT configuration components.
  */
 
-package com.bernardomg.auth.jwt.configuration;
+package com.bernardomg.security.jwt.configuration;

@@ -23,7 +23,7 @@
  */
 
 /**
- * Token components.
+ * User details components.
  */
 
-package com.bernardomg.auth.token;
+package com.bernardomg.security.springframework.userdetails;
