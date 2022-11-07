@@ -72,7 +72,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         final String             where;
         final String             sorting;
 
-        where = " WHERE YEAR(f.date) = :year";
+        where = " WHERE extract(year from f.date) = :year";
         if (sort.isSorted()) {
             sorting = " ORDER BY " + sort.get()
                 .map(this::toSorting)
