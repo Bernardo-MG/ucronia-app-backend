@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoRole;
@@ -39,22 +38,6 @@ public class ITRoleServiceCreate {
         service.create(data);
 
         Assertions.assertEquals(1L, repository.count());
-    }
-
-    @Test
-    @DisplayName("Doesn't create over existing ids")
-    @Sql({ "/db/queries/security/role/single.sql" })
-    public void testCreate_Existing() {
-        final DtoRole data;
-        final Role    result;
-
-        data = new DtoRole();
-        data.setId(1L);
-        data.setName("Role");
-
-        result = service.create(data);
-
-        Assertions.assertNotEquals(1L, result.getId());
     }
 
     @Test
