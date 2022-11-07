@@ -22,12 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.response.model;
+package com.bernardomg.mvc.springframework.response.model;
 
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Order;
+
+import com.bernardomg.mvc.response.model.ImmutablePropertySort;
+import com.bernardomg.mvc.response.model.PaginatedResponse;
+import com.bernardomg.mvc.response.model.PropertySort;
 
 import lombok.NonNull;
 

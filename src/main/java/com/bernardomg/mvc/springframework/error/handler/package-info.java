@@ -26,4 +26,4 @@
  * Error handling.
  */
 
-package com.bernardomg.mvc.error.handler;
+package com.bernardomg.mvc.springframework.error.handler;

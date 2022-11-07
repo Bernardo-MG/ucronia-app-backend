@@ -25,4 +25,4 @@
  * Response controllers.
  */
 
-package com.bernardomg.mvc.response.controller;
+package com.bernardomg.mvc.springframework.response.controller;

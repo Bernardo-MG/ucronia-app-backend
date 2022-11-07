@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.response.controller;
+package com.bernardomg.mvc.springframework.response.controller;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Page;
@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.bernardomg.mvc.response.model.ErrorResponse;
-import com.bernardomg.mvc.response.model.ImmutableSpringPageResponse;
 import com.bernardomg.mvc.response.model.PaginatedResponse;
 import com.bernardomg.mvc.response.model.Response;
+import com.bernardomg.mvc.springframework.response.model.ImmutableSpringPageResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

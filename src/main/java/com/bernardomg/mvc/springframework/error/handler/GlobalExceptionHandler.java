@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.error.handler;
+package com.bernardomg.mvc.springframework.error.handler;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
