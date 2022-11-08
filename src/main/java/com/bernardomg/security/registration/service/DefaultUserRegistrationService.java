@@ -30,14 +30,9 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
     public final User registerUser(final String username, final String email, final String password) {
         final PersistentUser      entity;
         final PersistentUser      created;
-        final DtoUser             user;
         final Collection<Failure> errors;
 
-        user = new DtoUser();
-        user.setUsername(username);
-        user.setEmail(email);
-
-        errors = validate(user);
+        errors = validate(username);
         if (!errors.isEmpty()) {
             // Validation errors
             throw new ValidationException(errors);
@@ -73,16 +68,16 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         return data;
     }
 
-    private final Collection<Failure> validate(final User user) {
+    private final Collection<Failure> validate(final String username) {
         final Collection<Failure> result;
         final Failure             error;
 
         result = new ArrayList<>();
 
         // Verify no user exists with the received username
-        if (repository.existsByUsername(user.getUsername())) {
-            log.error("A user already exists with the username {}", user.getUsername());
-            error = FieldFailure.of("error.username.existing", "roleForm", "memberId", user.getUsername());
+        if (repository.existsByUsername(username)) {
+            log.error("A user already exists with the username {}", username);
+            error = FieldFailure.of("error.username.existing", "roleForm", "memberId", username);
             result.add(error);
         }
 
