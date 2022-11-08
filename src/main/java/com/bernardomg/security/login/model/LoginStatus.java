@@ -22,25 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.validation;
+package com.bernardomg.security.login.model;
 
 /**
- * Validator which checks if a user can log into the application.
+ * Status after a login attempt. Will tell if the login attempt was successful or not, through the {@code logged} field.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginValidator {
+public interface LoginStatus {
 
     /**
-     * Checks if the user is valid and allows to attempt a login.
+     * Returns if the logging attempt was successful.
      *
-     * @param username
-     *            username to authenticate
-     * @param password
-     *            password to authenticate
-     * @return {@code true} if the user is valid, {@code false} otherwise
+     * @return {@code true} if the login was successful, {@code false} otherwise
      */
-    public Boolean isValid(final String username, final String password);
+    public Boolean getLogged();
+
+    /**
+     * Returns the username of the user who attempted login.
+     *
+     * @return the username
+     */
+    public String getUsername();
 
 }

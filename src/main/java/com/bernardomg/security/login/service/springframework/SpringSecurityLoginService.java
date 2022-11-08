@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.validation;
+package com.bernardomg.security.login.service.springframework;
 
 import java.util.Optional;
 
@@ -31,25 +31,30 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.model.ImmutableLoginStatus;
+import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.LoginService;
+
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Basic login validator, which checks the credentials with these rules:
- * <ul>
- * <li>There is a user for the received username</li>
- * <li>Received password matches with the user password</li>
- * </ul>
- * <h2>Finding the user</h2>
+ * Login service which integrates with Spring Security. It makes use of {@link UserDetailsService} to find the user
+ * which tries to log in.
+ * <h2>Validations</h2>
  * <p>
- * {@link UserDetailsService} is used for finding the user. This means that only those users available to the Spring
- * security context will be valid.
+ * If any of these fails, then the log in fails.
+ * <ul>
+ * <li>Received username exists as a user</li>
+ * <li>Received password matchs the one encrypted for the user</li>
+ * <li>User should be enabled, and all its status flags should mark it as valid</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class CredentialsLoginValidator implements LoginValidator {
+public final class SpringSecurityLoginService implements LoginService {
 
     /**
      * Password encoder, for validating passwords.
@@ -61,22 +66,40 @@ public final class CredentialsLoginValidator implements LoginValidator {
      */
     private final UserDetailsService userDetailsService;
 
-    public CredentialsLoginValidator(@NonNull final UserDetailsService userDetsService,
+    /**
+     * Builds a service with the specified arguments.
+     *
+     * @param userDetService
+     *            user details service to acquire users
+     * @param passEncoder
+     *            password encoder to validate passwords
+     */
+    public SpringSecurityLoginService(@NonNull final UserDetailsService userDetService,
             @NonNull final PasswordEncoder passEncoder) {
         super();
 
-        userDetailsService = userDetsService;
+        userDetailsService = userDetService;
         passwordEncoder = passEncoder;
     }
 
     @Override
-    public final Boolean isValid(final String username, final String password) {
+    public final LoginStatus login(final String username, final String password) {
+        final Boolean valid;
+
+        log.debug("Log in attempt for {}", username);
+
+        valid = isValid(username, password);
+
+        return new ImmutableLoginStatus(username, valid);
+    }
+
+    private final Boolean isValid(final String username, final String password) {
         final Boolean         valid;
         Optional<UserDetails> details;
 
         // Find the user
         try {
-            details = Optional.of(userDetailsService.loadUserByUsername(username));
+            details = Optional.ofNullable(userDetailsService.loadUserByUsername(username));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }
@@ -95,7 +118,7 @@ public final class CredentialsLoginValidator implements LoginValidator {
             }
         } else {
             // Invalid user
-            log.debug("User {} is in an invalid state invalid", username);
+            log.debug("User {} is in an invalid state", username);
             if (!details.get()
                 .isAccountNonExpired()) {
                 log.debug("User {} account expired", username);

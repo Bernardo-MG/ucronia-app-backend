@@ -22,28 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
+package com.bernardomg.security.login.model;
 
-import com.bernardomg.security.login.model.LoginStatus;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
- * Login service. Handles the login process, which receives a user credentials and returns the login status, which tells
- * if the login was successful or not.
+ * Immutable implementation of {@link TokenLoginStatus}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginService {
+@Data
+public final class ImmutableTokenLoginStatus implements TokenLoginStatus {
 
     /**
-     * Receives credentials and returns the login status.
-     *
-     * @param username
-     *            username to authenticate
-     * @param password
-     *            password to authenticate
-     * @return login status
+     * Flag telling if the login was successful.
      */
-    public LoginStatus login(final String username, final String password);
+    private final Boolean logged;
+
+    /**
+     * Security token.
+     */
+    private final String  token;
+
+    /**
+     * Username of the user who attempted login.
+     */
+    private final String  username;
+
+    /**
+     * Builds a login status with the specified arguments.
+     *
+     * @param user
+     *            username
+     * @param flag
+     *            logged status
+     * @param tokn
+     *            authentication token
+     */
+    public ImmutableTokenLoginStatus(@NonNull final String user, @NonNull final Boolean flag,
+            @NonNull final String tokn) {
+        super();
+
+        username = user;
+        logged = flag;
+        token = tokn;
+    }
 
 }

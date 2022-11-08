@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test;
+package com.bernardomg.security.password.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

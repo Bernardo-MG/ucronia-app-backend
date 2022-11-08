@@ -22,28 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
-
-import com.bernardomg.security.login.model.LoginStatus;
-
 /**
- * Login service. Handles the login process, which receives a user credentials and returns the login status, which tells
- * if the login was successful or not.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login services prepared to be used with Spring.
  */
-public interface LoginService {
 
-    /**
-     * Receives credentials and returns the login status.
-     *
-     * @param username
-     *            username to authenticate
-     * @param password
-     *            password to authenticate
-     * @return login status
-     */
-    public LoginStatus login(final String username, final String password);
-
-}
+package com.bernardomg.security.login.service.springframework;

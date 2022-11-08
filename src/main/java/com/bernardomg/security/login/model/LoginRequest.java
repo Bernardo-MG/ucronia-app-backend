@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
+package com.bernardomg.security.login.model;
 
-import com.bernardomg.security.login.model.LoginStatus;
+import lombok.Data;
 
 /**
- * Login service. Handles the login process, which receives a user credentials and returns the login status, which tells
- * if the login was successful or not.
+ * Login request DTO. Contains all the data for a login attempt. Used to map requests from the frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginService {
+@Data
+public class LoginRequest {
 
     /**
-     * Receives credentials and returns the login status.
-     *
-     * @param username
-     *            username to authenticate
-     * @param password
-     *            password to authenticate
-     * @return login status
+     * User password.
      */
-    public LoginStatus login(final String username, final String password);
+    private String password;
+
+    /**
+     * User username.
+     */
+    private String username;
 
 }

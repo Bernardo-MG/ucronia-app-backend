@@ -22,11 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
-
-import java.nio.charset.Charset;
-
-import javax.crypto.SecretKey;
+package com.bernardomg.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,17 +35,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
-import com.bernardomg.security.jwt.property.JwtProperties;
-import com.bernardomg.security.jwt.token.JwtTokenProvider;
-import com.bernardomg.security.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.TokenLoginService;
-import com.bernardomg.security.login.validation.CredentialsLoginValidator;
-import com.bernardomg.security.login.validation.LoginValidator;
 import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
-import com.bernardomg.security.token.TokenProvider;
-
-import io.jsonwebtoken.security.Keys;
 
 /**
  * Security configuration.
@@ -70,35 +56,10 @@ public class SecurityConfig {
         return new ErrorResponseAuthenticationEntryPoint();
     }
 
-    @Bean("jwtSecretKey")
-    public SecretKey getJwtSecretKey(final JwtProperties properties) {
-        return Keys.hmacShaKeyFor(properties.getSecret()
-            .getBytes(Charset.forName("UTF-8")));
-    }
-
-    @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
-        final LoginValidator loginValidator;
-
-        loginValidator = new CredentialsLoginValidator(userDetailsService, passwordEncoder);
-        return new TokenLoginService(tokenProv, loginValidator);
-    }
-
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         // TODO: Shouldn't be using a seed?
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean("tokenProcessor")
-    public JwtTokenValidator getTokenProcessor(final SecretKey key) {
-        return new JwtTokenValidator(key);
-    }
-
-    @Bean("tokenProvider")
-    public TokenProvider getTokenProvider(final SecretKey key, final JwtProperties properties) {
-        return new JwtTokenProvider(key, properties.getValidity());
     }
 
     @Bean("userDetailsService")

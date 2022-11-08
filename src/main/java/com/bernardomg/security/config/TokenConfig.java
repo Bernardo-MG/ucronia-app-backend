@@ -22,27 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.config;
 
-import lombok.Data;
+import javax.crypto.SecretKey;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.bernardomg.security.jwt.property.JwtProperties;
+import com.bernardomg.security.jwt.token.JwtTokenProvider;
+import com.bernardomg.security.jwt.token.JwtTokenValidator;
+import com.bernardomg.security.token.TokenProvider;
 
 /**
- * Contains all the data for a login attempt.
+ * Security configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-public class UserForm {
+@Configuration
+public class TokenConfig {
 
-    /**
-     * User password.
-     */
-    private String password;
+    public TokenConfig() {
+        super();
+    }
 
-    /**
-     * User username.
-     */
-    private String username;
+    @Bean("tokenProcessor")
+    public JwtTokenValidator getTokenProcessor(final SecretKey key) {
+        return new JwtTokenValidator(key);
+    }
+
+    @Bean("tokenProvider")
+    public TokenProvider getTokenProvider(final SecretKey key, final JwtProperties properties) {
+        return new JwtTokenProvider(key, properties.getValidity());
+    }
 
 }

@@ -22,35 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
+import com.bernardomg.security.token.TokenProvider;
 
 /**
- * Status after a login attempt.
+ * Security configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginDetails {
+@Configuration
+public class LoginConfig {
 
-    /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
-     */
-    public Boolean getLogged();
+    public LoginConfig() {
+        super();
+    }
 
-    /**
-     * Returns the security token.
-     *
-     * @return the security token
-     */
-    public String getToken();
-
-    /**
-     * Returns the username of the user who attempted login.
-     *
-     * @return the username
-     */
-    public String getUsername();
+    @Bean("loginService")
+    public LoginService getLoginService(final UserDetailsService userDetailsService,
+            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
+        return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
+    }
 
 }

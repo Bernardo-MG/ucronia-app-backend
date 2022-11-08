@@ -22,8 +22,43 @@
  * SOFTWARE.
  */
 
-/**
- * Login validation.
- */
+package com.bernardomg.security.login.model;
 
-package com.bernardomg.security.login.validation;
+import lombok.Data;
+import lombok.NonNull;
+
+/**
+ * Immutable implementation of {@link LoginStatus}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+public final class ImmutableLoginStatus implements LoginStatus {
+
+    /**
+     * Flag telling if the login was successful.
+     */
+    private final Boolean logged;
+
+    /**
+     * Username of the user who attempted login.
+     */
+    private final String  username;
+
+    /**
+     * Builds a login status with the specified arguments.
+     *
+     * @param user
+     *            username
+     * @param flag
+     *            logged status
+     */
+    public ImmutableLoginStatus(@NonNull final String user, @NonNull final Boolean flag) {
+        super();
+
+        username = user;
+        logged = flag;
+    }
+
+}

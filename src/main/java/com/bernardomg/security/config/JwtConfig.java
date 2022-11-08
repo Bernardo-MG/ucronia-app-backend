@@ -22,41 +22,46 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.config;
 
-import lombok.Data;
-import lombok.NonNull;
+import java.nio.charset.Charset;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.bernardomg.security.jwt.filter.JwtTokenFilter;
+import com.bernardomg.security.jwt.property.JwtProperties;
+import com.bernardomg.security.token.TokenValidator;
+
+import io.jsonwebtoken.security.Keys;
 
 /**
- * Immutable implementation of {@link LoginDetails}.
+ * Authentication configuration.
  *
- * @author Bernardo Mart&iacute;nez Garrido
+ * @author Bernardo Martínez Garrido
  *
  */
-@Data
-public final class ImmutableLoginDetails implements LoginDetails {
+@Configuration
+@EnableConfigurationProperties(JwtProperties.class)
+public class JwtConfig {
 
-    /**
-     * Flag telling if the login was successful.
-     */
-    private final Boolean logged;
-
-    /**
-     * Security token.
-     */
-    private final String  token;
-
-    /**
-     * Username of the user who attempted login.
-     */
-    private final String  username;
-
-    public ImmutableLoginDetails(@NonNull final String usnm, @NonNull final Boolean lgd, @NonNull final String tkn) {
+    public JwtConfig() {
         super();
+    }
 
-        username = usnm;
-        logged = lgd;
-        token = tkn;
+    @Bean("jwtSecretKey")
+    public SecretKey getJwtSecretKey(final JwtProperties properties) {
+        return Keys.hmacShaKeyFor(properties.getSecret()
+            .getBytes(Charset.forName("UTF-8")));
+    }
+
+    @Bean("jwtTokenFilter")
+    public JwtTokenFilter getJwtTokenFilter(final UserDetailsService userDetService, final TokenValidator processor) {
+        return new JwtTokenFilter(userDetService, processor);
     }
 
 }

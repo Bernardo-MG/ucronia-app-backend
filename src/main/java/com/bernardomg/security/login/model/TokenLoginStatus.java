@@ -22,34 +22,21 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
-
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.bernardomg.security.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.jwt.property.JwtProperties;
-import com.bernardomg.security.token.TokenValidator;
+package com.bernardomg.security.login.model;
 
 /**
- * Authentication configuration.
+ * Status after a login attempt including a token.
  *
- * @author Bernardo Martínez Garrido
+ * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-@EnableConfigurationProperties(JwtProperties.class)
-public class JwtConfig {
+public interface TokenLoginStatus extends LoginStatus {
 
-    public JwtConfig() {
-        super();
-    }
-
-    @Bean("jwtTokenFilter")
-    public JwtTokenFilter getJwtTokenFilter(final UserDetailsService userDetService, final TokenValidator processor) {
-        return new JwtTokenFilter(userDetService, processor);
-    }
+    /**
+     * Returns the security token.
+     *
+     * @return the security token
+     */
+    public String getToken();
 
 }
