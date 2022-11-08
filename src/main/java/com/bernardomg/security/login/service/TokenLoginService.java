@@ -29,7 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.token.TokenProvider;
 
 import lombok.NonNull;
@@ -60,7 +59,7 @@ public final class TokenLoginService implements LoginService {
 
     /**
      * Builds a service with the specified arguments.
-     * 
+     *
      * @param userDetService
      *            user details service to acquire users
      * @param passEncoder
@@ -77,27 +76,30 @@ public final class TokenLoginService implements LoginService {
     }
 
     @Override
-    public final TokenLoginStatus login(final String username, final String password) {
+    public final LoginStatus login(final String username, final String password) {
         final String      token;
+        final LoginStatus basicStatus;
         final LoginStatus status;
 
         log.debug("Log in attempt for {}", username);
 
-        status = wrapped.login(username, password);
+        basicStatus = wrapped.login(username, password);
 
-        if (status.getLogged()) {
+        if (basicStatus.getLogged()) {
             // Valid user
             // Generate token
             token = tokenProvider.generateToken(username);
             log.debug("Successful login for {}", username);
+            status = new ImmutableTokenLoginStatus(username, basicStatus.getLogged(), token);
         } else {
             // Invalid user
             // No token
             token = "";
             log.debug("Failed login for {}", username);
+            status = basicStatus;
         }
 
-        return new ImmutableTokenLoginStatus(username, status.getLogged(), token);
+        return status;
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.token.TokenProvider;
@@ -27,25 +28,28 @@ public class TestTokenLoginServiceUserPassword {
     @Test
     @DisplayName("Doesn't log in with an invalid password")
     public void testLogIn_Invalid() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getService(false).login("admin", "1234");
+        status = getService(false).login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("", details.getToken());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Logs in with a valid password")
     public void testLogIn_Valid() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getService(true).login("admin", "1234");
+        status = getService(true).login("admin", "1234");
 
-        Assertions.assertTrue(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("token", details.getToken());
+        Assertions.assertInstanceOf(TokenLoginStatus.class, status);
+
+        Assertions.assertTrue(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertEquals("token", ((TokenLoginStatus) status).getToken());
     }
 
     private final TokenLoginService getService(final Boolean match) {

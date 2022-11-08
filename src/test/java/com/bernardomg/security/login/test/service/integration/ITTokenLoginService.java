@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.token.TokenProvider;
@@ -45,14 +46,14 @@ public class ITTokenLoginService {
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = service.login("admin", "1234");
+        status = service.login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertTrue(details.getToken()
-            .isBlank());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
@@ -61,13 +62,15 @@ public class ITTokenLoginService {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = service.login("admin", "1234");
+        status = service.login("admin", "1234");
 
-        Assertions.assertTrue(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertFalse(details.getToken()
+        Assertions.assertInstanceOf(TokenLoginStatus.class, status);
+
+        Assertions.assertTrue(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertFalse(((TokenLoginStatus) status).getToken()
             .isBlank());
     }
 

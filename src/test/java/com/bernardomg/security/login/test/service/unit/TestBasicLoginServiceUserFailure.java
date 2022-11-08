@@ -23,12 +23,12 @@ public class TestBasicLoginServiceUserFailure {
     @Test
     @DisplayName("When the user details service returns a null the login fails")
     public void testLogIn_NullUser() {
-        final LoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceWithNullUser().login("admin", "1234");
+        status = getServiceWithNullUser().login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     private final BasicLoginService getService(final UserDetails user) {

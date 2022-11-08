@@ -26,23 +26,23 @@ public class TestBasicLoginServiceUserPassword {
     @Test
     @DisplayName("Doesn't log in with an invalid password")
     public void testLogIn_Invalid() {
-        final LoginStatus details;
+        final LoginStatus status;
 
-        details = getService(false).login("admin", "1234");
+        status = getService(false).login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Logs in with a valid password")
     public void testLogIn_Valid() {
-        final LoginStatus details;
+        final LoginStatus status;
 
-        details = getService(true).login("admin", "1234");
+        status = getService(true).login("admin", "1234");
 
-        Assertions.assertTrue(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
+        Assertions.assertTrue(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     private final BasicLoginService getService(final Boolean match) {

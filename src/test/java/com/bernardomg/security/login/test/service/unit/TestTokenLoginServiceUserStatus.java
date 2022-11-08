@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.token.TokenProvider;
@@ -28,73 +29,78 @@ public class TestTokenLoginServiceUserStatus {
     @Test
     @DisplayName("Doesn't log in a expired user")
     public void testLogIn_AccountExpired() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceForAccountExpired().login("admin", "1234");
+        status = getServiceForAccountExpired().login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("", details.getToken());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Doesn't log in a user with expired credentials")
     public void testLogIn_CredentialsExpired() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceForCredentialsExpired().login("admin", "1234");
+        status = getServiceForCredentialsExpired().login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("", details.getToken());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Doesn't log in a disabled user")
     public void testLogIn_Disabled() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceForDisabled().login("admin", "1234");
+        status = getServiceForDisabled().login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("", details.getToken());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Doesn't log in a locked user")
     public void testLogIn_Locked() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceForLocked().login("admin", "1234");
+        status = getServiceForLocked().login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("", details.getToken());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Doesn't log in a not existing user")
     public void testLogIn_NotExisting() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceForNotExisting().login("admin", "1234");
+        status = getServiceForNotExisting().login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("", details.getToken());
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
     @DisplayName("Logs in with a valid user")
     public void testLogIn_Valid() {
-        final TokenLoginStatus details;
+        final LoginStatus status;
 
-        details = getServiceForValid().login("admin", "1234");
+        status = getServiceForValid().login("admin", "1234");
 
-        Assertions.assertTrue(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertEquals("token", details.getToken());
+        Assertions.assertTrue(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertEquals("token", ((TokenLoginStatus) status).getToken());
     }
 
     private final TokenLoginService getService(final UserDetails user) {

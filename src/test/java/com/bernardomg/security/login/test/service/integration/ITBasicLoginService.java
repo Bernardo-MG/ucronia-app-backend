@@ -41,12 +41,12 @@ public class ITBasicLoginService {
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
-        final LoginStatus details;
+        final LoginStatus status;
 
-        details = service.login("admin", "1234");
+        status = service.login("admin", "1234");
 
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
     }
 
     @Test
