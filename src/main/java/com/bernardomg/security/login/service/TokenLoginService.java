@@ -24,9 +24,12 @@
 
 package com.bernardomg.security.login.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
+import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.validation.LoginValidator;
 import com.bernardomg.security.token.TokenProvider;
 
 import lombok.NonNull;
@@ -46,40 +49,43 @@ import lombok.extern.slf4j.Slf4j;
 public final class TokenLoginService implements LoginService {
 
     /**
-     * Login validator.
-     */
-    private final LoginValidator loginValidator;
-
-    /**
      * Token provider, creates authentication tokens.
      */
-    private final TokenProvider  tokenProvider;
+    private final TokenProvider tokenProvider;
+
+    /**
+     * Wrapped login service.
+     */
+    private final LoginService  wrapped;
 
     /**
      * Builds a service with the specified arguments.
      *
-     * @param tProvider
-     *            token provider to use
+     * @param userDetService
+     *            user details service to acquire users
+     * @param passEncoder
+     *            password encoder to validate passwords
      * @param validator
      *            login validator
      */
-    public TokenLoginService(@NonNull final TokenProvider tProvider, @NonNull final LoginValidator validator) {
+    public TokenLoginService(@NonNull final UserDetailsService userDetService,
+            @NonNull final PasswordEncoder passEncoder, @NonNull final TokenProvider tProvider) {
         super();
 
-        loginValidator = validator;
+        wrapped = new BasicLoginService(userDetService, passEncoder);
         tokenProvider = tProvider;
     }
 
     @Override
     public final TokenLoginStatus login(final String username, final String password) {
-        final Boolean valid;
-        final String  token;
+        final String      token;
+        final LoginStatus status;
 
         log.debug("Log in attempt for {}", username);
 
-        valid = loginValidator.isValid(username, password);
+        status = wrapped.login(username, password);
 
-        if (valid) {
+        if (status.getLogged()) {
             // Valid user
             // Generate token
             token = tokenProvider.generateToken(username);
@@ -91,7 +97,7 @@ public final class TokenLoginService implements LoginService {
             log.debug("Failed login for {}", username);
         }
 
-        return new ImmutableTokenLoginStatus(username, valid, token);
+        return new ImmutableTokenLoginStatus(username, status.getLogged(), token);
     }
 
 }

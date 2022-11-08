@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.validation;
+package com.bernardomg.security.login.service;
 
 import java.util.Optional;
 
@@ -31,25 +31,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.model.ImmutableLoginStatus;
+import com.bernardomg.security.login.model.LoginStatus;
+
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Basic login validator, which checks the credentials with these rules:
- * <ul>
- * <li>There is a user for the received username</li>
- * <li>Received password matches with the user password</li>
- * </ul>
- * <h2>Finding the user</h2>
- * <p>
- * {@link UserDetailsService} is used for finding the user. This means that only those users available to the Spring
- * security context will be valid.
+ * Login service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class CredentialsLoginValidator implements LoginValidator {
+public final class BasicLoginService implements LoginService {
 
     /**
      * Password encoder, for validating passwords.
@@ -61,16 +56,34 @@ public final class CredentialsLoginValidator implements LoginValidator {
      */
     private final UserDetailsService userDetailsService;
 
-    public CredentialsLoginValidator(@NonNull final UserDetailsService userDetsService,
+    /**
+     * Builds a service with the specified arguments.
+     *
+     * @param userDetService
+     *            user details service to acquire users
+     * @param passEncoder
+     *            password encoder to validate passwords
+     */
+    public BasicLoginService(@NonNull final UserDetailsService userDetService,
             @NonNull final PasswordEncoder passEncoder) {
         super();
 
-        userDetailsService = userDetsService;
+        userDetailsService = userDetService;
         passwordEncoder = passEncoder;
     }
 
     @Override
-    public final Boolean isValid(final String username, final String password) {
+    public final LoginStatus login(final String username, final String password) {
+        final Boolean valid;
+
+        log.debug("Log in attempt for {}", username);
+
+        valid = isValid(username, password);
+
+        return new ImmutableLoginStatus(username, valid);
+    }
+
+    private final Boolean isValid(final String username, final String password) {
         final Boolean         valid;
         Optional<UserDetails> details;
 
