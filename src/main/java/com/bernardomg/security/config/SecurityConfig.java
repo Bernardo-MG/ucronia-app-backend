@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.config;
 
+import java.security.SecureRandom;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -58,8 +60,7 @@ public class SecurityConfig {
 
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
-        // TODO: Shouldn't be using a seed?
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
     @Bean("userDetailsService")
