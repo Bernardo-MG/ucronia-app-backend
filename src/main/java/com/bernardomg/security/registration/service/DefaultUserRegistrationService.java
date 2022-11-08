@@ -4,8 +4,6 @@ package com.bernardomg.security.registration.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.data.domain.Example;
-
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.model.DtoUser;
@@ -78,13 +76,11 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
     private final Collection<Failure> validate(final User user) {
         final Collection<Failure> result;
         final Failure             error;
-        final PersistentUser      sample;
-
-        sample = new PersistentUser();
-        sample.setUsername(user.getUsername());
 
         result = new ArrayList<>();
-        if (repository.exists(Example.of(sample))) {
+
+        // Verify no user exists with the received username
+        if (repository.existsByUsername(user.getUsername())) {
             log.error("A user already exists with the username {}", user.getUsername());
             error = FieldFailure.of("error.username.existing", "roleForm", "memberId", user.getUsername());
             result.add(error);
