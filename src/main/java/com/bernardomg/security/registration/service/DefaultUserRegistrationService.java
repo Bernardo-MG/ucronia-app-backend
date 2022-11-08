@@ -3,6 +3,7 @@ package com.bernardomg.security.registration.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -20,6 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRegistrationService implements UserRegistrationService {
 
+    private final Pattern         emailPattern;
+
+    private final String          emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
     /**
      * Password encoder, for saving passwords.
      */
@@ -32,6 +37,8 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
 
         repository = repo;
         passwordEncoder = passEncoder;
+
+        emailPattern = Pattern.compile(emailRegex);
     }
 
     @Override
@@ -41,7 +48,7 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         final Collection<Failure> errors;
         final String              encodedPassword;
 
-        errors = validate(username);
+        errors = validate(username, email);
         if (!errors.isEmpty()) {
             // Validation errors
             throw new ValidationException(errors);
@@ -79,9 +86,9 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         return data;
     }
 
-    private final Collection<Failure> validate(final String username) {
+    private final Collection<Failure> validate(final String username, final String email) {
         final Collection<Failure> result;
-        final Failure             error;
+        Failure                   error;
 
         result = new ArrayList<>();
 
@@ -89,6 +96,14 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         if (repository.existsByUsername(username)) {
             log.error("A user already exists with the username {}", username);
             error = FieldFailure.of("error.username.existing", "roleForm", "memberId", username);
+            result.add(error);
+        }
+
+        // Verify the email matches the valid pattern
+        if (!emailPattern.matcher(email)
+            .matches()) {
+            log.error("Email {} doesn't follow a valid pattern", email);
+            error = FieldFailure.of("error.email.invalid", "roleForm", "memberId", username);
             result.add(error);
         }
 
