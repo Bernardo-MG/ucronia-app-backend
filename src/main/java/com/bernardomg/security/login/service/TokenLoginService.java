@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.service;
 
-import com.bernardomg.security.login.model.ImmutableLoginDetails;
-import com.bernardomg.security.login.model.LoginDetails;
+import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.validation.LoginValidator;
 import com.bernardomg.security.token.TokenProvider;
 
@@ -35,6 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Login service for token-based authentication. Will generate a token on a successful login, and add it to the login
  * status.
+ * <h2>Tokens</h2>
+ * <p>
+ * The {@link TokenProvider} will generate tokens after a succesful login attempt.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -52,15 +55,23 @@ public final class TokenLoginService implements LoginService {
      */
     private final TokenProvider  tokenProvider;
 
-    public TokenLoginService(@NonNull final TokenProvider tokenProv, @NonNull final LoginValidator loginValid) {
+    /**
+     * Builds a service with the specified arguments.
+     *
+     * @param tProvider
+     *            token provider to use
+     * @param validator
+     *            login validator
+     */
+    public TokenLoginService(@NonNull final TokenProvider tProvider, @NonNull final LoginValidator validator) {
         super();
 
-        loginValidator = loginValid;
-        tokenProvider = tokenProv;
+        loginValidator = validator;
+        tokenProvider = tProvider;
     }
 
     @Override
-    public final LoginDetails login(final String username, final String password) {
+    public final TokenLoginStatus login(final String username, final String password) {
         final Boolean valid;
         final String  token;
 
@@ -80,7 +91,7 @@ public final class TokenLoginService implements LoginService {
             log.debug("Failed login for {}", username);
         }
 
-        return new ImmutableLoginDetails(username, valid, token);
+        return new ImmutableTokenLoginStatus(username, valid, token);
     }
 
 }

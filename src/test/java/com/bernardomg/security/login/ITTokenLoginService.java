@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.login.model.LoginDetails;
-import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.model.TokenLoginStatus;
+import com.bernardomg.security.login.service.TokenLoginService;
 
 @IntegrationTest
-@DisplayName("Login service")
-public class ITLoginService {
+@DisplayName("Token login service")
+public class ITTokenLoginService {
 
     @Autowired
-    private LoginService service;
+    private TokenLoginService service;
 
-    public ITLoginService() {
+    public ITTokenLoginService() {
         super();
     }
 
@@ -28,7 +28,7 @@ public class ITLoginService {
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
-        final LoginDetails details;
+        final TokenLoginStatus details;
 
         details = service.login("admin", "1234");
 
@@ -44,7 +44,7 @@ public class ITLoginService {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Existing() {
-        final LoginDetails details;
+        final TokenLoginStatus details;
 
         details = service.login("admin", "1234");
 
@@ -60,7 +60,7 @@ public class ITLoginService {
             "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Expired() {
-        final LoginDetails details;
+        final TokenLoginStatus details;
 
         details = service.login("admin", "1234");
 
@@ -76,7 +76,7 @@ public class ITLoginService {
             "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Locked() {
-        final LoginDetails details;
+        final TokenLoginStatus details;
 
         details = service.login("admin", "1234");
 
@@ -89,7 +89,7 @@ public class ITLoginService {
     @Test
     @DisplayName("Doesn't log in a not existing user")
     public void testLogIn_NotExisting() {
-        final LoginDetails details;
+        final TokenLoginStatus details;
 
         details = service.login("admin", "1234");
 

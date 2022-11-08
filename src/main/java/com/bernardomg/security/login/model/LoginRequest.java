@@ -24,33 +24,26 @@
 
 package com.bernardomg.security.login.model;
 
+import lombok.Data;
+
 /**
- * Status after a login attempt.
+ * Login request DTO. Contains all the data for a login attempt. Used
+ * to map requests from the frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginDetails {
+@Data
+public class LoginRequest {
 
     /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
+     * User password.
      */
-    public Boolean getLogged();
+    private String password;
 
     /**
-     * Returns the security token.
-     *
-     * @return the security token
+     * User username.
      */
-    public String getToken();
-
-    /**
-     * Returns the username of the user who attempted login.
-     *
-     * @return the username
-     */
-    public String getUsername();
+    private String username;
 
 }
