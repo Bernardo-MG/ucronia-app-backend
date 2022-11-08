@@ -48,7 +48,7 @@ public class TestTokenLoginServiceUserPassword {
         Assertions.assertEquals("token", details.getToken());
     }
 
-    private final TokenLoginService getService(final Boolean valid) {
+    private final TokenLoginService getService(final Boolean match) {
         final UserDetailsService userDetService;
         final PasswordEncoder    passEncoder;
         final TokenProvider      tokenProvider;
@@ -62,7 +62,7 @@ public class TestTokenLoginServiceUserPassword {
 
         passEncoder = Mockito.mock(PasswordEncoder.class);
         Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
-            .thenReturn(valid);
+            .thenReturn(match);
 
         tokenProvider = Mockito.mock(TokenProvider.class);
         Mockito.when(tokenProvider.generateToken(ArgumentMatchers.anyString()))

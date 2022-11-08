@@ -89,7 +89,7 @@ public final class BasicLoginService implements LoginService {
 
         // Find the user
         try {
-            details = Optional.of(userDetailsService.loadUserByUsername(username));
+            details = Optional.ofNullable(userDetailsService.loadUserByUsername(username));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }
