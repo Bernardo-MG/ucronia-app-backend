@@ -26,7 +26,7 @@ public class ITRegisterUserServiceValidation {
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
-    public void testChangePassword_NotExistingUsername() {
+    public void testChangePassword_ExistingUsername() {
         final Executable executable;
         final Exception  exception;
 
