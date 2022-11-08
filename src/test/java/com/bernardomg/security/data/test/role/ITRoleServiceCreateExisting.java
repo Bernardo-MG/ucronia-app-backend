@@ -54,7 +54,7 @@ public class ITRoleServiceCreateExisting {
 
         service.create(data);
 
-        Assertions.assertNotEquals(2L, repository.count());
+        Assertions.assertEquals(2L, repository.count());
     }
 
 }
