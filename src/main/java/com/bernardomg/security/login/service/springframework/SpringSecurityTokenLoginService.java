@@ -22,30 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
+package com.bernardomg.security.login.service.springframework;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
+import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.token.TokenProvider;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Login service for token-based authentication. Will generate a token on a successful login, and add it to the login
- * status.
+ * Login service for token-based authentication which integrates with Spring Security. Will generate a token on a
+ * successful login, and add it to the login status.
+ * <h2>Composition</h2> Extends, through composition, {@link SpringSecurityLoginService}.
  * <h2>Tokens</h2>
  * <p>
- * The {@link TokenProvider} will generate tokens after a succesful login attempt.
+ * The {@link TokenProvider} will generate tokens after a succesful login attempt, and an instance of
+ * {@link TokenLoginStatus} is returned. If the login failed, then the token is not generated, and a {@link LoginStatus}
+ * is returned
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class TokenLoginService implements LoginService {
+public final class SpringSecurityTokenLoginService implements LoginService {
 
     /**
      * Token provider, creates authentication tokens.
@@ -67,11 +72,11 @@ public final class TokenLoginService implements LoginService {
      * @param tProvider
      *            token provider
      */
-    public TokenLoginService(@NonNull final UserDetailsService userDetService,
+    public SpringSecurityTokenLoginService(@NonNull final UserDetailsService userDetService,
             @NonNull final PasswordEncoder passEncoder, @NonNull final TokenProvider tProvider) {
         super();
 
-        wrapped = new BasicLoginService(userDetService, passEncoder);
+        wrapped = new SpringSecurityLoginService(userDetService, passEncoder);
         tokenProvider = tProvider;
     }
 
@@ -83,18 +88,18 @@ public final class TokenLoginService implements LoginService {
 
         log.debug("Log in attempt for {}", username);
 
+        // Attempts to login through the basic service
         basicStatus = wrapped.login(username, password);
 
         if (basicStatus.getLogged()) {
             // Valid user
             // Generate token
-            token = tokenProvider.generateToken(username);
             log.debug("Successful login for {}", username);
+            token = tokenProvider.generateToken(username);
             status = new ImmutableTokenLoginStatus(username, basicStatus.getLogged(), token);
         } else {
             // Invalid user
             // No token
-            token = "";
             log.debug("Failed login for {}", username);
             status = basicStatus;
         }

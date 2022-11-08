@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
+package com.bernardomg.security.login.service.springframework;
 
 import java.util.Optional;
 
@@ -33,18 +33,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.LoginService;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Login service.
+ * Login service which integrates with Spring Security. It makes use of {@link UserDetailsService} to find the user
+ * which tries to log in.
+ * <h2>Validations</h2>
+ * <p>
+ * If any of these fails, then the log in fails.
+ * <ul>
+ * <li>Received username exists as a user</li>
+ * <li>Received password matchs the one encrypted for the user</li>
+ * <li>User should be enabled, and all its status flags should mark it as valid</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class BasicLoginService implements LoginService {
+public final class SpringSecurityLoginService implements LoginService {
 
     /**
      * Password encoder, for validating passwords.
@@ -64,7 +74,7 @@ public final class BasicLoginService implements LoginService {
      * @param passEncoder
      *            password encoder to validate passwords
      */
-    public BasicLoginService(@NonNull final UserDetailsService userDetService,
+    public SpringSecurityLoginService(@NonNull final UserDetailsService userDetService,
             @NonNull final PasswordEncoder passEncoder) {
         super();
 
@@ -108,7 +118,7 @@ public final class BasicLoginService implements LoginService {
             }
         } else {
             // Invalid user
-            log.debug("User {} is in an invalid state invalid", username);
+            log.debug("User {} is in an invalid state", username);
             if (!details.get()
                 .isAccountNonExpired()) {
                 log.debug("User {} account expired", username);

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.unit;
+package com.bernardomg.security.login.test.service.springframework.unit;
 
 import java.util.Collections;
 
@@ -14,12 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.BasicLoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
 
-@DisplayName("Basic login service - password validation")
-public class TestBasicLoginServiceUserPassword {
+@DisplayName("SpringSecurityLoginService - password validation")
+public class TestSpringSecurityLoginServiceUserPassword {
 
-    public TestBasicLoginServiceUserPassword() {
+    public TestSpringSecurityLoginServiceUserPassword() {
         super();
     }
 
@@ -45,7 +45,7 @@ public class TestBasicLoginServiceUserPassword {
         Assertions.assertEquals("admin", status.getUsername());
     }
 
-    private final BasicLoginService getService(final Boolean match) {
+    private final SpringSecurityLoginService getService(final Boolean match) {
         final UserDetailsService userDetService;
         final PasswordEncoder    passEncoder;
         final UserDetails        user;
@@ -60,7 +60,7 @@ public class TestBasicLoginServiceUserPassword {
         Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
             .thenReturn(match);
 
-        return new BasicLoginService(userDetService, passEncoder);
+        return new SpringSecurityLoginService(userDetService, passEncoder);
     }
 
 }

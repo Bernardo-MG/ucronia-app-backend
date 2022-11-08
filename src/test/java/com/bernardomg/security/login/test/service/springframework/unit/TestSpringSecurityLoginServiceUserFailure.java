@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.unit;
+package com.bernardomg.security.login.test.service.springframework.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -11,12 +11,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.BasicLoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
 
-@DisplayName("Basic login service - failure handling")
-public class TestBasicLoginServiceUserFailure {
+@DisplayName("SpringSecurityLoginService - failure handling")
+public class TestSpringSecurityLoginServiceUserFailure {
 
-    public TestBasicLoginServiceUserFailure() {
+    public TestSpringSecurityLoginServiceUserFailure() {
         super();
     }
 
@@ -31,7 +31,7 @@ public class TestBasicLoginServiceUserFailure {
         Assertions.assertEquals("admin", status.getUsername());
     }
 
-    private final BasicLoginService getService(final UserDetails user) {
+    private final SpringSecurityLoginService getService(final UserDetails user) {
         final UserDetailsService userDetService;
         final PasswordEncoder    passEncoder;
 
@@ -43,10 +43,10 @@ public class TestBasicLoginServiceUserFailure {
         Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
             .thenReturn(true);
 
-        return new BasicLoginService(userDetService, passEncoder);
+        return new SpringSecurityLoginService(userDetService, passEncoder);
     }
 
-    private final BasicLoginService getServiceWithNullUser() {
+    private final SpringSecurityLoginService getServiceWithNullUser() {
         return getService(null);
     }
 

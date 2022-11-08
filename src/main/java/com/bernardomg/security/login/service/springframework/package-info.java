@@ -22,34 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
-
 /**
- * Security configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login services prepared to be used with Spring.
  */
-@Configuration
-public class LoginConfig {
 
-    public LoginConfig() {
-        super();
-    }
-
-    @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
-        return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
-    }
-
-}
+package com.bernardomg.security.login.service.springframework;

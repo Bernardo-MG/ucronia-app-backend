@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.integration;
+package com.bernardomg.security.login.test.service.springframework.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,27 +12,27 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.BasicLoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
 
 @IntegrationTest
-@DisplayName("Token login service")
-public class ITBasicLoginService {
+@DisplayName("SpringSecurityLoginService")
+public class ITSpringSecurityLoginService {
 
     @Autowired
-    private PasswordEncoder    passEncoder;
+    private PasswordEncoder            passEncoder;
 
-    private BasicLoginService  service;
+    private SpringSecurityLoginService service;
 
     @Autowired
-    private UserDetailsService userDetService;
+    private UserDetailsService         userDetService;
 
-    public ITBasicLoginService() {
+    public ITSpringSecurityLoginService() {
         super();
     }
 
     @BeforeEach
     public void initializeService() {
-        service = new BasicLoginService(userDetService, passEncoder);
+        service = new SpringSecurityLoginService(userDetService, passEncoder);
     }
 
     @Test

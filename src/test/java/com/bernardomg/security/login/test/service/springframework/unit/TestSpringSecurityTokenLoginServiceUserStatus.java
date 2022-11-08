@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.unit;
+package com.bernardomg.security.login.test.service.springframework.unit;
 
 import java.util.Collections;
 
@@ -15,12 +15,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.BasicLoginService;
+import com.bernardomg.security.login.model.TokenLoginStatus;
+import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
+import com.bernardomg.security.token.TokenProvider;
 
-@DisplayName("Basic login service - login with various user status")
-public class TestBasicLoginServiceUserStatus {
+@DisplayName("SpringSecurityTokenLoginService - login with various user status")
+public class TestSpringSecurityTokenLoginServiceUserStatus {
 
-    public TestBasicLoginServiceUserStatus() {
+    public TestSpringSecurityTokenLoginServiceUserStatus() {
         super();
     }
 
@@ -30,6 +32,8 @@ public class TestBasicLoginServiceUserStatus {
         final LoginStatus status;
 
         status = getServiceForAccountExpired().login("admin", "1234");
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
 
         Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
@@ -42,6 +46,8 @@ public class TestBasicLoginServiceUserStatus {
 
         status = getServiceForCredentialsExpired().login("admin", "1234");
 
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
         Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
@@ -52,6 +58,8 @@ public class TestBasicLoginServiceUserStatus {
         final LoginStatus status;
 
         status = getServiceForDisabled().login("admin", "1234");
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
 
         Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
@@ -64,6 +72,8 @@ public class TestBasicLoginServiceUserStatus {
 
         status = getServiceForLocked().login("admin", "1234");
 
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
         Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
@@ -74,6 +84,8 @@ public class TestBasicLoginServiceUserStatus {
         final LoginStatus status;
 
         status = getServiceForNotExisting().login("admin", "1234");
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
 
         Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
@@ -88,11 +100,13 @@ public class TestBasicLoginServiceUserStatus {
 
         Assertions.assertTrue(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertEquals("token", ((TokenLoginStatus) status).getToken());
     }
 
-    private final BasicLoginService getService(final UserDetails user) {
+    private final SpringSecurityTokenLoginService getService(final UserDetails user) {
         final UserDetailsService userDetService;
         final PasswordEncoder    passEncoder;
+        final TokenProvider      tokenProvider;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -102,10 +116,14 @@ public class TestBasicLoginServiceUserStatus {
         Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
             .thenReturn(true);
 
-        return new BasicLoginService(userDetService, passEncoder);
+        tokenProvider = Mockito.mock(TokenProvider.class);
+        Mockito.when(tokenProvider.generateToken(ArgumentMatchers.anyString()))
+            .thenReturn("token");
+
+        return new SpringSecurityTokenLoginService(userDetService, passEncoder, tokenProvider);
     }
 
-    private final BasicLoginService getServiceForAccountExpired() {
+    private final SpringSecurityTokenLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
         user = new User("username", "password", true, false, true, true, Collections.emptyList());
@@ -113,7 +131,7 @@ public class TestBasicLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final BasicLoginService getServiceForCredentialsExpired() {
+    private final SpringSecurityTokenLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, false, true, Collections.emptyList());
@@ -121,7 +139,7 @@ public class TestBasicLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final BasicLoginService getServiceForDisabled() {
+    private final SpringSecurityTokenLoginService getServiceForDisabled() {
         final UserDetails user;
 
         user = new User("username", "password", false, true, true, true, Collections.emptyList());
@@ -129,7 +147,7 @@ public class TestBasicLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final BasicLoginService getServiceForLocked() {
+    private final SpringSecurityTokenLoginService getServiceForLocked() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, false, true, Collections.emptyList());
@@ -137,9 +155,10 @@ public class TestBasicLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final BasicLoginService getServiceForNotExisting() {
+    private final SpringSecurityTokenLoginService getServiceForNotExisting() {
         final UserDetailsService userDetService;
         final PasswordEncoder    passEncoder;
+        final TokenProvider      tokenProvider;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -147,10 +166,14 @@ public class TestBasicLoginServiceUserStatus {
 
         passEncoder = Mockito.mock(PasswordEncoder.class);
 
-        return new BasicLoginService(userDetService, passEncoder);
+        tokenProvider = Mockito.mock(TokenProvider.class);
+        Mockito.when(tokenProvider.generateToken(ArgumentMatchers.anyString()))
+            .thenReturn("token");
+
+        return new SpringSecurityTokenLoginService(userDetService, passEncoder, tokenProvider);
     }
 
-    private final BasicLoginService getServiceForValid() {
+    private final SpringSecurityTokenLoginService getServiceForValid() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());

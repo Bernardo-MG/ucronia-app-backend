@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.unit;
+package com.bernardomg.security.login.test.service.springframework.unit;
 
 import java.util.Collections;
 
@@ -15,13 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.service.TokenLoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
 import com.bernardomg.security.token.TokenProvider;
 
-@DisplayName("Basic login service - password validation")
-public class TestTokenLoginServiceUserPassword {
+@DisplayName("SpringSecurityTokenLoginService - password validation")
+public class TestSpringSecurityTokenLoginServiceUserPassword {
 
-    public TestTokenLoginServiceUserPassword() {
+    public TestSpringSecurityTokenLoginServiceUserPassword() {
         super();
     }
 
@@ -52,7 +52,7 @@ public class TestTokenLoginServiceUserPassword {
         Assertions.assertEquals("token", ((TokenLoginStatus) status).getToken());
     }
 
-    private final TokenLoginService getService(final Boolean match) {
+    private final SpringSecurityTokenLoginService getService(final Boolean match) {
         final UserDetailsService userDetService;
         final PasswordEncoder    passEncoder;
         final TokenProvider      tokenProvider;
@@ -72,7 +72,7 @@ public class TestTokenLoginServiceUserPassword {
         Mockito.when(tokenProvider.generateToken(ArgumentMatchers.anyString()))
             .thenReturn("token");
 
-        return new TokenLoginService(userDetService, passEncoder, tokenProvider);
+        return new SpringSecurityTokenLoginService(userDetService, passEncoder, tokenProvider);
     }
 
 }
