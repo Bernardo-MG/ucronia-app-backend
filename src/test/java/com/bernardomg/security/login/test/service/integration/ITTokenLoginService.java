@@ -23,6 +23,38 @@ public class ITTokenLoginService {
     }
 
     @Test
+    @DisplayName("Doesn't log in a expired user")
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_AccountExpired() {
+        final TokenLoginStatus details;
+
+        details = service.login("admin", "1234");
+
+        Assertions.assertFalse(details.getLogged());
+        Assertions.assertEquals("admin", details.getUsername());
+        Assertions.assertTrue(details.getToken()
+            .isBlank());
+    }
+
+    @Test
+    @DisplayName("Doesn't log in a user with expired credentials")
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/credentials_expired.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_CredentialsExpired() {
+        final TokenLoginStatus details;
+
+        details = service.login("admin", "1234");
+
+        Assertions.assertFalse(details.getLogged());
+        Assertions.assertEquals("admin", details.getUsername());
+        Assertions.assertTrue(details.getToken()
+            .isBlank());
+    }
+
+    @Test
     @DisplayName("Doesn't log in a disabled user")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
@@ -51,22 +83,6 @@ public class ITTokenLoginService {
         Assertions.assertTrue(details.getLogged());
         Assertions.assertEquals("admin", details.getUsername());
         Assertions.assertTrue(!details.getToken()
-            .isBlank());
-    }
-
-    @Test
-    @DisplayName("Doesn't log in a expired user")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Expired() {
-        final TokenLoginStatus details;
-
-        details = service.login("admin", "1234");
-
-        Assertions.assertFalse(details.getLogged());
-        Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertTrue(details.getToken()
             .isBlank());
     }
 

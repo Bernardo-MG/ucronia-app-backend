@@ -60,13 +60,13 @@ public final class TokenLoginService implements LoginService {
 
     /**
      * Builds a service with the specified arguments.
-     *
+     * 
      * @param userDetService
      *            user details service to acquire users
      * @param passEncoder
      *            password encoder to validate passwords
-     * @param validator
-     *            login validator
+     * @param tProvider
+     *            token provider
      */
     public TokenLoginService(@NonNull final UserDetailsService userDetService,
             @NonNull final PasswordEncoder passEncoder, @NonNull final TokenProvider tProvider) {
