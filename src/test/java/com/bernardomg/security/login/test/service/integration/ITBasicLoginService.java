@@ -11,32 +11,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.service.TokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.BasicLoginService;
 
 @IntegrationTest
 @DisplayName("Token login service")
-public class ITTokenLoginService {
+public class ITBasicLoginService {
 
     @Autowired
     private PasswordEncoder    passEncoder;
 
-    private TokenLoginService  service;
-
-    @Autowired
-    private TokenProvider      tProvider;
+    private BasicLoginService  service;
 
     @Autowired
     private UserDetailsService userDetService;
 
-    public ITTokenLoginService() {
+    public ITBasicLoginService() {
         super();
     }
 
     @BeforeEach
     public void initializeService() {
-        service = new TokenLoginService(userDetService, passEncoder, tProvider);
+        service = new BasicLoginService(userDetService, passEncoder);
     }
 
     @Test
@@ -45,14 +41,12 @@ public class ITTokenLoginService {
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
-        final TokenLoginStatus details;
+        final LoginStatus details;
 
         details = service.login("admin", "1234");
 
         Assertions.assertFalse(details.getLogged());
         Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertTrue(details.getToken()
-            .isBlank());
     }
 
     @Test
@@ -61,14 +55,12 @@ public class ITTokenLoginService {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid() {
-        final TokenLoginStatus details;
+        final LoginStatus details;
 
         details = service.login("admin", "1234");
 
         Assertions.assertTrue(details.getLogged());
         Assertions.assertEquals("admin", details.getUsername());
-        Assertions.assertFalse(details.getToken()
-            .isBlank());
     }
 
 }
