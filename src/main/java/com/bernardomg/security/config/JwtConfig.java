@@ -22,7 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.security.config;
+
+import java.nio.charset.Charset;
+
+import javax.crypto.SecretKey;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +36,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.bernardomg.security.jwt.filter.JwtTokenFilter;
 import com.bernardomg.security.jwt.property.JwtProperties;
 import com.bernardomg.security.token.TokenValidator;
+
+import io.jsonwebtoken.security.Keys;
 
 /**
  * Authentication configuration.
@@ -45,6 +51,12 @@ public class JwtConfig {
 
     public JwtConfig() {
         super();
+    }
+
+    @Bean("jwtSecretKey")
+    public SecretKey getJwtSecretKey(final JwtProperties properties) {
+        return Keys.hmacShaKeyFor(properties.getSecret()
+            .getBytes(Charset.forName("UTF-8")));
     }
 
     @Bean("jwtTokenFilter")
