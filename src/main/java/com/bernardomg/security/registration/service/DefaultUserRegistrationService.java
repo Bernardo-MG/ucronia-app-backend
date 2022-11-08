@@ -3,7 +3,6 @@ package com.bernardomg.security.registration.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.regex.Pattern;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,6 +12,8 @@ import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.registration.validation.EmailValidationRule;
+import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.NonNull;
@@ -21,24 +22,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRegistrationService implements UserRegistrationService {
 
-    private final Pattern         emailPattern;
-
-    private final String          emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private final ValidationRule<String> emailValidationRule = new EmailValidationRule();
 
     /**
      * Password encoder, for saving passwords.
      */
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder        passwordEncoder;
 
-    private final UserRepository  repository;
+    private final UserRepository         repository;
 
     public DefaultUserRegistrationService(@NonNull final UserRepository repo, final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
         passwordEncoder = passEncoder;
-
-        emailPattern = Pattern.compile(emailRegex);
     }
 
     @Override
@@ -87,27 +84,22 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
     }
 
     private final Collection<Failure> validate(final String username, final String email) {
-        final Collection<Failure> result;
+        final Collection<Failure> failures;
         Failure                   error;
 
-        result = new ArrayList<>();
+        failures = new ArrayList<>();
 
         // Verify no user exists with the received username
         if (repository.existsByUsername(username)) {
             log.error("A user already exists with the username {}", username);
             error = FieldFailure.of("error.username.existing", "roleForm", "memberId", username);
-            result.add(error);
+            failures.add(error);
         }
 
         // Verify the email matches the valid pattern
-        if (!emailPattern.matcher(email)
-            .matches()) {
-            log.error("Email {} doesn't follow a valid pattern", email);
-            error = FieldFailure.of("error.email.invalid", "roleForm", "memberId", username);
-            result.add(error);
-        }
+        failures.addAll(emailValidationRule.test(email));
 
-        return result;
+        return failures;
     }
 
 }
