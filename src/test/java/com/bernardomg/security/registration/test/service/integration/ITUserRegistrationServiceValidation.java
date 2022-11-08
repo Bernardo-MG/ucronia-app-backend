@@ -25,16 +25,42 @@ public class ITUserRegistrationServiceValidation {
     }
 
     @Test
+    @DisplayName("Throws an exception when the email is empty")
+    public void testChangePassword_EmptyEmail() {
+        final Executable executable;
+        final Exception  exception;
+
+        executable = () -> service.registerUser("admin", "", "1234");
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.email.invalid", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Throws an exception when the username already exists")
     public void testChangePassword_ExistingUsername() {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.registerUser("admin", "email", "1234");
+        executable = () -> service.registerUser("admin", "email@somewhere.com", "1234");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.username.existing", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the email doesn't match the email pattern")
+    public void testChangePassword_NoEmailPattern() {
+        final Executable executable;
+        final Exception  exception;
+
+        executable = () -> service.registerUser("admin", "abc", "1234");
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.email.invalid", exception.getMessage());
     }
 
 }

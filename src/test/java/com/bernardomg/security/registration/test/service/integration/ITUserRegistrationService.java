@@ -17,7 +17,7 @@ import com.bernardomg.security.registration.service.UserRegistrationService;
 public class ITUserRegistrationService {
 
     @Autowired
-    private UserRepository      repository;
+    private UserRepository          repository;
 
     @Autowired
     private UserRegistrationService service;
@@ -29,9 +29,22 @@ public class ITUserRegistrationService {
     @Test
     @DisplayName("Adds an entity when registering")
     public void testRegisterUser_AddsEntity() {
-        service.registerUser("user", "email", "password");
+        service.registerUser("user", "email", "1234");
 
         Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Encodes the password")
+    public void testRegisterUser_EncodesPassword() {
+        final PersistentUser entity;
+
+        service.registerUser("user", "email", "1234");
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", entity.getPassword());
     }
 
     @Test
@@ -39,14 +52,14 @@ public class ITUserRegistrationService {
     public void testRegisterUser_PersistedData() {
         final PersistentUser entity;
 
-        service.registerUser("user", "email", "password");
+        service.registerUser("user", "email", "1234");
         entity = repository.findAll()
             .iterator()
             .next();
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("user", entity.getUsername());
-        Assertions.assertEquals("password", entity.getPassword());
+        Assertions.assertNotEquals("1234", entity.getPassword());
         Assertions.assertEquals("email", entity.getEmail());
         Assertions.assertFalse(entity.getCredentialsExpired());
         Assertions.assertTrue(entity.getEnabled());
@@ -59,7 +72,7 @@ public class ITUserRegistrationService {
     public void testRegisterUser_ReturnedData() {
         final User user;
 
-        user = service.registerUser("user", "email", "password");
+        user = service.registerUser("user", "email", "1234");
 
         Assertions.assertNotNull(user.getId());
         Assertions.assertEquals("user", user.getUsername());
