@@ -26,6 +26,7 @@ package com.bernardomg.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.registration.service.DefaultUserRegistrationService;
@@ -45,8 +46,9 @@ public class UserRegistrationConfig {
     }
 
     @Bean("userRegistrationService")
-    public UserRegistrationService getUserRegistrationService(final UserRepository repository) {
-        return new DefaultUserRegistrationService(repository);
+    public UserRegistrationService getUserRegistrationService(final UserRepository repository,
+            final PasswordEncoder passwordEncoder) {
+        return new DefaultUserRegistrationService(repository, passwordEncoder);
     }
 
 }

@@ -4,6 +4,8 @@ package com.bernardomg.security.registration.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.model.DtoUser;
@@ -18,12 +20,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRegistrationService implements UserRegistrationService {
 
-    private final UserRepository repository;
+    /**
+     * Password encoder, for saving passwords.
+     */
+    private final PasswordEncoder passwordEncoder;
 
-    public DefaultUserRegistrationService(@NonNull final UserRepository repo) {
+    private final UserRepository  repository;
+
+    public DefaultUserRegistrationService(@NonNull final UserRepository repo, final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
+        passwordEncoder = passEncoder;
     }
 
     @Override
@@ -31,6 +39,7 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         final PersistentUser      entity;
         final PersistentUser      created;
         final Collection<Failure> errors;
+        final String              encodedPassword;
 
         errors = validate(username);
         if (!errors.isEmpty()) {
@@ -41,12 +50,14 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         entity = new PersistentUser();
         entity.setUsername(username);
         entity.setEmail(email);
-        // TODO: Encode
-        entity.setPassword(password);
         entity.setCredentialsExpired(false);
         entity.setEnabled(true);
         entity.setExpired(false);
         entity.setLocked(false);
+
+        // Encode password
+        encodedPassword = passwordEncoder.encode(password);
+        entity.setPassword(encodedPassword);
 
         created = repository.save(entity);
 
