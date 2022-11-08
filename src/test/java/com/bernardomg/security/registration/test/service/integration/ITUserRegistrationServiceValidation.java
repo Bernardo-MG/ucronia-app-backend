@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.register.test.service.integration;
+package com.bernardomg.security.registration.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,18 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.register.service.RegisterUserService;
+import com.bernardomg.security.registration.service.UserRegistrationService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("Register user - validation")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITRegisterUserServiceValidation {
+public class ITUserRegistrationServiceValidation {
 
     @Autowired
-    private RegisterUserService service;
+    private UserRegistrationService service;
 
-    public ITRegisterUserServiceValidation() {
+    public ITUserRegistrationServiceValidation() {
         super();
     }
 

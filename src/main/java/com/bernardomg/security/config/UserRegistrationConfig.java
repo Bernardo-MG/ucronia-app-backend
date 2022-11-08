@@ -22,45 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.controller;
+package com.bernardomg.security.config;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.login.model.LoginRequest;
-import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.LoginService;
-
-import lombok.AllArgsConstructor;
+import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.registration.service.DefaultUserRegistrationService;
+import com.bernardomg.security.registration.service.UserRegistrationService;
 
 /**
- * Handles login requests. All the logic is delegated to a {@link LoginService}.
+ * Security configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-@RequestMapping("/login")
-@AllArgsConstructor
-public class LoginController {
+@Configuration
+public class UserRegistrationConfig {
 
-    /**
-     * Login service.
-     */
-    private final LoginService service;
+    public UserRegistrationConfig() {
+        super();
+    }
 
-    /**
-     * Attempts to log in a user, returning the login status.
-     *
-     * @param request
-     *            login request
-     * @return the login status after the login attempt
-     */
-    @PostMapping
-    public LoginStatus login(@RequestBody final LoginRequest request) {
-        return service.login(request.getUsername(), request.getPassword());
+    @Bean("userRegistrationService")
+    public UserRegistrationService getUserRegistrationService(final UserRepository repository) {
+        return new DefaultUserRegistrationService(repository);
     }
 
 }

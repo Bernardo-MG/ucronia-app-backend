@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.register.controller;
+package com.bernardomg.security.registration.controller;
 
 import javax.validation.Valid;
 
@@ -33,20 +33,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.data.model.User;
-import com.bernardomg.security.register.controller.model.DtoRegisterUserForm;
-import com.bernardomg.security.register.service.RegisterUserService;
+import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.registration.model.UserRegistrationRequest;
+import com.bernardomg.security.registration.service.UserRegistrationService;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Handles user registration. All the logic is delegated to a {@link LoginService}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @RestController
 @RequestMapping("/security/register")
 @AllArgsConstructor
-public class RegisterUserController {
+public class UserRegistrationController {
 
-    private final RegisterUserService service;
+    private final UserRegistrationService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final DtoRegisterUserForm form) {
+    public User create(@Valid @RequestBody final UserRegistrationRequest form) {
         return service.registerUser(form.getUsername(), form.getEmail(), form.getPassword());
     }
 

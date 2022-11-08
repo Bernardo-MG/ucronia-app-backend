@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.register.test.service.integration;
+package com.bernardomg.security.registration.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,19 +10,19 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.register.service.RegisterUserService;
+import com.bernardomg.security.registration.service.UserRegistrationService;
 
 @IntegrationTest
 @DisplayName("Register user service")
-public class ITRegisterUserService {
+public class ITUserRegistrationService {
 
     @Autowired
     private UserRepository      repository;
 
     @Autowired
-    private RegisterUserService service;
+    private UserRegistrationService service;
 
-    public ITRegisterUserService() {
+    public ITUserRegistrationService() {
         super();
     }
 

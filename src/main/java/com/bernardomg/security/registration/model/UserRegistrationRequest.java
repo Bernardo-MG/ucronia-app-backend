@@ -1,12 +1,12 @@
 
-package com.bernardomg.security.register.controller.model;
+package com.bernardomg.security.registration.model;
 
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Data
-public final class DtoRegisterUserForm {
+public final class UserRegistrationRequest {
 
     /**
      * User email.
