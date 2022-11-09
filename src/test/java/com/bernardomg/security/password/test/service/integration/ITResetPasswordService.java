@@ -13,7 +13,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.service.ResetPasswordService;
 
 @IntegrationTest
-@DisplayName("Change password service")
+@DisplayName("ResetPasswordService")
 @Sql({ "/db/queries/security/user/single.sql" })
 public class ITResetPasswordService {
 

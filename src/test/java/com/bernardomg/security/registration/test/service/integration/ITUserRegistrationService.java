@@ -13,7 +13,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.registration.service.UserRegistrationService;
 
 @IntegrationTest
-@DisplayName("Register user service")
+@DisplayName("UserRegistrationService")
 public class ITUserRegistrationService {
 
     @Autowired

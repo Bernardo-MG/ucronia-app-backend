@@ -13,7 +13,7 @@ import com.bernardomg.security.password.service.ResetPasswordService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
-@DisplayName("Change password service - validation")
+@DisplayName("ResetPasswordService - validation")
 @Sql({ "/db/queries/security/user/single.sql" })
 public class ITResetPasswordServiceValidation {
 
