@@ -35,6 +35,35 @@ public class ITUserRegistrationService {
     }
 
     @Test
+    @DisplayName("The new user is disabled")
+    public void testRegisterUser_Disabled() {
+        final PersistentUser entity;
+
+        service.registerUser("user", "email@somewhere.com");
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertFalse(entity.getCredentialsExpired());
+        Assertions.assertFalse(entity.getEnabled());
+        Assertions.assertFalse(entity.getExpired());
+        Assertions.assertFalse(entity.getLocked());
+    }
+
+    @Test
+    @DisplayName("The new user has no password")
+    public void testRegisterUser_NoPassword() {
+        final PersistentUser entity;
+
+        service.registerUser("user", "email@somewhere.com");
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("", entity.getPassword());
+    }
+
+    @Test
     @DisplayName("Persists the data")
     public void testRegisterUser_PersistedData() {
         final PersistentUser entity;
@@ -46,12 +75,7 @@ public class ITUserRegistrationService {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("user", entity.getUsername());
-        Assertions.assertEquals("", entity.getPassword());
         Assertions.assertEquals("email@somewhere.com", entity.getEmail());
-        Assertions.assertFalse(entity.getCredentialsExpired());
-        Assertions.assertFalse(entity.getEnabled());
-        Assertions.assertFalse(entity.getExpired());
-        Assertions.assertFalse(entity.getLocked());
     }
 
     @Test
