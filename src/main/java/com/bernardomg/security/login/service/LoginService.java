@@ -36,7 +36,7 @@ import com.bernardomg.security.login.model.LoginStatus;
 public interface LoginService {
 
     /**
-     * Receives credentials and returns the login status.
+     * Receives credentials, attempts a login and returns the resulting status.
      *
      * @param username
      *            username to authenticate

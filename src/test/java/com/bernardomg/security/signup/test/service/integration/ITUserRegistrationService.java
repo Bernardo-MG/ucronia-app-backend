@@ -29,7 +29,7 @@ public class ITUserRegistrationService {
     @Test
     @DisplayName("Adds an entity when registering")
     public void testRegisterUser_AddsEntity() {
-        service.registerUser("user", "email@somewhere.com");
+        service.signUp("user", "email@somewhere.com");
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -39,7 +39,7 @@ public class ITUserRegistrationService {
     public void testRegisterUser_Disabled() {
         final PersistentUser entity;
 
-        service.registerUser("user", "email@somewhere.com");
+        service.signUp("user", "email@somewhere.com");
         entity = repository.findAll()
             .iterator()
             .next();
@@ -55,7 +55,7 @@ public class ITUserRegistrationService {
     public void testRegisterUser_NoPassword() {
         final PersistentUser entity;
 
-        service.registerUser("user", "email@somewhere.com");
+        service.signUp("user", "email@somewhere.com");
         entity = repository.findAll()
             .iterator()
             .next();
@@ -68,7 +68,7 @@ public class ITUserRegistrationService {
     public void testRegisterUser_PersistedData() {
         final PersistentUser entity;
 
-        service.registerUser("user", "email@somewhere.com");
+        service.signUp("user", "email@somewhere.com");
         entity = repository.findAll()
             .iterator()
             .next();
@@ -83,7 +83,7 @@ public class ITUserRegistrationService {
     public void testRegisterUser_ReturnedData() {
         final User user;
 
-        user = service.registerUser("user", "email@somewhere.com");
+        user = service.signUp("user", "email@somewhere.com");
 
         Assertions.assertNotNull(user.getId());
         Assertions.assertEquals("user", user.getUsername());

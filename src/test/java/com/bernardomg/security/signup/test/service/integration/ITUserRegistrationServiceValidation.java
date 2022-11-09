@@ -30,7 +30,7 @@ public class ITUserRegistrationServiceValidation {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.registerUser("abc", "");
+        executable = () -> service.signUp("abc", "");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -43,7 +43,7 @@ public class ITUserRegistrationServiceValidation {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.registerUser("admin", "email@somewhere.com");
+        executable = () -> service.signUp("admin", "email@somewhere.com");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -56,7 +56,7 @@ public class ITUserRegistrationServiceValidation {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.registerUser("abc", "abc");
+        executable = () -> service.signUp("abc", "abc");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

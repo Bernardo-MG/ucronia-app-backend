@@ -33,14 +33,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.data.model.User;
-import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.signup.model.SignUpRequest;
 import com.bernardomg.security.signup.service.SignUpService;
 
 import lombok.AllArgsConstructor;
 
 /**
- * Handles user registration. All the logic is delegated to a {@link LoginService}.
+ * Handles new user registration. All the logic is delegated to a {@link SignUpService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -54,7 +53,7 @@ public class SignUpController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User create(@Valid @RequestBody final SignUpRequest form) {
-        return service.registerUser(form.getUsername(), form.getEmail());
+        return service.signUp(form.getUsername(), form.getEmail());
     }
 
 }
