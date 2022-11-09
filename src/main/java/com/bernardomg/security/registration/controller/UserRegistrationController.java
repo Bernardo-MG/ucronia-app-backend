@@ -46,7 +46,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/register")
+@RequestMapping("/signup")
 @AllArgsConstructor
 public class UserRegistrationController {
 
