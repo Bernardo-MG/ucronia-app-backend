@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.User;
@@ -16,9 +15,6 @@ import com.bernardomg.security.registration.service.UserRegistrationService;
 @IntegrationTest
 @DisplayName("Register user service")
 public class ITUserRegistrationService {
-
-    @Autowired
-    private PasswordEncoder         passwordEncoder;
 
     @Autowired
     private UserRepository          repository;
