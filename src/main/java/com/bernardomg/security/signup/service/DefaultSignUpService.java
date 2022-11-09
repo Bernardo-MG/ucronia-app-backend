@@ -34,6 +34,7 @@ import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.email.SecurityEmailSender;
 import com.bernardomg.security.signup.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;
@@ -62,15 +63,18 @@ public final class DefaultSignUpService implements SignUpService {
      */
     private final ValidationRule<String> emailValidationRule = new EmailValidationRule();
 
+    private final SecurityEmailSender    mailSender;
+
     /**
      * User repository.
      */
     private final UserRepository         repository;
 
-    public DefaultSignUpService(@NonNull final UserRepository repo) {
+    public DefaultSignUpService(@NonNull final UserRepository repo, @NonNull final SecurityEmailSender mSender) {
         super();
 
         repository = repo;
+        mailSender = mSender;
     }
 
     @Override
@@ -95,8 +99,9 @@ public final class DefaultSignUpService implements SignUpService {
         entity.setLocked(false);
 
         created = repository.save(entity);
-        
-        // TODO: Send email
+
+        // Sends success email
+        mailSender.sendSignUpEmail(username, email);
 
         return toDto(created);
     }

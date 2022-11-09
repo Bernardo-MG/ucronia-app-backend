@@ -24,14 +24,15 @@
 
 package com.bernardomg.security.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.email.DefaultSecurityEmailSender;
+import com.bernardomg.security.email.DisabledSecurityEmailSender;
+import com.bernardomg.security.email.SecurityEmailSender;
 
 /**
  * Security configuration.
@@ -40,16 +41,22 @@ import com.bernardomg.security.token.TokenProvider;
  *
  */
 @Configuration
-public class LoginConfig {
+public class SecurityEmailConfig {
 
-    public LoginConfig() {
+    public SecurityEmailConfig() {
         super();
     }
 
-    @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
-        return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
+    @Bean("securityEmailSender")
+    @ConditionalOnMissingBean(JavaMailSender.class)
+    public SecurityEmailSender getSecurityEmailSender() {
+        return new DisabledSecurityEmailSender();
+    }
+
+    @Bean("securityEmailSender")
+    @ConditionalOnBean(JavaMailSender.class)
+    public SecurityEmailSender getSecurityEmailSender(final JavaMailSender mailSender) {
+        return new DefaultSecurityEmailSender("", mailSender);
     }
 
 }

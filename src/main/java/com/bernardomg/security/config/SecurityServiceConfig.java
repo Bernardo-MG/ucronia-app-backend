@@ -26,15 +26,20 @@ package com.bernardomg.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.email.SecurityEmailSender;
+import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
 import com.bernardomg.security.password.service.DefaultPasswordResetService;
 import com.bernardomg.security.password.service.PasswordResetService;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
 import com.bernardomg.security.signup.service.DefaultSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
+import com.bernardomg.security.token.TokenProvider;
 
 /**
  * Security configuration.
@@ -43,10 +48,16 @@ import com.bernardomg.security.signup.service.SignUpService;
  *
  */
 @Configuration
-public class UserRegistrationConfig {
+public class SecurityServiceConfig {
 
-    public UserRegistrationConfig() {
+    public SecurityServiceConfig() {
         super();
+    }
+
+    @Bean("loginService")
+    public LoginService getLoginService(final UserDetailsService userDetailsService,
+            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
+        return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
     }
 
     @Bean("resetPasswordService")
@@ -57,8 +68,9 @@ public class UserRegistrationConfig {
     }
 
     @Bean("userRegistrationService")
-    public SignUpService getUserRegistrationService(final UserRepository repository) {
-        return new DefaultSignUpService(repository);
+    public SignUpService getUserRegistrationService(final UserRepository repository,
+            final SecurityEmailSender mailSender) {
+        return new DefaultSignUpService(repository, mailSender);
     }
 
 }
