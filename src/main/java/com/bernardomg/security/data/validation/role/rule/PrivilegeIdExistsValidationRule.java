@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.data.validation.role.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -22,15 +21,16 @@ public final class PrivilegeIdExistsValidationRule implements ValidationRule<Lon
     private final PrivilegeRepository repository;
 
     @Override
-    public final Collection<Failure> test(final Long id) {
-        final Collection<Failure> result;
-        final Failure             error;
+    public final Optional<Failure> test(final Long id) {
+        final Failure           error;
+        final Optional<Failure> result;
 
-        result = new ArrayList<>();
         if (!repository.existsById(id)) {
             log.error("Found no privilege with id {}", id);
             error = FieldFailure.of("error.privilege.id.notExisting", "roleForm", "memberId", id);
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

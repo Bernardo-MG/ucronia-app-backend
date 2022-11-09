@@ -26,6 +26,7 @@ package com.bernardomg.validation;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.bernardomg.mvc.error.model.Failure;
@@ -57,7 +58,8 @@ public final class RuleValidator<T> implements Validator<T> {
         errors = rules.stream()
             .peek(r -> log.debug("Applying validation rule {}", r))
             .map((r) -> r.test(obj))
-            .flatMap(Collection::stream)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .collect(Collectors.toList());
 
         log.debug("Applied rules: {}", rules);

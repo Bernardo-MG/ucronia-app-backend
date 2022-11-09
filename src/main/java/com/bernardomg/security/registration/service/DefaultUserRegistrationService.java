@@ -3,6 +3,7 @@ package com.bernardomg.security.registration.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -85,6 +86,7 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
 
     private final Collection<Failure> validate(final String username, final String email) {
         final Collection<Failure> failures;
+        final Optional<Failure>   failure;
         Failure                   error;
 
         failures = new ArrayList<>();
@@ -97,7 +99,10 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
         }
 
         // Verify the email matches the valid pattern
-        failures.addAll(emailValidationRule.test(email));
+        failure = emailValidationRule.test(email);
+        if (failure.isPresent()) {
+            failures.add(failure.get());
+        }
 
         return failures;
     }

@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.data.validation.role.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -25,19 +24,20 @@ public final class RoleNoUserValidationRule implements ValidationRule<Role> {
     private final UserRolesRepository repository;
 
     @Override
-    public final Collection<Failure> test(final Role role) {
-        final Collection<Failure> result;
+    public final Optional<Failure> test(final Role role) {
         final Failure             error;
         final PersistentUserRoles sample;
+        final Optional<Failure>   result;
 
         sample = new PersistentUserRoles();
         sample.setRoleId(role.getId());
 
-        result = new ArrayList<>();
         if (repository.exists(Example.of(sample))) {
             log.error("Role with id {} has a relationship with a user", role.getId());
             error = FieldFailure.of("error.user.existing", "roleForm", "memberId", role.getId());
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;
