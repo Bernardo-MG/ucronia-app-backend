@@ -1,12 +1,12 @@
 
-package com.bernardomg.security.registration.model;
+package com.bernardomg.security.signup.model;
 
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Data
-public final class UserRegistrationRequest {
+public final class SignUpRequest {
 
     /**
      * User email.

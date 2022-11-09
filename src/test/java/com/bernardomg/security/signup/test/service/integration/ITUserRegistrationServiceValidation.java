@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.registration.test.service.integration;
+package com.bernardomg.security.signup.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.registration.service.UserRegistrationService;
+import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
@@ -18,7 +18,7 @@ import com.bernardomg.validation.exception.ValidationException;
 public class ITUserRegistrationServiceValidation {
 
     @Autowired
-    private UserRegistrationService service;
+    private SignUpService service;
 
     public ITUserRegistrationServiceValidation() {
         super();

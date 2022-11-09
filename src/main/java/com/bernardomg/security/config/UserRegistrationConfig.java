@@ -33,8 +33,8 @@ import com.bernardomg.security.password.service.DefaultPasswordResetService;
 import com.bernardomg.security.password.service.PasswordResetService;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
-import com.bernardomg.security.registration.service.DefaultUserRegistrationService;
-import com.bernardomg.security.registration.service.UserRegistrationService;
+import com.bernardomg.security.signup.service.DefaultSignUpService;
+import com.bernardomg.security.signup.service.SignUpService;
 
 /**
  * Security configuration.
@@ -57,8 +57,8 @@ public class UserRegistrationConfig {
     }
 
     @Bean("userRegistrationService")
-    public UserRegistrationService getUserRegistrationService(final UserRepository repository) {
-        return new DefaultUserRegistrationService(repository);
+    public SignUpService getUserRegistrationService(final UserRepository repository) {
+        return new DefaultSignUpService(repository);
     }
 
 }

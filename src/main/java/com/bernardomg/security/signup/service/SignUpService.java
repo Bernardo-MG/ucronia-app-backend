@@ -1,9 +1,9 @@
 
-package com.bernardomg.security.registration.service;
+package com.bernardomg.security.signup.service;
 
 import com.bernardomg.security.data.model.User;
 
-public interface UserRegistrationService {
+public interface SignUpService {
 
     public User registerUser(final String username, final String email);
 

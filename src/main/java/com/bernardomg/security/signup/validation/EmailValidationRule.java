@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.registration.validation;
+package com.bernardomg.security.signup.validation;
 
 import java.util.Optional;
 import java.util.regex.Pattern;

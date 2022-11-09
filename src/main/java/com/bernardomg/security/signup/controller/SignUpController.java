@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.registration.controller;
+package com.bernardomg.security.signup.controller;
 
 import javax.validation.Valid;
 
@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.registration.model.UserRegistrationRequest;
-import com.bernardomg.security.registration.service.UserRegistrationService;
+import com.bernardomg.security.signup.model.SignUpRequest;
+import com.bernardomg.security.signup.service.SignUpService;
 
 import lombok.AllArgsConstructor;
 
@@ -48,12 +48,12 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/signup")
 @AllArgsConstructor
-public class UserRegistrationController {
+public class SignUpController {
 
-    private final UserRegistrationService service;
+    private final SignUpService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final UserRegistrationRequest form) {
+    public User create(@Valid @RequestBody final SignUpRequest form) {
         return service.registerUser(form.getUsername(), form.getEmail());
     }
 
