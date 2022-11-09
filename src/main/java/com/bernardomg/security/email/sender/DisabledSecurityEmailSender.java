@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.email;
+package com.bernardomg.security.email.sender;
 
 public final class DisabledSecurityEmailSender implements SecurityEmailSender {
 

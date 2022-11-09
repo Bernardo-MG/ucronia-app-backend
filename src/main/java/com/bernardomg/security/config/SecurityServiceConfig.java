@@ -30,7 +30,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.email.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityEmailSender;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
 import com.bernardomg.security.password.service.DefaultPasswordResetService;

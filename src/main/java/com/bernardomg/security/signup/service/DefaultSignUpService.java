@@ -34,7 +34,7 @@ import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.email.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityEmailSender;
 import com.bernardomg.security.signup.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;

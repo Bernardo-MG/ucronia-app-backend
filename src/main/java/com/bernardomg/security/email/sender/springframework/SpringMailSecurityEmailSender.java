@@ -22,41 +22,48 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.email.sender.springframework;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.bernardomg.security.email.sender.DisabledSecurityEmailSender;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
-import com.bernardomg.security.email.sender.springframework.SpringMailSecurityEmailSender;
+
+import lombok.NonNull;
 
 /**
- * Security configuration.
+ * Email sender for security operations which integrates with Spring Mail.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class SecurityEmailConfig {
+public final class SpringMailSecurityEmailSender implements SecurityEmailSender {
 
-    public SecurityEmailConfig() {
+    private final String         fromEmail;
+
+    private final JavaMailSender mailSender;
+
+    private final String         signUpSubject = "";
+
+    private final String         signUpText    = "";
+
+    public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final JavaMailSender mSender) {
         super();
+
+        fromEmail = from;
+        mailSender = mSender;
     }
 
-    @Bean("securityEmailSender")
-    @ConditionalOnMissingBean(JavaMailSender.class)
-    public SecurityEmailSender getSecurityEmailSender() {
-        return new DisabledSecurityEmailSender();
-    }
+    @Override
+    public final void sendSignUpEmail(final String username, final String email) {
+        final SimpleMailMessage message;
 
-    @Bean("securityEmailSender")
-    @ConditionalOnBean(JavaMailSender.class)
-    public SecurityEmailSender getSecurityEmailSender(final JavaMailSender mailSender) {
-        return new SpringMailSecurityEmailSender("", mailSender);
+        message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(signUpSubject);
+        message.setText(signUpText);
+        mailSender.send(message);
     }
 
 }

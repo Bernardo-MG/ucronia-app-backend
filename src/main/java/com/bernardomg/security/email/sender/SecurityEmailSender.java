@@ -22,41 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
-
-import com.bernardomg.security.email.sender.DisabledSecurityEmailSender;
-import com.bernardomg.security.email.sender.SecurityEmailSender;
-import com.bernardomg.security.email.sender.springframework.SpringMailSecurityEmailSender;
+package com.bernardomg.security.email.sender;
 
 /**
- * Security configuration.
- *
+ * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new user.
+ * 
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class SecurityEmailConfig {
+public interface SecurityEmailSender {
 
-    public SecurityEmailConfig() {
-        super();
-    }
-
-    @Bean("securityEmailSender")
-    @ConditionalOnMissingBean(JavaMailSender.class)
-    public SecurityEmailSender getSecurityEmailSender() {
-        return new DisabledSecurityEmailSender();
-    }
-
-    @Bean("securityEmailSender")
-    @ConditionalOnBean(JavaMailSender.class)
-    public SecurityEmailSender getSecurityEmailSender(final JavaMailSender mailSender) {
-        return new SpringMailSecurityEmailSender("", mailSender);
-    }
+    /**
+     * Sends the email after signing up as a new user.
+     * 
+     * @param username username for the user who signed up
+     * @param email email to send the email to
+     */
+    public void sendSignUpEmail(final String username, final String email);
 
 }
