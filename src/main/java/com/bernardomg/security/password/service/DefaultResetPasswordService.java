@@ -24,6 +24,7 @@ public final class DefaultResetPasswordService implements ResetPasswordService {
     public DefaultResetPasswordService(final UserRepository repository, final PasswordEncoder passwordEncoder,
             final ChangePasswordValidator validator, final ChangePasswordPassValidator passValidator) {
         super();
+
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.validator = validator;
