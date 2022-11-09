@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.model.DtoUser;
@@ -25,26 +23,19 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
 
     private final ValidationRule<String> emailValidationRule = new EmailValidationRule();
 
-    /**
-     * Password encoder, for saving passwords.
-     */
-    private final PasswordEncoder        passwordEncoder;
-
     private final UserRepository         repository;
 
-    public DefaultUserRegistrationService(@NonNull final UserRepository repo, final PasswordEncoder passEncoder) {
+    public DefaultUserRegistrationService(@NonNull final UserRepository repo) {
         super();
 
         repository = repo;
-        passwordEncoder = passEncoder;
     }
 
     @Override
-    public final User registerUser(final String username, final String email, final String password) {
+    public final User registerUser(final String username, final String email) {
         final PersistentUser      entity;
         final PersistentUser      created;
         final Collection<Failure> errors;
-        final String              encodedPassword;
 
         errors = validate(username, email);
         if (!errors.isEmpty()) {
@@ -54,15 +45,12 @@ public final class DefaultUserRegistrationService implements UserRegistrationSer
 
         entity = new PersistentUser();
         entity.setUsername(username);
+        entity.setPassword("");
         entity.setEmail(email);
         entity.setCredentialsExpired(false);
-        entity.setEnabled(true);
+        entity.setEnabled(false);
         entity.setExpired(false);
         entity.setLocked(false);
-
-        // Encode password
-        encodedPassword = passwordEncoder.encode(password);
-        entity.setPassword(encodedPassword);
 
         created = repository.save(entity);
 

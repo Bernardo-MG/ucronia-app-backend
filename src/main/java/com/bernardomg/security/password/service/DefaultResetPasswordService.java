@@ -4,7 +4,6 @@ package com.bernardomg.security.password.service;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
@@ -12,11 +11,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
 
-import lombok.AllArgsConstructor;
-
-@Service
-@AllArgsConstructor
-public final class DefaultChangePasswordService implements ChangePasswordService {
+public final class DefaultResetPasswordService implements ResetPasswordService {
 
     private final ChangePasswordPassValidator passValidator;
 
@@ -25,6 +20,15 @@ public final class DefaultChangePasswordService implements ChangePasswordService
     private final UserRepository              repository;
 
     private final ChangePasswordValidator     validator;
+
+    public DefaultResetPasswordService(final UserRepository repository, final PasswordEncoder passwordEncoder,
+            final ChangePasswordValidator validator, final ChangePasswordPassValidator passValidator) {
+        super();
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+        this.validator = validator;
+        this.passValidator = passValidator;
+    }
 
     @Override
     public final Boolean changePassword(final String username, final String password) {

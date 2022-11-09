@@ -32,22 +32,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.controller.form.DtoChangePasswordForm;
-import com.bernardomg.security.password.service.ChangePasswordService;
+import com.bernardomg.security.password.model.PasswordResetRequest;
+import com.bernardomg.security.password.service.ResetPasswordService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/security/password")
+@RequestMapping("/password/reset")
 @AllArgsConstructor
-public class ChangePasswordController {
+public class ResetPasswordController {
 
-    private final ChangePasswordService service;
+    private final ResetPasswordService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean create(@Valid @RequestBody final DtoChangePasswordForm form) {
-        // return service.changePassword(form.getUsername(), form.getPassword());
-        return false;
+    public Boolean create(@Valid @RequestBody final PasswordResetRequest request) {
+        return service.changePassword(request.getUsername(), request.getPassword());
     }
 
 }

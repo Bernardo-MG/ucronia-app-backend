@@ -54,7 +54,7 @@ public class UserRegistrationController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User create(@Valid @RequestBody final UserRegistrationRequest form) {
-        return service.registerUser(form.getUsername(), form.getEmail(), form.getPassword());
+        return service.registerUser(form.getUsername(), form.getEmail());
     }
 
 }

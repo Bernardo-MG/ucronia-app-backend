@@ -15,12 +15,6 @@ public final class UserRegistrationRequest {
     private String email;
 
     /**
-     * User password.
-     */
-    @NotNull
-    private String password;
-
-    /**
      * User name.
      */
     @NotNull
