@@ -29,8 +29,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.password.service.DefaultResetPasswordService;
-import com.bernardomg.security.password.service.ResetPasswordService;
+import com.bernardomg.security.password.service.DefaultPasswordResetService;
+import com.bernardomg.security.password.service.PasswordResetService;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
 import com.bernardomg.security.registration.service.DefaultUserRegistrationService;
@@ -50,10 +50,10 @@ public class UserRegistrationConfig {
     }
 
     @Bean("resetPasswordService")
-    public ResetPasswordService getResetPasswordService(final UserRepository repository,
+    public PasswordResetService getResetPasswordService(final UserRepository repository,
             final PasswordEncoder passwordEncoder, final ChangePasswordValidator validator,
             final ChangePasswordPassValidator passValidator) {
-        return new DefaultResetPasswordService(repository, passwordEncoder, validator, passValidator);
+        return new DefaultPasswordResetService(repository, passwordEncoder, validator, passValidator);
     }
 
     @Bean("userRegistrationService")

@@ -11,7 +11,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
 
-public final class DefaultResetPasswordService implements ResetPasswordService {
+public final class DefaultPasswordResetService implements PasswordResetService {
 
     private final ChangePasswordPassValidator passValidator;
 
@@ -21,7 +21,7 @@ public final class DefaultResetPasswordService implements ResetPasswordService {
 
     private final ChangePasswordValidator     validator;
 
-    public DefaultResetPasswordService(final UserRepository repository, final PasswordEncoder passwordEncoder,
+    public DefaultPasswordResetService(final UserRepository repository, final PasswordEncoder passwordEncoder,
             final ChangePasswordValidator validator, final ChangePasswordPassValidator passValidator) {
         super();
 

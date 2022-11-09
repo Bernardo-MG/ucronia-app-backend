@@ -33,16 +33,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.password.model.PasswordResetRequest;
-import com.bernardomg.security.password.service.ResetPasswordService;
+import com.bernardomg.security.password.service.PasswordResetService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/password/reset")
 @AllArgsConstructor
-public class ResetPasswordController {
+public class PasswordResetController {
 
-    private final ResetPasswordService service;
+    private final PasswordResetService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean create(@Valid @RequestBody final PasswordResetRequest request) {

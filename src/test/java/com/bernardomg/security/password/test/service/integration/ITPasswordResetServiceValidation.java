@@ -9,18 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.service.ResetPasswordService;
+import com.bernardomg.security.password.service.PasswordResetService;
 import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("ResetPasswordService - validation")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITResetPasswordServiceValidation {
+public class ITPasswordResetServiceValidation {
 
     @Autowired
-    private ResetPasswordService service;
+    private PasswordResetService service;
 
-    public ITResetPasswordServiceValidation() {
+    public ITPasswordResetServiceValidation() {
         super();
     }
 

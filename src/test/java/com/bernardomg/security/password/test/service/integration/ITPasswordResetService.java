@@ -10,20 +10,20 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.password.service.ResetPasswordService;
+import com.bernardomg.security.password.service.PasswordResetService;
 
 @IntegrationTest
 @DisplayName("ResetPasswordService")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITResetPasswordService {
+public class ITPasswordResetService {
 
     @Autowired
     private UserRepository       repository;
 
     @Autowired
-    private ResetPasswordService service;
+    private PasswordResetService service;
 
-    public ITResetPasswordService() {
+    public ITPasswordResetService() {
         super();
     }
 
