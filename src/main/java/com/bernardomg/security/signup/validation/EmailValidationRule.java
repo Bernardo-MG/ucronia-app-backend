@@ -22,34 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.signup.validation;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
+import com.bernardomg.validation.ValidationRule;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Security configuration.
+ * Rule to verify a text follows the valid email pattern.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class LoginConfig {
+@Slf4j
+public final class EmailValidationRule implements ValidationRule<String> {
 
-    public LoginConfig() {
+    private final Pattern emailPattern;
+
+    private final String  emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+    public EmailValidationRule() {
         super();
+
+        emailPattern = Pattern.compile(emailRegex);
     }
 
-    @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
-        return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
+    @Override
+    public final Optional<Failure> test(final String email) {
+        final Failure           failure;
+        final Optional<Failure> result;
+
+        // Verify the email matches the valid pattern
+        if (!emailPattern.matcher(email)
+            .matches()) {
+            log.error("Email {} doesn't follow a valid pattern", email);
+            failure = FieldFailure.of("error.email.invalid", "roleForm", "memberId", email);
+            result = Optional.of(failure);
+        } else {
+            result = Optional.empty();
+        }
+
+        return result;
     }
 
 }

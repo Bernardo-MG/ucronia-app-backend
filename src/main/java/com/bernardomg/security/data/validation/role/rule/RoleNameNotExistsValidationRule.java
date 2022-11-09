@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.data.validation.role.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -25,19 +24,20 @@ public final class RoleNameNotExistsValidationRule implements ValidationRule<Rol
     private final RoleRepository repository;
 
     @Override
-    public final Collection<Failure> test(final Role role) {
-        final Collection<Failure> result;
-        final Failure             error;
-        final PersistentRole      sample;
+    public final Optional<Failure> test(final Role role) {
+        final Failure           error;
+        final PersistentRole    sample;
+        final Optional<Failure> result;
 
         sample = new PersistentRole();
         sample.setName(role.getName());
 
-        result = new ArrayList<>();
         if (repository.exists(Example.of(sample))) {
             log.error("A role already exists with the name {}", role.getName());
             error = FieldFailure.of("error.name.existing", "roleForm", "memberId", role.getName());
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

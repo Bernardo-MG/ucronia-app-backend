@@ -22,32 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.controller;
+package com.bernardomg.security.signup.service;
 
-import javax.validation.Valid;
+import com.bernardomg.security.data.model.User;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+/**
+ * User sign up service. Registers new users into the application.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface SignUpService {
 
-import com.bernardomg.security.password.controller.form.DtoChangePasswordForm;
-import com.bernardomg.security.password.service.ChangePasswordService;
-
-import lombok.AllArgsConstructor;
-
-@RestController
-@RequestMapping("/security/password")
-@AllArgsConstructor
-public class ChangePasswordController {
-
-    private final ChangePasswordService service;
-
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean create(@Valid @RequestBody final DtoChangePasswordForm form) {
-        // return service.changePassword(form.getUsername(), form.getPassword());
-        return false;
-    }
+    /**
+     * Registers a new user into the application. This user will be disabled, and will require an additional activation
+     * step.
+     *
+     * @param username
+     *            user username
+     * @param email
+     *            user email
+     * @return the new user registered
+     */
+    public User signUp(final String username, final String email);
 
 }

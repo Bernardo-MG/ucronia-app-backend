@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.data.validation.user.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -25,19 +24,20 @@ public final class UserUsernameNotExistsValidationRule implements ValidationRule
     private final UserRepository repository;
 
     @Override
-    public final Collection<Failure> test(final User user) {
-        final Collection<Failure> result;
-        final Failure             error;
-        final PersistentUser      sample;
+    public final Optional<Failure> test(final User user) {
+        final Failure           error;
+        final PersistentUser    sample;
+        final Optional<Failure> result;
 
         sample = new PersistentUser();
         sample.setUsername(user.getUsername());
 
-        result = new ArrayList<>();
         if (repository.exists(Example.of(sample))) {
             log.error("A user already exists with the username {}", user.getUsername());
             error = FieldFailure.of("error.username.existing", "roleForm", "memberId", user.getUsername());
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

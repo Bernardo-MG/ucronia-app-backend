@@ -1,8 +1,7 @@
 
 package com.bernardomg.association.crud.fee.validation.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -21,14 +20,15 @@ public final class FeeMemberExistsValidationRule implements ValidationRule<FeeFo
     private final MemberRepository repository;
 
     @Override
-    public final Collection<Failure> test(final FeeForm form) {
-        final Collection<Failure> result;
-        final Failure             error;
+    public final Optional<Failure> test(final FeeForm form) {
+        final Failure           failure;
+        final Optional<Failure> result;
 
-        result = new ArrayList<>();
         if (!repository.existsById(form.getMemberId())) {
-            error = FieldFailure.of("error.member.notExists", "feeForm", "memberId", form.getMemberId());
-            result.add(error);
+            failure = FieldFailure.of("error.member.notExists", "feeForm", "memberId", form.getMemberId());
+            result = Optional.of(failure);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

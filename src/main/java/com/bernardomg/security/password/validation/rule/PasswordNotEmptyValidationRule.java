@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.password.validation.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
@@ -18,14 +17,15 @@ import lombok.AllArgsConstructor;
 public final class PasswordNotEmptyValidationRule implements ValidationRule<String> {
 
     @Override
-    public final Collection<Failure> test(final String password) {
-        final Collection<Failure> result;
-        final Failure             error;
+    public final Optional<Failure> test(final String password) {
+        final Failure           error;
+        final Optional<Failure> result;
 
-        result = new ArrayList<>();
         if (Strings.isEmpty(password)) {
             error = FieldFailure.of("error.password.invalid", "roleForm", "id", password);
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

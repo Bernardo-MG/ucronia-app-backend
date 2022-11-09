@@ -54,13 +54,13 @@ public class PersistentUser implements Serializable {
      * Serialization id.
      */
     @Transient
-    private static final long serialVersionUID   = 4807136960800402795L;
+    private static final long serialVersionUID = 4807136960800402795L;
 
     /**
      * User expired flag.
      */
     @Column(name = "credentials_expired", nullable = false)
-    private Boolean           credentialsExpired = false;
+    private Boolean           credentialsExpired;
 
     /**
      * User email.
@@ -72,13 +72,13 @@ public class PersistentUser implements Serializable {
      * User enabled flag.
      */
     @Column(name = "enabled", nullable = false)
-    private Boolean           enabled            = true;
+    private Boolean           enabled;
 
     /**
      * User expired flag.
      */
     @Column(name = "expired", nullable = false)
-    private Boolean           expired            = false;
+    private Boolean           expired;
 
     /**
      * Entity id.
@@ -92,7 +92,7 @@ public class PersistentUser implements Serializable {
      * User locked flag.
      */
     @Column(name = "locked", nullable = false)
-    private Boolean           locked             = false;
+    private Boolean           locked;
 
     /**
      * User password.

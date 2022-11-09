@@ -24,20 +24,22 @@
 
 package com.bernardomg.security.config;
 
-import java.security.SecureRandom;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
-import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.email.SecurityEmailSender;
+import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
+import com.bernardomg.security.password.service.DefaultPasswordResetService;
+import com.bernardomg.security.password.service.PasswordResetService;
+import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
+import com.bernardomg.security.password.validation.ChangePasswordValidator;
+import com.bernardomg.security.signup.service.DefaultSignUpService;
+import com.bernardomg.security.signup.service.SignUpService;
+import com.bernardomg.security.token.TokenProvider;
 
 /**
  * Security configuration.
@@ -46,27 +48,29 @@ import com.bernardomg.security.springframework.userdetails.PersistentUserDetails
  *
  */
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+public class SecurityServiceConfig {
 
-    public SecurityConfig() {
+    public SecurityServiceConfig() {
         super();
     }
 
-    @Bean("authenticationEntryPoint")
-    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
-        return new ErrorResponseAuthenticationEntryPoint();
+    @Bean("loginService")
+    public LoginService getLoginService(final UserDetailsService userDetailsService,
+            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
+        return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
     }
 
-    @Bean("passwordEncoder")
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(10, new SecureRandom());
+    @Bean("resetPasswordService")
+    public PasswordResetService getResetPasswordService(final UserRepository repository,
+            final PasswordEncoder passwordEncoder, final ChangePasswordValidator validator,
+            final ChangePasswordPassValidator passValidator) {
+        return new DefaultPasswordResetService(repository, passwordEncoder, validator, passValidator);
     }
 
-    @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final PrivilegeRepository privilegeRepository) {
-        return new PersistentUserDetailsService(userRepository, privilegeRepository);
+    @Bean("userRegistrationService")
+    public SignUpService getUserRegistrationService(final UserRepository repository,
+            final SecurityEmailSender mailSender) {
+        return new DefaultSignUpService(repository, mailSender);
     }
 
 }

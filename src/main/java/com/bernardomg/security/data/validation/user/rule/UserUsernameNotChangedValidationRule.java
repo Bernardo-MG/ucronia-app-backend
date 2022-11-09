@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.data.validation.user.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -25,13 +23,12 @@ public final class UserUsernameNotChangedValidationRule implements ValidationRul
     private final UserRepository repository;
 
     @Override
-    public final Collection<Failure> test(final User user) {
-        final Collection<Failure>      result;
+    public final Optional<Failure> test(final User user) {
         final Failure                  error;
         final Optional<PersistentUser> entity;
+        final Optional<Failure>        result;
 
         // TODO: Avoid reading in each rule
-        result = new ArrayList<>();
         entity = repository.findById(user.getId());
         if ((entity.isPresent()) && (!entity.get()
             .getUsername()
@@ -41,7 +38,9 @@ public final class UserUsernameNotChangedValidationRule implements ValidationRul
                 entity.get()
                     .getId());
             error = FieldFailure.of("error.username.immutable", "roleForm", "id", user.getId());
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

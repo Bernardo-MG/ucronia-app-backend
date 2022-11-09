@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.service;
 
-public interface ChangePasswordService {
+public interface PasswordResetService {
 
     public Boolean changePassword(final String username, final String password);
 

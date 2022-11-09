@@ -22,32 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.register.controller;
+package com.bernardomg.security.config;
 
-import javax.validation.Valid;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bernardomg.security.email.DefaultSecurityEmailSender;
+import com.bernardomg.security.email.DisabledSecurityEmailSender;
+import com.bernardomg.security.email.SecurityEmailSender;
 
-import com.bernardomg.security.data.model.User;
-import com.bernardomg.security.register.controller.model.DtoRegisterUserForm;
-import com.bernardomg.security.register.service.RegisterUserService;
+/**
+ * Security configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration
+public class SecurityEmailConfig {
 
-import lombok.AllArgsConstructor;
+    public SecurityEmailConfig() {
+        super();
+    }
 
-@RestController
-@RequestMapping("/security/register")
-@AllArgsConstructor
-public class RegisterUserController {
+    @Bean("securityEmailSender")
+    @ConditionalOnMissingBean(JavaMailSender.class)
+    public SecurityEmailSender getSecurityEmailSender() {
+        return new DisabledSecurityEmailSender();
+    }
 
-    private final RegisterUserService service;
-
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final DtoRegisterUserForm form) {
-        return service.registerUser(form.getUsername(), form.getEmail(), form.getPassword());
+    @Bean("securityEmailSender")
+    @ConditionalOnBean(JavaMailSender.class)
+    public SecurityEmailSender getSecurityEmailSender(final JavaMailSender mailSender) {
+        return new DefaultSecurityEmailSender("", mailSender);
     }
 
 }

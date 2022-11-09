@@ -43,11 +43,20 @@ import com.bernardomg.security.data.persistence.model.PersistentUser;
  */
 public interface UserRepository extends JpaRepository<PersistentUser, Long> {
 
+    /**
+     * Returns whether an user with the given username exists.
+     *
+     * @param username
+     *            username to search for
+     * @return {@code true} if the user exists, {@code false} otherwise
+     */
+    public Boolean existsByUsername(final String username);
+
     @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
     public Page<Role> findAllRoles(@Param("id") final Long id, final Pageable pageable);
 
     /**
-     * Returns the user details for the received email.
+     * Returns the user for the received email.
      *
      * @param email
      *            email to search for
@@ -56,7 +65,7 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
     public Optional<PersistentUser> findOneByEmail(final String email);
 
     /**
-     * Returns the user details for the received username.
+     * Returns the user for the received username.
      *
      * @param username
      *            username to search for

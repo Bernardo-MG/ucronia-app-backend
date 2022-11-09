@@ -22,45 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.controller;
+package com.bernardomg.security.signup.controller;
 
+import javax.validation.Valid;
+
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.login.model.LoginRequest;
-import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.data.model.User;
+import com.bernardomg.security.signup.model.SignUpRequest;
+import com.bernardomg.security.signup.service.SignUpService;
 
 import lombok.AllArgsConstructor;
 
 /**
- * Handles login requests. All the logic is delegated to a {@link LoginService}.
+ * Handles new user registration. All the logic is delegated to a {@link SignUpService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/signup")
 @AllArgsConstructor
-public class LoginController {
+public class SignUpController {
 
-    /**
-     * Login service.
-     */
-    private final LoginService service;
+    private final SignUpService service;
 
-    /**
-     * Attempts to log in a user, returning the login status.
-     *
-     * @param request
-     *            login request
-     * @return the login status after the login attempt
-     */
-    @PostMapping
-    public LoginStatus login(@RequestBody final LoginRequest request) {
-        return service.login(request.getUsername(), request.getPassword());
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public User create(@Valid @RequestBody final SignUpRequest form) {
+        return service.signUp(form.getUsername(), form.getEmail());
     }
 
 }

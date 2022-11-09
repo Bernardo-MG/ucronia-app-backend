@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.data.validation.role.rule;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -23,15 +22,16 @@ public final class RoleExistsValidationRule implements ValidationRule<Role> {
     private final RoleRepository repository;
 
     @Override
-    public final Collection<Failure> test(final Role role) {
-        final Collection<Failure> result;
-        final Failure             error;
+    public final Optional<Failure> test(final Role role) {
+        final Failure           error;
+        final Optional<Failure> result;
 
-        result = new ArrayList<>();
         if (!repository.existsById(role.getId())) {
             log.error("Found no role with id {}", role.getId());
             error = FieldFailure.of("error.id.notExisting", "roleForm", "memberId", role.getId());
-            result.add(error);
+            result = Optional.of(error);
+        } else {
+            result = Optional.empty();
         }
 
         return result;

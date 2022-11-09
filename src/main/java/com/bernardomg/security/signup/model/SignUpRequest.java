@@ -22,45 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.controller;
+package com.bernardomg.security.signup.model;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import javax.validation.constraints.NotNull;
 
-import com.bernardomg.security.login.model.LoginRequest;
-import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.service.LoginService;
-
-import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
- * Handles login requests. All the logic is delegated to a {@link LoginService}.
+ * New user registration request DTO. Contains all the data for registering a new user. Used to map requests from the
+ * frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-@RequestMapping("/login")
-@AllArgsConstructor
-public class LoginController {
+@Data
+public final class SignUpRequest {
 
     /**
-     * Login service.
+     * User email.
      */
-    private final LoginService service;
+    @NotNull
+    private String email;
 
     /**
-     * Attempts to log in a user, returning the login status.
-     *
-     * @param request
-     *            login request
-     * @return the login status after the login attempt
+     * User username.
      */
-    @PostMapping
-    public LoginStatus login(@RequestBody final LoginRequest request) {
-        return service.login(request.getUsername(), request.getPassword());
-    }
+    @NotNull
+    private String username;
 
 }
