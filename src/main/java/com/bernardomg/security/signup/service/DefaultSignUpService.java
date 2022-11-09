@@ -95,6 +95,8 @@ public final class DefaultSignUpService implements SignUpService {
         entity.setLocked(false);
 
         created = repository.save(entity);
+        
+        // TODO: Send email
 
         return toDto(created);
     }
