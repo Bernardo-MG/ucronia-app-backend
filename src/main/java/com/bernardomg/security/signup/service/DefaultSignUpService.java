@@ -101,9 +101,10 @@ public final class DefaultSignUpService implements SignUpService {
         created = repository.save(entity);
 
         // Sends success email
+        // TODO: Test this
         mailSender.sendSignUpEmail(created.getUsername(), created.getEmail());
 
-        return new ImmutableSignUpStatus(created.getUsername(), created.getUsername(), true);
+        return new ImmutableSignUpStatus(created.getUsername(), created.getEmail(), true);
     }
 
     /**
