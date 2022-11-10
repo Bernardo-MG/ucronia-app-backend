@@ -25,8 +25,9 @@
 package com.bernardomg.security.email.sender;
 
 /**
- * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new user.
- * 
+ * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
+ * user.
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
@@ -34,9 +35,11 @@ public interface SecurityEmailSender {
 
     /**
      * Sends the email after signing up as a new user.
-     * 
-     * @param username username for the user who signed up
-     * @param email email to send the email to
+     *
+     * @param username
+     *            username for the user who signed up
+     * @param email
+     *            email to send the email to
      */
     public void sendSignUpEmail(final String username, final String email);
 
