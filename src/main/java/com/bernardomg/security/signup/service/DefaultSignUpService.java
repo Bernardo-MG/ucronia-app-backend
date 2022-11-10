@@ -102,6 +102,7 @@ public final class DefaultSignUpService implements SignUpService {
 
         // Sends success email
         // TODO: Test this
+        // TODO: Can be chained after the sign up call. Maybe use an aspect
         mailSender.sendSignUpEmail(created.getUsername(), created.getEmail());
 
         return new ImmutableSignUpStatus(created.getUsername(), created.getEmail(), true);
