@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
 
@@ -42,8 +43,13 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = service.login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
 
         Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
@@ -56,8 +62,13 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid() {
         final LoginStatus details;
+        final DtoLogin    login;
 
-        details = service.login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        details = service.login(login);
 
         Assertions.assertTrue(details.getLogged());
         Assertions.assertEquals("admin", details.getUsername());

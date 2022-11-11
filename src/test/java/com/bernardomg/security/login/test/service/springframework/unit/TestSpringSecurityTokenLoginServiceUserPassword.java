@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
@@ -29,8 +30,13 @@ public class TestSpringSecurityTokenLoginServiceUserPassword {
     @DisplayName("Doesn't log in with an invalid password")
     public void testLogIn_Invalid() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getService(false).login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getService(false).login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -42,8 +48,13 @@ public class TestSpringSecurityTokenLoginServiceUserPassword {
     @DisplayName("Logs in with a valid password")
     public void testLogIn_Valid() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getService(true).login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getService(true).login(login);
 
         Assertions.assertInstanceOf(TokenLoginStatus.class, status);
 

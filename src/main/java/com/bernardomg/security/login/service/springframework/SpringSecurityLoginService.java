@@ -32,6 +32,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
+import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.service.LoginService;
 
@@ -83,57 +84,57 @@ public final class SpringSecurityLoginService implements LoginService {
     }
 
     @Override
-    public final LoginStatus login(final String username, final String password) {
+    public final LoginStatus login(final Login login) {
         final Boolean valid;
 
-        log.debug("Log in attempt for {}", username);
+        log.debug("Log in attempt for {}", login.getUsername());
 
-        valid = isValid(username, password);
+        valid = isValid(login);
 
-        return new ImmutableLoginStatus(username, valid);
+        return new ImmutableLoginStatus(login.getUsername(), valid);
     }
 
-    private final Boolean isValid(final String username, final String password) {
+    private final Boolean isValid(final Login login) {
         final Boolean         valid;
         Optional<UserDetails> details;
 
         // Find the user
         try {
-            details = Optional.ofNullable(userDetailsService.loadUserByUsername(username));
+            details = Optional.ofNullable(userDetailsService.loadUserByUsername(login.getUsername()));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }
 
         if (details.isEmpty()) {
             // No user found for username
-            log.debug("No user for username {}", username);
+            log.debug("No user for username {}", login.getUsername());
             valid = false;
         } else if (isValid(details.get())) {
             // User exists
             // Validate password
-            valid = passwordEncoder.matches(password, details.get()
+            valid = passwordEncoder.matches(login.getPassword(), details.get()
                 .getPassword());
             if (!valid) {
-                log.debug("Received password doesn't match the one stored for username {}", username);
+                log.debug("Received password doesn't match the one stored for username {}", login.getUsername());
             }
         } else {
             // Invalid user
-            log.debug("User {} is in an invalid state", username);
+            log.debug("User {} is in an invalid state", login.getUsername());
             if (!details.get()
                 .isAccountNonExpired()) {
-                log.debug("User {} account expired", username);
+                log.debug("User {} account expired", login.getUsername());
             }
             if (!details.get()
                 .isAccountNonLocked()) {
-                log.debug("User {} account is locked", username);
+                log.debug("User {} account is locked", login.getUsername());
             }
             if (!details.get()
                 .isCredentialsNonExpired()) {
-                log.debug("User {} credentials expired", username);
+                log.debug("User {} credentials expired", login.getUsername());
             }
             if (!details.get()
                 .isEnabled()) {
-                log.debug("User {} is disabled", username);
+                log.debug("User {} is disabled", login.getUsername());
             }
             valid = false;
         }

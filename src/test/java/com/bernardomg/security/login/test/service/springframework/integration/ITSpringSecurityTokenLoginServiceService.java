@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
@@ -47,8 +48,13 @@ public class ITSpringSecurityTokenLoginServiceService {
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = service.login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -63,8 +69,13 @@ public class ITSpringSecurityTokenLoginServiceService {
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = service.login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
 
         Assertions.assertInstanceOf(TokenLoginStatus.class, status);
 

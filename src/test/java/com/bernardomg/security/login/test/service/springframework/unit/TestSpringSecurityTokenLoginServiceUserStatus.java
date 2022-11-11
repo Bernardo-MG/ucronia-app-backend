@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
@@ -30,8 +31,13 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
     @DisplayName("Doesn't log in a expired user")
     public void testLogIn_AccountExpired() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getServiceForAccountExpired().login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getServiceForAccountExpired().login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -43,8 +49,13 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
     @DisplayName("Doesn't log in a user with expired credentials")
     public void testLogIn_CredentialsExpired() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getServiceForCredentialsExpired().login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getServiceForCredentialsExpired().login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -56,8 +67,13 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
     @DisplayName("Doesn't log in a disabled user")
     public void testLogIn_Disabled() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getServiceForDisabled().login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getServiceForDisabled().login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -69,8 +85,13 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
     @DisplayName("Doesn't log in a locked user")
     public void testLogIn_Locked() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getServiceForLocked().login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getServiceForLocked().login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -82,8 +103,13 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
     @DisplayName("Doesn't log in a not existing user")
     public void testLogIn_NotExisting() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getServiceForNotExisting().login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getServiceForNotExisting().login(login);
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
@@ -95,8 +121,13 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
     @DisplayName("Logs in with a valid user")
     public void testLogIn_Valid() {
         final LoginStatus status;
+        final DtoLogin    login;
 
-        status = getServiceForValid().login("admin", "1234");
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = getServiceForValid().login(login);
 
         Assertions.assertTrue(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());

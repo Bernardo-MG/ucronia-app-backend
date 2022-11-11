@@ -24,26 +24,25 @@
 
 package com.bernardomg.security.login.model;
 
+import lombok.Data;
+
 /**
  * All the data required for a login attempt.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface Login {
+@Data
+public class DtoLogin implements Login {
 
     /**
-     * Returns the user password.
-     *
-     * @return the user password
+     * User password.
      */
-    public String getPassword();
+    private String password;
 
     /**
-     * Returns the user username.
-     *
-     * @return the user username
+     * User username.
      */
-    public String getUsername();
+    private String username;
 
 }

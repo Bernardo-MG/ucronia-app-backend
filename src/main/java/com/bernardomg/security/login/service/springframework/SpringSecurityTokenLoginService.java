@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
+import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.LoginService;
@@ -81,26 +82,26 @@ public final class SpringSecurityTokenLoginService implements LoginService {
     }
 
     @Override
-    public final LoginStatus login(final String username, final String password) {
+    public final LoginStatus login(final Login login) {
         final String      token;
         final LoginStatus basicStatus;
         final LoginStatus status;
 
-        log.debug("Log in attempt for {}", username);
+        log.debug("Log in attempt for {}", login.getUsername());
 
         // Attempts to login through the basic service
-        basicStatus = wrapped.login(username, password);
+        basicStatus = wrapped.login(login);
 
         if (basicStatus.getLogged()) {
             // Valid user
             // Generate token
-            log.debug("Successful login for {}", username);
-            token = tokenProvider.generateToken(username);
-            status = new ImmutableTokenLoginStatus(username, basicStatus.getLogged(), token);
+            log.debug("Successful login for {}", login.getUsername());
+            token = tokenProvider.generateToken(login.getUsername());
+            status = new ImmutableTokenLoginStatus(login.getUsername(), basicStatus.getLogged(), token);
         } else {
             // Invalid user
             // No token
-            log.debug("Failed login for {}", username);
+            log.debug("Failed login for {}", login.getUsername());
             status = basicStatus;
         }
 
