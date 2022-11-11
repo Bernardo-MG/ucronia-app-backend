@@ -27,13 +27,13 @@ package com.bernardomg.security.login.model;
 import lombok.Data;
 
 /**
- * Login request DTO. Contains all the data for a login attempt. Used to map requests from the frontend.
+ * All the data required for a login attempt.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-public class LoginRequest {
+public class Login {
 
     /**
      * User password.
