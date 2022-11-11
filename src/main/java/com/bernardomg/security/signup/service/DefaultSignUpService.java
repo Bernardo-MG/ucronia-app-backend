@@ -30,11 +30,11 @@ import java.util.Optional;
 
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
-import com.bernardomg.security.data.model.DtoUser;
-import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
+import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.signup.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;
@@ -78,7 +78,7 @@ public final class DefaultSignUpService implements SignUpService {
     }
 
     @Override
-    public final User signUp(final String username, final String email) {
+    public final SignUpStatus signUp(final String username, final String email) {
         final PersistentUser      entity;
         final PersistentUser      created;
         final Collection<Failure> errors;
@@ -101,31 +101,11 @@ public final class DefaultSignUpService implements SignUpService {
         created = repository.save(entity);
 
         // Sends success email
-        mailSender.sendSignUpEmail(username, email);
+        // TODO: Test this
+        // TODO: Can be chained after the sign up call. Maybe use an aspect
+        mailSender.sendSignUpEmail(created.getUsername(), created.getEmail());
 
-        return toDto(created);
-    }
-
-    /**
-     * Transforms the entity into a DTO.
-     *
-     * @param entity
-     *            entity to transform
-     * @return equivalent DTO
-     */
-    private final User toDto(final PersistentUser entity) {
-        final DtoUser data;
-
-        data = new DtoUser();
-        data.setId(entity.getId());
-        data.setUsername(entity.getUsername());
-        data.setEmail(entity.getEmail());
-        data.setCredentialsExpired(entity.getCredentialsExpired());
-        data.setEnabled(entity.getEnabled());
-        data.setExpired(entity.getExpired());
-        data.setLocked(entity.getLocked());
-
-        return data;
+        return new ImmutableSignUpStatus(created.getUsername(), created.getEmail(), true);
     }
 
     /**

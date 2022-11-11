@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.signup.service;
 
-import com.bernardomg.security.data.model.User;
+import com.bernardomg.security.signup.model.SignUpStatus;
 
 /**
  * User sign up service. Registers new users into the application.
@@ -44,6 +44,6 @@ public interface SignUpService {
      *            user email
      * @return the new user registered
      */
-    public User signUp(final String username, final String email);
+    public SignUpStatus signUp(final String username, final String email);
 
 }

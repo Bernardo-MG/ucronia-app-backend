@@ -22,38 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.signup.controller;
-
-import javax.validation.Valid;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.security.signup.model.SignUpRequest;
-import com.bernardomg.security.signup.model.SignUpStatus;
-import com.bernardomg.security.signup.service.SignUpService;
-
-import lombok.AllArgsConstructor;
+package com.bernardomg.security.signup.model;
 
 /**
- * Handles new user registration. All the logic is delegated to a {@link SignUpService}.
+ * Status after a sign up attempt. Will tell if the sign up attempt was successful or not, through the {@code signedUp}
+ * field.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-@RequestMapping("/signup")
-@AllArgsConstructor
-public class SignUpController {
+public interface SignUpStatus {
 
-    private final SignUpService service;
+    /**
+     * Returns the email of the user who attempted to sign up.
+     *
+     * @return the email
+     */
+    public String getEmail();
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SignUpStatus create(@Valid @RequestBody final SignUpRequest form) {
-        return service.signUp(form.getUsername(), form.getEmail());
-    }
+    /**
+     * Returns if the sign up attempt was successful.
+     *
+     * @return {@code true} if the sign up was successful, {@code false} otherwise
+     */
+    public Boolean getSignedUp();
+
+    /**
+     * Returns the username of the user who attempted to sign up.
+     *
+     * @return the username
+     */
+    public String getUsername();
 
 }

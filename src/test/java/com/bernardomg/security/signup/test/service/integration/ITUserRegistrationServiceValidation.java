@@ -26,7 +26,7 @@ public class ITUserRegistrationServiceValidation {
 
     @Test
     @DisplayName("Throws an exception when the email is empty")
-    public void testChangePassword_EmptyEmail() {
+    public void testSignUp_EmptyEmail() {
         final Executable executable;
         final Exception  exception;
 
@@ -39,7 +39,7 @@ public class ITUserRegistrationServiceValidation {
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
-    public void testChangePassword_ExistingUsername() {
+    public void testSignUp_ExistingUsername() {
         final Executable executable;
         final Exception  exception;
 
@@ -52,7 +52,7 @@ public class ITUserRegistrationServiceValidation {
 
     @Test
     @DisplayName("Throws an exception when the email doesn't match the email pattern")
-    public void testChangePassword_NoEmailPattern() {
+    public void testSignUp_NoEmailPattern() {
         final Executable executable;
         final Exception  exception;
 

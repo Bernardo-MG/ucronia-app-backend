@@ -22,38 +22,51 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.signup.controller;
+package com.bernardomg.security.signup.model;
 
-import javax.validation.Valid;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.security.signup.model.SignUpRequest;
-import com.bernardomg.security.signup.model.SignUpStatus;
-import com.bernardomg.security.signup.service.SignUpService;
-
-import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
- * Handles new user registration. All the logic is delegated to a {@link SignUpService}.
+ * Immutable implementation of {@link SignUpStatus}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-@RequestMapping("/signup")
-@AllArgsConstructor
-public class SignUpController {
+@Data
+public class ImmutableSignUpStatus implements SignUpStatus {
 
-    private final SignUpService service;
+    /**
+     * Email of the user who attempted to sign up.
+     */
+    private final String  email;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SignUpStatus create(@Valid @RequestBody final SignUpRequest form) {
-        return service.signUp(form.getUsername(), form.getEmail());
+    /**
+     * Flag telling if the sign up was successful.
+     */
+    private final Boolean signedUp;
+
+    /**
+     * Username of the user who attempted to sign up.
+     */
+    private final String  username;
+
+    /**
+     * Builds a sign up status with the specified arguments.
+     *
+     * @param user
+     *            username
+     * @param mail
+     *            email
+     * @param flag
+     *            sign up status
+     */
+    public ImmutableSignUpStatus(@NonNull final String user, @NonNull final String mail, @NonNull final Boolean flag) {
+        super();
+
+        username = user;
+        email = mail;
+        signedUp = flag;
     }
 
 }
