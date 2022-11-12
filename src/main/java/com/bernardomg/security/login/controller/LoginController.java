@@ -29,14 +29,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.login.model.LoginDetails;
-import com.bernardomg.security.login.model.UserForm;
+import com.bernardomg.security.login.model.DtoLogin;
+import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.service.LoginService;
 
 import lombok.AllArgsConstructor;
 
 /**
- * Login controller. Allows a user to log into the application.
+ * Handles login requests. All the logic is delegated to a {@link LoginService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -52,15 +52,15 @@ public class LoginController {
     private final LoginService service;
 
     /**
-     * Logs in a user.
+     * Attempts to log in a user, returning the login status.
      *
-     * @param user
-     *            user details
+     * @param request
+     *            login request
      * @return the login status after the login attempt
      */
     @PostMapping
-    public LoginDetails login(@RequestBody final UserForm user) {
-        return service.login(user.getUsername(), user.getPassword());
+    public LoginStatus login(@RequestBody final DtoLogin request) {
+        return service.login(request);
     }
 
 }

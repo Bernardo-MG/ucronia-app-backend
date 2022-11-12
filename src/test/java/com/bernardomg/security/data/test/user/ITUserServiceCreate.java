@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoUser;
@@ -41,21 +40,6 @@ public class ITUserServiceCreate {
     }
 
     @Test
-    @DisplayName("Doesn't create over existing ids")
-    @Sql({ "/db/queries/security/role/single.sql" })
-    public void testCreate_existing() {
-        final User    result;
-        final DtoUser user;
-
-        user = getUser();
-        user.setId(1L);
-
-        result = service.create(user);
-
-        Assertions.assertNotEquals(1L, result.getId());
-    }
-
-    @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
         final User           user;
@@ -71,7 +55,7 @@ public class ITUserServiceCreate {
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("User", entity.getUsername());
         Assertions.assertEquals("email", entity.getEmail());
-        Assertions.assertNull(entity.getPassword());
+        Assertions.assertEquals("", entity.getPassword());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
         Assertions.assertEquals(false, entity.getExpired());

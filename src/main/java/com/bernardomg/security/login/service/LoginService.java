@@ -24,10 +24,12 @@
 
 package com.bernardomg.security.login.service;
 
-import com.bernardomg.security.login.model.LoginDetails;
+import com.bernardomg.security.login.model.Login;
+import com.bernardomg.security.login.model.LoginStatus;
 
 /**
- * Login service. Takes the user credentials and returns a token.
+ * Login service. Handles the login process, which receives a user credentials and returns the login status, which tells
+ * if the login was successful or not.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -35,14 +37,12 @@ import com.bernardomg.security.login.model.LoginDetails;
 public interface LoginService {
 
     /**
-     * Receives credentials and returns the login status. If it was valid then it contains a token.
+     * Receives credentials, attempts a login and returns the resulting status.
      *
-     * @param username
-     *            username to authenticate
-     * @param password
-     *            password to authenticate
+     * @param login
+     *            login details
      * @return login status
      */
-    public LoginDetails login(final String username, final String password);
+    public LoginStatus login(final Login login);
 
 }

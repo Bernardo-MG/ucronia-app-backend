@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.test.crud.fee.unit.validation;
 
-import java.util.Collection;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,37 +38,36 @@ public class TestFeeMemberExistsValidationRule {
     @Test
     @DisplayName("Rejects the member id when it doesn't exist")
     public final void testValidator_MemberNotExists() throws Exception {
-        final Collection<Failure> failures;
-        final DtoFeeForm          fee;
-        final FieldFailure        failure;
+        final Optional<Failure> failure;
+        final DtoFeeForm        fee;
+        final FieldFailure      fieldFailure;
 
         fee = new DtoFeeForm();
         fee.setMemberId(0L);
 
-        failures = validator.test(fee);
+        failure = validator.test(fee);
 
-        Assertions.assertEquals(1, failures.size());
+        Assertions.assertTrue(failure.isPresent());
 
-        failure = (FieldFailure) failures.iterator()
-            .next();
-        Assertions.assertEquals("error.member.notExists", failure.getMessage());
-        Assertions.assertEquals("feeForm", failure.getObject());
-        Assertions.assertEquals("memberId", failure.getField());
-        Assertions.assertEquals(0L, failure.getValue());
+        fieldFailure = (FieldFailure) failure.get();
+        Assertions.assertEquals("error.member.notExists", fieldFailure.getMessage());
+        Assertions.assertEquals("feeForm", fieldFailure.getObject());
+        Assertions.assertEquals("memberId", fieldFailure.getField());
+        Assertions.assertEquals(0L, fieldFailure.getValue());
     }
 
     @Test
     @DisplayName("Accepts an existing member id")
     public final void testValidator_Valid() throws Exception {
-        final Collection<Failure> failures;
-        final DtoFeeForm          fee;
+        final Optional<Failure> failure;
+        final DtoFeeForm        fee;
 
         fee = new DtoFeeForm();
         fee.setMemberId(1L);
 
-        failures = validator.test(fee);
+        failure = validator.test(fee);
 
-        Assertions.assertEquals(0, failures.size());
+        Assertions.assertFalse(failure.isPresent());
     }
 
 }
