@@ -44,9 +44,9 @@ public class PasswordResetController {
 
     private final PasswordResetService service;
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean create(@Valid @RequestBody final PasswordResetRequest request) {
-        return service.changePassword(request.getUsername(), request.getPassword());
-    }
+//    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Boolean create(@Valid @RequestBody final PasswordResetRequest request) {
+//        return service.changePassword(request.getUsername(), request.getPassword());
+//    }
 
 }

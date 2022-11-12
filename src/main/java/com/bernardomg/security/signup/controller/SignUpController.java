@@ -51,9 +51,9 @@ public class SignUpController {
 
     private final SignUpService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SignUpStatus create(@Valid @RequestBody final DtoSignUp request) {
-        return service.signUp(request);
-    }
+//    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//    public SignUpStatus create(@Valid @RequestBody final DtoSignUp request) {
+//        return service.signUp(request);
+//    }
 
 }
