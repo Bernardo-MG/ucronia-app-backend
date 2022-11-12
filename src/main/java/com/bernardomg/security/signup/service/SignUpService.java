@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.signup.service;
 
+import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 
 /**
@@ -38,12 +39,10 @@ public interface SignUpService {
      * Registers a new user into the application. This user will be disabled, and will require an additional activation
      * step.
      *
-     * @param username
-     *            user username
-     * @param email
-     *            user email
+     * @param signUp
+     *            sign up data
      * @return the new user registered
      */
-    public SignUpStatus signUp(final String username, final String email);
+    public SignUpStatus signUp(final SignUp signUp);
 
 }

@@ -45,7 +45,7 @@ public interface SignUpStatus {
      *
      * @return {@code true} if the sign up was successful, {@code false} otherwise
      */
-    public Boolean getSignedUp();
+    public Boolean getSuccessful();
 
     /**
      * Returns the username of the user who attempted to sign up.

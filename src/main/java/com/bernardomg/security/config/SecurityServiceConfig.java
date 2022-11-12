@@ -37,7 +37,7 @@ import com.bernardomg.security.password.service.DefaultPasswordResetService;
 import com.bernardomg.security.password.service.PasswordResetService;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
-import com.bernardomg.security.signup.service.DefaultSignUpService;
+import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.TokenProvider;
 
@@ -70,7 +70,7 @@ public class SecurityServiceConfig {
     @Bean("userRegistrationService")
     public SignUpService getUserRegistrationService(final UserRepository repository,
             final SecurityEmailSender mailSender) {
-        return new DefaultSignUpService(repository, mailSender);
+        return new MailSignUpService(repository, mailSender);
     }
 
 }

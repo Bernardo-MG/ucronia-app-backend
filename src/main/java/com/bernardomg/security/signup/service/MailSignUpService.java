@@ -22,51 +22,43 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.signup.model;
+package com.bernardomg.security.signup.service;
 
-import lombok.Data;
+import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.signup.model.SignUp;
+import com.bernardomg.security.signup.model.SignUpStatus;
+
 import lombok.NonNull;
 
-/**
- * Immutable implementation of {@link SignUpStatus}.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Data
-public class ImmutableSignUpStatus implements SignUpStatus {
+public final class MailSignUpService implements SignUpService {
 
-    /**
-     * Email of the user who attempted to sign up.
-     */
-    private final String  email;
+    private final SecurityEmailSender mailSender;
 
-    /**
-     * Flag telling if the sign up was successful.
-     */
-    private final Boolean successful;
+    private final SignUpService       wrapped;
 
-    /**
-     * Username of the user who attempted to sign up.
-     */
-    private final String  username;
-
-    /**
-     * Builds a sign up status with the specified arguments.
-     *
-     * @param user
-     *            username
-     * @param mail
-     *            email
-     * @param flag
-     *            sign up status
-     */
-    public ImmutableSignUpStatus(@NonNull final String user, @NonNull final String mail, @NonNull final Boolean flag) {
+    public MailSignUpService(@NonNull final UserRepository repo, @NonNull final SecurityEmailSender mSender) {
         super();
 
-        username = user;
-        email = mail;
-        successful = flag;
+        wrapped = new DefaultSignUpService(repo);
+
+        mailSender = mSender;
+    }
+
+    @Override
+    public final SignUpStatus signUp(final SignUp signUp) {
+        final SignUpStatus status;
+
+        status = wrapped.signUp(signUp);
+
+        if (status.getSuccessful()) {
+            // Sends success email
+            // TODO: Test this
+            // TODO: Can be chained after the sign up call. Maybe use an aspect
+            mailSender.sendSignUpEmail(signUp.getUsername(), signUp.getEmail());
+        }
+
+        return status;
     }
 
 }

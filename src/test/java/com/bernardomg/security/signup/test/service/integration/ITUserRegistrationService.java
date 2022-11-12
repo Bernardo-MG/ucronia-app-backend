@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.signup.model.DtoSignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.signup.service.SignUpService;
 
@@ -29,7 +30,13 @@ public class ITUserRegistrationService {
     @Test
     @DisplayName("Adds an entity when registering")
     public void testSignUp_AddsEntity() {
-        service.signUp("user", "email@somewhere.com");
+        final DtoSignUp signUp;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("email@somewhere.com");
+
+        service.signUp(signUp);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -38,8 +45,13 @@ public class ITUserRegistrationService {
     @DisplayName("The new user is disabled")
     public void testSignUp_Disabled() {
         final PersistentUser entity;
+        final DtoSignUp      signUp;
 
-        service.signUp("user", "email@somewhere.com");
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("email@somewhere.com");
+
+        service.signUp(signUp);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -55,8 +67,13 @@ public class ITUserRegistrationService {
     @DisplayName("The new user has no password")
     public void testSignUp_NoPassword() {
         final PersistentUser entity;
+        final DtoSignUp      signUp;
 
-        service.signUp("user", "email@somewhere.com");
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("email@somewhere.com");
+
+        service.signUp(signUp);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -68,8 +85,13 @@ public class ITUserRegistrationService {
     @DisplayName("Persists the data")
     public void testSignUp_PersistedData() {
         final PersistentUser entity;
+        final DtoSignUp      signUp;
 
-        service.signUp("user", "email@somewhere.com");
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("email@somewhere.com");
+
+        service.signUp(signUp);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -83,12 +105,17 @@ public class ITUserRegistrationService {
     @DisplayName("Signs up a valid user")
     public void testSignUp_Valid() {
         final SignUpStatus status;
+        final DtoSignUp    signUp;
 
-        status = service.signUp("user", "email@somewhere.com");
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("email@somewhere.com");
+
+        status = service.signUp(signUp);
 
         Assertions.assertEquals("user", status.getUsername());
         Assertions.assertEquals("email@somewhere.com", status.getEmail());
-        Assertions.assertTrue(status.getSignedUp());
+        Assertions.assertTrue(status.getSuccessful());
     }
 
 }

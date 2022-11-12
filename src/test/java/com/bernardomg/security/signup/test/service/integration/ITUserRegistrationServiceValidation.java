@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.signup.model.DtoSignUp;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -29,8 +30,13 @@ public class ITUserRegistrationServiceValidation {
     public void testSignUp_EmptyEmail() {
         final Executable executable;
         final Exception  exception;
+        final DtoSignUp  signUp;
 
-        executable = () -> service.signUp("abc", "");
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("");
+
+        executable = () -> service.signUp(signUp);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -42,8 +48,13 @@ public class ITUserRegistrationServiceValidation {
     public void testSignUp_ExistingUsername() {
         final Executable executable;
         final Exception  exception;
+        final DtoSignUp  signUp;
 
-        executable = () -> service.signUp("admin", "email@somewhere.com");
+        signUp = new DtoSignUp();
+        signUp.setUsername("admin");
+        signUp.setEmail("email@somewhere.com");
+
+        executable = () -> service.signUp(signUp);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
@@ -55,8 +66,13 @@ public class ITUserRegistrationServiceValidation {
     public void testSignUp_NoEmailPattern() {
         final Executable executable;
         final Exception  exception;
+        final DtoSignUp  signUp;
 
-        executable = () -> service.signUp("abc", "abc");
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("abc");
+
+        executable = () -> service.signUp(signUp);
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

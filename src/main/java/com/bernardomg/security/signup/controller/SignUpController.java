@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.signup.model.SignUpRequest;
+import com.bernardomg.security.signup.model.DtoSignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.signup.service.SignUpService;
 
@@ -52,8 +52,8 @@ public class SignUpController {
     private final SignUpService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SignUpStatus create(@Valid @RequestBody final SignUpRequest form) {
-        return service.signUp(form.getUsername(), form.getEmail());
+    public SignUpStatus create(@Valid @RequestBody final DtoSignUp request) {
+        return service.signUp(request);
     }
 
 }

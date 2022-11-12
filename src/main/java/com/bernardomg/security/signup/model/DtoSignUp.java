@@ -36,7 +36,7 @@ import lombok.Data;
  *
  */
 @Data
-public final class SignUpRequest {
+public final class DtoSignUp implements SignUp {
 
     /**
      * User email.
