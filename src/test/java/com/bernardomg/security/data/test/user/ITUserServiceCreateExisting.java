@@ -60,7 +60,7 @@ public class ITUserServiceCreateExisting {
 
         user = new DtoUser();
         user.setUsername("User");
-        user.setEmail("email");
+        user.setEmail("email2@somewhere.com");
         user.setCredentialsExpired(false);
         user.setEnabled(true);
         user.setExpired(false);

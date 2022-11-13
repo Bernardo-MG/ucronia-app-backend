@@ -54,7 +54,7 @@ public class ITUserServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("User", entity.getUsername());
-        Assertions.assertEquals("email", entity.getEmail());
+        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
         Assertions.assertEquals("", entity.getPassword());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
@@ -74,7 +74,7 @@ public class ITUserServiceCreate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("User", result.getUsername());
-        Assertions.assertEquals("email", result.getEmail());
+        Assertions.assertEquals("email@somewhere.com", result.getEmail());
         Assertions.assertEquals(false, result.getCredentialsExpired());
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());
@@ -86,7 +86,7 @@ public class ITUserServiceCreate {
 
         user = new DtoUser();
         user.setUsername("User");
-        user.setEmail("email");
+        user.setEmail("email@somewhere.com");
         user.setCredentialsExpired(false);
         user.setEnabled(true);
         user.setExpired(false);

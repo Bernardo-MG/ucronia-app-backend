@@ -80,7 +80,7 @@ public class ITUserServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("new email", entity.getEmail());
+        Assertions.assertEquals("email2@somewhere.com", entity.getEmail());
         Assertions.assertEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", entity.getPassword());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
@@ -100,7 +100,7 @@ public class ITUserServiceUpdate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("new email", result.getEmail());
+        Assertions.assertEquals("email2@somewhere.com", result.getEmail());
         Assertions.assertEquals(false, result.getCredentialsExpired());
         Assertions.assertEquals(true, result.getEnabled());
         Assertions.assertEquals(false, result.getExpired());
@@ -113,7 +113,7 @@ public class ITUserServiceUpdate {
         user = new DtoUser();
         user.setId(1L);
         user.setUsername("admin");
-        user.setEmail("new email");
+        user.setEmail("email2@somewhere.com");
         user.setCredentialsExpired(false);
         user.setEnabled(true);
         user.setExpired(false);

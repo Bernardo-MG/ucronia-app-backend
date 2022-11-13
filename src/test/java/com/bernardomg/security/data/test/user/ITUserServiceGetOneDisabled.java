@@ -45,7 +45,7 @@ public class ITUserServiceGetOneDisabled {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("email", result.getEmail());
+        Assertions.assertEquals("email@somewhere.com", result.getEmail());
         Assertions.assertFalse(result.getCredentialsExpired());
         Assertions.assertFalse(result.getEnabled());
         Assertions.assertFalse(result.getExpired());

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.signup.validation;
+package com.bernardomg.security.validation;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
