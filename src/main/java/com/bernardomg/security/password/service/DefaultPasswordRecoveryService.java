@@ -64,34 +64,9 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
         if (valid) {
             registerToken();
 
+            // TODO: Send token
             mailSender.sendPasswordRecoveryEmail(user.get()
                 .getEmail());
-        }
-
-        return valid;
-    }
-
-    @Override
-    public final Boolean verifyToken(final String Token) {
-        final Optional<PersistentToken> read;
-        final PersistentToken           entity;
-        final Boolean                   valid;
-
-        read = tokenRepository.findOneByToken(Token);
-        if (read.isPresent()) {
-            entity = read.get();
-            if (entity.getExpired()) {
-                // Expired
-                // It isn't a valid token
-                valid = false;
-            } else {
-                // Not expired
-                // Verifies the expiration date is after the current date
-                valid = entity.getExpirationDate()
-                    .after(Calendar.getInstance());
-            }
-        } else {
-            valid = false;
         }
 
         return valid;

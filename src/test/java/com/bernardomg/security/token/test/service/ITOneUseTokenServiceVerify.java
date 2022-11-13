@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.service.integration;
+package com.bernardomg.security.token.test.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.service.PasswordRecoveryService;
+import com.bernardomg.security.token.service.OneUseTokenService;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - Token verification")
-public class ITDefaultPasswordRecoveryServiceVerify {
+public class ITOneUseTokenServiceVerify {
 
     @Autowired
-    private PasswordRecoveryService service;
+    private OneUseTokenService service;
 
-    public ITDefaultPasswordRecoveryServiceVerify() {
+    public ITOneUseTokenServiceVerify() {
         super();
     }
 
