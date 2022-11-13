@@ -18,7 +18,7 @@ import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 @DisplayName("SpringSecurityTokenLoginService - login with various user status")
 public class TestSpringSecurityTokenLoginServiceUserStatus {

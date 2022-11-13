@@ -35,7 +35,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.jwt.filter.JwtTokenFilter;
 import com.bernardomg.security.jwt.property.JwtProperties;
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.token.provider.TokenValidator;
 
 import io.jsonwebtoken.security.Keys;
 

@@ -1,11 +1,11 @@
 
-package com.bernardomg.security.token.service;
+package com.bernardomg.security.token.once.service;
 
 import java.util.Calendar;
 import java.util.Optional;
 
-import com.bernardomg.security.token.persistence.model.PersistentToken;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.once.persistence.model.PersistentToken;
+import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
 
 import lombok.NonNull;
 

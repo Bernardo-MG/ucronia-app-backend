@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.model;
+package com.bernardomg.security.token.once.model;
 
 import lombok.Data;
 

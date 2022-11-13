@@ -2,9 +2,7 @@
 package com.bernardomg.security.password.service;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,8 +12,7 @@ import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
-import com.bernardomg.security.token.persistence.model.PersistentToken;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.provider.TokenProvider;
 import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.NonNull;
@@ -26,7 +23,7 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     private final UserRepository      repository;
 
-    private final TokenRepository     tokenRepository;
+    private final TokenProvider       tokenProvider;
 
     /**
      * User details service, to find and validate users.
@@ -35,13 +32,13 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     public DefaultPasswordRecoveryService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityEmailSender mSender,
-            @NonNull final TokenRepository tRepository) {
+            @NonNull final TokenProvider tProvider) {
         super();
 
         repository = repo;
         userDetailsService = userDetsService;
         mailSender = mSender;
-        tokenRepository = tRepository;
+        tokenProvider = tProvider;
     }
 
     @Override
@@ -62,7 +59,7 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
         valid = isValid(details);
         if (valid) {
-            registerToken();
+            tokenProvider.generateToken(email);
 
             // TODO: Send token
             mailSender.sendPasswordRecoveryEmail(user.get()
@@ -82,25 +79,6 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
     private final Boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
-    }
-
-    private final void registerToken() {
-        final PersistentToken token;
-        final Calendar        expiration;
-        final String          uniqueID;
-
-        expiration = Calendar.getInstance();
-        expiration.add(Calendar.DATE, 1);
-
-        uniqueID = UUID.randomUUID()
-            .toString();
-
-        token = new PersistentToken();
-        token.setToken(uniqueID);
-        token.setExpired(false);
-        token.setExpirationDate(expiration);
-
-        tokenRepository.save(token);
     }
 
 }

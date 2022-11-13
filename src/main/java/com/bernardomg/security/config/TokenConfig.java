@@ -32,10 +32,10 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.jwt.property.JwtProperties;
 import com.bernardomg.security.jwt.token.JwtTokenProvider;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.token.TokenProvider;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.service.OneUseTokenService;
-import com.bernardomg.security.token.service.TokenService;
+import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.once.service.OneUseTokenService;
+import com.bernardomg.security.token.once.service.TokenService;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 /**
  * Security configuration.

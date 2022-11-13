@@ -19,7 +19,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
 import com.bernardomg.security.password.service.DefaultPasswordRecoveryService;
 import com.bernardomg.security.password.service.PasswordRecoveryService;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.provider.TokenProvider;
 import com.bernardomg.validation.exception.ValidationException;
 
 @DisplayName("DefaultPasswordRecoveryService - Mail validation on recovery start")
@@ -37,7 +37,7 @@ public class TestDefaultPasswordRecoveryServiceStartEmailValidation {
     public final void initializeService() {
         final UserRepository     repository;
         final UserDetailsService userDetailsService;
-        final TokenRepository    tokenRepository;
+        final TokenProvider      tokenProvider;
         final UserDetails        details;
 
         repository = Mockito.mock(UserRepository.class);
@@ -55,9 +55,9 @@ public class TestDefaultPasswordRecoveryServiceStartEmailValidation {
 
         mailSender = Mockito.mock(SecurityEmailSender.class);
 
-        tokenRepository = Mockito.mock(TokenRepository.class);
+        tokenProvider = Mockito.mock(TokenProvider.class);
 
-        service = new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenRepository);
+        service = new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProvider);
     }
 
     @Test

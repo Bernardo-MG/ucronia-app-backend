@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.persistence.model;
+package com.bernardomg.security.token.once.persistence.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
