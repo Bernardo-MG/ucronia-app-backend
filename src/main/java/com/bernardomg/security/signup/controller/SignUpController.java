@@ -24,16 +24,9 @@
 
 package com.bernardomg.security.signup.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.signup.model.DtoSignUp;
-import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.signup.service.SignUpService;
 
 import lombok.AllArgsConstructor;
@@ -51,9 +44,9 @@ public class SignUpController {
 
     private final SignUpService service;
 
-//    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    public SignUpStatus create(@Valid @RequestBody final DtoSignUp request) {
-//        return service.signUp(request);
-//    }
+    // @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    // public SignUpStatus create(@Valid @RequestBody final DtoSignUp request) {
+    // return service.signUp(request);
+    // }
 
 }

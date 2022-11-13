@@ -33,7 +33,9 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
+import com.bernardomg.security.password.service.DefaultPasswordRecoveryService;
 import com.bernardomg.security.password.service.DefaultPasswordResetService;
+import com.bernardomg.security.password.service.PasswordRecoveryService;
 import com.bernardomg.security.password.service.PasswordResetService;
 import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
 import com.bernardomg.security.password.validation.ChangePasswordValidator;
@@ -58,6 +60,12 @@ public class SecurityServiceConfig {
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
         return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
+    }
+
+    @Bean("passwordRecoveryService")
+    public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
+            final SecurityEmailSender mailSender) {
+        return new DefaultPasswordRecoveryService(repository, mailSender);
     }
 
     @Bean("resetPasswordService")

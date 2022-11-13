@@ -24,15 +24,9 @@
 
 package com.bernardomg.security.password.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.model.PasswordResetRequest;
 import com.bernardomg.security.password.service.PasswordResetService;
 
 import lombok.AllArgsConstructor;
@@ -44,9 +38,9 @@ public class PasswordResetController {
 
     private final PasswordResetService service;
 
-//    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    public Boolean create(@Valid @RequestBody final PasswordResetRequest request) {
-//        return service.changePassword(request.getUsername(), request.getPassword());
-//    }
+    // @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    // public Boolean create(@Valid @RequestBody final PasswordResetRequest request) {
+    // return service.changePassword(request.getUsername(), request.getPassword());
+    // }
 
 }
