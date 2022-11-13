@@ -24,28 +24,11 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
     }
 
     @Override
-    public final Boolean recoverPasswordByEmail(final String email) {
+    public final Boolean recoverPassword(final String email) {
         final Optional<PersistentUser> user;
         final Boolean                  recovered;
 
         user = repository.findOneByEmail(email);
-        if (user.isPresent()) {
-            mailSender.sendPasswordRecoveryEmail(user.get()
-                .getEmail());
-            recovered = true;
-        } else {
-            recovered = false;
-        }
-
-        return recovered;
-    }
-
-    @Override
-    public final Boolean recoverPasswordByUsername(final String username) {
-        final Optional<PersistentUser> user;
-        final Boolean                  recovered;
-
-        user = repository.findOneByUsername(username);
         if (user.isPresent()) {
             mailSender.sendPasswordRecoveryEmail(user.get()
                 .getEmail());
