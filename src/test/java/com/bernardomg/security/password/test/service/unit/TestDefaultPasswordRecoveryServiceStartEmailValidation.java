@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.password.test.service.unit;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -10,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
@@ -31,8 +35,10 @@ public class TestDefaultPasswordRecoveryServiceStartEmailValidation {
 
     @BeforeEach
     public final void initializeService() {
-        final UserRepository  repository;
-        final TokenRepository tokenRepository;
+        final UserRepository     repository;
+        final UserDetailsService userDetailsService;
+        final TokenRepository    tokenRepository;
+        final UserDetails        details;
 
         repository = Mockito.mock(UserRepository.class);
         Mockito.when(repository.findOneByUsername(ArgumentMatchers.anyString()))
@@ -40,11 +46,18 @@ public class TestDefaultPasswordRecoveryServiceStartEmailValidation {
         Mockito.when(repository.findOneByEmail(ArgumentMatchers.anyString()))
             .thenReturn(Optional.empty());
 
+        userDetailsService = Mockito.mock(UserDetailsService.class);
+
+        details = new User("user", "password", true, true, true, true, Collections.emptyList());
+
+        Mockito.when(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString()))
+            .thenReturn(details);
+
         mailSender = Mockito.mock(SecurityEmailSender.class);
 
         tokenRepository = Mockito.mock(TokenRepository.class);
 
-        service = new DefaultPasswordRecoveryService(repository, mailSender, tokenRepository);
+        service = new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenRepository);
     }
 
     @Test

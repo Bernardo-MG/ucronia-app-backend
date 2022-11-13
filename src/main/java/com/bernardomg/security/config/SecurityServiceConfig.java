@@ -61,8 +61,9 @@ public class SecurityServiceConfig {
 
     @Bean("passwordRecoveryService")
     public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
-            final SecurityEmailSender mailSender, final TokenRepository tokenRepository) {
-        return new DefaultPasswordRecoveryService(repository, mailSender, tokenRepository);
+            final UserDetailsService userDetailsService, final SecurityEmailSender mailSender,
+            final TokenRepository tokenRepository) {
+        return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenRepository);
     }
 
     @Bean("userRegistrationService")

@@ -23,29 +23,35 @@ public class ITDefaultPasswordRecoveryServiceStart {
 
     @Test
     @DisplayName("Starting password recovery for a user with expired credentials gives an OK")
-    @Sql({ "/db/queries/security/user/credentials_expired.sql" })
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/credentials_expired.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_CredentialsExpired() {
         final Boolean status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(status);
+        Assertions.assertFalse(status);
     }
 
     @Test
     @DisplayName("Starting password recovery for a disabled user gives an OK")
-    @Sql({ "/db/queries/security/user/disabled.sql" })
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Disabled() {
         final Boolean status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(status);
+        Assertions.assertFalse(status);
     }
 
     @Test
     @DisplayName("Starting password recovery with an existing user gives an OK")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Enabled() {
         final Boolean status;
 
@@ -56,24 +62,28 @@ public class ITDefaultPasswordRecoveryServiceStart {
 
     @Test
     @DisplayName("Starting password recovery for an expired user gives an OK")
-    @Sql({ "/db/queries/security/user/expired.sql" })
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Expired() {
         final Boolean status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(status);
+        Assertions.assertFalse(status);
     }
 
     @Test
     @DisplayName("Starting password recovery for a locked user gives an OK")
-    @Sql({ "/db/queries/security/user/locked.sql" })
+    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_privilege.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Locked() {
         final Boolean status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(status);
+        Assertions.assertFalse(status);
     }
 
 }

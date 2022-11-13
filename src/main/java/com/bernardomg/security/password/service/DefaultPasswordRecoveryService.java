@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
@@ -25,11 +28,18 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     private final TokenRepository     tokenRepository;
 
+    /**
+     * User details service, to find and validate users.
+     */
+    private final UserDetailsService  userDetailsService;
+
     public DefaultPasswordRecoveryService(@NonNull final UserRepository repo,
-            @NonNull final SecurityEmailSender mSender, @NonNull final TokenRepository tRepository) {
+            @NonNull final UserDetailsService userDetsService, @NonNull final SecurityEmailSender mSender,
+            @NonNull final TokenRepository tRepository) {
         super();
 
         repository = repo;
+        userDetailsService = userDetsService;
         mailSender = mSender;
         tokenRepository = tRepository;
     }
@@ -38,6 +48,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
     public final Boolean startPasswordRecovery(final String email) {
         final Optional<PersistentUser> user;
         final Failure                  error;
+        final UserDetails              details;
+        final Boolean                  valid;
 
         user = repository.findOneByEmail(email);
         if (!user.isPresent()) {
@@ -45,12 +57,18 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
             throw new ValidationException(Arrays.asList(error));
         }
 
-        registerToken();
+        details = userDetailsService.loadUserByUsername(user.get()
+            .getUsername());
 
-        mailSender.sendPasswordRecoveryEmail(user.get()
-            .getEmail());
+        valid = isValid(details);
+        if (valid) {
+            registerToken();
 
-        return true;
+            mailSender.sendPasswordRecoveryEmail(user.get()
+                .getEmail());
+        }
+
+        return valid;
     }
 
     @Override
@@ -77,6 +95,18 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
         }
 
         return valid;
+    }
+
+    /**
+     * Checks if the user is valid. This means it has no flag marking it as not usable.
+     *
+     * @param userDetails
+     *            user the check
+     * @return {@code true} if the user is valid, {@code false} otherwise
+     */
+    private final Boolean isValid(final UserDetails userDetails) {
+        return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
+                && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }
 
     private final void registerToken() {
