@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
@@ -39,6 +40,7 @@ public class TestDefaultPasswordRecoveryServiceStartEmail {
         final PersistentUser     user;
         final TokenProvider      tokenProvider;
         final TokenValidator     tokenValidator;
+        final PasswordEncoder    passwordEncoder;
         final UserDetails        details;
 
         repository = Mockito.mock(UserRepository.class);
@@ -63,9 +65,10 @@ public class TestDefaultPasswordRecoveryServiceStartEmail {
 
         tokenProvider = Mockito.mock(TokenProvider.class);
         tokenValidator = Mockito.mock(TokenValidator.class);
+        passwordEncoder = Mockito.mock(PasswordEncoder.class);
 
         service = new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProvider,
-            tokenValidator);
+            tokenValidator, passwordEncoder);
     }
 
     @Test

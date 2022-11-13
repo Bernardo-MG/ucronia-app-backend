@@ -210,15 +210,11 @@ public final class DefaultUserService implements UserService {
     }
 
     private final Collection<Failure> validateCreation(final User user) {
-        final PersistentUser      sample;
         final Collection<Failure> failures;
         final Optional<Failure>   optFailure;
         Failure                   failure;
 
         failures = new ArrayList<>();
-
-        sample = new PersistentUser();
-        sample.setUsername(user.getUsername());
 
         // Verify the username is not registered
         if (repository.existsByUsername(user.getUsername())) {
@@ -244,16 +240,12 @@ public final class DefaultUserService implements UserService {
     }
 
     private final Collection<Failure> validateUpdate(final User user) {
-        final PersistentUser      sample;
         final Collection<Failure> failures;
         final Optional<Failure>   optFailure;
         final Boolean             exists;
         Failure                   failure;
 
         failures = new ArrayList<>();
-
-        sample = new PersistentUser();
-        sample.setUsername(user.getUsername());
 
         // Verify the id exists
         if (!repository.existsById(user.getId())) {

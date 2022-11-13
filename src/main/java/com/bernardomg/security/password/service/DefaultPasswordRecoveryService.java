@@ -1,12 +1,14 @@
 
 package com.bernardomg.security.password.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.error.model.FieldFailure;
@@ -25,6 +27,11 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     private final SecurityEmailSender mailSender;
 
+    /**
+     * Password encoder, for validating passwords.
+     */
+    private final PasswordEncoder     passwordEncoder;
+
     private final UserRepository      repository;
 
     private final TokenProvider       tokenProvider;
@@ -38,7 +45,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     public DefaultPasswordRecoveryService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityEmailSender mSender,
-            @NonNull final TokenProvider tProvider, @NonNull final TokenValidator tValidator) {
+            @NonNull final TokenProvider tProvider, @NonNull final TokenValidator tValidator,
+            @NonNull final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
@@ -46,16 +54,18 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
         mailSender = mSender;
         tokenProvider = tProvider;
         tokenValidator = tValidator;
+        passwordEncoder = passEncoder;
     }
 
     @Override
     public final Boolean changePassword(final String token, final String currentPassword, final String newPassword) {
         final Boolean             succesful;
         final Collection<Failure> failures;
+        final String              user;
 
-        // TODO: Get user from token
+        user = tokenValidator.getSubject(token);
 
-        failures = validateChange(currentPassword);
+        failures = validateChange(user, currentPassword);
 
         if (!failures.isEmpty()) {
             log.debug("Got errors: {}", failures);
@@ -111,9 +121,35 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }
 
-    private final Collection<Failure> validateChange(final String currentPassword) {
-        // TODO Auto-generated method stub
-        return null;
+    private final Collection<Failure> validateChange(final String username, final String currentPassword) {
+        final Optional<PersistentUser> user;
+        final Collection<Failure>      failures;
+        final Boolean                  exists;
+        Failure                        failure;
+
+        user = repository.findOneByUsername(username);
+
+        failures = new ArrayList<>();
+
+        // Verify the user exists
+        if (!user.isPresent()) {
+            log.error("No user exists for username {}", username);
+            failure = FieldFailure.of("error.user.notExisting", "roleForm", "memberId", username);
+            failures.add(failure);
+            exists = false;
+        } else {
+            exists = true;
+        }
+
+        // Verify the password matches is not changed
+        if (exists && !passwordEncoder.matches(user.get()
+            .getPassword(), currentPassword)) {
+            log.debug("Received password doesn't match the one stored for username {}", username);
+            failure = FieldFailure.of("error.password.invalid", "roleForm", "id", username);
+            failures.add(failure);
+        }
+
+        return failures;
     }
 
 }

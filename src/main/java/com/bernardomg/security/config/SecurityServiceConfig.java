@@ -65,7 +65,7 @@ public class SecurityServiceConfig {
     @Bean("passwordRecoveryService")
     public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
             final UserDetailsService userDetailsService, final SecurityEmailSender mailSender,
-            final TokenRepository tokenRepository) {
+            final TokenRepository tokenRepository, final PasswordEncoder passwordEncoder) {
         final TokenProvider  tokenProvider;
         final TokenValidator tokenValidator;
 
@@ -73,7 +73,7 @@ public class SecurityServiceConfig {
         tokenValidator = new PersistentTokenValidator(tokenRepository);
 
         return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProvider,
-            tokenValidator);
+            tokenValidator, passwordEncoder);
     }
 
     @Bean("userRegistrationService")
