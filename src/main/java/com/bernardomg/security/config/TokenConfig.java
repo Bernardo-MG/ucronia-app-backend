@@ -34,8 +34,8 @@ import com.bernardomg.security.jwt.token.JwtTokenProvider;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.once.service.OneUseTokenService;
-import com.bernardomg.security.token.once.service.TokenService;
 import com.bernardomg.security.token.provider.TokenProvider;
+import com.bernardomg.security.token.service.TokenService;
 
 /**
  * Security configuration.

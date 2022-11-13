@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.bernardomg.security.token.once.persistence.model.PersistentToken;
 import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.service.TokenService;
 
 import lombok.NonNull;
 

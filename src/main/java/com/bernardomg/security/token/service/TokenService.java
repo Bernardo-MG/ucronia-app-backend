@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.once.service;
+package com.bernardomg.security.token.service;
 
 public interface TokenService {
 
