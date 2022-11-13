@@ -1,11 +1,15 @@
 
 package com.bernardomg.security.password.service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
+import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.NonNull;
 
@@ -27,17 +31,16 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
     public final Boolean recoverPassword(final String email) {
         final Optional<PersistentUser> user;
         final Boolean                  recovered;
+        final Failure                  error;
 
         user = repository.findOneByEmail(email);
-        if (user.isPresent()) {
-            mailSender.sendPasswordRecoveryEmail(user.get()
-                .getEmail());
-            recovered = true;
-        } else {
-            recovered = false;
+        if (!user.isPresent()) {
+            error = FieldFailure.of("error.email.notExisting", "roleForm", "memberId", email);
+            throw new ValidationException(Arrays.asList(error));
         }
-
-        return recovered;
+        mailSender.sendPasswordRecoveryEmail(user.get()
+            .getEmail());
+        return true;
     }
 
 }

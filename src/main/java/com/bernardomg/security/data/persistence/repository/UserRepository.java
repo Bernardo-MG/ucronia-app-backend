@@ -44,6 +44,15 @@ import com.bernardomg.security.data.persistence.model.PersistentUser;
 public interface UserRepository extends JpaRepository<PersistentUser, Long> {
 
     /**
+     * Returns whether an user with the given email exists.
+     *
+     * @param email
+     *            email to search for
+     * @return {@code true} if the user exists, {@code false} otherwise
+     */
+    public Boolean existsByEmail(final String username);
+
+    /**
      * Returns whether an user with the given username exists.
      *
      * @param username

@@ -30,6 +30,7 @@ databaseChangeLog:
                 type: varchar(60)
                 constraints:
                    nullable: false
+                   unique: true
                 defaultValue: ''
             - column:
                 name: credentials_expired

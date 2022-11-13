@@ -44,6 +44,24 @@ public class ITUserRegistrationServiceValidation {
     }
 
     @Test
+    @DisplayName("Throws an exception when the email already exists")
+    public void testSignUp_ExistingEmail() {
+        final Executable executable;
+        final Exception  exception;
+        final DtoSignUp  signUp;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("abc");
+        signUp.setEmail("email@somewhere.com");
+
+        executable = () -> service.signUp(signUp);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.email.existing", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Throws an exception when the username already exists")
     public void testSignUp_ExistingUsername() {
         final Executable executable;
@@ -52,7 +70,7 @@ public class ITUserRegistrationServiceValidation {
 
         signUp = new DtoSignUp();
         signUp.setUsername("admin");
-        signUp.setEmail("email@somewhere.com");
+        signUp.setEmail("email2@somewhere.com");
 
         executable = () -> service.signUp(signUp);
 

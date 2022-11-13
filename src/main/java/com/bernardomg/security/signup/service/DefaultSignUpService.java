@@ -121,6 +121,13 @@ public final class DefaultSignUpService implements SignUpService {
             failures.add(error);
         }
 
+        // Verify no user exists with the received email
+        if (repository.existsByEmail(signUp.getEmail())) {
+            log.error("A user already exists with the email {}", signUp.getEmail());
+            error = FieldFailure.of("error.email.existing", "roleForm", "memberId", signUp.getEmail());
+            failures.add(error);
+        }
+
         // Verify the email matches the valid pattern
         failure = emailValidationRule.test(signUp.getEmail());
         if (failure.isPresent()) {

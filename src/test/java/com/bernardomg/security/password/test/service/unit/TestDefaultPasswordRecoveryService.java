@@ -48,7 +48,7 @@ public class TestDefaultPasswordRecoveryService {
     }
 
     @Test
-    @DisplayName("When recovering the password by email if there is a user then a email is sent")
+    @DisplayName("When recovering the password if there is a user then a email is sent")
     public final void testRecoverPassword_User_Email() {
         service.recoverPassword("email@somewhere.com");
 

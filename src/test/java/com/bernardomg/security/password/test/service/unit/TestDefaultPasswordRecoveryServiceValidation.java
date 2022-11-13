@@ -44,8 +44,8 @@ public class TestDefaultPasswordRecoveryServiceValidation {
     }
 
     @Test
-    @DisplayName("When recovering the password by email if there is no user then no email is sent")
-    public final void testRecoverPassword_NoUser_NoEmail() {
+    @DisplayName("Throws an exception when no user exists for the email")
+    public final void testRecoverPassword_NoUser() {
         final Executable executable;
         final Exception  exception;
 
@@ -53,7 +53,7 @@ public class TestDefaultPasswordRecoveryServiceValidation {
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
-        Assertions.assertEquals("error.username.notExisting", exception.getMessage());
+        Assertions.assertEquals("error.email.notExisting", exception.getMessage());
     }
 
 }
