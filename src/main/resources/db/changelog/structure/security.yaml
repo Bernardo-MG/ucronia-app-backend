@@ -138,3 +138,34 @@ databaseChangeLog:
             constraintName: user_roles_unique
             tableName: user_roles
             columnNames: user_id, role_id
+  - changeSet:
+      id: token_tables
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: tokens
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: expired
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: expiration_date
+                  type: datetime
+                  constraints:
+                    nullable: false

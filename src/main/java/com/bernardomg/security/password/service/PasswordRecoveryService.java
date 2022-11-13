@@ -5,4 +5,6 @@ public interface PasswordRecoveryService {
 
     public Boolean startPasswordRecovery(final String email);
 
+    public Boolean verifyToken(final String Token);
+
 }

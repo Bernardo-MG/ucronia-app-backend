@@ -38,6 +38,7 @@ import com.bernardomg.security.password.service.PasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 /**
  * Security configuration.
@@ -60,8 +61,8 @@ public class SecurityServiceConfig {
 
     @Bean("passwordRecoveryService")
     public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
-            final SecurityEmailSender mailSender) {
-        return new DefaultPasswordRecoveryService(repository, mailSender);
+            final SecurityEmailSender mailSender, final TokenRepository tokenRepository) {
+        return new DefaultPasswordRecoveryService(repository, mailSender, tokenRepository);
     }
 
     @Bean("userRegistrationService")
