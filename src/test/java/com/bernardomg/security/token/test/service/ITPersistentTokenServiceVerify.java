@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.token.service.PersistentTokenService;
+import com.bernardomg.security.token.service.DelegateTokenService;
 
 @IntegrationTest
 @DisplayName("PersistentTokenService - Token verification")
 public class ITPersistentTokenServiceVerify {
 
     @Autowired
-    private PersistentTokenService service;
+    private DelegateTokenService service;
 
     public ITPersistentTokenServiceVerify() {
         super();

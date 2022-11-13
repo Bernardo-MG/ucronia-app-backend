@@ -2,6 +2,7 @@
 package com.bernardomg.security.password.service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +14,13 @@ import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
 import com.bernardomg.security.token.provider.TokenProvider;
+import com.bernardomg.security.token.provider.TokenValidator;
 import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public final class DefaultPasswordRecoveryService implements PasswordRecoveryService {
 
     private final SecurityEmailSender mailSender;
@@ -25,6 +29,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     private final TokenProvider       tokenProvider;
 
+    private final TokenValidator      tokenValidator;
+
     /**
      * User details service, to find and validate users.
      */
@@ -32,13 +38,37 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     public DefaultPasswordRecoveryService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityEmailSender mSender,
-            @NonNull final TokenProvider tProvider) {
+            @NonNull final TokenProvider tProvider, @NonNull final TokenValidator tValidator) {
         super();
 
         repository = repo;
         userDetailsService = userDetsService;
         mailSender = mSender;
         tokenProvider = tProvider;
+        tokenValidator = tValidator;
+    }
+
+    @Override
+    public final Boolean changePassword(final String token, final String currentPassword, final String newPassword) {
+        final Boolean             succesful;
+        final Collection<Failure> failures;
+
+        // TODO: Get user from token
+
+        failures = validateChange(currentPassword);
+
+        if (!failures.isEmpty()) {
+            log.debug("Got errors: {}", failures);
+            throw new ValidationException(failures);
+        }
+
+        if (tokenValidator.hasExpired(token)) {
+            succesful = false;
+        } else {
+            succesful = false;
+        }
+
+        return succesful;
     }
 
     @Override
@@ -79,6 +109,11 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
     private final Boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
+    }
+
+    private final Collection<Failure> validateChange(final String currentPassword) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
