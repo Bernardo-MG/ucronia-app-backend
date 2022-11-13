@@ -33,6 +33,9 @@ import com.bernardomg.security.jwt.property.JwtProperties;
 import com.bernardomg.security.jwt.token.JwtTokenProvider;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.service.OneUseTokenService;
+import com.bernardomg.security.token.service.TokenService;
 
 /**
  * Security configuration.
@@ -55,6 +58,11 @@ public class TokenConfig {
     @Bean("tokenProvider")
     public TokenProvider getTokenProvider(final SecretKey key, final JwtProperties properties) {
         return new JwtTokenProvider(key, properties.getValidity());
+    }
+
+    @Bean("tokenService")
+    public TokenService getTokenService(final TokenRepository tokenRepository) {
+        return new OneUseTokenService(tokenRepository);
     }
 
 }

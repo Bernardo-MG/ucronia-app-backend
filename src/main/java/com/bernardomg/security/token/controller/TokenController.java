@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.model.DtoPasswordRecovery;
+import com.bernardomg.security.token.model.DtoToken;
 import com.bernardomg.security.token.service.TokenService;
 
 import lombok.AllArgsConstructor;
@@ -45,8 +45,8 @@ public class TokenController {
     private final TokenService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean startRecovery(@Valid @RequestBody final DtoPasswordRecovery request) {
-        return service.verifyToken(request.getEmail());
+    public Boolean startRecovery(@Valid @RequestBody final DtoToken request) {
+        return service.verifyToken(request.getToken());
     }
 
 }
