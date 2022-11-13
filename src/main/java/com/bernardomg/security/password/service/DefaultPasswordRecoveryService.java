@@ -47,6 +47,7 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
         final Failure                  error;
         final UserDetails              details;
         final Boolean                  valid;
+        final String                   token;
 
         user = repository.findOneByEmail(email);
         if (!user.isPresent()) {
@@ -59,11 +60,10 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
         valid = isValid(details);
         if (valid) {
-            tokenProvider.generateToken(email);
+            token = tokenProvider.generateToken(email);
 
-            // TODO: Send token
             mailSender.sendPasswordRecoveryEmail(user.get()
-                .getEmail());
+                .getEmail(), token);
         }
 
         return valid;

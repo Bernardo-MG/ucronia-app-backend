@@ -59,8 +59,10 @@ public final class SpringMailSecurityEmailSender implements SecurityEmailSender 
     }
 
     @Override
-    public final void sendPasswordRecoveryEmail(final String email) {
+    public final void sendPasswordRecoveryEmail(final String email, final String token) {
         final SimpleMailMessage message;
+
+        // TODO: Use token
 
         message = new SimpleMailMessage();
         message.setFrom(fromEmail);
