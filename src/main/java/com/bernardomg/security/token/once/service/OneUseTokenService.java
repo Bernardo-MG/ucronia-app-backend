@@ -17,6 +17,8 @@ public class OneUseTokenService implements TokenService {
     public OneUseTokenService(@NonNull final TokenRepository tRepository) {
         super();
 
+        // TODO: Can be merged with Spring's token service?
+
         tokenRepository = tRepository;
     }
 

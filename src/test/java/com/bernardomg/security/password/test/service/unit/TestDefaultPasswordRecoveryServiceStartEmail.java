@@ -70,7 +70,7 @@ public class TestDefaultPasswordRecoveryServiceStartEmail {
         service.startPasswordRecovery("email@somewhere.com");
 
         Mockito.verify(mailSender, Mockito.times(1))
-            .sendPasswordRecoveryEmail(ArgumentMatchers.anyString());
+            .sendPasswordRecoveryEmail(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 
 }
