@@ -45,11 +45,11 @@ public class TestDefaultPasswordRecoveryServiceValidation {
 
     @Test
     @DisplayName("Throws an exception when no user exists for the email")
-    public final void testRecoverPassword_NoUser() {
+    public final void testStartPasswordRecovery_NoUser() {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.recoverPassword("email@somewhere.com");
+        executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
         exception = Assertions.assertThrows(ValidationException.class, executable);
 

@@ -49,8 +49,8 @@ public class TestDefaultPasswordRecoveryService {
 
     @Test
     @DisplayName("When recovering the password if there is a user then a email is sent")
-    public final void testRecoverPassword_User_Email() {
-        service.recoverPassword("email@somewhere.com");
+    public final void testStartPasswordRecovery_User_Email() {
+        service.startPasswordRecovery("email@somewhere.com");
 
         Mockito.verify(mailSender, Mockito.times(1))
             .sendPasswordRecoveryEmail(ArgumentMatchers.anyString());

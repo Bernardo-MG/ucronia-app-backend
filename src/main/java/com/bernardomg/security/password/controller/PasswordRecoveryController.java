@@ -45,8 +45,8 @@ public class PasswordRecoveryController {
     private final PasswordRecoveryService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean recovery(@Valid @RequestBody final DtoPasswordRecovery request) {
-        return service.recoverPassword(request.getEmail());
+    public Boolean startRecovery(@Valid @RequestBody final DtoPasswordRecovery request) {
+        return service.startPasswordRecovery(request.getEmail());
     }
 
 }

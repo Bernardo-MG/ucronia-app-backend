@@ -28,9 +28,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
     }
 
     @Override
-    public final Boolean recoverPassword(final String email) {
+    public final Boolean startPasswordRecovery(final String email) {
         final Optional<PersistentUser> user;
-        final Boolean                  recovered;
         final Failure                  error;
 
         user = repository.findOneByEmail(email);
@@ -38,8 +37,10 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
             error = FieldFailure.of("error.email.notExisting", "roleForm", "memberId", email);
             throw new ValidationException(Arrays.asList(error));
         }
+
         mailSender.sendPasswordRecoveryEmail(user.get()
             .getEmail());
+
         return true;
     }
 
