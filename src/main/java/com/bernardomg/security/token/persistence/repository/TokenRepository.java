@@ -22,31 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.token.once.controller;
+package com.bernardomg.security.token.persistence.repository;
 
-import javax.validation.Valid;
+import java.util.Optional;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.token.once.model.DtoToken;
-import com.bernardomg.security.token.service.TokenService;
+import com.bernardomg.security.token.persistence.model.PersistentToken;
 
-import lombok.AllArgsConstructor;
+/**
+ * Repository for tokens.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
 
-@RestController
-@RequestMapping("/token")
-@AllArgsConstructor
-public class TokenController {
-
-    private final TokenService service;
-
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean startRecovery(@Valid @RequestBody final DtoToken request) {
-        return service.verifyToken(request.getToken());
-    }
+    public Optional<PersistentToken> findOneByToken(final String token);
 
 }

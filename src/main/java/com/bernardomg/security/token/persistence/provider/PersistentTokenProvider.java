@@ -1,20 +1,20 @@
 
-package com.bernardomg.security.token.once.provider;
+package com.bernardomg.security.token.persistence.provider;
 
 import java.util.Calendar;
 import java.util.UUID;
 
-import com.bernardomg.security.token.once.persistence.model.PersistentToken;
-import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.model.PersistentToken;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenProvider;
 
 import lombok.NonNull;
 
-public final class OneUseTokenProvider implements TokenProvider {
+public final class PersistentTokenProvider implements TokenProvider {
 
     private final TokenRepository tokenRepository;
 
-    public OneUseTokenProvider(@NonNull final TokenRepository tRepository) {
+    public PersistentTokenProvider(@NonNull final TokenRepository tRepository) {
         super();
 
         tokenRepository = tRepository;

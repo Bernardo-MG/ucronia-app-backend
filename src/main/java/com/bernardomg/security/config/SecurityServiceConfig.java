@@ -37,8 +37,8 @@ import com.bernardomg.security.password.service.DefaultPasswordRecoveryService;
 import com.bernardomg.security.password.service.PasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
-import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.once.provider.OneUseTokenProvider;
+import com.bernardomg.security.token.persistence.provider.PersistentTokenProvider;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenProvider;
 
 /**
@@ -66,7 +66,7 @@ public class SecurityServiceConfig {
             final TokenRepository tokenRepository) {
         final TokenProvider tokenProvider;
 
-        tokenProvider = new OneUseTokenProvider(tokenRepository);
+        tokenProvider = new PersistentTokenProvider(tokenRepository);
 
         return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProvider);
     }

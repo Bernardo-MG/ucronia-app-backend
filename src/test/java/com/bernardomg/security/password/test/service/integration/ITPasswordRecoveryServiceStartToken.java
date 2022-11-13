@@ -11,8 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.service.PasswordRecoveryService;
-import com.bernardomg.security.token.once.persistence.model.PersistentToken;
-import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.model.PersistentToken;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - token generation on recovery start")

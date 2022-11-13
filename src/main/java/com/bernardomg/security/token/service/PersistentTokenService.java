@@ -1,20 +1,19 @@
 
-package com.bernardomg.security.token.once.service;
+package com.bernardomg.security.token.service;
 
 import java.util.Calendar;
 import java.util.Optional;
 
-import com.bernardomg.security.token.once.persistence.model.PersistentToken;
-import com.bernardomg.security.token.once.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.service.TokenService;
+import com.bernardomg.security.token.persistence.model.PersistentToken;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 import lombok.NonNull;
 
-public class OneUseTokenService implements TokenService {
+public class PersistentTokenService implements TokenService {
 
     private final TokenRepository tokenRepository;
 
-    public OneUseTokenService(@NonNull final TokenRepository tRepository) {
+    public PersistentTokenService(@NonNull final TokenRepository tRepository) {
         super();
 
         // TODO: Can be merged with Spring's token service?
