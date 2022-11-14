@@ -15,7 +15,7 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.service.TokenService;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - recovery start")
+@DisplayName("Full password recovery process")
 public class ITFullPasswordRecoveryProcess {
 
     @Autowired
