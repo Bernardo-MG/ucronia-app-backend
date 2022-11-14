@@ -12,7 +12,6 @@ import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.service.PasswordRecoveryService;
 import com.bernardomg.security.test.constant.TokenConstants;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password")
@@ -20,9 +19,6 @@ public class ITPasswordRecoveryServiceChange {
 
     @Autowired
     private PasswordRecoveryService service;
-
-    @Autowired
-    private TokenRepository         tokenRepository;
 
     @Autowired
     private UserRepository          userRepository;
@@ -47,35 +43,7 @@ public class ITPasswordRecoveryServiceChange {
             .findFirst()
             .get();
 
-        Assertions.assertEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", user.getPassword());
-    }
-
-    @Test
-    @DisplayName("Changing password with an existing user marks the token as expired")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Existing_ExpireToken() {
-        final Boolean expiredBefore;
-        final Boolean expiredAfter;
-
-        expiredBefore = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getExpired();
-
-        service.changePassword(TokenConstants.TOKEN, "1234", "abc");
-
-        expiredAfter = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getExpired();
-
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertTrue(expiredAfter);
+        Assertions.assertNotEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", user.getPassword());
     }
 
     @Test

@@ -52,16 +52,30 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     @Override
     public final Boolean changePassword(final String token, final String currentPassword, final String newPassword) {
-        final Boolean succesful;
-        final String  user;
+        final Boolean                  succesful;
+        final String                   username;
+        final Optional<PersistentUser> user;
+        final PersistentUser           entity;
+        final String                   encodedPassword;
 
         if (tokenProcessor.hasExpired(token)) {
             log.warn("Token {} has expired", token);
             succesful = false;
         } else {
-            user = tokenProcessor.getSubject(token);
+            username = tokenProcessor.getSubject(token);
+            user = repository.findOneByUsername(username);
 
-            succesful = validateChange(user, currentPassword);
+            succesful = validateChange(user, username, currentPassword);
+
+            if (succesful) {
+                entity = user.get();
+
+                encodedPassword = passwordEncoder.encode(newPassword);
+                entity.setPassword(encodedPassword);
+
+                repository.save(entity);
+                tokenProcessor.closeToken(token);
+            }
         }
 
         return succesful;
@@ -108,15 +122,13 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }
 
-    private final Boolean validateChange(final String username, final String currentPassword) {
-        final Optional<PersistentUser> user;
-        Boolean                        valid;
-
-        user = repository.findOneByUsername(username);
+    private final Boolean validateChange(final Optional<PersistentUser> user, final String username,
+            final String currentPassword) {
+        Boolean valid;
 
         // Verify the user exists
         if (!user.isPresent()) {
-            log.error("No user exists for username {}", username);
+            log.warn("No user exists for username {}", username);
             valid = false;
         } else {
             // User exists
@@ -125,7 +137,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
             // Verify the password matches is not changed
             if (!passwordEncoder.matches(currentPassword, user.get()
                 .getPassword())) {
-                log.debug("Received password doesn't match the one stored for username {}", username);
+                log.warn("Received password doesn't match the one stored for username {}", user.get()
+                    .getUsername());
                 valid = false;
             }
         }

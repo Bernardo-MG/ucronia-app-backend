@@ -29,6 +29,27 @@ public class PersistentTokenProcessor implements TokenProcessor {
     }
 
     @Override
+    public final void closeToken(final String token) {
+        final Optional<PersistentToken> read;
+        final PersistentToken           entity;
+
+        read = tokenRepository.findOneByToken(token);
+
+        if (read.isPresent()) {
+            if (read.get()
+                .getExpired()) {
+                log.warn("Token already expired: {}", token);
+            } else {
+                entity = read.get();
+                entity.setExpired(true);
+                tokenRepository.save(entity);
+            }
+        } else {
+            log.warn("Token not registered: {}", token);
+        }
+    }
+
+    @Override
     public final String generateToken(final String subject) {
         final PersistentToken token;
         final Calendar        expiration;
@@ -59,7 +80,7 @@ public class PersistentTokenProcessor implements TokenProcessor {
             parsedToken = tokenService.verifyToken(token);
             subject = parsedToken.getExtendedInformation();
         } else {
-            log.warn("Token {} isn't registered", token);
+            log.warn("Token not registered: {}", token);
             subject = "";
         }
 
@@ -71,8 +92,6 @@ public class PersistentTokenProcessor implements TokenProcessor {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   expired;
-
-        // TODO: Move to its own service
 
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
@@ -88,7 +107,7 @@ public class PersistentTokenProcessor implements TokenProcessor {
                     .after(entity.getExpirationDate());
             }
         } else {
-            log.warn("Token {} isn't registered", token);
+            log.warn("Token not registered: {}", token);
             expired = true;
         }
 

@@ -32,6 +32,8 @@ package com.bernardomg.security.token.provider;
  */
 public interface TokenProvider {
 
+    public void closeToken(final String token);
+
     /**
      * Returns a token for the subject.
      *

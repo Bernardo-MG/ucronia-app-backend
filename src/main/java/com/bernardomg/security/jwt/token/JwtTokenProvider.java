@@ -70,6 +70,9 @@ public final class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
+    public final void closeToken(final String token) {}
+
+    @Override
     public final String generateToken(final String subject) {
         final Date   expiration;
         final Date   issuedAt;
