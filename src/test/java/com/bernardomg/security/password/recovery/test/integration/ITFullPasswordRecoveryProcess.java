@@ -13,7 +13,6 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.service.TokenService;
 
 @IntegrationTest
 @DisplayName("Full password recovery process")
@@ -24,9 +23,6 @@ public class ITFullPasswordRecoveryProcess {
 
     @Autowired
     private TokenRepository         tokenRepository;
-
-    @Autowired
-    private TokenService            tokenService;
 
     @Autowired
     private UserRepository          userRepository;
@@ -41,14 +37,15 @@ public class ITFullPasswordRecoveryProcess {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testRecoverPassword_Valid() {
-        final PasswordRecoveryStatus status;
+        final PasswordRecoveryStatus recoveryStatus;
+        final PasswordRecoveryStatus changeStatus;
+        final PasswordRecoveryStatus validTokenStatus;
         final String                 token;
-        final Boolean                validToken;
         final PersistentUser         user;
 
-        status = passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
+        recoveryStatus = passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertTrue(recoveryStatus.getSuccessful());
 
         token = tokenRepository.findAll()
             .stream()
@@ -56,11 +53,13 @@ public class ITFullPasswordRecoveryProcess {
             .get()
             .getToken();
 
-        validToken = tokenService.verifyToken(token);
+        validTokenStatus = passwordRecoveryService.validateToken(token);
 
-        Assertions.assertTrue(validToken);
+        Assertions.assertTrue(validTokenStatus.getSuccessful());
 
-        passwordRecoveryService.changePassword(token, "1234", "abc");
+        changeStatus = passwordRecoveryService.changePassword(token, "1234", "abc");
+
+        Assertions.assertTrue(changeStatus.getSuccessful());
 
         user = userRepository.findAll()
             .stream()

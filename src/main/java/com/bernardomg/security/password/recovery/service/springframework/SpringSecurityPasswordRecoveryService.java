@@ -165,6 +165,15 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         return new ImmutablePasswordRecoveryStatus(valid);
     }
 
+    @Override
+    public final PasswordRecoveryStatus validateToken(final String token) {
+        final Boolean valid;
+
+        valid = !tokenProcessor.hasExpired(token);
+
+        return new ImmutablePasswordRecoveryStatus(valid);
+    }
+
     /**
      * Checks if the user is valid. This means it has no flag marking it as not usable.
      *

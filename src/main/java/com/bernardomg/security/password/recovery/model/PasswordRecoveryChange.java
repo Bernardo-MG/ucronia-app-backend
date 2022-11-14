@@ -22,31 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.token.controller;
+package com.bernardomg.security.password.recovery.model;
 
-import javax.validation.Valid;
+/**
+ * All the data required for password change during password recovery.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface PasswordRecoveryChange {
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+    public String getCurrentPassword();
 
-import com.bernardomg.security.token.model.DtoToken;
-import com.bernardomg.security.token.service.TokenService;
+    public String getPassword();
 
-import lombok.AllArgsConstructor;
-
-@RestController
-@RequestMapping("/token")
-@AllArgsConstructor
-public class TokenController {
-
-    private final TokenService service;
-
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean startRecovery(@Valid @RequestBody final DtoToken request) {
-        return service.verifyToken(request.getToken());
-    }
+    public String getToken();
 
 }

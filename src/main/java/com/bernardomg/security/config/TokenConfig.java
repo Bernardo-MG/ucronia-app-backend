@@ -32,14 +32,8 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.jwt.property.JwtProperties;
 import com.bernardomg.security.jwt.token.JwtTokenProvider;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenProvider;
 import com.bernardomg.security.token.provider.TokenValidator;
-import com.bernardomg.security.token.service.DelegateTokenService;
-import com.bernardomg.security.token.service.TokenService;
-
-import lombok.NonNull;
 
 /**
  * Security configuration.
@@ -62,16 +56,6 @@ public class TokenConfig {
     @Bean("tokenProvider")
     public TokenProvider getTokenProvider(final SecretKey key, final JwtProperties properties) {
         return new JwtTokenProvider(key, properties.getValidity());
-    }
-
-    @Bean("tokenService")
-    public TokenService getTokenService(final TokenRepository tokenRepository,
-            final org.springframework.security.core.token.@NonNull TokenService tokenService) {
-        final TokenValidator tokenValidator;
-
-        tokenValidator = new PersistentTokenProcessor(tokenRepository, tokenService);
-
-        return new DelegateTokenService(tokenValidator);
     }
 
 }

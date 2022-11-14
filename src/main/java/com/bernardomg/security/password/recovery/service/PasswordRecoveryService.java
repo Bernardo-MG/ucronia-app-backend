@@ -46,4 +46,13 @@ public interface PasswordRecoveryService {
      */
     public PasswordRecoveryStatus startPasswordRecovery(final String email);
 
+    /**
+     * Validate a password recovery token.
+     *
+     * @param token
+     *            token to validate
+     * @return the status indicating if the token is valid or not
+     */
+    public PasswordRecoveryStatus validateToken(final String token);
+
 }
