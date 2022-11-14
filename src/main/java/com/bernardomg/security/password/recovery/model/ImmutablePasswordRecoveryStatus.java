@@ -37,6 +37,9 @@ import lombok.Data;
 @Data
 public final class ImmutablePasswordRecoveryStatus implements PasswordRecoveryStatus {
 
+    /**
+     * Recovery attempt status.
+     */
     private final Boolean successful;
 
     public ImmutablePasswordRecoveryStatus(@NotNull final Boolean success) {

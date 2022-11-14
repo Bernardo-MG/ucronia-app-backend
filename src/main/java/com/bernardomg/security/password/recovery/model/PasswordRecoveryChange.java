@@ -32,10 +32,25 @@ package com.bernardomg.security.password.recovery.model;
  */
 public interface PasswordRecoveryChange {
 
+    /**
+     * Returns the current user password. Used to authenticate change.
+     *
+     * @return the current user password
+     */
     public String getCurrentPassword();
 
+    /**
+     * Returns the new password.
+     *
+     * @return the new password
+     */
     public String getPassword();
 
+    /**
+     * Returns the password change token. Used to authenticate change.
+     *
+     * @return the password change token
+     */
     public String getToken();
 
 }
