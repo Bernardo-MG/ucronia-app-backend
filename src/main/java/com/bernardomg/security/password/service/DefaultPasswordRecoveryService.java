@@ -13,8 +13,7 @@ import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
-import com.bernardomg.security.token.provider.TokenProvider;
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.NonNull;
@@ -32,9 +31,7 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     private final UserRepository      repository;
 
-    private final TokenProvider       tokenProvider;
-
-    private final TokenValidator      tokenValidator;
+    private final TokenProcessor      tokenProcessor;
 
     /**
      * User details service, to find and validate users.
@@ -43,15 +40,13 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     public DefaultPasswordRecoveryService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityEmailSender mSender,
-            @NonNull final TokenProvider tProvider, @NonNull final TokenValidator tValidator,
-            @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final TokenProcessor tProcessor, @NonNull final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
         userDetailsService = userDetsService;
         mailSender = mSender;
-        tokenProvider = tProvider;
-        tokenValidator = tValidator;
+        tokenProcessor = tProcessor;
         passwordEncoder = passEncoder;
     }
 
@@ -60,11 +55,11 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
         final Boolean succesful;
         final String  user;
 
-        if (tokenValidator.hasExpired(token)) {
+        if (tokenProcessor.hasExpired(token)) {
             log.warn("Token {} has expired", token);
             succesful = false;
         } else {
-            user = tokenValidator.getSubject(token);
+            user = tokenProcessor.getSubject(token);
 
             succesful = validateChange(user, currentPassword);
         }
@@ -91,7 +86,7 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
         valid = isValid(details);
         if (valid) {
-            token = tokenProvider.generateToken(user.get()
+            token = tokenProcessor.generateToken(user.get()
                 .getUsername());
 
             mailSender.sendPasswordRecoveryEmail(user.get()

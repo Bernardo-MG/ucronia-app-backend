@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.jwt.property.JwtProperties;
 import com.bernardomg.security.jwt.token.JwtTokenProvider;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenValidator;
+import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenProvider;
 import com.bernardomg.security.token.provider.TokenValidator;
@@ -69,7 +69,7 @@ public class TokenConfig {
             final org.springframework.security.core.token.@NonNull TokenService tokenService) {
         final TokenValidator tokenValidator;
 
-        tokenValidator = new PersistentTokenValidator(tokenRepository, tokenService);
+        tokenValidator = new PersistentTokenProcessor(tokenRepository, tokenService);
 
         return new DelegateTokenService(tokenValidator);
     }

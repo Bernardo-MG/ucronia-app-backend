@@ -41,11 +41,10 @@ import com.bernardomg.security.password.service.DefaultPasswordRecoveryService;
 import com.bernardomg.security.password.service.PasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenProvider;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenValidator;
+import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.token.provider.TokenProvider;
-import com.bernardomg.security.token.provider.TokenValidator;
 
 /**
  * Security configuration.
@@ -71,14 +70,12 @@ public class SecurityServiceConfig {
             final UserDetailsService userDetailsService, final SecurityEmailSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
             final TokenService tokenService) {
-        final TokenProvider  tokenProvider;
-        final TokenValidator tokenValidator;
+        final TokenProcessor tokenProcessor;
 
-        tokenProvider = new PersistentTokenProvider(tokenRepository, tokenService);
-        tokenValidator = new PersistentTokenValidator(tokenRepository, tokenService);
+        tokenProcessor = new PersistentTokenProcessor(tokenRepository, tokenService);
 
-        return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProvider,
-            tokenValidator, passwordEncoder);
+        return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
+            passwordEncoder);
     }
 
     @Bean("springTokenService")

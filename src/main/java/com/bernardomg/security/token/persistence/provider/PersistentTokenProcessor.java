@@ -9,23 +9,45 @@ import org.springframework.security.core.token.TokenService;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.token.provider.TokenProcessor;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class PersistentTokenValidator implements TokenValidator {
+public class PersistentTokenProcessor implements TokenProcessor {
 
     private final TokenRepository tokenRepository;
 
     private final TokenService    tokenService;
 
-    public PersistentTokenValidator(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
+    public PersistentTokenProcessor(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
         super();
 
         tokenRepository = tRepository;
         tokenService = tService;
+    }
+
+    @Override
+    public final String generateToken(final String subject) {
+        final PersistentToken token;
+        final Calendar        expiration;
+        final String          uniqueID;
+
+        expiration = Calendar.getInstance();
+        expiration.add(Calendar.DATE, 1);
+
+        uniqueID = tokenService.allocateToken(subject)
+            .getKey();
+
+        token = new PersistentToken();
+        token.setToken(uniqueID);
+        token.setExpired(false);
+        token.setExpirationDate(expiration);
+
+        tokenRepository.save(token);
+
+        return uniqueID;
     }
 
     @Override

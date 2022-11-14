@@ -10,21 +10,22 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.test.constant.TokenConstants;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenValidator;
+import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenValidator;
 
 @IntegrationTest
-@DisplayName("PersistentTokenValidator")
-public class ITPersistentTokenValidator {
+@DisplayName("PersistentTokenProcessor - has expired")
+public class ITPersistentTokenProcessorHasExpired {
 
     private final TokenValidator validator;
 
     @Autowired
-    public ITPersistentTokenValidator(final TokenRepository tokenRepository, final TokenService tokenService) {
+    public ITPersistentTokenProcessorHasExpired(final TokenRepository tokenRepository,
+            final TokenService tokenService) {
         super();
 
-        validator = new PersistentTokenValidator(tokenRepository, tokenService);
+        validator = new PersistentTokenProcessor(tokenRepository, tokenService);
     }
 
     @Test
