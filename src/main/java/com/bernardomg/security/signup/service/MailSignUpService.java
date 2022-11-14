@@ -25,7 +25,7 @@
 package com.bernardomg.security.signup.service;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 
@@ -33,11 +33,11 @@ import lombok.NonNull;
 
 public final class MailSignUpService implements SignUpService {
 
-    private final SecurityEmailSender mailSender;
+    private final SecurityMessageSender mailSender;
 
-    private final SignUpService       wrapped;
+    private final SignUpService         wrapped;
 
-    public MailSignUpService(@NonNull final UserRepository repo, @NonNull final SecurityEmailSender mSender) {
+    public MailSignUpService(@NonNull final UserRepository repo, @NonNull final SecurityMessageSender mSender) {
         super();
 
         wrapped = new DefaultSignUpService(repo);

@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.test.constant.TokenConstants;
 
@@ -53,11 +54,11 @@ public class ITPasswordRecoveryServiceChange {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     public final void testChangePassword_Existing_Status() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
-        Assertions.assertTrue(status);
+        Assertions.assertTrue(status.getSuccessful());
     }
 
     @Test
@@ -67,22 +68,22 @@ public class ITPasswordRecoveryServiceChange {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     public final void testChangePassword_ExpiredToken_Status() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
     @DisplayName("Changing password with an incorrect password gives a failure")
     @Sql({ "/db/queries/security/token/valid.sql" })
     public final void testChangePassword_IncorrectPassword_Status() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "def", "abc");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
@@ -91,22 +92,22 @@ public class ITPasswordRecoveryServiceChange {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testChangePassword_NotExistingToken_Status() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
     @DisplayName("Changing password with a not existing user gives a failure")
     @Sql({ "/db/queries/security/token/valid.sql" })
     public final void testChangePassword_NotExistingUser_Status() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
@@ -116,11 +117,11 @@ public class ITPasswordRecoveryServiceChange {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
     public final void testChangePassword_TokenAfterExpirationDate_Status() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
 }

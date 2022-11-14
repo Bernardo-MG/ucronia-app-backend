@@ -22,27 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.email.sender;
+package com.bernardomg.security.password.recovery.model;
 
 /**
- * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
- * user.
+ * Status after a password recovery attempt. Will tell if the attempt was successful or not, through the
+ * {@code successful} field.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface SecurityEmailSender {
-
-    public void sendPasswordRecoveryEmail(final String email, final String token);
+public interface PasswordRecoveryStatus {
 
     /**
-     * Sends the email after signing up as a new user.
+     * Returns if the password recovery attempt was successful.
      *
-     * @param username
-     *            username for the user who signed up
-     * @param email
-     *            email to send the email to
+     * @return {@code true} if the password recovery was successful, {@code false} otherwise
      */
-    public void sendSignUpEmail(final String username, final String email);
+    public Boolean getSuccessful();
 
 }

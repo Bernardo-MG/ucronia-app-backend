@@ -34,11 +34,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.password.recovery.service.DefaultPasswordRecoveryService;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
@@ -67,14 +67,14 @@ public class SecurityServiceConfig {
 
     @Bean("passwordRecoveryService")
     public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
-            final UserDetailsService userDetailsService, final SecurityEmailSender mailSender,
+            final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
             final TokenService tokenService) {
         final TokenProcessor tokenProcessor;
 
         tokenProcessor = new PersistentTokenProcessor(tokenRepository, tokenService);
 
-        return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
+        return new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);
     }
 
@@ -93,7 +93,7 @@ public class SecurityServiceConfig {
 
     @Bean("userRegistrationService")
     public SignUpService getUserRegistrationService(final UserRepository repository,
-            final SecurityEmailSender mailSender) {
+            final SecurityMessageSender mailSender) {
         return new MailSignUpService(repository, mailSender);
     }
 

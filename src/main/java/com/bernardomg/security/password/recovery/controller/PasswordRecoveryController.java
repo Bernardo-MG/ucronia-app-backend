@@ -33,19 +33,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.password.recovery.model.DtoPasswordRecovery;
+import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Handles password recovery requests. All the logic is delegated to a {@link PasswordRecoveryService}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @RestController
 @RequestMapping("/passwordRecovery")
 @AllArgsConstructor
 public class PasswordRecoveryController {
 
+    /**
+     * Password recovery service.
+     */
     private final PasswordRecoveryService service;
 
+    /**
+     * Attempts to start a password recovery.
+     *
+     * @param request
+     *            password recovery request
+     * @return password recovery status
+     */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean startRecovery(@Valid @RequestBody final DtoPasswordRecovery request) {
+    public PasswordRecoveryStatus startRecovery(@Valid @RequestBody final DtoPasswordRecovery request) {
         return service.startPasswordRecovery(request.getEmail());
     }
 

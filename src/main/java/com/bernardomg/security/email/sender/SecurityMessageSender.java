@@ -22,25 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model;
-
-import javax.validation.constraints.NotNull;
-
-import lombok.Data;
+package com.bernardomg.security.email.sender;
 
 /**
- * DTO implementation of {@link PasswordRecovery}.
+ * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
+ * user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-public final class DtoPasswordRecovery implements PasswordRecovery {
+public interface SecurityMessageSender {
+
+    public void sendPasswordRecoveryEmail(final String email, final String token);
 
     /**
-     * User email.
+     * Sends the email after signing up as a new user.
+     *
+     * @param username
+     *            username for the user who signed up
+     * @param email
+     *            email to send the email to
      */
-    @NotNull
-    private String email;
+    public void sendSignUpEmail(final String username, final String email);
 
 }

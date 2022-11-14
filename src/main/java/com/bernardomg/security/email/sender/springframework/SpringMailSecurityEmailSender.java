@@ -27,7 +27,7 @@ package com.bernardomg.security.email.sender.springframework;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 import lombok.NonNull;
 
@@ -37,7 +37,7 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SpringMailSecurityEmailSender implements SecurityEmailSender {
+public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
     private final String         fromEmail;
 

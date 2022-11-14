@@ -29,18 +29,21 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * DTO implementation of {@link PasswordRecovery}.
+ * Immutable implementation of {@link PasswordRecoveryStatus}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-public final class DtoPasswordRecovery implements PasswordRecovery {
+public final class ImmutablePasswordRecoveryStatus implements PasswordRecoveryStatus {
 
-    /**
-     * User email.
-     */
     @NotNull
-    private String email;
+    private Boolean successful;
+
+    public ImmutablePasswordRecoveryStatus(@NotNull final Boolean success) {
+        super();
+
+        successful = success;
+    }
 
 }

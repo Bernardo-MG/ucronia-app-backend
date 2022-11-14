@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * <ul>
  * <li>Received username exists as a user</li>
  * <li>Received password matchs the one encrypted for the user</li>
- * <li>User should be enabled, and all its status flags should mark it as valid</li>
+ * <li>User should be enabled, and valid</li>
  * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido

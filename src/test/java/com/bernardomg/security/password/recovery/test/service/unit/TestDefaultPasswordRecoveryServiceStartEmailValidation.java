@@ -17,16 +17,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.email.sender.SecurityEmailSender;
-import com.bernardomg.security.password.recovery.service.DefaultPasswordRecoveryService;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.validation.exception.ValidationException;
 
 @DisplayName("DefaultPasswordRecoveryService - Mail validation on recovery start")
 public class TestDefaultPasswordRecoveryServiceStartEmailValidation {
 
-    private SecurityEmailSender     mailSender;
+    private SecurityMessageSender   mailSender;
 
     private PasswordRecoveryService service;
 
@@ -55,12 +55,12 @@ public class TestDefaultPasswordRecoveryServiceStartEmailValidation {
         Mockito.when(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString()))
             .thenReturn(details);
 
-        mailSender = Mockito.mock(SecurityEmailSender.class);
+        mailSender = Mockito.mock(SecurityMessageSender.class);
 
         tokenProcessor = Mockito.mock(TokenProcessor.class);
         passwordEncoder = Mockito.mock(PasswordEncoder.class);
 
-        service = new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
+        service = new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 @IntegrationTest
@@ -27,11 +28,11 @@ public class ITPasswordRecoveryServiceStart {
             "/db/queries/security/user/credentials_expired.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_CredentialsExpired() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
@@ -40,11 +41,11 @@ public class ITPasswordRecoveryServiceStart {
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Disabled() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
@@ -53,11 +54,11 @@ public class ITPasswordRecoveryServiceStart {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Enabled() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(status);
+        Assertions.assertTrue(status.getSuccessful());
     }
 
     @Test
@@ -66,11 +67,11 @@ public class ITPasswordRecoveryServiceStart {
             "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Expired() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
@@ -79,11 +80,11 @@ public class ITPasswordRecoveryServiceStart {
             "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_Locked() {
-        final Boolean status;
+        final PasswordRecoveryStatus status;
 
         status = service.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertFalse(status);
+        Assertions.assertFalse(status.getSuccessful());
     }
 
 }
