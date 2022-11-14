@@ -9,6 +9,7 @@ import org.springframework.security.core.token.TokenService;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.test.constant.TokenConstant;
 import com.bernardomg.security.token.persistence.provider.PersistentTokenValidator;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenValidator;
@@ -32,7 +33,7 @@ public class ITPersistentTokenValidator {
         final String token;
         final String subject;
 
-        token = "MTY2ODM4MjMxMDUzMDo2M2I3ODI4ZTUzZThjNTIwOTI1MjFkZTMwMTNhY2Y3ZDcxMjIwMDRlYzZiMmI5NDlhNzRjZWUzMjA4ZDIwYzY2OmVtYWlsQHNvbWV3aGVyZS5jb206ZGI1NWE0NmQ1MjBlMmJmMjUwZDIzY2U3YzQxZTA2ZDRlYzY0MzkxZDY3ZTcxNzEzNzU3MTUwNzkyZDgwYTQ0MzVjMGQ4ZDc3NjBmN2M4Mzc4NWJmM2I4NjE4ZGU2NjM4NWY4N2I1ZmM3MmNjNzdlMzUxNWMzYTZhYzQwMmEzY2Y";
+        token = TokenConstant.TOKEN;
 
         subject = validator.getSubject(token);
 
@@ -46,7 +47,7 @@ public class ITPersistentTokenValidator {
         final String  token;
         final Boolean expired;
 
-        token = "MTY2ODM4MjMxMDUzMDo2M2I3ODI4ZTUzZThjNTIwOTI1MjFkZTMwMTNhY2Y3ZDcxMjIwMDRlYzZiMmI5NDlhNzRjZWUzMjA4ZDIwYzY2OmVtYWlsQHNvbWV3aGVyZS5jb206ZGI1NWE0NmQ1MjBlMmJmMjUwZDIzY2U3YzQxZTA2ZDRlYzY0MzkxZDY3ZTcxNzEzNzU3MTUwNzkyZDgwYTQ0MzVjMGQ4ZDc3NjBmN2M4Mzc4NWJmM2I4NjE4ZGU2NjM4NWY4N2I1ZmM3MmNjNzdlMzUxNWMzYTZhYzQwMmEzY2Y";
+        token = TokenConstant.TOKEN;
 
         expired = validator.hasExpired(token);
 
@@ -60,7 +61,7 @@ public class ITPersistentTokenValidator {
         final String  token;
         final Boolean expired;
 
-        token = "MTY2ODM4MjMxMDUzMDo2M2I3ODI4ZTUzZThjNTIwOTI1MjFkZTMwMTNhY2Y3ZDcxMjIwMDRlYzZiMmI5NDlhNzRjZWUzMjA4ZDIwYzY2OmVtYWlsQHNvbWV3aGVyZS5jb206ZGI1NWE0NmQ1MjBlMmJmMjUwZDIzY2U3YzQxZTA2ZDRlYzY0MzkxZDY3ZTcxNzEzNzU3MTUwNzkyZDgwYTQ0MzVjMGQ4ZDc3NjBmN2M4Mzc4NWJmM2I4NjE4ZGU2NjM4NWY4N2I1ZmM3MmNjNzdlMzUxNWMzYTZhYzQwMmEzY2Y";
+        token = TokenConstant.TOKEN;
 
         expired = validator.hasExpired(token);
 
@@ -74,7 +75,7 @@ public class ITPersistentTokenValidator {
         final String  token;
         final Boolean expired;
 
-        token = "MTY2ODM4MjMxMDUzMDo2M2I3ODI4ZTUzZThjNTIwOTI1MjFkZTMwMTNhY2Y3ZDcxMjIwMDRlYzZiMmI5NDlhNzRjZWUzMjA4ZDIwYzY2OmVtYWlsQHNvbWV3aGVyZS5jb206ZGI1NWE0NmQ1MjBlMmJmMjUwZDIzY2U3YzQxZTA2ZDRlYzY0MzkxZDY3ZTcxNzEzNzU3MTUwNzkyZDgwYTQ0MzVjMGQ4ZDc3NjBmN2M4Mzc4NWJmM2I4NjE4ZGU2NjM4NWY4N2I1ZmM3MmNjNzdlMzUxNWMzYTZhYzQwMmEzY2Y";
+        token = TokenConstant.TOKEN;
 
         expired = validator.hasExpired(token);
 

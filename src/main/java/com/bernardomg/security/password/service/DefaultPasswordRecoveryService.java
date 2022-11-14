@@ -91,7 +91,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
         valid = isValid(details);
         if (valid) {
-            token = tokenProvider.generateToken(email);
+            token = tokenProvider.generateToken(user.get()
+                .getUsername());
 
             mailSender.sendPasswordRecoveryEmail(user.get()
                 .getEmail(), token);
