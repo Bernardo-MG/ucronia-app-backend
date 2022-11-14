@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.service.integration;
+package com.bernardomg.security.password.recovery.test.service.integration;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 

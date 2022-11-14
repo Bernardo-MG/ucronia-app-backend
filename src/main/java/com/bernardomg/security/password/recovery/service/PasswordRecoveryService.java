@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.service;
+package com.bernardomg.security.password.recovery.service;
 
 public interface PasswordRecoveryService {
 

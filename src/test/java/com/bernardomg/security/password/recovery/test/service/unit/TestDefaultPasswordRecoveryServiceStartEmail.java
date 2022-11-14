@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.service.unit;
+package com.bernardomg.security.password.recovery.test.service.unit;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -17,8 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityEmailSender;
-import com.bernardomg.security.password.service.DefaultPasswordRecoveryService;
-import com.bernardomg.security.password.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.DefaultPasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
 
 @DisplayName("DefaultPasswordRecoveryService - Mail generation on recovery start")

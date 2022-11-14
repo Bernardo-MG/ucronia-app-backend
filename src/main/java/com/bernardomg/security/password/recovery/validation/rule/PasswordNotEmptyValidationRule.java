@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.validation.rule;
+package com.bernardomg.security.password.recovery.validation.rule;
 
 import java.util.Optional;
 

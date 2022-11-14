@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.service.integration;
+package com.bernardomg.security.password.recovery.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - recovery start")

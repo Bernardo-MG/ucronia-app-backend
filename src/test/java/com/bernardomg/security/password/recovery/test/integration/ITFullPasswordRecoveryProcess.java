@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.integration;
+package com.bernardomg.security.password.recovery.test.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.password.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.service.TokenService;
 

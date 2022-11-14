@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.service;
+package com.bernardomg.security.password.recovery.service;
 
 import java.util.Arrays;
 import java.util.Optional;
