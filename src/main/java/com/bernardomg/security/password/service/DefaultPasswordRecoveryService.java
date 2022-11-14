@@ -1,9 +1,7 @@
 
 package com.bernardomg.security.password.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,23 +57,16 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
 
     @Override
     public final Boolean changePassword(final String token, final String currentPassword, final String newPassword) {
-        final Boolean             succesful;
-        final Collection<Failure> failures;
-        final String              user;
-
-        user = tokenValidator.getSubject(token);
-
-        failures = validateChange(user, currentPassword);
-
-        if (!failures.isEmpty()) {
-            log.debug("Got errors: {}", failures);
-            throw new ValidationException(failures);
-        }
+        final Boolean succesful;
+        final String  user;
 
         if (tokenValidator.hasExpired(token)) {
+            log.warn("Token {} has expired", token);
             succesful = false;
         } else {
-            succesful = false;
+            user = tokenValidator.getSubject(token);
+
+            succesful = validateChange(user, currentPassword);
         }
 
         return succesful;
@@ -121,35 +112,29 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }
 
-    private final Collection<Failure> validateChange(final String username, final String currentPassword) {
+    private final Boolean validateChange(final String username, final String currentPassword) {
         final Optional<PersistentUser> user;
-        final Collection<Failure>      failures;
-        final Boolean                  exists;
-        Failure                        failure;
+        Boolean                        valid;
 
         user = repository.findOneByUsername(username);
-
-        failures = new ArrayList<>();
 
         // Verify the user exists
         if (!user.isPresent()) {
             log.error("No user exists for username {}", username);
-            failure = FieldFailure.of("error.user.notExisting", "roleForm", "memberId", username);
-            failures.add(failure);
-            exists = false;
+            valid = false;
         } else {
-            exists = true;
+            // User exists
+            valid = true;
+
+            // Verify the password matches is not changed
+            if (!passwordEncoder.matches(user.get()
+                .getPassword(), currentPassword)) {
+                log.debug("Received password doesn't match the one stored for username {}", username);
+                valid = false;
+            }
         }
 
-        // Verify the password matches is not changed
-        if (exists && !passwordEncoder.matches(user.get()
-            .getPassword(), currentPassword)) {
-            log.debug("Received password doesn't match the one stored for username {}", username);
-            failure = FieldFailure.of("error.password.invalid", "roleForm", "id", username);
-            failures.add(failure);
-        }
-
-        return failures;
+        return valid;
     }
 
 }

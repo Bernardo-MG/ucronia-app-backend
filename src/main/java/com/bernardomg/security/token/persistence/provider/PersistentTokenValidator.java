@@ -12,7 +12,9 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenValidator;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public final class PersistentTokenValidator implements TokenValidator {
 
     private final TokenRepository tokenRepository;
@@ -35,6 +37,7 @@ public final class PersistentTokenValidator implements TokenValidator {
             parsedToken = tokenService.verifyToken(token);
             subject = parsedToken.getExtendedInformation();
         } else {
+            log.warn("Token {} isn't registered", token);
             subject = "";
         }
 
@@ -63,6 +66,7 @@ public final class PersistentTokenValidator implements TokenValidator {
                     .after(entity.getExpirationDate());
             }
         } else {
+            log.warn("Token {} isn't registered", token);
             expired = true;
         }
 
