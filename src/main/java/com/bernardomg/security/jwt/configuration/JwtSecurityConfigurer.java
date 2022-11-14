@@ -31,7 +31,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.bernardomg.security.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.token.provider.TokenValidator;
 
 /**
  * JWT security configurar. Applies JWT configuration to the Spring web configuration.

@@ -32,7 +32,8 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.jwt.property.JwtProperties;
 import com.bernardomg.security.jwt.token.JwtTokenProvider;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.provider.TokenProvider;
+import com.bernardomg.security.token.provider.TokenValidator;
 
 /**
  * Security configuration.
@@ -47,8 +48,8 @@ public class TokenConfig {
         super();
     }
 
-    @Bean("tokenProcessor")
-    public JwtTokenValidator getTokenProcessor(final SecretKey key) {
+    @Bean("tokenValidator")
+    public TokenValidator getJwtTokenValidator(final SecretKey key) {
         return new JwtTokenValidator(key);
     }
 

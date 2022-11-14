@@ -30,4 +30,5 @@
 INSERT INTO sequences (sequence, count) VALUES
    ('users', 10),
    ('roles', 10),
-   ('privileges', 10);
+   ('privileges', 10),
+   ('tokens', 0);

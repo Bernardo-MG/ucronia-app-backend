@@ -27,7 +27,7 @@ package com.bernardomg.security.email.sender.springframework;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 import lombok.NonNull;
 
@@ -37,21 +37,39 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SpringMailSecurityEmailSender implements SecurityEmailSender {
+public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
     private final String         fromEmail;
 
     private final JavaMailSender mailSender;
 
-    private final String         signUpSubject = "";
+    private final String         passwordRecoverySubject = "";
 
-    private final String         signUpText    = "";
+    private final String         passwordRecoveryText    = "";
+
+    private final String         signUpSubject           = "";
+
+    private final String         signUpText              = "";
 
     public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final JavaMailSender mSender) {
         super();
 
         fromEmail = from;
         mailSender = mSender;
+    }
+
+    @Override
+    public final void sendPasswordRecoveryEmail(final String email, final String token) {
+        final SimpleMailMessage message;
+
+        // TODO: Use token
+
+        message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(passwordRecoverySubject);
+        message.setText(passwordRecoveryText);
+        mailSender.send(message);
     }
 
     @Override

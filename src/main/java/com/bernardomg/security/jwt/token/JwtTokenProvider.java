@@ -29,7 +29,7 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -68,6 +68,9 @@ public final class JwtTokenProvider implements TokenProvider {
         key = Objects.requireNonNull(secretKey);
         validity = Objects.requireNonNull(validityTime);
     }
+
+    @Override
+    public final void closeToken(final String token) {}
 
     @Override
     public final String generateToken(final String subject) {

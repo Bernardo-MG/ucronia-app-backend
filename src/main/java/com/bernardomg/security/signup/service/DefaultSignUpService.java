@@ -35,7 +35,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
-import com.bernardomg.security.signup.validation.EmailValidationRule;
+import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -118,6 +118,13 @@ public final class DefaultSignUpService implements SignUpService {
         if (repository.existsByUsername(signUp.getUsername())) {
             log.error("A user already exists with the username {}", signUp.getUsername());
             error = FieldFailure.of("error.username.existing", "roleForm", "memberId", signUp.getUsername());
+            failures.add(error);
+        }
+
+        // Verify no user exists with the received email
+        if (repository.existsByEmail(signUp.getEmail())) {
+            log.error("A user already exists with the email {}", signUp.getEmail());
+            error = FieldFailure.of("error.email.existing", "roleForm", "memberId", signUp.getEmail());
             failures.add(error);
         }
 

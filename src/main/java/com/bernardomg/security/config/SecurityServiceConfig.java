@@ -24,22 +24,27 @@
 
 package com.bernardomg.security.config;
 
+import java.security.SecureRandom;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
-import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.password.service.DefaultPasswordResetService;
-import com.bernardomg.security.password.service.PasswordResetService;
-import com.bernardomg.security.password.validation.ChangePasswordPassValidator;
-import com.bernardomg.security.password.validation.ChangePasswordValidator;
+import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.provider.TokenProcessor;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 /**
  * Security configuration.
@@ -60,16 +65,35 @@ public class SecurityServiceConfig {
         return new SpringSecurityTokenLoginService(userDetailsService, passwordEncoder, tokenProv);
     }
 
-    @Bean("resetPasswordService")
-    public PasswordResetService getResetPasswordService(final UserRepository repository,
-            final PasswordEncoder passwordEncoder, final ChangePasswordValidator validator,
-            final ChangePasswordPassValidator passValidator) {
-        return new DefaultPasswordResetService(repository, passwordEncoder, validator, passValidator);
+    @Bean("passwordRecoveryService")
+    public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
+            final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
+            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
+            final TokenService tokenService) {
+        final TokenProcessor tokenProcessor;
+
+        tokenProcessor = new PersistentTokenProcessor(tokenRepository, tokenService);
+
+        return new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
+            passwordEncoder);
+    }
+
+    @Bean("springTokenService")
+    public TokenService getTokenService() {
+        final KeyBasedPersistenceTokenService tokenService;
+
+        tokenService = new KeyBasedPersistenceTokenService();
+        // TODO: add to config
+        tokenService.setServerInteger(123);
+        tokenService.setServerSecret("abc");
+        tokenService.setSecureRandom(new SecureRandom());
+
+        return tokenService;
     }
 
     @Bean("userRegistrationService")
     public SignUpService getUserRegistrationService(final UserRepository repository,
-            final SecurityEmailSender mailSender) {
+            final SecurityMessageSender mailSender) {
         return new MailSignUpService(repository, mailSender);
     }
 

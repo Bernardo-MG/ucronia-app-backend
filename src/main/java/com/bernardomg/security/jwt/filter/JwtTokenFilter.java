@@ -43,7 +43,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.token.provider.TokenValidator;
 
 import lombok.extern.slf4j.Slf4j;
 

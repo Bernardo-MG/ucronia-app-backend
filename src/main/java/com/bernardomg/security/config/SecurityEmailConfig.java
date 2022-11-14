@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.bernardomg.security.email.sender.DisabledSecurityEmailSender;
-import com.bernardomg.security.email.sender.SecurityEmailSender;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.email.sender.springframework.SpringMailSecurityEmailSender;
 
 /**
@@ -49,13 +49,13 @@ public class SecurityEmailConfig {
 
     @Bean("securityEmailSender")
     @ConditionalOnMissingBean(JavaMailSender.class)
-    public SecurityEmailSender getSecurityEmailSender() {
+    public SecurityMessageSender getSecurityEmailSender() {
         return new DisabledSecurityEmailSender();
     }
 
     @Bean("securityEmailSender")
     @ConditionalOnBean(JavaMailSender.class)
-    public SecurityEmailSender getSecurityEmailSender(final JavaMailSender mailSender) {
+    public SecurityMessageSender getSecurityEmailSender(final JavaMailSender mailSender) {
         return new SpringMailSecurityEmailSender("", mailSender);
     }
 

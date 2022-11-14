@@ -39,7 +39,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.bernardomg.security.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.token.provider.TokenValidator;
 
 /**
  * Web security configuration.

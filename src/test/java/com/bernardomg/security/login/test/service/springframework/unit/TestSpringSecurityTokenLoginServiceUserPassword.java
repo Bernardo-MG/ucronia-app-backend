@@ -17,7 +17,8 @@ import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.test.constant.TokenConstants;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 @DisplayName("SpringSecurityTokenLoginService - password validation")
 public class TestSpringSecurityTokenLoginServiceUserPassword {
@@ -60,7 +61,7 @@ public class TestSpringSecurityTokenLoginServiceUserPassword {
 
         Assertions.assertTrue(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
-        Assertions.assertEquals("token", ((TokenLoginStatus) status).getToken());
+        Assertions.assertEquals(TokenConstants.TOKEN, ((TokenLoginStatus) status).getToken());
     }
 
     private final SpringSecurityTokenLoginService getService(final Boolean match) {
@@ -81,7 +82,7 @@ public class TestSpringSecurityTokenLoginServiceUserPassword {
 
         tokenProvider = Mockito.mock(TokenProvider.class);
         Mockito.when(tokenProvider.generateToken(ArgumentMatchers.anyString()))
-            .thenReturn("token");
+            .thenReturn(TokenConstants.TOKEN);
 
         return new SpringSecurityTokenLoginService(userDetService, passEncoder, tokenProvider);
     }
