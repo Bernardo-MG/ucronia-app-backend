@@ -11,7 +11,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.service.PasswordRecoveryService;
-import com.bernardomg.security.test.constant.TokenConstant;
+import com.bernardomg.security.test.constant.TokenConstants;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password")
@@ -36,7 +36,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_Existing_Changed() {
         final PersistentUser user;
 
-        service.changePassword(TokenConstant.TOKEN, "1234", "abc");
+        service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
         user = repository.findAll()
             .stream()
@@ -55,7 +55,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_Existing_Status() {
         final Boolean status;
 
-        status = service.changePassword(TokenConstant.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
         Assertions.assertTrue(status);
     }
@@ -69,7 +69,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_ExpiredToken_Status() {
         final Boolean status;
 
-        status = service.changePassword(TokenConstant.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
         Assertions.assertFalse(status);
     }
@@ -80,7 +80,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_IncorrectPassword_Status() {
         final Boolean status;
 
-        status = service.changePassword(TokenConstant.TOKEN, "def", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "def", "abc");
 
         Assertions.assertFalse(status);
     }
@@ -93,7 +93,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_NotExistingToken_Status() {
         final Boolean status;
 
-        status = service.changePassword(TokenConstant.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
         Assertions.assertFalse(status);
     }
@@ -104,7 +104,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_NotExistingUser_Status() {
         final Boolean status;
 
-        status = service.changePassword(TokenConstant.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
         Assertions.assertFalse(status);
     }
@@ -118,7 +118,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_TokenAfterExpirationDate_Status() {
         final Boolean status;
 
-        status = service.changePassword(TokenConstant.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
 
         Assertions.assertFalse(status);
     }

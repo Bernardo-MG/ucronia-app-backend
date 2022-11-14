@@ -9,7 +9,7 @@ import org.springframework.security.core.token.TokenService;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.test.constant.TokenConstant;
+import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.persistence.provider.PersistentTokenValidator;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenValidator;
@@ -33,7 +33,7 @@ public class ITPersistentTokenValidator {
         final String token;
         final String subject;
 
-        token = TokenConstant.TOKEN;
+        token = TokenConstants.TOKEN;
 
         subject = validator.getSubject(token);
 
@@ -47,7 +47,7 @@ public class ITPersistentTokenValidator {
         final String  token;
         final Boolean expired;
 
-        token = TokenConstant.TOKEN;
+        token = TokenConstants.TOKEN;
 
         expired = validator.hasExpired(token);
 
@@ -61,7 +61,7 @@ public class ITPersistentTokenValidator {
         final String  token;
         final Boolean expired;
 
-        token = TokenConstant.TOKEN;
+        token = TokenConstants.TOKEN;
 
         expired = validator.hasExpired(token);
 
@@ -75,7 +75,7 @@ public class ITPersistentTokenValidator {
         final String  token;
         final Boolean expired;
 
-        token = TokenConstant.TOKEN;
+        token = TokenConstants.TOKEN;
 
         expired = validator.hasExpired(token);
 

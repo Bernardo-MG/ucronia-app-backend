@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.service.DelegateTokenService;
 
 @IntegrationTest
@@ -27,7 +28,7 @@ public class ITDelegateTokenServiceVerify {
     public final void testVerifyToken_Expired() {
         final Boolean valid;
 
-        valid = service.verifyToken("token");
+        valid = service.verifyToken(TokenConstants.TOKEN);
 
         Assertions.assertFalse(valid);
     }
@@ -38,7 +39,7 @@ public class ITDelegateTokenServiceVerify {
     public final void testVerifyToken_NotExpiredAfterExpiration() {
         final Boolean valid;
 
-        valid = service.verifyToken("token");
+        valid = service.verifyToken(TokenConstants.TOKEN);
 
         Assertions.assertFalse(valid);
     }
@@ -49,7 +50,7 @@ public class ITDelegateTokenServiceVerify {
     public final void testVerifyToken_Valid() {
         final Boolean valid;
 
-        valid = service.verifyToken("token");
+        valid = service.verifyToken(TokenConstants.TOKEN);
 
         Assertions.assertTrue(valid);
     }
