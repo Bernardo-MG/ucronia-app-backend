@@ -24,8 +24,12 @@
 
 package com.bernardomg.security.config;
 
+import java.security.SecureRandom;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -65,15 +69,29 @@ public class SecurityServiceConfig {
     @Bean("passwordRecoveryService")
     public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
             final UserDetailsService userDetailsService, final SecurityEmailSender mailSender,
-            final TokenRepository tokenRepository, final PasswordEncoder passwordEncoder) {
+            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
+            final TokenService tokenService) {
         final TokenProvider  tokenProvider;
         final TokenValidator tokenValidator;
 
-        tokenProvider = new PersistentTokenProvider(tokenRepository);
-        tokenValidator = new PersistentTokenValidator(tokenRepository);
+        tokenProvider = new PersistentTokenProvider(tokenRepository, tokenService);
+        tokenValidator = new PersistentTokenValidator(tokenRepository, tokenService);
 
         return new DefaultPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProvider,
             tokenValidator, passwordEncoder);
+    }
+
+    @Bean("springTokenService")
+    public TokenService getTokenService() {
+        final KeyBasedPersistenceTokenService tokenService;
+
+        tokenService = new KeyBasedPersistenceTokenService();
+        // TODO: add to config
+        tokenService.setServerInteger(123);
+        tokenService.setServerSecret("abc");
+        tokenService.setSecureRandom(new SecureRandom());
+
+        return tokenService;
     }
 
     @Bean("userRegistrationService")

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.test.service;
+package com.bernardomg.security.token.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -11,13 +11,13 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.token.service.DelegateTokenService;
 
 @IntegrationTest
-@DisplayName("PersistentTokenService - Token verification")
-public class ITPersistentTokenServiceVerify {
+@DisplayName("DelegateTokenService - Token verification")
+public class ITDelegateTokenServiceVerify {
 
     @Autowired
     private DelegateTokenService service;
 
-    public ITPersistentTokenServiceVerify() {
+    public ITDelegateTokenServiceVerify() {
         super();
     }
 

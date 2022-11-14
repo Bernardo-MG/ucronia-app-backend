@@ -39,6 +39,8 @@ import com.bernardomg.security.token.provider.TokenValidator;
 import com.bernardomg.security.token.service.DelegateTokenService;
 import com.bernardomg.security.token.service.TokenService;
 
+import lombok.NonNull;
+
 /**
  * Security configuration.
  *
@@ -52,8 +54,8 @@ public class TokenConfig {
         super();
     }
 
-    @Bean("tokenProcessor")
-    public JwtTokenValidator getTokenProcessor(final SecretKey key) {
+    @Bean("tokenValidator")
+    public TokenValidator getJwtTokenValidator(final SecretKey key) {
         return new JwtTokenValidator(key);
     }
 
@@ -63,10 +65,11 @@ public class TokenConfig {
     }
 
     @Bean("tokenService")
-    public TokenService getTokenService(final TokenRepository tokenRepository) {
+    public TokenService getTokenService(final TokenRepository tokenRepository,
+            final org.springframework.security.core.token.@NonNull TokenService tokenService) {
         final TokenValidator tokenValidator;
 
-        tokenValidator = new PersistentTokenValidator(tokenRepository);
+        tokenValidator = new PersistentTokenValidator(tokenRepository, tokenService);
 
         return new DelegateTokenService(tokenValidator);
     }

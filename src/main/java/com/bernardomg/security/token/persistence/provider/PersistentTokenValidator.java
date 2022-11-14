@@ -4,6 +4,9 @@ package com.bernardomg.security.token.persistence.provider;
 import java.util.Calendar;
 import java.util.Optional;
 
+import org.springframework.security.core.token.Token;
+import org.springframework.security.core.token.TokenService;
+
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenValidator;
@@ -14,21 +17,23 @@ public final class PersistentTokenValidator implements TokenValidator {
 
     private final TokenRepository tokenRepository;
 
-    public PersistentTokenValidator(@NonNull final TokenRepository tRepository) {
+    private final TokenService    tokenService;
+
+    public PersistentTokenValidator(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
         super();
 
         tokenRepository = tRepository;
+        tokenService = tService;
     }
 
     @Override
     public final String getSubject(final String token) {
-        final Optional<PersistentToken> read;
-        final String                    subject;
+        final Token  parsedToken;
+        final String subject;
 
-        read = tokenRepository.findOneByToken(token);
-        if (read.isPresent()) {
-            subject = read.get()
-                .getToken();
+        if (tokenRepository.existsByToken(token)) {
+            parsedToken = tokenService.verifyToken(token);
+            subject = parsedToken.getExtendedInformation();
         } else {
             subject = "";
         }

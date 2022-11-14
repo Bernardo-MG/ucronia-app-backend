@@ -2,7 +2,8 @@
 package com.bernardomg.security.token.persistence.provider;
 
 import java.util.Calendar;
-import java.util.UUID;
+
+import org.springframework.security.core.token.TokenService;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
@@ -14,10 +15,13 @@ public final class PersistentTokenProvider implements TokenProvider {
 
     private final TokenRepository tokenRepository;
 
-    public PersistentTokenProvider(@NonNull final TokenRepository tRepository) {
+    private final TokenService    tokenService;
+
+    public PersistentTokenProvider(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
         super();
 
         tokenRepository = tRepository;
+        tokenService = tService;
     }
 
     @Override
@@ -29,8 +33,8 @@ public final class PersistentTokenProvider implements TokenProvider {
         expiration = Calendar.getInstance();
         expiration.add(Calendar.DATE, 1);
 
-        uniqueID = UUID.randomUUID()
-            .toString();
+        uniqueID = tokenService.allocateToken(subject)
+            .getKey();
 
         token = new PersistentToken();
         token.setToken(uniqueID);
