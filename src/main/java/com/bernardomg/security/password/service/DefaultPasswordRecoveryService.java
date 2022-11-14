@@ -128,8 +128,8 @@ public final class DefaultPasswordRecoveryService implements PasswordRecoverySer
             valid = true;
 
             // Verify the password matches is not changed
-            if (!passwordEncoder.matches(user.get()
-                .getPassword(), currentPassword)) {
+            if (!passwordEncoder.matches(currentPassword, user.get()
+                .getPassword())) {
                 log.debug("Received password doesn't match the one stored for username {}", username);
                 valid = false;
             }
