@@ -24,11 +24,10 @@
 
 package com.bernardomg.security.jwt.token;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
-
-import javax.crypto.SecretKey;
 
 import com.bernardomg.security.token.provider.TokenValidator;
 
@@ -53,12 +52,22 @@ public final class JwtTokenValidator implements TokenValidator {
     private final JwtParser parser;
 
     /**
+     * Default constructor for the validator. Makes use of the default security seed.
+     */
+    public JwtTokenValidator() {
+        super();
+
+        parser = Jwts.parserBuilder()
+            .build();
+    }
+
+    /**
      * Constructs a validator with the received arguments.
      *
      * @param key
      *            key used when generating tokens
      */
-    public JwtTokenValidator(final SecretKey key) {
+    public JwtTokenValidator(final Key key) {
         super();
 
         Objects.requireNonNull(key);

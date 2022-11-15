@@ -24,13 +24,14 @@
 
 package com.bernardomg.security.jwt.token;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.Objects;
-
-import javax.crypto.SecretKey;
+import java.util.Optional;
 
 import com.bernardomg.security.token.provider.TokenProvider;
 
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -47,12 +48,22 @@ public final class JwtTokenProvider implements TokenProvider {
     /**
      * Secret key for generating tokens. Created from the secret received when constructing the provider.
      */
-    private final SecretKey key;
+    private final Optional<Key>     key;
 
     /**
      * Token validity time in seconds.
      */
-    private final Integer   validity;
+    private final Optional<Integer> validity;
+
+    /**
+     * Default constructor for the provider. Makes use of the default security seed.
+     */
+    public JwtTokenProvider() {
+        super();
+
+        key = Optional.empty();
+        validity = Optional.empty();
+    }
 
     /**
      * Constructs a provider with the received arguments.
@@ -62,11 +73,14 @@ public final class JwtTokenProvider implements TokenProvider {
      * @param validityTime
      *            token validity time in seconds
      */
-    public JwtTokenProvider(final SecretKey secretKey, final Integer validityTime) {
+    public JwtTokenProvider(final Key secretKey, final Integer validityTime) {
         super();
 
-        key = Objects.requireNonNull(secretKey);
-        validity = Objects.requireNonNull(validityTime);
+        Objects.requireNonNull(secretKey);
+        key = Optional.of(secretKey);
+
+        Objects.requireNonNull(validityTime);
+        validity = Optional.of(validityTime);
     }
 
     @Override
@@ -74,23 +88,35 @@ public final class JwtTokenProvider implements TokenProvider {
 
     @Override
     public final String generateToken(final String subject) {
-        final Date   expiration;
-        final Date   issuedAt;
-        final String token;
+        final Date       expiration;
+        final Date       issuedAt;
+        final String     token;
+        final JwtBuilder builder;
 
         // Issued right now
         issuedAt = new Date();
-        // Expires in a number of seconds equal to validity
-        expiration = new Date(System.currentTimeMillis() + (validity * 1000L));
 
-        token = Jwts.builder()
+        log.debug("Issue date for subject {}: {}", subject, issuedAt);
+
+        builder = Jwts.builder()
             .setSubject(subject)
-            .setIssuedAt(issuedAt)
-            .setExpiration(expiration)
-            .signWith(key, SignatureAlgorithm.HS512)
-            .compact();
+            .setIssuedAt(issuedAt);
 
-        log.debug("Created token for subject {} with expiration date {}", subject, expiration);
+        if (validity.isPresent()) {
+            // Expires in a number of seconds equal to validity
+            expiration = new Date(System.currentTimeMillis() + (validity.get() * 1000L));
+            builder.setExpiration(expiration);
+            log.debug("Expiration date for subject {}: {}", subject, expiration);
+        }
+
+        if (key.isPresent()) {
+            builder.signWith(key.get(), SignatureAlgorithm.HS512);
+            log.debug("Signed token for subject {}", subject);
+        }
+
+        token = builder.compact();
+
+        log.debug("Created token for subject {}", subject);
 
         return token;
     }
