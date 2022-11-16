@@ -82,13 +82,12 @@ public final class JwtTokenProvider implements TokenProvider {
         final String     token;
         final JwtBuilder builder;
 
-
         log.debug("Building token for subject {}", subject);
 
         // Issued right now
         issuedAt = new Date();
         log.debug("Issue date for subject {}: {}", subject, issuedAt);
-        
+
         // Not before issue date
         notBefore = issuedAt;
         log.debug("Not before date for subject {}: {}", subject, notBefore);
@@ -108,7 +107,7 @@ public final class JwtTokenProvider implements TokenProvider {
             builder.signWith(key.get(), SignatureAlgorithm.HS512);
             log.debug("Signed token for subject {}", subject);
         }
-        
+
         // Adds id if it was received
         if (id.isPresent()) {
             builder.setId(id.get());
