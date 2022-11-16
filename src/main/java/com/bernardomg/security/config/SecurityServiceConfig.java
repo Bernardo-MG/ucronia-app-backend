@@ -69,8 +69,8 @@ public class SecurityServiceConfig {
 
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
-            final PasswordEncoder passwordEncoder) {
-        return new DefaultPasswordChangeService(userRepository, passwordEncoder);
+            final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
+        return new DefaultPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
     }
 
     @Bean("passwordRecoveryService")

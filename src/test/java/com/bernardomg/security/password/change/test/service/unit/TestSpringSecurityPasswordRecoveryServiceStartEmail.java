@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,6 +37,18 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
     }
 
     @BeforeEach
+    public final void initializeAuthentication() {
+        final Authentication authentication;
+
+        authentication = Mockito.mock(Authentication.class);
+        Mockito.when(authentication.getName())
+            .thenReturn("admin");
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
+    }
+
+    @BeforeEach
     public final void initializeService() {
         final UserRepository     repository;
         final UserDetailsService userDetailsService;
@@ -46,12 +60,12 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
         repository = Mockito.mock(UserRepository.class);
 
         user = new PersistentUser();
-        user.setUsername("user");
+        user.setUsername("admin");
         user.setEmail("email@somewhere.com");
 
         userDetailsService = Mockito.mock(UserDetailsService.class);
 
-        details = new User("user", "password", true, true, true, true, Collections.emptyList());
+        details = new User("admin", "password", true, true, true, true, Collections.emptyList());
 
         Mockito.when(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString()))
             .thenReturn(details);

@@ -24,9 +24,12 @@
 
 package com.bernardomg.security.password.recovery.service.springframework;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -111,6 +114,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final Optional<PersistentUser> user;
         final PersistentUser           entity;
         final String                   encodedPassword;
+        final UserDetails              details;
+        final Boolean                  valid;
 
         if (tokenProcessor.hasExpired(token)) {
             log.warn("Token {} has expired", token);
@@ -119,9 +124,18 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             username = tokenProcessor.getSubject(token);
             user = repository.findOneByUsername(username);
 
-            successful = user.isPresent();
+            if (user.isPresent()) {
+                // TODO: Avoid this second query
+                details = userDetailsService.loadUserByUsername(user.get()
+                    .getUsername());
 
-            if (successful) {
+                valid = isValid(details);
+            } else {
+                valid = false;
+            }
+
+            if (valid) {
+                successful = true;
                 entity = user.get();
 
                 encodedPassword = passwordEncoder.encode(password);
@@ -129,6 +143,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
                 repository.save(entity);
                 tokenProcessor.closeToken(token);
+            } else {
+                successful = false;
             }
         }
 
@@ -138,17 +154,14 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     @Override
     public final PasswordRecoveryStatus startPasswordRecovery(final String email) {
         final Optional<PersistentUser> user;
-        final Failure                  error;
         final UserDetails              details;
         final Boolean                  valid;
         final String                   token;
 
         user = repository.findOneByEmail(email);
-        if (!user.isPresent()) {
-            error = FieldFailure.of("error.email.notExisting", "roleForm", "memberId", email);
-            throw new ValidationException(Arrays.asList(error));
-        }
+        validate(user, email);
 
+        // TODO: Avoid this second query
         details = userDetailsService.loadUserByUsername(user.get()
             .getUsername());
 
@@ -184,6 +197,44 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     private final Boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
+    }
+
+    private final void validate(final Optional<PersistentUser> user, final String email) {
+        final Failure             failure;
+        final Collection<Failure> failures;
+        final Authentication      auth;
+        final String              sessionUser;
+
+        failures = new ArrayList<>();
+
+        if (!user.isPresent()) {
+            log.warn("The email {} isn't registered", email);
+            failure = FieldFailure.of("error.email.notExisting", "roleForm", "memberId", email);
+            failures.add(failure);
+        } else {
+            auth = SecurityContextHolder.getContext()
+                .getAuthentication();
+            if (auth != null) {
+                sessionUser = auth.getName();
+            } else {
+                sessionUser = "";
+            }
+
+            // TODO: This isn't a validation, it is a security error
+            if (!user.get()
+                .getUsername()
+                .equals(sessionUser)) {
+                log.error("The user {} tried to change the password for {}", sessionUser, user.get()
+                    .getUsername());
+                failure = FieldFailure.of("error.user.unauthorized", "roleForm", "memberId", email);
+                failures.add(failure);
+            }
+        }
+
+        if (!failures.isEmpty()) {
+            throw new ValidationException(failures);
+        }
+
     }
 
 }

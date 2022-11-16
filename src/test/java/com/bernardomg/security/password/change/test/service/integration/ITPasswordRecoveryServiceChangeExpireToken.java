@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -27,6 +28,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Changing password with an existing user marks the token as expired")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
@@ -55,6 +57,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Changing password with an incorrect password doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
     public final void testChangePassword_IncorrectPassword_NotExpireToken() {
@@ -80,6 +83,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
     public final void testChangePassword_NotExistingUser_NotExpireToken() {

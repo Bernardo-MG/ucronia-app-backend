@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.change.test.service.integration;
+package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,86 +9,98 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.change.model.PasswordChangeStatus;
+import com.bernardomg.security.password.change.service.PasswordChangeService;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - recovery start")
-public class ITPasswordRecoveryServiceStart {
+@DisplayName("PasswordRecoveryService - change password - user status")
+public class ITPasswordChangeServiceUserStatus {
 
     @Autowired
-    private PasswordRecoveryService service;
+    private PasswordChangeService service;
 
-    public ITPasswordRecoveryServiceStart() {
+    public ITPasswordChangeServiceUserStatus() {
         super();
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a user with expired credentials gives an OK")
+    @DisplayName("Changing password with a user with expired credentials gives a failure")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/credentials_expired.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testStartPasswordRecovery_CredentialsExpired() {
-        final PasswordRecoveryStatus status;
+    public final void testChangePassword_CredentialsExpired_Status() {
+        final PasswordChangeStatus status;
 
-        status = service.startPasswordRecovery("email@somewhere.com");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a disabled user gives an OK")
+    @DisplayName("Changing password with a disabled user gives a failure")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testStartPasswordRecovery_Disabled() {
-        final PasswordRecoveryStatus status;
+    public final void testChangePassword_Disabled_Status() {
+        final PasswordChangeStatus status;
 
-        status = service.startPasswordRecovery("email@somewhere.com");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery with an existing user gives an OK")
+    @DisplayName("Changing password with an enabled user gives a success")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testStartPasswordRecovery_Enabled() {
-        final PasswordRecoveryStatus status;
+    public final void testChangePassword_Enabled_Status() {
+        final PasswordChangeStatus status;
 
-        status = service.startPasswordRecovery("email@somewhere.com");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertTrue(status.getSuccessful());
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for an expired user gives an OK")
+    @DisplayName("Changing password with a expired user gives a failure")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testStartPasswordRecovery_Expired() {
-        final PasswordRecoveryStatus status;
+    public final void testChangePassword_Expired_Status() {
+        final PasswordChangeStatus status;
 
-        status = service.startPasswordRecovery("email@somewhere.com");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a locked user gives an OK")
+    @DisplayName("Changing password with a locked user gives a failure")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testStartPasswordRecovery_Locked() {
-        final PasswordRecoveryStatus status;
+    public final void testChangePassword_Locked_Status() {
+        final PasswordChangeStatus status;
 
-        status = service.startPasswordRecovery("email@somewhere.com");
+        status = service.changePassword("admin", "1234", "abc");
+
+        Assertions.assertFalse(status.getSuccessful());
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Changing password with a not existing user gives a failure")
+    @Sql({ "/db/queries/security/token/valid.sql" })
+    public final void testChangePassword_NotExistingUser_Status() {
+        final PasswordChangeStatus status;
+
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }

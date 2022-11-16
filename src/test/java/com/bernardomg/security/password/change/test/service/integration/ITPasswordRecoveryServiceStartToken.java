@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -32,6 +33,7 @@ public class ITPasswordRecoveryServiceStartToken {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing user generates a token")
     public final void testStartPasswordRecovery_Exists_Token() {
         final Optional<PersistentToken> token;
@@ -46,6 +48,7 @@ public class ITPasswordRecoveryServiceStartToken {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
     public final void testStartPasswordRecovery_NotExists_NoToken() {
         final Optional<PersistentToken> token;

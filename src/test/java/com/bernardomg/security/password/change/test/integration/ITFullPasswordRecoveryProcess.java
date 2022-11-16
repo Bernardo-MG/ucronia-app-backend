@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -32,6 +33,7 @@ public class ITFullPasswordRecoveryProcess {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Can follow the password recovery from start to end")
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",

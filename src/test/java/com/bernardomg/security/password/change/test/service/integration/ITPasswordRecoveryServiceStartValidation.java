@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
@@ -23,6 +24,7 @@ public class ITPasswordRecoveryServiceStartValidation {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Throws an exception when there is no user")
     public final void testStartPasswordRecovery_NoUser() {
         final Executable executable;
