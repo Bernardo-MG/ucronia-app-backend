@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.integration;
+package com.bernardomg.security.password.change.test.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +57,7 @@ public class ITFullPasswordRecoveryProcess {
 
         Assertions.assertTrue(validTokenStatus.getSuccessful());
 
-        changeStatus = passwordRecoveryService.changePassword(token, "1234", "abc");
+        changeStatus = passwordRecoveryService.changePassword(token, "abc");
 
         Assertions.assertTrue(changeStatus.getSuccessful());
 

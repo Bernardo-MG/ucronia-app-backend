@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.controller;
+package com.bernardomg.security.password.change.controller;
 
 import javax.validation.Valid;
 
@@ -32,11 +32,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.recovery.model.DtoPasswordRecovery;
-import com.bernardomg.security.password.recovery.model.DtoPasswordRecoveryChange;
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
+import com.bernardomg.security.password.change.model.DtoPasswordChange;
+import com.bernardomg.security.password.change.model.PasswordChangeStatus;
+import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.security.token.model.DtoToken;
 
 import lombok.AllArgsConstructor;
 
@@ -47,14 +46,14 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/password/recovery")
+@RequestMapping("/password/change")
 @AllArgsConstructor
-public class PasswordRecoveryController {
+public class PasswordChangeController {
 
     /**
      * Password recovery service.
      */
-    private final PasswordRecoveryService service;
+    private final PasswordChangeService service;
 
     /**
      * Change password at the end of a password recovery.
@@ -63,33 +62,9 @@ public class PasswordRecoveryController {
      *            password change request
      * @return password change status
      */
-    @PutMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus changePassword(@Valid @RequestBody final DtoPasswordRecoveryChange request) {
-        return service.changePassword(request.getToken(), request.getPassword());
-    }
-
-    /**
-     * Start a password recovery.
-     *
-     * @param request
-     *            password recovery request
-     * @return password recovery status
-     */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus startRecovery(@Valid @RequestBody final DtoPasswordRecovery request) {
-        return service.startPasswordRecovery(request.getEmail());
-    }
-
-    /**
-     * Validates a token.
-     *
-     * @param request
-     *            token validation request
-     * @return token validation status
-     */
-    @PutMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus validateToken(@Valid @RequestBody final DtoToken request) {
-        return service.validateToken(request.getToken());
+    public PasswordChangeStatus changePassword(@Valid @RequestBody final DtoPasswordChange request) {
+        return service.changePassword(request.getUsername(), request.getOldPassword(), request.getPassword());
     }
 
 }

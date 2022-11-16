@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.integration;
+package com.bernardomg.security.password.change.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        service.changePassword(TokenConstants.TOKEN, "abc");
 
         expiredAfter = tokenRepository.findAll()
             .stream()
@@ -67,7 +67,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        service.changePassword(TokenConstants.TOKEN, "abc");
 
         expiredAfter = tokenRepository.findAll()
             .stream()
@@ -92,7 +92,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        service.changePassword(TokenConstants.TOKEN, "abc");
 
         expiredAfter = tokenRepository.findAll()
             .stream()

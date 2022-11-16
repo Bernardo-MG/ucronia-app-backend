@@ -1,12 +1,14 @@
 
-package com.bernardomg.security.password.recovery.test.service.unit;
+package com.bernardomg.security.password.change.test.service.unit;
 
 import java.util.Collections;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.User;
@@ -21,14 +23,14 @@ import com.bernardomg.security.password.recovery.service.PasswordRecoveryService
 import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
 
-@DisplayName("DefaultPasswordRecoveryService - Mail generation on recovery start")
-public class TestDefaultPasswordRecoveryServiceStartEmail {
+@DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
+public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     private SecurityMessageSender   mailSender;
 
     private PasswordRecoveryService service;
 
-    public TestDefaultPasswordRecoveryServiceStartEmail() {
+    public TestSpringSecurityPasswordRecoveryServiceStartEmail() {
         super();
     }
 
@@ -69,8 +71,23 @@ public class TestDefaultPasswordRecoveryServiceStartEmail {
     }
 
     @Test
-    @DisplayName("When recovering the password if there is a user then a email is sent")
+    @DisplayName("When recovering the password the email is sent to the user email")
     public final void testStartPasswordRecovery_User_Email() {
+        final ArgumentCaptor<String> emailCaptor;
+
+        emailCaptor = ArgumentCaptor.forClass(String.class);
+
+        service.startPasswordRecovery("email@somewhere.com");
+
+        Mockito.verify(mailSender)
+            .sendPasswordRecoveryEmail(emailCaptor.capture(), ArgumentMatchers.any());
+
+        Assertions.assertEquals("email@somewhere.com", emailCaptor.getValue());
+    }
+
+    @Test
+    @DisplayName("When recovering the password an email is sent")
+    public final void testStartPasswordRecovery_User_EmailCall() {
         service.startPasswordRecovery("email@somewhere.com");
 
         Mockito.verify(mailSender, Mockito.times(1))

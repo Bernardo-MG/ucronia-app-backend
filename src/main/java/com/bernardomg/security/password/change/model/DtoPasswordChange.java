@@ -22,28 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model;
+package com.bernardomg.security.password.change.model;
+
+import com.bernardomg.security.password.recovery.model.PasswordRecovery;
+
+import lombok.Data;
 
 /**
- * All the data required for password change during password recovery.
+ * DTO implementation of {@link PasswordRecovery}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PasswordRecoveryChange {
+@Data
+public final class DtoPasswordChange implements PasswordChange {
 
-    /**
-     * Returns the new password.
-     *
-     * @return the new password
-     */
-    public String getPassword();
+    private String oldPassword;
 
-    /**
-     * Returns the password change token. Used to authenticate change.
-     *
-     * @return the password change token
-     */
-    public String getToken();
+    private String password;
+
+    private String username;
 
 }

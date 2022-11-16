@@ -22,28 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model;
+package com.bernardomg.security.password.change.model;
 
 /**
- * All the data required for password change during password recovery.
+ * Status after a password recovery attempt. Will tell if the attempt was successful or not, through the
+ * {@code successful} field.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PasswordRecoveryChange {
+public interface PasswordChangeStatus {
 
     /**
-     * Returns the new password.
+     * Returns if the password recovery attempt was successful.
      *
-     * @return the new password
+     * @return {@code true} if the password recovery was successful, {@code false} otherwise
      */
-    public String getPassword();
-
-    /**
-     * Returns the password change token. Used to authenticate change.
-     *
-     * @return the password change token
-     */
-    public String getToken();
+    public Boolean getSuccessful();
 
 }
