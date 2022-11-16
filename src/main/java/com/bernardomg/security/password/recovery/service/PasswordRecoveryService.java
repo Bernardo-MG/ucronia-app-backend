@@ -34,8 +34,7 @@ import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
  */
 public interface PasswordRecoveryService {
 
-    public PasswordRecoveryStatus changePassword(final String token, final String currentPassword,
-            final String newPassword);
+    public PasswordRecoveryStatus changePassword(final String token, final String newPassword);
 
     /**
      * Starts the password recovery for a user, identified by the mail.

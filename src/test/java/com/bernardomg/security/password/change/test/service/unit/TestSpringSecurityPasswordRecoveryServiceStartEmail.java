@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.unit;
+package com.bernardomg.security.password.change.test.service.unit;
 
 import java.util.Collections;
 import java.util.Optional;

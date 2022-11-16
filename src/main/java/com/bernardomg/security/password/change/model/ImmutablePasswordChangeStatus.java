@@ -22,28 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model;
+package com.bernardomg.security.password.change.model;
+
+import javax.validation.constraints.NotNull;
+
+import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
+
+import lombok.Data;
 
 /**
- * All the data required for password change during password recovery.
+ * Immutable implementation of {@link PasswordRecoveryStatus}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PasswordRecoveryChange {
+@Data
+public final class ImmutablePasswordChangeStatus implements PasswordChangeStatus {
 
     /**
-     * Returns the new password.
-     *
-     * @return the new password
+     * Recovery attempt status.
      */
-    public String getPassword();
+    private final Boolean successful;
 
-    /**
-     * Returns the password change token. Used to authenticate change.
-     *
-     * @return the password change token
-     */
-    public String getToken();
+    public ImmutablePasswordChangeStatus(@NotNull final Boolean success) {
+        super();
+
+        successful = success;
+    }
 
 }

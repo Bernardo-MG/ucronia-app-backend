@@ -13,11 +13,6 @@ import lombok.Data;
 public class DtoPasswordRecoveryChange implements PasswordRecoveryChange {
 
     /**
-     * The current user password. Used to authenticate change.
-     */
-    private String currentPassword;
-
-    /**
      * The new password.
      */
     private String password;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.integration;
+package com.bernardomg.security.password.change.test.service.integration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_Existing_Changed() {
         final PersistentUser user;
 
-        service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        service.changePassword(TokenConstants.TOKEN, "abc");
 
         user = userRepository.findAll()
             .stream()
@@ -56,7 +56,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_Existing_Status() {
         final PasswordRecoveryStatus status;
 
-        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "abc");
 
         Assertions.assertTrue(status.getSuccessful());
     }
@@ -70,18 +70,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_ExpiredToken_Status() {
         final PasswordRecoveryStatus status;
 
-        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
-
-        Assertions.assertFalse(status.getSuccessful());
-    }
-
-    @Test
-    @DisplayName("Changing password with an incorrect password gives a failure")
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_IncorrectPassword_Status() {
-        final PasswordRecoveryStatus status;
-
-        status = service.changePassword(TokenConstants.TOKEN, "def", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -94,7 +83,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_NotExistingToken_Status() {
         final PasswordRecoveryStatus status;
 
-        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -105,7 +94,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_NotExistingUser_Status() {
         final PasswordRecoveryStatus status;
 
-        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -119,7 +108,7 @@ public class ITPasswordRecoveryServiceChange {
     public final void testChangePassword_TokenAfterExpirationDate_Status() {
         final PasswordRecoveryStatus status;
 
-        status = service.changePassword(TokenConstants.TOKEN, "1234", "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }

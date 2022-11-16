@@ -105,8 +105,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     }
 
     @Override
-    public final PasswordRecoveryStatus changePassword(final String token, final String currentPassword,
-            final String newPassword) {
+    public final PasswordRecoveryStatus changePassword(final String token, final String password) {
         final Boolean                  successful;
         final String                   username;
         final Optional<PersistentUser> user;
@@ -120,12 +119,12 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             username = tokenProcessor.getSubject(token);
             user = repository.findOneByUsername(username);
 
-            successful = validatePasswordChange(user, username, currentPassword);
+            successful = user.isPresent();
 
             if (successful) {
                 entity = user.get();
 
-                encodedPassword = passwordEncoder.encode(newPassword);
+                encodedPassword = passwordEncoder.encode(password);
                 entity.setPassword(encodedPassword);
 
                 repository.save(entity);
@@ -158,6 +157,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             token = tokenProcessor.generateToken(user.get()
                 .getUsername());
 
+            // TODO: Handle through events
             messageSender.sendPasswordRecoveryEmail(user.get()
                 .getEmail(), token);
         }
@@ -184,41 +184,6 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     private final Boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
-    }
-
-    /**
-     * Validates the password change.
-     *
-     * @param user
-     *            user for which the password is changed, or empty if no user was found
-     * @param username
-     *            user's username
-     * @param currentPassword
-     *            current user's password
-     * @return {@code true} if the password can be changed, {@code false} otherwise
-     */
-    private final Boolean validatePasswordChange(final Optional<PersistentUser> user, final String username,
-            final String currentPassword) {
-        Boolean valid;
-
-        // Verify the user exists
-        if (!user.isPresent()) {
-            log.warn("No user exists for username {}", username);
-            valid = false;
-        } else {
-            // User exists
-            valid = true;
-
-            // Verify the password matches is not changed
-            if (!passwordEncoder.matches(currentPassword, user.get()
-                .getPassword())) {
-                log.warn("Received password doesn't match the one stored for username {}", user.get()
-                    .getUsername());
-                valid = false;
-            }
-        }
-
-        return valid;
     }
 
 }

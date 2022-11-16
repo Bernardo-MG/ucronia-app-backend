@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model;
+package com.bernardomg.security.password.change.model;
 
 /**
  * All the data required for password change during password recovery.
@@ -30,7 +30,14 @@ package com.bernardomg.security.password.recovery.model;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PasswordRecoveryChange {
+public interface PasswordChange {
+
+    /**
+     * Returns the current user password. Used to authenticate change.
+     *
+     * @return the current user password
+     */
+    public String getOldPassword();
 
     /**
      * Returns the new password.
@@ -39,11 +46,6 @@ public interface PasswordRecoveryChange {
      */
     public String getPassword();
 
-    /**
-     * Returns the password change token. Used to authenticate change.
-     *
-     * @return the password change token
-     */
-    public String getToken();
+    public String getUsername();
 
 }
