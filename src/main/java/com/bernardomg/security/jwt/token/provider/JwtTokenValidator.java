@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.token;
+package com.bernardomg.security.jwt.token.provider;
 
 import java.security.Key;
 import java.util.Date;

@@ -22,11 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.token;
+package com.bernardomg.security.jwt.token.provider;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.security.token.provider.TokenProvider;
@@ -46,14 +45,19 @@ import lombok.extern.slf4j.Slf4j;
 public final class JwtTokenProvider implements TokenProvider {
 
     /**
+     * JWT id.
+     */
+    private Optional<String> id;
+
+    /**
      * Secret key for generating tokens. Created from the secret received when constructing the provider.
      */
-    private final Optional<Key>     key;
+    private Optional<Key>    key;
 
     /**
      * Token validity time in seconds.
      */
-    private final Optional<Integer> validity;
+    private Integer          validity;
 
     /**
      * Default constructor for the provider. Makes use of the default security seed.
@@ -62,25 +66,9 @@ public final class JwtTokenProvider implements TokenProvider {
         super();
 
         key = Optional.empty();
-        validity = Optional.empty();
-    }
-
-    /**
-     * Constructs a provider with the received arguments.
-     *
-     * @param secretKey
-     *            key used when generating tokens
-     * @param validityTime
-     *            token validity time in seconds
-     */
-    public JwtTokenProvider(final Key secretKey, final Integer validityTime) {
-        super();
-
-        Objects.requireNonNull(secretKey);
-        key = Optional.of(secretKey);
-
-        Objects.requireNonNull(validityTime);
-        validity = Optional.of(validityTime);
+        id = Optional.empty();
+        // By default the tokens last 1 hour
+        validity = 3600;
     }
 
     @Override
@@ -90,28 +78,41 @@ public final class JwtTokenProvider implements TokenProvider {
     public final String generateToken(final String subject) {
         final Date       expiration;
         final Date       issuedAt;
+        final Date       notBefore;
         final String     token;
         final JwtBuilder builder;
 
+
+        log.debug("Building token for subject {}", subject);
+
         // Issued right now
         issuedAt = new Date();
-
         log.debug("Issue date for subject {}: {}", subject, issuedAt);
+        
+        // Not before issue date
+        notBefore = issuedAt;
+        log.debug("Not before date for subject {}: {}", subject, notBefore);
 
         builder = Jwts.builder()
             .setSubject(subject)
-            .setIssuedAt(issuedAt);
+            .setIssuedAt(issuedAt)
+            .setNotBefore(notBefore);
 
-        if (validity.isPresent()) {
-            // Expires in a number of seconds equal to validity
-            expiration = new Date(System.currentTimeMillis() + (validity.get() * 1000L));
-            builder.setExpiration(expiration);
-            log.debug("Expiration date for subject {}: {}", subject, expiration);
-        }
+        // Expires in a number of seconds equal to validity
+        expiration = new Date(System.currentTimeMillis() + (validity * 1000L));
+        builder.setExpiration(expiration);
+        log.debug("Expiration date for subject {}: {}", subject, expiration);
 
+        // Signs token if a key was received
         if (key.isPresent()) {
             builder.signWith(key.get(), SignatureAlgorithm.HS512);
             log.debug("Signed token for subject {}", subject);
+        }
+        
+        // Adds id if it was received
+        if (id.isPresent()) {
+            builder.setId(id.get());
+            log.debug("Applying id {}", id.get());
         }
 
         token = builder.compact();
@@ -119,6 +120,18 @@ public final class JwtTokenProvider implements TokenProvider {
         log.debug("Created token for subject {}", subject);
 
         return token;
+    }
+
+    public final void setId(final String identifier) {
+        id = Optional.of(identifier);
+    }
+
+    public final void setKey(final Key k) {
+        key = Optional.of(k);
+    }
+
+    public final void setValidity(final Integer val) {
+        validity = val;
     }
 
 }
