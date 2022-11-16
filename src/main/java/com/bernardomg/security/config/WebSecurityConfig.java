@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -76,40 +76,45 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         final Customizer<ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry> authorizeRequestsCustomizer;
-        final Customizer<FormLoginConfigurer<HttpSecurity>>                                                 formLoginCustomizer;
-        final Customizer<LogoutConfigurer<HttpSecurity>>                                                    logoutCustomizer;
 
         // Authorization
         authorizeRequestsCustomizer = c -> {
+            c.antMatchers("/actuator/**", "/login/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
+            
             try {
-                c.antMatchers("/actuator/**", "/login/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
+                c.and()
                     .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint)
-                    .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .authenticationEntryPoint(authenticationEntryPoint);
             } catch (final Exception e) {
                 // TODO Handle exception
                 throw new RuntimeException(e);
             }
         };
-        // Login form
-        formLoginCustomizer = c -> c.disable();
-        // Logout
-        logoutCustomizer = c -> c.disable();
 
-        http.csrf()
+        http
+            // Disable CSRF
+            .csrf()
             .disable()
+            // Enable CORS
             .cors()
+            // Stateless sessions
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            // Autorization
             .and()
             .authorizeRequests(authorizeRequestsCustomizer)
-            .formLogin(formLoginCustomizer)
-            .logout(logoutCustomizer);
+            // Disable login form
+            .formLogin()
+            .disable()
+            // Disable logout form
+            .logout()
+            .disable();
 
+        // User details service
         http.userDetailsService(userDetailsService);
 
         // Applies JWT configuration

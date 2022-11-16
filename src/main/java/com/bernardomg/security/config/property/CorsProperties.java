@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config.property;
+package com.bernardomg.security.config.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

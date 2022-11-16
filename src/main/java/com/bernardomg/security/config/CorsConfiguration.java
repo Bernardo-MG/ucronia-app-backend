@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.bernardomg.association.config.property.CorsProperties;
+import com.bernardomg.security.config.property.CorsProperties;
 
 /**
  * Web configuration.
@@ -40,7 +40,7 @@ import com.bernardomg.association.config.property.CorsProperties;
  */
 @Configuration
 @EnableConfigurationProperties(CorsProperties.class)
-public class WebConfiguration implements WebMvcConfigurer {
+public class CorsConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private CorsProperties corsProperties;
@@ -48,7 +48,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     /**
      * Default constructor.
      */
-    public WebConfiguration() {
+    public CorsConfiguration() {
         super();
     }
 
