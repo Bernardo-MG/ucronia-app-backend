@@ -6,12 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
-import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("PasswordChangeService - change password")
@@ -28,30 +27,16 @@ public class ITPasswordChangeServiceAuth {
     }
 
     @Test
-    @DisplayName("Throws an exception when trying to edit another user")
-    @WithMockUser(username = "admin")
-    public final void testStartPasswordRecovery_AnotherUser() {
-        final Executable executable;
-        final Exception  exception;
-
-        executable = () -> service.changePassword("user", "1234", "abc");
-
-        exception = Assertions.assertThrows(ValidationException.class, executable);
-
-        Assertions.assertEquals("error.user.unauthorized", exception.getMessage());
-    }
-
-    @Test
     @DisplayName("Throws an exception when the user is not authenticated")
     public final void testStartPasswordRecovery_NotAuthenticated() {
         final Executable executable;
         final Exception  exception;
 
-        executable = () -> service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePassword("1234", "abc");
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(UsernameNotFoundException.class, executable);
 
-        Assertions.assertEquals("error.user.unauthorized", exception.getMessage());
+        Assertions.assertEquals("user", exception.getMessage());
     }
 
 }

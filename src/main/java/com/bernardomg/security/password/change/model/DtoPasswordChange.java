@@ -41,6 +41,4 @@ public final class DtoPasswordChange implements PasswordChange {
 
     private String password;
 
-    private String username;
-
 }

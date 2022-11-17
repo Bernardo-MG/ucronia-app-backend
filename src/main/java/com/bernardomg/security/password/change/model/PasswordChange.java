@@ -46,6 +46,4 @@ public interface PasswordChange {
      */
     public String getPassword();
 
-    public String getUsername();
-
 }

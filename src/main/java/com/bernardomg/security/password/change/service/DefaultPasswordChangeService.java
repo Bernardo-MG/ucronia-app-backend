@@ -1,23 +1,19 @@
 
 package com.bernardomg.security.password.change.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.change.model.ImmutablePasswordChangeStatus;
 import com.bernardomg.security.password.change.model.PasswordChangeStatus;
-import com.bernardomg.validation.exception.ValidationException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -50,15 +46,15 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
     }
 
     @Override
-    public final PasswordChangeStatus changePassword(final String username, final String currentPassword,
-            final String password) {
+    public final PasswordChangeStatus changePassword(final String currentPassword, final String password) {
         final Boolean                  successful;
         final UserDetails              user;
         final Optional<PersistentUser> read;
         final PersistentUser           entity;
         final String                   encodedPassword;
+        final String                   username;
 
-        verifyPrivileges(username);
+        username = getCurrentUsername();
 
         read = repository.findOneByUsername(username);
 
@@ -80,6 +76,19 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
         }
 
         return new ImmutablePasswordChangeStatus(successful);
+    }
+
+    private final String getCurrentUsername() {
+        final Authentication auth;
+
+        auth = SecurityContextHolder.getContext()
+            .getAuthentication();
+        if (auth == null) {
+            // TODO: Improve message
+            throw new UsernameNotFoundException("");
+        }
+
+        return auth.getName();
     }
 
     /**
@@ -123,34 +132,6 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
         }
 
         return valid;
-    }
-
-    private final void verifyPrivileges(final String username) {
-        final Failure             failure;
-        final Collection<Failure> failures;
-        final Authentication      auth;
-        final String              sessionUser;
-
-        failures = new ArrayList<>();
-
-        auth = SecurityContextHolder.getContext()
-            .getAuthentication();
-        if (auth != null) {
-            sessionUser = auth.getName();
-        } else {
-            sessionUser = "";
-        }
-
-        // TODO: This isn't a validation, it is a security error
-        if (!username.equals(sessionUser)) {
-            log.error("The user {} tried to change the password for {}", sessionUser, username);
-            failure = FieldFailure.of("error.user.unauthorized", "roleForm", "memberId", username);
-            failures.add(failure);
-        }
-
-        if (!failures.isEmpty()) {
-            throw new ValidationException(failures);
-        }
     }
 
 }

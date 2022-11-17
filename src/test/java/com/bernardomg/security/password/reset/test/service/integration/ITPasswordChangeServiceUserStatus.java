@@ -32,7 +32,7 @@ public class ITPasswordChangeServiceUserStatus {
     public final void testChangePassword_CredentialsExpired_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePassword("1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -46,7 +46,7 @@ public class ITPasswordChangeServiceUserStatus {
     public final void testChangePassword_Disabled_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePassword("1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -60,7 +60,7 @@ public class ITPasswordChangeServiceUserStatus {
     public final void testChangePassword_Enabled_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePassword("1234", "abc");
 
         Assertions.assertTrue(status.getSuccessful());
     }
@@ -74,7 +74,7 @@ public class ITPasswordChangeServiceUserStatus {
     public final void testChangePassword_Expired_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePassword("1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -88,7 +88,7 @@ public class ITPasswordChangeServiceUserStatus {
     public final void testChangePassword_Locked_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePassword("1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
@@ -100,7 +100,7 @@ public class ITPasswordChangeServiceUserStatus {
     public final void testChangePassword_NotExistingUser_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePassword("1234", "abc");
 
         Assertions.assertFalse(status.getSuccessful());
     }
