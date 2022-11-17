@@ -64,7 +64,7 @@ public class PasswordChangeController {
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PasswordChangeStatus changePassword(@Valid @RequestBody final DtoPasswordChange request) {
-        return service.changePassword(request.getOldPassword(), request.getPassword());
+        return service.changePassword(request.getOldPassword(), request.getNewPassword());
     }
 
 }

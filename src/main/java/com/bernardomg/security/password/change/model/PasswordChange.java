@@ -33,17 +33,17 @@ package com.bernardomg.security.password.change.model;
 public interface PasswordChange {
 
     /**
+     * Returns the new password.
+     *
+     * @return the new password
+     */
+    public String getNewPassword();
+
+    /**
      * Returns the current user password. Used to authenticate change.
      *
      * @return the current user password
      */
     public String getOldPassword();
-
-    /**
-     * Returns the new password.
-     *
-     * @return the new password
-     */
-    public String getPassword();
 
 }

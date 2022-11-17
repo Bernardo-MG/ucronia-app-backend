@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.password.change.model;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.bernardomg.security.password.recovery.model.PasswordRecovery;
 
 import lombok.Data;
@@ -37,8 +39,10 @@ import lombok.Data;
 @Data
 public final class DtoPasswordChange implements PasswordChange {
 
-    private String oldPassword;
+    @NotEmpty
+    private String newPassword;
 
-    private String password;
+    @NotEmpty
+    private String oldPassword;
 
 }
