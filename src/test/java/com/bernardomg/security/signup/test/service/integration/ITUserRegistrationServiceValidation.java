@@ -15,7 +15,6 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService - validation")
-@Sql({ "/db/queries/security/user/single.sql" })
 public class ITUserRegistrationServiceValidation {
 
     @Autowired
@@ -45,6 +44,7 @@ public class ITUserRegistrationServiceValidation {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
     public void testSignUp_ExistingEmail() {
         final Executable executable;
         final Exception  exception;
@@ -62,7 +62,27 @@ public class ITUserRegistrationServiceValidation {
     }
 
     @Test
+    @DisplayName("Throws an exception when the email already exists, ignoring case")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    public void testSignUp_ExistingEmail_Case() {
+        final Executable executable;
+        final Exception  exception;
+        final DtoSignUp  signUp;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("abc");
+        signUp.setEmail("EMAIL@somewhere.com");
+
+        executable = () -> service.signUp(signUp);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.email.existing", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Throws an exception when the username already exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
     public void testSignUp_ExistingUsername() {
         final Executable executable;
         final Exception  exception;
@@ -70,6 +90,25 @@ public class ITUserRegistrationServiceValidation {
 
         signUp = new DtoSignUp();
         signUp.setUsername("admin");
+        signUp.setEmail("email2@somewhere.com");
+
+        executable = () -> service.signUp(signUp);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.username.existing", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the username already exists, ignoring case")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    public void testSignUp_ExistingUsername_Case() {
+        final Executable executable;
+        final Exception  exception;
+        final DtoSignUp  signUp;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("ADMIN");
         signUp.setEmail("email2@somewhere.com");
 
         executable = () -> service.signUp(signUp);
