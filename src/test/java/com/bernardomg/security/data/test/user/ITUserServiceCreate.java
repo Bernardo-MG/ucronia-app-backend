@@ -53,13 +53,33 @@ public class ITUserServiceCreate {
             .next();
 
         Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("User", entity.getUsername());
+        Assertions.assertEquals("admin", entity.getUsername());
+        Assertions.assertEquals("Admin", entity.getName());
         Assertions.assertEquals("email@somewhere.com", entity.getEmail());
         Assertions.assertEquals("", entity.getPassword());
         Assertions.assertEquals(false, entity.getCredentialsExpired());
         Assertions.assertEquals(true, entity.getEnabled());
         Assertions.assertEquals(false, entity.getExpired());
         Assertions.assertEquals(false, entity.getLocked());
+    }
+
+    @Test
+    @DisplayName("Persists the data, ignoring case")
+    public void testCreate_PersistedData_Case() {
+        final DtoUser        user;
+        final PersistentUser entity;
+
+        user = getUser();
+        user.setUsername("ADMIN");
+        user.setEmail("EMAIL@SOMEWHERE.COM");
+
+        service.create(user);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("admin", entity.getUsername());
+        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
     }
 
     @Test
@@ -73,7 +93,8 @@ public class ITUserServiceCreate {
         result = service.create(user);
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("User", result.getUsername());
+        Assertions.assertEquals("admin", result.getUsername());
+        Assertions.assertEquals("Admin", result.getName());
         Assertions.assertEquals("email@somewhere.com", result.getEmail());
         Assertions.assertEquals(false, result.getCredentialsExpired());
         Assertions.assertEquals(true, result.getEnabled());
@@ -81,11 +102,28 @@ public class ITUserServiceCreate {
         Assertions.assertEquals(false, result.getLocked());
     }
 
+    @Test
+    @DisplayName("Returns the created data, ignoring case")
+    public void testCreate_ReturnedData_Case() {
+        final DtoUser user;
+        final User    result;
+
+        user = getUser();
+        user.setUsername("ADMIN");
+        user.setEmail("EMAIL@SOMEWHERE.COM");
+
+        result = service.create(user);
+
+        Assertions.assertEquals("admin", result.getUsername());
+        Assertions.assertEquals("email@somewhere.com", result.getEmail());
+    }
+
     private final DtoUser getUser() {
         final DtoUser user;
 
         user = new DtoUser();
-        user.setUsername("User");
+        user.setUsername("admin");
+        user.setName("Admin");
         user.setEmail("email@somewhere.com");
         user.setCredentialsExpired(false);
         user.setEnabled(true);

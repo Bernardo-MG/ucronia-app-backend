@@ -26,6 +26,12 @@ databaseChangeLog:
                    nullable: false
                 defaultValue: ''
             - column:
+                name: name
+                type: varchar(50)
+                constraints:
+                   nullable: false
+                defaultValue: ''
+            - column:
                 name: email
                 type: varchar(60)
                 constraints:

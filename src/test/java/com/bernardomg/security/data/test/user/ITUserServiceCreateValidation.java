@@ -15,7 +15,6 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("User service - create validation")
-@Sql({ "/db/queries/security/user/single.sql" })
 public class ITUserServiceCreateValidation {
 
     @Autowired
@@ -27,6 +26,7 @@ public class ITUserServiceCreateValidation {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingEmail() {
         final DtoUser    data;
         final Executable executable;
@@ -49,6 +49,7 @@ public class ITUserServiceCreateValidation {
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingUsername() {
         final DtoUser    data;
         final Executable executable;
@@ -77,7 +78,8 @@ public class ITUserServiceCreateValidation {
         final Exception  exception;
 
         data = new DtoUser();
-        data.setUsername("abc");
+        data.setUsername("admin");
+        data.setName("admin");
         data.setEmail("abc");
         data.setCredentialsExpired(false);
         data.setEnabled(true);

@@ -185,6 +185,7 @@ public final class DefaultUserService implements UserService {
         data = new DtoUser();
         data.setId(entity.getId());
         data.setUsername(entity.getUsername());
+        data.setName(entity.getName());
         data.setEmail(entity.getEmail());
         data.setCredentialsExpired(entity.getCredentialsExpired());
         data.setEnabled(entity.getEnabled());
@@ -199,8 +200,15 @@ public final class DefaultUserService implements UserService {
 
         entity = new PersistentUser();
         entity.setId(data.getId());
-        entity.setUsername(data.getUsername());
-        entity.setEmail(data.getEmail());
+        if (data.getUsername() != null) {
+            entity.setUsername(data.getUsername()
+                .toLowerCase());
+        }
+        entity.setName(data.getName());
+        if (data.getEmail() != null) {
+            entity.setEmail(data.getEmail()
+                .toLowerCase());
+        }
         entity.setCredentialsExpired(data.getCredentialsExpired());
         entity.setEnabled(data.getEnabled());
         entity.setExpired(data.getExpired());
