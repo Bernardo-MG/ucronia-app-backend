@@ -50,6 +50,13 @@ public interface User {
     public Boolean getLocked();
 
     /**
+     * Returns the user name.
+     *
+     * @return the user name
+     */
+    public String getName();
+
+    /**
      * Returns the user username.
      *
      * @return the user username

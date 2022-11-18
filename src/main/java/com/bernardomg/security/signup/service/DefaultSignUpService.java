@@ -97,6 +97,7 @@ public final class DefaultSignUpService implements SignUpService {
         entity = new PersistentUser();
         entity.setUsername(username);
         entity.setPassword("");
+        entity.setName(username);
         entity.setEmail(email);
         entity.setCredentialsExpired(false);
         entity.setEnabled(false);

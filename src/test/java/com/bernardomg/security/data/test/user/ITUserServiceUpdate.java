@@ -56,11 +56,11 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final User data;
+        final User user;
 
-        data = getUser();
+        user = getUser();
 
-        service.update(data);
+        service.update(user);
 
         Assertions.assertEquals(1L, repository.count());
     }
@@ -68,12 +68,12 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final User           data;
+        final User           user;
         final PersistentUser entity;
 
-        data = getUser();
+        user = getUser();
 
-        service.update(data);
+        service.update(user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -89,14 +89,31 @@ public class ITUserServiceUpdate {
     }
 
     @Test
+    @DisplayName("Updates persisted data, ignoring case")
+    public void testUpdate_PersistedData_Case() {
+        final DtoUser        user;
+        final PersistentUser entity;
+
+        user = getUser();
+        user.setEmail("EMAIL@SOMEWHERE.COM");
+
+        service.update(user);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+    }
+
+    @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final User data;
+        final User user;
         final User result;
 
-        data = getUser();
+        user = getUser();
 
-        result = service.update(data);
+        result = service.update(user);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("admin", result.getUsername());
@@ -107,12 +124,27 @@ public class ITUserServiceUpdate {
         Assertions.assertEquals(false, result.getLocked());
     }
 
-    private final User getUser() {
+    @Test
+    @DisplayName("Returns the updated data, ignoring case")
+    public void testUpdate_ReturnedData_Case() {
+        final DtoUser user;
+        final User    result;
+
+        user = getUser();
+        user.setEmail("EMAIL2@SOMEWHERE.COM");
+
+        result = service.update(user);
+
+        Assertions.assertEquals("email2@somewhere.com", result.getEmail());
+    }
+
+    private final DtoUser getUser() {
         final DtoUser user;
 
         user = new DtoUser();
         user.setId(1L);
         user.setUsername("admin");
+        user.setName("Admin");
         user.setEmail("email2@somewhere.com");
         user.setCredentialsExpired(false);
         user.setEnabled(true);

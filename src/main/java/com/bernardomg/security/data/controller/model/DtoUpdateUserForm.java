@@ -49,7 +49,11 @@ public final class DtoUpdateUserForm implements User {
     /**
      * User name.
      */
-    @NotNull
+    private String  name;
+
+    /**
+     * User username.
+     */
     private String  username;
 
 }

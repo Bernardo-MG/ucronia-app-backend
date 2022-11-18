@@ -105,6 +105,7 @@ public class ITUserServiceUpdateValidation {
         user = new DtoUser();
         user.setId(1L);
         user.setUsername("admin");
+        user.setName("Admin");
         user.setEmail("email@somewhere.com");
         user.setCredentialsExpired(false);
         user.setEnabled(true);
