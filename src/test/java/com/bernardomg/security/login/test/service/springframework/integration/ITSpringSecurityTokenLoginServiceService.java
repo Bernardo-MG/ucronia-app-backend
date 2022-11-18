@@ -15,7 +15,7 @@ import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.springframework.SpringSecurityTokenLoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 @IntegrationTest
 @DisplayName("SpringSecurityTokenLoginService")
@@ -58,7 +58,7 @@ public class ITSpringSecurityTokenLoginServiceService {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getLogged());
+        Assertions.assertFalse(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -79,7 +79,7 @@ public class ITSpringSecurityTokenLoginServiceService {
 
         Assertions.assertInstanceOf(TokenLoginStatus.class, status);
 
-        Assertions.assertTrue(status.getLogged());
+        Assertions.assertTrue(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
         Assertions.assertFalse(((TokenLoginStatus) status).getToken()
             .isBlank());

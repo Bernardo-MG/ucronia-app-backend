@@ -39,7 +39,7 @@ public final class ImmutableTokenLoginStatus implements TokenLoginStatus {
     /**
      * Flag telling if the login was successful.
      */
-    private final Boolean logged;
+    private final Boolean successful;
 
     /**
      * Security token.
@@ -66,7 +66,7 @@ public final class ImmutableTokenLoginStatus implements TokenLoginStatus {
         super();
 
         username = user;
-        logged = flag;
+        successful = flag;
         token = tokn;
     }
 

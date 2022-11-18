@@ -39,7 +39,7 @@ public final class ImmutableLoginStatus implements LoginStatus {
     /**
      * Flag telling if the login was successful.
      */
-    private final Boolean logged;
+    private final Boolean successful;
 
     /**
      * Username of the user who attempted login.
@@ -58,7 +58,7 @@ public final class ImmutableLoginStatus implements LoginStatus {
         super();
 
         username = user;
-        logged = flag;
+        successful = flag;
     }
 
 }

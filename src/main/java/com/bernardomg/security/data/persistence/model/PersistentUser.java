@@ -95,6 +95,12 @@ public class PersistentUser implements Serializable {
     private Boolean           locked;
 
     /**
+     * User name.
+     */
+    @Column(name = "name", nullable = false, unique = true, length = 60)
+    private String            name;
+
+    /**
      * User password.
      */
     @Column(name = "password", nullable = false, length = 60)

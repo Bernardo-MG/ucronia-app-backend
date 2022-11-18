@@ -32,7 +32,7 @@ import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.token.TokenProvider;
+import com.bernardomg.security.token.provider.TokenProvider;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * <h2>Composition</h2> Extends, through composition, {@link SpringSecurityLoginService}.
  * <h2>Tokens</h2>
  * <p>
- * The {@link TokenProvider} will generate tokens after a succesful login attempt, and an instance of
+ * The {@link TokenProvider} will generate tokens after a successful login attempt, and an instance of
  * {@link TokenLoginStatus} is returned. If the login failed, then the token is not generated, and a {@link LoginStatus}
  * is returned
  *
@@ -92,12 +92,12 @@ public final class SpringSecurityTokenLoginService implements LoginService {
         // Attempts to login through the basic service
         basicStatus = wrapped.login(login);
 
-        if (basicStatus.getLogged()) {
+        if (basicStatus.getSuccessful()) {
             // Valid user
             // Generate token
             log.debug("Successful login for {}", login.getUsername());
             token = tokenProvider.generateToken(login.getUsername());
-            status = new ImmutableTokenLoginStatus(login.getUsername(), basicStatus.getLogged(), token);
+            status = new ImmutableTokenLoginStatus(login.getUsername(), basicStatus.getSuccessful(), token);
         } else {
             // Invalid user
             // No token

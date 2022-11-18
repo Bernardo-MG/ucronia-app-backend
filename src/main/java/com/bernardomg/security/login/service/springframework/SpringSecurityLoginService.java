@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * <ul>
  * <li>Received username exists as a user</li>
  * <li>Received password matchs the one encrypted for the user</li>
- * <li>User should be enabled, and all its status flags should mark it as valid</li>
+ * <li>User should be enabled, and valid</li>
  * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
@@ -86,12 +86,16 @@ public final class SpringSecurityLoginService implements LoginService {
     @Override
     public final LoginStatus login(final Login login) {
         final Boolean valid;
+        final String  username;
 
-        log.debug("Log in attempt for {}", login.getUsername());
+        username = login.getUsername()
+            .toLowerCase();
+
+        log.debug("Log in attempt for {}", username);
 
         valid = isValid(login);
 
-        return new ImmutableLoginStatus(login.getUsername(), valid);
+        return new ImmutableLoginStatus(username, valid);
     }
 
     private final Boolean isValid(final Login login) {
@@ -100,7 +104,8 @@ public final class SpringSecurityLoginService implements LoginService {
 
         // Find the user
         try {
-            details = Optional.ofNullable(userDetailsService.loadUserByUsername(login.getUsername()));
+            details = Optional.ofNullable(userDetailsService.loadUserByUsername(login.getUsername()
+                .toLowerCase()));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }

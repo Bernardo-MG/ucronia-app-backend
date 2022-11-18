@@ -35,7 +35,7 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
-import com.bernardomg.security.signup.validation.EmailValidationRule;
+import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;
 
@@ -79,6 +79,8 @@ public final class DefaultSignUpService implements SignUpService {
         final PersistentUser      entity;
         final PersistentUser      created;
         final Collection<Failure> errors;
+        final String              username;
+        final String              email;
 
         errors = validate(signUp);
         if (!errors.isEmpty()) {
@@ -86,10 +88,17 @@ public final class DefaultSignUpService implements SignUpService {
             throw new ValidationException(errors);
         }
 
+        username = signUp.getUsername()
+            .toLowerCase();
+        email = signUp.getEmail()
+            .toLowerCase();
+        log.debug("Creating user {} with mail {}", username, email);
+
         entity = new PersistentUser();
-        entity.setUsername(signUp.getUsername());
+        entity.setUsername(username);
         entity.setPassword("");
-        entity.setEmail(signUp.getEmail());
+        entity.setName(username);
+        entity.setEmail(email);
         entity.setCredentialsExpired(false);
         entity.setEnabled(false);
         entity.setExpired(false);
@@ -115,9 +124,18 @@ public final class DefaultSignUpService implements SignUpService {
         failures = new ArrayList<>();
 
         // Verify no user exists with the received username
-        if (repository.existsByUsername(signUp.getUsername())) {
+        if (repository.existsByUsername(signUp.getUsername()
+            .toLowerCase())) {
             log.error("A user already exists with the username {}", signUp.getUsername());
             error = FieldFailure.of("error.username.existing", "roleForm", "memberId", signUp.getUsername());
+            failures.add(error);
+        }
+
+        // Verify no user exists with the received email
+        if (repository.existsByEmail(signUp.getEmail()
+            .toLowerCase())) {
+            log.error("A user already exists with the email {}", signUp.getEmail());
+            error = FieldFailure.of("error.email.existing", "roleForm", "memberId", signUp.getEmail());
             failures.add(error);
         }
 

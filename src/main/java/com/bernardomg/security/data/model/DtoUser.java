@@ -39,6 +39,11 @@ public final class DtoUser implements User {
     /**
      * User name.
      */
+    private String  name;
+
+    /**
+     * User username.
+     */
     private String  username;
 
 }

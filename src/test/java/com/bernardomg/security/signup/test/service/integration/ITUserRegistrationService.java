@@ -82,7 +82,7 @@ public class ITUserRegistrationService {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("Persists the data after a signup")
     public void testSignUp_PersistedData() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
@@ -102,14 +102,51 @@ public class ITUserRegistrationService {
     }
 
     @Test
-    @DisplayName("Signs up a valid user")
-    public void testSignUp_Valid() {
+    @DisplayName("Persists the data, ignoring case")
+    public void testSignUp_PersistedData_Case() {
+        final PersistentUser entity;
+        final DtoSignUp      signUp;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("USER");
+        signUp.setEmail("EMAIL@SOMEWHERE.COM");
+
+        service.signUp(signUp);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals("user", entity.getUsername());
+        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+    }
+
+    @Test
+    @DisplayName("Returns the status after a signup")
+    public void testSignUp_Status() {
         final SignUpStatus status;
         final DtoSignUp    signUp;
 
         signUp = new DtoSignUp();
         signUp.setUsername("user");
         signUp.setEmail("email@somewhere.com");
+
+        status = service.signUp(signUp);
+
+        Assertions.assertEquals("user", status.getUsername());
+        Assertions.assertEquals("email@somewhere.com", status.getEmail());
+        Assertions.assertTrue(status.getSuccessful());
+    }
+
+    @Test
+    @DisplayName("Returns the status after a signup, ignoring case")
+    public void testSignUp_Status_Case() {
+        final SignUpStatus status;
+        final DtoSignUp    signUp;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("USER");
+        signUp.setEmail("EMAIL@SOMEWHERE.COM");
 
         status = service.signUp(signUp);
 

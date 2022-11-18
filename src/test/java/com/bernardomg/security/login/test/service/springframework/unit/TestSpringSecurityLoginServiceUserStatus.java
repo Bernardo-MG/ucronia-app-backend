@@ -37,7 +37,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
 
         status = getServiceForAccountExpired().login(login);
 
-        Assertions.assertFalse(status.getLogged());
+        Assertions.assertFalse(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -53,7 +53,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
 
         status = getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertFalse(status.getLogged());
+        Assertions.assertFalse(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -69,7 +69,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
 
         status = getServiceForDisabled().login(login);
 
-        Assertions.assertFalse(status.getLogged());
+        Assertions.assertFalse(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -85,7 +85,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
 
         status = getServiceForLocked().login(login);
 
-        Assertions.assertFalse(status.getLogged());
+        Assertions.assertFalse(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -101,7 +101,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
 
         status = getServiceForNotExisting().login(login);
 
-        Assertions.assertFalse(status.getLogged());
+        Assertions.assertFalse(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -117,7 +117,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
 
         status = getServiceForValid().login(login);
 
-        Assertions.assertTrue(status.getLogged());
+        Assertions.assertTrue(status.getSuccessful());
         Assertions.assertEquals("admin", status.getUsername());
     }
 

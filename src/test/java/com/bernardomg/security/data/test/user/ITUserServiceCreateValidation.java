@@ -15,7 +15,6 @@ import com.bernardomg.validation.exception.ValidationException;
 
 @IntegrationTest
 @DisplayName("User service - create validation")
-@Sql({ "/db/queries/security/user/single.sql" })
 public class ITUserServiceCreateValidation {
 
     @Autowired
@@ -26,7 +25,31 @@ public class ITUserServiceCreateValidation {
     }
 
     @Test
+    @DisplayName("Throws an exception when the email already exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    public void testCreate_ExistingEmail() {
+        final DtoUser    data;
+        final Executable executable;
+        final Exception  exception;
+
+        data = new DtoUser();
+        data.setUsername("abc");
+        data.setEmail("email@somewhere.com");
+        data.setCredentialsExpired(false);
+        data.setEnabled(true);
+        data.setExpired(false);
+        data.setLocked(false);
+
+        executable = () -> service.create(data);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.email.existing", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Throws an exception when the username already exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingUsername() {
         final DtoUser    data;
         final Executable executable;
@@ -34,7 +57,7 @@ public class ITUserServiceCreateValidation {
 
         data = new DtoUser();
         data.setUsername("admin");
-        data.setEmail("email");
+        data.setEmail("email2@somewhere.com");
         data.setCredentialsExpired(false);
         data.setEnabled(true);
         data.setExpired(false);
@@ -45,6 +68,29 @@ public class ITUserServiceCreateValidation {
         exception = Assertions.assertThrows(ValidationException.class, executable);
 
         Assertions.assertEquals("error.username.existing", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the email doesn't match the valid pattern")
+    public void testCreate_invalidEmail() {
+        final DtoUser    data;
+        final Executable executable;
+        final Exception  exception;
+
+        data = new DtoUser();
+        data.setUsername("admin");
+        data.setName("admin");
+        data.setEmail("abc");
+        data.setCredentialsExpired(false);
+        data.setEnabled(true);
+        data.setExpired(false);
+        data.setLocked(false);
+
+        executable = () -> service.create(data);
+
+        exception = Assertions.assertThrows(ValidationException.class, executable);
+
+        Assertions.assertEquals("error.email.invalid", exception.getMessage());
     }
 
 }
