@@ -24,15 +24,13 @@
 
 package com.bernardomg.association.test.status.feeyear.integration.repository;
 
-import java.util.Iterator;
-
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -51,15 +49,12 @@ public class ITFeeYearRepositoryFindRange {
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindRange_FullYear() {
-        final Iterable<Integer> result;
-        final Iterator<Integer> itr;
+        final FeeYearRange result;
 
         result = repository.findRange();
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-
-        itr = result.iterator();
-        Assertions.assertEquals(2020, itr.next());
+        Assertions.assertEquals(2020, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
     }
 
     @Test
@@ -67,62 +62,48 @@ public class ITFeeYearRepositoryFindRange {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testFindRange_FullYear_TwoMembers() {
-        final Iterable<Integer> result;
-        final Iterator<Integer> itr;
+        final FeeYearRange result;
 
         result = repository.findRange();
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-
-        itr = result.iterator();
-        Assertions.assertEquals(2020, itr.next());
+        Assertions.assertEquals(2020, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
     }
 
     @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testFindRange_Single() {
-        final Iterable<Integer> result;
-        final Iterator<Integer> itr;
+        final FeeYearRange result;
 
         result = repository.findRange();
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-
-        itr = result.iterator();
-        Assertions.assertEquals(2020, itr.next());
+        Assertions.assertEquals(2020, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
     }
 
     @Test
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindRange_TwoConnectedYears() {
-        final Iterable<Integer> result;
-        final Iterator<Integer> itr;
+        final FeeYearRange result;
 
         result = repository.findRange();
 
-        Assertions.assertEquals(2, IterableUtils.size(result));
-
-        itr = result.iterator();
-        Assertions.assertEquals(2019, itr.next());
-        Assertions.assertEquals(2020, itr.next());
+        Assertions.assertEquals(2019, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
     }
 
     @Test
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
     public void testFindRange_TwoYearsWithGap() {
-        final Iterable<Integer> result;
-        final Iterator<Integer> itr;
+        final FeeYearRange result;
 
         result = repository.findRange();
 
-        Assertions.assertEquals(2, IterableUtils.size(result));
-
-        itr = result.iterator();
-        Assertions.assertEquals(2018, itr.next());
-        Assertions.assertEquals(2020, itr.next());
+        Assertions.assertEquals(2018, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
     }
 
 }

@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.status.feeyear.model.FeeYear;
+import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 import com.bernardomg.association.status.feeyear.service.FeeYearService;
 
 import lombok.AllArgsConstructor;
@@ -56,7 +57,7 @@ public class FeeYearController {
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Integer> readRange() {
+    public FeeYearRange readRange() {
         return service.getRange();
     }
 

@@ -24,25 +24,23 @@
 
 package com.bernardomg.association.status.feeyear.model;
 
-import java.util.Calendar;
-
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
-public final class DtoFeeYearRow implements FeeYearRow {
+public final class ImmutableFeeMonth implements FeeMonth {
 
-    private Boolean  active;
+    @NonNull
+    private final Integer month;
 
-    private Calendar date;
+    @NonNull
+    private final Boolean paid;
 
-    private Long     id;
+    public ImmutableFeeMonth(@NonNull final Integer mnth, @NonNull final Boolean pd) {
+        super();
 
-    private Long     memberId;
-
-    private String   name;
-
-    private Boolean  paid;
-
-    private String   surname;
+        month = mnth;
+        paid = pd;
+    }
 
 }

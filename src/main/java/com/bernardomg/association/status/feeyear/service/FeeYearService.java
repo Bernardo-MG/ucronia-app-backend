@@ -4,6 +4,7 @@ package com.bernardomg.association.status.feeyear.service;
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.status.feeyear.model.FeeYear;
+import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -15,6 +16,6 @@ public interface FeeYearService {
 
     public Iterable<? extends FeeYear> getAll(final Integer year, final Sort sort);
 
-    public Iterable<Integer> getRange();
+    public FeeYearRange getRange();
 
 }

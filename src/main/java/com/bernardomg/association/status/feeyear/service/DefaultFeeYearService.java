@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.status.feeyear.model.FeeYear;
+import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public final class DefaultFeeYearService implements FeeYearService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
-    public final Iterable<Integer> getRange() {
+    public final FeeYearRange getRange() {
         return repository.findRange();
     }
 

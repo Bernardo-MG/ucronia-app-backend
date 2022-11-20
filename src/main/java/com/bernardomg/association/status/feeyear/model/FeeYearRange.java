@@ -24,25 +24,10 @@
 
 package com.bernardomg.association.status.feeyear.model;
 
-import java.util.Calendar;
+public interface FeeYearRange {
 
-import lombok.Data;
+    public Integer getEnd();
 
-@Data
-public final class DtoFeeYearRow implements FeeYearRow {
-
-    private Boolean  active;
-
-    private Calendar date;
-
-    private Long     id;
-
-    private Long     memberId;
-
-    private String   name;
-
-    private Boolean  paid;
-
-    private String   surname;
+    public Integer getStart();
 
 }
