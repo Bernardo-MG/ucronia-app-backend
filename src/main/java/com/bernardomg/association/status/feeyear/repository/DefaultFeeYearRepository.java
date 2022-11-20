@@ -23,7 +23,6 @@ import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 import com.bernardomg.association.status.feeyear.model.FeeYearRow;
 import com.bernardomg.association.status.feeyear.model.ImmutableFeeMonth;
 import com.bernardomg.association.status.feeyear.model.ImmutableFeeYear;
-import com.bernardomg.association.status.feeyear.model.ImmutableFeeYearRange;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +40,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
     private final String                     queryForYear        = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
-    private final String                     queryRangeEnd       = "SELECT extract(year from s.d) AS end_date FROM (SELECT max(f.date) AS d FROM fees f) s GROUP BY end_date ORDER BY end_date ASC";
-
-    private final String                     queryRangeStart     = "SELECT extract(year from s.d) AS start_date FROM (SELECT min(f.date) AS d FROM fees f) s GROUP BY start_date ORDER BY start_date ASC";
+    private final String                     queryRange          = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s GROUP BY end_date ORDER BY end_date ASC";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
@@ -83,12 +80,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
     @Override
     public final FeeYearRange findRange() {
-        final Integer start;
-        final Integer end;
-
-        start = jdbcTemplate.queryForObject(queryRangeStart, Collections.emptyMap(), Integer.class);
-        end = jdbcTemplate.queryForObject(queryRangeEnd, Collections.emptyMap(), Integer.class);
-        return new ImmutableFeeYearRange(start, end);
+        return jdbcTemplate.queryForObject(queryRange, Collections.emptyMap(), feeRangeRowMapper);
     }
 
     private final List<FeeYearRow> findAll(final Integer year, final Sort sort) {
