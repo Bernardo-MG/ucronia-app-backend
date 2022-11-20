@@ -55,4 +55,9 @@ public class FeeYearController {
         return service.getAll(year, pageable.getSort());
     }
 
+    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<Integer> readRange() {
+        return service.getRange();
+    }
+
 }

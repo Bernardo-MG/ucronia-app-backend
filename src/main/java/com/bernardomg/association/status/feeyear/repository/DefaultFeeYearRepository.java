@@ -29,7 +29,9 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String                     query = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                     queryForYear = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+
+    private final String                     queryRange   = "SELECT extract(year from f.date) AS date FROM fees f GROUP BY date ORDER BY date ASC";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
@@ -67,6 +69,11 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return years;
     }
 
+    @Override
+    public final Iterable<Integer> findRange() {
+        return jdbcTemplate.query(queryRange, new FeeRangeRowMapper());
+    }
+
     private final List<FeeYearRow> findAll(final Integer year, final Sort sort) {
         final SqlParameterSource namedParameters;
         final String             where;
@@ -82,7 +89,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         }
 
         namedParameters = new MapSqlParameterSource().addValue("year", year);
-        return jdbcTemplate.query(query + where + sorting, namedParameters, new FeeYearRowRowMapper());
+        return jdbcTemplate.query(queryForYear + where + sorting, namedParameters, new FeeYearRowRowMapper());
     }
 
     private final FeeMonth toFeeMonth(final FeeYearRow fee) {

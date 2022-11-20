@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.status.feeyear.integration.service;
+package com.bernardomg.association.test.status.feeyear.integration.repository;
 
 import java.util.Iterator;
 
@@ -36,19 +36,19 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.status.feeyear.model.FeeMonth;
 import com.bernardomg.association.status.feeyear.model.FeeYear;
-import com.bernardomg.association.status.feeyear.service.FeeYearService;
+import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - two members - sort")
+@DisplayName("Fee year repository - find all for year - two members")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
         "/db/queries/fee/full_year_alternative.sql" })
-public class ITFeeYearServiceGetAllTwoMembersSort {
+public class ITFeeYearRepositoryFindAllForYearTwoMembersSort {
 
     @Autowired
-    private FeeYearService service;
+    private FeeYearRepository repository;
 
-    public ITFeeYearServiceGetAllTwoMembersSort() {
+    public ITFeeYearRepositoryFindAllForYearTwoMembersSort() {
         super();
     }
 
@@ -63,7 +63,7 @@ public class ITFeeYearServiceGetAllTwoMembersSort {
 
         sort = Sort.by(Direction.ASC, "name");
 
-        data = service.getAll(2020, sort)
+        data = repository.findAllForYear(2020, sort)
             .iterator();
 
         // First member
@@ -196,7 +196,7 @@ public class ITFeeYearServiceGetAllTwoMembersSort {
 
         sort = Sort.by(Direction.DESC, "name");
 
-        data = service.getAll(2020, sort)
+        data = repository.findAllForYear(2020, sort)
             .iterator();
 
         // Second member
@@ -329,7 +329,7 @@ public class ITFeeYearServiceGetAllTwoMembersSort {
 
         sort = Sort.by(Direction.ASC, "surname");
 
-        data = service.getAll(2020, sort)
+        data = repository.findAllForYear(2020, sort)
             .iterator();
 
         // First member
@@ -462,7 +462,7 @@ public class ITFeeYearServiceGetAllTwoMembersSort {
 
         sort = Sort.by(Direction.DESC, "surname");
 
-        data = service.getAll(2020, sort)
+        data = repository.findAllForYear(2020, sort)
             .iterator();
 
         // Second member

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.status.feeyear.integration.service;
+package com.bernardomg.association.test.status.feeyear.integration.repository;
 
 import java.util.Iterator;
 
@@ -36,40 +36,45 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.status.feeyear.model.FeeMonth;
 import com.bernardomg.association.status.feeyear.model.FeeYear;
-import com.bernardomg.association.status.feeyear.service.FeeYearService;
+import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - full year")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeYearServiceGetAllFullYear {
+@DisplayName("Fee year repository - find all for year - two members")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
+        "/db/queries/fee/full_year_alternative.sql" })
+public class ITFeeYearRepositoryFindAllForYearTwoMembers {
 
     @Autowired
-    private FeeYearService service;
+    private FeeYearRepository repository;
 
-    public ITFeeYearServiceGetAllFullYear() {
+    public ITFeeYearRepositoryFindAllForYearTwoMembers() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    @DisplayName("With a full year it returns all the entities")
+    public void testFindAllForYear_FullYear_TwoMembers_Count() {
         final Iterable<? extends FeeYear> result;
+        final Iterator<? extends FeeYear> itr;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, sort);
+        result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(12, IterableUtils.size(result.iterator()
-            .next()
+        Assertions.assertEquals(2, IterableUtils.size(result));
+
+        itr = result.iterator();
+        Assertions.assertEquals(12, IterableUtils.size(itr.next()
+            .getMonths()));
+        Assertions.assertEquals(12, IterableUtils.size(itr.next()
             .getMonths()));
     }
 
     @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    @DisplayName("With a full year it returns all the data")
+    public void testFindAllForYear_FullYear_TwoMembers_Data() {
         final Iterator<? extends FeeYear> data;
         FeeYear                           result;
         Iterator<FeeMonth>                months;
@@ -78,13 +83,73 @@ public class ITFeeYearServiceGetAllFullYear {
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, sort)
+        data = repository.findAllForYear(2020, sort)
             .iterator();
 
+        // First member
         result = data.next();
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1", result.getName());
         Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(true, result.getActive());
+
+        months = result.getMonths()
+            .iterator();
+
+        month = months.next();
+        Assertions.assertEquals(1, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(2, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(3, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(4, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(5, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(6, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(7, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(8, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(9, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(10, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(11, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(12, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        // Second member
+        result = data.next();
+        Assertions.assertEquals(2, result.getMemberId());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
         Assertions.assertEquals(true, result.getActive());
 

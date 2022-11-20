@@ -22,4 +22,10 @@ public final class DefaultFeeYearService implements FeeYearService {
         return repository.findAllForYear(year, sort);
     }
 
+    @Override
+    @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
+    public final Iterable<Integer> getRange() {
+        return repository.findRange();
+    }
+
 }

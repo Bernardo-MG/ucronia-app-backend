@@ -15,4 +15,6 @@ public interface FeeYearService {
 
     public Iterable<? extends FeeYear> getAll(final Integer year, final Sort sort);
 
+    public Iterable<Integer> getRange();
+
 }
