@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.status.feeyear.model.DtoFeeYearRequest;
 import com.bernardomg.association.status.feeyear.model.FeeYear;
 import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 import com.bernardomg.association.status.feeyear.service.FeeYearService;
@@ -51,14 +52,15 @@ public class FeeYearController {
     private final FeeYearService service;
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends FeeYear> readAll(@PathVariable("year") final Integer year, final Pageable pageable) {
+    public Iterable<? extends FeeYear> readAll(@PathVariable("year") final Integer year,
+            final DtoFeeYearRequest request, final Pageable pageable) {
         // TODO: Support full pagination
-        return service.getAll(year, pageable.getSort());
+        return service.getAll(year, request.getOnlyActive(), pageable.getSort());
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    public FeeYearRange readRange() {
-        return service.getRange();
+    public FeeYearRange readRange(final DtoFeeYearRequest request) {
+        return service.getRange(request.getOnlyActive());
     }
 
 }

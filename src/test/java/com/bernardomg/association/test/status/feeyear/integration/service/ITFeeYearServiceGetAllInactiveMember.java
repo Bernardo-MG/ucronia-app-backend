@@ -59,7 +59,7 @@ public class ITFeeYearServiceGetAllInactiveMember {
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, sort);
+        result = service.getAll(2020, false, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(12, IterableUtils.size(result.iterator()
@@ -78,7 +78,7 @@ public class ITFeeYearServiceGetAllInactiveMember {
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, sort)
+        data = service.getAll(2020, false, sort)
             .iterator();
 
         result = data.next();

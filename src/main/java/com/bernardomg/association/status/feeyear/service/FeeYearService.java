@@ -14,8 +14,8 @@ import com.bernardomg.association.status.feeyear.model.FeeYearRange;
  */
 public interface FeeYearService {
 
-    public Iterable<? extends FeeYear> getAll(final Integer year, final Sort sort);
+    public Iterable<? extends FeeYear> getAll(final Integer year, final Boolean onlyActive, final Sort sort);
 
-    public FeeYearRange getRange();
+    public FeeYearRange getRange(final Boolean onlyActive);
 
 }

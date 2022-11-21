@@ -51,7 +51,7 @@ public class ITFeeYearServiceGetRange {
     public void testGetRange_FullYear() {
         final FeeYearRange result;
 
-        result = service.getRange();
+        result = service.getRange(false);
 
         Assertions.assertEquals(2020, result.getStart());
         Assertions.assertEquals(2020, result.getEnd());
@@ -64,7 +64,7 @@ public class ITFeeYearServiceGetRange {
     public void testGetRange_FullYear_TwoMembers() {
         final FeeYearRange result;
 
-        result = service.getRange();
+        result = service.getRange(false);
 
         Assertions.assertEquals(2020, result.getStart());
         Assertions.assertEquals(2020, result.getEnd());
@@ -76,10 +76,21 @@ public class ITFeeYearServiceGetRange {
     public void testGetRange_Inactive() {
         final FeeYearRange result;
 
-        result = service.getRange();
+        result = service.getRange(false);
 
         Assertions.assertEquals(2020, result.getStart());
         Assertions.assertEquals(2020, result.getEnd());
+    }
+
+    @Test
+    @DisplayName("With no data the range is empty")
+    public void testGetRange_NoData() {
+        final FeeYearRange result;
+
+        result = service.getRange(false);
+
+        Assertions.assertEquals(0, result.getStart());
+        Assertions.assertEquals(0, result.getEnd());
     }
 
     @Test
@@ -88,7 +99,7 @@ public class ITFeeYearServiceGetRange {
     public void testGetRange_Single() {
         final FeeYearRange result;
 
-        result = service.getRange();
+        result = service.getRange(false);
 
         Assertions.assertEquals(2020, result.getStart());
         Assertions.assertEquals(2020, result.getEnd());
@@ -100,7 +111,7 @@ public class ITFeeYearServiceGetRange {
     public void testGetRange_TwoConnectedYears() {
         final FeeYearRange result;
 
-        result = service.getRange();
+        result = service.getRange(false);
 
         Assertions.assertEquals(2019, result.getStart());
         Assertions.assertEquals(2020, result.getEnd());
@@ -112,7 +123,7 @@ public class ITFeeYearServiceGetRange {
     public void testGetRange_TwoYearsWithGap() {
         final FeeYearRange result;
 
-        result = service.getRange();
+        result = service.getRange(false);
 
         Assertions.assertEquals(2018, result.getStart());
         Assertions.assertEquals(2020, result.getEnd());

@@ -19,13 +19,13 @@ public final class DefaultFeeYearService implements FeeYearService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
-    public final Iterable<? extends FeeYear> getAll(final Integer year, final Sort sort) {
+    public final Iterable<? extends FeeYear> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
         return repository.findAllForYear(year, sort);
     }
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
-    public final FeeYearRange getRange() {
+    public final FeeYearRange getRange(final Boolean onlyActive) {
         return repository.findRange();
     }
 

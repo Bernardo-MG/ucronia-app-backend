@@ -57,7 +57,7 @@ public class ITFeeYearServiceGetAllError {
 
         sort = Sort.by(Direction.ASC, "abc");
 
-        executable = () -> service.getAll(2020, sort)
+        executable = () -> service.getAll(2020, false, sort)
             .iterator();
 
         Assertions.assertThrows(BadSqlGrammarException.class, executable);
