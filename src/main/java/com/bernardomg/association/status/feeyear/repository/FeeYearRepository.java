@@ -14,4 +14,6 @@ public interface FeeYearRepository {
 
     public FeeYearRange findRange();
 
+    public FeeYearRange findRangeWithActiveMember();
+
 }

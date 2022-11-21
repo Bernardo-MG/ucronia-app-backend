@@ -34,7 +34,15 @@ public final class DefaultFeeYearService implements FeeYearService {
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
     public final FeeYearRange getRange(final Boolean onlyActive) {
-        return repository.findRange();
+        final FeeYearRange range;
+
+        if (onlyActive) {
+            range = repository.findRangeWithActiveMember();
+        } else {
+            range = repository.findRange();
+        }
+
+        return range;
     }
 
 }

@@ -32,15 +32,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeYearRepository implements FeeYearRepository {
 
-    private final RowMapper<FeeYearRange>    feeRangeRowMapper   = new FeeRangeRowMapper();
+    private final RowMapper<FeeYearRange>    feeRangeRowMapper          = new FeeRangeRowMapper();
 
-    private final RowMapper<FeeYearRow>      feeYearRowRowMapper = new FeeYearRowRowMapper();
+    private final RowMapper<FeeYearRow>      feeYearRowRowMapper        = new FeeYearRowRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String                     queryForYear        = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                     queryForYear               = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
-    private final String                     queryRange          = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
+    private final String                     queryRange                 = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
+
+    private final String                     queryRangeWithActiveMember = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
@@ -56,6 +58,11 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
     @Override
     public final FeeYearRange findRange() {
         return jdbcTemplate.queryForObject(queryRange, Collections.emptyMap(), feeRangeRowMapper);
+    }
+
+    @Override
+    public final FeeYearRange findRangeWithActiveMember() {
+        return jdbcTemplate.queryForObject(queryRangeWithActiveMember, Collections.emptyMap(), feeRangeRowMapper);
     }
 
     private final List<FeeYearRow> findAll(final String query, final Integer year, final Sort sort) {
