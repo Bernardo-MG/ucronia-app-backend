@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.status.feeyear.integration.repository;
+package com.bernardomg.association.test.status.feeyear.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
@@ -33,30 +33,30 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.status.feeyear.model.FeeYear;
-import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year repository - find all for year - no fees")
-@Sql({ "/db/queries/member/single.sql" })
-public class ITFeeYearRepositoryFindAllForYearNoFees {
+@DisplayName("Fee year service - get all - inactive member")
+@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+public class ITFeeYearServiceGetAllOnlyActiveInactiveMember {
 
     @Autowired
-    private FeeYearRepository repository;
+    private FeeYearService service;
 
-    public ITFeeYearRepositoryFindAllForYearNoFees() {
+    public ITFeeYearServiceGetAllOnlyActiveInactiveMember() {
         super();
     }
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testFindAllForYear_Count() {
+    public void testGetAll_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = service.getAll(2020, true, sort);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }

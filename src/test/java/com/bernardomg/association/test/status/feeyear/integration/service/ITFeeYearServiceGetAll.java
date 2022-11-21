@@ -40,26 +40,26 @@ import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - full year - inactive member")
-@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeYearServiceGetAllFullYearInactiveMember {
+@DisplayName("Fee year service - get all")
+public class ITFeeYearServiceGetAll {
 
     @Autowired
     private FeeYearService service;
 
-    public ITFeeYearServiceGetAllFullYearInactiveMember() {
+    public ITFeeYearServiceGetAll() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    @DisplayName("With a full year it returns all the data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetAll_FullYear_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, sort);
+        result = service.getAll(2020, false, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(12, IterableUtils.size(result.iterator()
@@ -68,8 +68,9 @@ public class ITFeeYearServiceGetAllFullYearInactiveMember {
     }
 
     @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    @DisplayName("With a full year it returns all data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetAll_FullYear_Data() {
         final Iterator<? extends FeeYear> data;
         FeeYear                           result;
         Iterator<FeeMonth>                months;
@@ -78,7 +79,7 @@ public class ITFeeYearServiceGetAllFullYearInactiveMember {
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, sort)
+        data = service.getAll(2020, false, sort)
             .iterator();
 
         result = data.next();
@@ -86,7 +87,7 @@ public class ITFeeYearServiceGetAllFullYearInactiveMember {
         Assertions.assertEquals("Member 1", result.getName());
         Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(false, result.getActive());
+        Assertions.assertEquals(true, result.getActive());
 
         months = result.getMonths()
             .iterator();
@@ -137,6 +138,91 @@ public class ITFeeYearServiceGetAllFullYearInactiveMember {
 
         month = months.next();
         Assertions.assertEquals(12, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+    }
+
+    @Test
+    @DisplayName("When there is no data it returns nothing")
+    @Sql({ "/db/queries/member/single.sql" })
+    public void testGetAll_NoData_Count() {
+        final Iterable<? extends FeeYear> result;
+        final Sort                        sort;
+
+        sort = Sort.unsorted();
+
+        result = service.getAll(2020, false, sort);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("With two connected years it returns all the entities")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    public void testGetAll_TwoConnectedYears_Count() {
+        final Iterable<? extends FeeYear> result;
+        final Sort                        sort;
+
+        sort = Sort.unsorted();
+
+        result = service.getAll(2020, false, sort);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertEquals(7, IterableUtils.size(result.iterator()
+            .next()
+            .getMonths()));
+    }
+
+    @Test
+    @DisplayName("With two connected years it returns all data for the queried year")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    public void testGetAll_TwoConnectedYears_Data() {
+        final Iterator<? extends FeeYear> data;
+        FeeYear                           result;
+        Iterator<FeeMonth>                months;
+        FeeMonth                          month;
+        final Sort                        sort;
+
+        sort = Sort.unsorted();
+
+        data = service.getAll(2020, false, sort)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(2020, result.getYear());
+        Assertions.assertEquals(true, result.getActive());
+
+        months = result.getMonths()
+            .iterator();
+
+        month = months.next();
+        Assertions.assertEquals(1, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(2, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(3, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(4, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(5, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(6, month.getMonth());
+        Assertions.assertEquals(true, month.getPaid());
+
+        month = months.next();
+        Assertions.assertEquals(7, month.getMonth());
         Assertions.assertEquals(true, month.getPaid());
     }
 
