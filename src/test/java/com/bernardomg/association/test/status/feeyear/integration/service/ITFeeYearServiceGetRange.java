@@ -48,7 +48,7 @@ public class ITFeeYearServiceGetRange {
     @Test
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindRange_FullYear() {
+    public void testGetRange_FullYear() {
         final FeeYearRange result;
 
         result = service.getRange();
@@ -61,7 +61,19 @@ public class ITFeeYearServiceGetRange {
     @DisplayName("With a full year and two members the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    public void testFindRange_FullYear_TwoMembers() {
+    public void testGetRange_FullYear_TwoMembers() {
+        final FeeYearRange result;
+
+        result = service.getRange();
+
+        Assertions.assertEquals(2020, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
+    }
+
+    @Test
+    @DisplayName("Returns the range for an inactive member")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetRange_Inactive() {
         final FeeYearRange result;
 
         result = service.getRange();
@@ -73,7 +85,7 @@ public class ITFeeYearServiceGetRange {
     @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testFindRange_Single() {
+    public void testGetRange_Single() {
         final FeeYearRange result;
 
         result = service.getRange();
@@ -85,7 +97,7 @@ public class ITFeeYearServiceGetRange {
     @Test
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindRange_TwoConnectedYears() {
+    public void testGetRange_TwoConnectedYears() {
         final FeeYearRange result;
 
         result = service.getRange();
@@ -97,7 +109,7 @@ public class ITFeeYearServiceGetRange {
     @Test
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
-    public void testFindRange_TwoYearsWithGap() {
+    public void testGetRange_TwoYearsWithGap() {
         final FeeYearRange result;
 
         result = service.getRange();
