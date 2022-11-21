@@ -40,13 +40,13 @@ import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year repository - find all for year")
-public class ITFeeYearRepositoryFindAllForYear {
+@DisplayName("Fee year repository - find all for year with active member")
+public class ITFeeYearRepositoryFindAllForYearWithActiveMember {
 
     @Autowired
     private FeeYearRepository repository;
 
-    public ITFeeYearRepositoryFindAllForYear() {
+    public ITFeeYearRepositoryFindAllForYearWithActiveMember() {
         super();
     }
 
@@ -59,7 +59,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = repository.findAllForYearWithActiveMember(2020, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(12, IterableUtils.size(result.iterator()
@@ -79,7 +79,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYear(2020, sort)
+        data = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
         result = data.next();
@@ -149,7 +149,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = repository.findAllForYearWithActiveMember(2020, sort);
 
         Assertions.assertEquals(0, IterableUtils.size(result));
     }
@@ -163,7 +163,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = repository.findAllForYearWithActiveMember(2020, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(1, IterableUtils.size(result.iterator()
@@ -183,7 +183,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYear(2020, sort)
+        data = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
         result = data.next();
@@ -210,7 +210,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = repository.findAllForYearWithActiveMember(2020, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(1, IterableUtils.size(result.iterator()
@@ -230,7 +230,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYear(2020, sort)
+        data = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
         result = data.next();
@@ -257,7 +257,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2019, sort);
+        result = repository.findAllForYearWithActiveMember(2019, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(3, IterableUtils.size(result.iterator()
@@ -276,7 +276,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2019, sort)
+        result = repository.findAllForYearWithActiveMember(2019, sort)
             .iterator()
             .next();
 
@@ -311,7 +311,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = repository.findAllForYearWithActiveMember(2020, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
         Assertions.assertEquals(7, IterableUtils.size(result.iterator()
@@ -330,7 +330,7 @@ public class ITFeeYearRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort)
+        result = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator()
             .next();
 

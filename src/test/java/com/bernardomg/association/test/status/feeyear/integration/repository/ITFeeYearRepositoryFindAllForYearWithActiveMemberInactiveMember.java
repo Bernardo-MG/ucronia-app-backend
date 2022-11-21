@@ -37,29 +37,28 @@ import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year repository - find all for year - full year")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-        "/db/queries/fee/full_year_alternative.sql" })
-public class ITFeeYearRepositoryFindAllForYearMultiple {
+@DisplayName("Fee year repository - find all for year with active member")
+public class ITFeeYearRepositoryFindAllForYearWithActiveMemberInactiveMember {
 
     @Autowired
     private FeeYearRepository repository;
 
-    public ITFeeYearRepositoryFindAllForYearMultiple() {
+    public ITFeeYearRepositoryFindAllForYearWithActiveMemberInactiveMember() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testFindAllForYear_Count() {
+    @DisplayName("Returns no data for an inactive member")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testFindAllForYear_FullYear_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        result = repository.findAllForYearWithActiveMember(2020, sort);
 
-        Assertions.assertEquals(2, IterableUtils.size(result));
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }

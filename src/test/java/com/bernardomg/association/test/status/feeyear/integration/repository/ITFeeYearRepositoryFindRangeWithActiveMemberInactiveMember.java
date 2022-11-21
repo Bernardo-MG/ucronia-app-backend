@@ -22,45 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.status.feeyear.integration.service;
+package com.bernardomg.association.test.status.feeyear.integration.repository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.status.feeyear.service.FeeYearService;
+import com.bernardomg.association.status.feeyear.model.FeeYearRange;
+import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - error")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeYearServiceGetAllError {
+@DisplayName("Fee year repository - find range with active member - inactive member")
+public class ITFeeYearRepositoryFindRangeWithActiveMemberInactiveMember {
 
     @Autowired
-    private FeeYearService service;
+    private FeeYearRepository repository;
 
-    public ITFeeYearServiceGetAllError() {
+    public ITFeeYearRepositoryFindRangeWithActiveMemberInactiveMember() {
         super();
     }
 
     @Test
-    @DisplayName("Ordering by a not existing field generates an error")
-    public void testGetAll_NotExisting() {
-        final Sort       sort;
-        final Executable executable;
+    @DisplayName("Returns no range for an inactive member")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testFindRange_FullYear() {
+        final FeeYearRange result;
 
-        sort = Sort.by(Direction.ASC, "abc");
+        result = repository.findRangeWithActiveMember();
 
-        executable = () -> service.getAll(2020, false, sort)
-            .iterator();
-
-        Assertions.assertThrows(BadSqlGrammarException.class, executable);
+        Assertions.assertEquals(0, result.getStart());
+        Assertions.assertEquals(0, result.getEnd());
     }
 
 }

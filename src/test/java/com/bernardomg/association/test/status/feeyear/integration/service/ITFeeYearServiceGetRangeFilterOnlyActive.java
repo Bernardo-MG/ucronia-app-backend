@@ -27,40 +27,46 @@ package com.bernardomg.association.test.status.feeyear.integration.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.status.feeyear.model.FeeYearRange;
 import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - error")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeYearServiceGetAllError {
+@DisplayName("Fee year service - get all - only active")
+public class ITFeeYearServiceGetRangeFilterOnlyActive {
 
     @Autowired
     private FeeYearService service;
 
-    public ITFeeYearServiceGetAllError() {
+    public ITFeeYearServiceGetRangeFilterOnlyActive() {
         super();
     }
 
     @Test
-    @DisplayName("Ordering by a not existing field generates an error")
-    public void testGetAll_NotExisting() {
-        final Sort       sort;
-        final Executable executable;
+    @DisplayName("Returns the range for an active user")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetRange_Active() {
+        final FeeYearRange result;
 
-        sort = Sort.by(Direction.ASC, "abc");
+        result = service.getRange(true);
 
-        executable = () -> service.getAll(2020, false, sort)
-            .iterator();
+        Assertions.assertEquals(2020, result.getStart());
+        Assertions.assertEquals(2020, result.getEnd());
+    }
 
-        Assertions.assertThrows(BadSqlGrammarException.class, executable);
+    @Test
+    @DisplayName("Returns no range for an inactive user")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetRange_Inactive() {
+        final FeeYearRange result;
+
+        result = service.getRange(true);
+
+        Assertions.assertEquals(0, result.getStart());
+        Assertions.assertEquals(0, result.getEnd());
     }
 
 }

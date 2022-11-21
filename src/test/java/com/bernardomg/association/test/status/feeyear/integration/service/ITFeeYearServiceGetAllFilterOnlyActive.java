@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.test.status.feeyear.integration.service;
 
-import java.util.Iterator;
-
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,66 +32,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.status.feeyear.model.FeeMonth;
 import com.bernardomg.association.status.feeyear.model.FeeYear;
 import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - single month")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-public class ITFeeYearServiceGetAllSingleMonth {
+@DisplayName("Fee year service - get all - only active")
+public class ITFeeYearServiceGetAllFilterOnlyActive {
 
     @Autowired
     private FeeYearService service;
 
-    public ITFeeYearServiceGetAllSingleMonth() {
+    public ITFeeYearServiceGetAllFilterOnlyActive() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    @DisplayName("Returns all the data for an active user")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetAllActive_Count() {
         final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, sort);
+        result = service.getAll(2020, true, sort);
 
         Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(1, IterableUtils.size(result.iterator()
+        Assertions.assertEquals(12, IterableUtils.size(result.iterator()
             .next()
             .getMonths()));
     }
 
     @Test
-    @DisplayName("Returns all data")
-    public void testGetAll_Data() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
+    @DisplayName("Returns no data for an inactive user")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetAllInactive_Count() {
+        final Iterable<? extends FeeYear> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, sort)
-            .iterator();
+        result = service.getAll(2020, true, sort);
 
-        result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
-
-        months = result.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }

@@ -22,43 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.status.feeyear.integration.service;
+package com.bernardomg.association.status.feeyear.model;
 
-import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
+import lombok.Data;
+import lombok.NonNull;
 
-import com.bernardomg.association.status.feeyear.model.FeeYear;
-import com.bernardomg.association.status.feeyear.service.FeeYearService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
+@Data
+public final class ImmutableFeeMonth implements FeeMonth {
 
-@IntegrationTest
-@DisplayName("Fee year service - get all - no data")
-@Sql({ "/db/queries/member/single.sql" })
-public class ITFeeYearServiceGetAllEmpty {
+    @NonNull
+    private final Integer month;
 
-    @Autowired
-    private FeeYearService service;
+    @NonNull
+    private final Boolean paid;
 
-    public ITFeeYearServiceGetAllEmpty() {
+    public ImmutableFeeMonth(@NonNull final Integer mnth, @NonNull final Boolean pd) {
         super();
-    }
 
-    @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<? extends FeeYear> result;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        result = service.getAll(2020, sort);
-
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        month = mnth;
+        paid = pd;
     }
 
 }
