@@ -24,49 +24,41 @@
 
 package com.bernardomg.association.test.status.feeyear.integration.service;
 
+import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.status.feeyear.model.FeeYearRange;
+import com.bernardomg.association.status.feeyear.model.FeeYear;
 import com.bernardomg.association.status.feeyear.service.FeeYearService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee year service - get all - only active")
-public class ITFeeYearServiceGetRangeFilterOnlyActive {
+@DisplayName("Fee year service - get all - inactive member")
+@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+public class ITFeeYearServiceGetAllOnlyActiveInactiveMember {
 
     @Autowired
     private FeeYearService service;
 
-    public ITFeeYearServiceGetRangeFilterOnlyActive() {
+    public ITFeeYearServiceGetAllOnlyActiveInactiveMember() {
         super();
     }
 
     @Test
-    @DisplayName("Returns the range for an active user")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetRange_Active() {
-        final FeeYearRange result;
+    @DisplayName("Returns all the entities")
+    public void testGetAll_Count() {
+        final Iterable<? extends FeeYear> result;
+        final Sort                        sort;
 
-        result = service.getRange(true);
+        sort = Sort.unsorted();
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
-    }
+        result = service.getAll(2020, true, sort);
 
-    @Test
-    @DisplayName("Returns no range for an inactive user")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetRange_Inactive() {
-        final FeeYearRange result;
-
-        result = service.getRange(true);
-
-        Assertions.assertEquals(0, result.getStart());
-        Assertions.assertEquals(0, result.getEnd());
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }

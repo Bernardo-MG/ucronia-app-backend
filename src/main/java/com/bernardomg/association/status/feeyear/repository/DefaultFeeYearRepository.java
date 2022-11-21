@@ -32,15 +32,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeYearRepository implements FeeYearRepository {
 
-    private final RowMapper<FeeYearRange>    feeRangeRowMapper   = new FeeRangeRowMapper();
+    private final RowMapper<FeeYearRange>    feeRangeRowMapper            = new FeeRangeRowMapper();
 
-    private final RowMapper<FeeYearRow>      feeYearRowRowMapper = new FeeYearRowRowMapper();
+    private final RowMapper<FeeYearRow>      feeYearRowRowMapper          = new FeeYearRowRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String                     queryForYear        = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                     queryForYear                 = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
-    private final String                     queryRange          = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
+    private final String                     queryForYearWithActiveMember = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true";
+
+    private final String                     queryRange                   = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
@@ -52,7 +54,43 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         FeeYear                           feeYear;
         Boolean                           active;
 
-        readFees = findAll(year, sort);
+        readFees = findAll(queryForYear, year, sort);
+        memberFees = readFees.stream()
+            .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
+        memberIds = readFees.stream()
+            .map(FeeYearRow::getMemberId)
+            .distinct()
+            .collect(Collectors.toList());
+
+        years = new ArrayList<>();
+        for (final Long member : memberIds) {
+            fees = memberFees.get(member);
+            if (fees.isEmpty()) {
+                active = false;
+            } else {
+                active = fees.iterator()
+                    .next()
+                    .getActive();
+            }
+            feeYear = toFeeYear(member, year, active, fees);
+
+            years.add(feeYear);
+        }
+
+        return years;
+    }
+
+    @Override
+    public final Iterable<? extends FeeYear> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
+        final Collection<FeeYearRow>      readFees;
+        final Map<Long, List<FeeYearRow>> memberFees;
+        final Collection<FeeYear>         years;
+        final Iterable<Long>              memberIds;
+        List<FeeYearRow>                  fees;
+        FeeYear                           feeYear;
+        Boolean                           active;
+
+        readFees = findAll(queryForYearWithActiveMember, year, sort);
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
         memberIds = readFees.stream()
@@ -83,12 +121,18 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return jdbcTemplate.queryForObject(queryRange, Collections.emptyMap(), feeRangeRowMapper);
     }
 
-    private final List<FeeYearRow> findAll(final Integer year, final Sort sort) {
+    private final List<FeeYearRow> findAll(final String query, final Integer year, final Sort sort) {
         final SqlParameterSource namedParameters;
+        final String             operand;
         final String             where;
         final String             sorting;
 
-        where = " WHERE extract(year from f.date) = :year";
+        if (query.contains("WHERE")) {
+            operand = " AND";
+        } else {
+            operand = " WHERE";
+        }
+        where = operand + " extract(year from f.date) = :year";
         if (sort.isSorted()) {
             sorting = " ORDER BY " + sort.get()
                 .map(this::toSorting)
@@ -98,7 +142,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         }
 
         namedParameters = new MapSqlParameterSource().addValue("year", year);
-        return jdbcTemplate.query(queryForYear + where + sorting, namedParameters, feeYearRowRowMapper);
+        return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
     }
 
     private final FeeMonth toFeeMonth(final FeeYearRow fee) {

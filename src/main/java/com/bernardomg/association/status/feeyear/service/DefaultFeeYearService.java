@@ -20,7 +20,15 @@ public final class DefaultFeeYearService implements FeeYearService {
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
     public final Iterable<? extends FeeYear> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
-        return repository.findAllForYear(year, sort);
+        final Iterable<? extends FeeYear> result;
+
+        if (onlyActive) {
+            result = repository.findAllForYearWithActiveMember(year, sort);
+        } else {
+            result = repository.findAllForYear(year, sort);
+        }
+
+        return result;
     }
 
     @Override

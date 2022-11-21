@@ -10,6 +10,8 @@ public interface FeeYearRepository {
 
     public Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort);
 
+    public Iterable<? extends FeeYear> findAllForYearWithActiveMember(final Integer year, final Sort sort);
+
     public FeeYearRange findRange();
 
 }
