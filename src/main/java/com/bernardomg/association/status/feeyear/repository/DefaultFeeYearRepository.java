@@ -32,88 +32,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeYearRepository implements FeeYearRepository {
 
-    private final RowMapper<FeeYearRange>    feeRangeRowMapper            = new FeeRangeRowMapper();
+    private final RowMapper<FeeYearRange>    feeRangeRowMapper   = new FeeRangeRowMapper();
 
-    private final RowMapper<FeeYearRow>      feeYearRowRowMapper          = new FeeYearRowRowMapper();
+    private final RowMapper<FeeYearRow>      feeYearRowRowMapper = new FeeYearRowRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String                     queryForYear                 = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                     queryForYear        = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
-    private final String                     queryForYearWithActiveMember = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true";
-
-    private final String                     queryRange                   = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
+    private final String                     queryRange          = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
-        final Collection<FeeYearRow>      readFees;
-        final Map<Long, List<FeeYearRow>> memberFees;
-        final Collection<FeeYear>         years;
-        final Iterable<Long>              memberIds;
-        List<FeeYearRow>                  fees;
-        FeeYear                           feeYear;
-        Boolean                           active;
-
-        readFees = findAll(queryForYear, year, sort);
-        memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
-        memberIds = readFees.stream()
-            .map(FeeYearRow::getMemberId)
-            .distinct()
-            .collect(Collectors.toList());
-
-        years = new ArrayList<>();
-        for (final Long member : memberIds) {
-            fees = memberFees.get(member);
-            if (fees.isEmpty()) {
-                active = false;
-            } else {
-                active = fees.iterator()
-                    .next()
-                    .getActive();
-            }
-            feeYear = toFeeYear(member, year, active, fees);
-
-            years.add(feeYear);
-        }
-
-        return years;
+        return findAllForYear(queryForYear, year, sort);
     }
 
     @Override
     public final Iterable<? extends FeeYear> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
-        final Collection<FeeYearRow>      readFees;
-        final Map<Long, List<FeeYearRow>> memberFees;
-        final Collection<FeeYear>         years;
-        final Iterable<Long>              memberIds;
-        List<FeeYearRow>                  fees;
-        FeeYear                           feeYear;
-        Boolean                           active;
-
-        readFees = findAll(queryForYearWithActiveMember, year, sort);
-        memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
-        memberIds = readFees.stream()
-            .map(FeeYearRow::getMemberId)
-            .distinct()
-            .collect(Collectors.toList());
-
-        years = new ArrayList<>();
-        for (final Long member : memberIds) {
-            fees = memberFees.get(member);
-            if (fees.isEmpty()) {
-                active = false;
-            } else {
-                active = fees.iterator()
-                    .next()
-                    .getActive();
-            }
-            feeYear = toFeeYear(member, year, active, fees);
-
-            years.add(feeYear);
-        }
-
-        return years;
+        // TODO: Improve how the where is built
+        return findAllForYear(queryForYear + " WHERE m.active = true", year, sort);
     }
 
     @Override
@@ -143,6 +80,41 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
 
         namedParameters = new MapSqlParameterSource().addValue("year", year);
         return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
+    }
+
+    private final Iterable<? extends FeeYear> findAllForYear(final String query, final Integer year, final Sort sort) {
+        final Collection<FeeYearRow>      readFees;
+        final Map<Long, List<FeeYearRow>> memberFees;
+        final Collection<FeeYear>         years;
+        final Iterable<Long>              memberIds;
+        List<FeeYearRow>                  fees;
+        FeeYear                           feeYear;
+        Boolean                           active;
+
+        readFees = findAll(query, year, sort);
+        memberFees = readFees.stream()
+            .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
+        memberIds = readFees.stream()
+            .map(FeeYearRow::getMemberId)
+            .distinct()
+            .collect(Collectors.toList());
+
+        years = new ArrayList<>();
+        for (final Long member : memberIds) {
+            fees = memberFees.get(member);
+            if (fees.isEmpty()) {
+                active = false;
+            } else {
+                active = fees.iterator()
+                    .next()
+                    .getActive();
+            }
+            feeYear = toFeeYear(member, year, active, fees);
+
+            years.add(feeYear);
+        }
+
+        return years;
     }
 
     private final FeeMonth toFeeMonth(final FeeYearRow fee) {
