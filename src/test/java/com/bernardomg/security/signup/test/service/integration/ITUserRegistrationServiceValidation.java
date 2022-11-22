@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.signup.model.DtoSignUp;
 import com.bernardomg.security.signup.service.SignUpService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService - validation")
@@ -37,7 +37,7 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.invalid", exception.getMessage());
     }
@@ -56,7 +56,7 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.existing", exception.getMessage());
     }
@@ -75,7 +75,7 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.existing", exception.getMessage());
     }
@@ -94,7 +94,7 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.username.existing", exception.getMessage());
     }
@@ -113,7 +113,7 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.username.existing", exception.getMessage());
     }
@@ -131,7 +131,7 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.invalid", exception.getMessage());
     }

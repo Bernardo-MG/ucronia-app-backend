@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - token generation on recovery start")
@@ -36,7 +36,7 @@ public class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email2@somewhere.com");
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.user.unauthorized", exception.getMessage());
     }
@@ -49,7 +49,7 @@ public class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.user.unauthorized", exception.getMessage());
     }

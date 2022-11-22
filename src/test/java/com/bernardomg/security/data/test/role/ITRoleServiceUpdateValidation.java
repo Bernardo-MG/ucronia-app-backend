@@ -34,7 +34,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("Role service - update validation")
@@ -58,7 +58,7 @@ public class ITRoleServiceUpdateValidation {
 
         executable = () -> service.update(data);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }

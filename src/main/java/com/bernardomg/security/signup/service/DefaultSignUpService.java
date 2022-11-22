@@ -35,9 +35,9 @@ import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
-import com.bernardomg.validation.exception.ValidationException;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +85,7 @@ public final class DefaultSignUpService implements SignUpService {
         errors = validate(signUp);
         if (!errors.isEmpty()) {
             // Validation errors
-            throw new ValidationException(errors);
+            throw new FailureException(errors);
         }
 
         username = signUp.getUsername()

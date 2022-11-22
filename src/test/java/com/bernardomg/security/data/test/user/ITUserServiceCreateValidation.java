@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.service.UserService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("User service - create validation")
@@ -42,7 +42,7 @@ public class ITUserServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.existing", exception.getMessage());
     }
@@ -65,7 +65,7 @@ public class ITUserServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.username.existing", exception.getMessage());
     }
@@ -88,7 +88,7 @@ public class ITUserServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.invalid", exception.getMessage());
     }

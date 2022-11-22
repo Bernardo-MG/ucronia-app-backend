@@ -10,7 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - recovery start - validation")
@@ -32,7 +32,7 @@ public class ITPasswordRecoveryServiceStartValidation {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.email.notExisting", exception.getMessage());
     }

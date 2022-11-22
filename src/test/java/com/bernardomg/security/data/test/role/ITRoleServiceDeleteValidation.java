@@ -33,7 +33,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.service.RoleService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("Role service - delete validation")
@@ -54,7 +54,7 @@ public class ITRoleServiceDeleteValidation {
 
         executable = () -> service.delete(1L);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }
@@ -70,7 +70,7 @@ public class ITRoleServiceDeleteValidation {
 
         executable = () -> service.delete(1L);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.user.existing", exception.getMessage());
     }

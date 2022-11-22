@@ -21,9 +21,9 @@ import com.bernardomg.security.data.validation.user.UserDeleteValidator;
 import com.bernardomg.security.data.validation.user.UserRoleUpdateValidator;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
-import com.bernardomg.validation.exception.ValidationException;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +77,7 @@ public final class DefaultUserService implements UserService {
 
         if (!failures.isEmpty()) {
             log.debug("Got errors: {}", failures);
-            throw new ValidationException(failures);
+            throw new FailureException(failures);
         }
 
         entity = toEntity(user);
@@ -154,7 +154,7 @@ public final class DefaultUserService implements UserService {
 
         if (!failures.isEmpty()) {
             log.debug("Got errors: {}", failures);
-            throw new ValidationException(failures);
+            throw new FailureException(failures);
         }
 
         entity = toEntity(user);

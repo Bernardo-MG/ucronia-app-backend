@@ -36,7 +36,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
 import com.bernardomg.association.crud.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("Fee service - create validation")
@@ -64,7 +64,7 @@ public class ITFeeServiceCreateValidation {
 
         executable = () -> service.create(fee);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.member.notExists", exception.getMessage());
     }

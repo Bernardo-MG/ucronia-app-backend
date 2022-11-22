@@ -41,9 +41,9 @@ import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecovery
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
-import com.bernardomg.validation.exception.ValidationException;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -232,7 +232,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         }
 
         if (!failures.isEmpty()) {
-            throw new ValidationException(failures);
+            throw new FailureException(failures);
         }
 
     }

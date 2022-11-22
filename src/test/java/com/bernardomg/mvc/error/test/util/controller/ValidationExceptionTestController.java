@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.validation.exception.ValidationException;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @RestController
 @RequestMapping(ValidationExceptionTestController.PATH)
@@ -38,7 +38,7 @@ public class ValidationExceptionTestController {
         failures = new ArrayList<>();
         failures.add(failure);
 
-        throw new ValidationException(failures);
+        throw new FailureException(failures);
     }
 
     @GetMapping(path = "/generic", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +51,7 @@ public class ValidationExceptionTestController {
         failures = new ArrayList<>();
         failures.add(failure);
 
-        throw new ValidationException(failures);
+        throw new FailureException(failures);
     }
 
 }

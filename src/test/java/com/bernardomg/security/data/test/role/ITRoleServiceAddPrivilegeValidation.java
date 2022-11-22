@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.service.RoleService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 @IntegrationTest
 @DisplayName("Role service - set privileges validation")
@@ -39,7 +39,7 @@ public class ITRoleServiceAddPrivilegeValidation {
 
         executable = () -> service.addPrivilege(1l, -1l);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.privilege.id.notExisting", exception.getMessage());
     }
@@ -57,7 +57,7 @@ public class ITRoleServiceAddPrivilegeValidation {
 
         executable = () -> service.addPrivilege(1l, 1l);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FailureException.class, executable);
 
         Assertions.assertEquals("error.id.notExisting", exception.getMessage());
     }

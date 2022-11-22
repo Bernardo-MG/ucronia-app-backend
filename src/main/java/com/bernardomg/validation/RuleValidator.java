@@ -29,8 +29,8 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.bernardomg.validation.exception.ValidationException;
 import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.exception.FailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,7 +66,7 @@ public final class RuleValidator<T> implements Validator<T> {
 
         if (!errors.isEmpty()) {
             log.debug("Got errors: {}", errors);
-            throw new ValidationException(errors);
+            throw new FailureException(errors);
         }
 
         log.debug("No errors");

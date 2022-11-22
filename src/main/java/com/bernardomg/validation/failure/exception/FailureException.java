@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation.exception;
+package com.bernardomg.validation.failure.exception;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +33,7 @@ import com.bernardomg.validation.failure.Failure;
 import lombok.Getter;
 
 @Getter
-public class ValidationException extends RuntimeException {
+public class FailureException extends RuntimeException {
 
     private static final long serialVersionUID = 5252694690217611607L;
 
@@ -45,13 +45,13 @@ public class ValidationException extends RuntimeException {
 
     private final Collection<Failure> failures;
 
-    public ValidationException(final Collection<Failure> fails) {
+    public FailureException(final Collection<Failure> fails) {
         super(getMessage(fails));
 
         failures = fails;
     }
 
-    public ValidationException(final Failure err) {
+    public FailureException(final Failure err) {
         super(err.getMessage());
 
         failures = Arrays.asList(err);
