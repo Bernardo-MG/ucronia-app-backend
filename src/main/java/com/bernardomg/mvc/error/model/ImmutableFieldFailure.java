@@ -25,22 +25,29 @@
 package com.bernardomg.mvc.error.model;
 
 import lombok.Data;
+import lombok.NonNull;
 
 /**
- * DTO implementation of {@code FieldValidationError}.
+ * Immutable implementation of {@code FieldValidationError}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-public final class DtoFieldFailure implements FieldFailure {
+public final class ImmutableFieldFailure implements FieldFailure {
 
-    private String field;
+    private final String field;
 
-    private String message;
+    private final String message;
 
-    private String object;
+    private final Object value;
 
-    private Object value;
+    public ImmutableFieldFailure(@NonNull final String msg, @NonNull final String fld, @NonNull final Object val) {
+        super();
+
+        message = msg;
+        field = fld;
+        value = val;
+    }
 
 }

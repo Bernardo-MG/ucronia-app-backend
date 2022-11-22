@@ -45,14 +45,7 @@ public interface FieldFailure extends Failure {
      * @return {@code FieldValidationError} for the received arguments
      */
     public static FieldFailure of(final String message, final String field, final Object value) {
-        final DtoFieldFailure error;
-
-        error = new DtoFieldFailure();
-        error.setMessage(message);
-        error.setField(field);
-        error.setValue(value);
-
-        return error;
+        return new ImmutableFieldFailure(message, field, value);
     }
 
     /**

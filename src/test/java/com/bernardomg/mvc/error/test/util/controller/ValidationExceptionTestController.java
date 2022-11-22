@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.mvc.error.model.DtoFieldFailure;
 import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.exception.ValidationException;
 
 @RestController
@@ -30,14 +30,10 @@ public class ValidationExceptionTestController {
 
     @GetMapping(path = "/field", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> exceptionFieldValidation() {
-        final DtoFieldFailure     failure;
+        final FieldFailure        failure;
         final Collection<Failure> failures;
 
-        failure = new DtoFieldFailure();
-        failure.setMessage("Error message");
-        failure.setField("field");
-        failure.setObject("object");
-        failure.setValue("value");
+        failure = FieldFailure.of("Error message", "field", "value");
 
         failures = new ArrayList<>();
         failures.add(failure);
