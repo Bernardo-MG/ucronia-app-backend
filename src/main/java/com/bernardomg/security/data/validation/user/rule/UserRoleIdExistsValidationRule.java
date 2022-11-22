@@ -27,7 +27,7 @@ public final class UserRoleIdExistsValidationRule implements ValidationRule<Long
 
         if (!repository.existsById(id)) {
             log.error("Found no role with id {}", id);
-            error = FieldFailure.of("error.role.notExisting", "memberId", "notExisting", id);
+            error = FieldFailure.of("id", "notExisting", id);
             result = Optional.of(error);
         } else {
             result = Optional.empty();
