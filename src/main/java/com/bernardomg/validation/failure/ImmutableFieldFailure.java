@@ -45,7 +45,7 @@ public final class ImmutableFieldFailure implements FieldFailure {
     private final Object value;
 
     public ImmutableFieldFailure(@NonNull final String msg, @NonNull final String fld, @NonNull final String cd,
-            @NonNull final Object val) {
+            final Object val) {
         super();
 
         message = msg;
