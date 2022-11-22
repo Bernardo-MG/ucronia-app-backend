@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.error.model;
+package com.bernardomg.validation.failure;
 
 /**
  * Field error message. Usually represents an error when validation a single field from an object. The validation

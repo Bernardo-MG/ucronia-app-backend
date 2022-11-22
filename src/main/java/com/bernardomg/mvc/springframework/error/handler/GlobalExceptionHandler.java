@@ -38,11 +38,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
 

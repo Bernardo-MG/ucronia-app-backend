@@ -26,7 +26,7 @@ package com.bernardomg.mvc.response.model;
 
 import java.util.Collection;
 
-import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.failure.Failure;
 
 /**
  * Error response to the frontend.

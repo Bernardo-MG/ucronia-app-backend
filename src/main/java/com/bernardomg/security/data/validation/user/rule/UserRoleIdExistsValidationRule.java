@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.validation.ValidationRule;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

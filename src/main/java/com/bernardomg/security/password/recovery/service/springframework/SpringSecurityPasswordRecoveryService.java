@@ -34,8 +34,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
@@ -44,6 +42,8 @@ import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

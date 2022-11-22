@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
@@ -38,6 +36,8 @@ import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

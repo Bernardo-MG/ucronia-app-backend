@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.crud.fee.model.FeeForm;
 import com.bernardomg.association.crud.member.repository.MemberRepository;
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.AllArgsConstructor;
 

@@ -26,4 +26,4 @@
  * Error model.
  */
 
-package com.bernardomg.mvc.error.model;
+package com.bernardomg.validation.failure;

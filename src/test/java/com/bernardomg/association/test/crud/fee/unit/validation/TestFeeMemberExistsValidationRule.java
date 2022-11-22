@@ -13,9 +13,9 @@ import com.bernardomg.association.crud.fee.model.DtoFeeForm;
 import com.bernardomg.association.crud.fee.model.FeeForm;
 import com.bernardomg.association.crud.fee.validation.rule.FeeMemberExistsValidationRule;
 import com.bernardomg.association.crud.member.repository.MemberRepository;
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @DisplayName("Fee member exists validation rule")
 public class TestFeeMemberExistsValidationRule {

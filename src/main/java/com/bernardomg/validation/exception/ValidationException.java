@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.failure.Failure;
 
 import lombok.Getter;
 

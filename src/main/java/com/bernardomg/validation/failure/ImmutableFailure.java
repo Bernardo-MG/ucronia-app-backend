@@ -22,32 +22,21 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.error.model;
+package com.bernardomg.validation.failure;
+
+import lombok.Data;
+import lombok.NonNull;
 
 /**
- * Failure object. Containing a message to tell which error ocurred.
+ * Immutable failure object.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface Failure {
+@Data
+public class ImmutableFailure implements Failure {
 
-    /**
-     * Builds a failure with the received code.
-     *
-     * @param code
-     *            failure code
-     * @return failure with the code
-     */
-    public static Failure of(final String code) {
-        return new ImmutableFailure(code);
-    }
-
-    /**
-     * Returns the error message.
-     *
-     * @return the error message.
-     */
-    public String getMessage();
+    @NonNull
+    private final String message;
 
 }

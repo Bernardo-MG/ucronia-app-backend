@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.mvc.error.model;
+package com.bernardomg.validation.failure;
 
 import lombok.Data;
 import lombok.NonNull;
