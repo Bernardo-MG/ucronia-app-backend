@@ -91,8 +91,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ FailureException.class })
-    public final ResponseEntity<Object> handleValidationException(final FailureException ex,
-            final WebRequest request) throws Exception {
+    public final ResponseEntity<Object> handleValidationException(final FailureException ex, final WebRequest request)
+            throws Exception {
         final ErrorResponse response;
 
         log.warn(ex.getMessage(), ex);
@@ -113,7 +113,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
             error.getDefaultMessage());
 
-        return FieldFailure.of(error.getDefaultMessage(), error.getField(), error.getRejectedValue());
+        // TODO: Can't acquire the code?
+        return FieldFailure.of(error.getDefaultMessage(), error.getField(), "", error.getRejectedValue());
     }
 
     @Override

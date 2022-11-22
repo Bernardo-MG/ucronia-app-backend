@@ -33,7 +33,7 @@ public class ValidationExceptionTestController {
         final FieldFailure        failure;
         final Collection<Failure> failures;
 
-        failure = FieldFailure.of("Error message", "field", "value");
+        failure = FieldFailure.of("Error message", "field", "code", "value");
 
         failures = new ArrayList<>();
         failures.add(failure);

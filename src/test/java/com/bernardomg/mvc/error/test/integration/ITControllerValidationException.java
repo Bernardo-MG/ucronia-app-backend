@@ -64,7 +64,7 @@ public final class ITControllerValidationException {
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Error message")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("field")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("object")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", Matchers.equalTo("code")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo("value")));
 
         // The response contains no content field

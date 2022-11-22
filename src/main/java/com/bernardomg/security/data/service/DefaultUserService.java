@@ -227,14 +227,14 @@ public final class DefaultUserService implements UserService {
         // Verify the username is not registered
         if (repository.existsByUsername(user.getUsername())) {
             log.error("A user already exists with the username {}", user.getUsername());
-            failure = FieldFailure.of("error.username.existing", "memberId", user.getUsername());
+            failure = FieldFailure.of("error.username.existing", "memberId", "existing", user.getUsername());
             failures.add(failure);
         }
 
         // Verify the email is not registered
         if (repository.existsByEmail(user.getEmail())) {
             log.error("A user already exists with the username {}", user.getUsername());
-            failure = FieldFailure.of("error.email.existing", "memberId", user.getEmail());
+            failure = FieldFailure.of("error.email.existing", "memberId", "existing", user.getEmail());
             failures.add(failure);
         }
 
@@ -258,7 +258,7 @@ public final class DefaultUserService implements UserService {
         // Verify the id exists
         if (!repository.existsById(user.getId())) {
             log.error("No user exists for id {}", user.getId());
-            failure = FieldFailure.of("error.id.notExisting", "memberId", user.getUsername());
+            failure = FieldFailure.of("error.id.notExisting", "memberId", "notExisting", user.getUsername());
             failures.add(failure);
             exists = false;
         } else {
@@ -269,7 +269,7 @@ public final class DefaultUserService implements UserService {
             // Verify the email is not registered
             if (repository.existsByIdNotAndEmail(user.getId(), user.getEmail())) {
                 log.error("A user already exists with the username {}", user.getUsername());
-                failure = FieldFailure.of("error.email.existing", "memberId", user.getEmail());
+                failure = FieldFailure.of("error.email.existing", "memberId", "existing", user.getEmail());
                 failures.add(failure);
             }
 
@@ -282,7 +282,7 @@ public final class DefaultUserService implements UserService {
             // Verify the name is not changed
             if (!repository.existsByIdAndUsername(user.getId(), user.getUsername())) {
                 log.error("Tried to change username for {} with id {}", user.getUsername(), user.getId());
-                failure = FieldFailure.of("error.username.immutable", "id", user.getId());
+                failure = FieldFailure.of("error.username.immutable", "id", "immutable", user.getId());
                 failures.add(failure);
             }
         }

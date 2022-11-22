@@ -34,19 +34,28 @@ package com.bernardomg.validation.failure;
 public interface FieldFailure extends Failure {
 
     /**
-     * Creates a {@code FieldValidationError} for the received arguments.
+     * Creates a {@code FieldFailure} for the received arguments.
      *
      * @param message
      *            error message
      * @param field
      *            name of the validated field
+     * @param code
+     *            failure code
      * @param value
      *            field value during the validation process
      * @return {@code FieldValidationError} for the received arguments
      */
-    public static FieldFailure of(final String message, final String field, final Object value) {
-        return new ImmutableFieldFailure(message, field, value);
+    public static FieldFailure of(final String message, final String field, final String code, final Object value) {
+        return new ImmutableFieldFailure(message, field, code, value);
     }
+
+    /**
+     * Returns a code identifying the failure.
+     *
+     * @return a code identifying the failure
+     */
+    public String getFailureCode();
 
     /**
      * Returns the name of the field which failed the validation.
