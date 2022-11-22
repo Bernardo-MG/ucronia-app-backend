@@ -36,7 +36,7 @@ import lombok.NonNull;
 @Data
 public final class ImmutableFieldFailure implements FieldFailure {
 
-    private final String failureCode;
+    private final String code;
 
     private final String field;
 
@@ -44,13 +44,13 @@ public final class ImmutableFieldFailure implements FieldFailure {
 
     private final Object value;
 
-    public ImmutableFieldFailure(@NonNull final String msg, @NonNull final String fld, @NonNull final String code,
+    public ImmutableFieldFailure(@NonNull final String msg, @NonNull final String fld, @NonNull final String cd,
             @NonNull final Object val) {
         super();
 
         message = msg;
         field = fld;
-        failureCode = code;
+        code = cd;
         value = val;
     }
 

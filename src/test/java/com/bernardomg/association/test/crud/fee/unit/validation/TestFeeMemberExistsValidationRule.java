@@ -52,6 +52,7 @@ public class TestFeeMemberExistsValidationRule {
         fieldFailure = (FieldFailure) failure.get();
         Assertions.assertEquals("error.member.notExists", fieldFailure.getMessage());
         Assertions.assertEquals("memberId", fieldFailure.getField());
+        Assertions.assertEquals("notExists", fieldFailure.getCode());
         Assertions.assertEquals(0L, fieldFailure.getValue());
     }
 
