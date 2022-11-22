@@ -27,7 +27,7 @@ public final class PrivilegeIdExistsValidationRule implements ValidationRule<Lon
 
         if (!repository.existsById(id)) {
             log.error("Found no privilege with id {}", id);
-            error = FieldFailure.of("error.privilege.id.notExisting", "roleForm", "memberId", id);
+            error = FieldFailure.of("error.privilege.id.notExisting", "memberId", id);
             result = Optional.of(error);
         } else {
             result = Optional.empty();

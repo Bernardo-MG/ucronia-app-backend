@@ -113,8 +113,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
             error.getDefaultMessage());
 
-        return FieldFailure.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
-            error.getRejectedValue());
+        return FieldFailure.of(error.getDefaultMessage(), error.getField(), error.getRejectedValue());
     }
 
     @Override

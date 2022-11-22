@@ -61,7 +61,7 @@ public final class EmailValidationRule implements ValidationRule<String> {
         if (!emailPattern.matcher(email)
             .matches()) {
             log.error("Email {} doesn't follow a valid pattern", email);
-            failure = FieldFailure.of("error.email.invalid", "roleForm", "memberId", email);
+            failure = FieldFailure.of("error.email.invalid", "memberId", email);
             result = Optional.of(failure);
         } else {
             result = Optional.empty();

@@ -25,7 +25,7 @@ public final class FeeMemberExistsValidationRule implements ValidationRule<FeeFo
         final Optional<Failure> result;
 
         if (!repository.existsById(form.getMemberId())) {
-            failure = FieldFailure.of("error.member.notExists", "feeForm", "memberId", form.getMemberId());
+            failure = FieldFailure.of("error.member.notExists", "memberId", form.getMemberId());
             result = Optional.of(failure);
         } else {
             result = Optional.empty();

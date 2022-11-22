@@ -209,7 +209,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
         if (!user.isPresent()) {
             log.warn("The email {} isn't registered", email);
-            failure = FieldFailure.of("error.email.notExisting", "roleForm", "memberId", email);
+            failure = FieldFailure.of("error.email.notExisting", "memberId", email);
             failures.add(failure);
         } else {
             auth = SecurityContextHolder.getContext()
@@ -226,7 +226,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
                 .equals(sessionUser)) {
                 log.error("The user {} tried to change the password for {}", sessionUser, user.get()
                     .getUsername());
-                failure = FieldFailure.of("error.user.unauthorized", "roleForm", "memberId", email);
+                failure = FieldFailure.of("error.user.unauthorized", "memberId", email);
                 failures.add(failure);
             }
         }

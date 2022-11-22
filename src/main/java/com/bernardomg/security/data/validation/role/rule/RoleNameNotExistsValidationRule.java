@@ -34,7 +34,7 @@ public final class RoleNameNotExistsValidationRule implements ValidationRule<Rol
 
         if (repository.exists(Example.of(sample))) {
             log.error("A role already exists with the name {}", role.getName());
-            error = FieldFailure.of("error.name.existing", "roleForm", "memberId", role.getName());
+            error = FieldFailure.of("error.name.existing", "memberId", role.getName());
             result = Optional.of(error);
         } else {
             result = Optional.empty();

@@ -32,6 +32,13 @@ package com.bernardomg.mvc.error.model;
  */
 public interface Failure {
 
+    /**
+     * Builds a failure with the received code.
+     *
+     * @param code
+     *            failure code
+     * @return failure with the code
+     */
     public static Failure of(final String code) {
         return new ImmutableFailure(code);
     }

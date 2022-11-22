@@ -38,20 +38,17 @@ public interface FieldFailure extends Failure {
      *
      * @param message
      *            error message
-     * @param object
-     *            name of the validated object
      * @param field
      *            name of the validated field
      * @param value
      *            field value during the validation process
      * @return {@code FieldValidationError} for the received arguments
      */
-    public static FieldFailure of(final String message, final String object, final String field, final Object value) {
+    public static FieldFailure of(final String message, final String field, final Object value) {
         final DtoFieldFailure error;
 
         error = new DtoFieldFailure();
         error.setMessage(message);
-        error.setObject(object);
         error.setField(field);
         error.setValue(value);
 
@@ -64,13 +61,6 @@ public interface FieldFailure extends Failure {
      * @return the name of the field which failed the validation
      */
     public String getField();
-
-    /**
-     * Returns the name of the object which failed the validation.
-     *
-     * @return the name of the object which failed the validation
-     */
-    public String getObject();
 
     /**
      * Returns the value of the field which failed the validation.

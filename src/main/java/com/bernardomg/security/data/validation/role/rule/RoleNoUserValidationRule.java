@@ -34,7 +34,7 @@ public final class RoleNoUserValidationRule implements ValidationRule<Role> {
 
         if (repository.exists(Example.of(sample))) {
             log.error("Role with id {} has a relationship with a user", role.getId());
-            error = FieldFailure.of("error.user.existing", "roleForm", "memberId", role.getId());
+            error = FieldFailure.of("error.user.existing", "memberId", role.getId());
             result = Optional.of(error);
         } else {
             result = Optional.empty();

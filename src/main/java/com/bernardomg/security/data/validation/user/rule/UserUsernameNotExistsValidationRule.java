@@ -34,7 +34,7 @@ public final class UserUsernameNotExistsValidationRule implements ValidationRule
 
         if (repository.exists(Example.of(sample))) {
             log.error("A user already exists with the username {}", user.getUsername());
-            error = FieldFailure.of("error.username.existing", "roleForm", "memberId", user.getUsername());
+            error = FieldFailure.of("error.username.existing", "memberId", user.getUsername());
             result = Optional.of(error);
         } else {
             result = Optional.empty();

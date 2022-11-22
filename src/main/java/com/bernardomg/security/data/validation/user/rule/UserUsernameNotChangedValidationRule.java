@@ -37,7 +37,7 @@ public final class UserUsernameNotChangedValidationRule implements ValidationRul
                 .getUsername(),
                 entity.get()
                     .getId());
-            error = FieldFailure.of("error.username.immutable", "roleForm", "id", user.getId());
+            error = FieldFailure.of("error.username.immutable", "id", user.getId());
             result = Optional.of(error);
         } else {
             result = Optional.empty();
