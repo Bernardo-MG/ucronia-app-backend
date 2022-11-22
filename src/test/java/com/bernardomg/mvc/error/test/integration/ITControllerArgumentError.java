@@ -64,7 +64,7 @@ public final class ITControllerArgumentError {
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("name")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo(null)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("errorTestObject")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", Matchers.equalTo("")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("must not be null")));
 
         // The response contains no content field
