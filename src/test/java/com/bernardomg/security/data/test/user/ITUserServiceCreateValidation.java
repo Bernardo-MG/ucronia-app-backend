@@ -11,7 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.service.UserService;
-import com.bernardomg.validation.failure.exception.FailureException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("User service - create validation")
@@ -28,9 +29,10 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingEmail() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
+        final DtoUser               data;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
         data = new DtoUser();
         data.setUsername("abc");
@@ -42,18 +44,28 @@ public class ITUserServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(FailureException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.email.existing", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("existing", failure.getCode());
+        Assertions.assertEquals("email", failure.getField());
+        Assertions.assertEquals("email.existing", failure.getMessage());
     }
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingUsername() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
+        final DtoUser               data;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
         data = new DtoUser();
         data.setUsername("admin");
@@ -65,17 +77,27 @@ public class ITUserServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(FailureException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.username.existing", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("existing", failure.getCode());
+        Assertions.assertEquals("username", failure.getField());
+        Assertions.assertEquals("username.existing", failure.getMessage());
     }
 
     @Test
     @DisplayName("Throws an exception when the email doesn't match the valid pattern")
     public void testCreate_invalidEmail() {
-        final DtoUser    data;
-        final Executable executable;
-        final Exception  exception;
+        final DtoUser               data;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
         data = new DtoUser();
         data.setUsername("admin");
@@ -88,9 +110,18 @@ public class ITUserServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(FailureException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.email.invalid", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("invalid", failure.getCode());
+        Assertions.assertEquals("email", failure.getField());
+        Assertions.assertEquals("email.invalid", failure.getMessage());
     }
 
 }

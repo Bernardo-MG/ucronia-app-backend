@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.data.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
@@ -12,41 +14,46 @@ import com.bernardomg.security.data.model.Privilege;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.model.PersistentRolePrivileges;
+import com.bernardomg.security.data.persistence.model.PersistentUserRoles;
+import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.RolePrivilegesRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
-import com.bernardomg.security.data.validation.role.RoleCreateValidator;
-import com.bernardomg.security.data.validation.role.RoleDeleteValidator;
-import com.bernardomg.security.data.validation.role.RolePrivilegeUpdateValidator;
-import com.bernardomg.security.data.validation.role.RoleUpdateValidator;
+import com.bernardomg.security.data.persistence.repository.UserRolesRepository;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public final class DefaultRoleService implements RoleService {
 
-    private final RoleDeleteValidator          deleteValidator;
+    private final PrivilegeRepository      privilegeRepository;
 
-    private final RoleRepository               repository;
+    private final RoleRepository           repository;
 
-    private final RoleCreateValidator          roleCreateValidator;
+    private final RolePrivilegesRepository rolePrivilegesRepository;
 
-    private final RolePrivilegesRepository     rolePrivilegesRepository;
-
-    private final RolePrivilegeUpdateValidator rolePrivilegeUpdateValidator;
-
-    private final RoleUpdateValidator          updateValidator;
+    private final UserRolesRepository      userRolesRepository;
 
     @Override
     public final Boolean addPrivilege(final Long id, final Long privilege) {
         final PersistentRolePrivileges relationship;
         final DtoRole                  role;
+        final Collection<FieldFailure> failures;
+
+        failures = validateRolePrivilegeChange(id);
+        failures.addAll(validateAddRolePrivilege(privilege));
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         role = new DtoRole();
         role.setId(id);
-
-        updateValidator.validate(role);
-        rolePrivilegeUpdateValidator.validate(privilege);
 
         // Build relationship entities
         relationship = getRelationships(id, privilege);
@@ -59,10 +66,16 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role create(final Role role) {
-        final PersistentRole entity;
-        final PersistentRole created;
+        final PersistentRole           entity;
+        final PersistentRole           created;
+        final Collection<FieldFailure> failures;
 
-        roleCreateValidator.validate(role);
+        failures = validateCreate(role);
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         entity = toEntity(role);
         entity.setId(null);
@@ -74,12 +87,18 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Boolean delete(final Long id) {
-        final DtoRole role;
+        final DtoRole                  role;
+        final Collection<FieldFailure> failures;
+
+        failures = validateDelete(id);
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         role = new DtoRole();
         role.setId(id);
-
-        deleteValidator.validate(role);
 
         repository.deleteById(id);
 
@@ -111,12 +130,18 @@ public final class DefaultRoleService implements RoleService {
     public final Boolean removePrivilege(final Long id, final Long privilege) {
         final PersistentRolePrivileges relationship;
         final DtoRole                  role;
+        final Collection<FieldFailure> failures;
+
+        failures = validateRolePrivilegeChange(id);
+        failures.addAll(validateAddRolePrivilege(privilege));
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         role = new DtoRole();
         role.setId(id);
-
-        updateValidator.validate(role);
-        rolePrivilegeUpdateValidator.validate(privilege);
 
         // Build relationship entities
         relationship = getRelationships(id, privilege);
@@ -129,10 +154,16 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role update(final Role role) {
-        final PersistentRole entity;
-        final PersistentRole created;
+        final PersistentRole           entity;
+        final PersistentRole           created;
+        final Collection<FieldFailure> failures;
 
-        updateValidator.validate(role);
+        failures = validateUpdate(role);
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         entity = toEntity(role);
 
@@ -169,6 +200,100 @@ public final class DefaultRoleService implements RoleService {
         entity.setName(data.getName());
 
         return entity;
+    }
+
+    private final Collection<FieldFailure> validateAddRolePrivilege(final Long id) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+
+        failures = new ArrayList<>();
+
+        if (!privilegeRepository.existsById(id)) {
+            log.error("Found no privilege with id {}", id);
+            failure = FieldFailure.of("privilege", "notExisting", id);
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateCreate(final Role role) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+        final PersistentRole           sample;
+
+        failures = new ArrayList<>();
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
+
+        sample = new PersistentRole();
+        sample.setName(role.getName());
+
+        if (repository.exists(Example.of(sample))) {
+            log.error("A role already exists with the name {}", role.getName());
+            failure = FieldFailure.of("name", "existing", role.getName());
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateDelete(final Long id) {
+        final PersistentUserRoles      sample;
+        final Collection<FieldFailure> failures;
+        FieldFailure                   failure;
+
+        failures = new ArrayList<>();
+
+        if (!repository.existsById(id)) {
+            log.error("Found no role with id {}", id);
+            failure = FieldFailure.of("id", "notExisting", id);
+            failures.add(failure);
+        }
+
+        sample = new PersistentUserRoles();
+        sample.setRoleId(id);
+
+        if (userRolesRepository.exists(Example.of(sample))) {
+            log.error("Role with id {} has a relationship with a user", id);
+            failure = FieldFailure.of("user", "existing", id);
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateRolePrivilegeChange(final Long id) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+
+        failures = new ArrayList<>();
+
+        if (!repository.existsById(id)) {
+            log.error("Found no role with id {}", id);
+            failure = FieldFailure.of("id", "notExisting", id);
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateUpdate(final Role role) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+
+        failures = new ArrayList<>();
+
+        if (!repository.existsById(role.getId())) {
+            log.error("Found no role with id {}", role.getId());
+            failure = FieldFailure.of("id", "notExisting", role.getId());
+            failures.add(failure);
+        }
+
+        return failures;
     }
 
 }

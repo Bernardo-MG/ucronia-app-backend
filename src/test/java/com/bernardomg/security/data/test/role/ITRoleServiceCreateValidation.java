@@ -11,7 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.service.RoleService;
-import com.bernardomg.validation.failure.exception.FailureException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Role service - create validation")
@@ -28,18 +29,28 @@ public class ITRoleServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the name already exist")
     public void testCreate_NameExists() {
-        final Executable executable;
-        final Exception  exception;
-        final DtoRole    data;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
+        final DtoRole               data;
 
         data = new DtoRole();
         data.setName("ADMIN");
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(FailureException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.name.existing", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("existing", failure.getCode());
+        Assertions.assertEquals("name", failure.getField());
+        Assertions.assertEquals("name.existing", failure.getMessage());
     }
 
 }

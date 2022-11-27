@@ -36,7 +36,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.crud.fee.model.DtoFeeForm;
 import com.bernardomg.association.crud.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.exception.FailureException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Fee service - create validation")
@@ -53,9 +54,10 @@ public class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the member id does not exist")
     public void testCreate_InvalidMember() {
-        final DtoFeeForm fee;
-        final Executable executable;
-        final Exception  exception;
+        final DtoFeeForm            fee;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
         fee = new DtoFeeForm();
         fee.setMemberId(-1L);
@@ -64,9 +66,18 @@ public class ITFeeServiceCreateValidation {
 
         executable = () -> service.create(fee);
 
-        exception = Assertions.assertThrows(FailureException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.member.notExists", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("notExists", failure.getCode());
+        Assertions.assertEquals("memberId", failure.getField());
+        Assertions.assertEquals("memberId.notExists", failure.getMessage());
     }
 
 }

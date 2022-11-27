@@ -16,14 +16,11 @@ import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.data.persistence.repository.UserRolesRepository;
-import com.bernardomg.security.data.validation.user.RoleInUserUpdateValidator;
-import com.bernardomg.security.data.validation.user.UserDeleteValidator;
-import com.bernardomg.security.data.validation.user.UserRoleUpdateValidator;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FailureException;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,31 +30,31 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public final class DefaultUserService implements UserService {
 
-    private final UserDeleteValidator       deleteValidator;
-
     /**
      * Email validation rule. To check the email fits into the valid email pattern.
      */
-    private final ValidationRule<String>    emailValidationRule = new EmailValidationRule();
+    private final ValidationRule<String> emailValidationRule = new EmailValidationRule();
 
-    private final UserRepository            repository;
+    private final UserRepository         repository;
 
-    private final RoleInUserUpdateValidator roleUpdateValidator;
-
-    private final UserRolesRepository       userRolesRepository;
-
-    private final UserRoleUpdateValidator   userRoleUpdateValidator;
+    private final UserRolesRepository    userRolesRepository;
 
     @Override
     public final Boolean addRole(final Long id, final Long role) {
-        final PersistentUserRoles relationship;
-        final DtoUser             user;
+        final PersistentUserRoles      relationship;
+        final DtoUser                  user;
+        final Collection<FieldFailure> failures;
+
+        failures = validateUserRoleChange(id);
+        failures.addAll(validateAddUserRole(role));
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         user = new DtoUser();
         user.setId(id);
-
-        userRoleUpdateValidator.validate(user);
-        roleUpdateValidator.validate(role);
 
         relationship = getRelationships(id, role);
 
@@ -69,15 +66,15 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final User create(final User user) {
-        final PersistentUser      entity;
-        final PersistentUser      created;
-        final Collection<Failure> failures;
+        final PersistentUser           entity;
+        final PersistentUser           created;
+        final Collection<FieldFailure> failures;
 
         failures = validateCreation(user);
 
         if (!failures.isEmpty()) {
-            log.debug("Got errors: {}", failures);
-            throw new FailureException(failures);
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
         }
 
         entity = toEntity(user);
@@ -91,12 +88,18 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean delete(final Long id) {
-        final DtoUser user;
+        final DtoUser                  user;
+        final Collection<FieldFailure> failures;
+
+        failures = validateDelete(id);
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         user = new DtoUser();
         user.setId(id);
-
-        deleteValidator.validate(user);
 
         repository.deleteById(id);
 
@@ -126,14 +129,20 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean removeRole(final Long id, final Long role) {
-        final PersistentUserRoles relationship;
-        final DtoUser             user;
+        final PersistentUserRoles      relationship;
+        final DtoUser                  user;
+        final Collection<FieldFailure> failures;
+
+        failures = validateUserRoleChange(id);
+        failures.addAll(validateAddUserRole(role));
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
         user = new DtoUser();
         user.setId(id);
-
-        userRoleUpdateValidator.validate(user);
-        roleUpdateValidator.validate(role);
 
         relationship = getRelationships(id, role);
 
@@ -145,16 +154,16 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final User update(final User user) {
-        final PersistentUser      entity;
-        final PersistentUser      created;
-        final PersistentUser      old;
-        final Collection<Failure> failures;
+        final PersistentUser           entity;
+        final PersistentUser           created;
+        final PersistentUser           old;
+        final Collection<FieldFailure> failures;
 
         failures = validateUpdate(user);
 
         if (!failures.isEmpty()) {
-            log.debug("Got errors: {}", failures);
-            throw new FailureException(failures);
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
         }
 
         entity = toEntity(user);
@@ -217,10 +226,25 @@ public final class DefaultUserService implements UserService {
         return entity;
     }
 
-    private final Collection<Failure> validateCreation(final User user) {
-        final Collection<Failure> failures;
-        final Optional<Failure>   optFailure;
-        Failure                   failure;
+    private final Collection<FieldFailure> validateAddUserRole(final Long id) {
+        final Collection<FieldFailure> failures;
+        FieldFailure                   failure;
+
+        failures = new ArrayList<>();
+
+        if (!repository.existsById(id)) {
+            log.error("Found no role with id {}", id);
+            failure = FieldFailure.of("role", "notExisting", id);
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateCreation(final User user) {
+        final Collection<FieldFailure> failures;
+        final Optional<Failure>        optFailure;
+        FieldFailure                   failure;
 
         failures = new ArrayList<>();
 
@@ -231,6 +255,7 @@ public final class DefaultUserService implements UserService {
             failures.add(failure);
         }
 
+        // TODO: Don't give hints about existing emails
         // Verify the email is not registered
         if (repository.existsByEmail(user.getEmail())) {
             log.error("A user already exists with the username {}", user.getUsername());
@@ -241,17 +266,37 @@ public final class DefaultUserService implements UserService {
         // Verify the email matches the valid pattern
         optFailure = emailValidationRule.test(user.getEmail());
         if (optFailure.isPresent()) {
-            failures.add(optFailure.get());
+            failure = FieldFailure.of(optFailure.get()
+                .getMessage(), "email",
+                optFailure.get()
+                    .getCode(),
+                user.getEmail());
+            failures.add(failure);
         }
 
         return failures;
     }
 
-    private final Collection<Failure> validateUpdate(final User user) {
-        final Collection<Failure> failures;
-        final Optional<Failure>   optFailure;
-        final Boolean             exists;
-        Failure                   failure;
+    private final Collection<FieldFailure> validateDelete(final Long id) {
+        final Collection<FieldFailure> failures;
+        FieldFailure                   failure;
+
+        failures = new ArrayList<>();
+
+        if (!repository.existsById(id)) {
+            log.error("Found no user with id {}", id);
+            failure = FieldFailure.of("id", "notExisting", id);
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateUpdate(final User user) {
+        final Collection<FieldFailure> failures;
+        final Optional<Failure>        optFailure;
+        final Boolean                  exists;
+        FieldFailure                   failure;
 
         failures = new ArrayList<>();
 
@@ -276,7 +321,12 @@ public final class DefaultUserService implements UserService {
             // Verify the email matches the valid pattern
             optFailure = emailValidationRule.test(user.getEmail());
             if (optFailure.isPresent()) {
-                failures.add(optFailure.get());
+                failure = FieldFailure.of(optFailure.get()
+                    .getMessage(), "email",
+                    optFailure.get()
+                        .getCode(),
+                    user.getEmail());
+                failures.add(failure);
             }
 
             // Verify the name is not changed
@@ -285,6 +335,21 @@ public final class DefaultUserService implements UserService {
                 failure = FieldFailure.of("username", "immutable", user.getId());
                 failures.add(failure);
             }
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateUserRoleChange(final Long id) {
+        final Collection<FieldFailure> failures;
+        FieldFailure                   failure;
+
+        failures = new ArrayList<>();
+
+        if (!repository.existsById(id)) {
+            log.error("Found no user with id {}", id);
+            failure = FieldFailure.of("id", "notExisting", id);
+            failures.add(failure);
         }
 
         return failures;
