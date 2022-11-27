@@ -39,8 +39,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.bernardomg.mvc.response.model.ErrorResponse;
+import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
-import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FailureException;
 
@@ -66,12 +66,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request)
             throws Exception {
         final ErrorResponse response;
-        final Failure       failure;
 
         log.warn(ex.getMessage(), ex);
 
-        failure = Failure.of("Internal error");
-        response = Response.error(failure);
+        response = Response.error("Internal error");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -80,12 +78,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handlePersistenceException(final Exception ex, final WebRequest request)
             throws Exception {
         final ErrorResponse response;
-        final Failure       failure;
 
         log.warn(ex.getMessage(), ex);
 
-        failure = Failure.of("Invalid query");
-        response = Response.error(failure);
+        response = Response.error("Invalid query");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -93,11 +89,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ FailureException.class })
     public final ResponseEntity<Object> handleValidationException(final FailureException ex, final WebRequest request)
             throws Exception {
-        final ErrorResponse response;
+        final FailureResponse response;
 
         log.warn(ex.getMessage(), ex);
 
-        response = Response.error(ex.getFailures());
+        response = Response.failure(ex.getFailures());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -118,11 +114,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
+    protected final ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         final ErrorResponse response;
         final String        message;
-        final Failure       failure;
 
         log.error(ex.getMessage());
 
@@ -132,17 +127,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             message = ex.getMessage();
         }
 
-        failure = Failure.of(message);
-        response = Response.error(failure);
+        response = Response.error(message);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
+    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         final Collection<FieldFailure> errors;
-        final ErrorResponse            response;
+        final FailureResponse          response;
 
         errors = ex.getBindingResult()
             .getFieldErrors()
@@ -150,7 +144,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .map(this::toFieldError)
             .collect(Collectors.toList());
 
-        response = Response.error(errors);
+        response = Response.failure(errors);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }

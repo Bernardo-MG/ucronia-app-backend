@@ -29,40 +29,12 @@ import java.util.Collection;
 import com.bernardomg.validation.failure.Failure;
 
 /**
- * Response to the frontend.
+ * Failure response to the frontend.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
- * @param <T>
- *            response content type
  */
-public interface Response<T> {
+public interface FailureResponse {
 
-    public static <T> Response<T> empty() {
-        return new ImmutableResponse<>();
-    }
-
-    public static ErrorResponse error(final String code) {
-        return new ImmutableErrorResponse(code, code);
-    }
-
-    public static ErrorResponse error(final String message, final String code) {
-        return new ImmutableErrorResponse(message, code);
-    }
-
-    public static FailureResponse failure(final Collection<? extends Failure> errors) {
-        return new ImmutableFailureResponse(errors);
-    }
-
-    public static <T> Response<T> of(final T content) {
-        return new ImmutableResponse<>(content);
-    }
-
-    /**
-     * Returns the response content.
-     *
-     * @return the response content
-     */
-    public T getContent();
+    public Collection<? extends Failure> getErrors();
 
 }

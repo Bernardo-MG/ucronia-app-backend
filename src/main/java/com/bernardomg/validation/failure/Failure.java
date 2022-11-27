@@ -64,9 +64,9 @@ public interface Failure {
     public String getCode();
 
     /**
-     * Returns the error message.
+     * Returns the failure message.
      *
-     * @return the error message.
+     * @return the failure message.
      */
     public String getMessage();
 

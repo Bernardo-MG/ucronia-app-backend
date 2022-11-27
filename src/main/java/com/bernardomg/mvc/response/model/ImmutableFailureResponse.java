@@ -28,41 +28,35 @@ import java.util.Collection;
 
 import com.bernardomg.validation.failure.Failure;
 
+import lombok.Data;
+import lombok.NonNull;
+
 /**
- * Response to the frontend.
+ * Immutable implementation of the failure response.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  * @param <T>
  *            response content type
  */
-public interface Response<T> {
-
-    public static <T> Response<T> empty() {
-        return new ImmutableResponse<>();
-    }
-
-    public static ErrorResponse error(final String code) {
-        return new ImmutableErrorResponse(code, code);
-    }
-
-    public static ErrorResponse error(final String message, final String code) {
-        return new ImmutableErrorResponse(message, code);
-    }
-
-    public static FailureResponse failure(final Collection<? extends Failure> errors) {
-        return new ImmutableFailureResponse(errors);
-    }
-
-    public static <T> Response<T> of(final T content) {
-        return new ImmutableResponse<>(content);
-    }
+@Data
+public class ImmutableFailureResponse implements FailureResponse {
 
     /**
-     * Returns the response content.
-     *
-     * @return the response content
+     * Response errors.
      */
-    public T getContent();
+    private final Collection<? extends Failure> errors;
+
+    /**
+     * Constructs a response with the specified errors.
+     *
+     * @param errs
+     *            errors
+     */
+    public ImmutableFailureResponse(@NonNull final Collection<? extends Failure> errs) {
+        super();
+
+        errors = errs;
+    }
 
 }
