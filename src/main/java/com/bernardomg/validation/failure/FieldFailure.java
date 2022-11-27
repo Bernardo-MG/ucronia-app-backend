@@ -70,13 +70,6 @@ public interface FieldFailure extends Failure {
     }
 
     /**
-     * Returns a code identifying the failure.
-     *
-     * @return a code identifying the failure
-     */
-    public String getCode();
-
-    /**
      * Returns the name of the field which failed the validation.
      *
      * @return the name of the field which failed the validation

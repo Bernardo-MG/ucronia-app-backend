@@ -40,8 +40,28 @@ public interface Failure {
      * @return failure with the code
      */
     public static Failure of(final String code) {
-        return new ImmutableFailure(code);
+        return new ImmutableFailure(code, code);
     }
+
+    /**
+     * Builds a failure with the received message and code.
+     *
+     * @param message
+     *            failure message
+     * @param code
+     *            failure code
+     * @return failure with the code
+     */
+    public static Failure of(final String message, final String code) {
+        return new ImmutableFailure(message, code);
+    }
+
+    /**
+     * Returns a code identifying the failure.
+     *
+     * @return a code identifying the failure
+     */
+    public String getCode();
 
     /**
      * Returns the error message.
