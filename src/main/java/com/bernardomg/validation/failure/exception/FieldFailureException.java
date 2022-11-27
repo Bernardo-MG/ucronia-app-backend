@@ -27,24 +27,24 @@ package com.bernardomg.validation.failure.exception;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.Getter;
 
 @Getter
-public class FailureException extends RuntimeException {
+public class FieldFailureException extends RuntimeException {
 
-    private static final long         serialVersionUID = 5252694690217611607L;
+    private static final long              serialVersionUID = 5252694690217611607L;
 
-    private final Collection<Failure> failures;
+    private final Collection<FieldFailure> failures;
 
-    public FailureException(final Collection<Failure> fails) {
+    public FieldFailureException(final Collection<FieldFailure> fails) {
         super();
 
         failures = fails;
     }
 
-    public FailureException(final Failure err) {
+    public FieldFailureException(final FieldFailure err) {
         super(err.getMessage());
 
         failures = Arrays.asList(err);
