@@ -18,9 +18,10 @@ import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - set roles - with role")
+@DisplayName("User service - add role - with role")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
+        "/db/queries/security/role/alternative.sql", "/db/queries/security/user/single.sql",
+        "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
 public class ITUserServiceAddRoleWithRoles {
 
     @Autowired
@@ -31,24 +32,46 @@ public class ITUserServiceAddRoleWithRoles {
     }
 
     @Test
-    @DisplayName("Reading the roles after adding a role returns them")
-    public void testAddRoles_Change_CallBack() {
+    @DisplayName("Adding a role which the user already has adds nothing")
+    public void testAddRoles_AddExisting_CallBack() {
         final Iterable<Role>     result;
         final Collection<String> roleNames;
         final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        service.addRole(1l, 1l);
+        service.addRole(1l, 2l);
         result = service.getRoles(1l, pageable);
 
-        Assertions.assertEquals(1L, IterableUtils.size(result));
+        Assertions.assertEquals(2L, IterableUtils.size(result));
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)
             .collect(Collectors.toList());
 
         Assertions.assertTrue(roleNames.contains("ADMIN"));
+    }
+
+    @Test
+    @DisplayName("Reading the roles after adding a new role returns them")
+    public void testAddRoles_AddNew_CallBack() {
+        final Iterable<Role>     result;
+        final Collection<String> roleNames;
+        final Pageable           pageable;
+
+        pageable = Pageable.unpaged();
+
+        service.addRole(1l, 2l);
+        result = service.getRoles(1l, pageable);
+
+        Assertions.assertEquals(2L, IterableUtils.size(result));
+
+        roleNames = StreamSupport.stream(result.spliterator(), false)
+            .map(Role::getName)
+            .collect(Collectors.toList());
+
+        Assertions.assertTrue(roleNames.contains("ADMIN"));
+        Assertions.assertTrue(roleNames.contains("ALT"));
     }
 
 }

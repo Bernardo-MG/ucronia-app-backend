@@ -14,15 +14,16 @@ import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
-@DisplayName("User service - add role - validation")
+@DisplayName("User service - remove role - validation")
 @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITUserServiceAddRoleValidation {
+        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
+        "/db/queries/security/relationship/user_role.sql" })
+public class ITUserServiceRemoveRoleValidation {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceAddRoleValidation() {
+    public ITUserServiceRemoveRoleValidation() {
         super();
     }
 
@@ -33,7 +34,7 @@ public class ITUserServiceAddRoleValidation {
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        executable = () -> service.addRole(1l, -1l);
+        executable = () -> service.removeRole(1l, -1l);
 
         exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
@@ -56,7 +57,7 @@ public class ITUserServiceAddRoleValidation {
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        executable = () -> service.addRole(-1l, 1l);
+        executable = () -> service.removeRole(-1l, 1l);
 
         exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
