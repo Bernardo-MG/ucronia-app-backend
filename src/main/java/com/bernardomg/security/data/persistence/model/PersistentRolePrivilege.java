@@ -44,7 +44,7 @@ import lombok.Data;
 @Entity(name = "RolePrivileges")
 @Table(name = "role_privileges")
 @IdClass(RolePrivilegesKey.class)
-public class PersistentRolePrivileges implements Serializable {
+public class PersistentRolePrivilege implements Serializable {
 
     /**
      * Serialization id.

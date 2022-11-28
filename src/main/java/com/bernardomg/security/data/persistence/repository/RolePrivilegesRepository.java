@@ -26,7 +26,7 @@ package com.bernardomg.security.data.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.data.persistence.model.PersistentRolePrivileges;
+import com.bernardomg.security.data.persistence.model.PersistentRolePrivilege;
 import com.bernardomg.security.data.persistence.model.RolePrivilegesKey;
 
 /**
@@ -35,6 +35,6 @@ import com.bernardomg.security.data.persistence.model.RolePrivilegesKey;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RolePrivilegesRepository extends JpaRepository<PersistentRolePrivileges, RolePrivilegesKey> {
+public interface RolePrivilegesRepository extends JpaRepository<PersistentRolePrivilege, RolePrivilegesKey> {
 
 }
