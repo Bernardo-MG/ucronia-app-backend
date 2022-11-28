@@ -35,6 +35,6 @@ import com.bernardomg.validation.failure.Failure;
  */
 public interface FailureResponse {
 
-    public Collection<? extends Failure> getErrors();
+    public Collection<? extends Failure> getFailures();
 
 }

@@ -41,9 +41,9 @@ import lombok.NonNull;
 public class ImmutableFailureResponse implements FailureResponse {
 
     /**
-     * Response errors.
+     * Response failures.
      */
-    private final Collection<? extends Failure> errors;
+    private final Collection<? extends Failure> failures;
 
     /**
      * Constructs a response with the specified errors.
@@ -51,10 +51,10 @@ public class ImmutableFailureResponse implements FailureResponse {
      * @param errs
      *            errors
      */
-    public ImmutableFailureResponse(@NonNull final Collection<? extends Failure> errs) {
+    public ImmutableFailureResponse(@NonNull final Collection<? extends Failure> fails) {
         super();
 
-        errors = errs;
+        failures = fails;
     }
 
 }
