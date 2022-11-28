@@ -42,7 +42,7 @@ import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FailureException;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,9 +86,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({ FailureException.class })
-    public final ResponseEntity<Object> handleValidationException(final FailureException ex, final WebRequest request)
-            throws Exception {
+    @ExceptionHandler({ FieldFailureException.class })
+    public final ResponseEntity<Object> handleValidationException(final FieldFailureException ex,
+            final WebRequest request) throws Exception {
         final FailureResponse response;
 
         log.warn(ex.getMessage(), ex);
