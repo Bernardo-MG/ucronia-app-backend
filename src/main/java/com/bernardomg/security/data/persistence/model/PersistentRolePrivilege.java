@@ -22,14 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.security.data.persistence.model;
 
-import java.util.Optional;
+import java.io.Serializable;
 
-import com.bernardomg.validation.failure.Failure;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
-public interface ValidationRule<T> {
+import lombok.Data;
 
-    public Optional<Failure> test(final T value);
+/**
+ * Dto implementation of {@code Privilege}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@Entity(name = "RolePrivileges")
+@Table(name = "role_privileges")
+@IdClass(RolePrivilegesKey.class)
+public class PersistentRolePrivilege implements Serializable {
+
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = 8513041662486312372L;
+
+    @Id
+    @Column(name = "privilege_id", nullable = false, unique = true)
+    private Long              privilegeId;
+
+    @Id
+    @Column(name = "role_id", nullable = false, unique = true)
+    private Long              roleId;
 
 }

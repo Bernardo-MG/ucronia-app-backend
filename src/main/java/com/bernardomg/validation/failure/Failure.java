@@ -22,14 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.validation.failure;
 
-import java.util.Optional;
+/**
+ * Failure object. Containing a message to tell which error ocurred.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface Failure {
 
-import com.bernardomg.validation.failure.Failure;
+    /**
+     * Builds a failure with the received code.
+     *
+     * @param code
+     *            failure code
+     * @return failure with the code
+     */
+    public static Failure of(final String code) {
+        return new ImmutableFailure(code, code);
+    }
 
-public interface ValidationRule<T> {
+    /**
+     * Builds a failure with the received message and code.
+     *
+     * @param message
+     *            failure message
+     * @param code
+     *            failure code
+     * @return failure with the code
+     */
+    public static Failure of(final String message, final String code) {
+        return new ImmutableFailure(message, code);
+    }
 
-    public Optional<Failure> test(final T value);
+    /**
+     * Returns a code identifying the failure.
+     *
+     * @return a code identifying the failure
+     */
+    public String getCode();
+
+    /**
+     * Returns the failure message.
+     *
+     * @return the failure message.
+     */
+    public String getMessage();
 
 }

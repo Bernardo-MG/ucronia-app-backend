@@ -64,7 +64,7 @@ public final class ITControllerValidationException {
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Error message")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("field")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("object")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].code", Matchers.equalTo("code")));
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo("value")));
 
         // The response contains no content field
@@ -72,41 +72,8 @@ public final class ITControllerValidationException {
             .doesNotExist());
     }
 
-    @Test
-    @DisplayName("Returns the response structure for validation errors")
-    public final void testErrorHandling_ValidationError_Response() throws Exception {
-        final ResultActions result;
-
-        result = mockMvc.perform(getValidationRequest());
-
-        // The operation was rejected
-        result.andExpect(MockMvcResultMatchers.status()
-            .isBadRequest());
-
-        // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Error message")));
-
-        // The response contains no content field
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
-            .doesNotExist());
-
-        // The response contains no field error attribute
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field")
-            .doesNotExist());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value")
-            .doesNotExist());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object")
-            .doesNotExist());
-    }
-
     private final RequestBuilder getFieldValidationRequest() {
         return MockMvcRequestBuilders.get(ValidationExceptionTestController.PATH_FIELD_VALIDATION)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getValidationRequest() {
-        return MockMvcRequestBuilders.get(ValidationExceptionTestController.PATH_VALIDATION)
             .contentType(MediaType.APPLICATION_JSON);
     }
 

@@ -22,14 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.mvc.response.model;
 
-import java.util.Optional;
+import java.util.Collection;
 
 import com.bernardomg.validation.failure.Failure;
 
-public interface ValidationRule<T> {
+import lombok.Data;
+import lombok.NonNull;
 
-    public Optional<Failure> test(final T value);
+/**
+ * Immutable implementation of the failure response.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+public class ImmutableFailureResponse implements FailureResponse {
+
+    /**
+     * Response errors.
+     */
+    private final Collection<? extends Failure> errors;
+
+    /**
+     * Constructs a response with the specified errors.
+     *
+     * @param errs
+     *            errors
+     */
+    public ImmutableFailureResponse(@NonNull final Collection<? extends Failure> errs) {
+        super();
+
+        errors = errs;
+    }
 
 }

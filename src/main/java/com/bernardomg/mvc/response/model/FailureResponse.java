@@ -22,14 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.mvc.response.model;
 
-import java.util.Optional;
+import java.util.Collection;
 
 import com.bernardomg.validation.failure.Failure;
 
-public interface ValidationRule<T> {
+/**
+ * Failure response to the frontend.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+public interface FailureResponse {
 
-    public Optional<Failure> test(final T value);
+    public Collection<? extends Failure> getErrors();
 
 }

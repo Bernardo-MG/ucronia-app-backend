@@ -1,7 +1,9 @@
 
 package com.bernardomg.association.crud.fee.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
@@ -17,15 +19,15 @@ import com.bernardomg.association.crud.fee.model.MemberFee;
 import com.bernardomg.association.crud.fee.model.PersistentFee;
 import com.bernardomg.association.crud.fee.repository.FeeRepository;
 import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
-import com.bernardomg.association.crud.fee.validation.FeeValidator;
+import com.bernardomg.association.crud.member.repository.MemberRepository;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the fee service.
- * <p>
- * Applies validation through the included {@link #validator}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -37,20 +39,26 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberFeeRepository memberFeeRepository;
 
-    private final FeeRepository       repository;
+    private final MemberRepository    memberRepository;
 
-    private final FeeValidator        validator;
+    private final FeeRepository       repository;
 
     @Override
     @PreAuthorize("hasAuthority('CREATE_FEE')")
-    public final MemberFee create(final FeeForm month) {
-        final PersistentFee entity;
-        final PersistentFee created;
+    public final MemberFee create(final FeeForm form) {
+        final PersistentFee            entity;
+        final PersistentFee            created;
+        final Collection<FieldFailure> failures;
+
+        failures = validateCreate(form);
 
         // TODO: Validate that the entity doesn't exist, or handle DB exceptions
-        validator.validate(month);
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
 
-        entity = toEntity(month);
+        entity = toEntity(form);
         entity.setId(null);
 
         created = repository.save(entity);
@@ -109,13 +117,20 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('UPDATE_FEE')")
-    public final MemberFee update(final Long id, final FeeForm fee) {
-        final PersistentFee entity;
-        final PersistentFee created;
+    public final MemberFee update(final Long id, final FeeForm form) {
+        final PersistentFee            entity;
+        final PersistentFee            created;
+        final Collection<FieldFailure> failures;
 
-        validator.validate(fee);
+        failures = validateUpdate(form);
 
-        entity = toEntity(fee);
+        // TODO: Validate that the entity doesn't exist, or handle DB exceptions
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
+
+        entity = toEntity(form);
         entity.setId(id);
 
         created = repository.save(entity);
@@ -187,6 +202,46 @@ public final class DefaultFeeService implements FeeService {
         entity.setPaid(data.getPaid());
 
         return entity;
+    }
+
+    private final Collection<FieldFailure> validateCreate(final FeeForm form) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+
+        failures = new ArrayList<>();
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
+
+        if (!memberRepository.existsById(form.getMemberId())) {
+            log.error("Found no member with id {}", form.getMemberId());
+            failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
+            failures.add(failure);
+        }
+
+        return failures;
+    }
+
+    private final Collection<FieldFailure> validateUpdate(final FeeForm form) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+
+        failures = new ArrayList<>();
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
+
+        if (!repository.existsById(form.getMemberId())) {
+            log.error("Found no member with id {}", form.getMemberId());
+            failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
+            failures.add(failure);
+        }
+
+        return failures;
     }
 
 }

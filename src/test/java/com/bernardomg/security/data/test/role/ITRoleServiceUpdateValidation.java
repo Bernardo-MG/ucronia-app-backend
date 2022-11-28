@@ -34,7 +34,8 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Role service - update validation")
@@ -50,17 +51,27 @@ public class ITRoleServiceUpdateValidation {
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     public void testUpdate_NotExistingRole() {
-        final Executable executable;
-        final Exception  exception;
-        final Role       data;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
+        final Role                  data;
 
         data = getRoleWithNoPrivileges();
 
         executable = () -> service.update(data);
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.id.notExisting", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("notExisting", failure.getCode());
+        Assertions.assertEquals("id", failure.getField());
+        Assertions.assertEquals("id.notExisting", failure.getMessage());
     }
 
     private final Role getRoleWithNoPrivileges() {

@@ -38,11 +38,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.mvc.response.model.ErrorResponse;
+import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,12 +66,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request)
             throws Exception {
         final ErrorResponse response;
-        final Failure       failure;
 
         log.warn(ex.getMessage(), ex);
 
-        failure = Failure.of("Internal error");
-        response = Response.error(failure);
+        response = Response.error("Internal error");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -80,24 +78,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handlePersistenceException(final Exception ex, final WebRequest request)
             throws Exception {
         final ErrorResponse response;
-        final Failure       failure;
 
         log.warn(ex.getMessage(), ex);
 
-        failure = Failure.of("Invalid query");
-        response = Response.error(failure);
+        response = Response.error("Invalid query");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({ ValidationException.class })
-    public final ResponseEntity<Object> handleValidationException(final ValidationException ex,
+    @ExceptionHandler({ FieldFailureException.class })
+    public final ResponseEntity<Object> handleValidationException(final FieldFailureException ex,
             final WebRequest request) throws Exception {
-        final ErrorResponse response;
+        final FailureResponse response;
 
         log.warn(ex.getMessage(), ex);
 
-        response = Response.error(ex.getFailures());
+        response = Response.failure(ex.getFailures());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -113,16 +109,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
             error.getDefaultMessage());
 
-        return FieldFailure.of(error.getDefaultMessage(), error.getObjectName(), error.getField(),
-            error.getRejectedValue());
+        // TODO: Can't acquire the code?
+        return FieldFailure.of(error.getDefaultMessage(), error.getField(), "", error.getRejectedValue());
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
+    protected final ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         final ErrorResponse response;
         final String        message;
-        final Failure       failure;
 
         log.error(ex.getMessage());
 
@@ -132,17 +127,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             message = ex.getMessage();
         }
 
-        failure = Failure.of(message);
-        response = Response.error(failure);
+        response = Response.error(message);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
+    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         final Collection<FieldFailure> errors;
-        final ErrorResponse            response;
+        final FailureResponse          response;
 
         errors = ex.getBindingResult()
             .getFieldErrors()
@@ -150,7 +144,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .map(this::toFieldError)
             .collect(Collectors.toList());
 
-        response = Response.error(errors);
+        response = Response.failure(errors);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }

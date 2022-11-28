@@ -22,14 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.validation.failure;
 
-import java.util.Optional;
+import lombok.Data;
+import lombok.NonNull;
 
-import com.bernardomg.validation.failure.Failure;
+/**
+ * Immutable failure object.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+public class ImmutableFailure implements Failure {
 
-public interface ValidationRule<T> {
+    private final String code;
 
-    public Optional<Failure> test(final T value);
+    private final String message;
+
+    public ImmutableFailure(@NonNull final String msg, @NonNull final String cd) {
+        super();
+
+        message = msg;
+        code = cd;
+    }
 
 }

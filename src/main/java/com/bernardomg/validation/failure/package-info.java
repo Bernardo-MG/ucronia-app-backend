@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+/**
+ * Error model.
+ */
 
-import java.util.Optional;
-
-import com.bernardomg.validation.failure.Failure;
-
-public interface ValidationRule<T> {
-
-    public Optional<Failure> test(final T value);
-
-}
+package com.bernardomg.validation.failure;

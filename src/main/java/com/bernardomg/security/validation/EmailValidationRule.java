@@ -27,9 +27,9 @@ package com.bernardomg.security.validation;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.validation.ValidationRule;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,7 +61,7 @@ public final class EmailValidationRule implements ValidationRule<String> {
         if (!emailPattern.matcher(email)
             .matches()) {
             log.error("Email {} doesn't follow a valid pattern", email);
-            failure = FieldFailure.of("error.email.invalid", "roleForm", "memberId", email);
+            failure = FieldFailure.of("email", "invalid", email);
             result = Optional.of(failure);
         } else {
             result = Optional.empty();

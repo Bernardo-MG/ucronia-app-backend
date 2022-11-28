@@ -22,14 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.validation.failure;
 
-import java.util.Optional;
+import lombok.Data;
+import lombok.NonNull;
 
-import com.bernardomg.validation.failure.Failure;
+/**
+ * Immutable implementation of {@code FieldValidationError}.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+public final class ImmutableFieldFailure implements FieldFailure {
 
-public interface ValidationRule<T> {
+    private final String code;
 
-    public Optional<Failure> test(final T value);
+    private final String field;
+
+    private final String message;
+
+    private final Object value;
+
+    public ImmutableFieldFailure(@NonNull final String msg, @NonNull final String fld, @NonNull final String cd,
+            final Object val) {
+        super();
+
+        message = msg;
+        field = fld;
+        code = cd;
+        value = val;
+    }
 
 }

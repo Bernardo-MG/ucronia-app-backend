@@ -61,19 +61,15 @@ public final class ITControllerPersistenceException {
             .isInternalServerError());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Invalid query")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
             .doesNotExist());
 
-        // The response contains no field error attribute
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field")
-            .doesNotExist());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value")
-            .doesNotExist());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object")
+        // The response contains no errors attribute
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
     }
 
@@ -89,19 +85,15 @@ public final class ITControllerPersistenceException {
             .isInternalServerError());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Invalid query")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
             .doesNotExist());
 
-        // The response contains no field error attribute
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field")
-            .doesNotExist());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value")
-            .doesNotExist());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object")
+        // The response contains no errors attribute
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
     }
 

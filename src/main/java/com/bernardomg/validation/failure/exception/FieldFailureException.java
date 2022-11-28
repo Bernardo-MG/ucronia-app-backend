@@ -22,14 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.validation;
+package com.bernardomg.validation.failure.exception;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.Collection;
 
-import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
-public interface ValidationRule<T> {
+import lombok.Getter;
 
-    public Optional<Failure> test(final T value);
+@Getter
+public class FieldFailureException extends RuntimeException {
+
+    private static final long              serialVersionUID = 5252694690217611607L;
+
+    private final Collection<FieldFailure> failures;
+
+    public FieldFailureException(final Collection<FieldFailure> fails) {
+        super();
+
+        failures = fails;
+    }
+
+    public FieldFailureException(final FieldFailure err) {
+        super(err.getMessage());
+
+        failures = Arrays.asList(err);
+    }
 
 }

@@ -34,8 +34,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
@@ -43,7 +41,8 @@ import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecovery
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -200,18 +199,19 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     }
 
     private final void validate(final Optional<PersistentUser> user, final String email) {
-        final Failure             failure;
-        final Collection<Failure> failures;
-        final Authentication      auth;
-        final String              sessionUser;
+        final FieldFailure             failure;
+        final Collection<FieldFailure> failures;
+        final Authentication           auth;
+        final String                   sessionUser;
 
         failures = new ArrayList<>();
 
         if (!user.isPresent()) {
             log.warn("The email {} isn't registered", email);
-            failure = FieldFailure.of("error.email.notExisting", "roleForm", "memberId", email);
+            failure = FieldFailure.of("email", "invalid", email);
             failures.add(failure);
         } else {
+            // TODO: This process will be started by users not authenticated
             auth = SecurityContextHolder.getContext()
                 .getAuthentication();
             if (auth != null) {
@@ -220,19 +220,19 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
                 sessionUser = "";
             }
 
-            // TODO: This isn't a validation, it is a security error
             if (!user.get()
                 .getUsername()
                 .equals(sessionUser)) {
                 log.error("The user {} tried to change the password for {}", sessionUser, user.get()
                     .getUsername());
-                failure = FieldFailure.of("error.user.unauthorized", "roleForm", "memberId", email);
+                failure = FieldFailure.of("email", "invalid", email);
                 failures.add(failure);
             }
         }
 
         if (!failures.isEmpty()) {
-            throw new ValidationException(failures);
+            // TODO: The frontend shouldn't get any hint about existing emails
+            throw new FieldFailureException(failures);
         }
 
     }
