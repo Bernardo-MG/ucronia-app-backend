@@ -36,8 +36,6 @@ import lombok.NonNull;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
- * @param <T>
- *            response content type
  */
 @Data
 public class ImmutableFailureResponse implements FailureResponse {

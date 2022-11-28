@@ -28,8 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the fee service.
- * <p>
- * Applies validation through the included {@link #validator}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
