@@ -46,10 +46,10 @@ public class ImmutableFailureResponse implements FailureResponse {
     private final Collection<? extends Failure> failures;
 
     /**
-     * Constructs a response with the specified errors.
+     * Constructs a response with the specified failures.
      *
-     * @param errs
-     *            errors
+     * @param fails
+     *            failures
      */
     public ImmutableFailureResponse(@NonNull final Collection<? extends Failure> fails) {
         super();
