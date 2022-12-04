@@ -24,6 +24,7 @@
 
 package com.bernardomg.mvc.springframework.error.handler;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -105,12 +106,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      *            error object to transform
      * @return our custom error object
      */
-    private final FieldFailure toFieldError(final org.springframework.validation.FieldError error) {
+    private final FieldFailure toFieldFailure(final org.springframework.validation.FieldError error) {
+        final Collection<String> codes;
+        final String             failureCode;
+        final String             code;
+
         log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
             error.getDefaultMessage());
 
+        codes = Arrays.asList(error.getCodes());
+        if (codes.contains("NotNull")) {
+            failureCode = "empty";
+        } else if (codes.contains("NotEmpty")) {
+            failureCode = "empty";
+        } else {
+            failureCode = "";
+        }
+
+        if (!failureCode.isBlank()) {
+            code = error.getField() + "." + failureCode;
+        } else {
+            code = "";
+        }
+
         // TODO: Can't acquire the code?
-        return FieldFailure.of(error.getDefaultMessage(), error.getField(), "", error.getRejectedValue());
+        return FieldFailure.of(error.getDefaultMessage(), error.getField(), code, error.getRejectedValue());
     }
 
     @Override
@@ -141,7 +161,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()
-            .map(this::toFieldError)
+            .map(this::toFieldFailure)
             .collect(Collectors.toList());
 
         response = Response.failure(errors);
