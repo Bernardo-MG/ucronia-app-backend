@@ -108,7 +108,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     private final FieldFailure toFieldFailure(final org.springframework.validation.FieldError error) {
         final Collection<String> codes;
-        final String             failureCode;
         final String             code;
 
         log.error("{}.{} with value {}: {}", error.getObjectName(), error.getField(), error.getRejectedValue(),
@@ -116,20 +115,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         codes = Arrays.asList(error.getCodes());
         if (codes.contains("NotNull")) {
-            failureCode = "empty";
+            code = "empty";
         } else if (codes.contains("NotEmpty")) {
-            failureCode = "empty";
-        } else {
-            failureCode = "";
-        }
-
-        if (!failureCode.isBlank()) {
-            code = error.getField() + "." + failureCode;
+            code = "empty";
         } else {
             code = "";
         }
 
-        // TODO: Can't acquire the code?
         return FieldFailure.of(error.getDefaultMessage(), error.getField(), code, error.getRejectedValue());
     }
 
