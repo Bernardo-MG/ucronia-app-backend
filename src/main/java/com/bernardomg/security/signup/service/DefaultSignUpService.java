@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.mvc.error.model.Failure;
-import com.bernardomg.mvc.error.model.FieldFailure;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
@@ -37,7 +35,9 @@ import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -76,16 +76,16 @@ public final class DefaultSignUpService implements SignUpService {
 
     @Override
     public final SignUpStatus signUp(final SignUp signUp) {
-        final PersistentUser      entity;
-        final PersistentUser      created;
-        final Collection<Failure> errors;
-        final String              username;
-        final String              email;
+        final PersistentUser           entity;
+        final PersistentUser           created;
+        final Collection<FieldFailure> errors;
+        final String                   username;
+        final String                   email;
 
         errors = validate(signUp);
         if (!errors.isEmpty()) {
             // Validation errors
-            throw new ValidationException(errors);
+            throw new FieldFailureException(errors);
         }
 
         username = signUp.getUsername()
@@ -116,10 +116,11 @@ public final class DefaultSignUpService implements SignUpService {
      *            sign up data
      * @return any validation failure which has ocurred
      */
-    private final Collection<Failure> validate(final SignUp signUp) {
-        final Collection<Failure> failures;
-        final Optional<Failure>   failure;
-        Failure                   error;
+    private final Collection<FieldFailure> validate(final SignUp signUp) {
+        final Collection<FieldFailure> failures;
+        final FieldFailure             failure;
+        final Optional<Failure>        optFailure;
+        FieldFailure                   error;
 
         failures = new ArrayList<>();
 
@@ -127,7 +128,7 @@ public final class DefaultSignUpService implements SignUpService {
         if (repository.existsByUsername(signUp.getUsername()
             .toLowerCase())) {
             log.error("A user already exists with the username {}", signUp.getUsername());
-            error = FieldFailure.of("error.username.existing", "roleForm", "memberId", signUp.getUsername());
+            error = FieldFailure.of("username", "existing", signUp.getUsername());
             failures.add(error);
         }
 
@@ -135,14 +136,19 @@ public final class DefaultSignUpService implements SignUpService {
         if (repository.existsByEmail(signUp.getEmail()
             .toLowerCase())) {
             log.error("A user already exists with the email {}", signUp.getEmail());
-            error = FieldFailure.of("error.email.existing", "roleForm", "memberId", signUp.getEmail());
+            error = FieldFailure.of("email", "existing", signUp.getEmail());
             failures.add(error);
         }
 
         // Verify the email matches the valid pattern
-        failure = emailValidationRule.test(signUp.getEmail());
-        if (failure.isPresent()) {
-            failures.add(failure.get());
+        optFailure = emailValidationRule.test(signUp.getEmail());
+        if (optFailure.isPresent()) {
+            failure = FieldFailure.of(optFailure.get()
+                .getMessage(), "email",
+                optFailure.get()
+                    .getCode(),
+                signUp.getEmail());
+            failures.add(failure);
         }
 
         return failures;

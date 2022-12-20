@@ -61,11 +61,11 @@ public final class ITControllerArgumentError {
             .isBadRequest());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].field", Matchers.equalTo("name")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].value", Matchers.equalTo(null)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].object", Matchers.equalTo("errorTestObject")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message", Matchers.equalTo("must not be null")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures", Matchers.hasSize(1)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].field", Matchers.equalTo("name")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].value", Matchers.equalTo(null)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].code", Matchers.equalTo("empty")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].message", Matchers.equalTo("must not be null")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")

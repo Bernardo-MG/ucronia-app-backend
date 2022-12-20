@@ -24,10 +24,6 @@
 
 package com.bernardomg.mvc.response.model;
 
-import java.util.Collection;
-
-import com.bernardomg.mvc.error.model.Failure;
-
 /**
  * Error response to the frontend.
  *
@@ -35,6 +31,18 @@ import com.bernardomg.mvc.error.model.Failure;
  */
 public interface ErrorResponse {
 
-    public Collection<? extends Failure> getErrors();
+    /**
+     * Returns a code identifying the error.
+     *
+     * @return a code identifying the error
+     */
+    public String getCode();
+
+    /**
+     * Returns the error message.
+     *
+     * @return the error message.
+     */
+    public String getMessage();
 
 }

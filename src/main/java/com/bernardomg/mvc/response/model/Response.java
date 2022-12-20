@@ -24,10 +24,9 @@
 
 package com.bernardomg.mvc.response.model;
 
-import java.util.Arrays;
 import java.util.Collection;
 
-import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.failure.Failure;
 
 /**
  * Response to the frontend.
@@ -43,12 +42,16 @@ public interface Response<T> {
         return new ImmutableResponse<>();
     }
 
-    public static ErrorResponse error(final Collection<? extends Failure> errors) {
-        return new ImmutableErrorResponse<>(errors);
+    public static ErrorResponse error(final String code) {
+        return new ImmutableErrorResponse(code, code);
     }
 
-    public static ErrorResponse error(final Failure error) {
-        return new ImmutableErrorResponse<>(Arrays.asList(error));
+    public static ErrorResponse error(final String message, final String code) {
+        return new ImmutableErrorResponse(message, code);
+    }
+
+    public static FailureResponse failure(final Collection<? extends Failure> errors) {
+        return new ImmutableFailureResponse(errors);
     }
 
     public static <T> Response<T> of(final T content) {

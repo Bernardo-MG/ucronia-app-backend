@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.bernardomg.mvc.response.model.ErrorResponse;
+import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.PaginatedResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.mvc.springframework.response.model.ImmutableSpringPageResponse;
@@ -78,6 +79,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             result = body;
         } else if (body instanceof ErrorResponse) {
             // Avoid wrapping error responses
+            result = body;
+        } else if (body instanceof FailureResponse) {
+            // Avoid wrapping failure responses
             result = body;
         } else if (body instanceof Page<?>) {
             // Spring pagination

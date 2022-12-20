@@ -11,7 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.validation.exception.ValidationException;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - token generation on recovery start")
@@ -31,27 +32,47 @@ public class ITPasswordRecoveryServiceStartAuth {
     @DisplayName("Throws an exception when trying to edit another user")
     @WithMockUser(username = "admin")
     public final void testStartPasswordRecovery_AnotherUser() {
-        final Executable executable;
-        final Exception  exception;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
         executable = () -> service.startPasswordRecovery("email2@somewhere.com");
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.user.unauthorized", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("invalid", failure.getCode());
+        Assertions.assertEquals("email", failure.getField());
+        Assertions.assertEquals("email.invalid", failure.getMessage());
     }
 
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
     public final void testStartPasswordRecovery_NotAuthenticated() {
-        final Executable executable;
-        final Exception  exception;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.assertThrows(ValidationException.class, executable);
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        Assertions.assertEquals("error.user.unauthorized", exception.getMessage());
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("invalid", failure.getCode());
+        Assertions.assertEquals("email", failure.getField());
+        Assertions.assertEquals("email.invalid", failure.getMessage());
     }
 
 }

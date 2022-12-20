@@ -26,7 +26,7 @@ package com.bernardomg.validation;
 
 import java.util.Optional;
 
-import com.bernardomg.mvc.error.model.Failure;
+import com.bernardomg.validation.failure.Failure;
 
 public interface ValidationRule<T> {
 

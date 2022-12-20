@@ -24,10 +24,6 @@
 
 package com.bernardomg.mvc.response.model;
 
-import java.util.Collection;
-
-import com.bernardomg.mvc.error.model.Failure;
-
 import lombok.Data;
 import lombok.NonNull;
 
@@ -36,27 +32,19 @@ import lombok.NonNull;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
- * @param <T>
- *            response content type
  */
 @Data
-public class ImmutableErrorResponse<T> implements ErrorResponse {
+public class ImmutableErrorResponse implements ErrorResponse {
 
-    /**
-     * Response errors.
-     */
-    private final Collection<? extends Failure> errors;
+    private final String code;
 
-    /**
-     * Constructs a response with the specified errors.
-     *
-     * @param errs
-     *            errors
-     */
-    public ImmutableErrorResponse(@NonNull final Collection<? extends Failure> errs) {
+    private final String message;
+
+    public ImmutableErrorResponse(@NonNull final String msg, @NonNull final String cd) {
         super();
 
-        errors = errs;
+        message = msg;
+        code = cd;
     }
 
 }

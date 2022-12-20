@@ -34,15 +34,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.mvc.error.model.Failure;
 import com.bernardomg.mvc.response.model.ErrorResponse;
+import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Authentication entry point which returns an {@link ErrorResponse} on failure.
+ * Authentication entry point which returns an {@link FailureResponse} on failure.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -61,7 +61,6 @@ public final class ErrorResponseAuthenticationEntryPoint implements Authenticati
     public final void commence(final HttpServletRequest request, final HttpServletResponse response,
             final AuthenticationException authException) throws IOException, ServletException {
         final ErrorResponse resp;
-        final Failure       error;
         final ObjectMapper  mapper;
 
         log.debug("Authentication failure for path {}: {}", request.getServletPath(), authException.getMessage());
@@ -69,8 +68,7 @@ public final class ErrorResponseAuthenticationEntryPoint implements Authenticati
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        error = Failure.of("Unauthorized");
-        resp = Response.error(error);
+        resp = Response.error("Unauthorized");
 
         mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), resp);
