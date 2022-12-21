@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeYearRange;
-import com.bernardomg.association.domain.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.domain.fee.calendar.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearRepositoryFindRangeWithActiveMemberInactiveMember {
 
     @Autowired
-    private FeeYearRepository repository;
+    private FeeCalendarRepository repository;
 
     public ITFeeYearRepositoryFindRangeWithActiveMemberInactiveMember() {
         super();
@@ -49,7 +49,7 @@ public class ITFeeYearRepositoryFindRangeWithActiveMemberInactiveMember {
     @DisplayName("Returns no range for an inactive member")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testFindRange_FullYear() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = repository.findRangeWithActiveMember();
 

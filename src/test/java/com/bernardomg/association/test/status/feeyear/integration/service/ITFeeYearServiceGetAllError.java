@@ -34,7 +34,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.service.FeeYearService;
+import com.bernardomg.association.domain.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -43,7 +43,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearServiceGetAllError {
 
     @Autowired
-    private FeeYearService service;
+    private FeeCalendarService service;
 
     public ITFeeYearServiceGetAllError() {
         super();

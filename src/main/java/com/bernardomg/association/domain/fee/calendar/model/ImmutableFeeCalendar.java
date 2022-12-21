@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.domain.feeyear.model;
+package com.bernardomg.association.domain.fee.calendar.model;
 
 import java.util.Collection;
 
@@ -30,7 +30,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 @Data
-public final class ImmutableFeeYear implements FeeYear {
+public final class ImmutableFeeCalendar implements FeeCalendar {
 
     @NonNull
     private final Boolean              active;
@@ -50,7 +50,7 @@ public final class ImmutableFeeYear implements FeeYear {
     @NonNull
     private final Integer              year;
 
-    public ImmutableFeeYear(@NonNull final Long id, @NonNull final String nm, @NonNull final String surnm,
+    public ImmutableFeeCalendar(@NonNull final Long id, @NonNull final String nm, @NonNull final String surnm,
             @NonNull final Boolean actv, @NonNull final Collection<FeeMonth> mnths, @NonNull final Integer yr) {
         super();
 

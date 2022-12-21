@@ -22,25 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.domain.feeyear.model;
+package com.bernardomg.association.domain.fee.calendar.model;
 
-import lombok.Data;
-import lombok.NonNull;
+public interface FeeMonth {
 
-@Data
-public final class ImmutableFeeYearRange implements FeeYearRange {
+    public Integer getMonth();
 
-    @NonNull
-    private final Integer end;
-
-    @NonNull
-    private final Integer start;
-
-    public ImmutableFeeYearRange(@NonNull final Integer strt, @NonNull final Integer nd) {
-        super();
-
-        start = strt;
-        end = nd;
-    }
+    public Boolean getPaid();
 
 }

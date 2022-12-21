@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.domain.feeyear.repository;
+package com.bernardomg.association.domain.fee.calendar.repository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,12 +17,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.bernardomg.association.domain.feeyear.model.FeeMonth;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.model.FeeYearRange;
-import com.bernardomg.association.domain.feeyear.model.FeeYearRow;
-import com.bernardomg.association.domain.feeyear.model.ImmutableFeeMonth;
-import com.bernardomg.association.domain.feeyear.model.ImmutableFeeYear;
+import com.bernardomg.association.domain.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRow;
+import com.bernardomg.association.domain.fee.calendar.model.ImmutableFeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.ImmutableFeeCalendar;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @AllArgsConstructor
 @Slf4j
-public final class DefaultFeeYearRepository implements FeeYearRepository {
+public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
-    private final RowMapper<FeeYearRange>    feeRangeRowMapper          = new FeeRangeRowMapper();
+    private final RowMapper<FeeCalendarRange>    feeRangeRowMapper          = new FeeCalendarRangeRowMapper();
 
-    private final RowMapper<FeeYearRow>      feeYearRowRowMapper        = new FeeYearRowRowMapper();
+    private final RowMapper<FeeCalendarRow>      feeYearRowRowMapper        = new FeeCalendarRowRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -45,27 +45,27 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
     private final String                     queryRangeWithActiveMember = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
 
     @Override
-    public final Iterable<? extends FeeYear> findAllForYear(final Integer year, final Sort sort) {
+    public final Iterable<? extends FeeCalendar> findAllForYear(final Integer year, final Sort sort) {
         return findAllForYear(queryForYear, year, sort);
     }
 
     @Override
-    public final Iterable<? extends FeeYear> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
+    public final Iterable<? extends FeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
         // TODO: Improve how the where is built
         return findAllForYear(queryForYear + " WHERE m.active = true", year, sort);
     }
 
     @Override
-    public final FeeYearRange findRange() {
+    public final FeeCalendarRange findRange() {
         return jdbcTemplate.queryForObject(queryRange, Collections.emptyMap(), feeRangeRowMapper);
     }
 
     @Override
-    public final FeeYearRange findRangeWithActiveMember() {
+    public final FeeCalendarRange findRangeWithActiveMember() {
         return jdbcTemplate.queryForObject(queryRangeWithActiveMember, Collections.emptyMap(), feeRangeRowMapper);
     }
 
-    private final List<FeeYearRow> findAll(final String query, final Integer year, final Sort sort) {
+    private final List<FeeCalendarRow> findAll(final String query, final Integer year, final Sort sort) {
         final SqlParameterSource namedParameters;
         final String             operand;
         final String             where;
@@ -89,20 +89,20 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
     }
 
-    private final Iterable<? extends FeeYear> findAllForYear(final String query, final Integer year, final Sort sort) {
-        final Collection<FeeYearRow>      readFees;
-        final Map<Long, List<FeeYearRow>> memberFees;
-        final Collection<FeeYear>         years;
+    private final Iterable<? extends FeeCalendar> findAllForYear(final String query, final Integer year, final Sort sort) {
+        final Collection<FeeCalendarRow>      readFees;
+        final Map<Long, List<FeeCalendarRow>> memberFees;
+        final Collection<FeeCalendar>         years;
         final Iterable<Long>              memberIds;
-        List<FeeYearRow>                  fees;
-        FeeYear                           feeYear;
+        List<FeeCalendarRow>                  fees;
+        FeeCalendar                           feeYear;
         Boolean                           active;
 
         readFees = findAll(query, year, sort);
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(FeeYearRow::getMemberId));
+            .collect(Collectors.groupingBy(FeeCalendarRow::getMemberId));
         memberIds = readFees.stream()
-            .map(FeeYearRow::getMemberId)
+            .map(FeeCalendarRow::getMemberId)
             .distinct()
             .collect(Collectors.toList());
 
@@ -124,7 +124,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return years;
     }
 
-    private final FeeMonth toFeeMonth(final FeeYearRow fee) {
+    private final FeeMonth toFeeMonth(final FeeCalendarRow fee) {
         final Integer month;
 
         // Calendar months start at index 0, this has to be corrected
@@ -134,10 +134,10 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
         return new ImmutableFeeMonth(month, fee.getPaid());
     }
 
-    private final FeeYear toFeeYear(final Long member, final Integer year, final Boolean active,
-            final Collection<FeeYearRow> fees) {
+    private final FeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
+            final Collection<FeeCalendarRow> fees) {
         final Collection<FeeMonth> months;
-        final FeeYearRow           row;
+        final FeeCalendarRow           row;
         final String               name;
         final String               surname;
         FeeMonth                   feeMonth;
@@ -151,7 +151,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
             months = Collections.emptyList();
         } else {
             months = new ArrayList<>();
-            for (final FeeYearRow fee : fees) {
+            for (final FeeCalendarRow fee : fees) {
                 feeMonth = toFeeMonth(fee);
                 months.add(feeMonth);
             }
@@ -162,7 +162,7 @@ public final class DefaultFeeYearRepository implements FeeYearRepository {
             surname = row.getSurname();
         }
 
-        return new ImmutableFeeYear(member, name, surname, active, months, year);
+        return new ImmutableFeeCalendar(member, name, surname, active, months, year);
     }
 
     private final String toSorting(final Order order) {

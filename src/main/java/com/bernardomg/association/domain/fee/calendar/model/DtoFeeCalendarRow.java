@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.domain.feeyear.model;
+package com.bernardomg.association.domain.fee.calendar.model;
 
 import java.util.Calendar;
 
 import lombok.Data;
 
 @Data
-public final class DtoFeeYearRow implements FeeYearRow {
+public final class DtoFeeCalendarRow implements FeeCalendarRow {
 
     private Boolean  active;
 

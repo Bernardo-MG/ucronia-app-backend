@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.domain.feeyear.controller;
+package com.bernardomg.association.domain.fee.calendar.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -31,10 +31,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.domain.feeyear.model.DtoFeeYearRequest;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.model.FeeYearRange;
-import com.bernardomg.association.domain.feeyear.service.FeeYearService;
+import com.bernardomg.association.domain.fee.calendar.model.DtoFeeCalendarRequest;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.domain.fee.calendar.service.FeeCalendarService;
 
 import lombok.AllArgsConstructor;
 
@@ -45,21 +45,21 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/fee/year")
+@RequestMapping("/fee/calendar")
 @AllArgsConstructor
-public class FeeYearController {
+public class FeeCalendarController {
 
-    private final FeeYearService service;
+    private final FeeCalendarService service;
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends FeeYear> readAll(@PathVariable("year") final Integer year,
-            final DtoFeeYearRequest request, final Pageable pageable) {
+    public Iterable<? extends FeeCalendar> readAll(@PathVariable("year") final Integer year,
+            final DtoFeeCalendarRequest request, final Pageable pageable) {
         // TODO: Support full pagination
         return service.getAll(year, request.getOnlyActive(), pageable.getSort());
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    public FeeYearRange readRange(final DtoFeeYearRequest request) {
+    public FeeCalendarRange readRange(final DtoFeeCalendarRequest request) {
         return service.getRange(request.getOnlyActive());
     }
 

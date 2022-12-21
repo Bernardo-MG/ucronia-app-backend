@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeYearRange;
-import com.bernardomg.association.domain.feeyear.service.FeeYearService;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.domain.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearServiceGetRangeFilterOnlyActive {
 
     @Autowired
-    private FeeYearService service;
+    private FeeCalendarService service;
 
     public ITFeeYearServiceGetRangeFilterOnlyActive() {
         super();
@@ -49,7 +49,7 @@ public class ITFeeYearServiceGetRangeFilterOnlyActive {
     @DisplayName("Returns the range for an active user")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Active() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(true);
 
@@ -61,7 +61,7 @@ public class ITFeeYearServiceGetRangeFilterOnlyActive {
     @DisplayName("Returns no range for an inactive user")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Inactive() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(true);
 

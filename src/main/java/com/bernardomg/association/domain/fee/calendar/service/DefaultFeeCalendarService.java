@@ -1,26 +1,26 @@
 
-package com.bernardomg.association.domain.feeyear.service;
+package com.bernardomg.association.domain.fee.calendar.service;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.model.FeeYearRange;
-import com.bernardomg.association.domain.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.domain.fee.calendar.repository.FeeCalendarRepository;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public final class DefaultFeeYearService implements FeeYearService {
+public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private final FeeYearRepository repository;
+    private final FeeCalendarRepository repository;
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
-    public final Iterable<? extends FeeYear> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
-        final Iterable<? extends FeeYear> result;
+    public final Iterable<? extends FeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
+        final Iterable<? extends FeeCalendar> result;
 
         if (onlyActive) {
             result = repository.findAllForYearWithActiveMember(year, sort);
@@ -33,8 +33,8 @@ public final class DefaultFeeYearService implements FeeYearService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
-    public final FeeYearRange getRange(final Boolean onlyActive) {
-        final FeeYearRange range;
+    public final FeeCalendarRange getRange(final Boolean onlyActive) {
+        final FeeCalendarRange range;
 
         if (onlyActive) {
             range = repository.findRangeWithActiveMember();

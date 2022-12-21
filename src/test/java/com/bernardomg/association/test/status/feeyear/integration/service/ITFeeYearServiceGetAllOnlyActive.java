@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeMonth;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.service.FeeYearService;
+import com.bernardomg.association.domain.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,7 +44,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearServiceGetAllOnlyActive {
 
     @Autowired
-    private FeeYearService service;
+    private FeeCalendarService service;
 
     public ITFeeYearServiceGetAllOnlyActive() {
         super();
@@ -54,7 +54,7 @@ public class ITFeeYearServiceGetAllOnlyActive {
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Count() {
-        final Iterable<? extends FeeYear> result;
+        final Iterable<? extends FeeCalendar> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
@@ -71,8 +71,8 @@ public class ITFeeYearServiceGetAllOnlyActive {
     @DisplayName("With a full year it returns all data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Data() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;
@@ -145,7 +145,7 @@ public class ITFeeYearServiceGetAllOnlyActive {
     @DisplayName("When there is no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoData_Count() {
-        final Iterable<? extends FeeYear> result;
+        final Iterable<? extends FeeCalendar> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
@@ -159,7 +159,7 @@ public class ITFeeYearServiceGetAllOnlyActive {
     @DisplayName("With two connected years it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetAll_TwoConnectedYears_Count() {
-        final Iterable<? extends FeeYear> result;
+        final Iterable<? extends FeeCalendar> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
@@ -176,8 +176,8 @@ public class ITFeeYearServiceGetAllOnlyActive {
     @DisplayName("With two connected years it returns all data for the queried year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetAll_TwoConnectedYears_Data() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;

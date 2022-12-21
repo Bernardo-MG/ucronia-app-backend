@@ -22,12 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.domain.feeyear.model;
+package com.bernardomg.association.domain.fee.calendar.model;
 
-public interface FeeYearRange {
+import java.util.Calendar;
 
-    public Integer getEnd();
+public interface FeeCalendarRow {
 
-    public Integer getStart();
+    public Boolean getActive();
+
+    public Calendar getDate();
+
+    public Long getId();
+
+    public Long getMemberId();
+
+    public String getName();
+
+    public Boolean getPaid();
+
+    public String getSurname();
 
 }

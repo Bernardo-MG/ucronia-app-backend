@@ -34,9 +34,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeMonth;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.domain.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +46,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearRepositoryFindAllForYearSort {
 
     @Autowired
-    private FeeYearRepository repository;
+    private FeeCalendarRepository repository;
 
     public ITFeeYearRepositoryFindAllForYearSort() {
         super();
@@ -55,9 +55,9 @@ public class ITFeeYearRepositoryFindAllForYearSort {
     @Test
     @DisplayName("Returns all data in asscending order by name")
     public void testFindAllForYear_Asc_Name() {
-        final Iterator<? extends FeeYear> data;
+        final Iterator<? extends FeeCalendar> data;
         final Sort                        sort;
-        FeeYear                           result;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
 
@@ -186,9 +186,9 @@ public class ITFeeYearRepositoryFindAllForYearSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testFindAllForYear_Desc_Name() {
-        final Iterator<? extends FeeYear> data;
+        final Iterator<? extends FeeCalendar> data;
         final Sort                        sort;
-        FeeYear                           result;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
 

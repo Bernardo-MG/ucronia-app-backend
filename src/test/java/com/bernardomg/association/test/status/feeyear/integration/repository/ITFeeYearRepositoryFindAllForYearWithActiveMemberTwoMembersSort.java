@@ -34,9 +34,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeMonth;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.domain.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +46,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembersSort {
 
     @Autowired
-    private FeeYearRepository repository;
+    private FeeCalendarRepository repository;
 
     public ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembersSort() {
         super();
@@ -55,8 +55,8 @@ public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembersSort {
     @Test
     @DisplayName("Returns all data in ascending order by name")
     public void testGetAll_Name_Asc() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;
@@ -188,8 +188,8 @@ public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembersSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testGetAll_Name_Desc() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;
@@ -321,8 +321,8 @@ public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembersSort {
     @Test
     @DisplayName("Returns all data in ascending order by surname")
     public void testGetAll_Surname_Asc() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;
@@ -454,8 +454,8 @@ public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembersSort {
     @Test
     @DisplayName("Returns all data in descending order by surname")
     public void testGetAll_Surname_Desc() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;

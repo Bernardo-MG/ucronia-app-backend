@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeMonth;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.domain.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +46,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Autowired
-    private FeeYearRepository repository;
+    private FeeCalendarRepository repository;
 
     public ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembers() {
         super();
@@ -55,8 +55,8 @@ public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembers {
     @Test
     @DisplayName("With a full year it returns all the entities")
     public void testFindAllForYear_FullYear_TwoMembers_Count() {
-        final Iterable<? extends FeeYear> result;
-        final Iterator<? extends FeeYear> itr;
+        final Iterable<? extends FeeCalendar> result;
+        final Iterator<? extends FeeCalendar> itr;
         final Sort                        sort;
 
         sort = Sort.unsorted();
@@ -75,8 +75,8 @@ public class ITFeeYearRepositoryFindAllForYearWithActiveMemberTwoMembers {
     @Test
     @DisplayName("With a full year it returns all the data")
     public void testFindAllForYear_FullYear_TwoMembers_Data() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;

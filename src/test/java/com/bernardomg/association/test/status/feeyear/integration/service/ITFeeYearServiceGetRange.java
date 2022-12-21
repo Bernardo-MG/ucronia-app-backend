@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeYearRange;
-import com.bernardomg.association.domain.feeyear.service.FeeYearService;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.domain.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearServiceGetRange {
 
     @Autowired
-    private FeeYearService service;
+    private FeeCalendarService service;
 
     public ITFeeYearServiceGetRange() {
         super();
@@ -49,7 +49,7 @@ public class ITFeeYearServiceGetRange {
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_FullYear() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 
@@ -62,7 +62,7 @@ public class ITFeeYearServiceGetRange {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testGetRange_FullYear_TwoMembers() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 
@@ -74,7 +74,7 @@ public class ITFeeYearServiceGetRange {
     @DisplayName("Returns the range for an inactive member")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Inactive() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 
@@ -85,7 +85,7 @@ public class ITFeeYearServiceGetRange {
     @Test
     @DisplayName("With no data the range is empty")
     public void testGetRange_NoData() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 
@@ -97,7 +97,7 @@ public class ITFeeYearServiceGetRange {
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testGetRange_Single() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 
@@ -109,7 +109,7 @@ public class ITFeeYearServiceGetRange {
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetRange_TwoConnectedYears() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 
@@ -121,7 +121,7 @@ public class ITFeeYearServiceGetRange {
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
     public void testGetRange_TwoYearsWithGap() {
-        final FeeYearRange result;
+        final FeeCalendarRange result;
 
         result = service.getRange(false);
 

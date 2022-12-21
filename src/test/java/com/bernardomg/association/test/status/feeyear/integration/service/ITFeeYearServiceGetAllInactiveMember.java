@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.domain.feeyear.model.FeeMonth;
-import com.bernardomg.association.domain.feeyear.model.FeeYear;
-import com.bernardomg.association.domain.feeyear.service.FeeYearService;
+import com.bernardomg.association.domain.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.domain.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.domain.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,7 +45,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 public class ITFeeYearServiceGetAllInactiveMember {
 
     @Autowired
-    private FeeYearService service;
+    private FeeCalendarService service;
 
     public ITFeeYearServiceGetAllInactiveMember() {
         super();
@@ -54,7 +54,7 @@ public class ITFeeYearServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends FeeYear> result;
+        final Iterable<? extends FeeCalendar> result;
         final Sort                        sort;
 
         sort = Sort.unsorted();
@@ -70,8 +70,8 @@ public class ITFeeYearServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterator<? extends FeeYear> data;
-        FeeYear                           result;
+        final Iterator<? extends FeeCalendar> data;
+        FeeCalendar                           result;
         Iterator<FeeMonth>                months;
         FeeMonth                          month;
         final Sort                        sort;
