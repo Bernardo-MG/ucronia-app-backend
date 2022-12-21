@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.status.memberstats.model.MemberStats;
-import com.bernardomg.association.status.memberstats.service.MemberStatsService;
+import com.bernardomg.association.domain.memberstats.model.MemberStats;
+import com.bernardomg.association.domain.memberstats.service.MemberStatsService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

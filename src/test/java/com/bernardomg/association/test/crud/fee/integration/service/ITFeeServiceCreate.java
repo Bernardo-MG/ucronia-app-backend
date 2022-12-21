@@ -32,11 +32,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoFeeForm;
-import com.bernardomg.association.crud.fee.model.MemberFee;
-import com.bernardomg.association.crud.fee.model.PersistentFee;
-import com.bernardomg.association.crud.fee.repository.FeeRepository;
-import com.bernardomg.association.crud.fee.service.FeeService;
+import com.bernardomg.association.domain.fee.model.DtoFeeForm;
+import com.bernardomg.association.domain.fee.model.MemberFee;
+import com.bernardomg.association.domain.fee.model.PersistentFee;
+import com.bernardomg.association.domain.fee.repository.FeeRepository;
+import com.bernardomg.association.domain.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

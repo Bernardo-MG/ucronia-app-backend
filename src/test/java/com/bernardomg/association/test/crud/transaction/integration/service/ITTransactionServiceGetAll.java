@@ -35,9 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.transaction.model.DtoTransaction;
-import com.bernardomg.association.crud.transaction.model.Transaction;
-import com.bernardomg.association.crud.transaction.service.TransactionService;
+import com.bernardomg.association.domain.transaction.model.DtoTransaction;
+import com.bernardomg.association.domain.transaction.model.Transaction;
+import com.bernardomg.association.domain.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

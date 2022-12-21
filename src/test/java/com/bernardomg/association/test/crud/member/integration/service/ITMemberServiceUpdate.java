@@ -30,11 +30,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.member.model.DtoMember;
-import com.bernardomg.association.crud.member.model.Member;
-import com.bernardomg.association.crud.member.model.PersistentMember;
-import com.bernardomg.association.crud.member.repository.MemberRepository;
-import com.bernardomg.association.crud.member.service.MemberService;
+import com.bernardomg.association.domain.member.model.DtoMember;
+import com.bernardomg.association.domain.member.model.Member;
+import com.bernardomg.association.domain.member.model.PersistentMember;
+import com.bernardomg.association.domain.member.repository.MemberRepository;
+import com.bernardomg.association.domain.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

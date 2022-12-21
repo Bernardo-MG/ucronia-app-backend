@@ -35,8 +35,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoMemberFee;
-import com.bernardomg.association.crud.fee.service.FeeService;
+import com.bernardomg.association.domain.fee.model.DtoMemberFee;
+import com.bernardomg.association.domain.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

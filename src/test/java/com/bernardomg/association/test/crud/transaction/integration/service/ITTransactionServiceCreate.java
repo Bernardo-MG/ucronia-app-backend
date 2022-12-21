@@ -31,11 +31,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.crud.transaction.model.DtoTransaction;
-import com.bernardomg.association.crud.transaction.model.PersistentTransaction;
-import com.bernardomg.association.crud.transaction.model.Transaction;
-import com.bernardomg.association.crud.transaction.repository.TransactionRepository;
-import com.bernardomg.association.crud.transaction.service.TransactionService;
+import com.bernardomg.association.domain.transaction.model.DtoTransaction;
+import com.bernardomg.association.domain.transaction.model.PersistentTransaction;
+import com.bernardomg.association.domain.transaction.model.Transaction;
+import com.bernardomg.association.domain.transaction.repository.TransactionRepository;
+import com.bernardomg.association.domain.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

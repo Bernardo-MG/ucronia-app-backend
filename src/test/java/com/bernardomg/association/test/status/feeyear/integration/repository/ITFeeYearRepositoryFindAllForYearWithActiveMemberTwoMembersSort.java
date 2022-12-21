@@ -34,9 +34,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.status.feeyear.model.FeeMonth;
-import com.bernardomg.association.status.feeyear.model.FeeYear;
-import com.bernardomg.association.status.feeyear.repository.FeeYearRepository;
+import com.bernardomg.association.domain.feeyear.model.FeeMonth;
+import com.bernardomg.association.domain.feeyear.model.FeeYear;
+import com.bernardomg.association.domain.feeyear.repository.FeeYearRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

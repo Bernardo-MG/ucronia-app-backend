@@ -33,8 +33,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.MemberFee;
-import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.domain.fee.model.MemberFee;
+import com.bernardomg.association.domain.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

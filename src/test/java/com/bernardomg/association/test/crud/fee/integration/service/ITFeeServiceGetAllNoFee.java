@@ -32,9 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.DtoMemberFee;
-import com.bernardomg.association.crud.fee.model.MemberFee;
-import com.bernardomg.association.crud.fee.service.FeeService;
+import com.bernardomg.association.domain.fee.model.DtoMemberFee;
+import com.bernardomg.association.domain.fee.model.MemberFee;
+import com.bernardomg.association.domain.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

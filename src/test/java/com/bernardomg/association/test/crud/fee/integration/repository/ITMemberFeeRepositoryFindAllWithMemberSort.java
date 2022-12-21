@@ -38,9 +38,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.crud.fee.model.MemberFee;
-import com.bernardomg.association.crud.fee.model.PersistentFee;
-import com.bernardomg.association.crud.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.domain.fee.model.MemberFee;
+import com.bernardomg.association.domain.fee.model.PersistentFee;
+import com.bernardomg.association.domain.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

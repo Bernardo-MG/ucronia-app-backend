@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.status.balance.model.Balance;
-import com.bernardomg.association.status.balance.service.BalanceService;
+import com.bernardomg.association.domain.balance.model.Balance;
+import com.bernardomg.association.domain.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
