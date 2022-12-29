@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 
 import lombok.AllArgsConstructor;
@@ -62,12 +64,14 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_TRANSACTION')")
-    public final Iterable<? extends Transaction> getAll(final Transaction sample, final Pageable pageable) {
-        final PersistentTransaction entity;
+    public final Iterable<? extends Transaction> getAll(final TransactionRequest sample, final Pageable pageable) {
+        final Example<PersistentTransaction> example;
 
-        entity = toEntity(sample);
+        example = Example.of(new PersistentTransaction());
+        ExampleMatcher.matching()
+            .withMatcher("firstname", match -> match.endsWith());
 
-        return repository.findAll(Example.of(entity), pageable)
+        return repository.findAll(example, pageable)
             .map(this::toDto);
     }
 
@@ -125,6 +129,18 @@ public final class DefaultTransactionService implements TransactionService {
         result.setAmount(transaction.getAmount());
 
         return result;
+    }
+
+    private final Example<PersistentTransaction> toExample(final TransactionRequest transaction) {
+        final PersistentTransaction result;
+
+        result = new PersistentTransaction();
+        // result.setId(transaction.getId());
+        // result.setDescription(transaction.getDescription());
+        // result.setDate(transaction.getDate());
+        // result.setAmount(transaction.getAmount());
+
+        return Example.of(result);
     }
 
 }

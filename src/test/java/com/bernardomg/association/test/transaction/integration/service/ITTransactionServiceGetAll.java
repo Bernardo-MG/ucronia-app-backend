@@ -36,8 +36,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -56,12 +57,12 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Transaction> result;
-        final Transaction                     sample;
+        final TransactionRequest              sample;
         final Pageable                        pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransaction();
+        sample = new DtoTransactionRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -73,12 +74,12 @@ public class ITTransactionServiceGetAll {
     public void testGetAll_Data() {
         final Iterator<? extends Transaction> result;
         Transaction                           data;
-        final Transaction                     sample;
+        final TransactionRequest              sample;
         final Pageable                        pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransaction();
+        sample = new DtoTransactionRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();

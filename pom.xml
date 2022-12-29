@@ -186,7 +186,6 @@
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
-      <plugin.enforcer.version>3.0.0</plugin.enforcer.version>
       <plugin.spring.boot.version>${spring.boot.version}</plugin.spring.boot.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->

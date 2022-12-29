@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.service.TransactionService;
 
@@ -60,8 +61,8 @@ public class TransactionController {
     private final TransactionService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction create(@Valid @RequestBody final DtoTransaction member) {
-        return service.create(member);
+    public Transaction create(@Valid @RequestBody final DtoTransaction transaction) {
+        return service.create(transaction);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,8 +71,8 @@ public class TransactionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Transaction> readAll(final DtoTransaction member, final Pageable pageable) {
-        return service.getAll(member, pageable);
+    public Iterable<? extends Transaction> readAll(final DtoTransactionRequest query, final Pageable pageable) {
+        return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,8 +82,8 @@ public class TransactionController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoTransaction member) {
-        return service.update(id, member);
+    public Transaction update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoTransaction transaction) {
+        return service.update(id, transaction);
     }
 
 }
