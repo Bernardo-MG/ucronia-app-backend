@@ -180,12 +180,14 @@
       <jackson.version>2.13.4.20221013</jackson.version>
       <junit.jupiter.version>5.9.1</junit.jupiter.version>
       <jjwt.version>0.11.5</jjwt.version>
+      <querydsl.version>5.0.0</querydsl.version>
       <spring.boot.version>2.7.4</spring.boot.version>
       <spring.data.version>2021.2.5</spring.data.version>
       <spring.version>5.3.23</spring.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
+      <plugin.processor.version>4.5</plugin.processor.version>
       <plugin.spring.boot.version>${spring.boot.version}</plugin.spring.boot.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
@@ -229,6 +231,14 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-bom</artifactId>
             <version>${spring.data.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+         <dependency>
+            <!-- Querydsl BOM -->
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-bom</artifactId>
+            <version>${querydsl.version}</version>
             <type>pom</type>
             <scope>import</scope>
          </dependency>
@@ -406,6 +416,29 @@
          <!-- Hikari CP -->
          <groupId>com.zaxxer</groupId>
          <artifactId>HikariCP</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== QUERYDSL ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Querydsl Core -->
+         <groupId>com.querydsl</groupId>
+         <artifactId>querydsl-core</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Querydsl JPA -->
+         <groupId>com.querydsl</groupId>
+         <artifactId>querydsl-jpa</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Querydsl APT -->
+         <groupId>com.querydsl</groupId>
+         <artifactId>querydsl-apt</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Querydsl Spring -->
+         <groupId>com.querydsl</groupId>
+         <artifactId>querydsl-sql-spring</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ LIQUIBASE =================== -->
@@ -658,6 +691,27 @@
                   <goals>
                      <goal>repackage</goal>
                   </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <!-- Maven processor -->
+            <!-- Processes Java annotations -->
+            <groupId>org.bsc.maven</groupId>
+            <artifactId>maven-processor-plugin</artifactId>
+            <version>${plugin.processor.version}</version>
+            <executions>
+               <execution>
+                  <id>generate-metamodel</id>
+                  <goals>
+                     <goal>process</goal>
+                  </goals>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                     <processors>
+                        <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                     </processors>
+                  </configuration>
                </execution>
             </executions>
          </plugin>
