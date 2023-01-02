@@ -125,6 +125,13 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
                             order = fee.id.desc();
                         }
                         query.orderBy(order);
+                    } else if ("member_id".equals(o.getProperty())) {
+                        if (o.isAscending()) {
+                            order = member.id.asc();
+                        } else {
+                            order = member.id.desc();
+                        }
+                        query.orderBy(order);
                     } else if ("date".equals(o.getProperty())) {
                         if (o.isAscending()) {
                             order = fee.date.asc();
