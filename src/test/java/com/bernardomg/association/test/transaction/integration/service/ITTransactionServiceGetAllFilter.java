@@ -26,6 +26,7 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
@@ -64,13 +65,60 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionRequest();
 
-        date = new GregorianCalendar();
-        date.set(2020, 1, 2);
+        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setStartDate(date);
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(3, IterableUtils.size(result));
+        Assertions.assertEquals(4, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all the entities data after a date")
+    public void testGetAll_AfterDate_Data() {
+        final Iterator<? extends Transaction> result;
+        final DtoTransactionRequest           sample;
+        final Pageable                        pageable;
+        final Calendar                        date;
+        Transaction                           data;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoTransactionRequest();
+
+        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        sample.setStartDate(date);
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 2", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 3", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 4", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 5", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
     }
 
     @Test
@@ -85,13 +133,47 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionRequest();
 
-        date = new GregorianCalendar();
-        date.set(2020, 1, 2);
+        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertEquals(2, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all the entities data before a date")
+    public void testGetAll_BeforeDate_Data() {
+        final Iterator<? extends Transaction> result;
+        final DtoTransactionRequest           sample;
+        final Pageable                        pageable;
+        final Calendar                        date;
+        Transaction                           data;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoTransactionRequest();
+
+        date = new GregorianCalendar();
+        date.set(2020, 1, 2, 0, 0, 0);
+        sample.setEndDate(date);
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 1", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 2", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
     }
 
 }

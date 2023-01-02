@@ -81,11 +81,13 @@ public final class DefaultTransactionService implements TransactionService {
 
         exprs = new ArrayList<>();
         if (sample.getStartDate() != null) {
-            startPredicate = source.date.after(sample.getStartDate());
+            startPredicate = source.date.after(sample.getStartDate())
+                .or(source.date.eq(sample.getStartDate()));
             exprs.add(startPredicate);
         }
         if (sample.getEndDate() != null) {
-            endPredicate = source.date.before(sample.getEndDate());
+            endPredicate = source.date.before(sample.getEndDate())
+                .or(source.date.eq(sample.getEndDate()));
             exprs.add(endPredicate);
         }
 
