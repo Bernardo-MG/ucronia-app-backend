@@ -95,11 +95,16 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
         }
 
         query = jpqlQueryFactory
-            .select(Projections.constructor(DtoMemberFee.class, fee.id, member.id, member.name, member.surname, fee.date,
-                fee.paid))
+            .select(Projections.constructor(DtoMemberFee.class, fee.id, member.id, member.name, member.surname,
+                fee.date, fee.paid))
             .from(fee)
             .join(member)
             .on(fee.memberId.eq(member.id));
+
+        if (pageable.isPaged()) {
+            query.limit(pageable.getPageSize())
+                .offset(pageable.getOffset());
+        }
 
         if (!exprs.isEmpty()) {
             query.where(exprs.toArray(new Predicate[exprs.size()]));
