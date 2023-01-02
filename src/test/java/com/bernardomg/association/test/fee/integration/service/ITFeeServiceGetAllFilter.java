@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.service;
+package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -36,34 +36,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.DtoFeeRequest;
+import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
-import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
-@DisplayName("Transaction service - get all - filter")
-@Sql({ "/db/queries/transaction/multiple.sql" })
-public class ITTransactionServiceGetAllFilter {
+@DisplayName("Fee service - get all - filter")
+@Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+public class ITFeeServiceGetAllFilter {
 
     @Autowired
-    private TransactionService service;
+    private FeeService service;
 
-    public ITTransactionServiceGetAllFilter() {
+    public ITFeeServiceGetAllFilter() {
         super();
     }
 
     @Test
     @DisplayName("Returns all the entities after a date")
     public void testGetAll_AfterDate_Count() {
-        final Iterable<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoFeeRequest();
 
         date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setStartDate(date);
@@ -76,15 +76,15 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("Returns all the entities data after a date")
     public void testGetAll_AfterDate_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+        MemberFee                           data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoFeeRequest();
 
         date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setStartDate(date);
@@ -94,44 +94,52 @@ public class ITTransactionServiceGetAllFilter {
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(2, data.getMemberId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertTrue(data.getPaid());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(3, data.getMemberId());
+        Assertions.assertEquals("Member 3", data.getName());
+        Assertions.assertEquals("Surname 3", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertTrue(data.getPaid());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(4, data.getMemberId());
+        Assertions.assertEquals("Member 4", data.getName());
+        Assertions.assertEquals("Surname 4", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertTrue(data.getPaid());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(5, data.getMemberId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname 5", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertFalse(data.getPaid());
     }
 
     @Test
     @DisplayName("Returns all the entities before a date")
     public void testGetAll_BeforeDate_Count() {
-        final Iterable<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoFeeRequest();
 
         date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setEndDate(date);
@@ -144,15 +152,15 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("Returns all the entities data before a date")
     public void testGetAll_BeforeDate_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+        MemberFee                           data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoFeeRequest();
 
         date = new GregorianCalendar();
         date.set(2020, 1, 2, 0, 0, 0);
@@ -163,30 +171,34 @@ public class ITTransactionServiceGetAllFilter {
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(1, data.getMemberId());
+        Assertions.assertEquals("Member 1", data.getName());
+        Assertions.assertEquals("Surname 1", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertTrue(data.getPaid());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(2, data.getMemberId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertTrue(data.getPaid());
     }
 
     @Test
     @DisplayName("Returns all the entities in a date")
     public void testGetAll_InDate_Count() {
-        final Iterable<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoFeeRequest();
 
         date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setDate(date);
@@ -199,15 +211,15 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("Returns all the entities data after a date")
     public void testGetAll_InDate_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+        MemberFee                           data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoFeeRequest();
 
         date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
         sample.setDate(date);
@@ -217,10 +229,12 @@ public class ITTransactionServiceGetAllFilter {
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
+        Assertions.assertEquals(2, data.getMemberId());
+        Assertions.assertEquals("Member 2", data.getName());
+        Assertions.assertEquals("Surname 2", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), data.getDate()
             .toInstant());
+        Assertions.assertTrue(data.getPaid());
     }
 
 }

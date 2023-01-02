@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.model.DtoFeeForm;
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.DtoFeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.service.FeeService;
 
@@ -71,8 +71,8 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberFee> readAll(final DtoMemberFee fee, final Pageable pageable) {
-        return service.getAll(fee, pageable);
+    public Iterable<? extends MemberFee> readAll(final DtoFeeRequest request, final Pageable pageable) {
+        return service.getAll(request, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

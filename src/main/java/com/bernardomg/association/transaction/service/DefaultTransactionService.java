@@ -69,39 +69,37 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_TRANSACTION')")
-    public final Iterable<? extends Transaction> getAll(final TransactionRequest sample, final Pageable pageable) {
+    public final Iterable<? extends Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
         final QPersistentTransaction      source;
-        final BooleanExpression           datePredicate;
-        final BooleanExpression           startPredicate;
-        final BooleanExpression           endPredicate;
-        final Predicate                   predicate;
+        final Predicate                   finalPredicate;
         final Collection<Predicate>       exprs;
         final Page<PersistentTransaction> page;
+        BooleanExpression                 predicate;
 
         source = QPersistentTransaction.persistentTransaction;
 
         exprs = new ArrayList<>();
-        if (sample.getDate() != null) {
-            datePredicate = source.date.eq(sample.getDate());
-            exprs.add(datePredicate);
+        if (request.getDate() != null) {
+            predicate = source.date.eq(request.getDate());
+            exprs.add(predicate);
         } else {
-            if (sample.getStartDate() != null) {
-                startPredicate = source.date.after(sample.getStartDate())
-                    .or(source.date.eq(sample.getStartDate()));
-                exprs.add(startPredicate);
+            if (request.getStartDate() != null) {
+                predicate = source.date.after(request.getStartDate())
+                    .or(source.date.eq(request.getStartDate()));
+                exprs.add(predicate);
             }
-            if (sample.getEndDate() != null) {
-                endPredicate = source.date.before(sample.getEndDate())
-                    .or(source.date.eq(sample.getEndDate()));
-                exprs.add(endPredicate);
+            if (request.getEndDate() != null) {
+                predicate = source.date.before(request.getEndDate())
+                    .or(source.date.eq(request.getEndDate()));
+                exprs.add(predicate);
             }
         }
 
         if (exprs.isEmpty()) {
             page = repository.findAll(pageable);
         } else {
-            predicate = ExpressionUtils.allOf(exprs);
-            page = repository.findAll(predicate, pageable);
+            finalPredicate = ExpressionUtils.allOf(exprs);
+            page = repository.findAll(finalPredicate, pageable);
         }
 
         return page.map(this::toDto);

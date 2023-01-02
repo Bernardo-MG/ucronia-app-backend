@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.model.FeeForm;
+import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 
 /**
@@ -37,13 +38,13 @@ public interface FeeService {
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
      *
-     * @param sample
+     * @param request
      *            sample for filtering
      * @param pageable
      *            pagination to apply
      * @return all the fees matching the sample
      */
-    public Iterable<? extends MemberFee> getAll(final MemberFee sample, final Pageable pageable);
+    public Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

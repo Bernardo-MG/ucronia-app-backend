@@ -8,20 +8,25 @@ import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.FeeForm;
+import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.PersistentFee;
+import com.bernardomg.association.fee.model.QPersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,14 +89,40 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE')")
-    public final Iterable<? extends MemberFee> getAll(final MemberFee sample, final Pageable pageable) {
-        final PersistentFee entity;
+    public final Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
+        final QPersistentFee        source;
+        final Predicate             finalPredicate;
+        final Collection<Predicate> exprs;
+        final Page<PersistentFee>   page;
+        BooleanExpression           predicate;
 
-        entity = toEntity(sample);
+        source = QPersistentFee.persistentFee;
 
-        // TODO: Test repository
-        // TODO: Test reading with no name or surname
-        return memberFeeRepository.findAllWithMember(Example.of(entity), pageable);
+        exprs = new ArrayList<>();
+        if (request.getDate() != null) {
+            predicate = source.date.eq(request.getDate());
+            exprs.add(predicate);
+        } else {
+            if (request.getStartDate() != null) {
+                predicate = source.date.after(request.getStartDate())
+                    .or(source.date.eq(request.getStartDate()));
+                exprs.add(predicate);
+            }
+            if (request.getEndDate() != null) {
+                predicate = source.date.before(request.getEndDate())
+                    .or(source.date.eq(request.getEndDate()));
+                exprs.add(predicate);
+            }
+        }
+
+        if (exprs.isEmpty()) {
+            page = repository.findAll(pageable);
+        } else {
+            finalPredicate = ExpressionUtils.allOf(exprs);
+            page = repository.findAll(finalPredicate, pageable);
+        }
+
+        return page.map(this::toDto);
     }
 
     @Override
@@ -167,25 +198,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final PersistentFee toEntity(final FeeForm data) {
-        final PersistentFee entity;
-        final Calendar      date;
-
-        if (data.getDate() != null) {
-            date = removeDay(data.getDate());
-        } else {
-            date = null;
-        }
-
-        entity = new PersistentFee();
-        entity.setId(data.getId());
-        entity.setMemberId(data.getMemberId());
-        entity.setDate(date);
-        entity.setPaid(data.getPaid());
-
-        return entity;
-    }
-
-    private final PersistentFee toEntity(final MemberFee data) {
         final PersistentFee entity;
         final Calendar      date;
 

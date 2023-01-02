@@ -35,7 +35,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.DtoFeeRequest;
+import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -54,13 +55,13 @@ public class ITFeeServiceGetAllError {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
-        final DtoMemberFee sample;
-        final Pageable     pageable;
-        final Executable   executable;
+        final FeeRequest sample;
+        final Pageable   pageable;
+        final Executable executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoMemberFee();
+        sample = new DtoFeeRequest();
 
         executable = () -> service.getAll(sample, pageable)
             .iterator();
