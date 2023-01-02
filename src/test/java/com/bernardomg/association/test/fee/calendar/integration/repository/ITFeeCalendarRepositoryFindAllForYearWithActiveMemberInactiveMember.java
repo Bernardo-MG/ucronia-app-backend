@@ -52,7 +52,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberInactiveMember
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 

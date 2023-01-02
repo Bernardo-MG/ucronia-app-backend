@@ -32,12 +32,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.DtoFeeRequest;
+import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -57,12 +57,12 @@ public class ITMemberFeeRepositoryFindAllWithMember {
     @DisplayName("Returns all the entities")
     public void testFindAllWithMember_Count() {
         final Iterable<? extends MemberFee> result;
-        final Example<PersistentFee>        example;
+        final FeeRequest                    example;
         final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        example = Example.of(new PersistentFee());
+        example = new DtoFeeRequest();
 
         result = repository.findAllWithMember(example, pageable);
 
@@ -74,12 +74,12 @@ public class ITMemberFeeRepositoryFindAllWithMember {
     public void testFindAllWithMember_Data() {
         final Iterator<? extends MemberFee> data;
         MemberFee                           result;
-        final Example<PersistentFee>        example;
+        final FeeRequest                    example;
         final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        example = Example.of(new PersistentFee());
+        example = new DtoFeeRequest();
 
         data = repository.findAllWithMember(example, pageable)
             .iterator();

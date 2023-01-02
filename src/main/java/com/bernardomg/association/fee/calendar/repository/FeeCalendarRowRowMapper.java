@@ -19,7 +19,7 @@ public final class FeeCalendarRowRowMapper implements RowMapper<FeeCalendarRow> 
     @Override
     public final FeeCalendarRow mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final DtoFeeCalendarRow fee;
-        final Calendar      calendar;
+        final Calendar          calendar;
 
         calendar = Calendar.getInstance();
         try {

@@ -52,7 +52,7 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAllActive_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 
@@ -69,7 +69,7 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAllInactive_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 

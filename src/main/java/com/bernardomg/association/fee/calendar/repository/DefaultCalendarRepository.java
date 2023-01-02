@@ -32,17 +32,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
-    private final RowMapper<FeeCalendarRange>    feeRangeRowMapper          = new FeeCalendarRangeRowMapper();
+    private final RowMapper<FeeCalendarRange> feeRangeRowMapper          = new FeeCalendarRangeRowMapper();
 
-    private final RowMapper<FeeCalendarRow>      feeYearRowRowMapper        = new FeeCalendarRowRowMapper();
+    private final RowMapper<FeeCalendarRow>   feeYearRowRowMapper        = new FeeCalendarRowRowMapper();
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate  jdbcTemplate;
 
-    private final String                     queryForYear               = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private final String                      queryForYear               = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
-    private final String                     queryRange                 = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
+    private final String                      queryRange                 = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
 
-    private final String                     queryRangeWithActiveMember = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
+    private final String                      queryRangeWithActiveMember = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
 
     @Override
     public final Iterable<? extends FeeCalendar> findAllForYear(final Integer year, final Sort sort) {
@@ -89,14 +89,15 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
     }
 
-    private final Iterable<? extends FeeCalendar> findAllForYear(final String query, final Integer year, final Sort sort) {
+    private final Iterable<? extends FeeCalendar> findAllForYear(final String query, final Integer year,
+            final Sort sort) {
         final Collection<FeeCalendarRow>      readFees;
         final Map<Long, List<FeeCalendarRow>> memberFees;
         final Collection<FeeCalendar>         years;
-        final Iterable<Long>              memberIds;
+        final Iterable<Long>                  memberIds;
         List<FeeCalendarRow>                  fees;
         FeeCalendar                           feeYear;
-        Boolean                           active;
+        Boolean                               active;
 
         readFees = findAll(query, year, sort);
         memberFees = readFees.stream()
@@ -137,7 +138,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
     private final FeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
             final Collection<FeeCalendarRow> fees) {
         final Collection<FeeMonth> months;
-        final FeeCalendarRow           row;
+        final FeeCalendarRow       row;
         final String               name;
         final String               surname;
         FeeMonth                   feeMonth;

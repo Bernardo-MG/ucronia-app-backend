@@ -22,21 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.repository;
+package com.bernardomg.association.config;
 
-import java.util.Optional;
+import javax.persistence.EntityManager;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.fee.model.FeeRequest;
-import com.bernardomg.association.fee.model.MemberFee;
+import com.querydsl.jpa.JPQLQueryFactory;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
-public interface MemberFeeRepository {
+/**
+ * QueryDSL configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration
+public class QueryDslConfig {
 
-    public Page<MemberFee> findAllWithMember(final FeeRequest request, final Pageable pageable);
+    public QueryDslConfig() {
+        super();
+    }
 
-    public Optional<MemberFee> findOneByIdWithMember(@Param("id") final Long id);
+    @Bean("jpqlQueryFactory")
+    public JPQLQueryFactory getJpqlQueryFactory(final EntityManager entityManager) {
+        return new JPAQueryFactory(entityManager);
+    }
 
 }

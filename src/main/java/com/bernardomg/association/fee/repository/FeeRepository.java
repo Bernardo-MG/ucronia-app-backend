@@ -25,9 +25,10 @@
 package com.bernardomg.association.fee.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import com.bernardomg.association.fee.model.PersistentFee;
 
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+public interface FeeRepository extends JpaRepository<PersistentFee, Long>, QuerydslPredicateExecutor<PersistentFee> {
 
 }

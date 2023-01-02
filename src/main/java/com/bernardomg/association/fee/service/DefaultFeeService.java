@@ -8,13 +8,13 @@ import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.FeeForm;
+import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
@@ -84,14 +84,10 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE')")
-    public final Iterable<? extends MemberFee> getAll(final MemberFee sample, final Pageable pageable) {
-        final PersistentFee entity;
-
-        entity = toEntity(sample);
-
+    public final Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return memberFeeRepository.findAllWithMember(Example.of(entity), pageable);
+        return memberFeeRepository.findAllWithMember(request, pageable);
     }
 
     @Override
@@ -167,25 +163,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final PersistentFee toEntity(final FeeForm data) {
-        final PersistentFee entity;
-        final Calendar      date;
-
-        if (data.getDate() != null) {
-            date = removeDay(data.getDate());
-        } else {
-            date = null;
-        }
-
-        entity = new PersistentFee();
-        entity.setId(data.getId());
-        entity.setMemberId(data.getMemberId());
-        entity.setDate(date);
-        entity.setPaid(data.getPaid());
-
-        return entity;
-    }
-
-    private final PersistentFee toEntity(final MemberFee data) {
         final PersistentFee entity;
         final Calendar      date;
 

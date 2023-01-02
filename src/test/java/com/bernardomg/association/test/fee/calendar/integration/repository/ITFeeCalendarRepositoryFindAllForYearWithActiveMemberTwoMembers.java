@@ -57,7 +57,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
     public void testFindAllForYear_FullYear_TwoMembers_Count() {
         final Iterable<? extends FeeCalendar> result;
         final Iterator<? extends FeeCalendar> itr;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 
@@ -77,9 +77,9 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
     public void testFindAllForYear_FullYear_TwoMembers_Data() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 

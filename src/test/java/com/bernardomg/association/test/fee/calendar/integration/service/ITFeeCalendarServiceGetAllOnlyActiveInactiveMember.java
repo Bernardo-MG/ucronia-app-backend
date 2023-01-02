@@ -52,7 +52,7 @@ public class ITFeeCalendarServiceGetAllOnlyActiveInactiveMember {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 

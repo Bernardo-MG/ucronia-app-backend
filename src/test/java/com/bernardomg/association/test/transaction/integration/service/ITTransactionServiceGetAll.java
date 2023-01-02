@@ -36,8 +36,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -56,12 +57,12 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Transaction> result;
-        final Transaction                     sample;
+        final TransactionRequest              sample;
         final Pageable                        pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransaction();
+        sample = new DtoTransactionRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -72,13 +73,13 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns all the entities data")
     public void testGetAll_Data() {
         final Iterator<? extends Transaction> result;
-        Transaction                           data;
-        final Transaction                     sample;
+        final TransactionRequest              sample;
         final Pageable                        pageable;
+        Transaction                           data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransaction();
+        sample = new DtoTransactionRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -87,35 +88,35 @@ public class ITTransactionServiceGetAll {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1, 0, 0, 0).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3, 0, 0, 0).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4, 0, 0, 0).toInstant(), data.getDate()
             .toInstant());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).toInstant(), data.getDate()
             .toInstant());
     }
 

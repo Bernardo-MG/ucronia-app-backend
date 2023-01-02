@@ -55,7 +55,7 @@ public class ITFeeCalendarServiceGetAllOnlyActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 
@@ -73,9 +73,9 @@ public class ITFeeCalendarServiceGetAllOnlyActive {
     public void testGetAll_FullYear_Data() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 
@@ -146,7 +146,7 @@ public class ITFeeCalendarServiceGetAllOnlyActive {
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoData_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 
@@ -160,7 +160,7 @@ public class ITFeeCalendarServiceGetAllOnlyActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetAll_TwoConnectedYears_Count() {
         final Iterable<? extends FeeCalendar> result;
-        final Sort                        sort;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 
@@ -178,9 +178,9 @@ public class ITFeeCalendarServiceGetAllOnlyActive {
     public void testGetAll_TwoConnectedYears_Data() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.unsorted();
 

@@ -57,9 +57,9 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     public void testGetAll_Name_Asc() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.by(Direction.ASC, "name");
 
@@ -190,9 +190,9 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     public void testGetAll_Name_Desc() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.by(Direction.DESC, "name");
 
@@ -323,9 +323,9 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     public void testGetAll_Surname_Asc() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.by(Direction.ASC, "surname");
 
@@ -456,9 +456,9 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     public void testGetAll_Surname_Desc() {
         final Iterator<? extends FeeCalendar> data;
         FeeCalendar                           result;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-        final Sort                        sort;
+        Iterator<FeeMonth>                    months;
+        FeeMonth                              month;
+        final Sort                            sort;
 
         sort = Sort.by(Direction.DESC, "surname");
 

@@ -50,22 +50,6 @@ public class ITMemberServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Returns all the entities when not filtering")
-    public void testGetAll_Count() {
-        final Iterable<? extends Member> result;
-        final Member                     sample;
-        final Pageable                   pageable;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoMember();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertEquals(5, IterableUtils.size(result));
-    }
-
-    @Test
     @DisplayName("Filters by active")
     public void testGetAll_Active_Count() {
         final Iterable<? extends Member> result;
@@ -80,6 +64,22 @@ public class ITMemberServiceGetAllFilter {
         result = service.getAll(sample, pageable);
 
         Assertions.assertEquals(4, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all the entities when not filtering")
+    public void testGetAll_Count() {
+        final Iterable<? extends Member> result;
+        final Member                     sample;
+        final Pageable                   pageable;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoMember();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(5, IterableUtils.size(result));
     }
 
     @Test
