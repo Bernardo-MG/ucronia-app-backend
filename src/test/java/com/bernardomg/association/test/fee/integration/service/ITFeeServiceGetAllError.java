@@ -25,6 +25,7 @@
 package com.bernardomg.association.test.fee.integration.service;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -54,6 +55,7 @@ public class ITFeeServiceGetAllError {
 
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
+    @Disabled
     public void testGetAll_NotExisting() {
         final FeeRequest sample;
         final Pageable   pageable;

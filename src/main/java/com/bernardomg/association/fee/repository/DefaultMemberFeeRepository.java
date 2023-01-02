@@ -44,6 +44,7 @@ import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.QPersistentFee;
 import com.bernardomg.association.member.model.QPersistentMember;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -104,6 +105,58 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
         if (pageable.isPaged()) {
             query.limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
+        }
+
+        if (pageable.getSort()
+            .isSorted()) {
+            pageable.getSort()
+                .stream()
+                .forEach(o -> {
+                    final OrderSpecifier<?> order;
+
+                    if ("id"
+                        .equals(o.getProperty())) {
+                        if (o.isAscending()) {
+                            order = fee.id.asc();
+                        } else {
+                            order = fee.id.desc();
+                        }
+                        query.orderBy(order);
+                    } else if ("date"
+                        .equals(o.getProperty())) {
+                        if (o.isAscending()) {
+                            order = fee.date.asc();
+                        } else {
+                            order = fee.date.desc();
+                        }
+                        query.orderBy(order);
+                    } else if ("paid"
+                        .equals(o.getProperty())) {
+                        if (o.isAscending()) {
+                            order = fee.paid.asc();
+                        } else {
+                            order = fee.paid.desc();
+                        }
+                        query.orderBy(order);
+                    } else if ("name"
+                        .equals(o.getProperty())) {
+                        if (o.isAscending()) {
+                            order = member.name.asc();
+                        } else {
+                            order = member.name.desc();
+                        }
+                        query.orderBy(order);
+                    } else if ("surname"
+                        .equals(o.getProperty())) {
+                        if (o.isAscending()) {
+                            order = member.surname.asc();
+                        } else {
+                            order = member.surname.desc();
+                        }
+                        query.orderBy(order);
+                    }
+
+                });
         }
 
         if (!exprs.isEmpty()) {
