@@ -212,7 +212,8 @@ public final class DefaultFeeService implements FeeService {
             throw new FieldFailureException(failures);
         }
 
-        if (!repository.existsById(form.getMemberId())) {
+        // TODO: Test validation
+        if (!memberRepository.existsById(form.getMemberId())) {
             log.error("Found no member with id {}", form.getMemberId());
             failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
             failures.add(failure);
