@@ -65,7 +65,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        date = new GregorianCalendar(2020, 2, 1, 0, 0, 0);
         sample.setStartDate(date);
 
         result = service.getAll(sample, pageable);
@@ -86,7 +86,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        date = new GregorianCalendar(2020, 2, 1, 0, 0, 0);
         sample.setStartDate(date);
 
         result = service.getAll(sample, pageable)
@@ -141,7 +141,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        date = new GregorianCalendar(2020, 2, 1, 0, 0, 0);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable);
@@ -162,8 +162,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar();
-        date.set(2020, 1, 2, 0, 0, 0);
+        date = new GregorianCalendar(2020, 2, 1, 0, 0, 0);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable)
@@ -200,7 +199,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        date = new GregorianCalendar(2020, 2, 1, 0, 0, 0);
         sample.setDate(date);
 
         result = service.getAll(sample, pageable);
@@ -221,7 +220,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        date = new GregorianCalendar(2020, 2, 1, 0, 0, 0);
         sample.setDate(date);
 
         result = service.getAll(sample, pageable)

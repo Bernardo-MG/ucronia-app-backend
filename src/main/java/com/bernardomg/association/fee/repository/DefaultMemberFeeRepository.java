@@ -78,6 +78,13 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
         fee = QPersistentFee.persistentFee;
         member = QPersistentMember.persistentMember;
 
+        query = jpqlQueryFactory
+            .select(Projections.constructor(DtoMemberFee.class, fee.id, member.id, member.name, member.surname,
+                fee.date, fee.paid))
+            .from(fee)
+            .join(member)
+            .on(fee.memberId.eq(member.id));
+
         exprs = new ArrayList<>();
         if (request.getDate() != null) {
             predicate = fee.date.eq(request.getDate());
@@ -95,12 +102,9 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
             }
         }
 
-        query = jpqlQueryFactory
-            .select(Projections.constructor(DtoMemberFee.class, fee.id, member.id, member.name, member.surname,
-                fee.date, fee.paid))
-            .from(fee)
-            .join(member)
-            .on(fee.memberId.eq(member.id));
+        if (!exprs.isEmpty()) {
+            query.where(exprs.toArray(new Predicate[exprs.size()]));
+        }
 
         if (pageable.isPaged()) {
             query.limit(pageable.getPageSize())
@@ -114,40 +118,35 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
                 .forEach(o -> {
                     final OrderSpecifier<?> order;
 
-                    if ("id"
-                        .equals(o.getProperty())) {
+                    if ("id".equals(o.getProperty())) {
                         if (o.isAscending()) {
                             order = fee.id.asc();
                         } else {
                             order = fee.id.desc();
                         }
                         query.orderBy(order);
-                    } else if ("date"
-                        .equals(o.getProperty())) {
+                    } else if ("date".equals(o.getProperty())) {
                         if (o.isAscending()) {
                             order = fee.date.asc();
                         } else {
                             order = fee.date.desc();
                         }
                         query.orderBy(order);
-                    } else if ("paid"
-                        .equals(o.getProperty())) {
+                    } else if ("paid".equals(o.getProperty())) {
                         if (o.isAscending()) {
                             order = fee.paid.asc();
                         } else {
                             order = fee.paid.desc();
                         }
                         query.orderBy(order);
-                    } else if ("name"
-                        .equals(o.getProperty())) {
+                    } else if ("name".equals(o.getProperty())) {
                         if (o.isAscending()) {
                             order = member.name.asc();
                         } else {
                             order = member.name.desc();
                         }
                         query.orderBy(order);
-                    } else if ("surname"
-                        .equals(o.getProperty())) {
+                    } else if ("surname".equals(o.getProperty())) {
                         if (o.isAscending()) {
                             order = member.surname.asc();
                         } else {
@@ -157,10 +156,6 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
                     }
 
                 });
-        }
-
-        if (!exprs.isEmpty()) {
-            query.where(exprs.toArray(new Predicate[exprs.size()]));
         }
 
         read = (List<MemberFee>) query.fetch();
