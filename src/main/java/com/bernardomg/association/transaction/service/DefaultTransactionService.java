@@ -1,20 +1,25 @@
 
 package com.bernardomg.association.transaction.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
+import com.bernardomg.association.transaction.model.QPersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,14 +70,33 @@ public final class DefaultTransactionService implements TransactionService {
     @Override
     @PreAuthorize("hasAuthority('READ_TRANSACTION')")
     public final Iterable<? extends Transaction> getAll(final TransactionRequest sample, final Pageable pageable) {
-        final Example<PersistentTransaction> example;
+        final QPersistentTransaction      source;
+        final BooleanExpression           startPredicate;
+        final BooleanExpression           endPredicate;
+        final Predicate                   predicate;
+        final Collection<Predicate>       exprs;
+        final Page<PersistentTransaction> page;
 
-        example = Example.of(new PersistentTransaction());
-        ExampleMatcher.matching()
-            .withMatcher("firstname", match -> match.endsWith());
+        source = QPersistentTransaction.persistentTransaction;
 
-        return repository.findAll(example, pageable)
-            .map(this::toDto);
+        exprs = new ArrayList<>();
+        if (sample.getStartDate() != null) {
+            startPredicate = source.date.after(sample.getStartDate());
+            exprs.add(startPredicate);
+        }
+        if (sample.getEndDate() != null) {
+            endPredicate = source.date.before(sample.getEndDate());
+            exprs.add(endPredicate);
+        }
+
+        if (exprs.isEmpty()) {
+            page = repository.findAll(pageable);
+        } else {
+            predicate = ExpressionUtils.allOf(exprs);
+            page = repository.findAll(predicate, pageable);
+        }
+
+        return page.map(this::toDto);
     }
 
     @Override
@@ -129,18 +153,6 @@ public final class DefaultTransactionService implements TransactionService {
         result.setAmount(transaction.getAmount());
 
         return result;
-    }
-
-    private final Example<PersistentTransaction> toExample(final TransactionRequest transaction) {
-        final PersistentTransaction result;
-
-        result = new PersistentTransaction();
-        // result.setId(transaction.getId());
-        // result.setDescription(transaction.getDescription());
-        // result.setDate(transaction.getDate());
-        // result.setAmount(transaction.getAmount());
-
-        return Example.of(result);
     }
 
 }
