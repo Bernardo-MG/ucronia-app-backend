@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.DtoFeeRequest;
+import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -59,7 +59,7 @@ public class ITMemberFeeRepositoryFindAllWithMemberSort {
     @DisplayName("Returns all data in descending order by member id")
     public void testFindAllWithMember_Desc_MemberId() {
         final Iterator<? extends MemberFee> data;
-        final Example<PersistentFee>        example;
+        final FeeRequest                    example;
         final Pageable                      pageable;
         final Sort                          sort;
         MemberFee                           result;
@@ -67,7 +67,7 @@ public class ITMemberFeeRepositoryFindAllWithMemberSort {
         sort = Sort.by(Direction.DESC, "member_id");
         pageable = PageRequest.of(0, 10, sort);
 
-        example = Example.of(new PersistentFee());
+        example = new DtoFeeRequest();
 
         data = repository.findAllWithMember(example, pageable)
             .iterator();
