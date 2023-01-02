@@ -11,6 +11,9 @@ import lombok.Data;
 public final class DtoTransactionRequest implements TransactionRequest {
 
     @NotNull
+    private Calendar date;
+
+    @NotNull
     private Calendar endDate;
 
     @NotNull

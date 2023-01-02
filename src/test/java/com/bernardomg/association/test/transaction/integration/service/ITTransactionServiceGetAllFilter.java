@@ -176,4 +176,51 @@ public class ITTransactionServiceGetAllFilter {
             .toInstant());
     }
 
+    @Test
+    @DisplayName("Returns all the entities in a date")
+    public void testGetAll_InDate_Count() {
+        final Iterable<? extends Transaction> result;
+        final DtoTransactionRequest           sample;
+        final Pageable                        pageable;
+        final Calendar                        date;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoTransactionRequest();
+
+        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        sample.setDate(date);
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Returns all the entities data after a date")
+    public void testGetAll_InDate_Data() {
+        final Iterator<? extends Transaction> result;
+        final DtoTransactionRequest           sample;
+        final Pageable                        pageable;
+        final Calendar                        date;
+        Transaction                           data;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoTransactionRequest();
+
+        date = new GregorianCalendar(2020, 1, 2, 0, 0, 0);
+        sample.setDate(date);
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals("Transaction 2", data.getDescription());
+        Assertions.assertEquals(1, data.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2, 0, 0, 0).toInstant(), data.getDate()
+            .toInstant());
+    }
+
 }

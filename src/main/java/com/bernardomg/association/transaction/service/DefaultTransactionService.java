@@ -71,6 +71,7 @@ public final class DefaultTransactionService implements TransactionService {
     @PreAuthorize("hasAuthority('READ_TRANSACTION')")
     public final Iterable<? extends Transaction> getAll(final TransactionRequest sample, final Pageable pageable) {
         final QPersistentTransaction      source;
+        final BooleanExpression           datePredicate;
         final BooleanExpression           startPredicate;
         final BooleanExpression           endPredicate;
         final Predicate                   predicate;
@@ -80,15 +81,20 @@ public final class DefaultTransactionService implements TransactionService {
         source = QPersistentTransaction.persistentTransaction;
 
         exprs = new ArrayList<>();
-        if (sample.getStartDate() != null) {
-            startPredicate = source.date.after(sample.getStartDate())
-                .or(source.date.eq(sample.getStartDate()));
-            exprs.add(startPredicate);
-        }
-        if (sample.getEndDate() != null) {
-            endPredicate = source.date.before(sample.getEndDate())
-                .or(source.date.eq(sample.getEndDate()));
-            exprs.add(endPredicate);
+        if (sample.getDate() != null) {
+            datePredicate = source.date.eq(sample.getDate());
+            exprs.add(datePredicate);
+        } else {
+            if (sample.getStartDate() != null) {
+                startPredicate = source.date.after(sample.getStartDate())
+                    .or(source.date.eq(sample.getStartDate()));
+                exprs.add(startPredicate);
+            }
+            if (sample.getEndDate() != null) {
+                endPredicate = source.date.before(sample.getEndDate())
+                    .or(source.date.eq(sample.getEndDate()));
+                exprs.add(endPredicate);
+            }
         }
 
         if (exprs.isEmpty()) {
