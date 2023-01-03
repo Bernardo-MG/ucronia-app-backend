@@ -133,13 +133,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         log.error(ex.getMessage());
 
-        if (ex.getMessage() == null) {
-            message = "";
-        } else {
-            message = ex.getMessage();
-        }
+        message = "Internal error";
 
-        response = Response.error(message);
+        response = Response.error(message, "500");
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }
