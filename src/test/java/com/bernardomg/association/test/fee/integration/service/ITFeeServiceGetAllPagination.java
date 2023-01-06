@@ -91,8 +91,8 @@ public class ITFeeServiceGetAllPagination {
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1", result.getName());
         Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertTrue(result.getPaid());
     }
 
@@ -116,8 +116,8 @@ public class ITFeeServiceGetAllPagination {
         Assertions.assertEquals(2, result.getMemberId());
         Assertions.assertEquals("Member 2", result.getName());
         Assertions.assertEquals("Surname 2", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertTrue(result.getPaid());
     }
 

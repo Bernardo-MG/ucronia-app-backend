@@ -74,8 +74,8 @@ public class ITFeeServiceGetOne {
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1", result.getName());
         Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertTrue(result.getPaid());
     }
 

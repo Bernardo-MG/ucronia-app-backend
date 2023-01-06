@@ -87,8 +87,8 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(1.2f, entity.getAmount());
     }
 
@@ -107,8 +107,8 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertEquals(1.2f, result.getAmount());
     }
 
@@ -145,8 +145,8 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(1f, entity.getAmount());
     }
 
@@ -165,8 +165,8 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertEquals(1f, result.getAmount());
     }
 

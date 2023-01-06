@@ -53,21 +53,6 @@ public class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
-        final DtoTransaction transaction;
-
-        transaction = new DtoTransaction();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
-
-        service.create(transaction);
-
-        Assertions.assertEquals(1L, repository.count());
-    }
-
-    @Test
     @DisplayName("Persists the data with decimal values")
     public void testCreate_Decimal_PersistedData() {
         final DtoTransaction        transaction;
@@ -85,8 +70,8 @@ public class ITTransactionServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(1.2f, entity.getAmount());
     }
 
@@ -105,14 +90,87 @@ public class ITTransactionServiceCreate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertEquals(1f, result.getAmount());
     }
 
     @Test
-    @DisplayName("Persists the data")
-    public void testCreate_PersistedData() {
+    @DisplayName("Adds an entity when creating for the first day of the year")
+    public void testCreate_FirstDay_AddsEntity() {
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 0, 1));
+
+        service.create(transaction);
+
+        Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Persists the data when creating for the first day of the year")
+    public void testCreate_FirstDay_PersistedData() {
+        final DtoTransaction        transaction;
+        final PersistentTransaction entity;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 0, 1));
+
+        service.create(transaction);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals("Transaction", entity.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1).getTime(), entity.getDate()
+            .getTime());
+        Assertions.assertEquals(1f, entity.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns the created data when creating for the first day of the year")
+    public void testCreate_FirstDay_ReturnedData() {
+        final Transaction    result;
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 0, 1));
+
+        result = service.create(transaction);
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals("Transaction", result.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertEquals(1f, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Adds an entity when creating during the year")
+    public void testCreate_InYear_AddsEntity() {
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+
+        service.create(transaction);
+
+        Assertions.assertEquals(1L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Persists the data when creating during the year")
+    public void testCreate_InYear_PersistedData() {
         final DtoTransaction        transaction;
         final PersistentTransaction entity;
 
@@ -128,9 +186,29 @@ public class ITTransactionServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(1f, entity.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns the created data when creating during the year")
+    public void testCreate_InYear_ReturnedData() {
+        final Transaction    result;
+        final DtoTransaction transaction;
+
+        transaction = new DtoTransaction();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(1f);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+
+        result = service.create(transaction);
+
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals("Transaction", result.getDescription());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertEquals(1f, result.getAmount());
     }
 
     @Test
@@ -148,26 +226,6 @@ public class ITTransactionServiceCreate {
         service.create(transaction);
 
         Assertions.assertEquals(2L, repository.count());
-    }
-
-    @Test
-    @DisplayName("Returns the created data")
-    public void testCreate_ReturnedData() {
-        final Transaction    result;
-        final DtoTransaction transaction;
-
-        transaction = new DtoTransaction();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
-
-        result = service.create(transaction);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
-        Assertions.assertEquals(1f, result.getAmount());
     }
 
 }
