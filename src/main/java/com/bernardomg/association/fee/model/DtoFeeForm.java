@@ -13,8 +13,6 @@ public final class DtoFeeForm implements FeeForm {
     @NotNull
     private Calendar date;
 
-    private Long     id;
-
     @NotNull
     private Long     memberId;
 

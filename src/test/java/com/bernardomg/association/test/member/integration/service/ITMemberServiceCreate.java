@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberForm;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
@@ -53,9 +53,9 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final DtoMember member;
+        final DtoMemberForm member;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -70,9 +70,9 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("Adds two entities with minimal data")
     public void testCreate_Minimal_Additional_AddsEntity() {
-        DtoMember member;
+        DtoMemberForm member;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("");
         member.setPhone("");
@@ -81,7 +81,7 @@ public class ITMemberServiceCreate {
 
         service.create(member);
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member 2");
         member.setSurname("");
         member.setPhone("");
@@ -96,10 +96,10 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final DtoMember        member;
+        final DtoMemberForm    member;
         final PersistentMember entity;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -122,10 +122,10 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final Member    result;
-        final DtoMember member;
+        final Member        result;
+        final DtoMemberForm member;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("12345");

@@ -35,8 +35,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.MemberRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -56,13 +57,13 @@ public class ITMemberServiceGetAllSort {
     @DisplayName("Returns all data in ascending order by active flag")
     public void testGetAll_Active_Asc() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "active");
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -112,13 +113,13 @@ public class ITMemberServiceGetAllSort {
     @DisplayName("Returns all data in descending order by active flag")
     public void testGetAll_Active_Desc() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "active");
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -168,13 +169,13 @@ public class ITMemberServiceGetAllSort {
     @DisplayName("Returns all data in ascending order by name")
     public void testGetAll_Name_Asc() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -224,13 +225,13 @@ public class ITMemberServiceGetAllSort {
     @DisplayName("Returns all data in descending order by name")
     public void testGetAll_Name_Desc() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -280,13 +281,13 @@ public class ITMemberServiceGetAllSort {
     @DisplayName("Returns all data in ascending order by surname")
     public void testGetAll_Surname_Asc() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -336,13 +337,13 @@ public class ITMemberServiceGetAllSort {
     @DisplayName("Returns all data in descending order by surname")
     public void testGetAll_Surname_Desc() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();

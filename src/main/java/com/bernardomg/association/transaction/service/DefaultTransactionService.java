@@ -15,6 +15,7 @@ import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.QPersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionForm;
 import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.querydsl.core.types.ExpressionUtils;
@@ -39,7 +40,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('CREATE_TRANSACTION')")
-    public final Transaction create(final Transaction transaction) {
+    public final Transaction create(final TransactionForm transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
@@ -126,7 +127,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('UPDATE_TRANSACTION')")
-    public final Transaction update(final Long id, final Transaction transaction) {
+    public final Transaction update(final Long id, final TransactionForm transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
@@ -149,11 +150,10 @@ public final class DefaultTransactionService implements TransactionService {
         return result;
     }
 
-    private final PersistentTransaction toEntity(final Transaction transaction) {
+    private final PersistentTransaction toEntity(final TransactionForm transaction) {
         final PersistentTransaction result;
 
         result = new PersistentTransaction();
-        result.setId(transaction.getId());
         result.setDescription(transaction.getDescription());
         result.setDate(transaction.getDate());
         result.setAmount(transaction.getAmount());

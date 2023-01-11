@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberForm;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
@@ -55,9 +55,9 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoMember member;
+        final DtoMemberForm member;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -72,9 +72,9 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("When updating a not existing entity a new one is added")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoMember member;
+        final DtoMemberForm member;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -89,10 +89,10 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoMember        member;
+        final DtoMemberForm    member;
         final PersistentMember entity;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -115,10 +115,10 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final Member    result;
-        final DtoMember member;
+        final Member        result;
+        final DtoMemberForm member;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");

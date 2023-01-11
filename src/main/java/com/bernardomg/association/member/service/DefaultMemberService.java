@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.MemberForm;
+import com.bernardomg.association.member.model.MemberRequest;
 import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
 
@@ -35,7 +37,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('CREATE_MEMBER')")
-    public final Member create(final Member member) {
+    public final Member create(final MemberForm member) {
         final PersistentMember entity;
         final PersistentMember created;
 
@@ -70,7 +72,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_MEMBER')")
-    public final Iterable<? extends Member> getAll(final Member sample, final Pageable pageable) {
+    public final Iterable<? extends Member> getAll(final MemberRequest sample, final Pageable pageable) {
         final PersistentMember entity;
 
         entity = toEntity(sample);
@@ -100,7 +102,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('UPDATE_MEMBER')")
-    public final Member update(final Long id, final Member member) {
+    public final Member update(final Long id, final MemberForm member) {
         final PersistentMember entity;
         final PersistentMember updated;
 
@@ -125,7 +127,20 @@ public final class DefaultMemberService implements MemberService {
         return data;
     }
 
-    private final PersistentMember toEntity(final Member data) {
+    private final PersistentMember toEntity(final MemberForm data) {
+        final PersistentMember entity;
+
+        entity = new PersistentMember();
+        entity.setName(data.getName());
+        entity.setSurname(data.getSurname());
+        entity.setIdentifier(data.getIdentifier());
+        entity.setPhone(data.getPhone());
+        entity.setActive(data.getActive());
+
+        return entity;
+    }
+
+    private final PersistentMember toEntity(final MemberRequest data) {
         final PersistentMember entity;
 
         entity = new PersistentMember();

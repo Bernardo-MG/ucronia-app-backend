@@ -37,7 +37,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberForm;
+import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 
@@ -60,7 +61,7 @@ public class MemberController {
     private final MemberService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member create(@Valid @RequestBody final DtoMember member) {
+    public Member create(@Valid @RequestBody final DtoMemberForm member) {
         return service.create(member);
     }
 
@@ -70,7 +71,7 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Member> readAll(final DtoMember member, final Pageable pageable) {
+    public Iterable<? extends Member> readAll(final DtoMemberRequest member, final Pageable pageable) {
         return service.getAll(member, pageable);
     }
 
@@ -81,7 +82,7 @@ public class MemberController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoMember member) {
+    public Member update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoMemberForm member) {
         return service.update(id, member);
     }
 

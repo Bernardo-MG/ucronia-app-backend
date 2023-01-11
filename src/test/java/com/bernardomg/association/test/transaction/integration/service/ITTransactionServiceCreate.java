@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionForm;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
@@ -55,10 +55,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Persists the data with decimal values")
     public void testCreate_Decimal_PersistedData() {
-        final DtoTransaction        transaction;
+        final DtoTransactionForm    transaction;
         final PersistentTransaction entity;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1.2f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -78,10 +78,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Returns the created data with decimal values")
     public void testCreate_Decimal_ReturnedData() {
-        final Transaction    result;
-        final DtoTransaction transaction;
+        final Transaction        result;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -98,9 +98,9 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating for the first day of the year")
     public void testCreate_FirstDay_AddsEntity() {
-        final DtoTransaction transaction;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 0, 1));
@@ -113,10 +113,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Persists the data when creating for the first day of the year")
     public void testCreate_FirstDay_PersistedData() {
-        final DtoTransaction        transaction;
+        final DtoTransactionForm    transaction;
         final PersistentTransaction entity;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 0, 1));
@@ -136,10 +136,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Returns the created data when creating for the first day of the year")
     public void testCreate_FirstDay_ReturnedData() {
-        final Transaction    result;
-        final DtoTransaction transaction;
+        final Transaction        result;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 0, 1));
@@ -156,9 +156,9 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating during the year")
     public void testCreate_InYear_AddsEntity() {
-        final DtoTransaction transaction;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -171,10 +171,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Persists the data when creating during the year")
     public void testCreate_InYear_PersistedData() {
-        final DtoTransaction        transaction;
+        final DtoTransactionForm    transaction;
         final PersistentTransaction entity;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -194,10 +194,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Returns the created data when creating during the year")
     public void testCreate_InYear_ReturnedData() {
-        final Transaction    result;
-        final DtoTransaction transaction;
+        final Transaction        result;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -214,9 +214,9 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("Adds entities when creating the same twice")
     public void testCreate_Repeat_AddsEntity() {
-        final DtoTransaction transaction;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
