@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionForm;
 import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.service.TransactionService;
@@ -61,7 +61,7 @@ public class TransactionController {
     private final TransactionService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction create(@Valid @RequestBody final DtoTransaction transaction) {
+    public Transaction create(@Valid @RequestBody final DtoTransactionForm transaction) {
         return service.create(transaction);
     }
 
@@ -82,7 +82,8 @@ public class TransactionController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoTransaction transaction) {
+    public Transaction update(@PathVariable("id") final Long id,
+            @Valid @RequestBody final DtoTransactionForm transaction) {
         return service.update(id, transaction);
     }
 

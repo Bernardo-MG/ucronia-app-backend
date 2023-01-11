@@ -87,8 +87,8 @@ public class ITFeeServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(true, entity.getPaid());
     }
 
@@ -110,8 +110,8 @@ public class ITFeeServiceCreate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(true, entity.getPaid());
     }
 
@@ -130,8 +130,8 @@ public class ITFeeServiceCreate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertEquals(true, result.getPaid());
     }
 

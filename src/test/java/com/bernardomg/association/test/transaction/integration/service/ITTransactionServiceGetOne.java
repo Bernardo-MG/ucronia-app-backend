@@ -73,8 +73,8 @@ public class ITTransactionServiceGetOne {
         Assertions.assertEquals(id, result.getId());
         Assertions.assertEquals("Transaction 1", result.getDescription());
         Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
     }
 
     @Test

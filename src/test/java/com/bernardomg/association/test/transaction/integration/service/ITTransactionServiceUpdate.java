@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionForm;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
@@ -57,9 +57,9 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoTransaction transaction;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -72,10 +72,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Updates persisted data with decimal values")
     public void testUpdate_Decimal_PersistedData() {
-        final DtoTransaction        transaction;
+        final DtoTransactionForm    transaction;
         final PersistentTransaction entity;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1.2f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -87,18 +87,18 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(1.2f, entity.getAmount());
     }
 
     @Test
     @DisplayName("Returns the updated data with decimal values")
     public void testUpdate_Decimal_ReturnedData() {
-        final Transaction    result;
-        final DtoTransaction transaction;
+        final Transaction        result;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1.2f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -107,17 +107,17 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertEquals(1.2f, result.getAmount());
     }
 
     @Test
     @DisplayName("When updating a not existing entity a new one is added")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoTransaction transaction;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -130,10 +130,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoTransaction        transaction;
+        final DtoTransactionForm    transaction;
         final PersistentTransaction entity;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -145,18 +145,18 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(entity.getId());
         Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), entity.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
         Assertions.assertEquals(1f, entity.getAmount());
     }
 
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final Transaction    result;
-        final DtoTransaction transaction;
+        final Transaction        result;
+        final DtoTransactionForm transaction;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -165,8 +165,8 @@ public class ITTransactionServiceUpdate {
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), result.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
         Assertions.assertEquals(1f, result.getAmount());
     }
 

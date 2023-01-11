@@ -36,8 +36,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.MemberRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -57,12 +58,12 @@ public class ITMemberServiceGetAllPagination {
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
         final Iterable<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         final Pageable                   pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -72,14 +73,14 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final Member                     sample;
+        final MemberRequest              sample;
         final Iterator<? extends Member> data;
         final Member                     result;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -96,14 +97,14 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final Member                     sample;
+        final MemberRequest              sample;
         final Iterator<? extends Member> data;
         final Member                     result;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -121,12 +122,12 @@ public class ITMemberServiceGetAllPagination {
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
         final Iterable<? extends Member> result;
-        final DtoMember                  sample;
+        final DtoMemberRequest           sample;
         final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -137,12 +138,12 @@ public class ITMemberServiceGetAllPagination {
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
         final Iterable<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         final Pageable                   pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable);
 

@@ -34,8 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.MemberRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,12 +56,12 @@ public class ITMemberServiceGetAll {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         final Pageable                   pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -71,13 +72,13 @@ public class ITMemberServiceGetAll {
     @DisplayName("Returns all the entities data")
     public void testGetAll_Data() {
         final Iterator<? extends Member> result;
-        final Member                     sample;
+        final MemberRequest              sample;
         Member                           data;
         final Pageable                   pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMember();
+        sample = new DtoMemberRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();

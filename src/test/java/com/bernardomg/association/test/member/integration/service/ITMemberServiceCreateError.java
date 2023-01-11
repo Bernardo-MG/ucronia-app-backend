@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.DtoMemberForm;
 import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -55,10 +55,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the active flag is missing")
     public void testCreate_MissingActive() {
-        final DtoMember  member;
-        final Executable executable;
+        final DtoMemberForm member;
+        final Executable    executable;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("111");
@@ -76,10 +76,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the identifier is missing")
     public void testCreate_MissingIdentifier() {
-        final DtoMember  member;
-        final Executable executable;
+        final DtoMemberForm member;
+        final Executable    executable;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("111");
@@ -97,10 +97,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the name is missing")
     public void testCreate_MissingName() {
-        final DtoMember  member;
-        final Executable executable;
+        final DtoMemberForm member;
+        final Executable    executable;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName(null);
         member.setSurname("Surname");
         member.setPhone("111");
@@ -118,10 +118,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the phone is missing")
     public void testCreate_MissingPhone() {
-        final DtoMember  member;
-        final Executable executable;
+        final DtoMemberForm member;
+        final Executable    executable;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone(null);
@@ -139,10 +139,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the surname is missing")
     public void testCreate_MissingSurname() {
-        final DtoMember  member;
-        final Executable executable;
+        final DtoMemberForm member;
+        final Executable    executable;
 
-        member = new DtoMember();
+        member = new DtoMemberForm();
         member.setName("Member");
         member.setSurname(null);
         member.setPhone("111");

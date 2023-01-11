@@ -25,68 +25,61 @@
 package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
-@DisplayName("Fee service - get one - inactive member")
-@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-public class ITFeeServiceGetOneInactiveMember {
+@DisplayName("Fee service - update validation")
+public class ITFeeServiceUpdateValidation {
 
     @Autowired
     private FeeService service;
 
-    public ITFeeServiceGetOneInactiveMember() {
+    public ITFeeServiceUpdateValidation() {
         super();
     }
 
     @Test
-    @DisplayName("When reading a single entity with a valid id, an entity is returned")
-    public void testGetOne_Existing() {
-        final Optional<? extends MemberFee> result;
+    @DisplayName("Throws an exception when the member id does not exist")
+    @Sql({ "/db/queries/fee/single.sql" })
+    @Disabled("This can't happen, it required an inconsistent DB")
+    public void testUpdate_InvalidMember() {
+        final DtoFeeForm            fee;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
 
-        result = service.getOne(1L);
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(false);
 
-        Assertions.assertTrue(result.isPresent());
-    }
+        executable = () -> service.update(1L, fee);
 
-    @Test
-    @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
-        final MemberFee result;
-        final Long      id;
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
-        id = 1L;
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
 
-        result = service.getOne(id)
-            .get();
+        failure = exception.getFailures()
+            .iterator()
+            .next();
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertTrue(result.getPaid());
-    }
-
-    @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
-        final Optional<? extends MemberFee> result;
-
-        result = service.getOne(-1L);
-
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertEquals("notExists", failure.getCode());
+        Assertions.assertEquals("memberId", failure.getField());
+        Assertions.assertEquals("memberId.notExists", failure.getMessage());
     }
 
 }

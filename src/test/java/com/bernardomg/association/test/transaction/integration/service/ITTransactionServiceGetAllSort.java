@@ -73,36 +73,36 @@ public class ITTransactionServiceGetAllSort {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
+            .getTime());
     }
 
     @Test
@@ -124,36 +124,36 @@ public class ITTransactionServiceGetAllSort {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
+            .getTime());
     }
 
     @Test
@@ -175,36 +175,36 @@ public class ITTransactionServiceGetAllSort {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
+            .getTime());
     }
 
     @Test
@@ -226,36 +226,36 @@ public class ITTransactionServiceGetAllSort {
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 5", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 4", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 3", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 2", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
+            .getTime());
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals("Transaction 1", data.getDescription());
         Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).toInstant(), data.getDate()
-            .toInstant());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
+            .getTime());
     }
 
 }

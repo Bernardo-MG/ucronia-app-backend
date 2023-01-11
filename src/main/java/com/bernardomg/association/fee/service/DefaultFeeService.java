@@ -166,17 +166,12 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee entity;
         final Calendar      date;
 
-        if (data.getDate() != null) {
-            date = removeDay(data.getDate());
-        } else {
-            date = null;
-        }
-
         entity = new PersistentFee();
-        entity.setId(data.getId());
         entity.setMemberId(data.getMemberId());
-        entity.setDate(date);
         entity.setPaid(data.getPaid());
+
+        date = removeDay(data.getDate());
+        entity.setDate(date);
 
         return entity;
     }

@@ -35,7 +35,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.DtoTransactionForm;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
@@ -57,10 +57,10 @@ public class ITTransactionServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the amount is missing")
     public void testCreate_MissingAmount() {
-        final DtoTransaction transaction;
-        final Executable     executable;
+        final DtoTransactionForm transaction;
+        final Executable         executable;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(null);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -76,10 +76,10 @@ public class ITTransactionServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the date is missing")
     public void testCreate_MissingDate() {
-        final DtoTransaction transaction;
-        final Executable     executable;
+        final DtoTransactionForm transaction;
+        final Executable         executable;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(null);
@@ -95,10 +95,10 @@ public class ITTransactionServiceCreateError {
     @Test
     @DisplayName("Throws an exception when the description is missing")
     public void testCreate_MissingName() {
-        final DtoTransaction transaction;
-        final Executable     executable;
+        final DtoTransactionForm transaction;
+        final Executable         executable;
 
-        transaction = new DtoTransaction();
+        transaction = new DtoTransactionForm();
         transaction.setDescription(null);
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
