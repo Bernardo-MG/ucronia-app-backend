@@ -41,7 +41,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee service - update")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITFeeServiceUpdate {
 
     @Autowired
@@ -56,6 +55,7 @@ public class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("Adds no entity when updating")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_AddsNoEntity() {
         final DtoFeeForm fee;
 
@@ -71,6 +71,7 @@ public class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("When updating a not existing entity a new one is added")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_NotExisting_AddsEntity() {
         final DtoFeeForm fee;
 
@@ -85,7 +86,32 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("When changing a fee from unpaid to paid the persisted data is updated")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    public void testUpdate_Pay_PersistedData() {
+        final DtoFeeForm    fee;
+        final PersistentFee entity;
+
+        fee = new DtoFeeForm();
+        fee.setMemberId(1L);
+        fee.setDate(new GregorianCalendar(2020, 1, 1));
+        fee.setPaid(true);
+
+        service.update(1L, fee);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertNotNull(entity.getId());
+        Assertions.assertEquals(1, entity.getMemberId());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
+            .getTime());
+        Assertions.assertEquals(true, entity.getPaid());
+    }
+
+    @Test
     @DisplayName("Updates persisted data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_PersistedData() {
         final DtoFeeForm    fee;
         final PersistentFee entity;
@@ -109,6 +135,7 @@ public class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("Returns the updated data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_ReturnedData() {
         final DtoFeeForm fee;
         final MemberFee  result;
