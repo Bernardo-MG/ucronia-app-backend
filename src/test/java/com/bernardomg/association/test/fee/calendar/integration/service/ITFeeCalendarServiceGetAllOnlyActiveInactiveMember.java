@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -51,8 +51,8 @@ public class ITFeeCalendarServiceGetAllOnlyActiveInactiveMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends FeeCalendar> result;
-        final Sort                            sort;
+        final Iterable<? extends UserFeeCalendar> result;
+        final Sort                                sort;
 
         sort = Sort.unsorted();
 

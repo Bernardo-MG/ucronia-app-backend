@@ -5,8 +5,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
 
 import lombok.AllArgsConstructor;
@@ -19,8 +19,9 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @PreAuthorize("hasAuthority('READ_FEE_YEAR')")
-    public final Iterable<? extends FeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
-        final Iterable<? extends FeeCalendar> result;
+    public final Iterable<? extends UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive,
+            final Sort sort) {
+        final Iterable<? extends UserFeeCalendar> result;
 
         if (onlyActive) {
             result = repository.findAllForYearWithActiveMember(year, sort);

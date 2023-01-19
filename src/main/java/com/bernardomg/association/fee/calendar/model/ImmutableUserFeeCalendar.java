@@ -24,18 +24,42 @@
 
 package com.bernardomg.association.fee.calendar.model;
 
-public interface FeeCalendar {
+import java.util.Collection;
 
-    public Boolean getActive();
+import lombok.Data;
+import lombok.NonNull;
 
-    public Long getMemberId();
+@Data
+public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
 
-    public Iterable<FeeMonth> getMonths();
+    @NonNull
+    private final Boolean              active;
 
-    public String getName();
+    @NonNull
+    private final Long                 memberId;
 
-    public String getSurname();
+    @NonNull
+    private final Collection<FeeMonth> months;
 
-    public Integer getYear();
+    @NonNull
+    private final String               name;
+
+    @NonNull
+    private final String               surname;
+
+    @NonNull
+    private final Integer              year;
+
+    public ImmutableUserFeeCalendar(@NonNull final Long id, @NonNull final String nm, @NonNull final String surnm,
+            @NonNull final Boolean actv, @NonNull final Collection<FeeMonth> mnths, @NonNull final Integer yr) {
+        super();
+
+        memberId = id;
+        name = nm;
+        surname = surnm;
+        active = actv;
+        months = mnths;
+        year = yr;
+    }
 
 }

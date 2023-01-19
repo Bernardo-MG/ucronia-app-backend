@@ -34,8 +34,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
 import com.bernardomg.association.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,11 +55,11 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     @Test
     @DisplayName("Returns all data in ascending order by name")
     public void testGetAll_Name_Asc() {
-        final Iterator<? extends FeeCalendar> data;
-        FeeCalendar                           result;
-        Iterator<FeeMonth>                    months;
-        FeeMonth                              month;
-        final Sort                            sort;
+        final Iterator<? extends UserFeeCalendar> data;
+        UserFeeCalendar                           result;
+        Iterator<FeeMonth>                        months;
+        FeeMonth                                  month;
+        final Sort                                sort;
 
         sort = Sort.by(Direction.ASC, "name");
 
@@ -188,11 +188,11 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testGetAll_Name_Desc() {
-        final Iterator<? extends FeeCalendar> data;
-        FeeCalendar                           result;
-        Iterator<FeeMonth>                    months;
-        FeeMonth                              month;
-        final Sort                            sort;
+        final Iterator<? extends UserFeeCalendar> data;
+        UserFeeCalendar                           result;
+        Iterator<FeeMonth>                        months;
+        FeeMonth                                  month;
+        final Sort                                sort;
 
         sort = Sort.by(Direction.DESC, "name");
 
@@ -321,11 +321,11 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     @Test
     @DisplayName("Returns all data in ascending order by surname")
     public void testGetAll_Surname_Asc() {
-        final Iterator<? extends FeeCalendar> data;
-        FeeCalendar                           result;
-        Iterator<FeeMonth>                    months;
-        FeeMonth                              month;
-        final Sort                            sort;
+        final Iterator<? extends UserFeeCalendar> data;
+        UserFeeCalendar                           result;
+        Iterator<FeeMonth>                        months;
+        FeeMonth                                  month;
+        final Sort                                sort;
 
         sort = Sort.by(Direction.ASC, "surname");
 
@@ -454,11 +454,11 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembersSort {
     @Test
     @DisplayName("Returns all data in descending order by surname")
     public void testGetAll_Surname_Desc() {
-        final Iterator<? extends FeeCalendar> data;
-        FeeCalendar                           result;
-        Iterator<FeeMonth>                    months;
-        FeeMonth                              month;
-        final Sort                            sort;
+        final Iterator<? extends UserFeeCalendar> data;
+        UserFeeCalendar                           result;
+        Iterator<FeeMonth>                        months;
+        FeeMonth                                  month;
+        final Sort                                sort;
 
         sort = Sort.by(Direction.DESC, "surname");
 

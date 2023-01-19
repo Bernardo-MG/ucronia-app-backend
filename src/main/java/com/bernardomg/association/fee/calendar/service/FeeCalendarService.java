@@ -3,8 +3,8 @@ package com.bernardomg.association.fee.calendar.service;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -14,7 +14,7 @@ import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
  */
 public interface FeeCalendarService {
 
-    public Iterable<? extends FeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort);
+    public Iterable<? extends UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort);
 
     public FeeCalendarRange getRange(final Boolean onlyActive);
 
