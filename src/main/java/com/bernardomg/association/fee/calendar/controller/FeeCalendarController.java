@@ -40,7 +40,7 @@ import lombok.AllArgsConstructor;
 
 /**
  * Fee year REST controller.
- * 
+ *
  * TODO: rework this model
  *
  * @author Bernardo Mart&iacute;nez Garrido

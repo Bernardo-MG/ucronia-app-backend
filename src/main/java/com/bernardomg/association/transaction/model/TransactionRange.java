@@ -22,35 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
+package com.bernardomg.association.transaction.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Calendar;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+public interface TransactionRange {
 
-@IntegrationTest
-@DisplayName("Transaction repository - sum all - no data")
-public class TransactionRepositoryFindSumAllNoData {
+    public Calendar getEnd();
 
-    @Autowired
-    private TransactionRepository repository;
-
-    public TransactionRepositoryFindSumAllNoData() {
-        super();
-    }
-
-    @Test
-    @DisplayName("Returns the correct sum")
-    public void testFindSumAll() {
-        final Long result;
-
-        result = repository.findSumAll();
-
-        Assertions.assertNull(result);
-    }
+    public Calendar getStart();
 
 }

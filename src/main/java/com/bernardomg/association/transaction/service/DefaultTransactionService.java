@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -12,10 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.QPersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionForm;
+import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.querydsl.core.types.ExpressionUtils;
@@ -123,6 +126,17 @@ public final class DefaultTransactionService implements TransactionService {
         }
 
         return result;
+    }
+
+    @Override
+    public final TransactionRange getRange() {
+        final Calendar min;
+        final Calendar max;
+
+        min = repository.findMinDate();
+        max = repository.findMaxDate();
+
+        return new ImmutableTransactionRange(min, max);
     }
 
     @Override

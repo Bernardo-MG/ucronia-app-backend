@@ -22,47 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
+package com.bernardomg.association.transaction.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
+import java.util.Calendar;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import lombok.Data;
+import lombok.NonNull;
 
-@IntegrationTest
-@DisplayName("Transaction repository - sum all")
-public class TransactionRepositoryFindSumAll {
+@Data
+public final class ImmutableTransactionRange implements TransactionRange {
 
-    @Autowired
-    private TransactionRepository repository;
+    @NonNull
+    private final Calendar end;
 
-    public TransactionRepositoryFindSumAll() {
+    @NonNull
+    private final Calendar start;
+
+    public ImmutableTransactionRange(@NonNull final Calendar strt, @NonNull final Calendar nd) {
         super();
-    }
 
-    @Test
-    @DisplayName("Returns the correct sum")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
-        final Long result;
-
-        result = repository.findSumAll();
-
-        Assertions.assertEquals(5, result);
-    }
-
-    @Test
-    @DisplayName("Returns null when there is no data")
-    public void testFindSumAll_NoData() {
-        final Long result;
-
-        result = repository.findSumAll();
-
-        Assertions.assertNull(result);
+        start = strt;
+        end = nd;
     }
 
 }

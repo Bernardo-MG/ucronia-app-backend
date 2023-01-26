@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionForm;
+import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.TransactionRequest;
 
 /**
@@ -55,6 +56,8 @@ public interface TransactionService {
      * @return an {@code Optional} with the transaction, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<? extends Transaction> getOne(final Long id);
+
+    public TransactionRange getRange();
 
     /**
      * Updates the transaction for the received id with the received data.
