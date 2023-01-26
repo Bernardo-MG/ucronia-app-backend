@@ -32,14 +32,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.calendar.model.DtoFeeCalendarRequest;
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
 
 import lombok.AllArgsConstructor;
 
 /**
  * Fee year REST controller.
+ * 
+ * TODO: rework this model
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -52,7 +54,7 @@ public class FeeCalendarController {
     private final FeeCalendarService service;
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends FeeCalendar> readAll(@PathVariable("year") final Integer year,
+    public Iterable<? extends UserFeeCalendar> readAll(@PathVariable("year") final Integer year,
             final DtoFeeCalendarRequest request, final Pageable pageable) {
         // TODO: Support full pagination
         return service.getAll(year, request.getOnlyActive(), pageable.getSort());

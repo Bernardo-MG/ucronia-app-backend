@@ -17,12 +17,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRow;
 import com.bernardomg.association.fee.calendar.model.FeeMonth;
-import com.bernardomg.association.fee.calendar.model.ImmutableFeeCalendar;
 import com.bernardomg.association.fee.calendar.model.ImmutableFeeMonth;
+import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,12 +45,13 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
     private final String                      queryRangeWithActiveMember = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
 
     @Override
-    public final Iterable<? extends FeeCalendar> findAllForYear(final Integer year, final Sort sort) {
+    public final Iterable<? extends UserFeeCalendar> findAllForYear(final Integer year, final Sort sort) {
         return findAllForYear(queryForYear, year, sort);
     }
 
     @Override
-    public final Iterable<? extends FeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
+    public final Iterable<? extends UserFeeCalendar> findAllForYearWithActiveMember(final Integer year,
+            final Sort sort) {
         // TODO: Improve how the where is built
         return findAllForYear(queryForYear + " WHERE m.active = true", year, sort);
     }
@@ -89,14 +90,14 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
     }
 
-    private final Iterable<? extends FeeCalendar> findAllForYear(final String query, final Integer year,
+    private final Iterable<? extends UserFeeCalendar> findAllForYear(final String query, final Integer year,
             final Sort sort) {
         final Collection<FeeCalendarRow>      readFees;
         final Map<Long, List<FeeCalendarRow>> memberFees;
-        final Collection<FeeCalendar>         years;
+        final Collection<UserFeeCalendar>     years;
         final Iterable<Long>                  memberIds;
         List<FeeCalendarRow>                  fees;
-        FeeCalendar                           feeYear;
+        UserFeeCalendar                       feeYear;
         Boolean                               active;
 
         readFees = findAll(query, year, sort);
@@ -135,7 +136,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         return new ImmutableFeeMonth(month, fee.getPaid());
     }
 
-    private final FeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
+    private final UserFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
             final Collection<FeeCalendarRow> fees) {
         final Collection<FeeMonth> months;
         final FeeCalendarRow       row;
@@ -163,7 +164,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             surname = row.getSurname();
         }
 
-        return new ImmutableFeeCalendar(member, name, surname, active, months, year);
+        return new ImmutableUserFeeCalendar(member, name, surname, active, months, year);
     }
 
     private final String toSorting(final Order order) {

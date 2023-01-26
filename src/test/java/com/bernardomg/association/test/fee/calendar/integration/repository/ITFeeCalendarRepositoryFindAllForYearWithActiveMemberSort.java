@@ -34,8 +34,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendar;
 import com.bernardomg.association.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,11 +55,11 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Test
     @DisplayName("Returns all data in asscending order by name")
     public void testFindAllForYear_Asc_Name() {
-        final Iterator<? extends FeeCalendar> data;
-        final Sort                            sort;
-        FeeCalendar                           result;
-        Iterator<FeeMonth>                    months;
-        FeeMonth                              month;
+        final Iterator<? extends UserFeeCalendar> data;
+        final Sort                                sort;
+        UserFeeCalendar                           result;
+        Iterator<FeeMonth>                        months;
+        FeeMonth                                  month;
 
         sort = Sort.by(Order.asc("name"));
 
@@ -186,11 +186,11 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testFindAllForYear_Desc_Name() {
-        final Iterator<? extends FeeCalendar> data;
-        final Sort                            sort;
-        FeeCalendar                           result;
-        Iterator<FeeMonth>                    months;
-        FeeMonth                              month;
+        final Iterator<? extends UserFeeCalendar> data;
+        final Sort                                sort;
+        UserFeeCalendar                           result;
+        Iterator<FeeMonth>                        months;
+        FeeMonth                                  month;
 
         sort = Sort.by(Order.desc("name"));
 
