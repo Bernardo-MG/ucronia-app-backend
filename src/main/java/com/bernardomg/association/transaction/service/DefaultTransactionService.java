@@ -132,11 +132,21 @@ public final class DefaultTransactionService implements TransactionService {
     public final TransactionRange getRange() {
         final Calendar min;
         final Calendar max;
+        final Integer  startMonth;
+        final Integer  startYear;
+        final Integer  endMonth;
+        final Integer  endYear;
 
         min = repository.findMinDate();
         max = repository.findMaxDate();
 
-        return new ImmutableTransactionRange(min, max);
+        startMonth = min.get(Calendar.MONTH);
+        startYear = min.get(Calendar.YEAR);
+
+        endMonth = max.get(Calendar.MONTH);
+        endYear = max.get(Calendar.YEAR);
+
+        return new ImmutableTransactionRange(startMonth, startYear, endMonth, endYear);
     }
 
     @Override

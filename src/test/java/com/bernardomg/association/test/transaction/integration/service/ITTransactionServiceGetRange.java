@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import java.util.GregorianCalendar;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,10 +53,11 @@ public class ITTransactionServiceGetRange {
 
         result = service.getRange();
 
-        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1, 0, 0, 0).getTime(), result.getStart()
-            .getTime());
-        Assertions.assertEquals(new GregorianCalendar(2020, 11, 1, 0, 0, 0).getTime(), result.getEnd()
-            .getTime());
+        Assertions.assertEquals(0, result.getStartMonth());
+        Assertions.assertEquals(2020, result.getStartYear());
+
+        Assertions.assertEquals(11, result.getEndMonth());
+        Assertions.assertEquals(2020, result.getEndYear());
     }
 
 }

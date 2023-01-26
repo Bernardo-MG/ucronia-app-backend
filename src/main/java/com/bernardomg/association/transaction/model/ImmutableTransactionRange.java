@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.transaction.model;
 
-import java.util.Calendar;
-
 import lombok.Data;
 import lombok.NonNull;
 
@@ -33,16 +31,26 @@ import lombok.NonNull;
 public final class ImmutableTransactionRange implements TransactionRange {
 
     @NonNull
-    private final Calendar end;
+    private final Integer endMonth;
 
     @NonNull
-    private final Calendar start;
+    private final Integer endYear;
 
-    public ImmutableTransactionRange(@NonNull final Calendar strt, @NonNull final Calendar nd) {
+    @NonNull
+    private final Integer startMonth;
+
+    @NonNull
+    private final Integer startYear;
+
+    public ImmutableTransactionRange(@NonNull final Integer strtMonth, @NonNull final Integer strtYear,
+            @NonNull final Integer ndMonth, @NonNull final Integer ndYear) {
         super();
 
-        start = strt;
-        end = nd;
+        startYear = strtYear;
+        startMonth = strtMonth;
+
+        endMonth = ndMonth;
+        endYear = ndYear;
     }
 
 }

@@ -24,12 +24,14 @@
 
 package com.bernardomg.association.transaction.model;
 
-import java.util.Calendar;
-
 public interface TransactionRange {
 
-    public Calendar getEnd();
+    public Integer getEndMonth();
 
-    public Calendar getStart();
+    public Integer getEndYear();
+
+    public Integer getStartMonth();
+
+    public Integer getStartYear();
 
 }
