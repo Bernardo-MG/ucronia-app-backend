@@ -95,15 +95,15 @@ public final class DefaultFeeService implements FeeService {
     public final Optional<? extends MemberFee> getOne(final Long id) {
         final Optional<MemberFee>           found;
         final Optional<? extends MemberFee> result;
-        final MemberFee                     member;
+        final MemberFee                     data;
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
         found = memberFeeRepository.findOneByIdWithMember(id);
 
         if (found.isPresent()) {
-            member = found.get();
-            result = Optional.of(member);
+            data = found.get();
+            result = Optional.of(data);
         } else {
             result = Optional.empty();
         }

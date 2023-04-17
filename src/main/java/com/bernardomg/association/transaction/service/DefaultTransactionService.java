@@ -114,13 +114,13 @@ public final class DefaultTransactionService implements TransactionService {
     public final Optional<? extends Transaction> getOne(final Long id) {
         final Optional<PersistentTransaction> found;
         final Optional<? extends Transaction> result;
-        final Transaction                     member;
+        final Transaction                     data;
 
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            member = toDto(found.get());
-            result = Optional.of(member);
+            data = toDto(found.get());
+            result = Optional.of(data);
         } else {
             result = Optional.empty();
         }

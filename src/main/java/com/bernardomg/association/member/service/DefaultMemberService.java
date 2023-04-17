@@ -86,13 +86,13 @@ public final class DefaultMemberService implements MemberService {
     public final Optional<? extends Member> getOne(final Long id) {
         final Optional<PersistentMember> found;
         final Optional<? extends Member> result;
-        final Member                     member;
+        final Member                     data;
 
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            member = toDto(found.get());
-            result = Optional.of(member);
+            data = toDto(found.get());
+            result = Optional.of(data);
         } else {
             result = Optional.empty();
         }

@@ -3,11 +3,14 @@ package com.bernardomg.association.fee.model;
 
 import java.util.Calendar;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
 public final class DtoMemberFee implements MemberFee {
 
+    @JsonFormat(pattern = "yyyy-MM")
     private Calendar date;
 
     private Long     id;
