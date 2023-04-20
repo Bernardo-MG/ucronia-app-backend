@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -12,10 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.QPersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionForm;
+import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.querydsl.core.types.ExpressionUtils;
@@ -111,18 +114,39 @@ public final class DefaultTransactionService implements TransactionService {
     public final Optional<? extends Transaction> getOne(final Long id) {
         final Optional<PersistentTransaction> found;
         final Optional<? extends Transaction> result;
-        final Transaction                     member;
+        final Transaction                     data;
 
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            member = toDto(found.get());
-            result = Optional.of(member);
+            data = toDto(found.get());
+            result = Optional.of(data);
         } else {
             result = Optional.empty();
         }
 
         return result;
+    }
+
+    @Override
+    public final TransactionRange getRange() {
+        final Calendar min;
+        final Calendar max;
+        final Integer  startMonth;
+        final Integer  startYear;
+        final Integer  endMonth;
+        final Integer  endYear;
+
+        min = repository.findMinDate();
+        max = repository.findMaxDate();
+
+        startMonth = min.get(Calendar.MONTH);
+        startYear = min.get(Calendar.YEAR);
+
+        endMonth = max.get(Calendar.MONTH);
+        endYear = max.get(Calendar.YEAR);
+
+        return new ImmutableTransactionRange(startMonth, startYear, endMonth, endYear);
     }
 
     @Override

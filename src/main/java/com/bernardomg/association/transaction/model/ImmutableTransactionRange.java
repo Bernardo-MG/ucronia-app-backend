@@ -22,47 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
+package com.bernardomg.association.transaction.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
+import lombok.Data;
+import lombok.NonNull;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+@Data
+public final class ImmutableTransactionRange implements TransactionRange {
 
-@IntegrationTest
-@DisplayName("Transaction repository - sum all")
-public class TransactionRepositoryFindSumAll {
+    @NonNull
+    private final Integer endMonth;
 
-    @Autowired
-    private TransactionRepository repository;
+    @NonNull
+    private final Integer endYear;
 
-    public TransactionRepositoryFindSumAll() {
+    @NonNull
+    private final Integer startMonth;
+
+    @NonNull
+    private final Integer startYear;
+
+    public ImmutableTransactionRange(@NonNull final Integer strtMonth, @NonNull final Integer strtYear,
+            @NonNull final Integer ndMonth, @NonNull final Integer ndYear) {
         super();
-    }
 
-    @Test
-    @DisplayName("Returns the correct sum")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
-        final Long result;
+        startYear = strtYear;
+        startMonth = strtMonth;
 
-        result = repository.findSumAll();
-
-        Assertions.assertEquals(5, result);
-    }
-
-    @Test
-    @DisplayName("Returns null when there is no data")
-    public void testFindSumAll_NoData() {
-        final Long result;
-
-        result = repository.findSumAll();
-
-        Assertions.assertNull(result);
+        endMonth = ndMonth;
+        endYear = ndYear;
     }
 
 }

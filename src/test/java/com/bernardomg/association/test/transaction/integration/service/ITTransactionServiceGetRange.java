@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
+package com.bernardomg.association.test.transaction.integration.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,38 +31,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.model.TransactionRange;
+import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
-@DisplayName("Transaction repository - sum all")
-public class TransactionRepositoryFindSumAll {
+@DisplayName("Transaction service - get range")
+public class ITTransactionServiceGetRange {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionService service;
 
-    public TransactionRepositoryFindSumAll() {
+    public ITTransactionServiceGetRange() {
         super();
     }
 
     @Test
-    @DisplayName("Returns the correct sum")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
-        final Long result;
+    @DisplayName("Returns the range for a full year")
+    @Sql({ "/db/queries/transaction/full_year.sql" })
+    public void testGetRange_FullYear() {
+        final TransactionRange result;
 
-        result = repository.findSumAll();
+        result = service.getRange();
 
-        Assertions.assertEquals(5, result);
-    }
+        Assertions.assertEquals(0, result.getStartMonth());
+        Assertions.assertEquals(2020, result.getStartYear());
 
-    @Test
-    @DisplayName("Returns null when there is no data")
-    public void testFindSumAll_NoData() {
-        final Long result;
-
-        result = repository.findSumAll();
-
-        Assertions.assertNull(result);
+        Assertions.assertEquals(11, result.getEndMonth());
+        Assertions.assertEquals(2020, result.getEndYear());
     }
 
 }

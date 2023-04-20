@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.transaction.model.DtoTransactionForm;
 import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 import lombok.AllArgsConstructor;
@@ -79,6 +80,11 @@ public class TransactionController {
     public Transaction readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
+    }
+
+    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    public TransactionRange readRange() {
+        return service.getRange();
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

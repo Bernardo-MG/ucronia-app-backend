@@ -22,35 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
+package com.bernardomg.association.transaction.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+public interface TransactionRange {
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+    public Integer getEndMonth();
 
-@IntegrationTest
-@DisplayName("Transaction repository - sum all - no data")
-public class TransactionRepositoryFindSumAllNoData {
+    public Integer getEndYear();
 
-    @Autowired
-    private TransactionRepository repository;
+    public Integer getStartMonth();
 
-    public TransactionRepositoryFindSumAllNoData() {
-        super();
-    }
-
-    @Test
-    @DisplayName("Returns the correct sum")
-    public void testFindSumAll() {
-        final Long result;
-
-        result = repository.findSumAll();
-
-        Assertions.assertNull(result);
-    }
+    public Integer getStartYear();
 
 }

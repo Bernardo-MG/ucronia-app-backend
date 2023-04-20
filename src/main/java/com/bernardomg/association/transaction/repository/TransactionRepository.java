@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.transaction.repository;
 
+import java.util.Calendar;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -32,6 +34,12 @@ import com.bernardomg.association.transaction.model.PersistentTransaction;
 
 public interface TransactionRepository
         extends JpaRepository<PersistentTransaction, Long>, QuerydslPredicateExecutor<PersistentTransaction> {
+
+    @Query("SELECT MAX(date) FROM Transaction t")
+    public Calendar findMaxDate();
+
+    @Query("SELECT MIN(date) FROM Transaction t")
+    public Calendar findMinDate();
 
     @Query("SELECT SUM(t.amount) AS balance FROM Transaction t")
     public Long findSumAll();
