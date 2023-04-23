@@ -25,8 +25,7 @@
 package com.bernardomg.security.login.model;
 
 /**
- * Status after a login attempt. Will tell if the login attempt was successful or not, through the {@code successful}
- * field.
+ * Status after a login attempt.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -38,7 +37,7 @@ public interface LoginStatus {
      *
      * @return {@code true} if the login was successful, {@code false} otherwise
      */
-    public Boolean getSuccessful();
+    public Boolean getLogged();
 
     /**
      * Returns the username of the user who attempted login.
