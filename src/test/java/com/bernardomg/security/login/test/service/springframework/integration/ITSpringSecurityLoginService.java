@@ -51,7 +51,7 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -70,7 +70,7 @@ public class ITSpringSecurityLoginService {
 
         details = service.login(login);
 
-        Assertions.assertTrue(details.getSuccessful());
+        Assertions.assertTrue(details.getLogged());
         Assertions.assertEquals("admin", details.getUsername());
     }
 
@@ -89,7 +89,7 @@ public class ITSpringSecurityLoginService {
 
         details = service.login(login);
 
-        Assertions.assertTrue(details.getSuccessful());
+        Assertions.assertTrue(details.getLogged());
         Assertions.assertEquals("admin", details.getUsername());
     }
 

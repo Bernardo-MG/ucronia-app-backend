@@ -33,7 +33,7 @@ public class TestSpringSecurityLoginServiceUserFailure {
 
         status = getServiceWithNullUser().login(login);
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
