@@ -92,12 +92,12 @@ public final class SpringSecurityTokenLoginService implements LoginService {
         // Attempts to login through the basic service
         basicStatus = wrapped.login(login);
 
-        if (basicStatus.getSuccessful()) {
+        if (basicStatus.getLogged()) {
             // Valid user
             // Generate token
             log.debug("Successful login for {}", login.getUsername());
             token = tokenProvider.generateToken(login.getUsername());
-            status = new ImmutableTokenLoginStatus(login.getUsername(), basicStatus.getSuccessful(), token);
+            status = new ImmutableTokenLoginStatus(login.getUsername(), basicStatus.getLogged(), token);
         } else {
             // Invalid user
             // No token

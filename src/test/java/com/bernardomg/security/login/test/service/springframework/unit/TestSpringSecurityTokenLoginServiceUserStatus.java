@@ -42,7 +42,7 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -60,7 +60,7 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -78,7 +78,7 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -96,7 +96,7 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -114,7 +114,7 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -130,7 +130,7 @@ public class TestSpringSecurityTokenLoginServiceUserStatus {
 
         status = getServiceForValid().login(login);
 
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertTrue(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
         Assertions.assertEquals(TokenConstants.TOKEN, ((TokenLoginStatus) status).getToken());
     }

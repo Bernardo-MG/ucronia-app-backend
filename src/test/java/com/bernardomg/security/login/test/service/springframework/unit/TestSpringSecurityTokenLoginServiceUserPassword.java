@@ -41,7 +41,7 @@ public class TestSpringSecurityTokenLoginServiceUserPassword {
 
         Assertions.assertFalse((status instanceof TokenLoginStatus));
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -59,7 +59,7 @@ public class TestSpringSecurityTokenLoginServiceUserPassword {
 
         Assertions.assertInstanceOf(TokenLoginStatus.class, status);
 
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertTrue(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
         Assertions.assertEquals(TokenConstants.TOKEN, ((TokenLoginStatus) status).getToken());
     }

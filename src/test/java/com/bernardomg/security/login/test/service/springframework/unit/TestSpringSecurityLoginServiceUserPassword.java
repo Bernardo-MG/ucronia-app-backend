@@ -36,7 +36,7 @@ public class TestSpringSecurityLoginServiceUserPassword {
 
         status = getService(false).login(login);
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertFalse(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
@@ -52,7 +52,7 @@ public class TestSpringSecurityLoginServiceUserPassword {
 
         status = getService(true).login(login);
 
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertTrue(status.getLogged());
         Assertions.assertEquals("admin", status.getUsername());
     }
 
