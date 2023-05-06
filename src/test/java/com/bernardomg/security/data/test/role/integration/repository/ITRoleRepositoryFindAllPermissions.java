@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -23,6 +24,23 @@ public class ITRoleRepositoryFindAllPermissions {
 
     public ITRoleRepositoryFindAllPermissions() {
         super();
+    }
+
+    @Test
+    @DisplayName("Applies pagination")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testFindAllPrivileges_FirstPage_Count() {
+        final Page<Permission> read;
+        final Pageable         pageable;
+
+        pageable = PageRequest.of(0, 1);
+
+        read = repository.findAllPermissions(1L, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(read));
     }
 
     @Test

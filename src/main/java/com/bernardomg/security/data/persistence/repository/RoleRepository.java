@@ -41,8 +41,7 @@ import com.bernardomg.security.data.persistence.model.PersistentRole;
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
-    @Query(value = "SELECT r.name AS resource, a.name AS action FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.role_id = :id",
-            nativeQuery = true)
+    @Query(value = "SELECT new com.bernardomg.security.data.model.ImmutablePermission(r.name, a.name) FROM RolePermissions rp LEFT JOIN Action a ON rp.actionId = a.id LEFT JOIN Resource r ON rp.resourceId = r.id WHERE rp.roleId = :id")
     public Page<Permission> findAllPermissions(@Param("id") final Long id, final Pageable pageable);
 
 }
