@@ -2,6 +2,7 @@
 package com.bernardomg.security.login.test.service.springframework.unit;
 
 import java.util.Collections;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,15 +15,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.DtoLogin;
+import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
+import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @DisplayName("SpringSecurityLoginService - password validation")
-public class TestSpringSecurityLoginServiceUserPassword {
+public class TestDefaultLoginServiceWithSpringUserPassword {
 
-    public TestSpringSecurityLoginServiceUserPassword() {
+    public TestDefaultLoginServiceWithSpringUserPassword() {
         super();
     }
 
@@ -58,11 +61,12 @@ public class TestSpringSecurityLoginServiceUserPassword {
         Assertions.assertEquals("admin", status.getUsername());
     }
 
-    private final SpringSecurityLoginService getService(final Boolean match) {
+    private final DefaultLoginService getService(final Boolean match) {
         final UserDetailsService  userDetService;
         final PasswordEncoder     passEncoder;
         final UserDetails         user;
         final LoginStatusProvider loginStatusProvider;
+        final Predicate<Login>    valid;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
@@ -75,8 +79,9 @@ public class TestSpringSecurityLoginServiceUserPassword {
             .thenReturn(match);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new SpringSecurityLoginService(userDetService, passEncoder, loginStatusProvider);
+        return new DefaultLoginService(loginStatusProvider, valid);
     }
 
 }

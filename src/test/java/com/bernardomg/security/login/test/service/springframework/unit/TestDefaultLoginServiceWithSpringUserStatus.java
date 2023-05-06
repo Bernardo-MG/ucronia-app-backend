@@ -2,6 +2,7 @@
 package com.bernardomg.security.login.test.service.springframework.unit;
 
 import java.util.Collections;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,15 +16,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.DtoLogin;
+import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
+import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @DisplayName("SpringSecurityLoginService - login with various user status")
-public class TestSpringSecurityLoginServiceUserStatus {
+public class TestDefaultLoginServiceWithSpringUserStatus {
 
-    public TestSpringSecurityLoginServiceUserStatus() {
+    public TestDefaultLoginServiceWithSpringUserStatus() {
         super();
     }
 
@@ -123,10 +126,11 @@ public class TestSpringSecurityLoginServiceUserStatus {
         Assertions.assertEquals("admin", status.getUsername());
     }
 
-    private final SpringSecurityLoginService getService(final UserDetails user) {
+    private final DefaultLoginService getService(final UserDetails user) {
         final UserDetailsService  userDetService;
         final PasswordEncoder     passEncoder;
         final LoginStatusProvider loginStatusProvider;
+        final Predicate<Login>    valid;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -137,11 +141,12 @@ public class TestSpringSecurityLoginServiceUserStatus {
             .thenReturn(true);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new SpringSecurityLoginService(userDetService, passEncoder, loginStatusProvider);
+        return new DefaultLoginService(loginStatusProvider, valid);
     }
 
-    private final SpringSecurityLoginService getServiceForAccountExpired() {
+    private final DefaultLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
         user = new User("username", "password", true, false, true, true, Collections.emptyList());
@@ -149,7 +154,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final SpringSecurityLoginService getServiceForCredentialsExpired() {
+    private final DefaultLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, false, true, Collections.emptyList());
@@ -157,7 +162,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final SpringSecurityLoginService getServiceForDisabled() {
+    private final DefaultLoginService getServiceForDisabled() {
         final UserDetails user;
 
         user = new User("username", "password", false, true, true, true, Collections.emptyList());
@@ -165,7 +170,7 @@ public class TestSpringSecurityLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final SpringSecurityLoginService getServiceForLocked() {
+    private final DefaultLoginService getServiceForLocked() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, false, true, Collections.emptyList());
@@ -173,10 +178,11 @@ public class TestSpringSecurityLoginServiceUserStatus {
         return getService(user);
     }
 
-    private final SpringSecurityLoginService getServiceForNotExisting() {
+    private final DefaultLoginService getServiceForNotExisting() {
         final UserDetailsService  userDetService;
         final PasswordEncoder     passEncoder;
         final LoginStatusProvider loginStatusProvider;
+        final Predicate<Login>    valid;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -185,11 +191,12 @@ public class TestSpringSecurityLoginServiceUserStatus {
         passEncoder = Mockito.mock(PasswordEncoder.class);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new SpringSecurityLoginService(userDetService, passEncoder, loginStatusProvider);
+        return new DefaultLoginService(loginStatusProvider, valid);
     }
 
-    private final SpringSecurityLoginService getServiceForValid() {
+    private final DefaultLoginService getServiceForValid() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());

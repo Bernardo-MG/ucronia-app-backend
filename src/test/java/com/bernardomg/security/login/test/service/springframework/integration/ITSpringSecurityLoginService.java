@@ -11,14 +11,14 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
+import com.bernardomg.security.login.service.DefaultLoginService;
 
 @IntegrationTest
 @DisplayName("SpringSecurityLoginService")
 public class ITSpringSecurityLoginService {
 
     @Autowired
-    private SpringSecurityLoginService service;
+    private DefaultLoginService service;
 
     public ITSpringSecurityLoginService() {
         super();

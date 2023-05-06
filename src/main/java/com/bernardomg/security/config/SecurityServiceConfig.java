@@ -25,6 +25,7 @@
 package com.bernardomg.security.config;
 
 import java.security.SecureRandom;
+import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +36,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
+import com.bernardomg.security.login.model.Login;
+import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.TokenLoginStatusProvider;
-import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
+import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
@@ -67,10 +70,12 @@ public class SecurityServiceConfig {
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
         final LoginStatusProvider statusProvider;
+        final Predicate<Login>    valid;
 
         statusProvider = new TokenLoginStatusProvider(tokenProv);
+        valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        return new SpringSecurityLoginService(userDetailsService, passwordEncoder, statusProvider);
+        return new DefaultLoginService(statusProvider, valid);
     }
 
     @Bean("passwordChangeService")

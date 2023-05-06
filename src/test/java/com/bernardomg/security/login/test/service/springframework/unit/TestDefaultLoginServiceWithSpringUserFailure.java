@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.login.test.service.springframework.unit;
 
+import java.util.function.Predicate;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,15 +13,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.DtoLogin;
+import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
+import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @DisplayName("SpringSecurityLoginService - failure handling")
-public class TestSpringSecurityLoginServiceUserFailure {
+public class TestDefaultLoginServiceWithSpringUserFailure {
 
-    public TestSpringSecurityLoginServiceUserFailure() {
+    public TestDefaultLoginServiceWithSpringUserFailure() {
         super();
     }
 
@@ -39,10 +43,11 @@ public class TestSpringSecurityLoginServiceUserFailure {
         Assertions.assertEquals("admin", status.getUsername());
     }
 
-    private final SpringSecurityLoginService getService(final UserDetails user) {
+    private final DefaultLoginService getService(final UserDetails user) {
         final UserDetailsService  userDetService;
         final PasswordEncoder     passEncoder;
         final LoginStatusProvider loginStatusProvider;
+        final Predicate<Login>    valid;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -53,11 +58,12 @@ public class TestSpringSecurityLoginServiceUserFailure {
             .thenReturn(true);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new SpringSecurityLoginService(userDetService, passEncoder, loginStatusProvider);
+        return new DefaultLoginService(loginStatusProvider, valid);
     }
 
-    private final SpringSecurityLoginService getServiceWithNullUser() {
+    private final DefaultLoginService getServiceWithNullUser() {
         return getService(null);
     }
 
