@@ -44,7 +44,7 @@ public final class DefaultFeeService implements FeeService {
     private final FeeRepository       repository;
 
     @Override
-    @PreAuthorize("hasAuthority('CREATE_FEE')")
+    @PreAuthorize("hasAuthority('FEE:CREATE')")
     public final MemberFee create(final FeeForm form) {
         final PersistentFee            entity;
         final PersistentFee            created;
@@ -67,7 +67,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('DELETE_FEE')")
+    @PreAuthorize("hasAuthority('FEE:DELETE')")
     public final Boolean delete(final Long id) {
         Boolean deleted;
 
@@ -83,7 +83,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('READ_FEE')")
+    @PreAuthorize("hasAuthority('FEE:READ')")
     public final Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
         // TODO: Test repository
         // TODO: Test reading with no name or surname
@@ -91,7 +91,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('READ_FEE')")
+    @PreAuthorize("hasAuthority('FEE:READ')")
     public final Optional<? extends MemberFee> getOne(final Long id) {
         final Optional<MemberFee>           found;
         final Optional<? extends MemberFee> result;
@@ -112,7 +112,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('UPDATE_FEE')")
+    @PreAuthorize("hasAuthority('FEE:UPDATE')")
     public final MemberFee update(final Long id, final FeeForm form) {
         final PersistentFee            entity;
         final PersistentFee            created;
