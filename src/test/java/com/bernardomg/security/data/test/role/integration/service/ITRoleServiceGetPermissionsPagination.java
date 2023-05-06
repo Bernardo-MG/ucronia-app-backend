@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -33,8 +33,8 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetActions_Page_Container() {
-        final Iterable<? extends Action> result;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Pageable                       pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -46,8 +46,8 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetActions_Paged_Count() {
-        final Iterable<? extends Action> result;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Pageable                       pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -59,9 +59,9 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final Iterator<? extends Action> data;
-        final Action                     result;
-        final Pageable                   pageable;
+        final Iterator<? extends Permission> data;
+        final Permission                     result;
+        final Pageable                       pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -69,16 +69,15 @@ public class ITRoleServiceGetPermissionsPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("CREATE_DATA", result.getName());
+        Assertions.assertEquals("DATA:CREATE", result.getName());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final Iterator<? extends Action> data;
-        final Action                     result;
-        final Pageable                   pageable;
+        final Iterator<? extends Permission> data;
+        final Permission                     result;
+        final Pageable                       pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -86,15 +85,14 @@ public class ITRoleServiceGetPermissionsPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("READ_DATA", result.getName());
+        Assertions.assertEquals("DATA:READ", result.getName());
     }
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<? extends Action> result;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Pageable                       pageable;
 
         pageable = Pageable.unpaged();
 

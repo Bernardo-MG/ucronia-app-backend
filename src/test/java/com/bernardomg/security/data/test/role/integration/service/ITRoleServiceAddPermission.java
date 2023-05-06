@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -33,9 +33,9 @@ public class ITRoleServiceAddPermission {
     @Test
     @DisplayName("Reading the role action after adding a action returns them")
     public void testAddAction_CallBack() {
-        final Iterable<? extends Action> result;
-        final Collection<String>         actionNames;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Collection<String>             actionNames;
+        final Pageable                       pageable;
 
         pageable = Pageable.unpaged();
 
@@ -45,10 +45,10 @@ public class ITRoleServiceAddPermission {
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
         actionNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Action::getName)
+            .map(Permission::getName)
             .collect(Collectors.toList());
 
-        Assertions.assertTrue(actionNames.contains("CREATE_DATA"));
+        Assertions.assertTrue(actionNames.contains("DATA:CREATE"));
     }
 
 }

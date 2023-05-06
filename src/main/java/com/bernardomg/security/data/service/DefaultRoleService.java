@@ -7,9 +7,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.data.model.Action;
 import com.bernardomg.security.data.model.DtoRole;
 import com.bernardomg.security.data.model.ImmutableRolePermission;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.RolePermission;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
@@ -123,8 +123,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<? extends Action> getPermission(final Long id, final Pageable pageable) {
-        return roleRepository.findAllActions(id, pageable);
+    public final Iterable<? extends Permission> getPermission(final Long id, final Pageable pageable) {
+        return roleRepository.findAllPermissions(id, pageable);
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -33,9 +33,9 @@ public class ITRoleServiceGetPermissions {
     @Test
     @DisplayName("Returns the action for a role")
     public void testGetActions() {
-        final Iterable<? extends Action> result;
-        final Collection<String>         action;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Collection<String>             action;
+        final Pageable                       pageable;
 
         pageable = Pageable.unpaged();
 
@@ -44,20 +44,20 @@ public class ITRoleServiceGetPermissions {
         Assertions.assertEquals(4L, IterableUtils.size(result));
 
         action = StreamSupport.stream(result.spliterator(), false)
-            .map(Action::getName)
+            .map(p -> p.getResource() + ":" + p.getResource())
             .collect(Collectors.toList());
 
-        Assertions.assertTrue(action.contains("CREATE_DATA"));
-        Assertions.assertTrue(action.contains("READ_DATA"));
-        Assertions.assertTrue(action.contains("UPDATE_DATA"));
-        Assertions.assertTrue(action.contains("DELETE_DATA"));
+        Assertions.assertTrue(action.contains("DATA:CREATE"));
+        Assertions.assertTrue(action.contains("DATA:READ"));
+        Assertions.assertTrue(action.contains("DATA:UPDATE"));
+        Assertions.assertTrue(action.contains("DATA:DELETE"));
     }
 
     @Test
     @DisplayName("Returns no action for a not existing role")
     public void testGetActions_NotExisting() {
-        final Iterable<? extends Action> result;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Pageable                       pageable;
 
         pageable = Pageable.unpaged();
 

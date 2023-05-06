@@ -43,7 +43,7 @@ public class ITActionServiceGetOne {
         result = service.getOne(1l)
             .get();
 
-        Assertions.assertEquals("CREATE_DATA", result.getName());
+        Assertions.assertEquals("DATA:CREATE", result.getName());
     }
 
     @Test

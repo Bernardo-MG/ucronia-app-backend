@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -29,8 +29,8 @@ public class ITRoleServiceGetPermissionNoPermissions {
     @Test
     @DisplayName("Returns no action for a role")
     public void testGetActions() {
-        final Iterable<? extends Action> result;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Pageable                       pageable;
 
         pageable = Pageable.unpaged();
 

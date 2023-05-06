@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 
 public interface RoleService {
@@ -70,7 +70,7 @@ public interface RoleService {
      *            pagination to apply
      * @return action for the role
      */
-    public Iterable<? extends Action> getPermission(final Long id, final Pageable pageable);
+    public Iterable<? extends Permission> getPermission(final Long id, final Pageable pageable);
 
     /**
      * Removes a action from a role.

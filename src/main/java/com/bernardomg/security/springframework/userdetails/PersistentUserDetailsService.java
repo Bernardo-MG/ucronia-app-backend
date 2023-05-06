@@ -37,6 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 
@@ -135,7 +136,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         // TODO: Increase isolation from the action repository
         return userRepo.findPermissions(id)
             .stream()
-            .map(p -> p.getResource() + ":" + p.getAction())
+            .map(Permission::getName)
             .distinct()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());

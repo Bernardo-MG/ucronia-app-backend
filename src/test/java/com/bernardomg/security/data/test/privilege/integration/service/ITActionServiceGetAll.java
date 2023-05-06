@@ -64,10 +64,10 @@ public class ITActionServiceGetAll {
             .map(Action::getName)
             .collect(Collectors.toList());
 
-        Assertions.assertTrue(names.contains("CREATE_DATA"));
-        Assertions.assertTrue(names.contains("READ_DATA"));
-        Assertions.assertTrue(names.contains("UPDATE_DATA"));
-        Assertions.assertTrue(names.contains("DELETE_DATA"));
+        Assertions.assertTrue(names.contains("DATA:CREATE"));
+        Assertions.assertTrue(names.contains("DATA:READ"));
+        Assertions.assertTrue(names.contains("DATA:UPDATE"));
+        Assertions.assertTrue(names.contains("DATA:DELETE"));
     }
 
 }

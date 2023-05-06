@@ -40,8 +40,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.data.controller.model.DtoCreateRoleForm;
 import com.bernardomg.security.data.controller.model.DtoPermissionForm;
 import com.bernardomg.security.data.controller.model.DtoUpdateRoleForm;
-import com.bernardomg.security.data.model.Action;
 import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
 
@@ -76,11 +76,6 @@ public class RoleController {
         return service.delete(id);
     }
 
-    @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Action> readActions(@PathVariable("id") final Long id, final Pageable pageable) {
-        return service.getPermission(id, pageable);
-    }
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<? extends Role> readAll(final DtoRole role, final Pageable pageable) {
         return service.getAll(role, pageable);
@@ -90,6 +85,11 @@ public class RoleController {
     public Role readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
+    }
+
+    @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
+        return service.getPermission(id, pageable);
     }
 
     @DeleteMapping(path = "/{id}/permission/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)

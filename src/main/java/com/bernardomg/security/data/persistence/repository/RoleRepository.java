@@ -30,7 +30,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 
 /**
@@ -41,7 +41,8 @@ import com.bernardomg.security.data.persistence.model.PersistentRole;
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
-    @Query("SELECT p FROM Action p JOIN RolePermissions rp ON p.id = rp.actionId JOIN Role r ON rp.roleId = r.id WHERE r.id = :id")
-    public Page<Action> findAllActions(@Param("id") final Long id, final Pageable pageable);
+    @Query(value = "SELECT r.name AS resource, a.name AS action FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.role_id = :id",
+            nativeQuery = true)
+    public Page<Permission> findAllPermissions(@Param("id") final Long id, final Pageable pageable);
 
 }

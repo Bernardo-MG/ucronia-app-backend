@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -33,9 +33,9 @@ public class ITRoleServiceAddPermissionWithPermissions {
     @Test
     @DisplayName("Reading the role action after adding a action returns them")
     public void testAddAction_Change_CallBack() {
-        final Iterable<? extends Action> result;
-        final Collection<String>         actionNames;
-        final Pageable                   pageable;
+        final Iterable<? extends Permission> result;
+        final Collection<String>             actionNames;
+        final Pageable                       pageable;
 
         pageable = Pageable.unpaged();
 
@@ -45,13 +45,13 @@ public class ITRoleServiceAddPermissionWithPermissions {
         Assertions.assertEquals(4L, IterableUtils.size(result));
 
         actionNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Action::getName)
+            .map(Permission::getName)
             .collect(Collectors.toList());
 
-        Assertions.assertTrue(actionNames.contains("CREATE_DATA"));
-        Assertions.assertTrue(actionNames.contains("READ_DATA"));
-        Assertions.assertTrue(actionNames.contains("UPDATE_DATA"));
-        Assertions.assertTrue(actionNames.contains("DELETE_DATA"));
+        Assertions.assertTrue(actionNames.contains("DATA:CREATE"));
+        Assertions.assertTrue(actionNames.contains("DATA:READ"));
+        Assertions.assertTrue(actionNames.contains("DATA:UPDATE"));
+        Assertions.assertTrue(actionNames.contains("DATA:DELETE"));
     }
 
 }

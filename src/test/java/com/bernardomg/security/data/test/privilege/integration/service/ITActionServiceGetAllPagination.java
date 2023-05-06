@@ -63,7 +63,7 @@ public class ITActionServiceGetAllPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("CREATE_DATA", result.getName());
+        Assertions.assertEquals("DATA:CREATE", result.getName());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ITActionServiceGetAllPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("DELETE_DATA", result.getName());
+        Assertions.assertEquals("DATA:DELETE", result.getName());
     }
 
     @Test
