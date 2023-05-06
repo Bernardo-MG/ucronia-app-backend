@@ -15,8 +15,9 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("User service - add role - validation")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+        "/db/queries/security/relationship/role_privilege.sql" })
 public class ITUserServiceAddRoleValidation {
 
     @Autowired

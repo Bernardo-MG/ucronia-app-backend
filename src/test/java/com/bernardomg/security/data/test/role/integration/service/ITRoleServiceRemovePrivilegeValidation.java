@@ -29,7 +29,8 @@ public class ITRoleServiceRemovePrivilegeValidation {
 
     @Test
     @DisplayName("Throws an exception when the privilege doesn't exist")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql" })
     public void testAddPrivilege_NotExistingPrivilege() {
         final Collection<Long>      privileges;
         final Executable            executable;
@@ -57,7 +58,7 @@ public class ITRoleServiceRemovePrivilegeValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    @Sql({ "/db/queries/security/privilege/multiple.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql" })
     public void testAddPrivilege_NotExistingRole() {
         final Collection<Long>      privileges;
         final Executable            executable;

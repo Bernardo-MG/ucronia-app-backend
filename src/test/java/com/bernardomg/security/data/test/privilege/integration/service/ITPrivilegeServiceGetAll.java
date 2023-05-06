@@ -20,7 +20,7 @@ import com.bernardomg.security.data.service.PrivilegeService;
 
 @IntegrationTest
 @DisplayName("Privilege service - get all")
-@Sql({ "/db/queries/security/privilege/multiple.sql" })
+@Sql({ "/db/queries/security/privilege/crud.sql" })
 public class ITPrivilegeServiceGetAll {
 
     @Autowired

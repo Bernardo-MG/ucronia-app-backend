@@ -36,8 +36,8 @@ import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - delete with no privileges")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/relationship/role_privilege.sql" })
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
 public class ITRoleServiceDeleteNoPrivileges {
 
     @Autowired

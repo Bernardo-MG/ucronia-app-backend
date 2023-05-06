@@ -82,6 +82,21 @@ databaseChangeLog:
                     nullable: false
                     unique: true
         - createTable:
+            tableName: resources
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
             tableName: privileges
             columns:
               - column:
@@ -112,6 +127,13 @@ databaseChangeLog:
                     nullable: false
                     deleteCascade: true
               - column:
+                  name: resource_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_role_privileges_resource_id
+                    references: resources(id)
+                    nullable: false
+              - column:
                   name: privilege_id
                   type: bigint
                   constraints:
@@ -139,7 +161,7 @@ databaseChangeLog:
         - addUniqueConstraint:
             constraintName: role_privileges_unique
             tableName: role_privileges
-            columnNames: 'role_id, privilege_id'
+            columnNames: 'role_id, resource_id, privilege_id'
         - addUniqueConstraint:
             constraintName: user_roles_unique
             tableName: user_roles

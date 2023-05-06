@@ -32,9 +32,9 @@ public class ITPasswordRecoveryServiceChange {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an existing user changes the password")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     public final void testChangePassword_Existing_Changed() {
         final PersistentUser user;
@@ -52,9 +52,9 @@ public class ITPasswordRecoveryServiceChange {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a valid token after expiration date gives a failure")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
     public final void testChangePassword_TokenAfterExpirationDate_Status() {
         final PasswordRecoveryStatus status;

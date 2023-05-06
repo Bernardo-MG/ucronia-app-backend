@@ -17,9 +17,9 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - token generation on recovery start")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-        "/db/queries/security/relationship/user_role.sql" })
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+        "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
 public class ITPasswordRecoveryServiceStartToken {
 
     @Autowired

@@ -38,9 +38,9 @@ public class ITSpringSecurityLoginService {
 
     @Test
     @DisplayName("Doesn't log in a disabled user")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
+            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
         final LoginStatus status;
         final DtoLogin    login;
@@ -57,9 +57,9 @@ public class ITSpringSecurityLoginService {
 
     @Test
     @DisplayName("Logs in with a valid user")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid() {
         final LoginStatus details;
         final DtoLogin    login;
@@ -76,9 +76,9 @@ public class ITSpringSecurityLoginService {
 
     @Test
     @DisplayName("Logs in with a valid user, ignoring username case")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid_Case() {
         final LoginStatus details;
         final DtoLogin    login;

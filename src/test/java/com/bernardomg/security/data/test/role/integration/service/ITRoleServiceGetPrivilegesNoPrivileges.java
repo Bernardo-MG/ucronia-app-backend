@@ -15,7 +15,8 @@ import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - get privileges - no privileges")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql" })
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+        "/db/queries/security/role/single.sql" })
 public class ITRoleServiceGetPrivilegesNoPrivileges {
 
     @Autowired

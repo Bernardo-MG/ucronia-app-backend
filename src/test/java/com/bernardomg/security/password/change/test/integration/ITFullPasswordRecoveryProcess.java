@@ -35,9 +35,9 @@ public class ITFullPasswordRecoveryProcess {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Can follow the password recovery from start to end")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
     public final void testRecoverPassword_Valid() {
         final PasswordRecoveryStatus recoveryStatus;
         final PasswordRecoveryStatus changeStatus;
