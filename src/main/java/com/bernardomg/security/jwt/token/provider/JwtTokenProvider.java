@@ -47,28 +47,23 @@ public final class JwtTokenProvider implements TokenProvider {
     /**
      * JWT id.
      */
-    private Optional<String> id;
+    private Optional<String> id       = Optional.empty();
 
     /**
      * Secret key for generating tokens. Created from the secret received when constructing the provider.
      */
-    private Optional<Key>    key;
+    private Optional<Key>    key      = Optional.empty();
 
     /**
-     * Token validity time in seconds.
+     * Token validity time in seconds. By default tokens last for one hour.
      */
-    private Integer          validity;
+    private Integer          validity = 3600;
 
     /**
-     * Default constructor for the provider. Makes use of the default security seed.
+     * Default constructor for the provider.
      */
     public JwtTokenProvider() {
         super();
-
-        key = Optional.empty();
-        id = Optional.empty();
-        // By default the tokens last 1 hour
-        validity = 3600;
     }
 
     @Override

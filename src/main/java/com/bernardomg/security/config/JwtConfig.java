@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.config;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,7 +65,7 @@ public class JwtConfig {
     @ConditionalOnProperty(value = "security.jwt.secret", matchIfMissing = false)
     public Key getJwtSecretKey(final JwtProperties properties) {
         return Keys.hmacShaKeyFor(properties.getSecret()
-            .getBytes(Charset.forName("UTF-8")));
+            .getBytes(StandardCharsets.UTF_8));
     }
 
     @Bean("jwtTokenFilter")
