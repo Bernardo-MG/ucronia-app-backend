@@ -15,6 +15,7 @@ import com.bernardomg.security.data.model.RolePermission;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.data.persistence.repository.ActionRepository;
+import com.bernardomg.security.data.persistence.repository.ResourceRepository;
 import com.bernardomg.security.data.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.persistence.repository.UserRolesRepository;
@@ -35,25 +36,27 @@ public final class DefaultRoleService implements RoleService {
 
     private final Validator<RolePermission> removeRolePermissionValidator;
 
-    private final RolePermissionRepository  RolePermissionRepository;
+    private final RolePermissionRepository  rolePermissionRepository;
 
     private final RoleRepository            roleRepository;
 
     private final Validator<Role>           updateRoleValidator;
 
-    public DefaultRoleService(final RoleRepository roleRepo, final ActionRepository actionRepo,
-            final RolePermissionRepository roleActionsRepo, final UserRolesRepository userRolesRepo) {
+    public DefaultRoleService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
+            final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
+            final UserRolesRepository userRolesRepo) {
         super();
 
         roleRepository = roleRepo;
-        RolePermissionRepository = roleActionsRepo;
+        rolePermissionRepository = roleActionsRepo;
 
         createRoleValidator = new CreateRoleValidator(roleRepo);
         updateRoleValidator = new UpdateRoleValidator(roleRepo);
         deleteRoleValidator = new DeleteRoleValidator(roleRepo, userRolesRepo);
 
-        addRolePermissionValidator = new AddRolePermissionValidator(roleRepo, actionRepo);
-        removeRolePermissionValidator = new AddRolePermissionValidator(roleRepo, actionRepo);
+        addRolePermissionValidator = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
+        // TODO: Just validate if the permission exists
+        removeRolePermissionValidator = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
     }
 
     @Override
@@ -69,10 +72,10 @@ public final class DefaultRoleService implements RoleService {
         role.setId(id);
 
         // Build relationship entities
-        relationship = getRelationships(id, action);
+        relationship = getRelationships(id, resource, action);
 
         // Persist relationship entities
-        RolePermissionRepository.save(relationship);
+        rolePermissionRepository.save(relationship);
 
         return true;
     }
@@ -101,6 +104,7 @@ public final class DefaultRoleService implements RoleService {
         role = new DtoRole();
         role.setId(id);
 
+        rolePermissionRepository.deleteAllByRoleId(id);
         roleRepository.deleteById(id);
 
         return true;
@@ -140,10 +144,10 @@ public final class DefaultRoleService implements RoleService {
         role.setId(id);
 
         // Build relationship entities
-        relationship = getRelationships(id, action);
+        relationship = getRelationships(id, resource, action);
 
         // Delete relationship entities
-        RolePermissionRepository.delete(relationship);
+        rolePermissionRepository.delete(relationship);
 
         return true;
     }
@@ -162,11 +166,12 @@ public final class DefaultRoleService implements RoleService {
         return toDto(created);
     }
 
-    private final PersistentRolePermission getRelationships(final Long role, final Long action) {
+    private final PersistentRolePermission getRelationships(final Long role, final Long resource, final Long action) {
         final PersistentRolePermission relationship;
 
         relationship = new PersistentRolePermission();
         relationship.setRoleId(role);
+        relationship.setResourceId(resource);
         relationship.setActionId(action);
 
         return relationship;

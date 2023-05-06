@@ -32,35 +32,63 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.persistence.repository.ActionRepository;
+import com.bernardomg.security.data.persistence.repository.ResourceRepository;
+import com.bernardomg.security.data.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - delete with action")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-public class ITRoleServiceDeleteWithPermissions {
+@DisplayName("Role service - delete with permissions")
+public class ITRoleServiceDelete {
 
     @Autowired
-    private ActionRepository actionRepository;
+    private ActionRepository         actionRepository;
 
     @Autowired
-    private RoleRepository   repository;
+    private RoleRepository           repository;
 
     @Autowired
-    private RoleService      service;
+    private ResourceRepository       resourceRepository;
 
-    public ITRoleServiceDeleteWithPermissions() {
+    @Autowired
+    private RolePermissionRepository rolePermissionRepository;
+
+    @Autowired
+    private RoleService              service;
+
+    public ITRoleServiceDelete() {
         super();
     }
 
     @Test
-    @DisplayName("Does not remove action when deleting")
-    public void testDelete_DoesNotRemoveRelations() {
+    @DisplayName("Deletes a role with no permissions")
+    @Sql({ "/db/queries/security/role/single.sql" })
+    public void testDelete_NoPermissions() {
         service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Deletes a role with permissions")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+    public void testDelete_WithPermissions() {
+        service.delete(1L);
+
+        Assertions.assertEquals(0L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Deletes the relationships for the role")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+    public void testDelete_WithPermissions_Relationships() {
+        service.delete(1L);
+
+        Assertions.assertEquals(0L, rolePermissionRepository.count());
         Assertions.assertEquals(4L, actionRepository.count());
+        Assertions.assertEquals(1L, resourceRepository.count());
     }
 
 }

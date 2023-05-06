@@ -37,4 +37,6 @@ import com.bernardomg.security.data.persistence.model.RolePermissionKey;
  */
 public interface RolePermissionRepository extends JpaRepository<PersistentRolePermission, RolePermissionKey> {
 
+    public void deleteAllByRoleId(final Long id);
+
 }

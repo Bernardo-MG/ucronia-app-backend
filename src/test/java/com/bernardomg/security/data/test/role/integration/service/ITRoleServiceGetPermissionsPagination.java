@@ -18,7 +18,7 @@ import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - get action")
+@DisplayName("Role service - get permissions pagination")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
 public class ITRoleServiceGetPermissionsPagination {
@@ -32,7 +32,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetActions_Page_Container() {
+    public void testGetPermissions_Page_Container() {
         final Iterable<? extends Permission> result;
         final Pageable                       pageable;
 
@@ -44,21 +44,8 @@ public class ITRoleServiceGetPermissionsPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
-    public void testGetActions_Paged_Count() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        result = service.getPermission(1l, pageable);
-
-        Assertions.assertEquals(1, IterableUtils.size(result));
-    }
-
-    @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    public void testGetPermissions_Page1_Data() {
         final Iterator<? extends Permission> data;
         final Permission                     result;
         final Pageable                       pageable;
@@ -75,7 +62,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    public void testGetPermissions_Page2_Data() {
         final Iterator<? extends Permission> data;
         final Permission                     result;
         final Pageable                       pageable;
@@ -91,8 +78,21 @@ public class ITRoleServiceGetPermissionsPagination {
     }
 
     @Test
+    @DisplayName("Returns a page")
+    public void testGetPermissions_Paged_Count() {
+        final Iterable<? extends Permission> result;
+        final Pageable                       pageable;
+
+        pageable = PageRequest.of(0, 1);
+
+        result = service.getPermission(1l, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetAll_Unpaged_Container() {
+    public void testGetPermissions_Unpaged_Container() {
         final Iterable<? extends Permission> result;
         final Pageable                       pageable;
 

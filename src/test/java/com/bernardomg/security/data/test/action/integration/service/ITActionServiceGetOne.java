@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.data.test.privilege.integration.service;
+package com.bernardomg.security.data.test.action.integration.service;
 
 import java.util.Optional;
 
@@ -43,7 +43,7 @@ public class ITActionServiceGetOne {
         result = service.getOne(1l)
             .get();
 
-        Assertions.assertEquals("DATA:CREATE", result.getName());
+        Assertions.assertEquals("CREATE", result.getName());
     }
 
     @Test

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.data.test.privilege.integration.service;
+package com.bernardomg.security.data.test.action.integration.service;
 
 import java.util.Iterator;
 
@@ -63,7 +63,7 @@ public class ITActionServiceGetAllPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("DATA:CREATE", result.getName());
+        Assertions.assertEquals("CREATE", result.getName());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ITActionServiceGetAllPagination {
 
         result = data.next();
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("DATA:DELETE", result.getName());
+        Assertions.assertEquals("DELETE", result.getName());
     }
 
     @Test

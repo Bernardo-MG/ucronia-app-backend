@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.data.test.privilege.integration.service;
+package com.bernardomg.security.data.test.action.integration.service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -64,10 +64,10 @@ public class ITActionServiceGetAll {
             .map(Action::getName)
             .collect(Collectors.toList());
 
-        Assertions.assertTrue(names.contains("DATA:CREATE"));
-        Assertions.assertTrue(names.contains("DATA:READ"));
-        Assertions.assertTrue(names.contains("DATA:UPDATE"));
-        Assertions.assertTrue(names.contains("DATA:DELETE"));
+        Assertions.assertTrue(names.contains("CREATE"));
+        Assertions.assertTrue(names.contains("READ"));
+        Assertions.assertTrue(names.contains("UPDATE"));
+        Assertions.assertTrue(names.contains("DELETE"));
     }
 
 }

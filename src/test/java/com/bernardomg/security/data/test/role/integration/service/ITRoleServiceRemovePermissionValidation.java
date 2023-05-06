@@ -29,9 +29,8 @@ public class ITRoleServiceRemovePermissionValidation {
 
     @Test
     @DisplayName("Throws an exception when the action doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql" })
-    public void testAddAction_NotExistingAction() {
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/role/single.sql" })
+    public void testAddPermission_NotExistingAction() {
         final Collection<Long>      action;
         final Executable            executable;
         final FieldFailureException exception;
@@ -40,7 +39,7 @@ public class ITRoleServiceRemovePermissionValidation {
         action = new ArrayList<>();
         action.add(-1L);
 
-        executable = () -> service.removePermission(1l, 1l, -1l);
+        executable = () -> service.removePermission(1l, 1l, 1l);
 
         exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
@@ -57,9 +56,37 @@ public class ITRoleServiceRemovePermissionValidation {
     }
 
     @Test
+    @DisplayName("Throws an exception when the resource doesn't exist")
+    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/role/single.sql" })
+    public void testAddPermission_NotExistingResource() {
+        final Collection<Long>      action;
+        final Executable            executable;
+        final FieldFailureException exception;
+        final FieldFailure          failure;
+
+        action = new ArrayList<>();
+        action.add(-1L);
+
+        executable = () -> service.removePermission(1l, 1l, 1l);
+
+        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+
+        Assertions.assertEquals(1, exception.getFailures()
+            .size());
+
+        failure = exception.getFailures()
+            .iterator()
+            .next();
+
+        Assertions.assertEquals("notExisting", failure.getCode());
+        Assertions.assertEquals("resource", failure.getField());
+        Assertions.assertEquals("resource.notExisting", failure.getMessage());
+    }
+
+    @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql" })
-    public void testAddAction_NotExistingRole() {
+    public void testAddPermission_NotExistingRole() {
         final Collection<Long>      action;
         final Executable            executable;
         final FieldFailureException exception;
