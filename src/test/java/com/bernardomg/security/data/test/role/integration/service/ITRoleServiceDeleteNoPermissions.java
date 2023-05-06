@@ -35,10 +35,10 @@ import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - delete with no privileges")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITRoleServiceDeleteNoPrivileges {
+@DisplayName("Role service - delete with no action")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+public class ITRoleServiceDeleteNoPermissions {
 
     @Autowired
     private RoleRepository repository;
@@ -46,7 +46,7 @@ public class ITRoleServiceDeleteNoPrivileges {
     @Autowired
     private RoleService    service;
 
-    public ITRoleServiceDeleteNoPrivileges() {
+    public ITRoleServiceDeleteNoPermissions() {
         super();
     }
 

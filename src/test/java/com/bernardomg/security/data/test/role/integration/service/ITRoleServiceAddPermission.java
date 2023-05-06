@@ -14,41 +14,41 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.Action;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - set privileges")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+@DisplayName("Role service - set action")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql" })
-public class ITRoleServiceAddPrivilege {
+public class ITRoleServiceAddPermission {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceAddPrivilege() {
+    public ITRoleServiceAddPermission() {
         super();
     }
 
     @Test
-    @DisplayName("Reading the role privileges after adding a privilege returns them")
-    public void testAddPrivilege_CallBack() {
-        final Iterable<? extends Privilege> result;
-        final Collection<String>            privilegeNames;
-        final Pageable                      pageable;
+    @DisplayName("Reading the role action after adding a action returns them")
+    public void testAddAction_CallBack() {
+        final Iterable<? extends Action> result;
+        final Collection<String>         actionNames;
+        final Pageable                   pageable;
 
         pageable = Pageable.unpaged();
 
-        service.addPrivilege(1l, 1l);
-        result = service.getPrivileges(1l, pageable);
+        service.addPermission(1l, 1l, 1l);
+        result = service.getPermission(1l, pageable);
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
-        privilegeNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Privilege::getName)
+        actionNames = StreamSupport.stream(result.spliterator(), false)
+            .map(Action::getName)
             .collect(Collectors.toList());
 
-        Assertions.assertTrue(privilegeNames.contains("CREATE_DATA"));
+        Assertions.assertTrue(actionNames.contains("CREATE_DATA"));
     }
 
 }

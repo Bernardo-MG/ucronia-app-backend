@@ -1,4 +1,4 @@
-INSERT INTO privileges (id, name) VALUES
+INSERT INTO action (id, name) VALUES
    (1, 'CREATE'),
    (2, 'READ'),
    (3, 'UPDATE'),

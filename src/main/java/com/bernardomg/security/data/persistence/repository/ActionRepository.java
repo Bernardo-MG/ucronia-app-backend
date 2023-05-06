@@ -22,50 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.data.persistence.model;
+package com.bernardomg.security.data.persistence.repository;
 
-import java.io.Serializable;
+import java.util.Collection;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import lombok.Data;
+import com.bernardomg.security.data.persistence.model.PersistentAction;
 
 /**
- * Dto implementation of {@code Privilege}.
+ * Repository for action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@Entity(name = "Privilege")
-@Table(name = "privileges")
-@TableGenerator(name = "seq_privileges_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
-public class PersistentPrivilege implements Serializable {
+public interface ActionRepository extends JpaRepository<PersistentAction, Long> {
 
     /**
-     * Serialization id.
+     * Returns all the action for a user. This requires a join from the user up to the action.
+     *
+     * @param id
+     *            user id
+     * @return all the action for the user
      */
-    private static final long serialVersionUID = 8513041662486312372L;
-
-    /**
-     * Entity id.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_privileges_id")
-    @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
-
-    /**
-     * Privilege name.
-     */
-    @Column(name = "name", nullable = false, unique = true, length = 60)
-    private String            name;
+    @Query(value = "SELECT p.* FROM action p JOIN role_permissions rp ON p.id = rp.action_id JOIN roles r ON r.id = rp.role_id JOIN user_roles ur ON r.id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.id = :id",
+            nativeQuery = true)
+    public Collection<PersistentAction> findForUser(@Param("id") final Long id);
 
 }

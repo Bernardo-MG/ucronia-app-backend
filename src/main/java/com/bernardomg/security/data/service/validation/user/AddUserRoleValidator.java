@@ -41,7 +41,7 @@ public final class AddUserRoleValidator implements Validator<UserRole> {
             failures.add(failure);
         }
 
-        // The privilege exists
+        // The action exists
         if (!roleRepository.existsById(relationship.getRole())) {
             log.error("Found no role with id {}", relationship.getRole());
             failure = FieldFailure.of("role", "notExisting", relationship.getRole());

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.data.model;
 
-public interface Privilege {
+public interface Action {
 
     public Long getId();
 

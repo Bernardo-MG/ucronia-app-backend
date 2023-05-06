@@ -10,31 +10,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.Action;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - get privileges - no privileges")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+@DisplayName("Role service - get action - no action")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetPrivilegesNoPrivileges {
+public class ITRoleServiceGetPermissionNoPermissions {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceGetPrivilegesNoPrivileges() {
+    public ITRoleServiceGetPermissionNoPermissions() {
         super();
     }
 
     @Test
-    @DisplayName("Returns no privileges for a role")
-    public void testGetPrivileges() {
-        final Iterable<? extends Privilege> result;
-        final Pageable                      pageable;
+    @DisplayName("Returns no action for a role")
+    public void testGetActions() {
+        final Iterable<? extends Action> result;
+        final Pageable                   pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPrivileges(1l, pageable);
+        result = service.getPermission(1l, pageable);
 
         Assertions.assertEquals(0L, IterableUtils.size(result));
     }

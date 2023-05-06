@@ -35,7 +35,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 /**
- * Dto implementation of {@code Privilege}.
+ * Dto implementation of {@code Action}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

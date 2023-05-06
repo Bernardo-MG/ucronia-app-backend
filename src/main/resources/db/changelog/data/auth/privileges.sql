@@ -27,7 +27,7 @@
 -- This SQL script populates the initial sequences.
 -- ****************************************
 
-INSERT INTO privileges (id, name) VALUES
+INSERT INTO actions (id, name) VALUES
    (1, 'CREATE'),
    (2, 'READ'),
    (3, 'UPDATE'),
@@ -44,7 +44,7 @@ INSERT INTO resources (id, name) VALUES
 INSERT INTO roles (id, name) VALUES
    (1, 'ADMIN');
 
-INSERT INTO role_privileges (role_id, resource_id, privilege_id) VALUES
+INSERT INTO role_permissions (role_id, resource_id, action_id) VALUES
    (1, 1, 1),
    (1, 1, 2),
    (1, 1, 3),

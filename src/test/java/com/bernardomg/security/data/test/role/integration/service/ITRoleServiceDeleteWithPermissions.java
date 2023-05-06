@@ -31,36 +31,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - delete with privileges")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
-public class ITRoleServiceDeleteWithPrivileges {
+@DisplayName("Role service - delete with action")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+public class ITRoleServiceDeleteWithPermissions {
 
     @Autowired
-    private PrivilegeRepository privilegeRepository;
+    private ActionRepository actionRepository;
 
     @Autowired
-    private RoleRepository      repository;
+    private RoleRepository   repository;
 
     @Autowired
-    private RoleService         service;
+    private RoleService      service;
 
-    public ITRoleServiceDeleteWithPrivileges() {
+    public ITRoleServiceDeleteWithPermissions() {
         super();
     }
 
     @Test
-    @DisplayName("Does not remove privileges when deleting")
+    @DisplayName("Does not remove action when deleting")
     public void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
-        Assertions.assertEquals(4L, privilegeRepository.count());
+        Assertions.assertEquals(4L, actionRepository.count());
     }
 
 }

@@ -14,32 +14,32 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoPrivilege;
-import com.bernardomg.security.data.model.Privilege;
-import com.bernardomg.security.data.service.PrivilegeService;
+import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.DtoAction;
+import com.bernardomg.security.data.service.ActionService;
 
 @IntegrationTest
-@DisplayName("Privilege service - get all")
-@Sql({ "/db/queries/security/privilege/crud.sql" })
-public class ITPrivilegeServiceGetAllPagination {
+@DisplayName("Action service - get all")
+@Sql({ "/db/queries/security/action/crud.sql" })
+public class ITActionServiceGetAllPagination {
 
     @Autowired
-    private PrivilegeService service;
+    private ActionService service;
 
-    public ITPrivilegeServiceGetAllPagination() {
+    public ITActionServiceGetAllPagination() {
         super();
     }
 
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<? extends Privilege> result;
-        final DtoPrivilege                  sample;
-        final Pageable                      pageable;
+        final Iterable<? extends Action> result;
+        final DtoAction                  sample;
+        final Pageable                   pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoPrivilege();
+        sample = new DtoAction();
 
         result = service.getAll(sample, pageable);
 
@@ -49,14 +49,14 @@ public class ITPrivilegeServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final DtoPrivilege                  sample;
-        final Iterator<? extends Privilege> data;
-        final Privilege                     result;
-        final Pageable                      pageable;
+        final DtoAction                  sample;
+        final Iterator<? extends Action> data;
+        final Action                     result;
+        final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoPrivilege();
+        sample = new DtoAction();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -69,14 +69,14 @@ public class ITPrivilegeServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final DtoPrivilege                  sample;
-        final Iterator<? extends Privilege> data;
-        final Privilege                     result;
-        final Pageable                      pageable;
+        final DtoAction                  sample;
+        final Iterator<? extends Action> data;
+        final Action                     result;
+        final Pageable                   pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoPrivilege();
+        sample = new DtoAction();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -89,13 +89,13 @@ public class ITPrivilegeServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final DtoPrivilege                  sample;
-        final Iterable<? extends Privilege> result;
-        final Pageable                      pageable;
+        final DtoAction                  sample;
+        final Iterable<? extends Action> result;
+        final Pageable                   pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoPrivilege();
+        sample = new DtoAction();
 
         result = service.getAll(sample, pageable);
 
@@ -105,13 +105,13 @@ public class ITPrivilegeServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<? extends Privilege> result;
-        final DtoPrivilege                  sample;
-        final Pageable                      pageable;
+        final Iterable<? extends Action> result;
+        final DtoAction                  sample;
+        final Pageable                   pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoPrivilege();
+        sample = new DtoAction();
 
         result = service.getAll(sample, pageable);
 

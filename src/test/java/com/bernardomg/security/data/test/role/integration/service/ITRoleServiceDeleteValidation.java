@@ -72,9 +72,10 @@ public class ITRoleServiceDeleteValidation {
 
     @Test
     @DisplayName("Throws an exception when the role has an user")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public void testDelete_UserWithRole() {
         final Executable            executable;
         final FieldFailureException exception;

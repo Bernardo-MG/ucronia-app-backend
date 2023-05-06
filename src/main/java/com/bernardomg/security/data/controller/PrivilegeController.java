@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.data.model.DtoPrivilege;
-import com.bernardomg.security.data.model.Privilege;
-import com.bernardomg.security.data.service.PrivilegeService;
+import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.DtoAction;
+import com.bernardomg.security.data.service.ActionService;
 
 import lombok.AllArgsConstructor;
 
@@ -44,19 +44,19 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/privilege")
+@RequestMapping("/security/action")
 @AllArgsConstructor
 public class PrivilegeController {
 
-    private final PrivilegeService service;
+    private final ActionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Privilege> readAll(final DtoPrivilege privilege, final Pageable pageable) {
-        return service.getAll(privilege, pageable);
+    public Iterable<? extends Action> readAll(final DtoAction action, final Pageable pageable) {
+        return service.getAll(action, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Privilege readOne(@PathVariable("id") final Long id) {
+    public Action readOne(@PathVariable("id") final Long id) {
         return service.getOne(id)
             .orElse(null);
     }

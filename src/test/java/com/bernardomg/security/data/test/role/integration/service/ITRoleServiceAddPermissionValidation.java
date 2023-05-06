@@ -17,30 +17,30 @@ import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
-@DisplayName("Role service - set privileges validation")
-public class ITRoleServiceAddPrivilegeValidation {
+@DisplayName("Role service - set action validation")
+public class ITRoleServiceAddPermissionValidation {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceAddPrivilegeValidation() {
+    public ITRoleServiceAddPermissionValidation() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the privilege doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+    @DisplayName("Throws an exception when the action doesn't exist")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    public void testAddPrivilege_NotExistingPrivilege() {
-        final Collection<Long>      privileges;
+    public void testAddAction_NotExistingAction() {
+        final Collection<Long>      action;
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        privileges = new ArrayList<>();
-        privileges.add(-1L);
+        action = new ArrayList<>();
+        action.add(-1L);
 
-        executable = () -> service.addPrivilege(1l, -1l);
+        executable = () -> service.addPermission(1l, 1l, -1l);
 
         exception = Assertions.assertThrows(FieldFailureException.class, executable);
 
@@ -52,23 +52,23 @@ public class ITRoleServiceAddPrivilegeValidation {
             .next();
 
         Assertions.assertEquals("notExisting", failure.getCode());
-        Assertions.assertEquals("privilege", failure.getField());
-        Assertions.assertEquals("privilege.notExisting", failure.getMessage());
+        Assertions.assertEquals("action", failure.getField());
+        Assertions.assertEquals("action.notExisting", failure.getMessage());
     }
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql" })
-    public void testAddPrivilege_NotExistingRole() {
-        final Collection<Long>      privileges;
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql" })
+    public void testAddAction_NotExistingRole() {
+        final Collection<Long>      action;
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        privileges = new ArrayList<>();
-        privileges.add(1L);
+        action = new ArrayList<>();
+        action.add(1L);
 
-        executable = () -> service.addPrivilege(1l, 1l);
+        executable = () -> service.addPermission(1l, 1l, 1l);
 
         exception = Assertions.assertThrows(FieldFailureException.class, executable);
 

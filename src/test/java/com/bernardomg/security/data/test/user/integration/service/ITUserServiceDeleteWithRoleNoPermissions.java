@@ -31,41 +31,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.data.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - delete with role and privileges")
+@DisplayName("User service - delete with role and action")
 @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceDeleteWithRoleNoPrivileges {
+public class ITUserServiceDeleteWithRoleNoPermissions {
 
     @Autowired
-    private PrivilegeRepository privilegeRepository;
+    private ActionRepository actionRepository;
 
     @Autowired
-    private UserRepository      repository;
+    private UserRepository   repository;
 
     @Autowired
-    private RoleRepository      roleRepository;
+    private RoleRepository   roleRepository;
 
     @Autowired
-    private UserService         service;
+    private UserService      service;
 
-    public ITUserServiceDeleteWithRoleNoPrivileges() {
+    public ITUserServiceDeleteWithRoleNoPermissions() {
         super();
     }
 
     @Test
-    @DisplayName("Does not remove roles or privileges when deleting")
+    @DisplayName("Does not remove roles or action when deleting")
     public void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
         Assertions.assertEquals(1L, roleRepository.count());
-        Assertions.assertEquals(0L, privilegeRepository.count());
+        Assertions.assertEquals(0L, actionRepository.count());
     }
 
 }

@@ -38,7 +38,7 @@ public class PersistentToken implements Serializable {
     private Long              id;
 
     /**
-     * Privilege name.
+     * Action name.
      */
     @Column(name = "token", nullable = false, unique = true, length = 60)
     private String            token;

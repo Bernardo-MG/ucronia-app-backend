@@ -22,33 +22,50 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.data.persistence.repository;
+package com.bernardomg.security.data.persistence.model;
 
-import java.util.Collection;
+import java.io.Serializable;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
-import com.bernardomg.security.data.persistence.model.PersistentPrivilege;
+import lombok.Data;
 
 /**
- * Repository for privileges.
+ * Dto implementation of {@code Action}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PrivilegeRepository extends JpaRepository<PersistentPrivilege, Long> {
+@Data
+@Entity(name = "Action")
+@Table(name = "action")
+@TableGenerator(name = "seq_action_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
+        allocationSize = 1)
+public class PersistentAction implements Serializable {
 
     /**
-     * Returns all the privileges for a user. This requires a join from the user up to the privileges.
-     *
-     * @param id
-     *            user id
-     * @return all the privileges for the user
+     * Serialization id.
      */
-    @Query(value = "SELECT p.* FROM privileges p JOIN role_privileges rp ON p.id = rp.privilege_id JOIN roles r ON r.id = rp.role_id JOIN user_roles ur ON r.id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.id = :id",
-            nativeQuery = true)
-    public Collection<PersistentPrivilege> findForUser(@Param("id") final Long id);
+    private static final long serialVersionUID = 8513041662486312372L;
+
+    /**
+     * Entity id.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_action_id")
+    @Column(name = "id", nullable = false, unique = true)
+    private Long              id;
+
+    /**
+     * Action name.
+     */
+    @Column(name = "name", nullable = false, unique = true, length = 60)
+    private String            name;
 
 }

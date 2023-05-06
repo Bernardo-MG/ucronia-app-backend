@@ -31,42 +31,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.data.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - delete with role and privileges")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/privilege/crud.sql",
+@DisplayName("User service - delete with role and action")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceDeleteWithRoleAndPrivileges {
+        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
+public class ITUserServiceDeleteWithRoleAndPermissions {
 
     @Autowired
-    private PrivilegeRepository privilegeRepository;
+    private ActionRepository actionRepository;
 
     @Autowired
-    private UserRepository      repository;
+    private UserRepository   repository;
 
     @Autowired
-    private RoleRepository      roleRepository;
+    private RoleRepository   roleRepository;
 
     @Autowired
-    private UserService         service;
+    private UserService      service;
 
-    public ITUserServiceDeleteWithRoleAndPrivileges() {
+    public ITUserServiceDeleteWithRoleAndPermissions() {
         super();
     }
 
     @Test
-    @DisplayName("Does not remove roles or privileges when deleting")
+    @DisplayName("Does not remove roles or action when deleting")
     public void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
         Assertions.assertEquals(0L, repository.count());
         Assertions.assertEquals(1L, roleRepository.count());
-        Assertions.assertEquals(4L, privilegeRepository.count());
+        Assertions.assertEquals(4L, actionRepository.count());
     }
 
 }

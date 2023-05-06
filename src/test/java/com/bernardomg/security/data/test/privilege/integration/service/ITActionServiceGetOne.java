@@ -10,25 +10,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Privilege;
-import com.bernardomg.security.data.service.PrivilegeService;
+import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.service.ActionService;
 
 @IntegrationTest
-@DisplayName("Privilege service - get one")
-@Sql({ "/db/queries/security/privilege/crud.sql" })
-public class ITPrivilegeServiceGetOne {
+@DisplayName("Action service - get one")
+@Sql({ "/db/queries/security/action/crud.sql" })
+public class ITActionServiceGetOne {
 
     @Autowired
-    private PrivilegeService service;
+    private ActionService service;
 
-    public ITPrivilegeServiceGetOne() {
+    public ITActionServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends Privilege> result;
+        final Optional<? extends Action> result;
 
         result = service.getOne(1l);
 
@@ -38,7 +38,7 @@ public class ITPrivilegeServiceGetOne {
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
     public void testGetOne_Existing_Data() {
-        final Privilege result;
+        final Action result;
 
         result = service.getOne(1l)
             .get();
@@ -49,7 +49,7 @@ public class ITPrivilegeServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Privilege> result;
+        final Optional<? extends Action> result;
 
         result = service.getOne(-1L);
 

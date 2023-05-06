@@ -22,19 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.data.persistence.repository;
+package com.bernardomg.security.data.persistence.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
 
-import com.bernardomg.security.data.persistence.model.PersistentRolePrivilege;
-import com.bernardomg.security.data.persistence.model.RolePrivilegesKey;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+
+import lombok.Data;
 
 /**
- * Repository for privileges.
+ * Dto implementation of {@code Action}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RolePrivilegesRepository extends JpaRepository<PersistentRolePrivilege, RolePrivilegesKey> {
+@Data
+@Entity(name = "RolePermissions")
+@Table(name = "role_permissions")
+@IdClass(RolePermissionKey.class)
+public class PersistentRolePermission implements Serializable {
+
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = 8513041662486312372L;
+
+    @Id
+    @Column(name = "action_id", nullable = false, unique = true)
+    private Long              actionId;
+
+    @Id
+    @Column(name = "resource_id", nullable = false, unique = true)
+    private Long              resourceId;
+
+    @Id
+    @Column(name = "role_id", nullable = false, unique = true)
+    private Long              roleId;
 
 }

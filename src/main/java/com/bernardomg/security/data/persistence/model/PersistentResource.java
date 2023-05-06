@@ -37,7 +37,7 @@ import javax.persistence.TableGenerator;
 import lombok.Data;
 
 /**
- * Dto implementation of {@code Privilege}.
+ * Dto implementation of {@code Action}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -63,7 +63,7 @@ public class PersistentResource implements Serializable {
     private Long              id;
 
     /**
-     * Privilege name.
+     * Action name.
      */
     @Column(name = "name", nullable = false, unique = true, length = 60)
     private String            name;

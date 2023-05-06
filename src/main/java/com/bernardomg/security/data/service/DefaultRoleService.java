@@ -7,18 +7,18 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.security.data.model.Action;
 import com.bernardomg.security.data.model.DtoRole;
-import com.bernardomg.security.data.model.ImmutableRolePrivilege;
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.ImmutableRolePermission;
 import com.bernardomg.security.data.model.Role;
-import com.bernardomg.security.data.model.RolePrivilege;
+import com.bernardomg.security.data.model.RolePermission;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
-import com.bernardomg.security.data.persistence.model.PersistentRolePrivilege;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
-import com.bernardomg.security.data.persistence.repository.RolePrivilegesRepository;
+import com.bernardomg.security.data.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
+import com.bernardomg.security.data.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.security.data.persistence.repository.UserRolesRepository;
-import com.bernardomg.security.data.service.validation.role.AddRolePrivilegeValidator;
+import com.bernardomg.security.data.service.validation.role.AddRolePermissionValidator;
 import com.bernardomg.security.data.service.validation.role.CreateRoleValidator;
 import com.bernardomg.security.data.service.validation.role.DeleteRoleValidator;
 import com.bernardomg.security.data.service.validation.role.UpdateRoleValidator;
@@ -27,52 +27,52 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultRoleService implements RoleService {
 
-    private final Validator<RolePrivilege> addRolePrivilegeValidator;
+    private final Validator<RolePermission> addRolePermissionValidator;
 
-    private final Validator<Role>          createRoleValidator;
+    private final Validator<Role>           createRoleValidator;
 
-    private final Validator<Long>          deleteRoleValidator;
+    private final Validator<Long>           deleteRoleValidator;
 
-    private final Validator<RolePrivilege> removeRolePrivilegeValidator;
+    private final Validator<RolePermission> removeRolePermissionValidator;
 
-    private final RolePrivilegesRepository rolePrivilegesRepository;
+    private final RolePermissionRepository  RolePermissionRepository;
 
-    private final RoleRepository           roleRepository;
+    private final RoleRepository            roleRepository;
 
-    private final Validator<Role>          updateRoleValidator;
+    private final Validator<Role>           updateRoleValidator;
 
-    public DefaultRoleService(final RoleRepository roleRepo, final PrivilegeRepository privilegeRepo,
-            final RolePrivilegesRepository rolePrivilegesRepo, final UserRolesRepository userRolesRepo) {
+    public DefaultRoleService(final RoleRepository roleRepo, final ActionRepository actionRepo,
+            final RolePermissionRepository roleActionsRepo, final UserRolesRepository userRolesRepo) {
         super();
 
         roleRepository = roleRepo;
-        rolePrivilegesRepository = rolePrivilegesRepo;
+        RolePermissionRepository = roleActionsRepo;
 
         createRoleValidator = new CreateRoleValidator(roleRepo);
         updateRoleValidator = new UpdateRoleValidator(roleRepo);
         deleteRoleValidator = new DeleteRoleValidator(roleRepo, userRolesRepo);
 
-        addRolePrivilegeValidator = new AddRolePrivilegeValidator(roleRepo, privilegeRepo);
-        removeRolePrivilegeValidator = new AddRolePrivilegeValidator(roleRepo, privilegeRepo);
+        addRolePermissionValidator = new AddRolePermissionValidator(roleRepo, actionRepo);
+        removeRolePermissionValidator = new AddRolePermissionValidator(roleRepo, actionRepo);
     }
 
     @Override
-    public final Boolean addPrivilege(final Long id, final Long privilege) {
-        final PersistentRolePrivilege relationship;
-        final DtoRole                 role;
-        final RolePrivilege           rolePrivilege;
+    public final Boolean addPermission(final Long id, final Long resource, final Long action) {
+        final PersistentRolePermission relationship;
+        final DtoRole                  role;
+        final RolePermission           roleAction;
 
-        rolePrivilege = new ImmutableRolePrivilege(id, privilege);
-        addRolePrivilegeValidator.validate(rolePrivilege);
+        roleAction = new ImmutableRolePermission(id, resource, action);
+        addRolePermissionValidator.validate(roleAction);
 
         role = new DtoRole();
         role.setId(id);
 
         // Build relationship entities
-        relationship = getRelationships(id, privilege);
+        relationship = getRelationships(id, action);
 
         // Persist relationship entities
-        rolePrivilegesRepository.save(relationship);
+        RolePermissionRepository.save(relationship);
 
         return true;
     }
@@ -123,27 +123,27 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<? extends Privilege> getPrivileges(final Long id, final Pageable pageable) {
-        return roleRepository.findAllPrivileges(id, pageable);
+    public final Iterable<? extends Action> getPermission(final Long id, final Pageable pageable) {
+        return roleRepository.findAllActions(id, pageable);
     }
 
     @Override
-    public final Boolean removePrivilege(final Long id, final Long privilege) {
-        final PersistentRolePrivilege relationship;
-        final DtoRole                 role;
-        final RolePrivilege           rolePrivilege;
+    public final Boolean removePermission(final Long id, final Long resource, final Long action) {
+        final PersistentRolePermission relationship;
+        final DtoRole                  role;
+        final RolePermission           roleAction;
 
-        rolePrivilege = new ImmutableRolePrivilege(id, privilege);
-        removeRolePrivilegeValidator.validate(rolePrivilege);
+        roleAction = new ImmutableRolePermission(id, resource, action);
+        removeRolePermissionValidator.validate(roleAction);
 
         role = new DtoRole();
         role.setId(id);
 
         // Build relationship entities
-        relationship = getRelationships(id, privilege);
+        relationship = getRelationships(id, action);
 
         // Delete relationship entities
-        rolePrivilegesRepository.delete(relationship);
+        RolePermissionRepository.delete(relationship);
 
         return true;
     }
@@ -162,12 +162,12 @@ public final class DefaultRoleService implements RoleService {
         return toDto(created);
     }
 
-    private final PersistentRolePrivilege getRelationships(final Long role, final Long privilege) {
-        final PersistentRolePrivilege relationship;
+    private final PersistentRolePermission getRelationships(final Long role, final Long action) {
+        final PersistentRolePermission relationship;
 
-        relationship = new PersistentRolePrivilege();
+        relationship = new PersistentRolePermission();
         relationship.setRoleId(role);
-        relationship.setPrivilegeId(privilege);
+        relationship.setActionId(action);
 
         return relationship;
     }

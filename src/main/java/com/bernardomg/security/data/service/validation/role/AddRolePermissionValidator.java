@@ -4,8 +4,8 @@ package com.bernardomg.security.data.service.validation.role;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bernardomg.security.data.model.RolePrivilege;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.model.RolePermission;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -14,21 +14,21 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class AddRolePrivilegeValidator implements Validator<RolePrivilege> {
+public final class AddRolePermissionValidator implements Validator<RolePermission> {
 
-    private final PrivilegeRepository privilegeRepository;
+    private final ActionRepository actionRepository;
 
-    private final RoleRepository      roleRepository;
+    private final RoleRepository   roleRepository;
 
-    public AddRolePrivilegeValidator(final RoleRepository roleRepo, final PrivilegeRepository privilegeRepo) {
+    public AddRolePermissionValidator(final RoleRepository roleRepo, final ActionRepository actionRepo) {
         super();
 
         roleRepository = roleRepo;
-        privilegeRepository = privilegeRepo;
+        actionRepository = actionRepo;
     }
 
     @Override
-    public final void validate(final RolePrivilege relationship) {
+    public final void validate(final RolePermission relationship) {
         final Collection<FieldFailure> failures;
         FieldFailure                   failure;
 
@@ -41,10 +41,10 @@ public final class AddRolePrivilegeValidator implements Validator<RolePrivilege>
             failures.add(failure);
         }
 
-        // The privilege exists
-        if (!privilegeRepository.existsById(relationship.getPrivilege())) {
-            log.error("Found no privilege with id {}", relationship.getPrivilege());
-            failure = FieldFailure.of("privilege", "notExisting", relationship.getPrivilege());
+        // The action exists
+        if (!actionRepository.existsById(relationship.getAction())) {
+            log.error("Found no action with id {}", relationship.getAction());
+            failure = FieldFailure.of("action", "notExisting", relationship.getAction());
             failures.add(failure);
         }
 
