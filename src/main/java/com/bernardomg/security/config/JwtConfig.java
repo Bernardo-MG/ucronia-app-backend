@@ -145,7 +145,7 @@ public class JwtConfig {
         provider.setKey(secret);
         if (properties.getId() != null) {
             log.info("Tokens will use id {}", properties.getId());
-            provider.setId(null);
+            provider.setId(properties.getId());
         }
         if (properties.getValidity() != null) {
             log.info("Tokens will have {} seconds of validity", properties.getValidity());
