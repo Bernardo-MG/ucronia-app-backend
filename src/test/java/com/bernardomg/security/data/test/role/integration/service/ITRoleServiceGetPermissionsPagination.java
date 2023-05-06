@@ -69,7 +69,8 @@ public class ITRoleServiceGetPermissionsPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals("DATA:CREATE", result.getName());
+        Assertions.assertEquals("DATA", result.getResource());
+        Assertions.assertEquals("CREATE", result.getAction());
     }
 
     @Test
@@ -85,7 +86,8 @@ public class ITRoleServiceGetPermissionsPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals("DATA:READ", result.getName());
+        Assertions.assertEquals("DATA", result.getResource());
+        Assertions.assertEquals("READ", result.getAction());
     }
 
     @Test

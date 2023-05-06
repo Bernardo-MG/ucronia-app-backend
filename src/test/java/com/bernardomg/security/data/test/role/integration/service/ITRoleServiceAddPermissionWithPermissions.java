@@ -45,7 +45,7 @@ public class ITRoleServiceAddPermissionWithPermissions {
         Assertions.assertEquals(4L, IterableUtils.size(result));
 
         actionNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Permission::getName)
+            .map(p -> p.getResource() + ":" + p.getAction())
             .collect(Collectors.toList());
 
         Assertions.assertTrue(actionNames.contains("DATA:CREATE"));
