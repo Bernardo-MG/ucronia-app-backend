@@ -99,4 +99,15 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
             nativeQuery = true)
     public Collection<Permission> findPermissions(@Param("id") final Long id);
 
+    /**
+     * Returns all the action for a user. This requires a join from the user up to the action.
+     *
+     * @param username
+     *            user username
+     * @return all the action for the user
+     */
+    @Query(value = "SELECT p.resource, p.action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.username = :username",
+            nativeQuery = true)
+    public Collection<Permission> findPermissionsByUsername(@Param("username") final String username);
+
 }

@@ -16,12 +16,12 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("User repository - find permissions")
-public class ITUserRepositoryFindForUser {
+public class ITUserRepositoryFindPermissions {
 
     @Autowired
     private UserRepository repository;
 
-    public ITUserRepositoryFindForUser() {
+    public ITUserRepositoryFindPermissions() {
         super();
     }
 
