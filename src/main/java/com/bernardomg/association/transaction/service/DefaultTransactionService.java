@@ -42,7 +42,7 @@ public final class DefaultTransactionService implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
-    @PreAuthorize("hasAuthority('CREATE_TRANSACTION')")
+    @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
     public final Transaction create(final TransactionForm transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
@@ -56,7 +56,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('DELETE_TRANSACTION')")
+    @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
     public final Boolean delete(final Long id) {
         Boolean deleted;
 
@@ -72,7 +72,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('READ_TRANSACTION')")
+    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     public final Iterable<? extends Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
         final QPersistentTransaction      source;
         final Predicate                   finalPredicate;
@@ -110,7 +110,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('READ_TRANSACTION')")
+    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     public final Optional<? extends Transaction> getOne(final Long id) {
         final Optional<PersistentTransaction> found;
         final Optional<? extends Transaction> result;
@@ -150,7 +150,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('UPDATE_TRANSACTION')")
+    @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
     public final Transaction update(final Long id, final TransactionForm transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;

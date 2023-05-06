@@ -17,7 +17,7 @@ public final class DefaultBalanceService implements BalanceService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    @PreAuthorize("hasAuthority('READ_BALANCE')")
+    @PreAuthorize("hasAuthority('BALANCE:READ')")
     public final Balance getBalance() {
         final DtoBalance balance;
         final Long       readSum;
