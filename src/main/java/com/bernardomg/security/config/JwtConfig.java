@@ -28,8 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,18 +70,6 @@ public class JwtConfig {
     }
 
     /**
-     * Default token validator. With default seeds.
-     *
-     * @return default token validator
-     */
-    @Bean("tokenValidator")
-    @ConditionalOnMissingBean(name = "jwtSecretKey")
-    public TokenValidator getJwtTokenValidator() {
-        log.info("Using default token validator");
-        return new JwtTokenValidator();
-    }
-
-    /**
      * Token validator with security seed.
      *
      * @param secret
@@ -91,7 +77,6 @@ public class JwtConfig {
      * @return secure token validator
      */
     @Bean("tokenValidator")
-    @ConditionalOnBean(name = "jwtSecretKey")
     public TokenValidator getJwtTokenValidatorWithSecret(@Qualifier("jwtSecretKey") final Key secret) {
         log.info("Using secured token validator");
         return new JwtTokenValidator(secret);
