@@ -36,7 +36,7 @@ public final class DefaultMemberService implements MemberService {
     private final MemberRepository repository;
 
     @Override
-    @PreAuthorize("hasAuthority('CREATE_MEMBER')")
+    @PreAuthorize("hasAuthority('MEMBER:CREATE')")
     public final Member create(final MemberForm member) {
         final PersistentMember entity;
         final PersistentMember created;
@@ -53,7 +53,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('DELETE_MEMBER')")
+    @PreAuthorize("hasAuthority('MEMBER:DELETE')")
     public final Boolean delete(final Long id) {
         Boolean deleted;
 
@@ -71,7 +71,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('READ_MEMBER')")
+    @PreAuthorize("hasAuthority('MEMBER:READ')")
     public final Iterable<? extends Member> getAll(final MemberRequest sample, final Pageable pageable) {
         final PersistentMember entity;
 
@@ -82,7 +82,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('READ_MEMBER')")
+    @PreAuthorize("hasAuthority('MEMBER:READ')")
     public final Optional<? extends Member> getOne(final Long id) {
         final Optional<PersistentMember> found;
         final Optional<? extends Member> result;
@@ -101,7 +101,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('UPDATE_MEMBER')")
+    @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
     public final Member update(final Long id, final MemberForm member) {
         final PersistentMember entity;
         final PersistentMember updated;
