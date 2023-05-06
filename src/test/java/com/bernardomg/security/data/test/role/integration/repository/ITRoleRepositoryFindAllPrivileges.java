@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.Action;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 
 @IntegrationTest
@@ -30,12 +30,12 @@ public class ITRoleRepositoryFindAllPrivileges {
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_privilege.sql" })
     public void testFindAllPrivileges_Count() {
-        final Page<Privilege> read;
-        final Pageable        pageable;
+        final Page<Action> read;
+        final Pageable     pageable;
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPrivileges(1L, pageable);
+        read = repository.findAllActions(1L, pageable);
 
         Assertions.assertEquals(4, IterableUtils.size(read));
     }
@@ -44,12 +44,12 @@ public class ITRoleRepositoryFindAllPrivileges {
     @DisplayName("Finds no privileges when the role has none")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql" })
     public void testFindAllPrivileges_NoPrivileges_Count() {
-        final Page<Privilege> read;
-        final Pageable        pageable;
+        final Page<Action> read;
+        final Pageable     pageable;
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPrivileges(1L, pageable);
+        read = repository.findAllActions(1L, pageable);
 
         Assertions.assertEquals(0, IterableUtils.size(read));
     }
@@ -59,12 +59,12 @@ public class ITRoleRepositoryFindAllPrivileges {
     @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_privilege.sql" })
     public void testFindAllPrivileges_NotExisting_Count() {
-        final Page<Privilege> read;
-        final Pageable        pageable;
+        final Page<Action> read;
+        final Pageable     pageable;
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPrivileges(-1L, pageable);
+        read = repository.findAllActions(-1L, pageable);
 
         Assertions.assertEquals(0, IterableUtils.size(read));
     }

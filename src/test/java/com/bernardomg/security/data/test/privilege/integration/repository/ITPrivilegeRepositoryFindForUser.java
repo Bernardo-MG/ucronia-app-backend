@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.persistence.model.PersistentPrivilege;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
+import com.bernardomg.security.data.persistence.model.PersistentAction;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
 
 @IntegrationTest
 @DisplayName("Privilege repository - find for user")
 public class ITPrivilegeRepositoryFindForUser {
 
     @Autowired
-    private PrivilegeRepository repository;
+    private ActionRepository repository;
 
     public ITPrivilegeRepositoryFindForUser() {
         super();
@@ -31,7 +31,7 @@ public class ITPrivilegeRepositoryFindForUser {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_Count() {
-        final Collection<PersistentPrivilege> read;
+        final Collection<PersistentAction> read;
 
         read = repository.findForUser(1L);
 
@@ -43,7 +43,7 @@ public class ITPrivilegeRepositoryFindForUser {
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_NoPrivileges_Count() {
-        final Collection<PersistentPrivilege> read;
+        final Collection<PersistentAction> read;
 
         read = repository.findForUser(1L);
 
@@ -56,7 +56,7 @@ public class ITPrivilegeRepositoryFindForUser {
             "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_NotExisting_Count() {
-        final Collection<PersistentPrivilege> read;
+        final Collection<PersistentAction> read;
 
         read = repository.findForUser(-1L);
 
