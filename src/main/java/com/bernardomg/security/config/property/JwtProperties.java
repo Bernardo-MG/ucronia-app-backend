@@ -24,7 +24,10 @@
 
 package com.bernardomg.security.config.property;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 import lombok.Data;
 
@@ -34,6 +37,7 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Validated
 @Data
 @ConfigurationProperties(prefix = "security.jwt")
 public final class JwtProperties {
@@ -46,6 +50,7 @@ public final class JwtProperties {
     /**
      * Secret seed for generating JWT tokens.
      */
+    @NotNull
     private String  secret;
 
     /**
