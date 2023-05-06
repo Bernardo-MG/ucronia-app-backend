@@ -27,8 +27,10 @@ public class ITRoleRepositoryFindAllPrivileges {
 
     @Test
     @DisplayName("Finds all the privileges for the role")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_privilege.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public void testFindAllPrivileges_Count() {
         final Page<Action> read;
         final Pageable     pageable;
@@ -42,7 +44,8 @@ public class ITRoleRepositoryFindAllPrivileges {
 
     @Test
     @DisplayName("Finds no privileges when the role has none")
-    @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public void testFindAllPrivileges_NoPrivileges_Count() {
         final Page<Action> read;
         final Pageable     pageable;
@@ -56,8 +59,10 @@ public class ITRoleRepositoryFindAllPrivileges {
 
     @Test
     @DisplayName("Finds no privileges for a not existing role")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_privilege.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public void testFindAllPrivileges_NotExisting_Count() {
         final Page<Action> read;
         final Pageable     pageable;
