@@ -24,11 +24,7 @@
 
 package com.bernardomg.security.data.persistence.repository;
 
-import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.data.persistence.model.PersistentAction;
 
@@ -39,16 +35,5 @@ import com.bernardomg.security.data.persistence.model.PersistentAction;
  *
  */
 public interface ActionRepository extends JpaRepository<PersistentAction, Long> {
-
-    /**
-     * Returns all the action for a user. This requires a join from the user up to the action.
-     *
-     * @param id
-     *            user id
-     * @return all the action for the user
-     */
-    @Query(value = "SELECT p.* FROM action p JOIN role_permissions rp ON p.id = rp.action_id JOIN roles r ON r.id = rp.role_id JOIN user_roles ur ON r.id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.id = :id",
-            nativeQuery = true)
-    public Collection<PersistentAction> findForUser(@Param("id") final Long id);
 
 }

@@ -37,9 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.data.persistence.model.PersistentAction;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.ActionRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,28 +72,20 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
-     * Repository for the action.
-     */
-    private final ActionRepository actionRepo;
-
-    /**
      * Repository for the user data.
      */
-    private final UserRepository   userRepo;
+    private final UserRepository userRepo;
 
     /**
      * Constructs a user details service.
      *
      * @param userRepository
      *            repository for user details
-     * @param actionRepository
-     *            repository for action
      */
-    public PersistentUserDetailsService(final UserRepository userRepository, final ActionRepository actionRepository) {
+    public PersistentUserDetailsService(final UserRepository userRepository) {
         super();
 
         userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as repository");
-        actionRepo = Objects.requireNonNull(actionRepository, "Received a null pointer as repository");
     }
 
     @Override
@@ -143,9 +133,9 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     private final Collection<GrantedAuthority> getAuthorities(final Long id) {
         // TODO: Tests than no duplicate action is returned
         // TODO: Increase isolation from the action repository
-        return actionRepo.findForUser(id)
+        return userRepo.findPermissions(id)
             .stream()
-            .map(PersistentAction::getName)
+            .map(p -> p.getResource() + ":" + p.getAction())
             .distinct()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());

@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(final UserRepository userRepository,
             final ActionRepository actionRepository) {
-        return new PersistentUserDetailsService(userRepository, actionRepository);
+        return new PersistentUserDetailsService(userRepository);
     }
 
 }

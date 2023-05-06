@@ -41,7 +41,7 @@ import com.bernardomg.security.data.persistence.model.PersistentRole;
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
-    @Query("SELECT p FROM Action p JOIN RoleActions rp ON p.id = rp.actionId JOIN Role r ON rp.roleId = r.id WHERE r.id = :id")
+    @Query("SELECT p FROM Action p JOIN RolePermissions rp ON p.id = rp.actionId JOIN Role r ON rp.roleId = r.id WHERE r.id = :id")
     public Page<Action> findAllActions(@Param("id") final Long id, final Pageable pageable);
 
 }

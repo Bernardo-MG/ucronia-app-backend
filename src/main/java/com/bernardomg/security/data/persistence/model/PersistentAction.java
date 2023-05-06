@@ -44,7 +44,7 @@ import lombok.Data;
  */
 @Data
 @Entity(name = "Action")
-@Table(name = "action")
+@Table(name = "actions")
 @TableGenerator(name = "seq_action_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
 public class PersistentAction implements Serializable {
