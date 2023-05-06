@@ -20,19 +20,16 @@ import io.jsonwebtoken.security.Keys;
 @DisplayName("JwtTokenProvider")
 public class TestJwtTokenProvider {
 
-    private final SecretKey        key;
+    private final SecretKey key;
 
-    private final String           keyValue = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+    private final String    keyValue = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-    private final JwtParser        parser;
-
-    private final JwtTokenProvider provider = new JwtTokenProvider();
+    private final JwtParser parser;
 
     public TestJwtTokenProvider() {
         super();
 
         key = Keys.hmacShaKeyFor(keyValue.getBytes(StandardCharsets.UTF_8));
-        provider.setKey(key);
         parser = Jwts.parserBuilder()
             .setSigningKey(key)
             .build();
@@ -48,7 +45,7 @@ public class TestJwtTokenProvider {
         final Date     before;
         final Date     after;
 
-        token = provider.generateToken("subject");
+        token = getProvider().generateToken("subject");
         date = parser.parseClaimsJws(token)
             .getBody()
             .getIssuedAt();
@@ -74,7 +71,7 @@ public class TestJwtTokenProvider {
         final Date   date;
         final Date   notBefore;
 
-        token = provider.generateToken("subject");
+        token = getProvider().generateToken("subject");
         date = parser.parseClaimsJws(token)
             .getBody()
             .getIssuedAt();
@@ -88,10 +85,13 @@ public class TestJwtTokenProvider {
     @Test
     @DisplayName("The token expiration date is between the token creation and the limit")
     public void testGenerateToken_Expiration() {
-        final String token;
-        final Date   date;
-        final Date   start;
-        final Date   limit;
+        final String           token;
+        final Date             date;
+        final Date             start;
+        final Date             limit;
+        final JwtTokenProvider provider;
+
+        provider = getProvider();
 
         provider.setValidity(10);
 
@@ -108,6 +108,40 @@ public class TestJwtTokenProvider {
     }
 
     @Test
+    @DisplayName("The token contains the received id")
+    public void testGenerateToken_Id() {
+        final String           token;
+        final String           id;
+        final String           parsedId;
+        final JwtTokenProvider provider;
+
+        id = "id";
+        provider = getProvider();
+        provider.setId(id);
+
+        token = provider.generateToken("subject");
+        parsedId = parser.parseClaimsJws(token)
+            .getBody()
+            .getId();
+
+        Assertions.assertEquals(id, parsedId);
+    }
+
+    @Test
+    @DisplayName("By default no id is included in the token")
+    public void testGenerateToken_Id_Default() {
+        final String token;
+        final String id;
+
+        token = getProvider().generateToken("subject");
+        id = parser.parseClaimsJws(token)
+            .getBody()
+            .getId();
+
+        Assertions.assertNull(id);
+    }
+
+    @Test
     @DisplayName("The token not before date is created around the token creation")
     public void testGenerateToken_NotBeforeDate() {
         final String   token;
@@ -117,7 +151,7 @@ public class TestJwtTokenProvider {
         final Date     before;
         final Date     after;
 
-        token = provider.generateToken("subject");
+        token = getProvider().generateToken("subject");
         date = parser.parseClaimsJws(token)
             .getBody()
             .getNotBefore();
@@ -144,12 +178,21 @@ public class TestJwtTokenProvider {
         final String parsedSubject;
 
         subject = "subject";
-        token = provider.generateToken(subject);
+        token = getProvider().generateToken(subject);
         parsedSubject = parser.parseClaimsJws(token)
             .getBody()
             .getSubject();
 
         Assertions.assertEquals(subject, parsedSubject);
+    }
+
+    private final JwtTokenProvider getProvider() {
+        final JwtTokenProvider provider;
+
+        provider = new JwtTokenProvider();
+        provider.setKey(key);
+
+        return provider;
     }
 
 }
