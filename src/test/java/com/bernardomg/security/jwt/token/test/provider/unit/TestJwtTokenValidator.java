@@ -26,7 +26,7 @@ public class TestJwtTokenValidator {
 
     private final String         keyValue = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-    private final String         token    = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdWJqZWN0IiwiaWF0IjoxNjgzMzMyNjU5LCJuYmYiOjE2ODMzMzI2NTksImV4cCI6MTY4MzMzNjI1OX0.cl5BOgCS-ZaG5GLuXR19wLL-kHhPtfB_96k_h72Of53XNVQGq0_xpuyOEJjCMJBits7a4hvogUE4mDoBoM4lfQ";
+    private final String         subject  = "subject";
 
     private final TokenValidator tokenValidator;
 
@@ -40,11 +40,15 @@ public class TestJwtTokenValidator {
     @Test
     @DisplayName("Can acquire the subject from the token")
     public void testGetSubject() {
-        final String subject;
+        final String readSubject;
+        final String token;
 
-        subject = tokenValidator.getSubject(token);
+        token = getJwtBuilder().setSubject(subject)
+            .compact();
 
-        Assertions.assertEquals("subject", subject);
+        readSubject = tokenValidator.getSubject(token);
+
+        Assertions.assertEquals(subject, readSubject);
     }
 
     @Test
@@ -92,7 +96,7 @@ public class TestJwtTokenValidator {
     private final JwtBuilder getJwtBuilder() {
         return Jwts.builder()
             .signWith(key, SignatureAlgorithm.HS512)
-            .setSubject("subject");
+            .setSubject(subject);
     }
 
 }
