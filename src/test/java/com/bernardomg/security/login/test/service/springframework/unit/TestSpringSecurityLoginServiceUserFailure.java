@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
+import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
 
 @DisplayName("SpringSecurityLoginService - failure handling")
@@ -38,8 +40,9 @@ public class TestSpringSecurityLoginServiceUserFailure {
     }
 
     private final SpringSecurityLoginService getService(final UserDetails user) {
-        final UserDetailsService userDetService;
-        final PasswordEncoder    passEncoder;
+        final UserDetailsService  userDetService;
+        final PasswordEncoder     passEncoder;
+        final LoginStatusProvider loginStatusProvider;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -49,7 +52,9 @@ public class TestSpringSecurityLoginServiceUserFailure {
         Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
             .thenReturn(true);
 
-        return new SpringSecurityLoginService(userDetService, passEncoder);
+        loginStatusProvider = new DefaultLoginStatusProvider();
+
+        return new SpringSecurityLoginService(userDetService, passEncoder, loginStatusProvider);
     }
 
     private final SpringSecurityLoginService getServiceWithNullUser() {

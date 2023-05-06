@@ -31,10 +31,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.service.LoginStatusProvider;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -57,15 +57,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringSecurityLoginService implements LoginService {
 
+    private final LoginStatusProvider loginStatusProvider;
+
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder    passwordEncoder;
+    private final PasswordEncoder     passwordEncoder;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsService  userDetailsService;
 
     /**
      * Builds a service with the specified arguments.
@@ -74,13 +76,16 @@ public final class SpringSecurityLoginService implements LoginService {
      *            user details service to acquire users
      * @param passEncoder
      *            password encoder to validate passwords
+     * @param loginStatusProv
+     *            login status provider
      */
     public SpringSecurityLoginService(@NonNull final UserDetailsService userDetService,
-            @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final PasswordEncoder passEncoder, final LoginStatusProvider loginStatusProv) {
         super();
 
         userDetailsService = userDetService;
         passwordEncoder = passEncoder;
+        loginStatusProvider = loginStatusProv;
     }
 
     @Override
@@ -95,7 +100,7 @@ public final class SpringSecurityLoginService implements LoginService {
 
         valid = isValid(login);
 
-        return new ImmutableLoginStatus(username, valid);
+        return loginStatusProvider.getStatus(username, valid);
     }
 
     private final Boolean isValid(final Login login) {
@@ -112,7 +117,7 @@ public final class SpringSecurityLoginService implements LoginService {
 
         if (details.isEmpty()) {
             // No user found for username
-            log.debug("No user for username {}", login.getUsername());
+            log.debug("No user for username {}. Failed login", login.getUsername());
             valid = false;
         } else if (isValid(details.get())) {
             // User exists
@@ -120,11 +125,12 @@ public final class SpringSecurityLoginService implements LoginService {
             valid = passwordEncoder.matches(login.getPassword(), details.get()
                 .getPassword());
             if (!valid) {
-                log.debug("Received password doesn't match the one stored for username {}", login.getUsername());
+                log.debug("Received password doesn't match the one stored for username {}. Failed login",
+                    login.getUsername());
             }
         } else {
             // Invalid user
-            log.debug("User {} is in an invalid state", login.getUsername());
+            log.debug("User {} is in an invalid state. Failed login", login.getUsername());
             if (!details.get()
                 .isAccountNonExpired()) {
                 log.debug("User {} account expired", login.getUsername());

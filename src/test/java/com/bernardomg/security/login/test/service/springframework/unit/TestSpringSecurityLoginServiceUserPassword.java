@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
+import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringSecurityLoginService;
 
 @DisplayName("SpringSecurityLoginService - password validation")
@@ -57,9 +59,10 @@ public class TestSpringSecurityLoginServiceUserPassword {
     }
 
     private final SpringSecurityLoginService getService(final Boolean match) {
-        final UserDetailsService userDetService;
-        final PasswordEncoder    passEncoder;
-        final UserDetails        user;
+        final UserDetailsService  userDetService;
+        final PasswordEncoder     passEncoder;
+        final UserDetails         user;
+        final LoginStatusProvider loginStatusProvider;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
@@ -71,7 +74,9 @@ public class TestSpringSecurityLoginServiceUserPassword {
         Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
             .thenReturn(match);
 
-        return new SpringSecurityLoginService(userDetService, passEncoder);
+        loginStatusProvider = new DefaultLoginStatusProvider();
+
+        return new SpringSecurityLoginService(userDetService, passEncoder, loginStatusProvider);
     }
 
 }
