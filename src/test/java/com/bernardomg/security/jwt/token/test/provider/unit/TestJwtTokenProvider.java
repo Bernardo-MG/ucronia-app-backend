@@ -187,12 +187,7 @@ public class TestJwtTokenProvider {
     }
 
     private final JwtTokenProvider getProvider() {
-        final JwtTokenProvider provider;
-
-        provider = new JwtTokenProvider();
-        provider.setKey(key);
-
-        return provider;
+        return new JwtTokenProvider(key);
     }
 
 }

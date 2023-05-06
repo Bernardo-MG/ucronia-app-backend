@@ -19,7 +19,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-@DisplayName("JwtTokenProvider")
+@DisplayName("JwtTokenValidator")
 public class TestJwtTokenValidator {
 
     private final SecretKey      key;

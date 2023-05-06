@@ -26,6 +26,7 @@ package com.bernardomg.security.jwt.token.provider;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.security.token.provider.TokenProvider;
@@ -50,9 +51,9 @@ public final class JwtTokenProvider implements TokenProvider {
     private Optional<String> id       = Optional.empty();
 
     /**
-     * Secret key for generating tokens. Created from the secret received when constructing the provider.
+     * Secret key for generating tokens.
      */
-    private Optional<Key>    key      = Optional.empty();
+    private final Key        key;
 
     /**
      * Token validity time in seconds. By default tokens last for one hour.
@@ -62,8 +63,10 @@ public final class JwtTokenProvider implements TokenProvider {
     /**
      * Default constructor for the provider.
      */
-    public JwtTokenProvider() {
+    public JwtTokenProvider(final Key k) {
         super();
+
+        key = Objects.requireNonNull(k);
     }
 
     @Override
@@ -97,11 +100,9 @@ public final class JwtTokenProvider implements TokenProvider {
         builder.setExpiration(expiration);
         log.debug("Expiration date for subject {}: {}", subject, expiration);
 
-        // Signs token if a key was received
-        if (key.isPresent()) {
-            builder.signWith(key.get(), SignatureAlgorithm.HS512);
-            log.debug("Signed token for subject {}", subject);
-        }
+        // Signs token
+        builder.signWith(key, SignatureAlgorithm.HS512);
+        log.debug("Signed token for subject {}", subject);
 
         // Adds id if it was received
         if (id.isPresent()) {
@@ -118,10 +119,6 @@ public final class JwtTokenProvider implements TokenProvider {
 
     public final void setId(final String identifier) {
         id = Optional.of(identifier);
-    }
-
-    public final void setKey(final Key k) {
-        key = Optional.of(k);
     }
 
     public final void setValidity(final Integer val) {

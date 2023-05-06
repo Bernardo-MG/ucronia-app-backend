@@ -30,7 +30,6 @@ import java.security.Key;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,7 +61,6 @@ public class JwtConfig {
     }
 
     @Bean("jwtSecretKey")
-    @ConditionalOnProperty(value = "security.jwt.secret", matchIfMissing = false)
     public Key getJwtSecretKey(final JwtProperties properties) {
         return Keys.hmacShaKeyFor(properties.getSecret()
             .getBytes(StandardCharsets.UTF_8));
@@ -100,32 +98,7 @@ public class JwtConfig {
     }
 
     /**
-     * Default token provider. With default seeds.
-     *
-     * @return default token provider
-     */
-    @Bean("tokenProvider")
-    @ConditionalOnMissingBean(name = "jwtSecretKey")
-    public TokenProvider getTokenProvider(final JwtProperties properties) {
-        final JwtTokenProvider provider;
-
-        log.info("Using secured token provider", properties.getValidity());
-        provider = new JwtTokenProvider();
-
-        if (properties.getId() != null) {
-            log.info("Tokens will use id {}", properties.getId());
-            provider.setId(null);
-        }
-        if (properties.getValidity() != null) {
-            log.info("Tokens will have {} seconds of validity", properties.getValidity());
-            provider.setValidity(properties.getValidity());
-        }
-
-        return provider;
-    }
-
-    /**
-     * Token provider with security seed.
+     * Token provider.
      *
      * @param secret
      *            secret for the seed
@@ -134,15 +107,13 @@ public class JwtConfig {
      * @return secure token provider
      */
     @Bean("tokenProvider")
-    @ConditionalOnBean(name = "jwtSecretKey")
     public TokenProvider getTokenProviderWithSecret(@Qualifier("jwtSecretKey") final Key secret,
             final JwtProperties properties) {
         final JwtTokenProvider provider;
 
         log.info("Using secured token provider", properties.getValidity());
-        provider = new JwtTokenProvider();
+        provider = new JwtTokenProvider(secret);
 
-        provider.setKey(secret);
         if (properties.getId() != null) {
             log.info("Tokens will use id {}", properties.getId());
             provider.setId(properties.getId());
