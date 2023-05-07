@@ -28,12 +28,98 @@ public class ITSpringSecurityLoginService {
     }
 
     @Test
+    @DisplayName("Doesn't log in a user with expired credentials")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_CredentialsExpired() {
+        final LoginStatus status;
+        final DtoLogin    login;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+    }
+
+    @Test
     @DisplayName("Doesn't log in a disabled user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
+        final LoginStatus status;
+        final DtoLogin    login;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+    }
+
+    @Test
+    @DisplayName("Doesn't log in an expired user")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_Expired() {
+        final LoginStatus status;
+        final DtoLogin    login;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+    }
+
+    @Test
+    @DisplayName("Doesn't log in a locked user")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_Locked() {
+        final LoginStatus status;
+        final DtoLogin    login;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+    }
+
+    @Test
+    @DisplayName("Doesn't log in a not existing user")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql" })
+    public void testLogIn_NotExisting() {
         final LoginStatus status;
         final DtoLogin    login;
 
