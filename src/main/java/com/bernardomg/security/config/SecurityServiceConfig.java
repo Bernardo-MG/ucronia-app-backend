@@ -38,9 +38,9 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.login.service.FullLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.LoginStatusProvider;
+import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
@@ -68,11 +68,11 @@ public class SecurityServiceConfig {
 
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv, final UserRepository userRepository) {
+            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
         final LoginStatusProvider statusProvider;
         final Predicate<Login>    valid;
 
-        statusProvider = new FullLoginStatusProvider(tokenProv, userRepository);
+        statusProvider = new TokenLoginStatusProvider(tokenProv);
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
         return new DefaultLoginService(statusProvider, valid);
