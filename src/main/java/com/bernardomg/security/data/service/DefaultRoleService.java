@@ -72,7 +72,7 @@ public final class DefaultRoleService implements RoleService {
         role.setId(id);
 
         // Build relationship entities
-        relationship = getRelationships(id, resource, action);
+        relationship = getRelationship(id, resource, action);
 
         // Persist relationship entities
         rolePermissionRepository.save(relationship);
@@ -144,10 +144,11 @@ public final class DefaultRoleService implements RoleService {
         role.setId(id);
 
         // Build relationship entities
-        relationship = getRelationships(id, resource, action);
+        relationship = getRelationship(id, resource, action);
+        relationship.setGranted(false);
 
         // Delete relationship entities
-        rolePermissionRepository.delete(relationship);
+        rolePermissionRepository.save(relationship);
 
         return true;
     }
@@ -166,7 +167,7 @@ public final class DefaultRoleService implements RoleService {
         return toDto(created);
     }
 
-    private final PersistentRolePermission getRelationships(final Long role, final Long resource, final Long action) {
+    private final PersistentRolePermission getRelationship(final Long role, final Long resource, final Long action) {
         final PersistentRolePermission relationship;
 
         relationship = new PersistentRolePermission();
