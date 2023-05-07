@@ -24,16 +24,14 @@
 
 package com.bernardomg.security.permission.controller;
 
-import org.springframework.data.domain.Pageable;
+import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.data.model.Action;
-import com.bernardomg.security.data.model.DtoAction;
-import com.bernardomg.security.data.service.ActionService;
+import com.bernardomg.security.permission.model.PermissionsSet;
+import com.bernardomg.security.permission.service.PermissionService;
 
 import lombok.AllArgsConstructor;
 
@@ -48,17 +46,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PermissionController {
 
-    private final ActionService service;
+    private final PermissionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Action> readAll(final DtoAction action, final Pageable pageable) {
-        return service.getAll(action, pageable);
-    }
-
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Action readOne(@PathVariable("id") final Long id) {
-        return service.getOne(id)
-            .orElse(null);
+    public PermissionsSet readAll(final Principal principal) {
+        return service.getPermissions(principal.getName());
     }
 
 }

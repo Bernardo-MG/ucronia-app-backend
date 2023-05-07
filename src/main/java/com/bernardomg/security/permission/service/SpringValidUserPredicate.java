@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -31,21 +30,14 @@ import lombok.extern.slf4j.Slf4j;
 public final class SpringValidUserPredicate implements Predicate<String> {
 
     /**
-     * Password encoder, for validating passwords.
-     */
-    private final PasswordEncoder    passwordEncoder;
-
-    /**
      * User details service, to find and validate users.
      */
     private final UserDetailsService userDetailsService;
 
-    public SpringValidUserPredicate(@NonNull final UserDetailsService userDetService,
-            @NonNull final PasswordEncoder passEncoder) {
+    public SpringValidUserPredicate(@NonNull final UserDetailsService userDetService) {
         super();
 
         userDetailsService = userDetService;
-        passwordEncoder = passEncoder;
     }
 
     @Override

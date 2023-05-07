@@ -29,7 +29,6 @@ import java.util.function.Predicate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.permission.service.DefaultPermissionService;
@@ -51,10 +50,10 @@ public class PermissionConfig {
 
     @Bean("permissionService")
     public PermissionService getPermissionService(final UserRepository userRepo,
-            final UserDetailsService userDetService, final PasswordEncoder passEncoder) {
+            final UserDetailsService userDetService) {
         final Predicate<String> isValid;
 
-        isValid = new SpringValidUserPredicate(userDetService, passEncoder);
+        isValid = new SpringValidUserPredicate(userDetService);
         return new DefaultPermissionService(userRepo, isValid);
     }
 
