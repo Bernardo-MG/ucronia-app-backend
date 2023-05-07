@@ -33,23 +33,29 @@ public final class FullLoginStatusProvider implements LoginStatusProvider {
     public final LoginStatus getStatus(final String username, final Boolean logged) {
         final LoginStatus               status;
         final String                    token;
-        final Collection<Permission>    permissions;
-        final Map<String, List<String>> groupedPerms;
+        final Map<String, List<String>> permissions;
 
         if (logged) {
             token = tokenProvider.generateToken(username);
-            permissions = userRepository.findPermissionsByUsername(username);
+            permissions = getPermissions(username);
 
-            groupedPerms = permissions.stream()
-                .collect(Collectors.groupingBy(d -> d.getResource(),
-                    Collectors.mapping(Permission::getAction, Collectors.toList())));
-
-            status = new ImmutableFullLoginStatus(username, logged, token, groupedPerms);
+            status = new ImmutableFullLoginStatus(username, logged, token, permissions);
         } else {
             status = new ImmutableLoginStatus(username, logged);
         }
 
         return status;
+    }
+
+    private final Map<String, List<String>> getPermissions(final String username) {
+        final Collection<Permission> permissions;
+
+        permissions = userRepository.findPermissionsByUsername(username);
+
+        // Transform into a map, with the resource as key, and the list of actions as value
+        return permissions.stream()
+            .collect(Collectors.groupingBy(d -> d.getResource(),
+                Collectors.mapping(Permission::getAction, Collectors.toList())));
     }
 
 }
