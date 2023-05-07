@@ -173,6 +173,7 @@ public final class DefaultRoleService implements RoleService {
         relationship.setRoleId(role);
         relationship.setResourceId(resource);
         relationship.setActionId(action);
+        relationship.setGranted(true);
 
         return relationship;
     }

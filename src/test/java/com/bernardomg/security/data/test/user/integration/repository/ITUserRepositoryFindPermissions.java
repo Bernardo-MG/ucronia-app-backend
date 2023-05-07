@@ -43,7 +43,7 @@ public class ITUserRepositoryFindPermissions {
     @DisplayName("Finds no permissions when the user has none")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindForUser_NoPrivileges_Count() {
+    public void testFindForUser_NoPermissions_Count() {
         final Collection<Permission> read;
 
         read = repository.findPermissions(1L);
@@ -58,6 +58,20 @@ public class ITUserRepositoryFindPermissions {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_NotExisting_Count() {
+        final Collection<Permission> read;
+
+        read = repository.findPermissions(-1L);
+
+        Assertions.assertEquals(0, IterableUtils.size(read));
+    }
+
+    @Test
+    @DisplayName("Finds no permissions when the permissions are not granted")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission_not_granted.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testFindForUser_NotGrantedPermissions_Count() {
         final Collection<Permission> read;
 
         read = repository.findPermissions(-1L);

@@ -55,6 +55,9 @@ public class PersistentRolePermission implements Serializable {
     @Column(name = "action_id", nullable = false, unique = true)
     private Long              actionId;
 
+    @Column(name = "granted", nullable = false)
+    private Boolean           granted;
+
     @Id
     @Column(name = "resource_id", nullable = false, unique = true)
     private Long              resourceId;

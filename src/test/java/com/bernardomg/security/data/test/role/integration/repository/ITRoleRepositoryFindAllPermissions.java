@@ -16,7 +16,7 @@ import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 
 @IntegrationTest
-@DisplayName("Role repository - find all privileges")
+@DisplayName("Role repository - find all permissions")
 public class ITRoleRepositoryFindAllPermissions {
 
     @Autowired
@@ -27,12 +27,12 @@ public class ITRoleRepositoryFindAllPermissions {
     }
 
     @Test
-    @DisplayName("Finds all the privileges for the role")
+    @DisplayName("Finds all the permissions for the role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllPrivileges_Count() {
+    public void testFindAllPermissions_Count() {
         final Page<Permission> read;
         final Pageable         pageable;
 
@@ -49,7 +49,7 @@ public class ITRoleRepositoryFindAllPermissions {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllPrivileges_FirstPage_Count() {
+    public void testFindAllPermissions_FirstPage_Count() {
         final Page<Permission> read;
         final Pageable         pageable;
 
@@ -61,10 +61,10 @@ public class ITRoleRepositoryFindAllPermissions {
     }
 
     @Test
-    @DisplayName("Finds no privileges when the role has none")
+    @DisplayName("Finds no permissions when the role has none")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllPrivileges_NoPrivileges_Count() {
+    public void testFindAllPermissions_NoPermissions_Count() {
         final Page<Permission> read;
         final Pageable         pageable;
 
@@ -76,12 +76,12 @@ public class ITRoleRepositoryFindAllPermissions {
     }
 
     @Test
-    @DisplayName("Finds no privileges for a not existing role")
+    @DisplayName("Finds no permissions for a not existing role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllPrivileges_NotExisting_Count() {
+    public void testFindAllPermissions_NotExisting_Count() {
         final Page<Permission> read;
         final Pageable         pageable;
 

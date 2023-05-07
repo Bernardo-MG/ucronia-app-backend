@@ -98,6 +98,48 @@ public class ITSpringSecurityLoginService {
     }
 
     @Test
+    @DisplayName("Doesn't log in a user with no permissions")
+    @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_Valid_NoPermissions() {
+        final LoginStatus status;
+        final DtoLogin    login;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+    }
+
+    @Test
+    @DisplayName("Doesn't log in a user with no granted permissions")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission_not_granted.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_Valid_NotGrantedPermissions() {
+        final LoginStatus status;
+        final DtoLogin    login;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertFalse((status instanceof TokenLoginStatus));
+
+        Assertions.assertFalse(status.getLogged());
+        Assertions.assertEquals("admin", status.getUsername());
+    }
+
+    @Test
     @DisplayName("Returns the permissions when logging in")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",

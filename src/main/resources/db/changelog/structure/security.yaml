@@ -140,6 +140,12 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_action_id
                     references: actions(id)
                     nullable: false
+              - column:
+                  name: granted
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
         - createTable:
             tableName: user_roles
             columns:

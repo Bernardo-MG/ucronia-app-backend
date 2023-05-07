@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.data.test.role.integration.service;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -34,8 +32,8 @@ public class ITRoleServiceAddPermission {
             "/db/queries/security/role/single.sql" })
     public void testAddPermission() {
         final Iterable<? extends Permission> result;
-        final Collection<String>             actionNames;
         final Pageable                       pageable;
+        final Boolean                        found;
 
         pageable = Pageable.unpaged();
 
@@ -44,11 +42,12 @@ public class ITRoleServiceAddPermission {
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
-        actionNames = StreamSupport.stream(result.spliterator(), false)
-            .map(p -> p.getResource() + ":" + p.getAction())
-            .collect(Collectors.toList());
-
-        Assertions.assertTrue(actionNames.contains("DATA:CREATE"));
+        // DATA:CREATE
+        found = StreamSupport.stream(result.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
+            .findAny()
+            .isPresent();
+        Assertions.assertTrue(found);
     }
 
     @Test
