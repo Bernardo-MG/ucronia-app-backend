@@ -13,6 +13,8 @@ import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
 
+import lombok.NonNull;
+
 public final class DefaultPermissionService implements PermissionService {
 
     private final Predicate<String> isValid;
@@ -27,7 +29,7 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     @Override
-    public PermissionsSet getPermissions(final String username) {
+    public PermissionsSet getPermissions(@NonNull final String username) {
         final Map<String, List<String>> permissions;
 
         if (isValid.test(username)) {

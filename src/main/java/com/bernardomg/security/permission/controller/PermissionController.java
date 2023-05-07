@@ -24,12 +24,17 @@
 
 package com.bernardomg.security.permission.controller;
 
-import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
+import java.util.Collections;
+
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
 import com.bernardomg.security.permission.service.PermissionService;
 
@@ -49,8 +54,21 @@ public class PermissionController {
     private final PermissionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PermissionsSet readAll(final Principal principal) {
-        return service.getPermissions(principal.getName());
+    public PermissionsSet readAll() {
+        final Authentication authentication;
+        final PermissionsSet permissions;
+
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            // Anonymous user
+            // Can't read
+            permissions = new ImmutablePermissionsSet("", Collections.emptyMap());
+        } else {
+            permissions = service.getPermissions(authentication.getName());
+        }
+
+        return permissions;
     }
 
 }
