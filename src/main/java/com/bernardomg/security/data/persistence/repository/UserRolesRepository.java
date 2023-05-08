@@ -30,7 +30,7 @@ import com.bernardomg.security.data.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.data.persistence.model.UserRolesKey;
 
 /**
- * Repository for privileges.
+ * Repository for action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

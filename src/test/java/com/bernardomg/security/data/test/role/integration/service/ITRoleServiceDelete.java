@@ -1,0 +1,94 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.security.data.test.role.integration.service;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
+
+import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.data.persistence.repository.ActionRepository;
+import com.bernardomg.security.data.persistence.repository.ResourceRepository;
+import com.bernardomg.security.data.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.data.persistence.repository.RoleRepository;
+import com.bernardomg.security.data.service.RoleService;
+
+@IntegrationTest
+@DisplayName("Role service - delete with permissions")
+public class ITRoleServiceDelete {
+
+    @Autowired
+    private ActionRepository         actionRepository;
+
+    @Autowired
+    private RoleRepository           repository;
+
+    @Autowired
+    private ResourceRepository       resourceRepository;
+
+    @Autowired
+    private RolePermissionRepository rolePermissionRepository;
+
+    @Autowired
+    private RoleService              service;
+
+    public ITRoleServiceDelete() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Deletes a role with no permissions")
+    @Sql({ "/db/queries/security/role/single.sql" })
+    public void testDelete_NoPermissions() {
+        service.delete(1L);
+
+        Assertions.assertEquals(0L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Deletes a role with permissions")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+    public void testDelete_WithPermissions() {
+        service.delete(1L);
+
+        Assertions.assertEquals(0L, repository.count());
+    }
+
+    @Test
+    @DisplayName("Deletes the relationships for the role")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+    public void testDelete_WithPermissions_Relationships() {
+        service.delete(1L);
+
+        Assertions.assertEquals(0L, rolePermissionRepository.count());
+        Assertions.assertEquals(4L, actionRepository.count());
+        Assertions.assertEquals(1L, resourceRepository.count());
+    }
+
+}

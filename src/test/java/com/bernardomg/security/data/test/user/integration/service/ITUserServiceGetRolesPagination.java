@@ -19,9 +19,9 @@ import com.bernardomg.security.data.service.UserService;
 
 @IntegrationTest
 @DisplayName("User service - get roles")
-@Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
-        "/db/queries/security/relationship/user_role.sql" })
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
 public class ITUserServiceGetRolesPagination {
 
     @Autowired
@@ -29,6 +29,32 @@ public class ITUserServiceGetRolesPagination {
 
     public ITUserServiceGetRolesPagination() {
         super();
+    }
+
+    @Test
+    @DisplayName("Returns the page entities")
+    public void testGetActions_Page_Container() {
+        final Iterable<Role> result;
+        final Pageable       pageable;
+
+        pageable = PageRequest.of(0, 1);
+
+        result = service.getRoles(1l, pageable);
+
+        Assertions.assertInstanceOf(Page.class, result);
+    }
+
+    @Test
+    @DisplayName("Returns a page")
+    public void testGetActions_Paged_Count() {
+        final Iterable<Role> result;
+        final Pageable       pageable;
+
+        pageable = PageRequest.of(0, 1);
+
+        result = service.getRoles(1l, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
     }
 
     @Test
@@ -72,32 +98,6 @@ public class ITUserServiceGetRolesPagination {
         result = service.getRoles(1l, pageable);
 
         Assertions.assertInstanceOf(Page.class, result);
-    }
-
-    @Test
-    @DisplayName("Returns the page entities")
-    public void testGetPrivileges_Page_Container() {
-        final Iterable<Role> result;
-        final Pageable       pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        result = service.getRoles(1l, pageable);
-
-        Assertions.assertInstanceOf(Page.class, result);
-    }
-
-    @Test
-    @DisplayName("Returns a page")
-    public void testGetPrivileges_Paged_Count() {
-        final Iterable<Role> result;
-        final Pageable       pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        result = service.getRoles(1l, pageable);
-
-        Assertions.assertEquals(1, IterableUtils.size(result));
     }
 
 }

@@ -56,7 +56,7 @@ public class ITRoleServiceUpdateValidation {
         final FieldFailure          failure;
         final Role                  data;
 
-        data = getRoleWithNoPrivileges();
+        data = getRoleWithNoActions();
 
         executable = () -> service.update(data);
 
@@ -74,7 +74,7 @@ public class ITRoleServiceUpdateValidation {
         Assertions.assertEquals("id.notExisting", failure.getMessage());
     }
 
-    private final Role getRoleWithNoPrivileges() {
+    private final Role getRoleWithNoActions() {
         final DtoRole role;
 
         role = new DtoRole();
