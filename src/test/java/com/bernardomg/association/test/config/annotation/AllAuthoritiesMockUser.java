@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 import org.springframework.security.test.context.support.WithMockUser;
 
-@WithMockUser(authorities = { "READ_BALANCE", "READ_FEE_YEAR", "READ_MEMBER_STATS", "CREATE_FEE", "READ_FEE",
-        "UPDATE_FEE", "DELETE_FEE", "CREATE_MEMBER", "READ_MEMBER", "UPDATE_MEMBER", "DELETE_MEMBER",
-        "CREATE_TRANSACTION", "READ_TRANSACTION", "UPDATE_TRANSACTION", "DELETE_TRANSACTION" })
+@WithMockUser(authorities = { "BALANCE:READ", "FEE_YEAR:READ", "MEMBER_STATS:READ", "FEE:CREATE", "FEE:READ",
+        "FEE:UPDATE", "FEE:DELETE", "MEMBER:CREATE", "MEMBER:READ", "MEMBER:UPDATE", "MEMBER:DELETE",
+        "TRANSACTION:CREATE", "TRANSACTION:READ", "TRANSACTION:UPDATE", "TRANSACTION:DELETE" })
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Inherited

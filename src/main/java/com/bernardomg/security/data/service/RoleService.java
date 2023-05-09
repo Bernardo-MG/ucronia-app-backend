@@ -5,21 +5,23 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 
 public interface RoleService {
 
     /**
-     * Adds a privilege to a role.
+     * Adds a action to a role.
      *
      * @param id
      *            role id
-     * @param privilege
-     *            privilege id to add
-     * @return {@code true} if it managed to add the privilege, {@code false} otherwise
+     * @param resource
+     *            resource id to add
+     * @param action
+     *            action id to add
+     * @return {@code true} if it managed to add the action, {@code false} otherwise
      */
-    public Boolean addPrivilege(final Long id, final Long privilege);
+    public Boolean addPermission(final Long id, final Long resource, final Long action);
 
     /**
      * Persists the received user.
@@ -60,26 +62,28 @@ public interface RoleService {
     public Optional<? extends Role> getOne(final Long id);
 
     /**
-     * Returns all privileges for a role.
+     * Returns all action for a role.
      *
      * @param id
      *            role id
      * @param pageable
      *            pagination to apply
-     * @return privileges for the role
+     * @return action for the role
      */
-    public Iterable<? extends Privilege> getPrivileges(final Long id, final Pageable pageable);
+    public Iterable<? extends Permission> getPermission(final Long id, final Pageable pageable);
 
     /**
-     * Removes a privilege from a role.
+     * Removes a action from a role.
      *
      * @param id
      *            role id
-     * @param privilege
-     *            privilege id to remove
-     * @return {@code true} if it managed to remove the privilege, {@code false} otherwise
+     * @param resource
+     *            resource id to add
+     * @param action
+     *            action id to remove
+     * @return {@code true} if it managed to remove the action, {@code false} otherwise
      */
-    public Boolean removePrivilege(final Long id, final Long privilege);
+    public Boolean removePermission(final Long id, final Long resource, final Long action);
 
     /**
      * Updates the role for the received id with the received data.

@@ -38,10 +38,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.data.controller.model.DtoCreateRoleForm;
+import com.bernardomg.security.data.controller.model.DtoPermissionForm;
 import com.bernardomg.security.data.controller.model.DtoUpdateRoleForm;
-import com.bernardomg.security.data.model.DtoId;
 import com.bernardomg.security.data.model.DtoRole;
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
 
@@ -60,9 +60,10 @@ public class RoleController {
 
     private final RoleService service;
 
-    @PutMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean addPrivilege(@PathVariable("id") final Long id, @Valid @RequestBody final DtoId privilege) {
-        return service.addPrivilege(id, privilege.getId());
+    @PutMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean addAction(@PathVariable("id") final Long id,
+            @Valid @RequestBody final DtoPermissionForm permission) {
+        return service.addPermission(id, permission.getResource(), permission.getAction());
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,14 +87,15 @@ public class RoleController {
             .orElse(null);
     }
 
-    @GetMapping(path = "/{id}/privilege", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Privilege> readPrivileges(@PathVariable("id") final Long id, final Pageable pageable) {
-        return service.getPrivileges(id, pageable);
+    @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
+        return service.getPermission(id, pageable);
     }
 
-    @DeleteMapping(path = "/{id}/privilege/{privilege}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean removePrivilege(@PathVariable("id") final Long id, @PathVariable("privilege") final Long privilege) {
-        return service.removePrivilege(id, privilege);
+    @DeleteMapping(path = "/{id}/permission/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean removeAction(@PathVariable("id") final Long id, @PathVariable("resource") final Long resource,
+            @PathVariable("action") final Long action) {
+        return service.removePermission(id, resource, action);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

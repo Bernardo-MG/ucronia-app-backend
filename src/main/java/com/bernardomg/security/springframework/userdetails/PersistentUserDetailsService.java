@@ -37,9 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.data.persistence.model.PersistentPrivilege;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.PrivilegeRepository;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,24 +45,24 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * User details service which takes the user data from the persistence layer.
  * <p>
- * Makes use of repositories, which will return the user and his privileges.
+ * Makes use of repositories, which will return the user and his action.
  * <p>
  * The user search is based on the username, and is case insensitive. As the persisted user details are expected to
  * contain the username in lower case.
  * <h2>Granted authorities</h2>
  * <p>
- * Privileges are read moving through the model. The service receives a username and then finds the privileges assigned
- * to the related user:
+ * Actions are read moving through the model. The service receives a username and then finds the action assigned to the
+ * related user:
  * <p>
- * {@code user -> role -> privileges}
+ * {@code user -> role -> action}
  * <p>
- * These privileges are used to create the granted authorities.
+ * These action are used to create the granted authorities.
  * <h2>Exceptions</h2>
  * <p>
  * When loading users any of these cases throws a {@code UsernameNotFoundException}:
  * <ul>
  * <li>There is no user for the username</li>
- * <li>Theres is a user, but he has no privileges</li>
+ * <li>Theres is a user, but he has no action</li>
  * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
@@ -74,29 +72,20 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
-     * Repository for the privileges.
-     */
-    private final PrivilegeRepository privilegeRepo;
-
-    /**
      * Repository for the user data.
      */
-    private final UserRepository      userRepo;
+    private final UserRepository userRepo;
 
     /**
      * Constructs a user details service.
      *
      * @param userRepository
      *            repository for user details
-     * @param privilegeRepository
-     *            repository for privileges
      */
-    public PersistentUserDetailsService(final UserRepository userRepository,
-            final PrivilegeRepository privilegeRepository) {
+    public PersistentUserDetailsService(final UserRepository userRepository) {
         super();
 
         userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as repository");
-        privilegeRepo = Objects.requireNonNull(privilegeRepository, "Received a null pointer as repository");
     }
 
     @Override
@@ -142,11 +131,11 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final Collection<GrantedAuthority> getAuthorities(final Long id) {
-        // TODO: Tests than no duplicate privilege is returned
-        // TODO: Increase isolation from the privilege repository
-        return privilegeRepo.findForUser(id)
+        // TODO: Tests than no duplicate action is returned
+        // TODO: Increase isolation from the action repository
+        return userRepo.findPermissions(id)
             .stream()
-            .map(PersistentPrivilege::getName)
+            .map(p -> p.getResource() + ":" + p.getAction())
             .distinct()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());

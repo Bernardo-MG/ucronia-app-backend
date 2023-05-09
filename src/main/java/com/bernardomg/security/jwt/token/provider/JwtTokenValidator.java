@@ -52,16 +52,6 @@ public final class JwtTokenValidator implements TokenValidator {
     private final JwtParser parser;
 
     /**
-     * Default constructor for the validator. Makes use of the default security seed.
-     */
-    public JwtTokenValidator() {
-        super();
-
-        parser = Jwts.parserBuilder()
-            .build();
-    }
-
-    /**
      * Constructs a validator with the received arguments.
      *
      * @param key
