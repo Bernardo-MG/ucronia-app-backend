@@ -31,8 +31,9 @@ public class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an existing user changes the password")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testChangePassword_Existing_Changed() {
         final PersistentUser user;
@@ -50,8 +51,9 @@ public class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an existing user gives an OK")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testChangePassword_Existing_Status() {
         final PasswordChangeStatus status;
@@ -64,8 +66,9 @@ public class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an incorrect password gives a failure")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql",
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public final void testChangePassword_IncorrectPassword_Status() {
         final PasswordChangeStatus status;

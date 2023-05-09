@@ -14,7 +14,7 @@ import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
-@DisplayName("Role service - get one - no privileges")
+@DisplayName("Role service - get one - no action")
 @Sql({ "/db/queries/security/role/single.sql" })
 public class ITRoleServiceGetOne {
 

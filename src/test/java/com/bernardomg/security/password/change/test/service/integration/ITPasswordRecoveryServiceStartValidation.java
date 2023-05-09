@@ -28,9 +28,10 @@ public class ITPasswordRecoveryServiceStartValidation {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Throws a validation exception with the correct info when the email doesn't match the user email")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/user/alternative.sql",
-            "/db/queries/security/relationship/role_privilege.sql", "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
     public final void testStartPasswordRecovery_InvalidEmail() {
         final Executable            executable;
         final FieldFailureException exception;

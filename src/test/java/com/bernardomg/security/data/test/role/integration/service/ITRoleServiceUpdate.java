@@ -57,7 +57,7 @@ public class ITRoleServiceUpdate {
     public void testUpdate_AddsNoEntity() {
         final Role data;
 
-        data = getRoleWithNoPrivileges();
+        data = getRoleWithNoActions();
 
         service.update(data);
 
@@ -70,7 +70,7 @@ public class ITRoleServiceUpdate {
         final Role           data;
         final PersistentRole entity;
 
-        data = getRoleWithNoPrivileges();
+        data = getRoleWithNoActions();
 
         service.update(data);
         entity = repository.findAll()
@@ -87,7 +87,7 @@ public class ITRoleServiceUpdate {
         final Role data;
         final Role result;
 
-        data = getRoleWithNoPrivileges();
+        data = getRoleWithNoActions();
 
         result = service.update(data);
 
@@ -95,7 +95,7 @@ public class ITRoleServiceUpdate {
         Assertions.assertEquals("Role", result.getName());
     }
 
-    private final Role getRoleWithNoPrivileges() {
+    private final Role getRoleWithNoActions() {
         final DtoRole role;
 
         role = new DtoRole();

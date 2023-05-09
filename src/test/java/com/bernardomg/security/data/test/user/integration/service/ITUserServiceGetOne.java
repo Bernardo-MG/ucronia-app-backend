@@ -14,7 +14,7 @@ import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.service.UserService;
 
 @IntegrationTest
-@DisplayName("User service - get one - with role and no privileges")
+@DisplayName("User service - get one - with role and no action")
 @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/user_role.sql" })
 public class ITUserServiceGetOne {

@@ -30,18 +30,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.data.model.Privilege;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 
 /**
- * Repository for privileges.
+ * Repository for action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
-    @Query("SELECT p FROM Privilege p JOIN RolePrivileges rp ON p.id = rp.privilegeId JOIN Role r ON rp.roleId = r.id WHERE r.id = :id")
-    public Page<Privilege> findAllPrivileges(@Param("id") final Long id, final Pageable pageable);
+    @Query(value = "SELECT new com.bernardomg.security.data.model.ImmutablePermission(r.name, a.name) FROM RolePermissions rp LEFT JOIN Action a ON rp.actionId = a.id LEFT JOIN Resource r ON rp.resourceId = r.id WHERE rp.roleId = :id AND rp.granted = true")
+    public Page<Permission> findAllPermissions(@Param("id") final Long id, final Pageable pageable);
 
 }

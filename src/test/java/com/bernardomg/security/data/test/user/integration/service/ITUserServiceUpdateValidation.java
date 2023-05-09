@@ -28,8 +28,9 @@ public class ITUserServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when changing the username")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
     public void testUpdate_ChangeUsername() {
         final Executable            executable;
         final FieldFailureException exception;
@@ -57,9 +58,9 @@ public class ITUserServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/user/alternative.sql",
-            "/db/queries/security/relationship/role_privilege.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql" })
     public void testUpdate_ExistingMail() {
         final Executable            executable;
         final FieldFailureException exception;
@@ -87,8 +88,9 @@ public class ITUserServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when the email doesn't match the valid pattern")
-    @Sql({ "/db/queries/security/privilege/multiple.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_privilege.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
     public void testUpdate_InvalidMail() {
         final Executable            executable;
         final FieldFailureException exception;
