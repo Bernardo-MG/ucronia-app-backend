@@ -45,10 +45,22 @@ public class TransactionRepositoryFindSumAll {
     }
 
     @Test
-    @DisplayName("Returns the correct sum")
+    @DisplayName("Returns the correct sum for a decimal transaction")
+    @Sql({ "/db/queries/transaction/decimal.sql" })
+    public void testFindSumAll_Decimal() {
+        final Float result;
+
+        result = repository.findSumAll();
+
+        Assertions.assertEquals(Double.valueOf(0.12345)
+            .floatValue(), result);
+    }
+
+    @Test
+    @DisplayName("Returns the correct sum for multiple transactions")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
-        final Long result;
+        final Float result;
 
         result = repository.findSumAll();
 
@@ -56,13 +68,47 @@ public class TransactionRepositoryFindSumAll {
     }
 
     @Test
+    @DisplayName("Returns the correct sum for a negative transaction")
+    @Sql({ "/db/queries/transaction/negative.sql" })
+    public void testFindSumAll_Negative() {
+        final Float result;
+
+        result = repository.findSumAll();
+
+        Assertions.assertEquals(-1, result);
+    }
+
+    @Test
     @DisplayName("Returns null when there is no data")
     public void testFindSumAll_NoData() {
-        final Long result;
+        final Float result;
 
         result = repository.findSumAll();
 
         Assertions.assertNull(result);
+    }
+
+    @Test
+    @DisplayName("Returns the correct sum for a single transaction")
+    @Sql({ "/db/queries/transaction/single.sql" })
+    public void testFindSumAll_Single() {
+        final Float result;
+
+        result = repository.findSumAll();
+
+        Assertions.assertEquals(1, result);
+    }
+
+    @Test
+    @DisplayName("Returns the correct sum for a variety of values in the transaction")
+    @Sql({ "/db/queries/transaction/variety.sql" })
+    public void testFindSumAll_Variety() {
+        final Float result;
+
+        result = repository.findSumAll();
+
+        Assertions.assertEquals(Double.valueOf(1.5)
+            .floatValue(), result);
     }
 
 }

@@ -9,13 +9,20 @@ public class ImmutablePermission implements Permission {
 
     private final String action;
 
+    private final Long   actionId;
+
     private final String resource;
 
-    public ImmutablePermission(@NonNull final String res, @NonNull final String priv) {
+    private final Long   resourceId;
+
+    public ImmutablePermission(final Long resId, @NonNull final String res, final Long actId,
+            @NonNull final String act) {
         super();
 
+        resourceId = resId;
         resource = res;
-        action = priv;
+        actionId = actId;
+        action = act;
     }
 
 }

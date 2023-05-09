@@ -42,6 +42,6 @@ public interface TransactionRepository
     public Calendar findMinDate();
 
     @Query("SELECT SUM(t.amount) AS balance FROM Transaction t")
-    public Long findSumAll();
+    public Float findSumAll();
 
 }
