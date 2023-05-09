@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.data.test.role.integration.repository;
 
+import java.util.stream.StreamSupport;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,15 +34,67 @@ public class ITRoleRepositoryFindAllPermissions {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllPermissions_Count() {
-        final Page<Permission> read;
-        final Pageable         pageable;
+    public void testFindAllPermissions() {
+        final Iterable<? extends Permission> read;
+        final Pageable                       pageable;
+        Boolean                              found;
 
         pageable = Pageable.unpaged();
 
         read = repository.findAllPermissions(1L, pageable);
 
-        Assertions.assertEquals(4, IterableUtils.size(read));
+        Assertions.assertEquals(4L, IterableUtils.size(read));
+
+        // DATA:CREATE
+        found = StreamSupport.stream(read.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
+            .findAny()
+            .isPresent();
+        Assertions.assertTrue(found);
+
+        // DATA:READ
+        found = StreamSupport.stream(read.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
+            .findAny()
+            .isPresent();
+        Assertions.assertTrue(found);
+
+        // DATA:UPDATE
+        found = StreamSupport.stream(read.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "UPDATE".equals(p.getAction()))
+            .findAny()
+            .isPresent();
+        Assertions.assertTrue(found);
+
+        // DATA:DELETE
+        found = StreamSupport.stream(read.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "DELETE".equals(p.getAction()))
+            .findAny()
+            .isPresent();
+        Assertions.assertTrue(found);
+    }
+
+    @Test
+    @DisplayName("The returned permission contains the ids")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testFindAllPermissions_Ids() {
+        final Iterable<? extends Permission> read;
+        final Pageable                       pageable;
+        Permission                              found;
+
+        pageable = Pageable.unpaged();
+
+        read = repository.findAllPermissions(1L, pageable);
+
+        // DATA:CREATE
+        found = StreamSupport.stream(read.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
+            .findAny().get();
+        Assertions.assertEquals(1, found.getResourceId());
+        Assertions.assertEquals(2, found.getActionId());
     }
 
     @Test
