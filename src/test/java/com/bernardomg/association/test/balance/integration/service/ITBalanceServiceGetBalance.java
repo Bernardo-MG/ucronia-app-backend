@@ -36,7 +36,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Balance service - get balance")
-@Sql({ "/db/queries/transaction/multiple.sql" })
 public class ITBalanceServiceGetBalance {
 
     @Autowired
@@ -47,13 +46,70 @@ public class ITBalanceServiceGetBalance {
     }
 
     @Test
-    @DisplayName("Returns the expected balance")
-    public void testGetBalance_Count() {
+    @DisplayName("Returns the expected balance when there is a decimal transaction")
+    @Sql({ "/db/queries/transaction/decimal.sql" })
+    public void testGetBalance_Decimal() {
+        final Balance result;
+
+        result = service.getBalance();
+
+        Assertions.assertEquals(Double.valueOf(0.12345)
+            .floatValue(), result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance when there are multiple transactions")
+    @Sql({ "/db/queries/transaction/multiple.sql" })
+    public void testGetBalance_Multiple() {
         final Balance result;
 
         result = service.getBalance();
 
         Assertions.assertEquals(5, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance when there is a negative transaction")
+    @Sql({ "/db/queries/transaction/negative.sql" })
+    public void testGetBalance_Negative() {
+        final Balance result;
+
+        result = service.getBalance();
+
+        Assertions.assertEquals(-1, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns zero when there are no transactions")
+    public void testGetBalance_NoData() {
+        final Balance result;
+
+        result = service.getBalance();
+
+        Assertions.assertEquals(0, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance when there is a single transaction")
+    @Sql({ "/db/queries/transaction/single.sql" })
+    public void testGetBalance_Single() {
+        final Balance result;
+
+        result = service.getBalance();
+
+        Assertions.assertEquals(1, result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance when there is a variety of values in the transactions")
+    @Sql({ "/db/queries/transaction/variety.sql" })
+    public void testGetBalance_Variety() {
+        final Balance result;
+
+        result = service.getBalance();
+
+        Assertions.assertEquals(Double.valueOf(1.5)
+            .floatValue(), result.getAmount());
     }
 
 }
