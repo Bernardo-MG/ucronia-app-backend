@@ -33,6 +33,7 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -85,6 +86,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         response = Response.error("Invalid query");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ AccessDeniedException.class })
+    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
+            throws Exception {
+        final ErrorResponse response;
+
+        log.warn(ex.getMessage(), ex);
+
+        response = Response.error("Unauthorized");
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({ FieldFailureException.class })
