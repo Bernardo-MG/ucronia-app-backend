@@ -50,16 +50,6 @@ public class ITMemberFeeRepositoryFindByIdWithMember {
     }
 
     @Test
-    @DisplayName("Returns a single entity by id")
-    public void testFindOneByIdWithMember_Contains() {
-        final Optional<? extends MemberFee> result;
-
-        result = repository.findOneByIdWithMember(1L);
-
-        Assertions.assertTrue(result.isPresent());
-    }
-
-    @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     public void testFindOneByIdWithMember_Existing() {
         final Optional<? extends MemberFee> result;
@@ -81,7 +71,7 @@ public class ITMemberFeeRepositoryFindByIdWithMember {
             .get();
 
         Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals(id, result.getMemberId());
         Assertions.assertEquals("Member 1", result.getName());
         Assertions.assertEquals("Surname 1", result.getSurname());
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()

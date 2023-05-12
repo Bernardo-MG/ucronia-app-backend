@@ -56,6 +56,69 @@ public class ITMemberFeeRepositoryFindAllWithMemberSort {
     }
 
     @Test
+    @DisplayName("Returns all data in descending order by date")
+    public void testFindAllWithMember_Desc_Date() {
+        final Iterator<? extends MemberFee> data;
+        final FeeRequest                    example;
+        final Pageable                      pageable;
+        final Sort                          sort;
+        MemberFee                           result;
+
+        sort = Sort.by(Direction.DESC, "date");
+        pageable = PageRequest.of(0, 10, sort);
+
+        example = new DtoFeeRequest();
+
+        data = repository.findAllWithMember(example, pageable)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(5, result.getMemberId());
+        Assertions.assertEquals("Member 5", result.getName());
+        Assertions.assertEquals("Surname 5", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertFalse(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(4, result.getMemberId());
+        Assertions.assertEquals("Member 4", result.getName());
+        Assertions.assertEquals("Surname 4", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(3, result.getMemberId());
+        Assertions.assertEquals("Member 3", result.getName());
+        Assertions.assertEquals("Surname 3", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(2, result.getMemberId());
+        Assertions.assertEquals("Member 2", result.getName());
+        Assertions.assertEquals("Surname 2", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertTrue(result.getPaid());
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertTrue(result.getPaid());
+    }
+
+    @Test
     @DisplayName("Returns all data in descending order by member id")
     public void testFindAllWithMember_Desc_MemberId() {
         final Iterator<? extends MemberFee> data;
