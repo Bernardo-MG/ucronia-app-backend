@@ -51,7 +51,6 @@ import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenProcessor;
-import com.bernardomg.security.token.provider.TokenProvider;
 
 /**
  * Security configuration.
@@ -68,11 +67,15 @@ public class SecurityServiceConfig {
 
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenProvider tokenProv) {
+            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
+            final TokenService tokenService) {
         final LoginStatusProvider statusProvider;
         final Predicate<Login>    valid;
+        final TokenProcessor      tokenProcessor;
 
-        statusProvider = new TokenLoginStatusProvider(tokenProv);
+        tokenProcessor = new PersistentTokenProcessor(tokenRepository, tokenService);
+
+        statusProvider = new TokenLoginStatusProvider(tokenProcessor);
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
         return new DefaultLoginService(statusProvider, valid);

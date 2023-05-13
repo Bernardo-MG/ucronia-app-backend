@@ -15,7 +15,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PersistentTokenProcessor implements TokenProcessor {
+public final class PersistentTokenProcessor implements TokenProcessor {
 
     private final TokenRepository tokenRepository;
 
