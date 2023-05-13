@@ -28,15 +28,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.bernardomg.association.fee.model.DtoMemberFee;
@@ -62,8 +58,6 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
     private final JPQLQueryFactory           jpqlQueryFactory;
 
     private final String                     queryAllCount = "SELECT COUNT(f.id) AS count FROM fees f JOIN members m ON f.member_id = m.id";
-
-    private final String                     queryOne      = "SELECT f.id AS id, m.name AS name, m.surname AS surname, m.id AS member_id, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id WHERE f.id = :id";
 
     @SuppressWarnings("unchecked")
     @Override
@@ -168,21 +162,6 @@ public final class DefaultMemberFeeRepository implements MemberFeeRepository {
         read = (List<MemberFee>) query.fetch();
 
         return PageableExecutionUtils.getPage(read, pageable, () -> countAll());
-    }
-
-    @Override
-    public final Optional<MemberFee> findOneByIdWithMember(final Long id) {
-        final SqlParameterSource namedParameters;
-        MemberFee                fee;
-
-        namedParameters = new MapSqlParameterSource().addValue("id", id);
-        try {
-            fee = jdbcTemplate.queryForObject(queryOne, namedParameters, new MemberFeeRowMapper());
-        } catch (final EmptyResultDataAccessException e) {
-            fee = null;
-        }
-
-        return Optional.ofNullable(fee);
     }
 
     private final Long countAll() {

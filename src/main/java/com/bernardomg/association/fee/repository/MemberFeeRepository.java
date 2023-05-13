@@ -24,11 +24,8 @@
 
 package com.bernardomg.association.fee.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
@@ -36,7 +33,5 @@ import com.bernardomg.association.fee.model.MemberFee;
 public interface MemberFeeRepository {
 
     public Page<MemberFee> findAllWithMember(final FeeRequest request, final Pageable pageable);
-
-    public Optional<MemberFee> findOneByIdWithMember(@Param("id") final Long id);
 
 }

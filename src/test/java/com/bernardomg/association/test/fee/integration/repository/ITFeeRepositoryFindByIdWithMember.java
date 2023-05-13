@@ -34,18 +34,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - get one")
+@DisplayName("RoleRepository - find one by id with member")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-public class ITMemberFeeRepositoryFindByIdWithMember {
+public class ITFeeRepositoryFindByIdWithMember {
 
     @Autowired
-    private MemberFeeRepository repository;
+    private FeeRepository repository;
 
-    public ITMemberFeeRepositoryFindByIdWithMember() {
+    public ITFeeRepositoryFindByIdWithMember() {
         super();
     }
 

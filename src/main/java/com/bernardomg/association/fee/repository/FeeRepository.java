@@ -24,11 +24,19 @@
 
 package com.bernardomg.association.fee.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
+
+import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.PersistentFee;
 
 public interface FeeRepository extends JpaRepository<PersistentFee, Long>, QuerydslPredicateExecutor<PersistentFee> {
+
+    @Query("SELECT new com.bernardomg.association.fee.model.DtoMemberFee(f.id, m.id, m.name, m.surname, f.date, f.paid) FROM Fee f JOIN Member m ON f.memberId = m.id WHERE f.id = :id")
+    public Optional<MemberFee> findOneByIdWithMember(@Param("id") final Long id);
 
 }
