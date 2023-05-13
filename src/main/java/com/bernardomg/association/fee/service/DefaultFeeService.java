@@ -18,7 +18,6 @@ import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.PersistentFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
-import com.bernardomg.association.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -37,11 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final MemberFeeRepository memberFeeRepository;
+    private final MemberRepository memberRepository;
 
-    private final MemberRepository    memberRepository;
-
-    private final FeeRepository       repository;
+    private final FeeRepository    repository;
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
@@ -85,9 +82,25 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
     public final Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
+        final Iterable<? extends MemberFee> read;
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        return memberFeeRepository.findAllWithMember(request, pageable);
+
+        if (request.getDate() != null) {
+            read = repository.findAllWithMemberByDate(request.getDate(), pageable);
+        } else if ((request.getStartDate() != null) || (request.getEndDate() != null)) {
+            if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
+                read = repository.findAllWithMemberInRange(request.getStartDate(), request.getEndDate(), pageable);
+            } else if (request.getEndDate() != null) {
+                read = repository.findAllWithMemberBefore(request.getEndDate(), pageable);
+            } else {
+                read = repository.findAllWithMemberAfter(request.getStartDate(), pageable);
+            }
+        } else {
+            read = repository.findAllWithMember(pageable);
+        }
+
+        return read;
     }
 
     @Override
@@ -99,7 +112,7 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        found = memberFeeRepository.findOneByIdWithMember(id);
+        found = repository.findOneByIdWithMember(id);
 
         if (found.isPresent()) {
             data = found.get();

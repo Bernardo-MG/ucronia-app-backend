@@ -1,29 +1,25 @@
 
 package com.bernardomg.association.transaction.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.PersistentTransaction;
-import com.bernardomg.association.transaction.model.QPersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionForm;
 import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.bernardomg.association.transaction.repository.TransactionSpecifications;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,36 +70,25 @@ public final class DefaultTransactionService implements TransactionService {
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     public final Iterable<? extends Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
-        final QPersistentTransaction      source;
-        final Predicate                   finalPredicate;
-        final Collection<Predicate>       exprs;
-        final Page<PersistentTransaction> page;
-        BooleanExpression                 predicate;
+        final Page<PersistentTransaction>                    page;
+        final Optional<Specification<PersistentTransaction>> spec;
 
-        source = QPersistentTransaction.persistentTransaction;
-
-        exprs = new ArrayList<>();
         if (request.getDate() != null) {
-            predicate = source.date.eq(request.getDate());
-            exprs.add(predicate);
+            spec = Optional.of(TransactionSpecifications.on(request.getDate()));
+        } else if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
+            spec = Optional.of(TransactionSpecifications.between(request.getStartDate(), request.getEndDate()));
+        } else if (request.getStartDate() != null) {
+            spec = Optional.of(TransactionSpecifications.after(request.getStartDate()));
+        } else if (request.getEndDate() != null) {
+            spec = Optional.of(TransactionSpecifications.before(request.getEndDate()));
         } else {
-            if (request.getStartDate() != null) {
-                predicate = source.date.after(request.getStartDate())
-                    .or(source.date.eq(request.getStartDate()));
-                exprs.add(predicate);
-            }
-            if (request.getEndDate() != null) {
-                predicate = source.date.before(request.getEndDate())
-                    .or(source.date.eq(request.getEndDate()));
-                exprs.add(predicate);
-            }
+            spec = Optional.empty();
         }
 
-        if (exprs.isEmpty()) {
+        if (spec.isEmpty()) {
             page = repository.findAll(pageable);
         } else {
-            finalPredicate = ExpressionUtils.allOf(exprs);
-            page = repository.findAll(finalPredicate, pageable);
+            page = repository.findAll(spec.get(), pageable);
         }
 
         return page.map(this::toDto);

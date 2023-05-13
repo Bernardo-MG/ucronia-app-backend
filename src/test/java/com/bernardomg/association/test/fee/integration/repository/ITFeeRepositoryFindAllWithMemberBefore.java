@@ -24,62 +24,66 @@
 
 package com.bernardomg.association.test.fee.integration.repository;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Optional;
+import java.util.Iterator;
 
+import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - get one")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-public class ITMemberFeeRepositoryFindByIdWithMember {
+@DisplayName("Fee repository - find all with member by date")
+@Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+public class ITFeeRepositoryFindAllWithMemberBefore {
 
     @Autowired
-    private MemberFeeRepository repository;
+    private FeeRepository repository;
 
-    public ITMemberFeeRepositoryFindByIdWithMember() {
+    public ITFeeRepositoryFindAllWithMemberBefore() {
         super();
     }
 
     @Test
-    @DisplayName("Returns a single entity by id")
-    public void testFindOneByIdWithMember_Contains() {
-        final Optional<? extends MemberFee> result;
+    @DisplayName("Returns all the entities")
+    public void testFindAllWithMember_Count() {
+        final Iterable<? extends MemberFee> result;
+        final Pageable                      pageable;
+        final Calendar                      date;
 
-        result = repository.findOneByIdWithMember(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertTrue(result.isPresent());
+        date = new GregorianCalendar(2020, 1, 1);
+
+        result = repository.findAllWithMemberBefore(date, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
     }
 
     @Test
-    @DisplayName("When reading a single entity with a valid id, an entity is returned")
-    public void testFindOneByIdWithMember_Existing() {
-        final Optional<? extends MemberFee> result;
+    @DisplayName("Returns all data")
+    public void testFindAllWithMember_Data() {
+        final Iterator<? extends MemberFee> data;
+        MemberFee                           result;
+        final Pageable                      pageable;
+        final Calendar                      date;
 
-        result = repository.findOneByIdWithMember(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertTrue(result.isPresent());
-    }
+        date = new GregorianCalendar(2020, 1, 1);
 
-    @Test
-    @DisplayName("Returns the correct data when reading a single entity")
-    public void testFindOneByIdWithMember_Existing_Data() {
-        final MemberFee result;
-        final Long      id;
+        data = repository.findAllWithMemberBefore(date, pageable)
+            .iterator();
 
-        id = 1L;
-
-        result = repository.findOneByIdWithMember(id)
-            .get();
-
+        result = data.next();
         Assertions.assertNotNull(result.getId());
         Assertions.assertEquals(1, result.getMemberId());
         Assertions.assertEquals("Member 1", result.getName());
@@ -90,13 +94,19 @@ public class ITMemberFeeRepositoryFindByIdWithMember {
     }
 
     @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testFindOneByIdWithMember_NotExisting() {
-        final Optional<? extends MemberFee> result;
+    @DisplayName("Returns no data when the date doesn't exist")
+    public void testFindAllWithMember_NotExisting() {
+        final Iterable<? extends MemberFee> result;
+        final Pageable                      pageable;
+        final Calendar                      date;
 
-        result = repository.findOneByIdWithMember(-1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertFalse(result.isPresent());
+        date = new GregorianCalendar(2020, 0, 1);
+
+        result = repository.findAllWithMemberBefore(date, pageable);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }

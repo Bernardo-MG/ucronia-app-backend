@@ -24,6 +24,9 @@
 
 package com.bernardomg.association.test.fee.integration.repository;
 
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,21 +35,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeRequest;
-import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member - no fees")
-@Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberFeeRepositoryFindAllWithMemberNoFee {
+@DisplayName("Fee repository - find all with member - inactive member")
+@Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
+public class ITFeeRepositoryFindAllWithMemberInactiveMember {
 
     @Autowired
-    private MemberFeeRepository repository;
+    private FeeRepository repository;
 
-    public ITMemberFeeRepositoryFindAllWithMemberNoFee() {
+    public ITFeeRepositoryFindAllWithMemberInactiveMember() {
         super();
     }
 
@@ -54,16 +55,35 @@ public class ITMemberFeeRepositoryFindAllWithMemberNoFee {
     @DisplayName("Returns all the entities")
     public void testFindAllWithMember_Count() {
         final Iterable<? extends MemberFee> result;
-        final FeeRequest                    example;
         final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
 
-        example = new DtoFeeRequest();
+        result = repository.findAllWithMember(pageable);
 
-        result = repository.findAllWithMember(example, pageable);
+        Assertions.assertEquals(1, IterableUtils.size(result));
+    }
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+    @Test
+    @DisplayName("Returns all data")
+    public void testFindAllWithMember_Data() {
+        final Iterator<? extends MemberFee> data;
+        MemberFee                           result;
+        final Pageable                      pageable;
+
+        pageable = Pageable.unpaged();
+
+        data = repository.findAllWithMember(pageable)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertNotNull(result.getId());
+        Assertions.assertEquals(1, result.getMemberId());
+        Assertions.assertEquals("Member 1", result.getName());
+        Assertions.assertEquals("Surname 1", result.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
+            .getTime());
+        Assertions.assertTrue(result.getPaid());
     }
 
 }

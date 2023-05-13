@@ -20,8 +20,8 @@ public final class DefaultBalanceService implements BalanceService {
     @PreAuthorize("hasAuthority('BALANCE:READ')")
     public final Balance getBalance() {
         final DtoBalance balance;
-        final Float       readSum;
-        final Float       sum;
+        final Float      readSum;
+        final Float      sum;
 
         readSum = transactionRepository.findSumAll();
         if (readSum == null) {
