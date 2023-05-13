@@ -37,8 +37,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeRequest;
-import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -59,15 +57,12 @@ public class ITFeeRepositoryFindAllWithMemberSort {
     @DisplayName("Returns all data in descending order by date")
     public void testFindAllWithMember_Desc_Date() {
         final Iterator<? extends MemberFee> data;
-        final FeeRequest                    example;
         final Pageable                      pageable;
         final Sort                          sort;
         MemberFee                           result;
 
         sort = Sort.by(Direction.DESC, "date");
         pageable = PageRequest.of(0, 10, sort);
-
-        example = new DtoFeeRequest();
 
         data = repository.findAllWithMember(pageable)
             .iterator();
@@ -122,15 +117,12 @@ public class ITFeeRepositoryFindAllWithMemberSort {
     @DisplayName("Returns all data in descending order by member name")
     public void testFindAllWithMember_Desc_MemberName() {
         final Iterator<? extends MemberFee> data;
-        final FeeRequest                    example;
         final Pageable                      pageable;
         final Sort                          sort;
         MemberFee                           result;
 
         sort = Sort.by(Direction.DESC, "name");
         pageable = PageRequest.of(0, 10, sort);
-
-        example = new DtoFeeRequest();
 
         data = repository.findAllWithMember(pageable)
             .iterator();

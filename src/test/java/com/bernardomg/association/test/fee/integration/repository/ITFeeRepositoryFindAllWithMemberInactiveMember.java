@@ -35,8 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeRequest;
-import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -57,12 +55,9 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
     @DisplayName("Returns all the entities")
     public void testFindAllWithMember_Count() {
         final Iterable<? extends MemberFee> result;
-        final FeeRequest                    example;
         final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
-
-        example = new DtoFeeRequest();
 
         result = repository.findAllWithMember(pageable);
 
@@ -74,12 +69,9 @@ public class ITFeeRepositoryFindAllWithMemberInactiveMember {
     public void testFindAllWithMember_Data() {
         final Iterator<? extends MemberFee> data;
         MemberFee                           result;
-        final FeeRequest                    example;
         final Pageable                      pageable;
 
         pageable = Pageable.unpaged();
-
-        example = new DtoFeeRequest();
 
         data = repository.findAllWithMember(pageable)
             .iterator();

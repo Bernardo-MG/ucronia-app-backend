@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.test.fee.integration.repository;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
@@ -40,14 +41,14 @@ import com.bernardomg.association.fee.repository.FeeRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee repository - find all with member")
+@DisplayName("Fee repository - find all with member by date")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-public class ITFeeRepositoryFindAllWithMember {
+public class ITFeeRepositoryFindAllWithMemberInRange {
 
     @Autowired
     private FeeRepository repository;
 
-    public ITFeeRepositoryFindAllWithMember() {
+    public ITFeeRepositoryFindAllWithMemberInRange() {
         super();
     }
 
@@ -56,12 +57,17 @@ public class ITFeeRepositoryFindAllWithMember {
     public void testFindAllWithMember_Count() {
         final Iterable<? extends MemberFee> result;
         final Pageable                      pageable;
+        final Calendar                      start;
+        final Calendar                      end;
 
         pageable = Pageable.unpaged();
 
-        result = repository.findAllWithMember(pageable);
+        start = new GregorianCalendar(2020, 0, 1);
+        end = new GregorianCalendar(2020, 2, 1);
 
-        Assertions.assertEquals(5, IterableUtils.size(result));
+        result = repository.findAllWithMemberInRange(start, end, pageable);
+
+        Assertions.assertEquals(2, IterableUtils.size(result));
     }
 
     @Test
@@ -70,10 +76,15 @@ public class ITFeeRepositoryFindAllWithMember {
         final Iterator<? extends MemberFee> data;
         MemberFee                           result;
         final Pageable                      pageable;
+        final Calendar                      start;
+        final Calendar                      end;
 
         pageable = Pageable.unpaged();
 
-        data = repository.findAllWithMember(pageable)
+        start = new GregorianCalendar(2020, 0, 1);
+        end = new GregorianCalendar(2020, 2, 1);
+
+        data = repository.findAllWithMemberInRange(start, end, pageable)
             .iterator();
 
         result = data.next();
@@ -93,33 +104,24 @@ public class ITFeeRepositoryFindAllWithMember {
         Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), result.getDate()
             .getTime());
         Assertions.assertTrue(result.getPaid());
+    }
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(3, result.getMemberId());
-        Assertions.assertEquals("Member 3", result.getName());
-        Assertions.assertEquals("Surname 3", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertTrue(result.getPaid());
+    @Test
+    @DisplayName("Returns no data when the date doesn't exist")
+    public void testFindAllWithMember_NotExisting() {
+        final Iterable<? extends MemberFee> result;
+        final Pageable                      pageable;
+        final Calendar                      start;
+        final Calendar                      end;
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(4, result.getMemberId());
-        Assertions.assertEquals("Member 4", result.getName());
-        Assertions.assertEquals("Surname 4", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertTrue(result.getPaid());
+        pageable = Pageable.unpaged();
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(5, result.getMemberId());
-        Assertions.assertEquals("Member 5", result.getName());
-        Assertions.assertEquals("Surname 5", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertFalse(result.getPaid());
+        start = new GregorianCalendar(2020, 7, 1);
+        end = new GregorianCalendar(2020, 10, 1);
+
+        result = repository.findAllWithMemberInRange(start, end, pageable);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }
