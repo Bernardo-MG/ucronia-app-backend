@@ -49,7 +49,7 @@ public class SecurityEmailConfig {
 
     @Bean("securityEmailSender")
     @ConditionalOnMissingBean(JavaMailSender.class)
-    public SecurityMessageSender getSecurityEmailSender() {
+    public SecurityMessageSender getDefaultSecurityEmailSender() {
         return new DisabledSecurityEmailSender();
     }
 
