@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,7 +45,6 @@ import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,52 +64,36 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         super();
     }
 
+    /**
+     * Handles authentication and authorisation exceptions.
+     *
+     * @param ex
+     *            exception to handle
+     * @param request
+     *            request
+     * @return unauthorized response
+     */
+    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
+    public final ResponseEntity<Object> handleAuthException(final Exception ex, final WebRequest request) {
+        log.error(ex.getMessage(), ex);
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * Handles unmapped exceptions.
+     *
+     * @param ex
+     *            exception to handle
+     * @param request
+     *            request
+     * @return internal error response
+     */
     @ExceptionHandler({ RuntimeException.class })
-    public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
+    public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request) {
+        log.error(ex.getMessage(), ex);
 
-        log.warn(ex.getMessage(), ex);
-
-        response = Response.error("Internal error");
-
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler({ DataAccessException.class, PropertyReferenceException.class })
-    public final ResponseEntity<Object> handlePersistenceException(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
-
-        log.warn(ex.getMessage(), ex);
-
-        response = Response.error("Invalid query");
-
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler({ AccessDeniedException.class })
-    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
-
-        log.warn(ex.getMessage(), ex);
-
-        response = Response.error("Unauthorized");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler({ FieldFailureException.class })
-    public final ResponseEntity<Object> handleValidationException(final FieldFailureException ex,
-            final WebRequest request) throws Exception {
-        final FailureResponse response;
-
-        log.warn(ex.getMessage(), ex);
-
-        response = Response.failure(ex.getFailures());
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -139,8 +123,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected final ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
-            final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, @Nullable final Object body,
+            final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         final ErrorResponse response;
         final String        message;
 
@@ -150,12 +134,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         response = Response.error(message, "500");
 
-        return super.handleExceptionInternal(ex, response, headers, status, request);
+        return super.handleExceptionInternal(ex, response, headers, statusCode, request);
     }
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
-            final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+            final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
         final Collection<FieldFailure> errors;
         final FailureResponse          response;
 

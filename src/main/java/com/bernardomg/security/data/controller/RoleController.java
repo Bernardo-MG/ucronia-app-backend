@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.data.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +43,7 @@ import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**

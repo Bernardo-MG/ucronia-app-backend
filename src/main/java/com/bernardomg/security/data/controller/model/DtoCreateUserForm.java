@@ -1,10 +1,9 @@
 
 package com.bernardomg.security.data.controller.model;
 
-import javax.validation.constraints.NotNull;
-
 import com.bernardomg.security.data.model.User;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

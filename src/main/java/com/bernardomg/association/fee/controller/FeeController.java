@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.fee.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +40,7 @@ import com.bernardomg.association.fee.model.DtoFeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.service.FeeService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**

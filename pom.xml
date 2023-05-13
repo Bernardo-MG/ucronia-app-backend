@@ -180,9 +180,9 @@
       <jackson.version>2.13.4.20221013</jackson.version>
       <junit.jupiter.version>5.9.1</junit.jupiter.version>
       <jjwt.version>0.11.5</jjwt.version>
-      <spring.boot.version>2.7.4</spring.boot.version>
-      <spring.data.version>2021.2.5</spring.data.version>
-      <spring.version>5.3.23</spring.version>
+      <spring.boot.version>3.0.5</spring.boot.version>
+      <spring.data.version>2023.0.0</spring.data.version>
+      <spring.version>6.0.8</spring.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -387,21 +387,16 @@
       <!-- ============================================== -->
       <dependency>
          <!-- JPA API -->
-         <groupId>javax.persistence</groupId>
-         <artifactId>javax.persistence-api</artifactId>
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ HIBERNATE =================== -->
       <!-- ============================================== -->
       <dependency>
          <!-- Hibernate Core -->
-         <groupId>org.hibernate</groupId>
+         <groupId>org.hibernate.orm</groupId>
          <artifactId>hibernate-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Hibernate Ehcache -->
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-ehcache</artifactId>
       </dependency>
       <dependency>
          <!-- Hikari CP -->
@@ -409,6 +404,7 @@
          <artifactId>HikariCP</artifactId>
          <exclusions>
             <exclusion>
+               <!-- SL4J API -->
                <groupId>org.slf4j</groupId>
                <artifactId>slf4j-api</artifactId>
             </exclusion>
@@ -437,20 +433,11 @@
          <artifactId>postgresql</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================ SERVLET ===================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Servlet API -->
-         <groupId>javax.servlet</groupId>
-         <artifactId>javax.servlet-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== MAIL ====================== -->
       <!-- ============================================== -->
       <dependency>
-         <groupId>javax.mail</groupId>
-         <artifactId>javax.mail-api</artifactId>
+         <groupId>jakarta.mail</groupId>
+         <artifactId>jakarta.mail-api</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOMBOK ==================== -->

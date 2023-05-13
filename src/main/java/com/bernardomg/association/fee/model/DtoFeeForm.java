@@ -3,12 +3,11 @@ package com.bernardomg.association.fee.model;
 
 import java.util.Calendar;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

@@ -25,20 +25,20 @@
 package com.bernardomg.security.config;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import javax.crypto.SecretKey;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.config.property.JwtProperties;
-import com.bernardomg.security.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.jwt.token.provider.JwtTokenProvider;
-import com.bernardomg.security.jwt.token.provider.JwtTokenValidator;
-import com.bernardomg.security.token.provider.TokenProvider;
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
+import com.bernardomg.security.jwt.token.JwtTokenData;
+import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
+import com.bernardomg.security.jwt.token.JwtTokenValidator;
+import com.bernardomg.security.token.TokenDecoder;
+import com.bernardomg.security.token.TokenEncoder;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -54,61 +54,73 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtConfig {
 
+    /**
+     * Default constructor.
+     */
     public JwtConfig() {
         super();
     }
 
-    @Bean("jwtSecretKey")
-    public Key getJwtSecretKey(final JwtProperties properties) {
-        return Keys.hmacShaKeyFor(properties.getSecret()
-            .getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Bean("jwtTokenFilter")
-    public JwtTokenFilter getJwtTokenFilter(final UserDetailsService userDetService, final TokenValidator processor) {
-        return new JwtTokenFilter(userDetService, processor);
-    }
-
     /**
-     * Token validator with security seed.
+     * Returns the token decoder.
      *
-     * @param secret
-     *            secret for the seed
-     * @return secure token validator
-     */
-    @Bean("tokenValidator")
-    public TokenValidator getJwtTokenValidatorWithSecret(@Qualifier("jwtSecretKey") final Key secret) {
-        log.info("Using secured token validator");
-        return new JwtTokenValidator(secret);
-    }
-
-    /**
-     * Token provider.
-     *
-     * @param secret
-     *            secret for the seed
      * @param properties
-     *            JWT security properties
-     * @return secure token provider
+     *            JWT configuration properties
+     * @return the token encoder
      */
-    @Bean("tokenProvider")
-    public TokenProvider getTokenProviderWithSecret(@Qualifier("jwtSecretKey") final Key secret,
-            final JwtProperties properties) {
-        final JwtTokenProvider provider;
+    @Bean("tokenDecoder")
+    public TokenDecoder<JwtTokenData> getTokenDecoder(final JwtProperties properties) {
+        final SecretKey key;
 
-        log.info("Using secured token provider", properties.getValidity());
-        provider = new JwtTokenProvider(secret);
+        key = Keys.hmacShaKeyFor(properties.getSecret()
+            .getBytes(StandardCharsets.UTF_8));
+        return new JwtTokenDataDecoder(key);
+    }
+
+    /**
+     * Returns the token encoder.
+     *
+     * @param properties
+     *            JWT configuration properties
+     * @return the token encoder
+     */
+    @Bean("tokenEncoder")
+    public TokenEncoder<String> getTokenEncoder(final JwtProperties properties) {
+        final JwtSubjectTokenEncoder encoder;
+        final Integer                validity;
+        final SecretKey              key;
+
+        key = Keys.hmacShaKeyFor(properties.getSecret()
+            .getBytes(StandardCharsets.UTF_8));
+
+        if (properties.getValidity() != null) {
+            validity = properties.getValidity();
+            log.info("Tokens will have {} seconds of validity", validity);
+        } else {
+            validity = 3600;
+            log.info("No validity defined for tokens. Using default of {} seconds of validity", validity);
+        }
+
+        encoder = new JwtSubjectTokenEncoder(key, properties.getValidity());
 
         if (properties.getId() != null) {
             log.info("Tokens will use id {}", properties.getId());
-            provider.setId(properties.getId());
-        }
-        if (properties.getValidity() != null) {
-            log.info("Tokens will have {} seconds of validity", properties.getValidity());
-            provider.setValidity(properties.getValidity());
+            encoder.setId(properties.getId());
         }
 
-        return provider;
+        return encoder;
+    }
+
+    /**
+     * Returns the token validator.
+     *
+     * @param decoder
+     *            token decoder
+     * @return the token validator
+     */
+    @Bean("tokenValidator")
+    public JwtTokenValidator getTokenValidator(final TokenDecoder<JwtTokenData> decoder) {
+        return new JwtTokenValidator(decoder);
     }
 
 }

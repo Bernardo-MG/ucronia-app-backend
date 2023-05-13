@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.transaction.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +41,7 @@ import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.service.TransactionService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**

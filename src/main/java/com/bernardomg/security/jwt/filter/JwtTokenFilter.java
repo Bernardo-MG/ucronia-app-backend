@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,6 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,8 +38,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.jwt.token.JwtTokenData;
+import com.bernardomg.security.token.TokenDecoder;
+import com.bernardomg.security.token.TokenValidator;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -59,17 +60,22 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * Token header identifier. This is added before the token to tell which kind of token it is.
      */
-    private final String             tokenHeaderIdentifier = "Bearer";
+    private static final String              TOKEN_HEADER_IDENTIFIER = "Bearer";
+
+    /**
+     * Token decoder. Required to acquire the subject.
+     */
+    private final TokenDecoder<JwtTokenData> tokenDataDecoder;
 
     /**
      * Token validator.
      */
-    private final TokenValidator     tokenValidator;
+    private final TokenValidator             tokenValidator;
 
     /**
      * User details service. Gives access to the user, to validate the token against it.
      */
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsService         userDetailsService;
 
     /**
      * Constructs a filter with the received arguments.
@@ -78,12 +84,16 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            user details service
      * @param validator
      *            token validator
+     * @param decoder
+     *            token decoder
      */
-    public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator) {
+    public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
+            final TokenDecoder<JwtTokenData> decoder) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);
         tokenValidator = Objects.requireNonNull(validator);
+        tokenDataDecoder = Objects.requireNonNull(decoder);
 
         // TODO: Test this class
     }
@@ -117,7 +127,8 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      * @return the subject from the token if found, or an empty {@code Optional} otherwise
      */
     private final Optional<String> getSubject(final String token) {
-        return Optional.ofNullable(tokenValidator.getSubject(token));
+        return Optional.ofNullable(tokenDataDecoder.decode(token)
+            .getSubject());
     }
 
     /**
@@ -132,16 +143,21 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         final Optional<String> token;
 
         header = request.getHeader("Authorization");
-        if ((!Strings.isEmpty(header)) && (header.trim()
-            .startsWith(tokenHeaderIdentifier + " "))) {
-            // Token received
-            // Take it by removing the identifier
-            token = Optional.of(header.substring(tokenHeaderIdentifier.length())
-                .trim());
-        } else {
+
+        if (header == null) {
             // No token received
             token = Optional.empty();
-            log.warn("Authorization header '{}' has an invalid structure, can't return token", header);
+            log.warn("Missing authorization header, can't return token", header);
+        } else if ((!Strings.isEmpty(header)) && (header.trim()
+            .startsWith(TOKEN_HEADER_IDENTIFIER + " "))) {
+            // Token received
+            // Take it by removing the identifier
+            token = Optional.of(header.substring(TOKEN_HEADER_IDENTIFIER.length())
+                .trim());
+        } else {
+            // Invalid token received
+            token = Optional.empty();
+            log.warn("Authorization header has an invalid structure, can't return token");
         }
 
         return token;
@@ -171,7 +187,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
 
         if (token.isEmpty()) {
             // Missing header
-            log.debug("Missing authorization header");
+            log.debug("Missing authorization token");
         } else if (!tokenValidator.hasExpired(token.get())) {
             // Token not expired
             // Will load a new authentication from the token

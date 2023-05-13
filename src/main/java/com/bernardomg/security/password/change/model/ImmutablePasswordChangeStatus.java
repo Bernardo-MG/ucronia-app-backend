@@ -24,10 +24,9 @@
 
 package com.bernardomg.security.password.change.model;
 
-import javax.validation.constraints.NotNull;
-
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**

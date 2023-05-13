@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.password.recovery.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +36,7 @@ import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.model.DtoToken;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**

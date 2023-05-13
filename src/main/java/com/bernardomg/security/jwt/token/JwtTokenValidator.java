@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,15 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.token.provider;
+package com.bernardomg.security.jwt.token;
 
-import java.security.Key;
 import java.util.Date;
 import java.util.Objects;
-import java.util.function.Function;
 
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.token.TokenDecoder;
+import com.bernardomg.security.token.TokenValidator;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -47,35 +43,20 @@ import lombok.extern.slf4j.Slf4j;
 public final class JwtTokenValidator implements TokenValidator {
 
     /**
-     * JWT parser for reading tokens.
+     * Token decoder. Without this the token claims can't be validated.
      */
-    private final JwtParser parser;
+    private final TokenDecoder<JwtTokenData> tokenDataDecoder;
 
     /**
      * Constructs a validator with the received arguments.
      *
-     * @param key
-     *            key used when generating tokens
+     * @param decoder
+     *            token decoder for reading the token claims
      */
-    public JwtTokenValidator(final Key key) {
+    public JwtTokenValidator(final TokenDecoder<JwtTokenData> decoder) {
         super();
 
-        Objects.requireNonNull(key);
-
-        parser = Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build();
-    }
-
-    @Override
-    public final String getSubject(final String token) {
-        final String subject;
-
-        subject = getClaim(token, Claims::getSubject);
-
-        log.debug("Found subject {}", subject);
-
-        return subject;
+        tokenDataDecoder = Objects.requireNonNull(decoder);
     }
 
     @Override
@@ -85,48 +66,22 @@ public final class JwtTokenValidator implements TokenValidator {
         Boolean    expired;
 
         try {
-            expiration = getClaim(token, Claims::getExpiration);
+            // Acquire expiration claim
+            expiration = tokenDataDecoder.decode(token)
+                .getExpiration();
 
+            // Compare expiration to current date
             current = new Date();
             expired = expiration.before(current);
 
-            log.debug("Token expires on {}, and the current date is {}. Expired? {}", expiration, current, expired);
+            log.debug("Token expires on {}, and the current date is {}. Expired: {}", expiration, current, expired);
         } catch (final ExpiredJwtException e) {
+            // Token parsing failed due to expiration date
             log.debug(e.getLocalizedMessage());
             expired = true;
         }
 
         return expired;
-    }
-
-    /**
-     * Returns all claims from the token.
-     *
-     * @param token
-     *            token to parse
-     * @return all the claims from the token
-     */
-    private final Claims getAllClaims(final String token) {
-        return parser.parseClaimsJws(token)
-            .getBody();
-    }
-
-    /**
-     * Returns a claim from the token, defined through the claim resolver.
-     *
-     * @param <T>
-     *            type of the claim
-     * @param token
-     *            token to parse
-     * @param resolver
-     *            claim resolver
-     * @return the claim from the token and resolver
-     */
-    private final <T> T getClaim(final String token, final Function<Claims, T> resolver) {
-        final Claims claims;
-
-        claims = getAllClaims(token);
-        return resolver.apply(claims);
     }
 
 }

@@ -24,20 +24,23 @@
 
 package com.bernardomg.security.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.bernardomg.security.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
+import com.bernardomg.security.jwt.token.JwtTokenData;
+import com.bernardomg.security.token.TokenDecoder;
+import com.bernardomg.security.token.TokenValidator;
 
 /**
  * Web security configuration.
@@ -50,75 +53,88 @@ import com.bernardomg.security.token.provider.TokenValidator;
 public class WebSecurityConfig {
 
     /**
-     * Authentication entry point.
+     * Default constructor.
      */
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-
-    /**
-     * JWT token validator.
-     */
-    @Autowired
-    private TokenValidator           tokenValidator;
-
-    /**
-     * User details service.
-     */
-    @Autowired
-    private UserDetailsService       userDetailsService;
-
     public WebSecurityConfig() {
         super();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
-        final Customizer<ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry> authorizeRequestsCustomizer;
+    /**
+     * Web security filter chain. Sets up all the authentication requirements for requests.
+     *
+     * @param http
+     *            HTTP security component
+     * @param decoder
+     *            token decoder
+     * @param tokenValidator
+     *            token validator
+     * @param userDetailsService
+     *            user details service
+     * @return web security filter chain with all authentication requirements
+     * @throws Exception
+     *             if the setup fails
+     */
+    @Bean("webSecurityFilterChain")
+    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
+            final TokenDecoder<JwtTokenData> decoder, final TokenValidator tokenValidator,
+            final UserDetailsService userDetailsService) throws Exception {
+        final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> authorizeRequestsCustomizer;
+        final Customizer<FormLoginConfigurer<HttpSecurity>>                                                        formLoginCustomizer;
+        final Customizer<LogoutConfigurer<HttpSecurity>>                                                           logoutCustomizer;
 
-        // Authorization
-        authorizeRequestsCustomizer = c -> {
-            c.antMatchers("/actuator/**", "/login/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+        // Request authorisations
+        authorizeRequestsCustomizer = getAuthorizeRequestsCustomizer();
 
+        // Login form
+        // Disabled
+        formLoginCustomizer = c -> c.disable();
+
+        // Logout form
+        // Disabled
+        logoutCustomizer = c -> c.disable();
+
+        http.csrf()
+            .disable()
+            .cors()
+            .and()
+            .authorizeHttpRequests(authorizeRequestsCustomizer)
+            .formLogin(formLoginCustomizer)
+            .logout(logoutCustomizer);
+
+        http.userDetailsService(userDetailsService);
+
+        // Applies JWT configuration
+        http.apply(new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder));
+
+        return http.build();
+    }
+
+    /**
+     * Returns the request authorisation configuration.
+     *
+     * @return the request authorisation configuration
+     */
+    private final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>
+            getAuthorizeRequestsCustomizer() {
+        return c -> {
             try {
-                c.and()
+                c.requestMatchers("/actuator/**", "/token/**", "/login/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    // Authentication error handling
+                    .and()
                     .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint);
+                    .authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint())
+                    // Stateless
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             } catch (final Exception e) {
                 // TODO Handle exception
                 throw new RuntimeException(e);
             }
         };
-
-        http
-            // Disable CSRF
-            .csrf()
-            .disable()
-            // Enable CORS
-            .cors()
-            // Stateless sessions
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            // Autorization
-            .and()
-            .authorizeRequests(authorizeRequestsCustomizer)
-            // Disable login form
-            .formLogin()
-            .disable()
-            // Disable logout form
-            .logout()
-            .disable();
-
-        // User details service
-        http.userDetailsService(userDetailsService);
-
-        // Applies JWT configuration
-        http.apply(new JwtSecurityConfigurer(userDetailsService, tokenValidator));
-
-        return http.build();
     }
 
 }
