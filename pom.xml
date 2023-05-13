@@ -170,6 +170,10 @@
 
    <properties>
       <!-- ============================================== -->
+      <!-- ================ JAVA VERSION ================ -->
+      <!-- ============================================== -->
+      <java.version>17</java.version>
+      <!-- ============================================== -->
       <!-- =============== MANIFEST DATA ================ -->
       <!-- ============================================== -->
       <manifest.name>com/bernardomg/association-app-backend</manifest.name>
@@ -177,8 +181,6 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <apache.commons.collections.version>4.4</apache.commons.collections.version>
-      <jackson.version>2.13.4.20221013</jackson.version>
-      <junit.jupiter.version>5.9.1</junit.jupiter.version>
       <jjwt.version>0.11.5</jjwt.version>
       <micrometer.version>1.10.6</micrometer.version>
       <spring.boot.version>3.0.5</spring.boot.version>
@@ -197,11 +199,7 @@
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
-      <site.skin.version>2.3.1</site.skin.version>
-      <mavenURL>http://mvnrepository.com/artifact/${project.groupId}/${project.artifactId}</mavenURL>
-      <githubArtifactURL>
-         <![CDATA[https://github.com/bernardo-mg?tab=packages&amp;repo_name={project.artifactId}]]>
-      </githubArtifactURL>
+      <site.skin.version>2.3.2</site.skin.version>
    </properties>
 
    <!-- ********************************************** -->
@@ -231,22 +229,6 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-bom</artifactId>
             <version>${spring.data.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <!-- Jackson BOM -->
-            <groupId>com.fasterxml.jackson</groupId>
-            <artifactId>jackson-bom</artifactId>
-            <version>${jackson.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <!-- JUnit BOM -->
-            <groupId>org.junit</groupId>
-            <artifactId>junit-bom</artifactId>
-            <version>${junit.jupiter.version}</version>
             <type>pom</type>
             <scope>import</scope>
          </dependency>
