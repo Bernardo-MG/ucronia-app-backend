@@ -53,9 +53,9 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Returns all the entities after a date")
+    @DisplayName("Filters by end date and returns all the entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_AfterDate_Count() {
+    public void testGetAll_EndDate_Count() {
         final Iterable<? extends MemberFee> result;
         final DtoFeeRequest                 sample;
         final Pageable                      pageable;
@@ -65,96 +65,18 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 2, 1);
-        sample.setStartDate(date);
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertEquals(4, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns all the entities data after a date")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_AfterDate_Data() {
-        final Iterator<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-        MemberFee                           data;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoFeeRequest();
-
-        date = new GregorianCalendar(2020, 2, 1);
-        sample.setStartDate(date);
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(2, data.getMemberId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(3, data.getMemberId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(4, data.getMemberId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(5, data.getMemberId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertFalse(data.getPaid());
-    }
-
-    @Test
-    @DisplayName("Returns all the entities before a date")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_BeforeDate_Count() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoFeeRequest();
-
-        date = new GregorianCalendar(2020, 2, 1);
+        date = new GregorianCalendar(2020, 1, 1);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(2, IterableUtils.size(result));
+        Assertions.assertEquals(1, IterableUtils.size(result));
     }
 
     @Test
-    @DisplayName("Returns all the entities data before a date")
+    @DisplayName("Filters by end date and returns all the data")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_BeforeDate_Data() {
+    public void testGetAll_EndDate_Data() {
         final Iterator<? extends MemberFee> result;
         final DtoFeeRequest                 sample;
         final Pageable                      pageable;
@@ -165,7 +87,7 @@ public class ITFeeServiceGetAllFilter {
 
         sample = new DtoFeeRequest();
 
-        date = new GregorianCalendar(2020, 2, 1);
+        date = new GregorianCalendar(2020, 1, 1);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable)
@@ -179,19 +101,31 @@ public class ITFeeServiceGetAllFilter {
         Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
             .getTime());
         Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(2, data.getMemberId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
     }
 
     @Test
-    @DisplayName("Returns all the entities in a date")
+    @DisplayName("When filtering by a end date which includes no fee nothing is returned")
+    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    public void testGetAll_EndDate_NotInRange() {
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoFeeRequest();
+
+        date = new GregorianCalendar(2020, 0, 1);
+        sample.setEndDate(date);
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Filters by date and returns all the entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_Count() {
         final Iterable<? extends MemberFee> result;
@@ -212,7 +146,7 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Returns all the entities data in a date")
+    @DisplayName("Filters by date and returns all the data")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_Data() {
         final Iterator<? extends MemberFee> result;
@@ -242,9 +176,10 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Returns all the entities data for the first day of the year")
+    @DisplayName("When filtering by the first day of the year only that day is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_FirstDay_Data() {
+        final Iterable<? extends MemberFee> read;
         final Iterator<? extends MemberFee> result;
         final DtoFeeRequest                 sample;
         final Pageable                      pageable;
@@ -258,8 +193,10 @@ public class ITFeeServiceGetAllFilter {
         date = new GregorianCalendar(2020, 0, 1);
         sample.setDate(date);
 
-        result = service.getAll(sample, pageable)
-            .iterator();
+        read = service.getAll(sample, pageable);
+        result = read.iterator();
+
+        Assertions.assertEquals(1, IterableUtils.size(read));
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
@@ -272,9 +209,10 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Returns all the entities data for the last day of the year")
+    @DisplayName("When filtering by the last day of the year only that day is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_LastDay_Data() {
+        final Iterable<? extends MemberFee> read;
         final Iterator<? extends MemberFee> result;
         final DtoFeeRequest                 sample;
         final Pageable                      pageable;
@@ -288,8 +226,10 @@ public class ITFeeServiceGetAllFilter {
         date = new GregorianCalendar(2020, 11, 1);
         sample.setDate(date);
 
-        result = service.getAll(sample, pageable)
-            .iterator();
+        read = service.getAll(sample, pageable);
+        result = read.iterator();
+
+        Assertions.assertEquals(1, IterableUtils.size(read));
 
         data = result.next();
         Assertions.assertNotNull(data.getId());
@@ -299,6 +239,99 @@ public class ITFeeServiceGetAllFilter {
         Assertions.assertEquals(new GregorianCalendar(2020, 11, 1).getTime(), data.getDate()
             .getTime());
         Assertions.assertTrue(data.getPaid());
+    }
+
+    @Test
+    @DisplayName("When filtering by a not existing date nothing is returned")
+    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    public void testGetAll_InDate_NotExisting() {
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoFeeRequest();
+
+        date = new GregorianCalendar(2020, 10, 1);
+        sample.setDate(date);
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Filters by start date and returns all the entities")
+    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    public void testGetAll_StartDate_Count() {
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoFeeRequest();
+
+        date = new GregorianCalendar(2020, 5, 1);
+        sample.setStartDate(date);
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(1, IterableUtils.size(result));
+    }
+
+    @Test
+    @DisplayName("Filters by start date and returns all the data")
+    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    public void testGetAll_StartDate_Data() {
+        final Iterator<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+        MemberFee                           data;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoFeeRequest();
+
+        date = new GregorianCalendar(2020, 5, 1);
+        sample.setStartDate(date);
+
+        result = service.getAll(sample, pageable)
+            .iterator();
+
+        data = result.next();
+        Assertions.assertNotNull(data.getId());
+        Assertions.assertEquals(5, data.getMemberId());
+        Assertions.assertEquals("Member 5", data.getName());
+        Assertions.assertEquals("Surname 5", data.getSurname());
+        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), data.getDate()
+            .getTime());
+        Assertions.assertFalse(data.getPaid());
+    }
+
+    @Test
+    @DisplayName("When filtering by a start date which includes no fee nothing is returned")
+    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    public void testGetAll_StartDate_NotInRange() {
+        final Iterable<? extends MemberFee> result;
+        final DtoFeeRequest                 sample;
+        final Pageable                      pageable;
+        final Calendar                      date;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoFeeRequest();
+
+        date = new GregorianCalendar(2020, 6, 1);
+        sample.setStartDate(date);
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertEquals(0, IterableUtils.size(result));
     }
 
 }
