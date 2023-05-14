@@ -52,17 +52,15 @@ public final class PersistentTokenProcessor implements TokenProcessor {
     @Override
     public final Optional<Token> decode(final String token) {
         final Token  parsedToken;
-        final String subject;
 
         if (tokenRepository.existsByToken(token)) {
             parsedToken = tokenService.verifyToken(token);
-            subject = parsedToken.getExtendedInformation();
         } else {
             log.warn("Token not registered: {}", token);
             parsedToken = null;
         }
 
-        return Optional.of(parsedToken);
+        return Optional.ofNullable(parsedToken);
     }
 
     @Override

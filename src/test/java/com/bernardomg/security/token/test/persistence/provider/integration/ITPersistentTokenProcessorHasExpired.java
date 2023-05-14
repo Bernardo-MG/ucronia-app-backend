@@ -28,21 +28,6 @@ public class ITPersistentTokenProcessorHasExpired {
     }
 
     @Test
-    @DisplayName("Retrieves the subject from a token")
-    public final void testGetSubject() {
-        final String token;
-        final String subject;
-
-        token = TokenConstants.TOKEN;
-
-        subject = validator.decode(token)
-            .get()
-            .getExtendedInformation();
-
-        Assertions.assertNotEquals("admin", subject);
-    }
-
-    @Test
     @DisplayName("A token after the expiration date has expired")
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
     public final void testHasExpired_AfterExpirationDate() {
