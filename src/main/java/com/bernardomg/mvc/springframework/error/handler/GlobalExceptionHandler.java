@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -45,6 +47,7 @@ import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,22 +68,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles authentication and authorisation exceptions.
-     *
-     * @param ex
-     *            exception to handle
-     * @param request
-     *            request
-     * @return unauthorized response
-     */
-    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
-    public final ResponseEntity<Object> handleAuthException(final Exception ex, final WebRequest request) {
-        log.error(ex.getMessage(), ex);
-
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    /**
      * Handles unmapped exceptions.
      *
      * @param ex
@@ -91,9 +78,49 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler({ RuntimeException.class })
     public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request) {
-        log.error(ex.getMessage(), ex);
+        final ErrorResponse response;
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        log.warn(ex.getMessage(), ex);
+
+        response = Response.error("Internal error");
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ DataAccessException.class, PropertyReferenceException.class })
+    public final ResponseEntity<Object> handlePersistenceException(final Exception ex, final WebRequest request)
+            throws Exception {
+        final ErrorResponse response;
+
+        log.warn(ex.getMessage(), ex);
+
+        response = Response.error("Invalid query");
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
+    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
+            throws Exception {
+        final ErrorResponse response;
+
+        log.warn(ex.getMessage(), ex);
+
+        response = Response.error("Unauthorized");
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({ FieldFailureException.class })
+    public final ResponseEntity<Object> handleValidationException(final FieldFailureException ex,
+            final WebRequest request) throws Exception {
+        final FailureResponse response;
+
+        log.warn(ex.getMessage(), ex);
+
+        response = Response.failure(ex.getFailures());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
