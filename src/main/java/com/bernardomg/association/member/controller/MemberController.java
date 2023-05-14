@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.member.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +40,7 @@ import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**

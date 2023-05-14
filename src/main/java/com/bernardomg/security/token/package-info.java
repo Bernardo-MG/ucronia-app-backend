@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,32 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.token.provider;
-
 /**
- * Token validator.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Components for encoding and decoding tokens.
  */
-public interface TokenValidator {
 
-    /**
-     * Returns the subject from the received token.
-     *
-     * @param token
-     *            to parse and extract the subject
-     * @return subject from the token
-     */
-    public String getSubject(final String token);
-
-    /**
-     * Check if the token has expired.
-     *
-     * @param token
-     *            token to validate
-     * @return {@code true} if the token has expired, {@code false} otherwise
-     */
-    public Boolean hasExpired(final String token);
-
-}
+package com.bernardomg.security.token;

@@ -120,7 +120,10 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             log.warn("Token {} has expired", token);
             successful = false;
         } else {
-            username = tokenProcessor.getSubject(token);
+            // TODO: Check the optional is not empty
+            username = tokenProcessor.decode(token)
+                .get()
+                .getExtendedInformation();
             user = repository.findOneByUsername(username);
 
             if (user.isPresent()) {

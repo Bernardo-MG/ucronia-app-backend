@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,40 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.data.persistence.model;
-
-import java.io.Serializable;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
-import lombok.Data;
+package com.bernardomg.security.token;
 
 /**
- * Dto implementation of {@code Action}.
+ * Creates a token from the provided object.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param <T>
+ *            type to encode
  */
-@Data
-@Entity(name = "UserRoles")
-@Table(name = "user_roles")
-@IdClass(UserRolesKey.class)
-public class PersistentUserRoles implements Serializable {
+public interface TokenEncoder<T> {
 
     /**
-     * Serialization id.
+     * Returns a token encoding the data.
+     *
+     * @param data
+     *            data to encode into the token
+     * @return token from the data
      */
-    private static final long serialVersionUID = 8513041662486312372L;
-
-    @Id
-    @Column(name = "role_id", nullable = false, unique = true)
-    private Long              roleId;
-
-    @Id
-    @Column(name = "user_id", nullable = false, unique = true)
-    private Long              userId;
+    public String encode(final T data);
 
 }

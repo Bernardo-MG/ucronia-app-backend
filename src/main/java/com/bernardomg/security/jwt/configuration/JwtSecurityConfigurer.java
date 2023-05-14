@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,9 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.bernardomg.security.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.token.provider.TokenValidator;
+import com.bernardomg.security.jwt.token.JwtTokenData;
+import com.bernardomg.security.token.TokenDecoder;
+import com.bernardomg.security.token.TokenValidator;
 
 /**
  * JWT security configurar. Applies JWT configuration to the Spring web configuration.
@@ -53,11 +55,14 @@ public final class JwtSecurityConfigurer extends SecurityConfigurerAdapter<Defau
      *            user details service to use
      * @param tokenValidator
      *            token validator to use
+     * @param decoder
+     *            token decoder to use
      */
-    public JwtSecurityConfigurer(final UserDetailsService userDetService, final TokenValidator tokenValidator) {
+    public JwtSecurityConfigurer(final UserDetailsService userDetService, final TokenValidator tokenValidator,
+            final TokenDecoder<JwtTokenData> decoder) {
         super();
 
-        tokenFilter = new JwtTokenFilter(userDetService, tokenValidator);
+        tokenFilter = new JwtTokenFilter(userDetService, tokenValidator, decoder);
     }
 
     @Override

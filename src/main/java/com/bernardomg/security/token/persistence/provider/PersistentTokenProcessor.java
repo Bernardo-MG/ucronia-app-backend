@@ -15,7 +15,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PersistentTokenProcessor implements TokenProcessor {
+public final class PersistentTokenProcessor implements TokenProcessor {
 
     private final TokenRepository tokenRepository;
 
@@ -50,6 +50,20 @@ public class PersistentTokenProcessor implements TokenProcessor {
     }
 
     @Override
+    public final Optional<Token> decode(final String token) {
+        final Token parsedToken;
+
+        if (tokenRepository.existsByToken(token)) {
+            parsedToken = tokenService.verifyToken(token);
+        } else {
+            log.warn("Token not registered: {}", token);
+            parsedToken = null;
+        }
+
+        return Optional.ofNullable(parsedToken);
+    }
+
+    @Override
     public final String generateToken(final String subject) {
         final PersistentToken token;
         final Calendar        expiration;
@@ -69,22 +83,6 @@ public class PersistentTokenProcessor implements TokenProcessor {
         tokenRepository.save(token);
 
         return uniqueID;
-    }
-
-    @Override
-    public final String getSubject(final String token) {
-        final Token  parsedToken;
-        final String subject;
-
-        if (tokenRepository.existsByToken(token)) {
-            parsedToken = tokenService.verifyToken(token);
-            subject = parsedToken.getExtendedInformation();
-        } else {
-            log.warn("Token not registered: {}", token);
-            subject = "";
-        }
-
-        return subject;
     }
 
     @Override

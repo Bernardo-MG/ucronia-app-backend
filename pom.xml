@@ -170,6 +170,10 @@
 
    <properties>
       <!-- ============================================== -->
+      <!-- ================ JAVA VERSION ================ -->
+      <!-- ============================================== -->
+      <java.version>17</java.version>
+      <!-- ============================================== -->
       <!-- =============== MANIFEST DATA ================ -->
       <!-- ============================================== -->
       <manifest.name>com/bernardomg/association-app-backend</manifest.name>
@@ -177,12 +181,11 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <apache.commons.collections.version>4.4</apache.commons.collections.version>
-      <jackson.version>2.13.4.20221013</jackson.version>
-      <junit.jupiter.version>5.9.1</junit.jupiter.version>
       <jjwt.version>0.11.5</jjwt.version>
-      <spring.boot.version>2.7.4</spring.boot.version>
-      <spring.data.version>2021.2.5</spring.data.version>
-      <spring.version>5.3.23</spring.version>
+      <micrometer.version>1.10.6</micrometer.version>
+      <spring.boot.version>3.0.5</spring.boot.version>
+      <spring.data.version>2023.0.0</spring.data.version>
+      <spring.version>6.0.8</spring.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -196,11 +199,7 @@
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
-      <site.skin.version>2.3.1</site.skin.version>
-      <mavenURL>http://mvnrepository.com/artifact/${project.groupId}/${project.artifactId}</mavenURL>
-      <githubArtifactURL>
-         <![CDATA[https://github.com/bernardo-mg?tab=packages&amp;repo_name={project.artifactId}]]>
-      </githubArtifactURL>
+      <site.skin.version>2.3.2</site.skin.version>
    </properties>
 
    <!-- ********************************************** -->
@@ -230,22 +229,6 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-bom</artifactId>
             <version>${spring.data.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <!-- Jackson BOM -->
-            <groupId>com.fasterxml.jackson</groupId>
-            <artifactId>jackson-bom</artifactId>
-            <version>${jackson.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <!-- JUnit BOM -->
-            <groupId>org.junit</groupId>
-            <artifactId>junit-bom</artifactId>
-            <version>${junit.jupiter.version}</version>
             <type>pom</type>
             <scope>import</scope>
          </dependency>
@@ -387,21 +370,16 @@
       <!-- ============================================== -->
       <dependency>
          <!-- JPA API -->
-         <groupId>javax.persistence</groupId>
-         <artifactId>javax.persistence-api</artifactId>
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ HIBERNATE =================== -->
       <!-- ============================================== -->
       <dependency>
          <!-- Hibernate Core -->
-         <groupId>org.hibernate</groupId>
+         <groupId>org.hibernate.orm</groupId>
          <artifactId>hibernate-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Hibernate Ehcache -->
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-ehcache</artifactId>
       </dependency>
       <dependency>
          <!-- Hikari CP -->
@@ -409,6 +387,7 @@
          <artifactId>HikariCP</artifactId>
          <exclusions>
             <exclusion>
+               <!-- SL4J API -->
                <groupId>org.slf4j</groupId>
                <artifactId>slf4j-api</artifactId>
             </exclusion>
@@ -437,20 +416,11 @@
          <artifactId>postgresql</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================ SERVLET ===================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Servlet API -->
-         <groupId>javax.servlet</groupId>
-         <artifactId>javax.servlet-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== MAIL ====================== -->
       <!-- ============================================== -->
       <dependency>
-         <groupId>javax.mail</groupId>
-         <artifactId>javax.mail-api</artifactId>
+         <groupId>jakarta.mail</groupId>
+         <artifactId>jakarta.mail-api</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOMBOK ==================== -->
@@ -522,6 +492,21 @@
          <!-- Byte Buddy -->
          <groupId>net.bytebuddy</groupId>
          <artifactId>byte-buddy</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ========== DEPENDENCY CONVERGENCE ============ -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Micrometer Commons -->
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-commons</artifactId>
+         <version>${micrometer.version}</version>
+      </dependency>
+      <dependency>
+         <!-- Micrometer Observation -->
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-observation</artifactId>
+         <version>${micrometer.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
