@@ -58,13 +58,13 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Returns a false flag when deleting an invalid id")
+    @DisplayName("Returns a true flag when deleting an invalid id")
     public void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
         deleted = service.delete(-1L);
 
-        Assertions.assertFalse(deleted);
+        Assertions.assertTrue(deleted);
     }
 
     @Test

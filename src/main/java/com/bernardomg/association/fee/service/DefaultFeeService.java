@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -66,17 +65,9 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
     public final Boolean delete(final Long id) {
-        Boolean deleted;
+        repository.deleteById(id);
 
-        try {
-            repository.deleteById(id);
-            deleted = true;
-        } catch (final EmptyResultDataAccessException e) {
-            log.error("Tried to delete id {}, which doesn't exist", id);
-            deleted = false;
-        }
-
-        return deleted;
+        return true;
     }
 
     @Override

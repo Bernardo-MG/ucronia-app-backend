@@ -3,7 +3,6 @@ package com.bernardomg.association.member.service;
 
 import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,19 +54,11 @@ public final class DefaultMemberService implements MemberService {
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
     public final Boolean delete(final Long id) {
-        Boolean deleted;
-
         // TODO: Handle deleting related data
 
-        try {
-            repository.deleteById(id);
-            deleted = true;
-        } catch (final EmptyResultDataAccessException e) {
-            log.error("Tried to delete id {}, which doesn't exist", id);
-            deleted = false;
-        }
+        repository.deleteById(id);
 
-        return deleted;
+        return true;
     }
 
     @Override

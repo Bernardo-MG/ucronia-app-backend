@@ -4,7 +4,6 @@ package com.bernardomg.association.transaction.service;
 import java.util.Calendar;
 import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -54,17 +53,9 @@ public final class DefaultTransactionService implements TransactionService {
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
     public final Boolean delete(final Long id) {
-        Boolean deleted;
+        repository.deleteById(id);
 
-        try {
-            repository.deleteById(id);
-            deleted = true;
-        } catch (final EmptyResultDataAccessException e) {
-            log.error("Tried to delete id {}, which doesn't exist", id);
-            deleted = false;
-        }
-
-        return deleted;
+        return true;
     }
 
     @Override
