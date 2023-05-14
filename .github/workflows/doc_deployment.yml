@@ -11,10 +11,9 @@ jobs:
     name: Deploy docs for develop
     uses: Bernardo-MG/github-workflow-maven/.github/workflows/deploy_site.yml@v1
     with:
-      jdk: 17
-    with:
       branch: develop
       host: docs.bernardomg.com
+      jdk: 17
     secrets:
       url: ${{ secrets.DEPLOY_DOCS_DEVELOP_SITE }}
       username: ${{ secrets.DEPLOY_DOCS_DEVELOP_USER }}
@@ -24,10 +23,9 @@ jobs:
     name: Deploy docs for master
     uses: Bernardo-MG/github-workflow-maven/.github/workflows/deploy_site.yml@v1
     with:
-      jdk: 17
-    with:
       branch: master
       host: docs.bernardomg.com
+      jdk: 17
     secrets:
       url: ${{ secrets.DEPLOY_DOCS_SITE }}
       username: ${{ secrets.DEPLOY_DOCS_USER }}
