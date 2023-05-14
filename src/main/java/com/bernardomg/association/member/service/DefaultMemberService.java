@@ -16,7 +16,6 @@ import com.bernardomg.association.member.model.PersistentMember;
 import com.bernardomg.association.member.repository.MemberRepository;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the member service.
@@ -26,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @AllArgsConstructor
-@Slf4j
 public final class DefaultMemberService implements MemberService {
 
     /**

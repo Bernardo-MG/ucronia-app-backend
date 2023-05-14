@@ -21,7 +21,6 @@ import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.bernardomg.association.transaction.repository.TransactionSpecifications;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the transaction service.
@@ -31,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @AllArgsConstructor
-@Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
     private final TransactionRepository repository;
