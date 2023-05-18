@@ -29,16 +29,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.data.controller.model.DtoCreateRoleForm;
-import com.bernardomg.security.data.controller.model.DtoUpdateRoleForm;
-import com.bernardomg.security.data.model.DtoRole;
-import com.bernardomg.security.data.model.Role;
+import com.bernardomg.security.data.controller.model.DtoPermissionForm;
+import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -53,36 +50,25 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/role")
 @AllArgsConstructor
-public class RoleController {
+public class RolePermissionController {
 
     private final RoleService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role create(@Valid @RequestBody final DtoCreateRoleForm form) {
-        return service.create(form);
+    @PutMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean addPermission(@PathVariable("id") final Long id,
+            @Valid @RequestBody final DtoPermissionForm permission) {
+        return service.addPermission(id, permission.getResource(), permission.getAction());
     }
 
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean delete(@PathVariable("id") final Long id) {
-        return service.delete(id);
+    @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<? extends Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
+        return service.getPermission(id, pageable);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Role> readAll(final DtoRole role, final Pageable pageable) {
-        return service.getAll(role, pageable);
-    }
-
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role readOne(@PathVariable("id") final Long id) {
-        return service.getOne(id)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUpdateRoleForm form) {
-        form.setId(id);
-
-        return service.update(form);
+    @DeleteMapping(path = "/{id}/permission/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean removePermission(@PathVariable("id") final Long id, @PathVariable("resource") final Long resource,
+            @PathVariable("action") final Long action) {
+        return service.removePermission(id, resource, action);
     }
 
 }
