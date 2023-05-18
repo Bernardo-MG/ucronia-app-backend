@@ -17,7 +17,7 @@ RUN mvn clean package -DskipTests
 # -----------------------------------------------------------------------------
 # DEPLOYMENT STAGE
 # -----------------------------------------------------------------------------
-FROM openjdk:14-alpine as deployment
+FROM openjdk:17-alpine as deployment
 
 WORKDIR /app
 
