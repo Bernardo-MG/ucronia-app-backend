@@ -57,7 +57,7 @@ public class RolePermissionController {
     @PutMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean addPermission(@PathVariable("id") final Long id,
             @Valid @RequestBody final DtoPermissionForm permission) {
-        return service.addPermission(id, permission.getResource(), permission.getAction());
+        return service.addPermission(id, permission.getResourceId(), permission.getActionId());
     }
 
     @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)

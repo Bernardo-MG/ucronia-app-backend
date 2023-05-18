@@ -8,9 +8,9 @@ import lombok.Data;
 public final class DtoPermissionForm {
 
     @NotNull
-    private Long action;
+    private Long actionId;
 
     @NotNull
-    private Long resource;
+    private Long resourceId;
 
 }
