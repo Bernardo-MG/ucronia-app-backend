@@ -1,10 +1,7 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
-import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
-
-import javax.crypto.SecretKey;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,10 +11,9 @@ import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
+import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;
-
-import io.jsonwebtoken.security.Keys;
 
 @DisplayName("JwtSubjectTokenEncoder - has expired")
 public class TestJwtSubjectTokenEncoderHasExpired {
@@ -29,15 +25,10 @@ public class TestJwtSubjectTokenEncoderHasExpired {
     public TestJwtSubjectTokenEncoderHasExpired() {
         super();
 
-        final SecretKey                  key;
         final TokenDecoder<JwtTokenData> decoder;
 
-        key = Keys.hmacShaKeyFor(
-            "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-                .getBytes(Charset.forName("UTF-8")));
-
-        encoder = new JwtSubjectTokenEncoder(key, 5);
-        decoder = new JwtTokenDataDecoder(key);
+        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, 5);
+        decoder = new JwtTokenDataDecoder(TokenConstants.KEY);
         validator = new JwtTokenValidator(decoder);
     }
 

@@ -45,10 +45,11 @@ public class PersistenceExceptionTestController {
     @GetMapping(path = "/property_reference", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> propertyReferenceException() {
         final TypeInformation<String> info;
-        
+
         info = Mockito.mock(TypeInformation.class);
-        Mockito.when(info.getType()).thenReturn(String.class);
-        
+        Mockito.when(info.getType())
+            .thenReturn(String.class);
+
         throw new PropertyReferenceException("property", info, Collections.emptyList());
     }
 

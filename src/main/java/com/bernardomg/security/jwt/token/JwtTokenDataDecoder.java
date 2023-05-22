@@ -60,9 +60,13 @@ public final class JwtTokenDataDecoder implements TokenDecoder<JwtTokenData> {
             .getBody();
 
         return ImmutableJwtTokenData.builder()
+            .withId(claims.getId())
             .withSubject(claims.getSubject())
+            .withAudience(claims.getAudience())
+            .withIssuer(claims.getIssuer())
             .withIssuedAt(claims.getIssuedAt())
             .withExpiration(claims.getExpiration())
+            .withNotBefore(claims.getNotBefore())
             .build();
     }
 

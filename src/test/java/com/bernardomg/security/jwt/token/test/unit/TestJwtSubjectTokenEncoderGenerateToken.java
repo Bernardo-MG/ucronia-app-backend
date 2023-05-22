@@ -1,18 +1,13 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
-import java.nio.charset.Charset;
-
-import javax.crypto.SecretKey;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
+import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenEncoder;
-
-import io.jsonwebtoken.security.Keys;
 
 @DisplayName("JwtSubjectTokenEncoder - generate token")
 public class TestJwtSubjectTokenEncoderGenerateToken {
@@ -22,13 +17,7 @@ public class TestJwtSubjectTokenEncoderGenerateToken {
     public TestJwtSubjectTokenEncoderGenerateToken() {
         super();
 
-        final SecretKey key;
-
-        key = Keys.hmacShaKeyFor(
-            "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-                .getBytes(Charset.forName("UTF-8")));
-
-        encoder = new JwtSubjectTokenEncoder(key, 1);
+        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, 1);
     }
 
     @Test

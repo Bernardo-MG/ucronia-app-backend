@@ -1,22 +1,24 @@
 
 package com.bernardomg.security.login.service;
 
+import java.util.Objects;
+
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.token.provider.TokenProvider;
+import com.bernardomg.security.token.TokenEncoder;
 
 public final class TokenLoginStatusProvider implements LoginStatusProvider {
 
     /**
-     * Token provider, creates authentication tokens.
+     * Token encoder for creating authentication tokens.
      */
-    private final TokenProvider tokenProvider;
+    private final TokenEncoder<String> tokenEncoder;
 
-    public TokenLoginStatusProvider(final TokenProvider tokenProv) {
+    public TokenLoginStatusProvider(final TokenEncoder<String> encoder) {
         super();
 
-        tokenProvider = tokenProv;
+        tokenEncoder = Objects.requireNonNull(encoder);
     }
 
     @Override
@@ -25,7 +27,7 @@ public final class TokenLoginStatusProvider implements LoginStatusProvider {
         final String      token;
 
         if (logged) {
-            token = tokenProvider.generateToken(username);
+            token = tokenEncoder.encode(username);
             status = new ImmutableTokenLoginStatus(username, logged, token);
         } else {
             status = new ImmutableLoginStatus(username, logged);

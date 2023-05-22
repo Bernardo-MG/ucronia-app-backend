@@ -12,6 +12,11 @@ import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.DefaultLoginService;
+import com.bernardomg.security.test.constant.TokenConstants;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
 
 @IntegrationTest
 @DisplayName("SpringSecurityLoginService")
@@ -178,6 +183,34 @@ public class ITSpringSecurityLoginService {
         Assertions.assertEquals("admin", status.getUsername());
         Assertions.assertFalse(((TokenLoginStatus) status).getToken()
             .isBlank());
+    }
+
+    @Test
+    @DisplayName("On a succesful login returns a valid JWT token")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_Valid_JwtToken() {
+        final LoginStatus status;
+        final DtoLogin    login;
+        final JwtParser   parser;
+        final Claims      claims;
+
+        login = new DtoLogin();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        parser = Jwts.parserBuilder()
+            .setSigningKey(TokenConstants.KEY)
+            .build();
+
+        claims = parser.parseClaimsJws(((TokenLoginStatus) status).getToken())
+            .getBody();
+
+        Assertions.assertEquals("association", claims.getId());
     }
 
     @Test
