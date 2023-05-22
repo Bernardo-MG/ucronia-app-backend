@@ -42,11 +42,6 @@ import lombok.Data;
 public final class JwtProperties {
 
     /**
-     * JWT token id.
-     */
-    private String  id;
-
-    /**
      * Secret seed for generating JWT tokens.
      */
     @NotNull

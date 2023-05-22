@@ -86,9 +86,8 @@ public class JwtConfig {
      */
     @Bean("tokenEncoder")
     public TokenEncoder<String> getTokenEncoder(final JwtProperties properties) {
-        final JwtSubjectTokenEncoder encoder;
-        final Integer                validity;
-        final SecretKey              key;
+        final Integer   validity;
+        final SecretKey key;
 
         key = Keys.hmacShaKeyFor(properties.getSecret()
             .getBytes(StandardCharsets.UTF_8));
@@ -101,14 +100,7 @@ public class JwtConfig {
             log.info("No validity defined for tokens. Using default of {} seconds of validity", validity);
         }
 
-        encoder = new JwtSubjectTokenEncoder(key, validity);
-
-        if (properties.getId() != null) {
-            log.info("Tokens will use id {}", properties.getId());
-            encoder.setId(properties.getId());
-        }
-
-        return encoder;
+        return new JwtSubjectTokenEncoder(key, validity);
     }
 
     /**

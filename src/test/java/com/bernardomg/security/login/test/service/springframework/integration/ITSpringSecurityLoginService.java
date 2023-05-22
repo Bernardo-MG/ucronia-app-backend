@@ -210,7 +210,7 @@ public class ITSpringSecurityLoginService {
         claims = parser.parseClaimsJws(((TokenLoginStatus) status).getToken())
             .getBody();
 
-        Assertions.assertEquals("association", claims.getId());
+        Assertions.assertEquals("admin", claims.getSubject());
     }
 
     @Test
