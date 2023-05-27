@@ -7,7 +7,9 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,10 @@ import com.bernardomg.association.fee.model.FeeForm;
 import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.PersistentFee;
+import com.bernardomg.association.fee.model.PersistentMemberFee;
 import com.bernardomg.association.fee.repository.FeeRepository;
+import com.bernardomg.association.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.repository.MemberFeeSpecifications;
 import com.bernardomg.association.member.repository.MemberRepository;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -35,9 +40,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final MemberRepository memberRepository;
+    private final FeeRepository       feeRepository;
 
-    private final FeeRepository    repository;
+    private final MemberFeeRepository memberFeeRepository;
+
+    private final MemberRepository    memberRepository;
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
@@ -57,7 +64,7 @@ public final class DefaultFeeService implements FeeService {
         entity = toEntity(form);
         entity.setId(null);
 
-        created = repository.save(entity);
+        created = feeRepository.save(entity);
 
         return toDto(created);
     }
@@ -65,7 +72,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
     public final Boolean delete(final Long id) {
-        repository.deleteById(id);
+        feeRepository.deleteById(id);
 
         return true;
     }
@@ -73,41 +80,34 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
     public final Iterable<MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
-        final Iterable<MemberFee> read;
+        final Page<PersistentMemberFee>                    page;
+        final Optional<Specification<PersistentMemberFee>> spec;
         // TODO: Test repository
         // TODO: Test reading with no name or surname
 
-        if (request.getDate() != null) {
-            read = repository.findAllWithMemberByDate(request.getDate(), pageable);
-        } else if ((request.getStartDate() != null) || (request.getEndDate() != null)) {
-            if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-                read = repository.findAllWithMemberInRange(request.getStartDate(), request.getEndDate(), pageable);
-            } else if (request.getEndDate() != null) {
-                read = repository.findAllWithMemberBefore(request.getEndDate(), pageable);
-            } else {
-                read = repository.findAllWithMemberAfter(request.getStartDate(), pageable);
-            }
+        spec = MemberFeeSpecifications.fromRequest(request);
+
+        if (spec.isEmpty()) {
+            page = memberFeeRepository.findAll(pageable);
         } else {
-            read = repository.findAllWithMember(pageable);
+            page = memberFeeRepository.findAll(spec.get(), pageable);
         }
 
-        return read;
+        return page.map(this::toDto);
     }
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
     public final Optional<MemberFee> getOne(final Long id) {
-        final Optional<MemberFee> found;
-        final Optional<MemberFee> result;
-        final MemberFee           data;
+        final Optional<PersistentMemberFee> found;
+        final Optional<MemberFee>           result;
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        found = repository.findOneByIdWithMember(id);
+        found = memberFeeRepository.findById(id);
 
         if (found.isPresent()) {
-            data = found.get();
-            result = Optional.of(data);
+            result = found.map(this::toDto);
         } else {
             result = Optional.empty();
         }
@@ -133,7 +133,7 @@ public final class DefaultFeeService implements FeeService {
         entity = toEntity(form);
         entity.setId(id);
 
-        created = repository.save(entity);
+        created = feeRepository.save(entity);
         return toDto(created);
     }
 
@@ -162,6 +162,27 @@ public final class DefaultFeeService implements FeeService {
         data.setMemberId(entity.getMemberId());
         data.setDate(date);
         data.setPaid(entity.getPaid());
+
+        return data;
+    }
+
+    private final MemberFee toDto(final PersistentMemberFee entity) {
+        final DtoMemberFee data;
+        final Calendar     date;
+
+        if (entity.getDate() != null) {
+            date = removeDay(entity.getDate());
+        } else {
+            date = null;
+        }
+
+        data = new DtoMemberFee();
+        data.setId(entity.getId());
+        data.setMemberId(entity.getMemberId());
+        data.setDate(date);
+        data.setPaid(entity.getPaid());
+        data.setName(entity.getName());
+        data.setSurname(entity.getSurname());
 
         return data;
     }

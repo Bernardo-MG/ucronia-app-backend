@@ -62,17 +62,7 @@ public final class DefaultTransactionService implements TransactionService {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
-        if (request.getDate() != null) {
-            spec = Optional.of(TransactionSpecifications.on(request.getDate()));
-        } else if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(TransactionSpecifications.between(request.getStartDate(), request.getEndDate()));
-        } else if (request.getStartDate() != null) {
-            spec = Optional.of(TransactionSpecifications.after(request.getStartDate()));
-        } else if (request.getEndDate() != null) {
-            spec = Optional.of(TransactionSpecifications.before(request.getEndDate()));
-        } else {
-            spec = Optional.empty();
-        }
+        spec = TransactionSpecifications.fromRequest(request);
 
         if (spec.isEmpty()) {
             page = repository.findAll(pageable);
