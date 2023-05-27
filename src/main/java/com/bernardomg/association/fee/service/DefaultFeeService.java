@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeCreationRequest;
 import com.bernardomg.association.fee.model.request.FeeQueryRequest;
@@ -148,8 +148,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final MemberFee toDto(final PersistentFee entity) {
-        final DtoMemberFee data;
-        final Calendar     date;
+        final Calendar           date;
 
         if (entity.getDate() != null) {
             date = removeDay(entity.getDate());
@@ -157,18 +156,16 @@ public final class DefaultFeeService implements FeeService {
             date = null;
         }
 
-        data = new DtoMemberFee();
-        data.setId(entity.getId());
-        data.setMemberId(entity.getMemberId());
-        data.setDate(date);
-        data.setPaid(entity.getPaid());
-
-        return data;
+        return ImmutableMemberFee.builder()
+            .id(entity.getId())
+            .memberId(entity.getMemberId())
+            .date(date)
+            .paid(entity.getPaid())
+            .build();
     }
 
     private final MemberFee toDto(final PersistentMemberFee entity) {
-        final DtoMemberFee data;
-        final Calendar     date;
+        final Calendar           date;
 
         if (entity.getDate() != null) {
             date = removeDay(entity.getDate());
@@ -176,15 +173,14 @@ public final class DefaultFeeService implements FeeService {
             date = null;
         }
 
-        data = new DtoMemberFee();
-        data.setId(entity.getId());
-        data.setMemberId(entity.getMemberId());
-        data.setDate(date);
-        data.setPaid(entity.getPaid());
-        data.setName(entity.getName());
-        data.setSurname(entity.getSurname());
-
-        return data;
+        return ImmutableMemberFee.builder()
+            .id(entity.getId())
+            .memberId(entity.getMemberId())
+            .date(date)
+            .paid(entity.getPaid())
+            .name(entity.getName())
+            .surname(entity.getSurname())
+            .build();
     }
 
     private final PersistentFee toEntity(final FeeCreationRequest data) {

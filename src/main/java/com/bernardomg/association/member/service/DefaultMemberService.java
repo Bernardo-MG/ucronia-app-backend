@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.member.model.DtoMember;
+import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberCreationRequest;
 import com.bernardomg.association.member.model.request.MemberQueryRequest;
@@ -103,17 +103,14 @@ public final class DefaultMemberService implements MemberService {
     }
 
     private final Member toDto(final PersistentMember entity) {
-        final DtoMember data;
-
-        data = new DtoMember();
-        data.setId(entity.getId());
-        data.setName(entity.getName());
-        data.setSurname(entity.getSurname());
-        data.setIdentifier(entity.getIdentifier());
-        data.setPhone(entity.getPhone());
-        data.setActive(entity.getActive());
-
-        return data;
+        return ImmutableMember.builder()
+            .id(entity.getId())
+            .name(entity.getName())
+            .surname(entity.getSurname())
+            .identifier(entity.getIdentifier())
+            .phone(entity.getPhone())
+            .active(entity.getActive())
+            .build();
     }
 
     private final PersistentMember toEntity(final MemberCreationRequest data) {

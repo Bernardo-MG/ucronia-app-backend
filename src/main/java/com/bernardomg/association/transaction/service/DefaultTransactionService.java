@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
@@ -127,15 +127,12 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     private final Transaction toDto(final PersistentTransaction transaction) {
-        final DtoTransaction result;
-
-        result = new DtoTransaction();
-        result.setId(transaction.getId());
-        result.setDescription(transaction.getDescription());
-        result.setDate(transaction.getDate());
-        result.setAmount(transaction.getAmount());
-
-        return result;
+        return ImmutableTransaction.builder()
+            .id(transaction.getId())
+            .description(transaction.getDescription())
+            .date(transaction.getDate())
+            .amount(transaction.getAmount())
+            .build();
     }
 
     private final PersistentTransaction toEntity(final TransactionCreationQuery transaction) {
