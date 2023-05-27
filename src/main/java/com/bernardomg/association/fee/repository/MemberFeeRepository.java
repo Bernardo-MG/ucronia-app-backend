@@ -25,9 +25,11 @@
 package com.bernardomg.association.fee.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.bernardomg.association.fee.model.PersistentFee;
+import com.bernardomg.association.fee.model.PersistentMemberFee;
 
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+public interface MemberFeeRepository
+        extends JpaRepository<PersistentMemberFee, Long>, JpaSpecificationExecutor<PersistentMemberFee> {
 
 }

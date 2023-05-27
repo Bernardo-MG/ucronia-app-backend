@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: members
+      id: balance
       author: Bernardo
       changes:
         - createTable:
@@ -71,3 +71,11 @@ databaseChangeLog:
             constraintName: fees_unique_date
             tableName: fees
             columnNames: 'member_id, date'
+  - changeSet:
+      id: balance_views
+      author: Bernardo
+      changes:
+        -  createView:  
+            remarks: Fees joined with their members
+            selectQuery: SELECT f.id AS id, m.id AS member_id, m.name AS name, m.surname AS surname, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id
+            viewName: member_fees

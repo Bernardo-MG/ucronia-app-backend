@@ -1,30 +1,30 @@
 
-package com.bernardomg.association.transaction.repository;
+package com.bernardomg.association.fee.repository;
 
 import java.util.Calendar;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.model.PersistentTransaction;
-import com.bernardomg.association.transaction.model.TransactionRequest;
+import com.bernardomg.association.fee.model.FeeRequest;
+import com.bernardomg.association.fee.model.PersistentMemberFee;
 
-public final class TransactionSpecifications {
+public final class MemberFeeSpecifications {
 
-    public static Specification<PersistentTransaction> after(final Calendar date) {
+    public static Specification<PersistentMemberFee> after(final Calendar date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentTransaction> before(final Calendar date) {
+    public static Specification<PersistentMemberFee> before(final Calendar date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentTransaction> between(final Calendar start, final Calendar end) {
+    public static Specification<PersistentMemberFee> between(final Calendar start, final Calendar end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<PersistentTransaction>> fromRequest(final TransactionRequest request) {
-        final Optional<Specification<PersistentTransaction>> spec;
+    public static Optional<Specification<PersistentMemberFee>> fromRequest(final FeeRequest request) {
+        final Optional<Specification<PersistentMemberFee>> spec;
 
         if (request.getDate() != null) {
             spec = Optional.of(on(request.getDate()));
@@ -41,11 +41,11 @@ public final class TransactionSpecifications {
         return spec;
     }
 
-    public static Specification<PersistentTransaction> on(final Calendar date) {
+    public static Specification<PersistentMemberFee> on(final Calendar date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 
-    private TransactionSpecifications() {
+    private MemberFeeSpecifications() {
         super();
     }
 
