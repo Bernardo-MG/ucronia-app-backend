@@ -33,70 +33,61 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.factory.ModelFactory;
+import com.bernardomg.association.transaction.repository.TransactionRepository;
 
 @IntegrationTest
-@DisplayName("Balance service - get balance")
-public class ITBalanceServiceGetBalance {
+@DisplayName("Balance service - get balance with decimals")
+public class ITBalanceServiceGetBalanceDecimal {
 
     @Autowired
-    private BalanceService service;
+    private TransactionRepository repository;
 
-    public ITBalanceServiceGetBalance() {
+    @Autowired
+    private BalanceService        service;
+
+    public ITBalanceServiceGetBalanceDecimal() {
         super();
     }
 
     @Test
-    @DisplayName("Returns the expected balance when there are multiple transactions")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetBalance_Multiple() {
+    @DisplayName("Returns the expected balance when there is a decimal transaction")
+    @Sql({ "/db/queries/transaction/decimal.sql" })
+    public void testGetBalance_Decimal() {
         final Balance result;
 
         result = service.getBalance();
 
-        Assertions.assertEquals(5, result.getAmount());
+        Assertions.assertEquals(Double.valueOf(0.12345)
+            .floatValue(), result.getAmount());
     }
 
     @Test
-    @DisplayName("Returns the expected balance when there is a negative transaction")
-    @Sql({ "/db/queries/transaction/negative.sql" })
-    public void testGetBalance_Negative() {
+    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0")
+    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    public void testGetBalance_DecimalsAddUpToZero() {
         final Balance result;
 
         result = service.getBalance();
 
-        Assertions.assertEquals(-1, result.getAmount());
+        Assertions.assertEquals(Double.valueOf(0)
+            .floatValue(), result.getAmount());
     }
 
     @Test
-    @DisplayName("Returns zero when there are no transactions")
-    public void testGetBalance_NoData() {
+    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0, after being saved into the repository")
+    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    public void testGetBalance_SaveAndRead_DecimalsAddUpToZero() {
         final Balance result;
+
+        repository.save(ModelFactory.transaction(-40.8f));
+        repository.save(ModelFactory.transaction(13.6f));
+        repository.save(ModelFactory.transaction(13.6f));
+        repository.save(ModelFactory.transaction(13.6f));
 
         result = service.getBalance();
 
-        Assertions.assertEquals(0, result.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns the expected balance when there is a single transaction")
-    @Sql({ "/db/queries/transaction/single.sql" })
-    public void testGetBalance_Single() {
-        final Balance result;
-
-        result = service.getBalance();
-
-        Assertions.assertEquals(1, result.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns the expected balance when there is a variety of values in the transactions")
-    @Sql({ "/db/queries/transaction/variety.sql" })
-    public void testGetBalance_Variety() {
-        final Balance result;
-
-        result = service.getBalance();
-
-        Assertions.assertEquals(Double.valueOf(1.5)
+        Assertions.assertEquals(Double.valueOf(0)
             .floatValue(), result.getAmount());
     }
 

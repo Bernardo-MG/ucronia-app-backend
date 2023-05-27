@@ -23,7 +23,7 @@ public final class DefaultBalanceService implements BalanceService {
         final Float      readSum;
         final Float      sum;
 
-        readSum = transactionRepository.findSumAll();
+        readSum = transactionRepository.sumAll();
         if (readSum == null) {
             sum = 0F;
         } else {

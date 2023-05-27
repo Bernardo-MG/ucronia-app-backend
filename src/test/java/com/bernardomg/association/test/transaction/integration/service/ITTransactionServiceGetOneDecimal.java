@@ -22,50 +22,49 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.integration.repository;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+package com.bernardomg.association.test.transaction.integration.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.test.config.factory.ModelFactory;
+import com.bernardomg.association.transaction.model.PersistentTransaction;
+import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
-@DisplayName("Transaction repository - max date")
-public class TransactionRepositoryFindMaxDate {
+@DisplayName("Transaction service - get one with decimal values")
+public class ITTransactionServiceGetOneDecimal {
 
     @Autowired
     private TransactionRepository repository;
 
-    public TransactionRepositoryFindMaxDate() {
+    @Autowired
+    private TransactionService    service;
+
+    public ITTransactionServiceGetOneDecimal() {
         super();
     }
 
-    @Test
-    @DisplayName("Returns the max date")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
-        final Calendar result;
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("Returns the correct data when reading a decimal value")
+    public void testGetOne_Decimal(final Float amount) {
+        final Transaction           result;
+        final PersistentTransaction created;
 
-        result = repository.findMaxDate();
+        created = repository.save(ModelFactory.transaction(amount));
 
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).getTime(), result.getTime());
-    }
+        result = service.getOne(created.getId())
+            .get();
 
-    @Test
-    @DisplayName("Returns null when there is no data")
-    public void testFindSumAll_NoData() {
-        final Calendar result;
-
-        result = repository.findMaxDate();
-
-        Assertions.assertNull(result);
+        Assertions.assertEquals(amount, result.getAmount());
     }
 
 }

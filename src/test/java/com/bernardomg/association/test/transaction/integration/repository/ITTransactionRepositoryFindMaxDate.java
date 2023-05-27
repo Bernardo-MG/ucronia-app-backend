@@ -37,25 +37,25 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 
 @IntegrationTest
-@DisplayName("Transaction repository - min date")
-public class TransactionRepositoryFindMinDate {
+@DisplayName("Transaction repository - max date")
+public class ITTransactionRepositoryFindMaxDate {
 
     @Autowired
     private TransactionRepository repository;
 
-    public TransactionRepositoryFindMinDate() {
+    public ITTransactionRepositoryFindMaxDate() {
         super();
     }
 
     @Test
-    @DisplayName("Returns the min date")
+    @DisplayName("Returns the max date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
         final Calendar result;
 
-        result = repository.findMinDate();
+        result = repository.findMaxDate();
 
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1, 0, 0, 0).getTime(), result.getTime());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).getTime(), result.getTime());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class TransactionRepositoryFindMinDate {
     public void testFindSumAll_NoData() {
         final Calendar result;
 
-        result = repository.findMinDate();
+        result = repository.findMaxDate();
 
         Assertions.assertNull(result);
     }

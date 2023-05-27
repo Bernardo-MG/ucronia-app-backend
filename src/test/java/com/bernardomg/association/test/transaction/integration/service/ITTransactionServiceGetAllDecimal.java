@@ -24,25 +24,25 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import java.util.GregorianCalendar;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.model.DtoTransactionForm;
-import com.bernardomg.association.transaction.model.PersistentTransaction;
+import com.bernardomg.association.test.config.factory.ModelFactory;
+import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionRequest;
 import com.bernardomg.association.transaction.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
-@DisplayName("Transaction service - create with decimals")
-public class ITTransactionServiceCreateDecimal {
+@DisplayName("Transaction service - get all with decimal values")
+public class ITTransactionServiceGetAllDecimal {
 
     @Autowired
     private TransactionRepository repository;
@@ -50,45 +50,29 @@ public class ITTransactionServiceCreateDecimal {
     @Autowired
     private TransactionService    service;
 
-    public ITTransactionServiceCreateDecimal() {
+    public ITTransactionServiceGetAllDecimal() {
         super();
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("Persists the data with a decimal value")
-    public void testCreate_Decimal_Low_PersistedData(final Float amount) {
-        final DtoTransactionForm    transaction;
-        final PersistentTransaction entity;
+    @DisplayName("Returns a decimal transaction")
+    public void testGetOne_Decimal(final Float amount) {
+        final Transaction        result;
+        final TransactionRequest sample;
+        final Pageable           pageable;
 
-        transaction = new DtoTransactionForm();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(amount);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        pageable = Pageable.unpaged();
 
-        service.create(transaction);
-        entity = repository.findAll()
+        sample = new DtoTransactionRequest();
+
+        repository.save(ModelFactory.transaction(amount));
+
+        result = service.getAll(sample, pageable)
             .iterator()
             .next();
 
-        Assertions.assertEquals(amount, entity.getAmount());
-    }
-
-    @ParameterizedTest(name = "Amount: {0}")
-    @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("Returns the created data with a decimal value")
-    public void testCreate_Decimal_Low_ReturnedData(final Float value) {
-        final Transaction        result;
-        final DtoTransactionForm transaction;
-
-        transaction = new DtoTransactionForm();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(value);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
-
-        result = service.create(transaction);
-
-        Assertions.assertEquals(value, result.getAmount());
+        Assertions.assertEquals(amount, result.getAmount());
     }
 
 }
