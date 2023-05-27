@@ -53,31 +53,6 @@ public class ITTransactionServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns a decimal transaction")
-    @Sql({ "/db/queries/transaction/decimal.sql" })
-    public void testGetAll_Decimal() {
-        final Iterator<Transaction> result;
-        final TransactionRequest    sample;
-        final Pageable              pageable;
-        Transaction                 data;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoTransactionRequest();
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(Double.valueOf(0.12345)
-            .floatValue(), data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
-    }
-
-    @Test
     @DisplayName("Returns all the entities when reading a full year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_FullYear_Count() {

@@ -53,7 +53,7 @@ public class ITTransactionRepositorySumAllDecimal {
 
         sum = repository.sumAll();
 
-        Assertions.assertEquals(Double.valueOf(0.12345)
+        Assertions.assertEquals(Double.valueOf(0.12)
             .floatValue(), sum);
     }
 

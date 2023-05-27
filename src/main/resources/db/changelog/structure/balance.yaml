@@ -21,7 +21,7 @@ databaseChangeLog:
                   defaultValue: ''
               - column:
                   name: amount
-                  type: float
+                  type: decimal(10,2)
                   constraints:
                     nullable: false
                   defaultValueNumeric: 0

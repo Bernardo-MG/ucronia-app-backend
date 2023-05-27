@@ -58,7 +58,7 @@ public class ITBalanceServiceGetBalanceDecimal {
 
         result = service.getBalance();
 
-        Assertions.assertEquals(Double.valueOf(0.12345)
+        Assertions.assertEquals(Double.valueOf(0.12)
             .floatValue(), result.getAmount());
     }
 
