@@ -37,9 +37,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeRequest;
-import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -59,12 +59,12 @@ public class ITFeeServiceGetAllPagination {
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
         final Iterable<MemberFee> result;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         final Pageable            pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -74,14 +74,14 @@ public class ITFeeServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         final Iterator<MemberFee> data;
         final MemberFee           result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -99,14 +99,14 @@ public class ITFeeServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         final Iterator<MemberFee> data;
         final MemberFee           result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -125,12 +125,12 @@ public class ITFeeServiceGetAllPagination {
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
         final Iterable<MemberFee> result;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -141,12 +141,12 @@ public class ITFeeServiceGetAllPagination {
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
         final Iterable<MemberFee> result;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         result = service.getAll(sample, pageable);
 

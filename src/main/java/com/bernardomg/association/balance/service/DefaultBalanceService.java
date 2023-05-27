@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.model.DtoBalance;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 import lombok.AllArgsConstructor;
 

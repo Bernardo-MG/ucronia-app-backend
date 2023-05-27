@@ -37,8 +37,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -56,14 +56,14 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities after a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_AfterDate_Count() {
-        final Iterable<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
+        final Iterable<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 1, 2);
         sample.setStartDate(date);
@@ -77,15 +77,15 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data after a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_AfterDate_Data() {
-        final Iterator<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
-        Transaction                 data;
+        final Iterator<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
+        Transaction                      data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 1, 2);
         sample.setStartDate(date);
@@ -126,14 +126,14 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities before a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_BeforeDate_Count() {
-        final Iterable<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
+        final Iterable<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 1, 2);
         sample.setEndDate(date);
@@ -147,15 +147,15 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data before a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_BeforeDate_Data() {
-        final Iterator<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
-        Transaction                 data;
+        final Iterator<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
+        Transaction                      data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar();
         date.set(2020, 1, 2);
@@ -183,14 +183,14 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities in a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_InDate_Count() {
-        final Iterable<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
+        final Iterable<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 1, 2);
         sample.setDate(date);
@@ -204,15 +204,15 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data in a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_InDate_Data() {
-        final Iterator<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
-        Transaction                 data;
+        final Iterator<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
+        Transaction                      data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 1, 2);
         sample.setDate(date);
@@ -232,15 +232,15 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data for the first day of the year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_InDate_FirstDay_Data() {
-        final Iterator<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
-        Transaction                 data;
+        final Iterator<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
+        Transaction                      data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 0, 1);
         sample.setDate(date);
@@ -260,15 +260,15 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data for the last day of the year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_InDate_LastDay_Data() {
-        final Iterator<Transaction> result;
-        final DtoTransactionRequest sample;
-        final Pageable              pageable;
-        final Calendar              date;
-        Transaction                 data;
+        final Iterator<Transaction>      result;
+        final DtoTransactionQueryRequest sample;
+        final Pageable                   pageable;
+        final Calendar                   date;
+        Transaction                      data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar(2020, 11, 1);
         sample.setDate(date);

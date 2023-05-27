@@ -36,9 +36,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeRequest;
-import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -58,13 +58,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("Returns all data in ascending order by date")
     public void testGetAll_Date_Asc() {
         final Iterator<MemberFee> data;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         MemberFee                 result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -119,13 +119,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("Returns all data in descending order by date")
     public void testGetAll_Date_Desc() {
         final Iterator<MemberFee> data;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         MemberFee                 result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -180,13 +180,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("Returns all data in ascending order by name")
     public void testGetAll_Name_Asc() {
         final Iterator<MemberFee> data;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         MemberFee                 result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -241,13 +241,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("Returns all data in descending order by name")
     public void testGetAll_Name_Desc() {
         final Iterator<MemberFee> data;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         MemberFee                 result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -302,13 +302,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("Returns all data in ascending order by paid flag")
     public void testGetAll_Paid_Asc() {
         final Iterator<MemberFee> data;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         MemberFee                 result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -363,13 +363,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("Returns all data in descending order by paid flag")
     public void testGetAll_Paid_Desc() {
         final Iterator<MemberFee> data;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         MemberFee                 result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         data = service.getAll(sample, pageable)
             .iterator();

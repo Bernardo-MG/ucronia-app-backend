@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.member.model.DtoMemberForm;
-import com.bernardomg.association.member.model.MemberForm;
+import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
+import com.bernardomg.association.member.model.request.MemberCreationRequest;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.association.test.config.constant.TestUrls;
 import com.google.gson.Gson;
@@ -58,10 +58,10 @@ public final class ITMemberControllerRequestValidation {
     @Test
     @DisplayName("Creates an entity")
     public final void testPost_Full_Valid() throws Exception {
-        final ResultActions result;
-        final DtoMemberForm member;
+        final ResultActions            result;
+        final DtoMemberCreationRequest member;
 
-        member = new DtoMemberForm();
+        member = new DtoMemberCreationRequest();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -82,10 +82,10 @@ public final class ITMemberControllerRequestValidation {
     @DisplayName("Rejects an entity with no name")
     @Disabled("The model rejects this case")
     public final void testPost_NoName_Invalid() throws Exception {
-        final ResultActions result;
-        final DtoMemberForm member;
+        final ResultActions            result;
+        final DtoMemberCreationRequest member;
 
-        member = new DtoMemberForm();
+        member = new DtoMemberCreationRequest();
         member.setSurname("Surname");
         member.setPhone("12345");
         member.setIdentifier("6789");
@@ -98,7 +98,7 @@ public final class ITMemberControllerRequestValidation {
             .isBadRequest());
     }
 
-    private final RequestBuilder getPostRequest(final MemberForm member) {
+    private final RequestBuilder getPostRequest(final MemberCreationRequest member) {
         final String json;
 
         json = gson.toJson(member);

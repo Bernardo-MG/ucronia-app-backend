@@ -32,7 +32,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 @IntegrationTest
 @DisplayName("Transaction repository - sum all with decimals")

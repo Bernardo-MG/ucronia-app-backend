@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.DtoTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
-import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionForm;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.TransactionRequest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
-import com.bernardomg.association.transaction.repository.TransactionSpecifications;
+import com.bernardomg.association.transaction.model.request.TransactionCreationQuery;
+import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.persistence.repository.TransactionSpecifications;
 
 import lombok.AllArgsConstructor;
 
@@ -36,7 +36,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
-    public final Transaction create(final TransactionForm transaction) {
+    public final Transaction create(final TransactionCreationQuery transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
@@ -58,7 +58,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Iterable<Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
+    public final Iterable<Transaction> getAll(final TransactionQueryRequest request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
@@ -115,7 +115,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
-    public final Transaction update(final Long id, final TransactionForm transaction) {
+    public final Transaction update(final Long id, final TransactionCreationQuery transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
@@ -138,7 +138,7 @@ public final class DefaultTransactionService implements TransactionService {
         return result;
     }
 
-    private final PersistentTransaction toEntity(final TransactionForm transaction) {
+    private final PersistentTransaction toEntity(final TransactionCreationQuery transaction) {
         final PersistentTransaction result;
 
         result = new PersistentTransaction();

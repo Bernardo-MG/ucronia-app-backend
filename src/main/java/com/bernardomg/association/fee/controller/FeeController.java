@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.model.DtoFeeForm;
-import com.bernardomg.association.fee.model.DtoFeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 
 import jakarta.validation.Valid;
@@ -63,7 +63,7 @@ public class FeeController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberFee create(@Valid @RequestBody final DtoFeeForm fee) {
+    public MemberFee create(@Valid @RequestBody final DtoFeeCreationRequest fee) {
         return service.create(fee);
     }
 
@@ -73,7 +73,7 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<MemberFee> readAll(final DtoFeeRequest request, final Pageable pageable) {
+    public Iterable<MemberFee> readAll(final DtoFeeQueryRequest request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 
@@ -84,7 +84,7 @@ public class FeeController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberFee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeForm fee) {
+    public MemberFee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeCreationRequest fee) {
         return service.update(id, fee);
     }
 

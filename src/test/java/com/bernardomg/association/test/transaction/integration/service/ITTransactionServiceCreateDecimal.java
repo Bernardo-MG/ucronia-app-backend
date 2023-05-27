@@ -34,10 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.model.DtoTransactionForm;
-import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -58,10 +58,10 @@ public class ITTransactionServiceCreateDecimal {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("Persists the data with a decimal value")
     public void testCreate_Decimal_Low_PersistedData(final Float amount) {
-        final DtoTransactionForm    transaction;
-        final PersistentTransaction entity;
+        final DtoTransactionCreationQuery transaction;
+        final PersistentTransaction       entity;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
         transaction.setAmount(amount);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -78,10 +78,10 @@ public class ITTransactionServiceCreateDecimal {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("Returns the created data with a decimal value")
     public void testCreate_Decimal_Low_ReturnedData(final Float value) {
-        final Transaction        result;
-        final DtoTransactionForm transaction;
+        final Transaction                 result;
+        final DtoTransactionCreationQuery transaction;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
         transaction.setAmount(value);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));

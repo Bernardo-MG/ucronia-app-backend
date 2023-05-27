@@ -36,8 +36,8 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
-import com.bernardomg.association.transaction.model.TransactionRequest;
+import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -55,13 +55,13 @@ public class ITTransactionServiceGetAllError {
     @Test
     @DisplayName("Returns all data in default order when ordering by a not existing field")
     public void testGetAll_NotExisting() {
-        final TransactionRequest sample;
-        final Pageable           pageable;
-        final Executable         executable;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
+        final Executable              executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         executable = () -> service.getAll(sample, pageable)
             .iterator();

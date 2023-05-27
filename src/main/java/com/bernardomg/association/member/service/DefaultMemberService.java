@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberForm;
-import com.bernardomg.association.member.model.MemberRequest;
-import com.bernardomg.association.member.model.PersistentMember;
-import com.bernardomg.association.member.repository.MemberRepository;
+import com.bernardomg.association.member.model.request.MemberCreationRequest;
+import com.bernardomg.association.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.member.persistence.model.PersistentMember;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -34,7 +34,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:CREATE')")
-    public final Member create(final MemberForm member) {
+    public final Member create(final MemberCreationRequest member) {
         final PersistentMember entity;
         final PersistentMember created;
 
@@ -61,7 +61,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
-    public final Iterable<Member> getAll(final MemberRequest sample, final Pageable pageable) {
+    public final Iterable<Member> getAll(final MemberQueryRequest sample, final Pageable pageable) {
         final PersistentMember entity;
 
         entity = toEntity(sample);
@@ -91,7 +91,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
-    public final Member update(final Long id, final MemberForm member) {
+    public final Member update(final Long id, final MemberCreationRequest member) {
         final PersistentMember entity;
         final PersistentMember updated;
 
@@ -116,7 +116,7 @@ public final class DefaultMemberService implements MemberService {
         return data;
     }
 
-    private final PersistentMember toEntity(final MemberForm data) {
+    private final PersistentMember toEntity(final MemberCreationRequest data) {
         final PersistentMember entity;
 
         entity = new PersistentMember();
@@ -129,7 +129,7 @@ public final class DefaultMemberService implements MemberService {
         return entity;
     }
 
-    private final PersistentMember toEntity(final MemberRequest data) {
+    private final PersistentMember toEntity(final MemberQueryRequest data) {
         final PersistentMember entity;
 
         entity = new PersistentMember();

@@ -34,10 +34,10 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRequest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -58,13 +58,13 @@ public class ITTransactionServiceGetAllDecimal {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("Returns a decimal transaction")
     public void testGetOne_Decimal(final Float amount) {
-        final Transaction        result;
-        final TransactionRequest sample;
-        final Pageable           pageable;
+        final Transaction             result;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         repository.save(ModelFactory.transaction(amount));
 
