@@ -33,9 +33,9 @@ public class ITResourceServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Resource> result;
-        final DtoResource                  sample;
-        final Pageable                     pageable;
+        final Iterable<Resource> result;
+        final DtoResource        sample;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
@@ -49,10 +49,10 @@ public class ITResourceServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<? extends Resource> data;
-        final DtoResource                  sample;
-        final Pageable                     pageable;
-        final Collection<String>           names;
+        final Iterable<Resource> data;
+        final DtoResource        sample;
+        final Pageable           pageable;
+        final Collection<String> names;
 
         pageable = Pageable.unpaged();
 

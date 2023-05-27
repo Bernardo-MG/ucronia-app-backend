@@ -72,8 +72,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
-        final Iterable<? extends MemberFee> read;
+    public final Iterable<MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
+        final Iterable<MemberFee> read;
         // TODO: Test repository
         // TODO: Test reading with no name or surname
 
@@ -96,10 +96,10 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Optional<? extends MemberFee> getOne(final Long id) {
-        final Optional<MemberFee>           found;
-        final Optional<? extends MemberFee> result;
-        final MemberFee                     data;
+    public final Optional<MemberFee> getOne(final Long id) {
+        final Optional<MemberFee> found;
+        final Optional<MemberFee> result;
+        final MemberFee           data;
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname

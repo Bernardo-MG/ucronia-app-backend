@@ -33,9 +33,9 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<? extends Action> result;
-        final DtoAction                  sample;
-        final Pageable                   pageable;
+        final Iterable<Action> result;
+        final DtoAction        sample;
+        final Pageable         pageable;
 
         pageable = Pageable.ofSize(10);
 
@@ -49,10 +49,10 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final DtoAction                  sample;
-        final Iterator<? extends Action> data;
-        final Action                     result;
-        final Pageable                   pageable;
+        final DtoAction        sample;
+        final Iterator<Action> data;
+        final Action           result;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -69,10 +69,10 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final DtoAction                  sample;
-        final Iterator<? extends Action> data;
-        final Action                     result;
-        final Pageable                   pageable;
+        final DtoAction        sample;
+        final Iterator<Action> data;
+        final Action           result;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -89,9 +89,9 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final DtoAction                  sample;
-        final Iterable<? extends Action> result;
-        final Pageable                   pageable;
+        final DtoAction        sample;
+        final Iterable<Action> result;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -105,9 +105,9 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<? extends Action> result;
-        final DtoAction                  sample;
-        final Pageable                   pageable;
+        final Iterable<Action> result;
+        final DtoAction        sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 

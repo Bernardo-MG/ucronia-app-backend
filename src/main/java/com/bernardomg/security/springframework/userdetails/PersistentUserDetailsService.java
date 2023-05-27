@@ -90,9 +90,9 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
     @Override
     public final UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<PersistentUser>               user;
-        final Collection<? extends GrantedAuthority> authorities;
-        final UserDetails                            details;
+        final Optional<PersistentUser>     user;
+        final Collection<GrantedAuthority> authorities;
+        final UserDetails                  details;
 
         // TODO: Test this
 
@@ -150,8 +150,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            authorities for the user details
      * @return equivalent user details
      */
-    private final UserDetails toUserDetails(final PersistentUser user,
-            final Collection<? extends GrantedAuthority> authorities) {
+    private final UserDetails toUserDetails(final PersistentUser user, final Collection<GrantedAuthority> authorities) {
         final Boolean enabled;
         final Boolean accountNonExpired;
         final Boolean credentialsNonExpired;

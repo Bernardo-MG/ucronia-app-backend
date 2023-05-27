@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends User> readAll(final DtoUser user, final Pageable pageable) {
+    public Iterable<User> readAll(final DtoUser user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 

@@ -91,7 +91,7 @@ public class ITTransactionServiceGetOne {
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
     public void testGetOne_Existing() {
-        final Optional<? extends Transaction> result;
+        final Optional<Transaction> result;
 
         result = service.getOne(1L);
 
@@ -120,7 +120,7 @@ public class ITTransactionServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Transaction> result;
+        final Optional<Transaction> result;
 
         result = service.getOne(-1L);
 

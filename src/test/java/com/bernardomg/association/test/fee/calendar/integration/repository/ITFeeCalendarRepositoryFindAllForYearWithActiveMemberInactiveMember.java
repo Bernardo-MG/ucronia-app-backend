@@ -51,8 +51,8 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberInactiveMember
     @DisplayName("Returns no data for an inactive member")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 

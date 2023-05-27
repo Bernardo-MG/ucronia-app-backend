@@ -52,7 +52,7 @@ public class ITFeeRepositoryFindByIdWithMember {
     @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     public void testFindOneByIdWithMember_Existing() {
-        final Optional<? extends MemberFee> result;
+        final Optional<MemberFee> result;
 
         result = repository.findOneByIdWithMember(1L);
 
@@ -82,7 +82,7 @@ public class ITFeeRepositoryFindByIdWithMember {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testFindOneByIdWithMember_NotExisting() {
-        final Optional<? extends MemberFee> result;
+        final Optional<MemberFee> result;
 
         result = repository.findOneByIdWithMember(-1L);
 

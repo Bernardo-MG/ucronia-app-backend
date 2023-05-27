@@ -54,8 +54,8 @@ public class ITFeeRepositoryFindAllWithMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testFindAllWithMember_Count() {
-        final Iterable<? extends MemberFee> result;
-        final Pageable                      pageable;
+        final Iterable<MemberFee> result;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
@@ -67,9 +67,9 @@ public class ITFeeRepositoryFindAllWithMember {
     @Test
     @DisplayName("Returns all data")
     public void testFindAllWithMember_Data() {
-        final Iterator<? extends MemberFee> data;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 

@@ -35,9 +35,9 @@ public class ITRoleRepositoryFindAllPermissions {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindAllPermissions() {
-        final Iterable<? extends Permission> read;
-        final Pageable                       pageable;
-        Boolean                              found;
+        final Iterable<Permission> read;
+        final Pageable             pageable;
+        Boolean                    found;
 
         pageable = Pageable.unpaged();
 
@@ -98,9 +98,9 @@ public class ITRoleRepositoryFindAllPermissions {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindAllPermissions_Ids() {
-        final Iterable<? extends Permission> read;
-        final Pageable                       pageable;
-        Permission                           found;
+        final Iterable<Permission> read;
+        final Pageable             pageable;
+        Permission                 found;
 
         pageable = Pageable.unpaged();
 

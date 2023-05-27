@@ -55,11 +55,11 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Test
     @DisplayName("Returns all data in asscending order by name")
     public void testFindAllForYear_Asc_Name() {
-        final Iterator<? extends UserFeeCalendar> data;
-        final Sort                                sort;
-        UserFeeCalendar                           result;
-        Iterator<FeeMonth>                        months;
-        FeeMonth                                  month;
+        final Iterator<UserFeeCalendar> data;
+        final Sort                      sort;
+        UserFeeCalendar                 result;
+        Iterator<FeeMonth>              months;
+        FeeMonth                        month;
 
         sort = Sort.by(Order.asc("name"));
 
@@ -186,11 +186,11 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testFindAllForYear_Desc_Name() {
-        final Iterator<? extends UserFeeCalendar> data;
-        final Sort                                sort;
-        UserFeeCalendar                           result;
-        Iterator<FeeMonth>                        months;
-        FeeMonth                                  month;
+        final Iterator<UserFeeCalendar> data;
+        final Sort                      sort;
+        UserFeeCalendar                 result;
+        Iterator<FeeMonth>              months;
+        FeeMonth                        month;
 
         sort = Sort.by(Order.desc("name"));
 

@@ -56,10 +56,10 @@ public class ITFeeRepositoryFindAllWithMemberSort {
     @Test
     @DisplayName("Returns all data in descending order by date")
     public void testFindAllWithMember_Desc_Date() {
-        final Iterator<? extends MemberFee> data;
-        final Pageable                      pageable;
-        final Sort                          sort;
-        MemberFee                           result;
+        final Iterator<MemberFee> data;
+        final Pageable            pageable;
+        final Sort                sort;
+        MemberFee                 result;
 
         sort = Sort.by(Direction.DESC, "date");
         pageable = PageRequest.of(0, 10, sort);
@@ -116,10 +116,10 @@ public class ITFeeRepositoryFindAllWithMemberSort {
     @Test
     @DisplayName("Returns all data in descending order by member name")
     public void testFindAllWithMember_Desc_MemberName() {
-        final Iterator<? extends MemberFee> data;
-        final Pageable                      pageable;
-        final Sort                          sort;
-        MemberFee                           result;
+        final Iterator<MemberFee> data;
+        final Pageable            pageable;
+        final Sort                sort;
+        MemberFee                 result;
 
         sort = Sort.by(Direction.DESC, "name");
         pageable = PageRequest.of(0, 10, sort);

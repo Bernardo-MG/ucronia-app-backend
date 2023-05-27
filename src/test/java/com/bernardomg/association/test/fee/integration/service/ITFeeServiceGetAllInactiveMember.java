@@ -56,9 +56,9 @@ public class ITFeeServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends MemberFee> result;
-        final FeeRequest                    sample;
-        final Pageable                      pageable;
+        final Iterable<MemberFee> result;
+        final FeeRequest          sample;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
@@ -72,10 +72,10 @@ public class ITFeeServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        final MemberFee                     result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        final MemberFee           result;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 

@@ -51,7 +51,7 @@ public class ActionController {
     private final ActionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Action> readAll(final DtoAction action, final Pageable pageable) {
+    public Iterable<Action> readAll(final DtoAction action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 

@@ -56,10 +56,10 @@ public class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by active flag")
     public void testGetAll_Active_Asc() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "active");
 
@@ -112,10 +112,10 @@ public class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by active flag")
     public void testGetAll_Active_Desc() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "active");
 
@@ -168,10 +168,10 @@ public class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by name")
     public void testGetAll_Name_Asc() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
@@ -224,10 +224,10 @@ public class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testGetAll_Name_Desc() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
@@ -280,10 +280,10 @@ public class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by surname")
     public void testGetAll_Surname_Asc() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
 
@@ -336,10 +336,10 @@ public class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by surname")
     public void testGetAll_Surname_Desc() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
 

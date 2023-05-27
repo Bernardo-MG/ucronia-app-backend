@@ -29,7 +29,7 @@ public class ITUserServiceGetOne {
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends User> result;
+        final Optional<User> result;
 
         result = service.getOne(1l);
 
@@ -56,7 +56,7 @@ public class ITUserServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends User> result;
+        final Optional<User> result;
 
         result = service.getOne(-1L);
 

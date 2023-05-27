@@ -111,7 +111,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<? extends Role> getAll(final Role sample, final Pageable pageable) {
+    public final Iterable<Role> getAll(final Role sample, final Pageable pageable) {
         final PersistentRole entity;
 
         entity = toEntity(sample);
@@ -121,13 +121,13 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Optional<? extends Role> getOne(final Long id) {
+    public final Optional<Role> getOne(final Long id) {
         return roleRepository.findById(id)
             .map(this::toDto);
     }
 
     @Override
-    public final Iterable<? extends Permission> getPermission(final Long id, final Pageable pageable) {
+    public final Iterable<Permission> getPermission(final Long id, final Pageable pageable) {
         return roleRepository.findAllPermissions(id, pageable);
     }
 

@@ -48,7 +48,7 @@ public interface UserService {
      *            pagination to apply
      * @return all the users matching the sample
      */
-    public Iterable<? extends User> getAll(final User sample, final Pageable pageable);
+    public Iterable<User> getAll(final User sample, final Pageable pageable);
 
     /**
      * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -57,7 +57,7 @@ public interface UserService {
      *            id of the user to acquire
      * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends User> getOne(final Long id);
+    public Optional<User> getOne(final Long id);
 
     /**
      * Returns all the roles for the user.

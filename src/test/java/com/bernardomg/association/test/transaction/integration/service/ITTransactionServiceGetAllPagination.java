@@ -58,9 +58,9 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
+        final Iterable<Transaction> result;
+        final TransactionRequest    sample;
+        final Pageable              pageable;
 
         pageable = Pageable.ofSize(10);
 
@@ -74,10 +74,10 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final TransactionRequest              sample;
-        final Iterator<? extends Transaction> data;
-        final Transaction                     result;
-        final Pageable                        pageable;
+        final TransactionRequest    sample;
+        final Iterator<Transaction> data;
+        final Transaction           result;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -97,10 +97,10 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final TransactionRequest              sample;
-        final Iterator<? extends Transaction> data;
-        final Transaction                     result;
-        final Pageable                        pageable;
+        final TransactionRequest    sample;
+        final Iterator<Transaction> data;
+        final Transaction           result;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -120,9 +120,9 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final Iterable<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
+        final Iterable<Transaction> result;
+        final TransactionRequest    sample;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -136,9 +136,9 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
+        final Iterable<Transaction> result;
+        final TransactionRequest    sample;
+        final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 

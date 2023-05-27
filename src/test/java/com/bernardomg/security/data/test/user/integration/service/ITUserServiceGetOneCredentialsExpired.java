@@ -28,7 +28,7 @@ public class ITUserServiceGetOneCredentialsExpired {
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends User> result;
+        final Optional<User> result;
 
         result = service.getOne(1l);
 

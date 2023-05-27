@@ -42,8 +42,8 @@ public class ITUserServiceRemoveRole {
     @Test
     @DisplayName("Reading the roles after removing a role doesn't return it")
     public void testAddRoles_CallBack() {
-        final Iterable<? extends Role> result;
-        final Pageable                 pageable;
+        final Iterable<Role> result;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 

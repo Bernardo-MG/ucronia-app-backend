@@ -54,7 +54,7 @@ public class FeeCalendarController {
     private final FeeCalendarService service;
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends UserFeeCalendar> readAll(@PathVariable("year") final Integer year,
+    public Iterable<UserFeeCalendar> readAll(@PathVariable("year") final Integer year,
             final DtoFeeCalendarRequest request, final Pageable pageable) {
         // TODO: Support full pagination
         return service.getAll(year, request.getOnlyActive(), pageable.getSort());

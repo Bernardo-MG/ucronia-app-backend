@@ -31,9 +31,9 @@ public class ITRoleServiceAddPermission {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
     public void testAddPermission() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
-        final Boolean                        found;
+        final Iterable<Permission> result;
+        final Pageable             pageable;
+        final Boolean              found;
 
         pageable = Pageable.unpaged();
 
@@ -55,9 +55,9 @@ public class ITRoleServiceAddPermission {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
     public void testAddPermission_Existing() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
-        Boolean                              found;
+        final Iterable<Permission> result;
+        final Pageable             pageable;
+        Boolean                    found;
 
         pageable = Pageable.unpaged();
 

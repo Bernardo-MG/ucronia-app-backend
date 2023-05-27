@@ -28,7 +28,7 @@ public class ITActionServiceGetOne {
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends Action> result;
+        final Optional<Action> result;
 
         result = service.getOne(1l);
 
@@ -49,7 +49,7 @@ public class ITActionServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Action> result;
+        final Optional<Action> result;
 
         result = service.getOne(-1L);
 

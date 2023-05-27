@@ -50,7 +50,7 @@ public interface RoleService {
      *            pagination to apply
      * @return all the roles matching the sample
      */
-    public Iterable<? extends Role> getAll(final Role sample, final Pageable pageable);
+    public Iterable<Role> getAll(final Role sample, final Pageable pageable);
 
     /**
      * Returns the role for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -59,7 +59,7 @@ public interface RoleService {
      *            id of the role to acquire
      * @return an {@code Optional} with the role, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends Role> getOne(final Long id);
+    public Optional<Role> getOne(final Long id);
 
     /**
      * Returns all action for a role.
@@ -70,7 +70,7 @@ public interface RoleService {
      *            pagination to apply
      * @return action for the role
      */
-    public Iterable<? extends Permission> getPermission(final Long id, final Pageable pageable);
+    public Iterable<Permission> getPermission(final Long id, final Pageable pageable);
 
     /**
      * Removes a action from a role.

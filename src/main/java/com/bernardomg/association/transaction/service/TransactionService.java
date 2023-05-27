@@ -46,7 +46,7 @@ public interface TransactionService {
      *            pagination to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<? extends Transaction> getAll(final TransactionRequest request, final Pageable pageable);
+    public Iterable<Transaction> getAll(final TransactionRequest request, final Pageable pageable);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -55,7 +55,7 @@ public interface TransactionService {
      *            id of the transaction to acquire
      * @return an {@code Optional} with the transaction, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends Transaction> getOne(final Long id);
+    public Optional<Transaction> getOne(final Long id);
 
     public TransactionRange getRange();
 

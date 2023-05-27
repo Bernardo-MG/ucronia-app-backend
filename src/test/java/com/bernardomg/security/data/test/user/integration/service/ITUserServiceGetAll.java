@@ -29,9 +29,9 @@ public class ITUserServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends User> result;
-        final DtoUser                  sample;
-        final Pageable                 pageable;
+        final Iterable<User> result;
+        final DtoUser        sample;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
@@ -45,10 +45,10 @@ public class ITUserServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<? extends User> data;
-        final DtoUser                  sample;
-        final Pageable                 pageable;
-        final User                     user;
+        final Iterable<User> data;
+        final DtoUser        sample;
+        final Pageable       pageable;
+        final User           user;
 
         pageable = Pageable.unpaged();
 

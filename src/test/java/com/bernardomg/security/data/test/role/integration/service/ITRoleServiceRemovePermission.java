@@ -31,9 +31,9 @@ public class ITRoleServiceRemovePermission {
     @Test
     @DisplayName("Can remove a permission")
     public void testRemovePermission() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
-        Boolean                              found;
+        final Iterable<Permission> result;
+        final Pageable             pageable;
+        Boolean                    found;
 
         pageable = Pageable.unpaged();
 

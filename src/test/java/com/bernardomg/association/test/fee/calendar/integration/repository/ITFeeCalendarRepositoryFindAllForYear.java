@@ -54,8 +54,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -71,11 +71,11 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Data() {
-        final Iterator<? extends UserFeeCalendar> data;
-        final UserFeeCalendar                     result;
-        final Iterator<FeeMonth>                  months;
-        final Sort                                sort;
-        FeeMonth                                  month;
+        final Iterator<UserFeeCalendar> data;
+        final UserFeeCalendar           result;
+        final Iterator<FeeMonth>        months;
+        final Sort                      sort;
+        FeeMonth                        month;
 
         sort = Sort.unsorted();
 
@@ -144,8 +144,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("When there is no data it returns nothing")
     public void testFindAllForYear_NoData_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -158,8 +158,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
     public void testFindAllForYear_SingleMonth_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -175,11 +175,11 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
     public void testFindAllForYear_SingleMonth_Data() {
-        final Iterator<? extends UserFeeCalendar> data;
-        final UserFeeCalendar                     result;
-        final Iterator<FeeMonth>                  months;
-        final Sort                                sort;
-        FeeMonth                                  month;
+        final Iterator<UserFeeCalendar> data;
+        final UserFeeCalendar           result;
+        final Iterator<FeeMonth>        months;
+        final Sort                      sort;
+        FeeMonth                        month;
 
         sort = Sort.unsorted();
 
@@ -205,8 +205,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
     public void testFindAllForYear_SingleMonthUnpaid_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -222,11 +222,11 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
     public void testFindAllForYear_SingleMonthUnpaid_Data() {
-        final Iterator<? extends UserFeeCalendar> data;
-        final UserFeeCalendar                     result;
-        final Iterator<FeeMonth>                  months;
-        final Sort                                sort;
-        FeeMonth                                  month;
+        final Iterator<UserFeeCalendar> data;
+        final UserFeeCalendar           result;
+        final Iterator<FeeMonth>        months;
+        final Sort                      sort;
+        FeeMonth                        month;
 
         sort = Sort.unsorted();
 
@@ -252,8 +252,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With two connected years it returns all the entities for the first year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindAllForYear_TwoConnectedYears_First_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -306,8 +306,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With two connected years it returns all the entities for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindAllForYear_TwoConnectedYears_Second_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 

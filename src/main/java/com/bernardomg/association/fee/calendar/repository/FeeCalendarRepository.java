@@ -8,9 +8,9 @@ import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 
 public interface FeeCalendarRepository {
 
-    public Iterable<? extends UserFeeCalendar> findAllForYear(final Integer year, final Sort sort);
+    public Iterable<UserFeeCalendar> findAllForYear(final Integer year, final Sort sort);
 
-    public Iterable<? extends UserFeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort);
+    public Iterable<UserFeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort);
 
     public FeeCalendarRange findRange();
 

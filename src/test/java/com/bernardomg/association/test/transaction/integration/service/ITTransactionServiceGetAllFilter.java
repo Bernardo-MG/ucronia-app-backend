@@ -56,10 +56,10 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities after a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_AfterDate_Count() {
-        final Iterable<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
+        final Iterable<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
 
         pageable = Pageable.unpaged();
 
@@ -77,11 +77,11 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data after a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_AfterDate_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
+        Transaction                 data;
 
         pageable = Pageable.unpaged();
 
@@ -126,10 +126,10 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities before a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_BeforeDate_Count() {
-        final Iterable<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
+        final Iterable<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
 
         pageable = Pageable.unpaged();
 
@@ -147,11 +147,11 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data before a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_BeforeDate_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
+        Transaction                 data;
 
         pageable = Pageable.unpaged();
 
@@ -183,10 +183,10 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities in a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_InDate_Count() {
-        final Iterable<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
+        final Iterable<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
 
         pageable = Pageable.unpaged();
 
@@ -204,11 +204,11 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data in a date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_InDate_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
+        Transaction                 data;
 
         pageable = Pageable.unpaged();
 
@@ -232,11 +232,11 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data for the first day of the year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_InDate_FirstDay_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
+        Transaction                 data;
 
         pageable = Pageable.unpaged();
 
@@ -260,11 +260,11 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("Returns all the entities data for the last day of the year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_InDate_LastDay_Data() {
-        final Iterator<? extends Transaction> result;
-        final DtoTransactionRequest           sample;
-        final Pageable                        pageable;
-        final Calendar                        date;
-        Transaction                           data;
+        final Iterator<Transaction> result;
+        final DtoTransactionRequest sample;
+        final Pageable              pageable;
+        final Calendar              date;
+        Transaction                 data;
 
         pageable = Pageable.unpaged();
 

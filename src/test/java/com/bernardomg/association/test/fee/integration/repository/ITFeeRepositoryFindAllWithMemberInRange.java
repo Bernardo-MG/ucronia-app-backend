@@ -55,10 +55,10 @@ public class ITFeeRepositoryFindAllWithMemberInRange {
     @Test
     @DisplayName("Returns all the entities")
     public void testFindAllWithMember_Count() {
-        final Iterable<? extends MemberFee> result;
-        final Pageable                      pageable;
-        final Calendar                      start;
-        final Calendar                      end;
+        final Iterable<MemberFee> result;
+        final Pageable            pageable;
+        final Calendar            start;
+        final Calendar            end;
 
         pageable = Pageable.unpaged();
 
@@ -73,11 +73,11 @@ public class ITFeeRepositoryFindAllWithMemberInRange {
     @Test
     @DisplayName("Returns all data")
     public void testFindAllWithMember_Data() {
-        final Iterator<? extends MemberFee> data;
-        MemberFee                           result;
-        final Pageable                      pageable;
-        final Calendar                      start;
-        final Calendar                      end;
+        final Iterator<MemberFee> data;
+        MemberFee                 result;
+        final Pageable            pageable;
+        final Calendar            start;
+        final Calendar            end;
 
         pageable = Pageable.unpaged();
 
@@ -109,10 +109,10 @@ public class ITFeeRepositoryFindAllWithMemberInRange {
     @Test
     @DisplayName("Returns no data when the date doesn't exist")
     public void testFindAllWithMember_NotExisting() {
-        final Iterable<? extends MemberFee> result;
-        final Pageable                      pageable;
-        final Calendar                      start;
-        final Calendar                      end;
+        final Iterable<MemberFee> result;
+        final Pageable            pageable;
+        final Calendar            start;
+        final Calendar            end;
 
         pageable = Pageable.unpaged();
 

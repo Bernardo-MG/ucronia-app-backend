@@ -51,8 +51,8 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @DisplayName("Returns all the data for an active user")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAllActive_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -68,8 +68,8 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @DisplayName("Returns no data for an inactive user")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAllInactive_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 

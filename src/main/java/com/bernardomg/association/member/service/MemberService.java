@@ -44,7 +44,7 @@ public interface MemberService {
      *            pagination to apply
      * @return all the members matching the sample
      */
-    public Iterable<? extends Member> getAll(final MemberRequest sample, final Pageable pageable);
+    public Iterable<Member> getAll(final MemberRequest sample, final Pageable pageable);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -53,7 +53,7 @@ public interface MemberService {
      *            id of the member to acquire
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends Member> getOne(final Long id);
+    public Optional<Member> getOne(final Long id);
 
     /**
      * Updates the member for the received id with the received data.

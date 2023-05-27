@@ -61,7 +61,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
-    public final Iterable<? extends Member> getAll(final MemberRequest sample, final Pageable pageable) {
+    public final Iterable<Member> getAll(final MemberRequest sample, final Pageable pageable) {
         final PersistentMember entity;
 
         entity = toEntity(sample);
@@ -72,9 +72,9 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
-    public final Optional<? extends Member> getOne(final Long id) {
+    public final Optional<Member> getOne(final Long id) {
         final Optional<PersistentMember> found;
-        final Optional<? extends Member> result;
+        final Optional<Member>           result;
         final Member                     data;
 
         found = repository.findById(id);

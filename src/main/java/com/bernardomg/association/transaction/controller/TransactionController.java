@@ -71,7 +71,7 @@ public class TransactionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Transaction> readAll(final DtoTransactionRequest request, final Pageable pageable) {
+    public Iterable<Transaction> readAll(final DtoTransactionRequest request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 

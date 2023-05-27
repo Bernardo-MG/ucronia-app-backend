@@ -43,9 +43,9 @@ public class ITUserServiceAddRole {
     @Test
     @DisplayName("Reading the roles after adding a role returns the new role")
     public void testAddRole_CallBack() {
-        final Iterable<? extends Role> result;
-        final Role                     role;
-        final Pageable                 pageable;
+        final Iterable<Role> result;
+        final Role           role;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 

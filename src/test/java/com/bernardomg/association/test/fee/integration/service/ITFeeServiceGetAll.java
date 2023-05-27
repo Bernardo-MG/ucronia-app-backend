@@ -56,9 +56,9 @@ public class ITFeeServiceGetAll {
     @DisplayName("Returns all the entities when reading a full year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Count() {
-        final Iterable<? extends MemberFee> result;
-        final FeeRequest                    sample;
-        final Pageable                      pageable;
+        final Iterable<MemberFee> result;
+        final FeeRequest          sample;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
@@ -73,10 +73,10 @@ public class ITFeeServiceGetAll {
     @DisplayName("Returns all data when reading a full year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Data() {
-        final Iterator<? extends MemberFee> result;
-        final FeeRequest                    sample;
-        MemberFee                           data;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> result;
+        final FeeRequest          sample;
+        MemberFee                 data;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
@@ -198,9 +198,9 @@ public class ITFeeServiceGetAll {
     @DisplayName("Returns all the entities when reading multiple entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_Multiple_Count() {
-        final Iterable<? extends MemberFee> result;
-        final FeeRequest                    sample;
-        final Pageable                      pageable;
+        final Iterable<MemberFee> result;
+        final FeeRequest          sample;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
@@ -215,10 +215,10 @@ public class ITFeeServiceGetAll {
     @DisplayName("Returns all data when reading multiple entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_Multiple_Data() {
-        final Iterator<? extends MemberFee> result;
-        final FeeRequest                    sample;
-        MemberFee                           data;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> result;
+        final FeeRequest          sample;
+        MemberFee                 data;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 

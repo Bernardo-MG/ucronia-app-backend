@@ -57,10 +57,10 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by date")
     public void testGetAll_Asc_Date() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction> result;
+        final TransactionRequest    sample;
+        Transaction                 data;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
@@ -108,10 +108,10 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by description")
     public void testGetAll_Asc_Description() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction> result;
+        final TransactionRequest    sample;
+        Transaction                 data;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "description");
 
@@ -159,10 +159,10 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by date")
     public void testGetAll_Desc_Date() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction> result;
+        final TransactionRequest    sample;
+        Transaction                 data;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
@@ -210,10 +210,10 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by description")
     public void testGetAll_Desc_Description() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction> result;
+        final TransactionRequest    sample;
+        Transaction                 data;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "description");
 

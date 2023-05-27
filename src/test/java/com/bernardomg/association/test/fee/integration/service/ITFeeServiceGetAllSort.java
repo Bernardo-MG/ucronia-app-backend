@@ -57,10 +57,10 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by date")
     public void testGetAll_Date_Asc() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
@@ -118,10 +118,10 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by date")
     public void testGetAll_Date_Desc() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
@@ -179,10 +179,10 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by name")
     public void testGetAll_Name_Asc() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
@@ -240,10 +240,10 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by name")
     public void testGetAll_Name_Desc() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
@@ -301,10 +301,10 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by paid flag")
     public void testGetAll_Paid_Asc() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
 
@@ -362,10 +362,10 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by paid flag")
     public void testGetAll_Paid_Desc() {
-        final Iterator<? extends MemberFee> data;
-        final FeeRequest                    sample;
-        MemberFee                           result;
-        final Pageable                      pageable;
+        final Iterator<MemberFee> data;
+        final FeeRequest          sample;
+        MemberFee                 result;
+        final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
 

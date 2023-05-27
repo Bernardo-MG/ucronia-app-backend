@@ -33,8 +33,8 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetPermissions_Page_Container() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
+        final Iterable<Permission> result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -46,9 +46,9 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetPermissions_Page1_Data() {
-        final Iterator<? extends Permission> data;
-        final Permission                     result;
-        final Pageable                       pageable;
+        final Iterator<Permission> data;
+        final Permission           result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -63,9 +63,9 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetPermissions_Page2_Data() {
-        final Iterator<? extends Permission> data;
-        final Permission                     result;
-        final Pageable                       pageable;
+        final Iterator<Permission> data;
+        final Permission           result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -80,8 +80,8 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetPermissions_Paged_Count() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
+        final Iterable<Permission> result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -93,8 +93,8 @@ public class ITRoleServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetPermissions_Unpaged_Container() {
-        final Iterable<? extends Permission> result;
-        final Pageable                       pageable;
+        final Iterable<Permission> result;
+        final Pageable             pageable;
 
         pageable = Pageable.unpaged();
 

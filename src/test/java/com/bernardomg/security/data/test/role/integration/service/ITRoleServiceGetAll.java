@@ -29,9 +29,9 @@ public class ITRoleServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Role> result;
-        final DtoRole                  sample;
-        final Pageable                 pageable;
+        final Iterable<Role> result;
+        final DtoRole        sample;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
@@ -45,10 +45,10 @@ public class ITRoleServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<? extends Role> data;
-        final DtoRole                  sample;
-        final Pageable                 pageable;
-        final Role                     role;
+        final Iterable<Role> data;
+        final DtoRole        sample;
+        final Pageable       pageable;
+        final Role           role;
 
         pageable = Pageable.unpaged();
 

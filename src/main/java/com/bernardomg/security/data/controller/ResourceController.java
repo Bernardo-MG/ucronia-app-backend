@@ -50,7 +50,7 @@ public class ResourceController {
     private final ResourceService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Resource> readAll(final Resource action, final Pageable pageable) {
+    public Iterable<Resource> readAll(final Resource action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 

@@ -106,7 +106,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Iterable<? extends User> getAll(final User sample, final Pageable pageable) {
+    public final Iterable<User> getAll(final User sample, final Pageable pageable) {
         final PersistentUser entity;
 
         entity = toEntity(sample);
@@ -116,7 +116,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Optional<? extends User> getOne(final Long id) {
+    public final Optional<User> getOne(final Long id) {
         return userRepository.findById(id)
             .map(this::toDto);
     }

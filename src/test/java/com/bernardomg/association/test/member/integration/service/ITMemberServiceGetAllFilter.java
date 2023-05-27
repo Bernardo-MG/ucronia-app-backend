@@ -53,9 +53,9 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("Filters by active")
     public void testGetAll_Active_Count() {
-        final Iterable<? extends Member> result;
-        final DtoMemberRequest           sample;
-        final Pageable                   pageable;
+        final Iterable<Member> result;
+        final DtoMemberRequest sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
@@ -70,9 +70,9 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("Returns all the entities when not filtering")
     public void testGetAll_Count() {
-        final Iterable<? extends Member> result;
-        final MemberRequest              sample;
-        final Pageable                   pageable;
+        final Iterable<Member> result;
+        final MemberRequest    sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
@@ -86,9 +86,9 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("Filters by noy active")
     public void testGetAll_NotActive_Count() {
-        final Iterable<? extends Member> result;
-        final DtoMemberRequest           sample;
-        final Pageable                   pageable;
+        final Iterable<Member> result;
+        final DtoMemberRequest sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 

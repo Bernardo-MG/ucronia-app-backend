@@ -55,9 +55,9 @@ public class ITMemberServiceGetAllInactive {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Member> result;
-        final MemberRequest              sample;
-        final Pageable                   pageable;
+        final Iterable<Member> result;
+        final MemberRequest    sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
@@ -71,10 +71,10 @@ public class ITMemberServiceGetAllInactive {
     @Test
     @DisplayName("Returns all the entities data")
     public void testGetAll_Data() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member> result;
+        final MemberRequest    sample;
+        Member                 data;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 

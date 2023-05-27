@@ -33,9 +33,9 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<? extends Role> result;
-        final DtoRole                  sample;
-        final Pageable                 pageable;
+        final Iterable<Role> result;
+        final DtoRole        sample;
+        final Pageable       pageable;
 
         pageable = Pageable.ofSize(10);
 
@@ -49,10 +49,10 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final DtoRole                  sample;
-        final Iterator<? extends Role> data;
-        final Role                     result;
-        final Pageable                 pageable;
+        final DtoRole        sample;
+        final Iterator<Role> data;
+        final Role           result;
+        final Pageable       pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -69,9 +69,9 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final DtoRole                  sample;
-        final Iterable<? extends Role> data;
-        final Pageable                 pageable;
+        final DtoRole        sample;
+        final Iterable<Role> data;
+        final Pageable       pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -85,9 +85,9 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final DtoRole                  sample;
-        final Iterable<? extends Role> result;
-        final Pageable                 pageable;
+        final DtoRole        sample;
+        final Iterable<Role> result;
+        final Pageable       pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -101,9 +101,9 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<? extends Role> result;
-        final DtoRole                  sample;
-        final Pageable                 pageable;
+        final Iterable<Role> result;
+        final DtoRole        sample;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 

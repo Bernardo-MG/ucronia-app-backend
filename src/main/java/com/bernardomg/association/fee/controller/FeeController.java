@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.controller;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.model.DtoFeeForm;
@@ -60,6 +62,7 @@ public class FeeController {
     private final FeeService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public MemberFee create(@Valid @RequestBody final DtoFeeForm fee) {
         return service.create(fee);
     }
@@ -70,7 +73,7 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends MemberFee> readAll(final DtoFeeRequest request, final Pageable pageable) {
+    public Iterable<MemberFee> readAll(final DtoFeeRequest request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 

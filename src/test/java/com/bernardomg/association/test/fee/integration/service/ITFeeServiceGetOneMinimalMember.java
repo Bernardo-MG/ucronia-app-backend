@@ -52,7 +52,7 @@ public class ITFeeServiceGetOneMinimalMember {
     @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     public void testGetOne_Existing() {
-        final Optional<? extends MemberFee> result;
+        final Optional<MemberFee> result;
 
         result = service.getOne(1L);
 
@@ -82,7 +82,7 @@ public class ITFeeServiceGetOneMinimalMember {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends MemberFee> result;
+        final Optional<MemberFee> result;
 
         result = service.getOne(-1L);
 

@@ -58,7 +58,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Iterable<? extends Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
+    public final Iterable<Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
@@ -85,9 +85,9 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Optional<? extends Transaction> getOne(final Long id) {
+    public final Optional<Transaction> getOne(final Long id) {
         final Optional<PersistentTransaction> found;
-        final Optional<? extends Transaction> result;
+        final Optional<Transaction>           result;
         final Transaction                     data;
 
         found = repository.findById(id);

@@ -28,7 +28,7 @@ public class ITResourceServiceGetOne {
     @Test
     @DisplayName("Returns a single entity by id")
     public void testGetOne_Existing() {
-        final Optional<? extends Resource> result;
+        final Optional<Resource> result;
 
         result = service.getOne(1l);
 
@@ -49,7 +49,7 @@ public class ITResourceServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Resource> result;
+        final Optional<Resource> result;
 
         result = service.getOne(-1L);
 

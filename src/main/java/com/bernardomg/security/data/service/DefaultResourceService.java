@@ -21,7 +21,7 @@ public final class DefaultResourceService implements ResourceService {
     private final ResourceRepository repository;
 
     @Override
-    public final Iterable<? extends Resource> getAll(final Resource sample, final Pageable pageable) {
+    public final Iterable<Resource> getAll(final Resource sample, final Pageable pageable) {
         final PersistentResource entity;
 
         entity = toEntity(sample);
@@ -31,7 +31,7 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public final Optional<? extends Resource> getOne(final Long id) {
+    public final Optional<Resource> getOne(final Long id) {
         return repository.findById(id)
             .map(this::toDto);
     }

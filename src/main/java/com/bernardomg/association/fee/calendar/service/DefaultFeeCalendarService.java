@@ -19,9 +19,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Iterable<? extends UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive,
-            final Sort sort) {
-        final Iterable<? extends UserFeeCalendar> result;
+    public final Iterable<UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
+        final Iterable<UserFeeCalendar> result;
 
         if (onlyActive) {
             result = repository.findAllForYearWithActiveMember(year, sort);

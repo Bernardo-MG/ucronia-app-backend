@@ -44,7 +44,7 @@ public interface FeeService {
      *            pagination to apply
      * @return all the fees matching the sample
      */
-    public Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable);
+    public Iterable<MemberFee> getAll(final FeeRequest request, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -53,7 +53,7 @@ public interface FeeService {
      *            id of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends MemberFee> getOne(final Long id);
+    public Optional<MemberFee> getOne(final Long id);
 
     /**
      * Updates the fee for the received id with the received data.

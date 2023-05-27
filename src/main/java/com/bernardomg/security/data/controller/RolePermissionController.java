@@ -61,7 +61,7 @@ public class RolePermissionController {
     }
 
     @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
+    public Iterable<Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
         return service.getPermission(id, pageable);
     }
 

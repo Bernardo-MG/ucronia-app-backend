@@ -33,9 +33,9 @@ public class ITActionServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Action> result;
-        final DtoAction                  sample;
-        final Pageable                   pageable;
+        final Iterable<Action> result;
+        final DtoAction        sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
@@ -49,10 +49,10 @@ public class ITActionServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<? extends Action> data;
-        final DtoAction                  sample;
-        final Pageable                   pageable;
-        final Collection<String>         names;
+        final Iterable<Action>   data;
+        final DtoAction          sample;
+        final Pageable           pageable;
+        final Collection<String> names;
 
         pageable = Pageable.unpaged();
 

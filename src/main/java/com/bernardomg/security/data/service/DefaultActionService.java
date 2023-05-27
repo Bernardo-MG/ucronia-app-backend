@@ -21,7 +21,7 @@ public final class DefaultActionService implements ActionService {
     private final ActionRepository repository;
 
     @Override
-    public final Iterable<? extends Action> getAll(final Action sample, final Pageable pageable) {
+    public final Iterable<Action> getAll(final Action sample, final Pageable pageable) {
         final PersistentAction entity;
 
         entity = toEntity(sample);
@@ -31,7 +31,7 @@ public final class DefaultActionService implements ActionService {
     }
 
     @Override
-    public final Optional<? extends Action> getOne(final Long id) {
+    public final Optional<Action> getOne(final Long id) {
         return repository.findById(id)
             .map(this::toDto);
     }

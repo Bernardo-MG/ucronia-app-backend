@@ -70,7 +70,7 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<? extends Member> readAll(final DtoMemberRequest member, final Pageable pageable) {
+    public Iterable<Member> readAll(final DtoMemberRequest member, final Pageable pageable) {
         return service.getAll(member, pageable);
     }
 

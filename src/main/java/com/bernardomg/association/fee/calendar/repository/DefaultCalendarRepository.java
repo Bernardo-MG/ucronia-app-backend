@@ -45,13 +45,12 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
     private final String                      queryRangeWithActiveMember = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
 
     @Override
-    public final Iterable<? extends UserFeeCalendar> findAllForYear(final Integer year, final Sort sort) {
+    public final Iterable<UserFeeCalendar> findAllForYear(final Integer year, final Sort sort) {
         return findAllForYear(queryForYear, year, sort);
     }
 
     @Override
-    public final Iterable<? extends UserFeeCalendar> findAllForYearWithActiveMember(final Integer year,
-            final Sort sort) {
+    public final Iterable<UserFeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
         // TODO: Improve how the where is built
         return findAllForYear(queryForYear + " WHERE m.active = true", year, sort);
     }
@@ -90,8 +89,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
     }
 
-    private final Iterable<? extends UserFeeCalendar> findAllForYear(final String query, final Integer year,
-            final Sort sort) {
+    private final Iterable<UserFeeCalendar> findAllForYear(final String query, final Integer year, final Sort sort) {
         final Collection<FeeCalendarRow>      readFees;
         final Map<Long, List<FeeCalendarRow>> memberFees;
         final Collection<UserFeeCalendar>     years;

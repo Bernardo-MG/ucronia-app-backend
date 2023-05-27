@@ -56,10 +56,10 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("Filters by end date and returns all the entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_EndDate_Count() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
+        final Iterable<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
@@ -77,11 +77,11 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("Filters by end date and returns all the data")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_EndDate_Data() {
-        final Iterator<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-        MemberFee                           data;
+        final Iterator<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
+        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -107,10 +107,10 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("When filtering by a end date which includes no fee nothing is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_EndDate_NotInRange() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
+        final Iterable<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
@@ -128,10 +128,10 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("Filters by date and returns all the entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_Count() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
+        final Iterable<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
@@ -149,11 +149,11 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("Filters by date and returns all the data")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_Data() {
-        final Iterator<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-        MemberFee                           data;
+        final Iterator<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
+        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -179,12 +179,12 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("When filtering by the first day of the year only that day is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_FirstDay_Data() {
-        final Iterable<? extends MemberFee> read;
-        final Iterator<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-        MemberFee                           data;
+        final Iterable<MemberFee> read;
+        final Iterator<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
+        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -212,12 +212,12 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("When filtering by the last day of the year only that day is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_LastDay_Data() {
-        final Iterable<? extends MemberFee> read;
-        final Iterator<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-        MemberFee                           data;
+        final Iterable<MemberFee> read;
+        final Iterator<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
+        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -245,10 +245,10 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("When filtering by a not existing date nothing is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_NotExisting() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
+        final Iterable<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
@@ -266,10 +266,10 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("Filters by start date and returns all the entities")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_StartDate_Count() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
+        final Iterable<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
@@ -287,11 +287,11 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("Filters by start date and returns all the data")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_StartDate_Data() {
-        final Iterator<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
-        MemberFee                           data;
+        final Iterator<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
+        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -317,10 +317,10 @@ public class ITFeeServiceGetAllFilter {
     @DisplayName("When filtering by a start date which includes no fee nothing is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_StartDate_NotInRange() {
-        final Iterable<? extends MemberFee> result;
-        final DtoFeeRequest                 sample;
-        final Pageable                      pageable;
-        final Calendar                      date;
+        final Iterable<MemberFee> result;
+        final DtoFeeRequest       sample;
+        final Pageable            pageable;
+        final Calendar            date;
 
         pageable = Pageable.unpaged();
 

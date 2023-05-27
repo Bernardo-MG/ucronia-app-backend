@@ -53,9 +53,9 @@ public class ITFeeServiceGetAllNoFee {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends MemberFee> result;
-        final FeeRequest                    sample;
-        final Pageable                      pageable;
+        final Iterable<MemberFee> result;
+        final FeeRequest          sample;
+        final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
