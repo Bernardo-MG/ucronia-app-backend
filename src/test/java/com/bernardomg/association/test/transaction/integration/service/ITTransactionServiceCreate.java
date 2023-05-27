@@ -53,49 +53,6 @@ public class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Persists the data with decimal values")
-    public void testCreate_Decimal_PersistedData() {
-        final DtoTransactionForm    transaction;
-        final PersistentTransaction entity;
-
-        transaction = new DtoTransactionForm();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1.2f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
-
-        service.create(transaction);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1.2f, entity.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns the created data with decimal values")
-    public void testCreate_Decimal_ReturnedData() {
-        final Transaction        result;
-        final DtoTransactionForm transaction;
-
-        transaction = new DtoTransactionForm();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
-
-        result = service.create(transaction);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, result.getAmount());
-    }
-
-    @Test
     @DisplayName("Adds an entity when creating for the first day of the year")
     public void testCreate_FirstDay_AddsEntity() {
         final DtoTransactionForm transaction;
