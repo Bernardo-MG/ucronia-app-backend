@@ -66,7 +66,7 @@ public final class JwtSecurityConfigurer extends SecurityConfigurerAdapter<Defau
     }
 
     @Override
-    public void configure(final HttpSecurity http) {
+    public final void configure(final HttpSecurity http) {
         // Add a filter to validate the tokens with every request
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

@@ -182,10 +182,10 @@
       <!-- ============================================== -->
       <apache.commons.collections.version>4.4</apache.commons.collections.version>
       <jjwt.version>0.11.5</jjwt.version>
-      <micrometer.version>1.10.6</micrometer.version>
-      <spring.boot.version>3.0.5</spring.boot.version>
+      <spring.boot.version>3.1.0</spring.boot.version>
       <spring.data.version>2023.0.0</spring.data.version>
-      <spring.version>6.0.8</spring.version>
+      <spring.version>6.0.9</spring.version>
+      <snakeyaml.version>2.0</snakeyaml.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -316,6 +316,16 @@
          <!-- Spring Boot Starter: Validation -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-validation</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <!-- Spring Boot Starter: Cache -->
@@ -497,16 +507,10 @@
       <!-- ========== DEPENDENCY CONVERGENCE ============ -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Micrometer Commons -->
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-commons</artifactId>
-         <version>${micrometer.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Micrometer Observation -->
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-observation</artifactId>
-         <version>${micrometer.version}</version>
+         <!-- SnakeYAML -->
+         <groupId>org.yaml</groupId>
+         <artifactId>snakeyaml</artifactId>
+         <version>${snakeyaml.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->

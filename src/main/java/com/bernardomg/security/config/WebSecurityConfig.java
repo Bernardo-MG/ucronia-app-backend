@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,17 @@
 
 package com.bernardomg.security.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.bernardomg.security.configuration.WhitelistRequestCustomizer;
 import com.bernardomg.security.jwt.configuration.JwtSecurityConfigurer;
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.jwt.token.JwtTokenData;
@@ -78,63 +77,24 @@ public class WebSecurityConfig {
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
             final TokenDecoder<JwtTokenData> decoder, final TokenValidator tokenValidator,
             final UserDetailsService userDetailsService) throws Exception {
-        final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> authorizeRequestsCustomizer;
-        final Customizer<FormLoginConfigurer<HttpSecurity>>                                                        formLoginCustomizer;
-        final Customizer<LogoutConfigurer<HttpSecurity>>                                                           logoutCustomizer;
 
-        // Request authorisations
-        authorizeRequestsCustomizer = getAuthorizeRequestsCustomizer();
+        http
+            // Whitelist access
+            .authorizeHttpRequests(new WhitelistRequestCustomizer(Arrays.asList("/actuator/**", "/login/**")))
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> {})
+            // Authentication error handling
+            .exceptionHandling(handler -> handler.authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint()))
+            // Stateless
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // Disable login and logout forms
+            .formLogin(c -> c.disable())
+            .logout(c -> c.disable());
 
-        // Login form
-        // Disabled
-        formLoginCustomizer = c -> c.disable();
-
-        // Logout form
-        // Disabled
-        logoutCustomizer = c -> c.disable();
-
-        http.csrf()
-            .disable()
-            .cors()
-            .and()
-            .authorizeHttpRequests(authorizeRequestsCustomizer)
-            .formLogin(formLoginCustomizer)
-            .logout(logoutCustomizer);
-
-        http.userDetailsService(userDetailsService);
-
-        // Applies JWT configuration
+        // JWT configuration
         http.apply(new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder));
 
         return http.build();
-    }
-
-    /**
-     * Returns the request authorisation configuration.
-     *
-     * @return the request authorisation configuration
-     */
-    private final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>
-            getAuthorizeRequestsCustomizer() {
-        return c -> {
-            try {
-                c.requestMatchers("/actuator/**", "/token/**", "/login/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    // Authentication error handling
-                    .and()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint())
-                    // Stateless
-                    .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-            } catch (final Exception e) {
-                // TODO Handle exception
-                throw new RuntimeException(e);
-            }
-        };
     }
 
 }
