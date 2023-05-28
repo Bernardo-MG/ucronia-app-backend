@@ -30,10 +30,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.permission.service.DefaultPermissionService;
 import com.bernardomg.security.permission.service.PermissionService;
 import com.bernardomg.security.permission.service.SpringValidUserPredicate;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
  * Security configuration.

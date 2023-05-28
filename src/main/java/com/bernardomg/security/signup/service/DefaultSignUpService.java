@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.failure.Failure;

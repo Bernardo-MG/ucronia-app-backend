@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.data.model.Permission;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
+import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.NonNull;
 

@@ -25,10 +25,10 @@
 package com.bernardomg.security.springframework.userdetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,8 +37,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,9 +90,9 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
     @Override
     public final UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<PersistentUser>     user;
-        final Collection<GrantedAuthority> authorities;
-        final UserDetails                  details;
+        final Optional<PersistentUser>               user;
+        final Collection<? extends GrantedAuthority> authorities;
+        final UserDetails                            details;
 
         // TODO: Test this
 
@@ -130,15 +130,14 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            id of the user
      * @return all the authorities for the user
      */
-    private final Collection<GrantedAuthority> getAuthorities(final Long id) {
-        // TODO: Tests than no duplicate action is returned
-        // TODO: Increase isolation from the action repository
+    private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
+        // TODO: Test that no duplicate permission is returned
         return userRepo.findPermissions(id)
             .stream()
             .map(p -> p.getResource() + ":" + p.getAction())
             .distinct()
             .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     /**
@@ -150,7 +149,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            authorities for the user details
      * @return equivalent user details
      */
-    private final UserDetails toUserDetails(final PersistentUser user, final Collection<GrantedAuthority> authorities) {
+    private final UserDetails toUserDetails(final PersistentUser user,
+            final Collection<? extends GrantedAuthority> authorities) {
         final Boolean enabled;
         final Boolean accountNonExpired;
         final Boolean credentialsNonExpired;

@@ -18,12 +18,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.token.provider.TokenProcessor;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
 public class TestSpringSecurityPasswordRecoveryServiceStartEmail {

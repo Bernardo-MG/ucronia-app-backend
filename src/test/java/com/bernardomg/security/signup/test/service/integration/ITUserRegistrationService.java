@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.DtoSignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
 import com.bernardomg.security.signup.service.SignUpService;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService")
