@@ -110,7 +110,12 @@ public final class DefaultTransactionService implements TransactionService {
         endMonth = max.get(Calendar.MONTH);
         endYear = max.get(Calendar.YEAR);
 
-        return new ImmutableTransactionRange(startMonth, startYear, endMonth, endYear);
+        return ImmutableTransactionRange.builder()
+            .startMonth(startMonth)
+            .endMonth(endMonth)
+            .startYear(startYear)
+            .endYear(endYear)
+            .build();
     }
 
     @Override

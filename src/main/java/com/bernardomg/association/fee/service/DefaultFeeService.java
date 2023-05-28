@@ -148,7 +148,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final MemberFee toDto(final PersistentFee entity) {
-        final Calendar           date;
+        final Calendar date;
 
         if (entity.getDate() != null) {
             date = removeDay(entity.getDate());
@@ -165,7 +165,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final MemberFee toDto(final PersistentMemberFee entity) {
-        final Calendar           date;
+        final Calendar date;
 
         if (entity.getDate() != null) {
             date = removeDay(entity.getDate());
