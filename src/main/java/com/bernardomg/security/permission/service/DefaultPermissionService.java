@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
+import com.bernardomg.security.permission.validation.PersistentUserValidPredicate;
 import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.NonNull;
 
@@ -21,11 +23,11 @@ public final class DefaultPermissionService implements PermissionService {
     private final UserGrantedPermissionRepository userPermsRepository;
 
     public DefaultPermissionService(final UserGrantedPermissionRepository userPermsRepo,
-            final Predicate<String> valid) {
+            final UserRepository userRepository) {
         super();
 
         userPermsRepository = userPermsRepo;
-        isValid = valid;
+        isValid = new PersistentUserValidPredicate(userRepository);
     }
 
     @Override

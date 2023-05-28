@@ -24,16 +24,13 @@
 
 package com.bernardomg.security.config;
 
-import java.util.function.Predicate;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.permission.service.DefaultPermissionService;
 import com.bernardomg.security.permission.service.PermissionService;
-import com.bernardomg.security.permission.service.SpringValidUserPredicate;
 import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
  * Security configuration.
@@ -50,11 +47,8 @@ public class PermissionConfig {
 
     @Bean("permissionService")
     public PermissionService getPermissionService(final UserGrantedPermissionRepository userPermsRepo,
-            final UserDetailsService userDetService) {
-        final Predicate<String> isValid;
-
-        isValid = new SpringValidUserPredicate(userDetService);
-        return new DefaultPermissionService(userPermsRepo, isValid);
+            final UserRepository userRepository) {
+        return new DefaultPermissionService(userPermsRepo, userRepository);
     }
 
 }
