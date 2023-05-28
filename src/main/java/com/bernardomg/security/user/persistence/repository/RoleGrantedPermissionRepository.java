@@ -27,11 +27,10 @@ package com.bernardomg.security.user.persistence.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.persistence.model.PersistentRole;
+import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.user.persistence.model.PersistentRoleGrantedPermission;
+import com.bernardomg.security.user.persistence.model.RoleGrantedPermissionKey;
 
 /**
  * Repository for action.
@@ -39,9 +38,9 @@ import com.bernardomg.security.user.persistence.model.PersistentRole;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
+public interface RoleGrantedPermissionRepository
+        extends JpaRepository<PersistentRoleGrantedPermission, RoleGrantedPermissionKey> {
 
-    @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Page<Role> findForUser(@Param("id") final Long id, final Pageable pageable);
+    public Page<Permission> findAllByRoleId(final Long roleId, final Pageable pageable);
 
 }

@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.user.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
@@ -17,6 +18,7 @@ import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.persistence.repository.ResourceRepository;
+import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
@@ -29,27 +31,30 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultRoleService implements RoleService {
 
-    private final Validator<RolePermission> addRolePermissionValidator;
+    private final Validator<RolePermission>       addRolePermissionValidator;
 
-    private final Validator<Role>           createRoleValidator;
+    private final Validator<Role>                 createRoleValidator;
 
-    private final Validator<Long>           deleteRoleValidator;
+    private final Validator<Long>                 deleteRoleValidator;
 
-    private final Validator<RolePermission> removeRolePermissionValidator;
+    private final Validator<RolePermission>       removeRolePermissionValidator;
 
-    private final RolePermissionRepository  rolePermissionRepository;
+    private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
 
-    private final RoleRepository            roleRepository;
+    private final RolePermissionRepository        rolePermissionRepository;
 
-    private final Validator<Role>           updateRoleValidator;
+    private final RoleRepository                  roleRepository;
+
+    private final Validator<Role>                 updateRoleValidator;
 
     public DefaultRoleService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
             final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
-            final UserRolesRepository userRolesRepo) {
+            final UserRolesRepository userRolesRepo, final RoleGrantedPermissionRepository roleGrantedPermissionRepo) {
         super();
 
-        roleRepository = roleRepo;
-        rolePermissionRepository = roleActionsRepo;
+        roleRepository = Objects.requireNonNull(roleRepo);
+        rolePermissionRepository = Objects.requireNonNull(roleActionsRepo);
+        roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
 
         createRoleValidator = new CreateRoleValidator(roleRepo);
         updateRoleValidator = new UpdateRoleValidator(roleRepo);
@@ -123,7 +128,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<Permission> getPermission(final Long id, final Pageable pageable) {
-        return roleRepository.findAllPermissions(id, pageable);
+        return roleGrantedPermissionRepository.findAllByRoleId(id, pageable);
     }
 
     @Override

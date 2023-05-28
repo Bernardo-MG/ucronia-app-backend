@@ -15,16 +15,16 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Permission;
-import com.bernardomg.security.user.persistence.repository.RoleRepository;
+import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 
 @IntegrationTest
 @DisplayName("Role repository - find all permissions")
-public class ITRoleRepositoryFindAllPermissions {
+public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
     @Autowired
-    private RoleRepository repository;
+    private RoleGrantedPermissionRepository repository;
 
-    public ITRoleRepositoryFindAllPermissions() {
+    public ITRoleRoleGrantedPermissionRepositoryByRoleId() {
         super();
     }
 
@@ -41,7 +41,7 @@ public class ITRoleRepositoryFindAllPermissions {
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPermissions(1L, pageable);
+        read = repository.findAllByRoleId(1L, pageable);
 
         Assertions.assertEquals(4L, IterableUtils.size(read));
 
@@ -86,7 +86,7 @@ public class ITRoleRepositoryFindAllPermissions {
 
         pageable = PageRequest.of(0, 1);
 
-        read = repository.findAllPermissions(1L, pageable);
+        read = repository.findAllByRoleId(1L, pageable);
 
         Assertions.assertEquals(1, IterableUtils.size(read));
     }
@@ -104,7 +104,7 @@ public class ITRoleRepositoryFindAllPermissions {
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPermissions(1L, pageable);
+        read = repository.findAllByRoleId(1L, pageable);
 
         // DATA:CREATE
         found = StreamSupport.stream(read.spliterator(), false)
@@ -125,7 +125,7 @@ public class ITRoleRepositoryFindAllPermissions {
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPermissions(1L, pageable);
+        read = repository.findAllByRoleId(1L, pageable);
 
         Assertions.assertEquals(0, IterableUtils.size(read));
     }
@@ -142,7 +142,7 @@ public class ITRoleRepositoryFindAllPermissions {
 
         pageable = Pageable.unpaged();
 
-        read = repository.findAllPermissions(-1L, pageable);
+        read = repository.findAllByRoleId(-1L, pageable);
 
         Assertions.assertEquals(0, IterableUtils.size(read));
     }
