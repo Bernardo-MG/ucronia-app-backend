@@ -31,7 +31,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindForUser_Count() {
+    public void testFindAllByUserId_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
@@ -43,7 +43,7 @@ public class ITUserUserPermissionRepositoryByUserId {
     @DisplayName("Finds no permissions when the user has none")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindForUser_NoPermissions_Count() {
+    public void testFindAllByUserId_NoPermissions_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
@@ -57,7 +57,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindForUser_NotExisting_Count() {
+    public void testFindAllByUserId_NotExisting_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(-1L);
@@ -66,15 +66,15 @@ public class ITUserUserPermissionRepositoryByUserId {
     }
 
     @Test
-    @DisplayName("Finds no permissions when the permissions are not granted")
+    @DisplayName("When there are no granted permissions nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindForUser_NotGrantedPermissions_Count() {
+    public void testFindAllByUserId_NotGranted_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
-        read = repository.findAllByUserId(-1L);
+        read = repository.findAllByUserId(1L);
 
         Assertions.assertEquals(0, IterableUtils.size(read));
     }
@@ -87,7 +87,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/relationship/role_permission_alternative.sql",
             "/db/queries/security/relationship/user_role.sql",
             "/db/queries/security/relationship/user_role_alternative.sql" })
-    public void testFindForUser_Repeated_Count() {
+    public void testFindAllByUserId_Repeated_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
