@@ -1,11 +1,9 @@
 
-package com.bernardomg.security.permission.validation;
+package com.bernardomg.security.user.permission.validation;
 
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -14,15 +12,15 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Login validator which integrates with Spring Security. It makes use of {@link UserDetailsService} to find the user
- * which tries to log in.
+ * User validator which checks if the user for a username is active.
  * <h2>Validations</h2>
  * <p>
- * If any of these fails, then the log in fails.
+ * If any of these fails, then the username is invalid.
  * <ul>
- * <li>Received username exists as a user</li>
- * <li>Received password matchs the one encrypted for the user</li>
- * <li>User should be enabled, and valid</li>
+ * <li>User should be enabled</li>
+ * <li>User should not be locked</li>
+ * <li>User should not be expired</li>
+ * <li>User should not have the credentials expired</li>
  * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
