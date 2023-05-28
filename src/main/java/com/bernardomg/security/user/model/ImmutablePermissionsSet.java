@@ -9,7 +9,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ImmutablePermissionsSet implements PermissionsSet {
+public final class ImmutablePermissionsSet implements PermissionsSet {
 
     private final Map<String, List<String>> permissions;
 
