@@ -79,6 +79,7 @@ public final class DefaultRoleService implements RoleService {
 
         // Build relationship entities
         relationship = getRelationship(id, resource, action);
+        relationship.setGranted(true);
 
         // Persist relationship entities
         rolePermissionRepository.save(relationship);
