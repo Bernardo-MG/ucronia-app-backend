@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.permission.controller;
+package com.bernardomg.security.user.controller;
 
 import java.util.Collections;
 
@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.user.permission.model.ImmutablePermissionsSet;
-import com.bernardomg.security.user.permission.model.PermissionsSet;
-import com.bernardomg.security.user.permission.service.PermissionService;
+import com.bernardomg.security.user.model.ImmutablePermissionsSet;
+import com.bernardomg.security.user.model.PermissionsSet;
+import com.bernardomg.security.user.service.PermissionService;
 
 import lombok.AllArgsConstructor;
 

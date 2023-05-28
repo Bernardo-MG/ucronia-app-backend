@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.permission.validation;
+package com.bernardomg.security.user.validation;
 
 import java.util.Locale;
 import java.util.Optional;

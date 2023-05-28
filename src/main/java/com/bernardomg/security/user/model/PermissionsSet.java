@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.permission.model;
+package com.bernardomg.security.user.model;
 
 import java.util.List;
 import java.util.Map;

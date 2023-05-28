@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.permission.service;
+package com.bernardomg.security.user.service;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.user.permission.model.ImmutablePermissionsSet;
-import com.bernardomg.security.user.permission.model.PermissionsSet;
-import com.bernardomg.security.user.permission.validation.PersistentUserValidPredicate;
+import com.bernardomg.security.user.model.ImmutablePermissionsSet;
+import com.bernardomg.security.user.model.PermissionsSet;
 import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.validation.PersistentUserValidPredicate;
 
 import lombok.NonNull;
 

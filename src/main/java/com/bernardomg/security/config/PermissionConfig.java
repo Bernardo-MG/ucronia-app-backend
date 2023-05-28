@@ -27,10 +27,10 @@ package com.bernardomg.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.user.permission.service.DefaultPermissionService;
-import com.bernardomg.security.user.permission.service.PermissionService;
 import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.service.DefaultPermissionService;
+import com.bernardomg.security.user.service.PermissionService;
 
 /**
  * Security configuration.
