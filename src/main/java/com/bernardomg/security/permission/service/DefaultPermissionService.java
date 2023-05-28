@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.permission.service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,21 +9,21 @@ import java.util.stream.Collectors;
 
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
-import com.bernardomg.security.user.model.Permission;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.persistence.model.PersistentUserPermission;
+import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
 
 import lombok.NonNull;
 
 public final class DefaultPermissionService implements PermissionService {
 
-    private final Predicate<String> isValid;
+    private final Predicate<String>        isValid;
 
-    private final UserRepository    userRepository;
+    private final UserPermissionRepository userPermsRepository;
 
-    public DefaultPermissionService(final UserRepository userRepo, final Predicate<String> valid) {
+    public DefaultPermissionService(final UserPermissionRepository userPermsRepo, final Predicate<String> valid) {
         super();
 
-        userRepository = userRepo;
+        userPermsRepository = userPermsRepo;
         isValid = valid;
     }
 
@@ -42,14 +41,11 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     private final Map<String, List<String>> getPermissionsMap(final String username) {
-        final Collection<Permission> permissions;
-
-        permissions = userRepository.findPermissionsByUsername(username);
-
         // Transform into a map, with the resource as key, and the list of actions as value
-        return permissions.stream()
+        return userPermsRepository.findAllByUsername(username)
+            .stream()
             .collect(Collectors.groupingBy(d -> d.getResource(),
-                Collectors.mapping(Permission::getAction, Collectors.toList())));
+                Collectors.mapping(PersistentUserPermission::getAction, Collectors.toList())));
     }
 
 }

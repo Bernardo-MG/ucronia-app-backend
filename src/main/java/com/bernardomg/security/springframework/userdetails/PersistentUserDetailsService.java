@@ -38,6 +38,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +73,14 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
+     * Repository for the user permissions.
+     */
+    private final UserPermissionRepository userPermsRepo;
+
+    /**
      * Repository for the user data.
      */
-    private final UserRepository userRepo;
+    private final UserRepository           userRepo;
 
     /**
      * Constructs a user details service.
@@ -82,10 +88,13 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @param userRepository
      *            repository for user details
      */
-    public PersistentUserDetailsService(final UserRepository userRepository) {
+    public PersistentUserDetailsService(final UserRepository userRepository,
+            final UserPermissionRepository userPermsRepository) {
         super();
 
-        userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as repository");
+        userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as user repository");
+        userPermsRepo = Objects.requireNonNull(userPermsRepository,
+            "Received a null pointer as user permission repository");
     }
 
     @Override
@@ -131,8 +140,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
-        // TODO: Test that no duplicate permission is returned
-        return userRepo.findPermissions(id)
+        return userPermsRepo.findAllByUserId(id)
             .stream()
             .map(p -> p.getResource() + ":" + p.getAction())
             .distinct()

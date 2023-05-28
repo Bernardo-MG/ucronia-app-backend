@@ -36,7 +36,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
-import com.bernardomg.security.user.persistence.repository.ActionRepository;
+import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
@@ -65,8 +65,8 @@ public class SecurityConfig {
 
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final ActionRepository actionRepository) {
-        return new PersistentUserDetailsService(userRepository);
+            final UserPermissionRepository userPermsRepository) {
+        return new PersistentUserDetailsService(userRepository, userPermsRepository);
     }
 
 }

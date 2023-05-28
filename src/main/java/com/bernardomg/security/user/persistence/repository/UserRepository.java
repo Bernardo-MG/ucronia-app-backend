@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.user.persistence.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -33,7 +32,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 
@@ -87,27 +85,5 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      * @return the user details for the received username
      */
     public Optional<PersistentUser> findOneByUsername(final String username);
-
-    /**
-     * Returns all the permissions for a user.
-     *
-     * @param id
-     *            user id
-     * @return all the action for the user
-     */
-    @Query(value = "SELECT DISTINCT p.resource AS resource, p.action AS action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.id = :id",
-            nativeQuery = true)
-    public Collection<Permission> findPermissions(@Param("id") final Long id);
-
-    /**
-     * Returns all the permissions for a user. This requires a join from the user up to the action.
-     *
-     * @param username
-     *            user username
-     * @return all the action for the user
-     */
-    @Query(value = "SELECT DISTINCT p.resource AS resource, p.action AS action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.username = :username",
-            nativeQuery = true)
-    public Collection<Permission> findPermissionsByUsername(@Param("username") final String username);
 
 }
