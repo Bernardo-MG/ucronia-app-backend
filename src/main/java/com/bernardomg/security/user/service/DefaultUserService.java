@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.user.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
@@ -35,6 +36,8 @@ public final class DefaultUserService implements UserService {
 
     private final Validator<UserRole> removeUserRoleValidator;
 
+    private final RoleRepository      roleRepository;
+
     private final Validator<User>     updateUserValidator;
 
     private final UserRepository      userRepository;
@@ -45,8 +48,9 @@ public final class DefaultUserService implements UserService {
             final UserRolesRepository userRolesRepo) {
         super();
 
-        userRepository = userRepo;
-        userRolesRepository = userRolesRepo;
+        userRepository = Objects.requireNonNull(userRepo);
+        userRolesRepository = Objects.requireNonNull(userRolesRepo);
+        roleRepository = Objects.requireNonNull(roleRepo);
 
         createUserValidator = new CreateUserValidator(userRepo);
         updateUserValidator = new UpdateUserValidator(userRepo);
@@ -117,7 +121,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Iterable<Role> getRoles(final Long id, final Pageable pageable) {
-        return userRepository.findAllRoles(id, pageable);
+        return roleRepository.findForUser(id, pageable);
     }
 
     @Override

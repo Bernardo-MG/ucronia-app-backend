@@ -26,13 +26,8 @@ package com.bernardomg.security.user.persistence.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 
 /**
@@ -64,9 +59,6 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      * @return {@code true} if the user exists, {@code false} otherwise
      */
     public Boolean existsByUsername(final String username);
-
-    @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Page<Role> findAllRoles(@Param("id") final Long id, final Pageable pageable);
 
     /**
      * Returns the user for the received email.

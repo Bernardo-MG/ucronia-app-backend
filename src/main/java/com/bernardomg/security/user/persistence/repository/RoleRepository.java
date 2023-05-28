@@ -31,6 +31,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 
 /**
@@ -43,5 +44,8 @@ public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
     @Query("SELECT r.id AS resourceId, r.name AS resource, a.id AS actionId, a.name AS action FROM RolePermission rp LEFT JOIN Action a ON rp.actionId = a.id LEFT JOIN Resource r ON rp.resourceId = r.id WHERE rp.roleId = :id AND rp.granted = true")
     public Page<Permission> findAllPermissions(@Param("id") final Long id, final Pageable pageable);
+
+    @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
+    public Page<Role> findForUser(@Param("id") final Long id, final Pageable pageable);
 
 }
