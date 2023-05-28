@@ -95,7 +95,7 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      *            user id
      * @return all the action for the user
      */
-    @Query(value = "SELECT p.resource AS resource, p.action AS action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.id = :id",
+    @Query(value = "SELECT DISTINCT p.resource AS resource, p.action AS action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.id = :id",
             nativeQuery = true)
     public Collection<Permission> findPermissions(@Param("id") final Long id);
 
@@ -106,7 +106,7 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      *            user username
      * @return all the action for the user
      */
-    @Query(value = "SELECT p.resource AS resource, p.action AS action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.username = :username",
+    @Query(value = "SELECT DISTINCT p.resource AS resource, p.action AS action FROM (SELECT r.name AS resource, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id WHERE u.username = :username",
             nativeQuery = true)
     public Collection<Permission> findPermissionsByUsername(@Param("username") final String username);
 

@@ -79,4 +79,20 @@ public class ITUserRepositoryFindPermissionsByUsername {
         Assertions.assertEquals(0, IterableUtils.size(read));
     }
 
+    @Test
+    @DisplayName("When the permissions are duplicated, no repeated permission is returned")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/role/alternative.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/role_permission_alternative.sql",
+            "/db/queries/security/relationship/user_role.sql",
+            "/db/queries/security/relationship/user_role_alternative.sql" })
+    public void testFindForUser_Repeated_Count() {
+        final Collection<Permission> read;
+
+        read = repository.findPermissionsByUsername("admin");
+
+        Assertions.assertEquals(4, IterableUtils.size(read));
+    }
+
 }
