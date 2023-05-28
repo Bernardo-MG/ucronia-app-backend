@@ -95,7 +95,7 @@ public class ITUserServiceUpdateValidation {
         final FieldFailure          failure;
         final ImmutableUser         data;
 
-        data = getUser("abc");
+        data = getUser("admin", "abc");
 
         executable = () -> service.update(data);
 
