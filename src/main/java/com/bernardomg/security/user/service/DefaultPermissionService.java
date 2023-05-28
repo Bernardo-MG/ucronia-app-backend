@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.bernardomg.security.user.model.ImmutablePermissionsSet;
 import com.bernardomg.security.user.model.PermissionsSet;
 import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
@@ -16,6 +18,7 @@ import com.bernardomg.security.user.validation.PersistentUserValidPredicate;
 
 import lombok.NonNull;
 
+@Service
 public final class DefaultPermissionService implements PermissionService {
 
     private final Predicate<String>               isValid;
