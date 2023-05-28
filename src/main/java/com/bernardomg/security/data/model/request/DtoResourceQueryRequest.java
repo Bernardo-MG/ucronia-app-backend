@@ -1,14 +1,12 @@
 
 package com.bernardomg.security.data.model.request;
 
-import com.bernardomg.security.data.model.Resource;
-
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public final class DtoResourceQueryRequest implements Resource {
-
-    private Long   id;
+@Builder
+public final class DtoResourceQueryRequest implements ResourceQueryRequest {
 
     private String name;
 

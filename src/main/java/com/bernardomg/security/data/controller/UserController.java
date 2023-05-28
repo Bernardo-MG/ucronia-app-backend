@@ -35,11 +35,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.data.model.ImmutableUser;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.model.request.DtoRoleCreationRequest;
 import com.bernardomg.security.data.model.request.DtoUserCreationRequest;
+import com.bernardomg.security.data.model.request.DtoUserQueryRequest;
 import com.bernardomg.security.data.model.request.DtoUserUpdateRequest;
 import com.bernardomg.security.data.service.UserService;
 
@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<User> readAll(final ImmutableUser user, final Pageable pageable) {
+    public Iterable<User> readAll(final DtoUserQueryRequest user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 

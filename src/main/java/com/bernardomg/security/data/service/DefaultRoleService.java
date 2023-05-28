@@ -12,6 +12,7 @@ import com.bernardomg.security.data.model.ImmutableRolePermission;
 import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.RolePermission;
+import com.bernardomg.security.data.model.request.RoleQueryRequest;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.data.persistence.repository.ActionRepository;
@@ -101,7 +102,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<Role> getAll(final Role sample, final Pageable pageable) {
+    public final Iterable<Role> getAll(final RoleQueryRequest sample, final Pageable pageable) {
         final PersistentRole entity;
 
         entity = toEntity(sample);
@@ -172,6 +173,12 @@ public final class DefaultRoleService implements RoleService {
     private final PersistentRole toEntity(final Role data) {
         return PersistentRole.builder()
             .id(data.getId())
+            .name(data.getName())
+            .build();
+    }
+
+    private final PersistentRole toEntity(final RoleQueryRequest data) {
+        return PersistentRole.builder()
             .name(data.getName())
             .build();
     }

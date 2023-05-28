@@ -12,6 +12,7 @@ import com.bernardomg.security.data.model.ImmutableUserRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.model.UserRole;
+import com.bernardomg.security.data.model.request.UserQueryRequest;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
@@ -96,7 +97,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Iterable<User> getAll(final User sample, final Pageable pageable) {
+    public final Iterable<User> getAll(final UserQueryRequest sample, final Pageable pageable) {
         final PersistentUser entity;
 
         entity = toEntity(sample);
@@ -191,6 +192,34 @@ public final class DefaultUserService implements UserService {
 
         return PersistentUser.builder()
             .id(data.getId())
+            .username(username)
+            .email(email)
+            .name(data.getName())
+            .credentialsExpired(data.getCredentialsExpired())
+            .enabled(data.getEnabled())
+            .expired(data.getExpired())
+            .locked(data.getLocked())
+            .build();
+    }
+
+    private final PersistentUser toEntity(final UserQueryRequest data) {
+        final String username;
+        final String email;
+
+        if (data.getUsername() != null) {
+            username = data.getUsername()
+                .toLowerCase();
+        } else {
+            username = null;
+        }
+        if (data.getEmail() != null) {
+            email = data.getEmail()
+                .toLowerCase();
+        } else {
+            email = null;
+        }
+
+        return PersistentUser.builder()
             .username(username)
             .email(email)
             .name(data.getName())

@@ -15,7 +15,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.Action;
-import com.bernardomg.security.data.model.ImmutableAction;
+import com.bernardomg.security.data.model.request.ActionQueryRequest;
+import com.bernardomg.security.data.model.request.DtoActionQueryRequest;
 import com.bernardomg.security.data.service.ActionService;
 
 @IntegrationTest
@@ -33,13 +34,13 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Action> result;
-        final ImmutableAction  sample;
-        final Pageable         pageable;
+        final Iterable<Action>   result;
+        final ActionQueryRequest sample;
+        final Pageable           pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -50,14 +51,14 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final ImmutableAction  sample;
-        final Iterator<Action> data;
-        final Action           result;
-        final Pageable         pageable;
+        final ActionQueryRequest sample;
+        final Iterator<Action>   data;
+        final Action             result;
+        final Pageable           pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable)
@@ -71,14 +72,14 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final ImmutableAction  sample;
-        final Iterator<Action> data;
-        final Action           result;
-        final Pageable         pageable;
+        final ActionQueryRequest sample;
+        final Iterator<Action>   data;
+        final Action             result;
+        final Pageable           pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable)
@@ -92,13 +93,13 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final ImmutableAction  sample;
-        final Iterable<Action> result;
-        final Pageable         pageable;
+        final ActionQueryRequest sample;
+        final Iterable<Action>   result;
+        final Pageable           pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -109,13 +110,13 @@ public class ITActionServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Action> result;
-        final ImmutableAction  sample;
-        final Pageable         pageable;
+        final Iterable<Action>   result;
+        final ActionQueryRequest sample;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);

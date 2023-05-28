@@ -1,14 +1,12 @@
 
 package com.bernardomg.security.data.model.request;
 
-import com.bernardomg.security.data.model.Role;
-
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public final class DtoRoleQueryRequest implements Role {
-
-    private Long   id;
+@Builder
+public final class DtoRoleQueryRequest implements RoleQueryRequest {
 
     private String name;
 

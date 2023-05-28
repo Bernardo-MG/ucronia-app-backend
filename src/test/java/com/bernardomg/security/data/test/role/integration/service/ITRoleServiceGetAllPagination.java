@@ -14,8 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.Role;
+import com.bernardomg.security.data.model.request.DtoRoleQueryRequest;
+import com.bernardomg.security.data.model.request.RoleQueryRequest;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -33,13 +34,13 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Role> result;
-        final ImmutableRole  sample;
-        final Pageable       pageable;
+        final Iterable<Role>   result;
+        final RoleQueryRequest sample;
+        final Pageable         pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -50,14 +51,14 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final ImmutableRole  sample;
-        final Iterator<Role> data;
-        final Role           result;
-        final Pageable       pageable;
+        final RoleQueryRequest sample;
+        final Iterator<Role>   data;
+        final Role             result;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable)
@@ -71,13 +72,13 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final ImmutableRole  sample;
-        final Iterable<Role> data;
-        final Pageable       pageable;
+        final RoleQueryRequest sample;
+        final Iterable<Role>   data;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable);
@@ -88,13 +89,13 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final ImmutableRole  sample;
-        final Iterable<Role> result;
-        final Pageable       pageable;
+        final RoleQueryRequest sample;
+        final Iterable<Role>   result;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -105,13 +106,13 @@ public class ITRoleServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Role> result;
-        final ImmutableRole  sample;
-        final Pageable       pageable;
+        final Iterable<Role>   result;
+        final RoleQueryRequest sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);

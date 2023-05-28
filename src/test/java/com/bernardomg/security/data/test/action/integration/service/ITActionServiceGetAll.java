@@ -15,7 +15,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.data.model.Action;
-import com.bernardomg.security.data.model.ImmutableAction;
+import com.bernardomg.security.data.model.request.ActionQueryRequest;
+import com.bernardomg.security.data.model.request.DtoActionQueryRequest;
 import com.bernardomg.security.data.service.ActionService;
 
 @IntegrationTest
@@ -33,13 +34,13 @@ public class ITActionServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<Action> result;
-        final ImmutableAction  sample;
-        final Pageable         pageable;
+        final Iterable<Action>   result;
+        final ActionQueryRequest sample;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -51,13 +52,13 @@ public class ITActionServiceGetAll {
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
         final Iterable<Action>   data;
-        final ImmutableAction    sample;
+        final ActionQueryRequest sample;
         final Pageable           pageable;
         final Collection<String> names;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableAction.builder()
+        sample = DtoActionQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable);

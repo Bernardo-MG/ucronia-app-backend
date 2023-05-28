@@ -10,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.Role;
+import com.bernardomg.security.data.model.request.DtoRoleQueryRequest;
+import com.bernardomg.security.data.model.request.RoleQueryRequest;
 import com.bernardomg.security.data.service.RoleService;
 
 @IntegrationTest
@@ -29,13 +30,13 @@ public class ITRoleServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<Role> result;
-        final ImmutableRole  sample;
-        final Pageable       pageable;
+        final Iterable<Role>   result;
+        final RoleQueryRequest sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -46,14 +47,14 @@ public class ITRoleServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<Role> data;
-        final ImmutableRole  sample;
-        final Pageable       pageable;
-        final Role           role;
+        final Iterable<Role>   data;
+        final RoleQueryRequest sample;
+        final Pageable         pageable;
+        final Role             role;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableRole.builder()
+        sample = DtoRoleQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable);

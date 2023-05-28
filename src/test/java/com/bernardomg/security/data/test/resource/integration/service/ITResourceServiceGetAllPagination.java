@@ -14,8 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.ImmutableResource;
 import com.bernardomg.security.data.model.Resource;
+import com.bernardomg.security.data.model.request.DtoResourceQueryRequest;
+import com.bernardomg.security.data.model.request.ResourceQueryRequest;
 import com.bernardomg.security.data.service.ResourceService;
 
 @IntegrationTest
@@ -33,13 +34,13 @@ public class ITResourceServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Resource> result;
-        final ImmutableResource  sample;
-        final Pageable           pageable;
+        final Iterable<Resource>   result;
+        final ResourceQueryRequest sample;
+        final Pageable             pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = ImmutableResource.builder()
+        sample = DtoResourceQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -50,14 +51,14 @@ public class ITResourceServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final ImmutableResource  sample;
-        final Iterator<Resource> data;
-        final Resource           result;
-        final Pageable           pageable;
+        final ResourceQueryRequest sample;
+        final Iterator<Resource>   data;
+        final Resource             result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ImmutableResource.builder()
+        sample = DtoResourceQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable)
@@ -71,14 +72,14 @@ public class ITResourceServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final ImmutableResource  sample;
-        final Iterator<Resource> data;
-        final Resource           result;
-        final Pageable           pageable;
+        final ResourceQueryRequest sample;
+        final Iterator<Resource>   data;
+        final Resource             result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = ImmutableResource.builder()
+        sample = DtoResourceQueryRequest.builder()
             .build();
 
         data = service.getAll(sample, pageable)
@@ -92,13 +93,13 @@ public class ITResourceServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final ImmutableResource  sample;
-        final Iterable<Resource> result;
-        final Pageable           pageable;
+        final ResourceQueryRequest sample;
+        final Iterable<Resource>   result;
+        final Pageable             pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ImmutableResource.builder()
+        sample = DtoResourceQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -109,13 +110,13 @@ public class ITResourceServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Resource> result;
-        final ImmutableResource  sample;
-        final Pageable           pageable;
+        final Iterable<Resource>   result;
+        final ResourceQueryRequest sample;
+        final Pageable             pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = ImmutableResource.builder()
+        sample = DtoResourceQueryRequest.builder()
             .build();
 
         result = service.getAll(sample, pageable);

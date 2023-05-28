@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.User;
+import com.bernardomg.security.data.model.request.UserQueryRequest;
 
 public interface UserService {
 
@@ -48,7 +49,7 @@ public interface UserService {
      *            pagination to apply
      * @return all the users matching the sample
      */
-    public Iterable<User> getAll(final User sample, final Pageable pageable);
+    public Iterable<User> getAll(final UserQueryRequest sample, final Pageable pageable);
 
     /**
      * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
