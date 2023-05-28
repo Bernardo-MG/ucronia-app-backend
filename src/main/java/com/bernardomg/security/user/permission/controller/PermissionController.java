@@ -63,7 +63,11 @@ public class PermissionController {
         if (authentication instanceof AnonymousAuthenticationToken) {
             // Anonymous user
             // Can't read
-            permissions = new ImmutablePermissionsSet("", Collections.emptyMap());
+
+            permissions = ImmutablePermissionsSet.builder()
+                .username("")
+                .permissions(Collections.emptyMap())
+                .build();
         } else {
             permissions = service.getPermissions(authentication.getName());
         }

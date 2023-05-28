@@ -40,7 +40,10 @@ public final class DefaultPermissionService implements PermissionService {
             permissions = Collections.emptyMap();
         }
 
-        return new ImmutablePermissionsSet(username, permissions);
+        return ImmutablePermissionsSet.builder()
+            .username(username)
+            .permissions(permissions)
+            .build();
     }
 
     private final Map<String, List<String>> getPermissionsMap(final String username) {
