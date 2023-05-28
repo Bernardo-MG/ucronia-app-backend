@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoUser;
+import com.bernardomg.security.data.model.ImmutableUser;
 import com.bernardomg.security.data.service.UserService;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -29,18 +29,12 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingEmail() {
-        final DtoUser               data;
+        final ImmutableUser         data;
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        data = new DtoUser();
-        data.setUsername("abc");
-        data.setEmail("email@somewhere.com");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
+        data = getUser("abc", "email@somewhere.com");
 
         executable = () -> service.create(data);
 
@@ -62,18 +56,12 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingUsername() {
-        final DtoUser               data;
+        final ImmutableUser         data;
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        data = new DtoUser();
-        data.setUsername("admin");
-        data.setEmail("email2@somewhere.com");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
+        data = getUser("admin", "email2@somewhere.com");
 
         executable = () -> service.create(data);
 
@@ -94,19 +82,12 @@ public class ITUserServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the email doesn't match the valid pattern")
     public void testCreate_invalidEmail() {
-        final DtoUser               data;
+        final ImmutableUser         data;
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        data = new DtoUser();
-        data.setUsername("admin");
-        data.setName("admin");
-        data.setEmail("abc");
-        data.setCredentialsExpired(false);
-        data.setEnabled(true);
-        data.setExpired(false);
-        data.setLocked(false);
+        data = getUser("admin", "abc");
 
         executable = () -> service.create(data);
 
@@ -122,6 +103,18 @@ public class ITUserServiceCreateValidation {
         Assertions.assertEquals("invalid", failure.getCode());
         Assertions.assertEquals("email", failure.getField());
         Assertions.assertEquals("email.invalid", failure.getMessage());
+    }
+
+    private final ImmutableUser getUser(final String username, final String email) {
+        return ImmutableUser.builder()
+            .username(username)
+            .name("Admin")
+            .email(email)
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build();
     }
 
 }

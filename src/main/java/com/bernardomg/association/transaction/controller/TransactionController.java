@@ -35,10 +35,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.model.DtoTransactionForm;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
+import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
+import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 import jakarta.validation.Valid;
@@ -61,7 +61,7 @@ public class TransactionController {
     private final TransactionService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction create(@Valid @RequestBody final DtoTransactionForm transaction) {
+    public Transaction create(@Valid @RequestBody final DtoTransactionCreationQuery transaction) {
         return service.create(transaction);
     }
 
@@ -71,7 +71,7 @@ public class TransactionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Transaction> readAll(final DtoTransactionRequest request, final Pageable pageable) {
+    public Iterable<Transaction> readAll(final DtoTransactionQueryRequest request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 
@@ -88,7 +88,7 @@ public class TransactionController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Transaction update(@PathVariable("id") final Long id,
-            @Valid @RequestBody final DtoTransactionForm transaction) {
+            @Valid @RequestBody final DtoTransactionCreationQuery transaction) {
         return service.update(id, transaction);
     }
 

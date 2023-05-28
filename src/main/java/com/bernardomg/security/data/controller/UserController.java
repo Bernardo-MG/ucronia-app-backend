@@ -35,12 +35,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.data.controller.model.DtoCreateUserForm;
-import com.bernardomg.security.data.controller.model.DtoUpdateUserForm;
-import com.bernardomg.security.data.model.DtoId;
-import com.bernardomg.security.data.model.DtoUser;
-import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.User;
+import com.bernardomg.security.data.model.request.DtoUserCreationRequest;
+import com.bernardomg.security.data.model.request.DtoUserQueryRequest;
+import com.bernardomg.security.data.model.request.DtoUserUpdateRequest;
 import com.bernardomg.security.data.service.UserService;
 
 import jakarta.validation.Valid;
@@ -59,13 +57,8 @@ public class UserController {
 
     private final UserService service;
 
-    @PutMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean addRole(@PathVariable("id") final Long id, @Valid @RequestBody final DtoId role) {
-        return service.addRole(id, role.getId());
-    }
-
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final DtoCreateUserForm user) {
+    public User create(@Valid @RequestBody final DtoUserCreationRequest user) {
         return service.create(user);
     }
 
@@ -75,7 +68,7 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<User> readAll(final DtoUser user, final Pageable pageable) {
+    public Iterable<User> readAll(final DtoUserQueryRequest user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
@@ -85,18 +78,8 @@ public class UserController {
             .orElse(null);
     }
 
-    @GetMapping(path = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Role> readRoles(@PathVariable("id") final Long id, final Pageable pageable) {
-        return service.getRoles(id, pageable);
-    }
-
-    @DeleteMapping(path = "/{id}/role/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean removeRole(@PathVariable("id") final Long id, @PathVariable("role") final Long role) {
-        return service.removeRole(id, role);
-    }
-
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUpdateUserForm form) {
+    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUserUpdateRequest form) {
         form.setId(id);
 
         return service.update(form);

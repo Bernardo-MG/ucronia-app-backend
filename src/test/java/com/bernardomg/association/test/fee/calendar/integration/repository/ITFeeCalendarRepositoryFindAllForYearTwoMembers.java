@@ -36,7 +36,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.calendar.model.FeeMonth;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
+import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

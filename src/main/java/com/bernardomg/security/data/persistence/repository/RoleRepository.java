@@ -41,7 +41,7 @@ import com.bernardomg.security.data.persistence.model.PersistentRole;
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
-    @Query("SELECT new com.bernardomg.security.data.model.ImmutablePermission(r.id, r.name, a.id, a.name) FROM RolePermissions rp LEFT JOIN Action a ON rp.actionId = a.id LEFT JOIN Resource r ON rp.resourceId = r.id WHERE rp.roleId = :id AND rp.granted = true")
+    @Query("SELECT r.id AS resourceId, r.name AS resource, a.id AS actionId, a.name AS action FROM RolePermissions rp LEFT JOIN Action a ON rp.actionId = a.id LEFT JOIN Resource r ON rp.resourceId = r.id WHERE rp.roleId = :id AND rp.granted = true")
     public Page<Permission> findAllPermissions(@Param("id") final Long id, final Pageable pageable);
 
 }

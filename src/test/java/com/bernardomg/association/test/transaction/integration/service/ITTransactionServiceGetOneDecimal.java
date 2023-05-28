@@ -33,9 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest

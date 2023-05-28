@@ -31,7 +31,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.service.RoleService;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -75,13 +75,10 @@ public class ITRoleServiceUpdateValidation {
     }
 
     private final Role getRoleWithNoActions() {
-        final DtoRole role;
-
-        role = new DtoRole();
-        role.setId(1L);
-        role.setName("Role");
-
-        return role;
+        return ImmutableRole.builder()
+            .id(1L)
+            .name("Role")
+            .build();
     }
 
 }

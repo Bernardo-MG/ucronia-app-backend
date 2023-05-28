@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.calendar.model.DtoFeeCalendarRequest;
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.fee.calendar.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
 
 import lombok.AllArgsConstructor;
@@ -55,13 +55,13 @@ public class FeeCalendarController {
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<UserFeeCalendar> readAll(@PathVariable("year") final Integer year,
-            final DtoFeeCalendarRequest request, final Pageable pageable) {
+            final DtoFeeCalendarQueryRequest request, final Pageable pageable) {
         // TODO: Support full pagination
         return service.getAll(year, request.getOnlyActive(), pageable.getSort());
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    public FeeCalendarRange readRange(final DtoFeeCalendarRequest request) {
+    public FeeCalendarRange readRange(final DtoFeeCalendarQueryRequest request) {
         return service.getRange(request.getOnlyActive());
     }
 

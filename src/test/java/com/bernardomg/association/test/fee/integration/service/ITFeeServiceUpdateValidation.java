@@ -34,7 +34,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeForm;
+import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -56,12 +56,12 @@ public class ITFeeServiceUpdateValidation {
     @Sql({ "/db/queries/fee/single.sql" })
     @Disabled("This can't happen, it required an inconsistent DB")
     public void testUpdate_InvalidMember() {
-        final DtoFeeForm            fee;
+        final DtoFeeCreationRequest fee;
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
-        fee = new DtoFeeForm();
+        fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);

@@ -10,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoUser;
 import com.bernardomg.security.data.model.User;
+import com.bernardomg.security.data.model.request.DtoUserQueryRequest;
+import com.bernardomg.security.data.model.request.UserQueryRequest;
 import com.bernardomg.security.data.service.UserService;
 
 @IntegrationTest
@@ -29,13 +30,14 @@ public class ITUserServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<User> result;
-        final DtoUser        sample;
-        final Pageable       pageable;
+        final Iterable<User>   result;
+        final UserQueryRequest sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoUser();
+        sample = DtoUserQueryRequest.builder()
+            .build();
 
         result = service.getAll(sample, pageable);
 
@@ -45,14 +47,15 @@ public class ITUserServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<User> data;
-        final DtoUser        sample;
-        final Pageable       pageable;
-        final User           user;
+        final Iterable<User>   data;
+        final UserQueryRequest sample;
+        final Pageable         pageable;
+        final User             user;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoUser();
+        sample = DtoUserQueryRequest.builder()
+            .build();
 
         data = service.getAll(sample, pageable);
 

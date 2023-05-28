@@ -59,9 +59,10 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
         repository = Mockito.mock(UserRepository.class);
 
-        user = new PersistentUser();
-        user.setUsername("admin");
-        user.setEmail("email@somewhere.com");
+        user = PersistentUser.builder()
+            .username("admin")
+            .email("email@somewhere.com")
+            .build();
 
         userDetailsService = Mockito.mock(UserDetailsService.class);
 

@@ -32,9 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeRequest;
-import com.bernardomg.association.fee.model.FeeRequest;
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -54,12 +54,12 @@ public class ITFeeServiceGetAllNoFee {
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
         final Iterable<MemberFee> result;
-        final FeeRequest          sample;
+        final FeeQueryRequest     sample;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeRequest();
+        sample = new DtoFeeQueryRequest();
 
         result = service.getAll(sample, pageable);
 

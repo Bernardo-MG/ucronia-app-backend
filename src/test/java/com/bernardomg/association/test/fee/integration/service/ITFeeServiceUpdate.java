@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoFeeForm;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.PersistentFee;
-import com.bernardomg.association.fee.repository.FeeRepository;
+import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -57,9 +57,9 @@ public class ITFeeServiceUpdate {
     @DisplayName("Adds no entity when updating")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_AddsNoEntity() {
-        final DtoFeeForm fee;
+        final DtoFeeCreationRequest fee;
 
-        fee = new DtoFeeForm();
+        fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
@@ -73,9 +73,9 @@ public class ITFeeServiceUpdate {
     @DisplayName("When updating a not existing entity a new one is added")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoFeeForm fee;
+        final DtoFeeCreationRequest fee;
 
-        fee = new DtoFeeForm();
+        fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 2, 1));
         fee.setPaid(false);
@@ -89,10 +89,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("When changing a fee from unpaid to paid the persisted data is updated")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     public void testUpdate_Pay_PersistedData() {
-        final DtoFeeForm    fee;
-        final PersistentFee entity;
+        final DtoFeeCreationRequest fee;
+        final PersistentFee         entity;
 
-        fee = new DtoFeeForm();
+        fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(true);
@@ -113,10 +113,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("Updates persisted data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_PersistedData() {
-        final DtoFeeForm    fee;
-        final PersistentFee entity;
+        final DtoFeeCreationRequest fee;
+        final PersistentFee         entity;
 
-        fee = new DtoFeeForm();
+        fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);
@@ -137,10 +137,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("Returns the updated data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_ReturnedData() {
-        final DtoFeeForm fee;
-        final MemberFee  result;
+        final DtoFeeCreationRequest fee;
+        final MemberFee             result;
 
-        fee = new DtoFeeForm();
+        fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
         fee.setDate(new GregorianCalendar(2020, 1, 1));
         fee.setPaid(false);

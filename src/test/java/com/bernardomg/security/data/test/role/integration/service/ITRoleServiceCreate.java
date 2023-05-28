@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
@@ -30,10 +30,11 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final DtoRole data;
+        final ImmutableRole data;
 
-        data = new DtoRole();
-        data.setName("Role");
+        data = ImmutableRole.builder()
+            .name("Role")
+            .build();
 
         service.create(data);
 
@@ -43,11 +44,12 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final DtoRole        data;
+        final ImmutableRole  data;
         final PersistentRole entity;
 
-        data = new DtoRole();
-        data.setName("Role");
+        data = ImmutableRole.builder()
+            .name("Role")
+            .build();
 
         service.create(data);
         entity = repository.findAll()
@@ -61,11 +63,12 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final DtoRole data;
-        final Role    result;
+        final ImmutableRole data;
+        final Role          result;
 
-        data = new DtoRole();
-        data.setName("Role");
+        data = ImmutableRole.builder()
+            .name("Role")
+            .build();
 
         result = service.create(data);
 

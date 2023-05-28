@@ -29,13 +29,14 @@ public final class CreateRoleValidator implements Validator<Role> {
     @Override
     public final void validate(final Role role) {
         final Collection<FieldFailure> failures;
-        FieldFailure                   failure;
+        final FieldFailure             failure;
         final PersistentRole           sample;
 
         failures = new ArrayList<>();
 
-        sample = new PersistentRole();
-        sample.setName(role.getName());
+        sample = PersistentRole.builder()
+            .name(role.getName())
+            .build();
 
         // The role doesn't exist
         if (roleRepository.exists(Example.of(sample))) {

@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
@@ -96,13 +96,10 @@ public class ITRoleServiceUpdate {
     }
 
     private final Role getRoleWithNoActions() {
-        final DtoRole role;
-
-        role = new DtoRole();
-        role.setId(1L);
-        role.setName("Role");
-
-        return role;
+        return ImmutableRole.builder()
+            .id(1L)
+            .name("Role")
+            .build();
     }
 
 }

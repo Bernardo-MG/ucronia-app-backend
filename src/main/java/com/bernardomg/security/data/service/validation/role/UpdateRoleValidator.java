@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.security.data.model.Role;
-import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -28,12 +27,8 @@ public final class UpdateRoleValidator implements Validator<Role> {
     public final void validate(final Role role) {
         final Collection<FieldFailure> failures;
         FieldFailure                   failure;
-        final PersistentRole           sample;
 
         failures = new ArrayList<>();
-
-        sample = new PersistentRole();
-        sample.setName(role.getName());
 
         // The role exists
         if (!roleRepository.existsById(role.getId())) {

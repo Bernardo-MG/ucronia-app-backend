@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.data.model.Action;
+import com.bernardomg.security.data.model.request.ActionQueryRequest;
 
 public interface ActionService {
 
@@ -18,7 +19,7 @@ public interface ActionService {
      *            pagination to apply
      * @return all the action matching the sample
      */
-    public Iterable<Action> getAll(final Action sample, final Pageable pageable);
+    public Iterable<Action> getAll(final ActionQueryRequest sample, final Pageable pageable);
 
     /**
      * Returns the action for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

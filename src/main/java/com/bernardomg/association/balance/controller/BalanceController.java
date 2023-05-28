@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.service.BalanceService;
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 
 import lombok.AllArgsConstructor;
 
@@ -49,7 +49,7 @@ public class BalanceController {
     private final BalanceService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Balance readBalance(final DtoMemberFee month) {
+    public Balance readBalance(final ImmutableMemberFee month) {
         return service.getBalance();
     }
 

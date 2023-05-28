@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoUser;
+import com.bernardomg.security.data.model.ImmutableUser;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.persistence.model.PersistentUser;
 import com.bernardomg.security.data.persistence.repository.UserRepository;
@@ -92,11 +92,10 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data, ignoring case")
     public void testUpdate_PersistedData_Case() {
-        final DtoUser        user;
+        final ImmutableUser  user;
         final PersistentUser entity;
 
-        user = getUser();
-        user.setEmail("EMAIL@SOMEWHERE.COM");
+        user = getUser("EMAIL@SOMEWHERE.COM");
 
         service.update(user);
         entity = repository.findAll()
@@ -128,31 +127,40 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Returns the updated data, ignoring case")
     public void testUpdate_ReturnedData_Case() {
-        final DtoUser user;
-        final User    result;
+        final ImmutableUser user;
+        final User          result;
 
-        user = getUser();
-        user.setEmail("EMAIL2@SOMEWHERE.COM");
+        user = getUser("EMAIL2@SOMEWHERE.COM");
 
         result = service.update(user);
 
         Assertions.assertEquals("email2@somewhere.com", result.getEmail());
     }
 
-    private final DtoUser getUser() {
-        final DtoUser user;
+    private final ImmutableUser getUser() {
+        return ImmutableUser.builder()
+            .id(1L)
+            .username("admin")
+            .name("Admin")
+            .email("email2@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build();
+    }
 
-        user = new DtoUser();
-        user.setId(1L);
-        user.setUsername("admin");
-        user.setName("Admin");
-        user.setEmail("email2@somewhere.com");
-        user.setCredentialsExpired(false);
-        user.setEnabled(true);
-        user.setExpired(false);
-        user.setLocked(false);
-
-        return user;
+    private final ImmutableUser getUser(final String email) {
+        return ImmutableUser.builder()
+            .id(1L)
+            .username("admin")
+            .name("Admin")
+            .email(email)
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build();
     }
 
 }

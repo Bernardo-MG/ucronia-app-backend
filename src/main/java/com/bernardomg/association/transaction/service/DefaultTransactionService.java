@@ -10,15 +10,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.transaction.model.DtoTransaction;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
-import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionForm;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.TransactionRequest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
-import com.bernardomg.association.transaction.repository.TransactionSpecifications;
+import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.persistence.repository.TransactionSpecifications;
 
 import lombok.AllArgsConstructor;
 
@@ -36,7 +35,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
-    public final Transaction create(final TransactionForm transaction) {
+    public final Transaction create(final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
@@ -58,7 +57,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Iterable<Transaction> getAll(final TransactionRequest request, final Pageable pageable) {
+    public final Iterable<Transaction> getAll(final TransactionQueryRequest request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
@@ -110,12 +109,17 @@ public final class DefaultTransactionService implements TransactionService {
         endMonth = max.get(Calendar.MONTH);
         endYear = max.get(Calendar.YEAR);
 
-        return new ImmutableTransactionRange(startMonth, startYear, endMonth, endYear);
+        return ImmutableTransactionRange.builder()
+            .startMonth(startMonth)
+            .endMonth(endMonth)
+            .startYear(startYear)
+            .endYear(endYear)
+            .build();
     }
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
-    public final Transaction update(final Long id, final TransactionForm transaction) {
+    public final Transaction update(final Long id, final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
@@ -127,26 +131,21 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     private final Transaction toDto(final PersistentTransaction transaction) {
-        final DtoTransaction result;
-
-        result = new DtoTransaction();
-        result.setId(transaction.getId());
-        result.setDescription(transaction.getDescription());
-        result.setDate(transaction.getDate());
-        result.setAmount(transaction.getAmount());
-
-        return result;
+        return ImmutableTransaction.builder()
+            .id(transaction.getId())
+            .description(transaction.getDescription())
+            .date(transaction.getDate())
+            .amount(transaction.getAmount())
+            .build();
     }
 
-    private final PersistentTransaction toEntity(final TransactionForm transaction) {
-        final PersistentTransaction result;
-
-        result = new PersistentTransaction();
-        result.setDescription(transaction.getDescription());
-        result.setDate(transaction.getDate());
-        result.setAmount(transaction.getAmount());
-
-        return result;
+    private final PersistentTransaction toEntity(final Transaction transaction) {
+        return PersistentTransaction.builder()
+            .id(transaction.getId())
+            .date(transaction.getDate())
+            .description(transaction.getDescription())
+            .amount(transaction.getAmount())
+            .build();
     }
 
 }

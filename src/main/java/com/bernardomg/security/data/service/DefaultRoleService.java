@@ -7,11 +7,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.ImmutableRolePermission;
 import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.RolePermission;
+import com.bernardomg.security.data.model.request.RoleQueryRequest;
 import com.bernardomg.security.data.persistence.model.PersistentRole;
 import com.bernardomg.security.data.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.data.persistence.repository.ActionRepository;
@@ -62,14 +63,14 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final Boolean addPermission(final Long id, final Long resource, final Long action) {
         final PersistentRolePermission relationship;
-        final DtoRole                  role;
         final RolePermission           roleAction;
 
-        roleAction = new ImmutableRolePermission(id, resource, action);
+        roleAction = ImmutableRolePermission.builder()
+            .role(id)
+            .resource(resource)
+            .action(action)
+            .build();
         addRolePermissionValidator.validate(roleAction);
-
-        role = new DtoRole();
-        role.setId(id);
 
         // Build relationship entities
         relationship = getRelationship(id, resource, action);
@@ -97,13 +98,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Boolean delete(final Long id) {
-        final DtoRole role;
-
         deleteRoleValidator.validate(id);
-
-        role = new DtoRole();
-        role.setId(id);
-
         rolePermissionRepository.deleteAllByRoleId(id);
         roleRepository.deleteById(id);
 
@@ -111,7 +106,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<Role> getAll(final Role sample, final Pageable pageable) {
+    public final Iterable<Role> getAll(final RoleQueryRequest sample, final Pageable pageable) {
         final PersistentRole entity;
 
         entity = toEntity(sample);
@@ -134,14 +129,14 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final Boolean removePermission(final Long id, final Long resource, final Long action) {
         final PersistentRolePermission relationship;
-        final DtoRole                  role;
         final RolePermission           roleAction;
 
-        roleAction = new ImmutableRolePermission(id, resource, action);
+        roleAction = ImmutableRolePermission.builder()
+            .role(id)
+            .resource(resource)
+            .action(action)
+            .build();
         removeRolePermissionValidator.validate(roleAction);
-
-        role = new DtoRole();
-        role.setId(id);
 
         // Build relationship entities
         relationship = getRelationship(id, resource, action);
@@ -168,35 +163,32 @@ public final class DefaultRoleService implements RoleService {
     }
 
     private final PersistentRolePermission getRelationship(final Long role, final Long resource, final Long action) {
-        final PersistentRolePermission relationship;
-
-        relationship = new PersistentRolePermission();
-        relationship.setRoleId(role);
-        relationship.setResourceId(resource);
-        relationship.setActionId(action);
-        relationship.setGranted(true);
-
-        return relationship;
+        return PersistentRolePermission.builder()
+            .roleId(role)
+            .resourceId(resource)
+            .actionId(action)
+            .granted(true)
+            .build();
     }
 
     private final Role toDto(final PersistentRole entity) {
-        final DtoRole data;
-
-        data = new DtoRole();
-        data.setId(entity.getId());
-        data.setName(entity.getName());
-
-        return data;
+        return ImmutableRole.builder()
+            .id(entity.getId())
+            .name(entity.getName())
+            .build();
     }
 
     private final PersistentRole toEntity(final Role data) {
-        final PersistentRole entity;
+        return PersistentRole.builder()
+            .id(data.getId())
+            .name(data.getName())
+            .build();
+    }
 
-        entity = new PersistentRole();
-        entity.setId(data.getId());
-        entity.setName(data.getName());
-
-        return entity;
+    private final PersistentRole toEntity(final RoleQueryRequest data) {
+        return PersistentRole.builder()
+            .name(data.getName())
+            .build();
     }
 
 }

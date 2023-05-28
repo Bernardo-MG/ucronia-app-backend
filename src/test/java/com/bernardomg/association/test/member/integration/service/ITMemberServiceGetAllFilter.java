@@ -32,9 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberRequest;
+import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQueryRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -53,13 +53,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("Filters by active")
     public void testGetAll_Active_Count() {
-        final Iterable<Member> result;
-        final DtoMemberRequest sample;
-        final Pageable         pageable;
+        final Iterable<Member>      result;
+        final DtoMemberQueryRequest sample;
+        final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberRequest();
+        sample = new DtoMemberQueryRequest();
         sample.setActive(true);
 
         result = service.getAll(sample, pageable);
@@ -70,13 +70,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("Returns all the entities when not filtering")
     public void testGetAll_Count() {
-        final Iterable<Member> result;
-        final MemberRequest    sample;
-        final Pageable         pageable;
+        final Iterable<Member>   result;
+        final MemberQueryRequest sample;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberRequest();
+        sample = new DtoMemberQueryRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -86,13 +86,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("Filters by noy active")
     public void testGetAll_NotActive_Count() {
-        final Iterable<Member> result;
-        final DtoMemberRequest sample;
-        final Pageable         pageable;
+        final Iterable<Member>      result;
+        final DtoMemberQueryRequest sample;
+        final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberRequest();
+        sample = new DtoMemberQueryRequest();
         sample.setActive(false);
 
         result = service.getAll(sample, pageable);

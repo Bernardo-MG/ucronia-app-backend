@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
+import com.bernardomg.security.data.model.request.RoleQueryRequest;
 
 public interface RoleService {
 
@@ -50,7 +51,7 @@ public interface RoleService {
      *            pagination to apply
      * @return all the roles matching the sample
      */
-    public Iterable<Role> getAll(final Role sample, final Pageable pageable);
+    public Iterable<Role> getAll(final RoleQueryRequest sample, final Pageable pageable);
 
     /**
      * Returns the role for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

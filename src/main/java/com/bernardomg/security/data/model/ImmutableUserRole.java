@@ -1,21 +1,15 @@
 
 package com.bernardomg.security.data.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
-public class ImmutableUserRole implements UserRole {
+@Value
+@Builder
+public final class ImmutableUserRole implements UserRole {
 
     private final Long role;
 
     private final Long user;
-
-    public ImmutableUserRole(@NonNull final Long usr, @NonNull final Long rl) {
-        super();
-
-        user = usr;
-        role = rl;
-    }
 
 }

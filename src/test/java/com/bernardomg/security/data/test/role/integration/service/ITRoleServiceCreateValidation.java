@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.service.RoleService;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -32,10 +32,11 @@ public class ITRoleServiceCreateValidation {
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
-        final DtoRole               data;
+        final ImmutableRole         data;
 
-        data = new DtoRole();
-        data.setName("ADMIN");
+        data = ImmutableRole.builder()
+            .name("ADMIN")
+            .build();
 
         executable = () -> service.create(data);
 

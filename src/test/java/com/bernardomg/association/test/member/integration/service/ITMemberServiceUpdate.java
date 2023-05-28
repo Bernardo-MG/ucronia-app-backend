@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMemberForm;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.PersistentMember;
-import com.bernardomg.association.member.repository.MemberRepository;
+import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
+import com.bernardomg.association.member.persistence.model.PersistentMember;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,9 +55,9 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoMemberForm member;
+        final DtoMemberCreationRequest member;
 
-        member = new DtoMemberForm();
+        member = new DtoMemberCreationRequest();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -72,9 +72,9 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("When updating a not existing entity a new one is added")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoMemberForm member;
+        final DtoMemberCreationRequest member;
 
-        member = new DtoMemberForm();
+        member = new DtoMemberCreationRequest();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -89,10 +89,10 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoMemberForm    member;
-        final PersistentMember entity;
+        final DtoMemberCreationRequest member;
+        final PersistentMember         entity;
 
-        member = new DtoMemberForm();
+        member = new DtoMemberCreationRequest();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -115,10 +115,10 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final Member        result;
-        final DtoMemberForm member;
+        final Member                   result;
+        final DtoMemberCreationRequest member;
 
-        member = new DtoMemberForm();
+        member = new DtoMemberCreationRequest();
         member.setName("Member 123");
         member.setSurname("Surname");
         member.setPhone("12345");
