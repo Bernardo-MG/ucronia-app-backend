@@ -38,7 +38,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -75,12 +75,12 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     /**
      * Repository for the user permissions.
      */
-    private final UserPermissionRepository userPermsRepo;
+    private final UserGrantedPermissionRepository userPermsRepo;
 
     /**
      * Repository for the user data.
      */
-    private final UserRepository           userRepo;
+    private final UserRepository                  userRepo;
 
     /**
      * Constructs a user details service.
@@ -89,7 +89,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            repository for user details
      */
     public PersistentUserDetailsService(final UserRepository userRepository,
-            final UserPermissionRepository userPermsRepository) {
+            final UserGrantedPermissionRepository userPermsRepository) {
         super();
 
         userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as user repository");

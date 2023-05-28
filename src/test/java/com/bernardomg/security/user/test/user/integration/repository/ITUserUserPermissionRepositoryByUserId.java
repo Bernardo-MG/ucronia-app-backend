@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.persistence.model.PersistentUserPermission;
-import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
+import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 
 @IntegrationTest
 @DisplayName("User repository - find permissions")
 public class ITUserUserPermissionRepositoryByUserId {
 
     @Autowired
-    private UserPermissionRepository repository;
+    private UserGrantedPermissionRepository repository;
 
     public ITUserUserPermissionRepositoryByUserId() {
         super();
@@ -32,7 +32,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_Count() {
-        final Collection<PersistentUserPermission> read;
+        final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 
@@ -44,7 +44,7 @@ public class ITUserUserPermissionRepositoryByUserId {
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_NoPermissions_Count() {
-        final Collection<PersistentUserPermission> read;
+        final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 
@@ -58,7 +58,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_NotExisting_Count() {
-        final Collection<PersistentUserPermission> read;
+        final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(-1L);
 
@@ -72,7 +72,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testFindForUser_NotGrantedPermissions_Count() {
-        final Collection<PersistentUserPermission> read;
+        final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(-1L);
 
@@ -88,7 +88,7 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/relationship/user_role.sql",
             "/db/queries/security/relationship/user_role_alternative.sql" })
     public void testFindForUser_Repeated_Count() {
-        final Collection<PersistentUserPermission> read;
+        final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 

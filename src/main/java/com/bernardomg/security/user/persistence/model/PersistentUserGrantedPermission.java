@@ -42,14 +42,14 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "UserPermission")
-@Table(name = "user_permissions")
+@Entity(name = "UserGrantedPermission")
+@Table(name = "user_granted_permissions")
 @IdClass(UserPermissionKey.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentUserPermission implements Serializable {
+public class PersistentUserGrantedPermission implements Serializable {
 
     /**
      * Serialization id.

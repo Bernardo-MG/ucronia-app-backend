@@ -33,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.bernardomg.security.permission.service.DefaultPermissionService;
 import com.bernardomg.security.permission.service.PermissionService;
 import com.bernardomg.security.permission.service.SpringValidUserPredicate;
-import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 
 /**
  * Security configuration.
@@ -49,7 +49,7 @@ public class PermissionConfig {
     }
 
     @Bean("permissionService")
-    public PermissionService getPermissionService(final UserPermissionRepository userPermsRepo,
+    public PermissionService getPermissionService(final UserGrantedPermissionRepository userPermsRepo,
             final UserDetailsService userDetService) {
         final Predicate<String> isValid;
 

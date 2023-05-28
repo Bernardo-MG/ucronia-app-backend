@@ -9,18 +9,19 @@ import java.util.stream.Collectors;
 
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
-import com.bernardomg.security.user.persistence.model.PersistentUserPermission;
-import com.bernardomg.security.user.persistence.repository.UserPermissionRepository;
+import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 
 import lombok.NonNull;
 
 public final class DefaultPermissionService implements PermissionService {
 
-    private final Predicate<String>        isValid;
+    private final Predicate<String>               isValid;
 
-    private final UserPermissionRepository userPermsRepository;
+    private final UserGrantedPermissionRepository userPermsRepository;
 
-    public DefaultPermissionService(final UserPermissionRepository userPermsRepo, final Predicate<String> valid) {
+    public DefaultPermissionService(final UserGrantedPermissionRepository userPermsRepo,
+            final Predicate<String> valid) {
         super();
 
         userPermsRepository = userPermsRepo;
@@ -45,7 +46,7 @@ public final class DefaultPermissionService implements PermissionService {
         return userPermsRepository.findAllByUsername(username)
             .stream()
             .collect(Collectors.groupingBy(d -> d.getResource(),
-                Collectors.mapping(PersistentUserPermission::getAction, Collectors.toList())));
+                Collectors.mapping(PersistentUserGrantedPermission::getAction, Collectors.toList())));
     }
 
 }
