@@ -141,18 +141,20 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final User update(final User user) {
-        final PersistentUser entity;
-        final PersistentUser created;
-        final PersistentUser old;
+        final PersistentUser           entity;
+        final PersistentUser           created;
+        final Optional<PersistentUser> old;
 
         updateUserValidator.validate(user);
 
         entity = toEntity(user);
         entity.setPassword("");
 
-        old = userRepository.findById(user.getId())
-            .get();
-        entity.setPassword(old.getPassword());
+        old = userRepository.findById(user.getId());
+        if (old.isPresent()) {
+            entity.setPassword(old.get()
+                .getPassword());
+        }
 
         created = userRepository.save(entity);
 
