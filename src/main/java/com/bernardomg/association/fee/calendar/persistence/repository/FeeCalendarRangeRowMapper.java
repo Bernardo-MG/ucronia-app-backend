@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.calendar.repository;
+package com.bernardomg.association.fee.calendar.persistence.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +28,10 @@ public final class FeeCalendarRangeRowMapper implements RowMapper<FeeCalendarRan
             throw new RuntimeException(e);
         }
 
-        return new ImmutableFeeCalendarRange(start, end);
+        return ImmutableFeeCalendarRange.builder()
+            .start(start)
+            .end(end)
+            .build();
     }
 
 }

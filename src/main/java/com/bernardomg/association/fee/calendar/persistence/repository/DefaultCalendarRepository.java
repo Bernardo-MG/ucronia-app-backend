@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.calendar.repository;
+package com.bernardomg.association.fee.calendar.persistence.repository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -131,7 +131,10 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         month = fee.getDate()
             .get(Calendar.MONTH) + 1;
 
-        return new ImmutableFeeMonth(month, fee.getPaid());
+        return ImmutableFeeMonth.builder()
+            .month(month)
+            .paid(fee.getPaid())
+            .build();
     }
 
     private final UserFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
@@ -162,7 +165,14 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             surname = row.getSurname();
         }
 
-        return new ImmutableUserFeeCalendar(member, name, surname, active, months, year);
+        return ImmutableUserFeeCalendar.builder()
+            .memberId(member)
+            .name(name)
+            .surname(surname)
+            .active(active)
+            .months(months)
+            .year(year)
+            .build();
     }
 
     private final String toSorting(final Order order) {

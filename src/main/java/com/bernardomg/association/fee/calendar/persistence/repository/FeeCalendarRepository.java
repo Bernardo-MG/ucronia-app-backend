@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.calendar.repository;
+package com.bernardomg.association.fee.calendar.persistence.repository;
 
 import org.springframework.data.domain.Sort;
 

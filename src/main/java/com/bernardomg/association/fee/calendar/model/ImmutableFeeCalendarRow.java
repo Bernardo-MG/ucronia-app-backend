@@ -26,23 +26,25 @@ package com.bernardomg.association.fee.calendar.model;
 
 import java.util.Calendar;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
-public final class DtoFeeCalendarRow implements FeeCalendarRow {
+@Value
+@Builder
+public final class ImmutableFeeCalendarRow implements FeeCalendarRow {
 
-    private Boolean  active;
+    private final Boolean  active;
 
-    private Calendar date;
+    private final Calendar date;
 
-    private Long     id;
+    private final Long     id;
 
-    private Long     memberId;
+    private final Long     memberId;
 
-    private String   name;
+    private final String   name;
 
-    private Boolean  paid;
+    private final Boolean  paid;
 
-    private String   surname;
+    private final String   surname;
 
 }

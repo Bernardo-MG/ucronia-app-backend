@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
+import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 
 import lombok.AllArgsConstructor;
 
