@@ -34,7 +34,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Dto implementation of {@code User}.
@@ -42,11 +45,14 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
 @Entity(name = "User")
 @Table(name = "users")
 @TableGenerator(name = "seq_users_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PersistentUser implements Serializable {
 
     /**

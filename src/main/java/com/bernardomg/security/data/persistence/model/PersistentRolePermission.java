@@ -31,7 +31,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Dto implementation of {@code Action}.
@@ -39,10 +42,13 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
 @Entity(name = "RolePermissions")
 @Table(name = "role_permissions")
 @IdClass(RolePermissionKey.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PersistentRolePermission implements Serializable {
 
     /**

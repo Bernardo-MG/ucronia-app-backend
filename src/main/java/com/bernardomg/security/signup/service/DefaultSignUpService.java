@@ -94,15 +94,16 @@ public final class DefaultSignUpService implements SignUpService {
             .toLowerCase();
         log.debug("Creating user {} with mail {}", username, email);
 
-        entity = new PersistentUser();
-        entity.setUsername(username);
-        entity.setPassword("");
-        entity.setName(username);
-        entity.setEmail(email);
-        entity.setCredentialsExpired(false);
-        entity.setEnabled(false);
-        entity.setExpired(false);
-        entity.setLocked(false);
+        entity = PersistentUser.builder()
+            .username(username)
+            .password("")
+            .name(username)
+            .email(email)
+            .credentialsExpired(false)
+            .enabled(false)
+            .expired(false)
+            .locked(false)
+            .build();
 
         created = repository.save(entity);
 

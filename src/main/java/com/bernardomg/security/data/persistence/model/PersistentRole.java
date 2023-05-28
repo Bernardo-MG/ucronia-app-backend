@@ -33,7 +33,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Dto implementation of {@code Action}.
@@ -41,11 +44,14 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
 @Entity(name = "Role")
 @Table(name = "roles")
 @TableGenerator(name = "seq_roles_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PersistentRole implements Serializable {
 
     /**

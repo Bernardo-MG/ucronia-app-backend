@@ -153,13 +153,10 @@ public final class DefaultUserService implements UserService {
     }
 
     private final PersistentUserRoles getRelationships(final Long user, final Long role) {
-        final PersistentUserRoles relationship;
-
-        relationship = new PersistentUserRoles();
-        relationship.setUserId(user);
-        relationship.setRoleId(role);
-
-        return relationship;
+        return PersistentUserRoles.builder()
+            .userId(user)
+            .roleId(role)
+            .build();
     }
 
     private final User toDto(final PersistentUser entity) {
@@ -176,25 +173,32 @@ public final class DefaultUserService implements UserService {
     }
 
     private final PersistentUser toEntity(final User data) {
-        final PersistentUser entity;
+        final String username;
+        final String email;
 
-        entity = new PersistentUser();
-        entity.setId(data.getId());
         if (data.getUsername() != null) {
-            entity.setUsername(data.getUsername()
-                .toLowerCase());
+            username = data.getUsername()
+                .toLowerCase();
+        } else {
+            username = null;
         }
-        entity.setName(data.getName());
         if (data.getEmail() != null) {
-            entity.setEmail(data.getEmail()
-                .toLowerCase());
+            email = data.getEmail()
+                .toLowerCase();
+        } else {
+            email = null;
         }
-        entity.setCredentialsExpired(data.getCredentialsExpired());
-        entity.setEnabled(data.getEnabled());
-        entity.setExpired(data.getExpired());
-        entity.setLocked(data.getLocked());
 
-        return entity;
+        return PersistentUser.builder()
+            .id(data.getId())
+            .username(username)
+            .email(email)
+            .name(data.getName())
+            .credentialsExpired(data.getCredentialsExpired())
+            .enabled(data.getEnabled())
+            .expired(data.getExpired())
+            .locked(data.getLocked())
+            .build();
     }
 
 }

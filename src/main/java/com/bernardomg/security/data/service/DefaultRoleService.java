@@ -154,15 +154,12 @@ public final class DefaultRoleService implements RoleService {
     }
 
     private final PersistentRolePermission getRelationship(final Long role, final Long resource, final Long action) {
-        final PersistentRolePermission relationship;
-
-        relationship = new PersistentRolePermission();
-        relationship.setRoleId(role);
-        relationship.setResourceId(resource);
-        relationship.setActionId(action);
-        relationship.setGranted(true);
-
-        return relationship;
+        return PersistentRolePermission.builder()
+            .roleId(role)
+            .resourceId(resource)
+            .actionId(action)
+            .granted(true)
+            .build();
     }
 
     private final Role toDto(final PersistentRole entity) {
@@ -173,13 +170,10 @@ public final class DefaultRoleService implements RoleService {
     }
 
     private final PersistentRole toEntity(final Role data) {
-        final PersistentRole entity;
-
-        entity = new PersistentRole();
-        entity.setId(data.getId());
-        entity.setName(data.getName());
-
-        return entity;
+        return PersistentRole.builder()
+            .id(data.getId())
+            .name(data.getName())
+            .build();
     }
 
 }

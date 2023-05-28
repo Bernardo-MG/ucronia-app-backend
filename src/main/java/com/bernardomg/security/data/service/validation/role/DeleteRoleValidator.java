@@ -44,8 +44,9 @@ public final class DeleteRoleValidator implements Validator<Long> {
             failures.add(failure);
         }
 
-        sample = new PersistentUserRoles();
-        sample.setRoleId(id);
+        sample = PersistentUserRoles.builder()
+            .roleId(id)
+            .build();
 
         // No user has the role
         if (userRolesRepository.exists(Example.of(sample))) {

@@ -32,8 +32,9 @@ public final class UpdateRoleValidator implements Validator<Role> {
 
         failures = new ArrayList<>();
 
-        sample = new PersistentRole();
-        sample.setName(role.getName());
+        sample = PersistentRole.builder()
+            .name(role.getName())
+            .build();
 
         // The role exists
         if (!roleRepository.existsById(role.getId())) {

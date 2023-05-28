@@ -44,13 +44,10 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     private final PersistentResource toEntity(final Resource data) {
-        final PersistentResource entity;
-
-        entity = new PersistentResource();
-        entity.setId(data.getId());
-        entity.setName(data.getName());
-
-        return entity;
+        return PersistentResource.builder()
+            .id(data.getId())
+            .name(data.getName())
+            .build();
     }
 
 }

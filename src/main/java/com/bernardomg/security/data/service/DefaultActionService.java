@@ -44,13 +44,10 @@ public final class DefaultActionService implements ActionService {
     }
 
     private final PersistentAction toEntity(final Action data) {
-        final PersistentAction entity;
-
-        entity = new PersistentAction();
-        entity.setId(data.getId());
-        entity.setName(data.getName());
-
-        return entity;
+        return PersistentAction.builder()
+            .id(data.getId())
+            .name(data.getName())
+            .build();
     }
 
 }
