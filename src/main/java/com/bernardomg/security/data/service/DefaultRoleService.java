@@ -65,7 +65,11 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRolePermission relationship;
         final RolePermission           roleAction;
 
-        roleAction = new ImmutableRolePermission(id, resource, action);
+        roleAction = ImmutableRolePermission.builder()
+            .role(id)
+            .resource(resource)
+            .action(action)
+            .build();
         addRolePermissionValidator.validate(roleAction);
 
         // Build relationship entities
@@ -127,7 +131,11 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRolePermission relationship;
         final RolePermission           roleAction;
 
-        roleAction = new ImmutableRolePermission(id, resource, action);
+        roleAction = ImmutableRolePermission.builder()
+            .role(id)
+            .resource(resource)
+            .action(action)
+            .build();
         removeRolePermissionValidator.validate(roleAction);
 
         // Build relationship entities

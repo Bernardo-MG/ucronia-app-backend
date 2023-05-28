@@ -61,7 +61,10 @@ public final class DefaultUserService implements UserService {
         final PersistentUserRoles relationship;
         final UserRole            userRole;
 
-        userRole = new ImmutableUserRole(id, role);
+        userRole = ImmutableUserRole.builder()
+            .user(id)
+            .role(role)
+            .build();
         addUserRoleValidator.validate(userRole);
 
         relationship = getRelationships(id, role);
@@ -122,7 +125,10 @@ public final class DefaultUserService implements UserService {
         final PersistentUserRoles relationship;
         final UserRole            userRole;
 
-        userRole = new ImmutableUserRole(id, role);
+        userRole = ImmutableUserRole.builder()
+            .user(id)
+            .role(role)
+            .build();
         removeUserRoleValidator.validate(userRole);
 
         relationship = getRelationships(id, role);

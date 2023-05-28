@@ -1,11 +1,12 @@
 
 package com.bernardomg.security.data.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
-public class ImmutablePermission implements Permission {
+@Value
+@Builder
+public final class ImmutablePermission implements Permission {
 
     private final String action;
 
@@ -14,15 +15,5 @@ public class ImmutablePermission implements Permission {
     private final String resource;
 
     private final Long   resourceId;
-
-    public ImmutablePermission(final Long resId, @NonNull final String res, final Long actId,
-            @NonNull final String act) {
-        super();
-
-        resourceId = resId;
-        resource = res;
-        actionId = actId;
-        action = act;
-    }
 
 }
