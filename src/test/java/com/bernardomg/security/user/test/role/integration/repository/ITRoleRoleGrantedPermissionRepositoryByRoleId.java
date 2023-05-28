@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.test.role.integration.repository;
 
-import java.util.stream.StreamSupport;
+import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.user.persistence.model.PersistentRoleGrantedPermission;
 import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 
 @IntegrationTest
@@ -35,9 +35,10 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testAllByRoleId() {
-        final Iterable<Permission> read;
-        final Pageable             pageable;
-        Boolean                    found;
+        final Iterable<PersistentRoleGrantedPermission> read;
+        final Iterator<PersistentRoleGrantedPermission> itr;
+        final Pageable                                  pageable;
+        PersistentRoleGrantedPermission                 found;
 
         pageable = Pageable.unpaged();
 
@@ -45,33 +46,43 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
         Assertions.assertEquals(4L, IterableUtils.size(read));
 
-        // DATA:CREATE
-        found = StreamSupport.stream(read.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        itr = read.iterator();
 
-        // DATA:READ
-        found = StreamSupport.stream(read.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        found = itr.next();
 
-        // DATA:UPDATE
-        found = StreamSupport.stream(read.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "UPDATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertEquals(1L, found.getActionId());
+        Assertions.assertEquals("CREATE", found.getAction());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals("DATA", found.getResource());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertEquals("ADMIN", found.getRole());
 
-        // DATA:DELETE
-        found = StreamSupport.stream(read.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "DELETE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        found = itr.next();
+
+        Assertions.assertEquals(2L, found.getActionId());
+        Assertions.assertEquals("READ", found.getAction());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals("DATA", found.getResource());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertEquals("ADMIN", found.getRole());
+
+        found = itr.next();
+
+        Assertions.assertEquals(3L, found.getActionId());
+        Assertions.assertEquals("UPDATE", found.getAction());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals("DATA", found.getResource());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertEquals("ADMIN", found.getRole());
+
+        found = itr.next();
+
+        Assertions.assertEquals(4L, found.getActionId());
+        Assertions.assertEquals("DELETE", found.getAction());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals("DATA", found.getResource());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertEquals("ADMIN", found.getRole());
     }
 
     @Test
@@ -81,8 +92,8 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testAllByRoleId_FirstPage_Count() {
-        final Page<Permission> read;
-        final Pageable         pageable;
+        final Page<PersistentRoleGrantedPermission> read;
+        final Pageable                              pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -98,21 +109,23 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testAllByRoleId_Ids() {
-        final Iterable<Permission> read;
-        final Pageable             pageable;
-        Permission                 found;
+        final Iterable<PersistentRoleGrantedPermission> read;
+        final Pageable                                  pageable;
+        PersistentRoleGrantedPermission                 found;
 
         pageable = Pageable.unpaged();
 
         read = repository.findAllByRoleId(1L, pageable);
 
-        // DATA:CREATE
-        found = StreamSupport.stream(read.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
-            .findAny()
-            .get();
-        Assertions.assertEquals(1, found.getResourceId());
-        Assertions.assertEquals(2, found.getActionId());
+        found = read.iterator()
+            .next();
+
+        Assertions.assertEquals(1L, found.getActionId());
+        Assertions.assertEquals("CREATE", found.getAction());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals("DATA", found.getResource());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertEquals("ADMIN", found.getRole());
     }
 
     @Test
@@ -120,8 +133,8 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testAllByRoleId_NoPermissions_Count() {
-        final Page<Permission> read;
-        final Pageable         pageable;
+        final Page<PersistentRoleGrantedPermission> read;
+        final Pageable                              pageable;
 
         pageable = Pageable.unpaged();
 
@@ -137,8 +150,8 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testAllByRoleId_NotExisting_Count() {
-        final Page<Permission> read;
-        final Pageable         pageable;
+        final Page<PersistentRoleGrantedPermission> read;
+        final Pageable                              pageable;
 
         pageable = Pageable.unpaged();
 
@@ -154,8 +167,8 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testAllByRoleId_NotGranted() {
-        final Iterable<Permission> read;
-        final Pageable             pageable;
+        final Iterable<PersistentRoleGrantedPermission> read;
+        final Pageable                                  pageable;
 
         pageable = Pageable.unpaged();
 

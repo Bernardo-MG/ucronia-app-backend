@@ -213,5 +213,5 @@ databaseChangeLog:
             viewName: user_granted_permissions
         -  createView:  
             remarks: Role granted permissions
-            selectQuery: SELECT rl.id AS role_id, r.name AS role, r.id AS resource_id, r.name AS resource, a.id AS action_id, a.name AS action FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true
+            selectQuery: SELECT rl.id AS role_id, rl.name AS role, r.id AS resource_id, r.name AS resource, a.id AS action_id, a.name AS action FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true
             viewName: role_granted_permissions

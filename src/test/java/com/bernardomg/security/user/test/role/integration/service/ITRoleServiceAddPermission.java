@@ -1,18 +1,18 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import java.util.stream.StreamSupport;
+import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest
@@ -20,7 +20,10 @@ import com.bernardomg.security.user.service.RoleService;
 public class ITRoleServiceAddPermission {
 
     @Autowired
-    private RoleService service;
+    private RolePermissionRepository rolePermissionRepository;
+
+    @Autowired
+    private RoleService              service;
 
     public ITRoleServiceAddPermission() {
         super();
@@ -31,23 +34,21 @@ public class ITRoleServiceAddPermission {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
     public void testAddPermission() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
-        final Boolean              found;
-
-        pageable = Pageable.unpaged();
+        final Iterable<PersistentRolePermission> result;
+        final PersistentRolePermission           found;
 
         service.addPermission(1l, 1l, 1l);
-        result = service.getPermission(1l, pageable);
+        result = rolePermissionRepository.findAll();
 
         Assertions.assertEquals(1L, IterableUtils.size(result));
 
-        // DATA:CREATE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        found = result.iterator()
+            .next();
+
+        Assertions.assertEquals(1L, found.getActionId());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertTrue(found.getGranted());
     }
 
     @Test
@@ -55,44 +56,44 @@ public class ITRoleServiceAddPermission {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
     public void testAddPermission_Existing() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
-        Boolean                    found;
-
-        pageable = Pageable.unpaged();
+        final Iterable<PersistentRolePermission> result;
+        final Iterator<PersistentRolePermission> itr;
+        PersistentRolePermission                 found;
 
         service.addPermission(1l, 1l, 1l);
-        result = service.getPermission(1l, pageable);
+        result = rolePermissionRepository.findAll();
 
         Assertions.assertEquals(4L, IterableUtils.size(result));
 
-        // DATA:CREATE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        itr = result.iterator();
 
-        // DATA:READ
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        found = itr.next();
 
-        // DATA:UPDATE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "UPDATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertEquals(1L, found.getActionId());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertTrue(found.getGranted());
 
-        // DATA:DELETE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "DELETE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertTrue(found);
+        found = itr.next();
+
+        Assertions.assertEquals(2L, found.getActionId());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertTrue(found.getGranted());
+
+        found = itr.next();
+
+        Assertions.assertEquals(3L, found.getActionId());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertTrue(found.getGranted());
+
+        found = itr.next();
+
+        Assertions.assertEquals(4L, found.getActionId());
+        Assertions.assertEquals(1L, found.getResourceId());
+        Assertions.assertEquals(1L, found.getRoleId());
+        Assertions.assertTrue(found.getGranted());
     }
 
 }

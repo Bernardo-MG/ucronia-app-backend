@@ -8,6 +8,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.security.user.model.ImmutablePermission;
 import com.bernardomg.security.user.model.ImmutableRole;
 import com.bernardomg.security.user.model.ImmutableRolePermission;
 import com.bernardomg.security.user.model.Permission;
@@ -15,6 +16,7 @@ import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.RoleQueryRequest;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
+import com.bernardomg.security.user.persistence.model.PersistentRoleGrantedPermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.persistence.repository.ResourceRepository;
@@ -129,7 +131,8 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<Permission> getPermission(final Long id, final Pageable pageable) {
-        return roleGrantedPermissionRepository.findAllByRoleId(id, pageable);
+        return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
+            .map(this::toDto);
     }
 
     @Override
@@ -173,7 +176,6 @@ public final class DefaultRoleService implements RoleService {
             .roleId(role)
             .resourceId(resource)
             .actionId(action)
-            .granted(true)
             .build();
     }
 
@@ -181,6 +183,15 @@ public final class DefaultRoleService implements RoleService {
         return ImmutableRole.builder()
             .id(entity.getId())
             .name(entity.getName())
+            .build();
+    }
+
+    private final Permission toDto(final PersistentRoleGrantedPermission entity) {
+        return ImmutablePermission.builder()
+            .actionId(entity.getActionId())
+            .action(entity.getAction())
+            .resourceId(entity.getResourceId())
+            .resource(entity.getResource())
             .build();
     }
 
