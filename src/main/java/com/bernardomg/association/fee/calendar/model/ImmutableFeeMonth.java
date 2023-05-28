@@ -25,17 +25,14 @@
 package com.bernardomg.association.fee.calendar.model;
 
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 
 @Value
 @Builder
 public final class ImmutableFeeMonth implements FeeMonth {
 
-    @NonNull
     private final Integer month;
 
-    @NonNull
     private final Boolean paid;
 
 }

@@ -25,17 +25,14 @@
 package com.bernardomg.association.fee.calendar.model;
 
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 
 @Value
 @Builder
 public final class ImmutableFeeCalendarRange implements FeeCalendarRange {
 
-    @NonNull
     private final Integer end;
 
-    @NonNull
     private final Integer start;
 
 }
