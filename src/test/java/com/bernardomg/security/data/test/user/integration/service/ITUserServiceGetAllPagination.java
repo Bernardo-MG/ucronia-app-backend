@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoUser;
+import com.bernardomg.security.data.model.ImmutableUser;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.service.UserService;
 
@@ -34,12 +34,13 @@ public class ITUserServiceGetAllPagination {
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
         final Iterable<User> result;
-        final DtoUser        sample;
+        final ImmutableUser  sample;
         final Pageable       pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoUser();
+        sample = ImmutableUser.builder()
+            .build();
 
         result = service.getAll(sample, pageable);
 
@@ -49,14 +50,15 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final DtoUser        sample;
+        final ImmutableUser  sample;
         final Iterator<User> data;
         final User           result;
         final Pageable       pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoUser();
+        sample = ImmutableUser.builder()
+            .build();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -74,13 +76,14 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final DtoUser        sample;
+        final ImmutableUser  sample;
         final Iterable<User> data;
         final Pageable       pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoUser();
+        sample = ImmutableUser.builder()
+            .build();
 
         data = service.getAll(sample, pageable);
 
@@ -90,13 +93,14 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final DtoUser        sample;
+        final ImmutableUser  sample;
         final Iterable<User> result;
         final Pageable       pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoUser();
+        sample = ImmutableUser.builder()
+            .build();
 
         result = service.getAll(sample, pageable);
 
@@ -107,12 +111,13 @@ public class ITUserServiceGetAllPagination {
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
         final Iterable<User> result;
-        final DtoUser        sample;
+        final ImmutableUser  sample;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoUser();
+        sample = ImmutableUser.builder()
+            .build();
 
         result = service.getAll(sample, pageable);
 

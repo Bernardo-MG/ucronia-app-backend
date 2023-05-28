@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.model.DtoUser;
+import com.bernardomg.security.data.model.ImmutableUser;
 import com.bernardomg.security.data.model.User;
 import com.bernardomg.security.data.service.UserService;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -35,10 +35,9 @@ public class ITUserServiceUpdateValidation {
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
-        final DtoUser               data;
+        final ImmutableUser         data;
 
-        data = getUser();
-        data.setUsername("abc");
+        data = getUser("abc");
 
         executable = () -> service.update(data);
 
@@ -65,10 +64,9 @@ public class ITUserServiceUpdateValidation {
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
-        final DtoUser               data;
+        final ImmutableUser         data;
 
-        data = getUser();
-        data.setEmail("email2@somewhere.com");
+        data = getUser("admin", "email2@somewhere.com");
 
         executable = () -> service.update(data);
 
@@ -95,10 +93,9 @@ public class ITUserServiceUpdateValidation {
         final Executable            executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
-        final DtoUser               data;
+        final ImmutableUser         data;
 
-        data = getUser();
-        data.setEmail("abc");
+        data = getUser("abc");
 
         executable = () -> service.update(data);
 
@@ -142,20 +139,43 @@ public class ITUserServiceUpdateValidation {
         Assertions.assertEquals("id.notExisting", failure.getMessage());
     }
 
-    private final DtoUser getUser() {
-        final DtoUser user;
+    private final ImmutableUser getUser() {
+        return ImmutableUser.builder()
+            .id(1L)
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build();
+    }
 
-        user = new DtoUser();
-        user.setId(1L);
-        user.setUsername("admin");
-        user.setName("Admin");
-        user.setEmail("email@somewhere.com");
-        user.setCredentialsExpired(false);
-        user.setEnabled(true);
-        user.setExpired(false);
-        user.setLocked(false);
+    private final ImmutableUser getUser(final String username) {
+        return ImmutableUser.builder()
+            .id(1L)
+            .username(username)
+            .name("Admin")
+            .email("email@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build();
+    }
 
-        return user;
+    private final ImmutableUser getUser(final String username, final String email) {
+        return ImmutableUser.builder()
+            .id(1L)
+            .username(username)
+            .name("Admin")
+            .email(email)
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build();
     }
 
 }

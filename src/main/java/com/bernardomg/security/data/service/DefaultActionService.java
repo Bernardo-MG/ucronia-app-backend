@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.data.model.Action;
-import com.bernardomg.security.data.model.DtoAction;
+import com.bernardomg.security.data.model.ImmutableAction;
 import com.bernardomg.security.data.persistence.model.PersistentAction;
 import com.bernardomg.security.data.persistence.repository.ActionRepository;
 
@@ -37,13 +37,10 @@ public final class DefaultActionService implements ActionService {
     }
 
     private final Action toDto(final PersistentAction entity) {
-        final DtoAction data;
-
-        data = new DtoAction();
-        data.setId(entity.getId());
-        data.setName(entity.getName());
-
-        return data;
+        return ImmutableAction.builder()
+            .id(entity.getId())
+            .name(entity.getName())
+            .build();
     }
 
     private final PersistentAction toEntity(final Action data) {

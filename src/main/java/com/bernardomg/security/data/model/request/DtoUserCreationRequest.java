@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.data.controller.model;
+package com.bernardomg.security.data.model.request;
 
 import com.bernardomg.security.data.model.User;
 
@@ -7,52 +7,52 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoUpdateUserForm implements User {
+public final class DtoUserCreationRequest implements User {
 
     /**
      * User expired flag.
      */
     @NotNull
-    private Boolean credentialsExpired;
+    private Boolean    credentialsExpired;
 
     /**
      * User email.
      */
     @NotNull
-    private String  email;
+    private String     email;
 
     /**
      * User enabled flag.
      */
     @NotNull
-    private Boolean enabled;
+    private Boolean    enabled;
 
     /**
      * User expired flag.
      */
     @NotNull
-    private Boolean expired;
+    private Boolean    expired;
 
     /**
      * User id.
      */
     @NotNull
-    private Long    id;
+    private final Long id = null;
 
     /**
      * User locked flag.
      */
     @NotNull
-    private Boolean locked;
+    private Boolean    locked;
 
     /**
      * User name.
      */
-    private String  name;
+    private String     name;
 
     /**
      * User username.
      */
-    private String  username;
+    private String     username;
 
 }

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.data.model.DtoUser;
+import com.bernardomg.security.data.model.ImmutableUser;
 import com.bernardomg.security.data.model.ImmutableUserRole;
 import com.bernardomg.security.data.model.Role;
 import com.bernardomg.security.data.model.User;
@@ -58,14 +58,10 @@ public final class DefaultUserService implements UserService {
     @Override
     public final Boolean addRole(final Long id, final Long role) {
         final PersistentUserRoles relationship;
-        final DtoUser             user;
         final UserRole            userRole;
 
         userRole = new ImmutableUserRole(id, role);
         addUserRoleValidator.validate(userRole);
-
-        user = new DtoUser();
-        user.setId(id);
 
         relationship = getRelationships(id, role);
 
@@ -93,13 +89,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean delete(final Long id) {
-        final DtoUser user;
-
         deleteUserValidator.validate(id);
-
-        user = new DtoUser();
-        user.setId(id);
-
         userRepository.deleteById(id);
 
         return true;
@@ -129,14 +119,10 @@ public final class DefaultUserService implements UserService {
     @Override
     public final Boolean removeRole(final Long id, final Long role) {
         final PersistentUserRoles relationship;
-        final DtoUser             user;
         final UserRole            userRole;
 
         userRole = new ImmutableUserRole(id, role);
         removeUserRoleValidator.validate(userRole);
-
-        user = new DtoUser();
-        user.setId(id);
 
         relationship = getRelationships(id, role);
 
@@ -177,19 +163,16 @@ public final class DefaultUserService implements UserService {
     }
 
     private final User toDto(final PersistentUser entity) {
-        final DtoUser data;
-
-        data = new DtoUser();
-        data.setId(entity.getId());
-        data.setUsername(entity.getUsername());
-        data.setName(entity.getName());
-        data.setEmail(entity.getEmail());
-        data.setCredentialsExpired(entity.getCredentialsExpired());
-        data.setEnabled(entity.getEnabled());
-        data.setExpired(entity.getExpired());
-        data.setLocked(entity.getLocked());
-
-        return data;
+        return ImmutableUser.builder()
+            .id(entity.getId())
+            .username(entity.getUsername())
+            .name(entity.getName())
+            .email(entity.getEmail())
+            .credentialsExpired(entity.getCredentialsExpired())
+            .enabled(entity.getEnabled())
+            .expired(entity.getExpired())
+            .locked(entity.getLocked())
+            .build();
     }
 
     private final PersistentUser toEntity(final User data) {

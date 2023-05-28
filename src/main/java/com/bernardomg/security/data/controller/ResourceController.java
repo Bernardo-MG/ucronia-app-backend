@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.data.model.Resource;
+import com.bernardomg.security.data.model.request.DtoResourceQueryRequest;
 import com.bernardomg.security.data.service.ResourceService;
 
 import lombok.AllArgsConstructor;
@@ -50,7 +51,7 @@ public class ResourceController {
     private final ResourceService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Resource> readAll(final Resource action, final Pageable pageable) {
+    public Iterable<Resource> readAll(final DtoResourceQueryRequest action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 

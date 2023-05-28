@@ -7,7 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.data.model.DtoRole;
+import com.bernardomg.security.data.model.ImmutableRole;
 import com.bernardomg.security.data.model.ImmutableRolePermission;
 import com.bernardomg.security.data.model.Permission;
 import com.bernardomg.security.data.model.Role;
@@ -62,14 +62,10 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final Boolean addPermission(final Long id, final Long resource, final Long action) {
         final PersistentRolePermission relationship;
-        final DtoRole                  role;
         final RolePermission           roleAction;
 
         roleAction = new ImmutableRolePermission(id, resource, action);
         addRolePermissionValidator.validate(roleAction);
-
-        role = new DtoRole();
-        role.setId(id);
 
         // Build relationship entities
         relationship = getRelationship(id, resource, action);
@@ -97,13 +93,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Boolean delete(final Long id) {
-        final DtoRole role;
-
         deleteRoleValidator.validate(id);
-
-        role = new DtoRole();
-        role.setId(id);
-
         rolePermissionRepository.deleteAllByRoleId(id);
         roleRepository.deleteById(id);
 
@@ -134,14 +124,10 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final Boolean removePermission(final Long id, final Long resource, final Long action) {
         final PersistentRolePermission relationship;
-        final DtoRole                  role;
         final RolePermission           roleAction;
 
         roleAction = new ImmutableRolePermission(id, resource, action);
         removeRolePermissionValidator.validate(roleAction);
-
-        role = new DtoRole();
-        role.setId(id);
 
         // Build relationship entities
         relationship = getRelationship(id, resource, action);
@@ -180,13 +166,10 @@ public final class DefaultRoleService implements RoleService {
     }
 
     private final Role toDto(final PersistentRole entity) {
-        final DtoRole data;
-
-        data = new DtoRole();
-        data.setId(entity.getId());
-        data.setName(entity.getName());
-
-        return data;
+        return ImmutableRole.builder()
+            .id(entity.getId())
+            .name(entity.getName())
+            .build();
     }
 
     private final PersistentRole toEntity(final Role data) {
