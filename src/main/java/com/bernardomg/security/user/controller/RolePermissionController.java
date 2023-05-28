@@ -48,24 +48,24 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/role")
+@RequestMapping("/security/role/{id}/permission")
 @AllArgsConstructor
 public class RolePermissionController {
 
     private final RoleService service;
 
-    @PutMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean addPermission(@PathVariable("id") final Long id,
             @Valid @RequestBody final DtoPermissionCreationRequest permission) {
         return service.addPermission(id, permission.getResourceId(), permission.getActionId());
     }
 
-    @GetMapping(path = "/{id}/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
         return service.getPermission(id, pageable);
     }
 
-    @DeleteMapping(path = "/{id}/permission/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean removePermission(@PathVariable("id") final Long id, @PathVariable("resource") final Long resource,
             @PathVariable("action") final Long action) {
         return service.removePermission(id, resource, action);
