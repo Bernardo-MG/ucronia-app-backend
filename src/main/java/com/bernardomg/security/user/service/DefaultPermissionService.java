@@ -31,7 +31,7 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     @Override
-    public PermissionsSet getPermissions(@NonNull final String username) {
+    public final PermissionsSet getPermissions(@NonNull final String username) {
         final Map<String, List<String>> permissions;
 
         if (isValid.test(username)) {
