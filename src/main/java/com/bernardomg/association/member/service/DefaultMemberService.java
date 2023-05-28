@@ -114,30 +114,23 @@ public final class DefaultMemberService implements MemberService {
     }
 
     private final PersistentMember toEntity(final MemberCreationRequest data) {
-        final PersistentMember entity;
-
-        entity = new PersistentMember();
-        entity.setName(data.getName());
-        entity.setSurname(data.getSurname());
-        entity.setIdentifier(data.getIdentifier());
-        entity.setPhone(data.getPhone());
-        entity.setActive(data.getActive());
-
-        return entity;
+        return PersistentMember.builder()
+            .name(data.getName())
+            .surname(data.getSurname())
+            .identifier(data.getIdentifier())
+            .phone(data.getPhone())
+            .active(data.getActive())
+            .build();
     }
 
     private final PersistentMember toEntity(final MemberQueryRequest data) {
-        final PersistentMember entity;
-
-        entity = new PersistentMember();
-        entity.setId(data.getId());
-        entity.setName(data.getName());
-        entity.setSurname(data.getSurname());
-        entity.setIdentifier(data.getIdentifier());
-        entity.setPhone(data.getPhone());
-        entity.setActive(data.getActive());
-
-        return entity;
+        return PersistentMember.builder()
+            .name(data.getName())
+            .surname(data.getSurname())
+            .identifier(data.getIdentifier())
+            .phone(data.getPhone())
+            .active(data.getActive())
+            .build();
     }
 
 }

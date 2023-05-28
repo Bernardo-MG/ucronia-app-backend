@@ -141,14 +141,11 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     private final PersistentTransaction toEntity(final TransactionCreationQuery transaction) {
-        final PersistentTransaction result;
-
-        result = new PersistentTransaction();
-        result.setDescription(transaction.getDescription());
-        result.setDate(transaction.getDate());
-        result.setAmount(transaction.getAmount());
-
-        return result;
+        return PersistentTransaction.builder()
+            .date(transaction.getDate())
+            .description(transaction.getDescription())
+            .amount(transaction.getAmount())
+            .build();
     }
 
 }

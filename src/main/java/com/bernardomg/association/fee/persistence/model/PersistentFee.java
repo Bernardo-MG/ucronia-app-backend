@@ -12,13 +12,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "Fee")
 @Table(name = "fees")
-@Data
 @TableGenerator(name = "seq_fees_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PersistentFee implements Serializable {
 
     /**

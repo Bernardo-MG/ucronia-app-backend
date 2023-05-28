@@ -8,14 +8,11 @@ import com.bernardomg.association.transaction.persistence.model.PersistentTransa
 public final class ModelFactory {
 
     public static final PersistentTransaction transaction(final Float value) {
-        final PersistentTransaction entity;
-
-        entity = new PersistentTransaction();
-        entity.setAmount(value);
-        entity.setDate(new GregorianCalendar(2020, 1, 1));
-        entity.setDescription("Transaction");
-
-        return entity;
+        return PersistentTransaction.builder()
+            .amount(value)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .description("Transaction")
+            .build();
     }
 
 }

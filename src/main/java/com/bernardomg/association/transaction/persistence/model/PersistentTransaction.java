@@ -11,13 +11,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity(name = "Transaction")
 @Table(name = "transactions")
 @TableGenerator(name = "seq_transactions_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PersistentTransaction implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;

@@ -48,12 +48,12 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
-    public final MemberFee create(final FeeCreationRequest form) {
+    public final MemberFee create(final FeeCreationRequest request) {
         final PersistentFee            entity;
         final PersistentFee            created;
         final Collection<FieldFailure> failures;
 
-        failures = validateCreate(form);
+        failures = validateCreate(request);
 
         // TODO: Validate that the entity doesn't exist, or handle DB exceptions
         if (!failures.isEmpty()) {
@@ -61,7 +61,7 @@ public final class DefaultFeeService implements FeeService {
             throw new FieldFailureException(failures);
         }
 
-        entity = toEntity(form);
+        entity = toEntity(request);
         entity.setId(null);
 
         created = feeRepository.save(entity);
@@ -183,18 +183,20 @@ public final class DefaultFeeService implements FeeService {
             .build();
     }
 
-    private final PersistentFee toEntity(final FeeCreationRequest data) {
-        final PersistentFee entity;
-        final Calendar      date;
+    private final PersistentFee toEntity(final FeeCreationRequest request) {
+        final Calendar date;
 
-        entity = new PersistentFee();
-        entity.setMemberId(data.getMemberId());
-        entity.setPaid(data.getPaid());
+        if (request.getDate() != null) {
+            date = removeDay(request.getDate());
+        } else {
+            date = null;
+        }
 
-        date = removeDay(data.getDate());
-        entity.setDate(date);
-
-        return entity;
+        return PersistentFee.builder()
+            .memberId(request.getMemberId())
+            .paid(request.getPaid())
+            .date(date)
+            .build();
     }
 
     private final Collection<FieldFailure> validateCreate(final FeeCreationRequest form) {
