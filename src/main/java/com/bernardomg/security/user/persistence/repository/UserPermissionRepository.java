@@ -22,53 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.persistence.model;
+package com.bernardomg.security.user.persistence.repository;
 
-import java.io.Serializable;
+import java.util.Collection;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bernardomg.security.user.persistence.model.PersistentUserPermission;
+import com.bernardomg.security.user.persistence.model.UserPermissionKey;
 
 /**
- * Dto implementation of {@code Action}.
+ * Repository for users.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "RolePermission")
-@Table(name = "role_permissions")
-@IdClass(RolePermissionKey.class)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PersistentRolePermission implements Serializable {
+public interface UserPermissionRepository extends JpaRepository<PersistentUserPermission, UserPermissionKey> {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 8513041662486312372L;
+    public Collection<PersistentUserPermission> findAllByUserId(final Long id);
 
-    @Id
-    @Column(name = "action_id", nullable = false)
-    private Long              actionId;
-
-    @Column(name = "granted", nullable = false)
-    private Boolean           granted;
-
-    @Id
-    @Column(name = "resource_id", nullable = false)
-    private Long              resourceId;
-
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+    public Collection<PersistentUserPermission> findAllByUsername(final String username);
 
 }

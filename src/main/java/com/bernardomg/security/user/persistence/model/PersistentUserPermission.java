@@ -42,33 +42,39 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "RolePermission")
-@Table(name = "role_permissions")
-@IdClass(RolePermissionKey.class)
+@Entity(name = "UserPermission")
+@Table(name = "user_permissions")
+@IdClass(UserPermissionKey.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentRolePermission implements Serializable {
+public class PersistentUserPermission implements Serializable {
 
     /**
      * Serialization id.
      */
-    private static final long serialVersionUID = 8513041662486312372L;
+    private static final long serialVersionUID = -208718562058532020L;
+
+    @Column(name = "action", nullable = false)
+    private String            action;
 
     @Id
     @Column(name = "action_id", nullable = false)
     private Long              actionId;
 
-    @Column(name = "granted", nullable = false)
-    private Boolean           granted;
+    @Column(name = "resource", nullable = false)
+    private String            resource;
 
     @Id
     @Column(name = "resource_id", nullable = false)
     private Long              resourceId;
 
     @Id
-    @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+    @Column(name = "user_id", nullable = false)
+    private Long              userId;
+
+    @Column(name = "username", nullable = false)
+    private String            username;
 
 }

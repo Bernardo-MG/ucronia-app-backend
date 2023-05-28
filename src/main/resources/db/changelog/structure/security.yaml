@@ -203,3 +203,11 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
+  - changeSet:
+      id: security_views
+      author: Bernardo
+      changes:
+        -  createView:  
+            remarks: User permissions
+            selectQuery: SELECT DISTINCT u.id AS user_id, u.username AS username, p.resource_id AS resource_id, p.resource AS resource, p.action_id AS action_id, p.action AS action FROM (SELECT r.id AS resource_id, r.name AS resource, a.id AS action_id, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id
+            viewName: user_permissions
