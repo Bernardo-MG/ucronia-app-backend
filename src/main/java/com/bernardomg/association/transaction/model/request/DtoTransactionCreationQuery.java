@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bernardomg.association.transaction.model.Transaction;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -12,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoTransactionCreationQuery implements TransactionCreationQuery {
+public final class DtoTransactionCreationQuery implements Transaction {
 
     @NotNull
     private Float    amount;
@@ -25,5 +26,7 @@ public final class DtoTransactionCreationQuery implements TransactionCreationQue
     @NotEmpty
     @NotNull
     private String   description;
+
+    private Long     id;
 
 }

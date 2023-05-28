@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeeCreationRequest;
 import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
@@ -48,7 +47,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
-    public final MemberFee create(final FeeCreationRequest request) {
+    public final MemberFee create(final MemberFee request) {
         final PersistentFee            entity;
         final PersistentFee            created;
         final Collection<FieldFailure> failures;
@@ -117,7 +116,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
-    public final MemberFee update(final Long id, final FeeCreationRequest form) {
+    public final MemberFee update(final Long id, final MemberFee form) {
         final PersistentFee            entity;
         final PersistentFee            created;
         final Collection<FieldFailure> failures;
@@ -183,7 +182,7 @@ public final class DefaultFeeService implements FeeService {
             .build();
     }
 
-    private final PersistentFee toEntity(final FeeCreationRequest request) {
+    private final PersistentFee toEntity(final MemberFee request) {
         final Calendar date;
 
         if (request.getDate() != null) {
@@ -193,13 +192,14 @@ public final class DefaultFeeService implements FeeService {
         }
 
         return PersistentFee.builder()
+            .id(request.getId())
             .memberId(request.getMemberId())
             .paid(request.getPaid())
             .date(date)
             .build();
     }
 
-    private final Collection<FieldFailure> validateCreate(final FeeCreationRequest form) {
+    private final Collection<FieldFailure> validateCreate(final MemberFee form) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
 
@@ -219,7 +219,7 @@ public final class DefaultFeeService implements FeeService {
         return failures;
     }
 
-    private final Collection<FieldFailure> validateUpdate(final FeeCreationRequest form) {
+    private final Collection<FieldFailure> validateUpdate(final MemberFee form) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
 

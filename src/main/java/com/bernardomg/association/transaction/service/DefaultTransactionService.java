@@ -14,7 +14,6 @@ import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.request.TransactionCreationQuery;
 import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
@@ -36,7 +35,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
-    public final Transaction create(final TransactionCreationQuery transaction) {
+    public final Transaction create(final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
@@ -120,7 +119,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
-    public final Transaction update(final Long id, final TransactionCreationQuery transaction) {
+    public final Transaction update(final Long id, final Transaction transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
@@ -140,8 +139,9 @@ public final class DefaultTransactionService implements TransactionService {
             .build();
     }
 
-    private final PersistentTransaction toEntity(final TransactionCreationQuery transaction) {
+    private final PersistentTransaction toEntity(final Transaction transaction) {
         return PersistentTransaction.builder()
+            .id(transaction.getId())
             .date(transaction.getDate())
             .description(transaction.getDescription())
             .amount(transaction.getAmount())
