@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.balance.model.Balance;
-import com.bernardomg.association.balance.model.DtoBalance;
+import com.bernardomg.association.balance.model.ImmutableBalance;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 import lombok.AllArgsConstructor;
@@ -19,9 +19,8 @@ public final class DefaultBalanceService implements BalanceService {
     @Override
     @PreAuthorize("hasAuthority('BALANCE:READ')")
     public final Balance getBalance() {
-        final DtoBalance balance;
-        final Float      readSum;
-        final Float      sum;
+        final Float readSum;
+        final Float sum;
 
         readSum = transactionRepository.sumAll();
         if (readSum == null) {
@@ -30,10 +29,9 @@ public final class DefaultBalanceService implements BalanceService {
             sum = readSum;
         }
 
-        balance = new DtoBalance();
-        balance.setAmount(sum);
-
-        return balance;
+        return ImmutableBalance.builder()
+            .amount(sum)
+            .build();
     }
 
 }
