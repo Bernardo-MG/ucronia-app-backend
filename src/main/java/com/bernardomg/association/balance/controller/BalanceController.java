@@ -24,12 +24,15 @@
 
 package com.bernardomg.association.balance.controller;
 
+import java.util.Collection;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.balance.model.Balance;
+import com.bernardomg.association.balance.model.MonthlyBalance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 
@@ -48,9 +51,14 @@ public class BalanceController {
 
     private final BalanceService service;
 
+    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<MonthlyBalance> readMonthlyBalance(final ImmutableMemberFee month) {
+        return service.getMonthlyBalance();
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Balance readBalance(final ImmutableMemberFee month) {
-        return service.getBalance();
+    public Balance readTotalBalance(final ImmutableMemberFee month) {
+        return service.getTotalBalance();
     }
 
 }
