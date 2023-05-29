@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.model.DtoLogin;
-import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.request.DtoLoginRequest;
+import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
@@ -33,10 +33,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     @Test
     @DisplayName("Doesn't log in a expired user")
     public void testLogIn_AccountExpired() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -49,10 +49,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     @Test
     @DisplayName("Doesn't log in a user with expired credentials")
     public void testLogIn_CredentialsExpired() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -65,10 +65,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     @Test
     @DisplayName("Doesn't log in a disabled user")
     public void testLogIn_Disabled() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -81,10 +81,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     @Test
     @DisplayName("Doesn't log in a locked user")
     public void testLogIn_Locked() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -97,10 +97,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     @Test
     @DisplayName("Doesn't log in a not existing user")
     public void testLogIn_NotExisting() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -113,10 +113,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     @Test
     @DisplayName("Logs in with a valid user")
     public void testLogIn_Valid() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -127,10 +127,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     }
 
     private final DefaultLoginService getService(final UserDetails user) {
-        final UserDetailsService  userDetService;
-        final PasswordEncoder     passEncoder;
-        final LoginStatusProvider loginStatusProvider;
-        final Predicate<Login>    valid;
+        final UserDetailsService      userDetService;
+        final PasswordEncoder         passEncoder;
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
@@ -179,10 +179,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     }
 
     private final DefaultLoginService getServiceForNotExisting() {
-        final UserDetailsService  userDetService;
-        final PasswordEncoder     passEncoder;
-        final LoginStatusProvider loginStatusProvider;
-        final Predicate<Login>    valid;
+        final UserDetailsService      userDetService;
+        final PasswordEncoder         passEncoder;
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
 
         userDetService = Mockito.mock(UserDetailsService.class);
         Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.login.model.request;
 
 import lombok.Data;
 
@@ -33,7 +33,7 @@ import lombok.Data;
  *
  */
 @Data
-public class DtoLogin implements Login {
+public class DtoLoginRequest implements LoginRequest {
 
     /**
      * User password.

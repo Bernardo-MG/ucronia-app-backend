@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.login.model.request;
 
 /**
  * All the data required for a login attempt.
@@ -30,7 +30,7 @@ package com.bernardomg.security.login.model;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface Login {
+public interface LoginRequest {
 
     /**
      * Returns the user password.

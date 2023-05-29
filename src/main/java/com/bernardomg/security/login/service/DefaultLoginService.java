@@ -26,8 +26,8 @@ package com.bernardomg.security.login.service;
 
 import java.util.function.Predicate;
 
-import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.request.LoginRequest;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +35,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultLoginService implements LoginService {
 
-    private final Predicate<Login>    isValid;
+    private final Predicate<LoginRequest> isValid;
 
-    private final LoginStatusProvider loginStatusProvider;
+    private final LoginStatusProvider     loginStatusProvider;
 
     public DefaultLoginService(@NonNull final LoginStatusProvider loginStatusProv,
-            @NonNull final Predicate<Login> valid) {
+            @NonNull final Predicate<LoginRequest> valid) {
         super();
 
         loginStatusProvider = loginStatusProv;
@@ -48,7 +48,7 @@ public final class DefaultLoginService implements LoginService {
     }
 
     @Override
-    public final LoginStatus login(final Login login) {
+    public final LoginStatus login(final LoginRequest login) {
         final Boolean valid;
         final String  username;
 

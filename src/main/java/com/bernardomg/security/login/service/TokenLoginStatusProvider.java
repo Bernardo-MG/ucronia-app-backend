@@ -28,9 +28,16 @@ public final class TokenLoginStatusProvider implements LoginStatusProvider {
 
         if (logged) {
             token = tokenEncoder.encode(username);
-            status = new ImmutableTokenLoginStatus(username, logged, token);
+            status = ImmutableTokenLoginStatus.builder()
+                .username(username)
+                .logged(logged)
+                .token(token)
+                .build();
         } else {
-            status = new ImmutableLoginStatus(username, logged);
+            status = ImmutableLoginStatus.builder()
+                .username(username)
+                .logged(logged)
+                .build();
         }
 
         return status;

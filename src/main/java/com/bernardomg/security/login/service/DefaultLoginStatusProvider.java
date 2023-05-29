@@ -12,7 +12,10 @@ public final class DefaultLoginStatusProvider implements LoginStatusProvider {
 
     @Override
     public final LoginStatus getStatus(final String username, final Boolean logged) {
-        return new ImmutableLoginStatus(username, logged);
+        return ImmutableLoginStatus.builder()
+            .username(username)
+            .logged(logged)
+            .build();
     }
 
 }

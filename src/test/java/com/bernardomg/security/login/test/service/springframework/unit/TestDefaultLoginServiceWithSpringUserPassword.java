@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.model.DtoLogin;
-import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.request.DtoLoginRequest;
+import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
@@ -32,10 +32,10 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
     @Test
     @DisplayName("Doesn't log in with an invalid password")
     public void testLogIn_Invalid() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -48,10 +48,10 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
     @Test
     @DisplayName("Logs in with a valid password")
     public void testLogIn_Valid() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -62,11 +62,11 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
     }
 
     private final DefaultLoginService getService(final Boolean match) {
-        final UserDetailsService  userDetService;
-        final PasswordEncoder     passEncoder;
-        final UserDetails         user;
-        final LoginStatusProvider loginStatusProvider;
-        final Predicate<Login>    valid;
+        final UserDetailsService      userDetService;
+        final PasswordEncoder         passEncoder;
+        final UserDetails             user;
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 

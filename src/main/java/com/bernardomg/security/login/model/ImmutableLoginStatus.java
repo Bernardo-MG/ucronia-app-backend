@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of {@link LoginStatus}.
@@ -33,7 +33,8 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public final class ImmutableLoginStatus implements LoginStatus {
 
     /**
@@ -45,12 +46,5 @@ public final class ImmutableLoginStatus implements LoginStatus {
      * Logged in user username.
      */
     private final String  username;
-
-    public ImmutableLoginStatus(@NonNull final String usnm, @NonNull final Boolean lgd) {
-        super();
-
-        username = usnm;
-        logged = lgd;
-    }
 
 }

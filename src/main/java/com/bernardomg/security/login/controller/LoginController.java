@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.service.LoginService;
 
 import lombok.AllArgsConstructor;
@@ -59,7 +59,7 @@ public class LoginController {
      * @return the login status after the login attempt
      */
     @PostMapping
-    public LoginStatus login(@RequestBody final DtoLogin request) {
+    public LoginStatus login(@RequestBody final DtoLoginRequest request) {
         return service.login(request);
     }
 
