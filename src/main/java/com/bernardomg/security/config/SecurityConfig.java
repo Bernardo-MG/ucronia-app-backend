@@ -34,10 +34,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.security.data.persistence.repository.ActionRepository;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
  * Security configuration.
@@ -65,8 +65,8 @@ public class SecurityConfig {
 
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final ActionRepository actionRepository) {
-        return new PersistentUserDetailsService(userRepository);
+            final UserGrantedPermissionRepository userPermsRepository) {
+        return new PersistentUserDetailsService(userRepository, userPermsRepository);
     }
 
 }

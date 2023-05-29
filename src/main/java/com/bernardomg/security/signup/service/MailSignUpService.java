@@ -24,10 +24,10 @@
 
 package com.bernardomg.security.signup.service;
 
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.NonNull;
 

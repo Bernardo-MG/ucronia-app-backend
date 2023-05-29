@@ -34,7 +34,6 @@ import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.service.DefaultLoginService;
@@ -52,6 +51,7 @@ import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.provider.TokenProcessor;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
  * Security configuration.

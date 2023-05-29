@@ -25,10 +25,10 @@
 package com.bernardomg.security.springframework.userdetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,8 +37,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,9 +73,14 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
+     * Repository for the user permissions.
+     */
+    private final UserGrantedPermissionRepository userPermsRepo;
+
+    /**
      * Repository for the user data.
      */
-    private final UserRepository userRepo;
+    private final UserRepository                  userRepo;
 
     /**
      * Constructs a user details service.
@@ -82,17 +88,20 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @param userRepository
      *            repository for user details
      */
-    public PersistentUserDetailsService(final UserRepository userRepository) {
+    public PersistentUserDetailsService(final UserRepository userRepository,
+            final UserGrantedPermissionRepository userPermsRepository) {
         super();
 
-        userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as repository");
+        userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as user repository");
+        userPermsRepo = Objects.requireNonNull(userPermsRepository,
+            "Received a null pointer as user permission repository");
     }
 
     @Override
     public final UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<PersistentUser>     user;
-        final Collection<GrantedAuthority> authorities;
-        final UserDetails                  details;
+        final Optional<PersistentUser>               user;
+        final Collection<? extends GrantedAuthority> authorities;
+        final UserDetails                            details;
 
         // TODO: Test this
 
@@ -130,15 +139,13 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            id of the user
      * @return all the authorities for the user
      */
-    private final Collection<GrantedAuthority> getAuthorities(final Long id) {
-        // TODO: Tests than no duplicate action is returned
-        // TODO: Increase isolation from the action repository
-        return userRepo.findPermissions(id)
+    private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
+        return userPermsRepo.findAllByUserId(id)
             .stream()
             .map(p -> p.getResource() + ":" + p.getAction())
             .distinct()
             .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     /**
@@ -150,7 +157,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            authorities for the user details
      * @return equivalent user details
      */
-    private final UserDetails toUserDetails(final PersistentUser user, final Collection<GrantedAuthority> authorities) {
+    private final UserDetails toUserDetails(final PersistentUser user,
+            final Collection<? extends GrantedAuthority> authorities) {
         final Boolean enabled;
         final Boolean accountNonExpired;
         final Boolean credentialsNonExpired;
