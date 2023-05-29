@@ -24,71 +24,61 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.balance.model.Balance;
+import com.bernardomg.association.balance.model.MonthlyBalance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 @IntegrationTest
-@DisplayName("Balance service - get balance with decimals")
-public class ITBalanceServiceGetBalanceDecimal {
+@DisplayName("Balance service - get monthly balance with decimals")
+public class ITBalanceServiceGetMonthlyBalanceDecimal {
 
     @Autowired
-    private TransactionRepository repository;
+    private BalanceService service;
 
-    @Autowired
-    private BalanceService        service;
-
-    public ITBalanceServiceGetBalanceDecimal() {
+    public ITBalanceServiceGetMonthlyBalanceDecimal() {
         super();
     }
 
     @Test
     @DisplayName("Returns the expected balance when there is a decimal transaction")
     @Sql({ "/db/queries/transaction/decimal.sql" })
-    public void testGetBalance_Decimal() {
-        final Balance result;
+    public void testGetMonthlyBalance_Multiple_Data() {
+        final MonthlyBalance data;
 
-        result = service.getBalance();
+        data = service.getMonthlyBalance()
+            .iterator()
+            .next();
 
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
+            .getTime());
         Assertions.assertEquals(Double.valueOf(0.12)
-            .floatValue(), result.getAmount());
+            .floatValue(), data.getTotal());
+        Assertions.assertEquals(Double.valueOf(0.12)
+            .floatValue(), data.getCumulative());
     }
 
     @Test
     @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
-    public void testGetBalance_DecimalsAddUpToZero() {
-        final Balance result;
+    public void testGetTotalBalance_DecimalsAddUpToZero() {
+        final MonthlyBalance data;
 
-        result = service.getBalance();
+        data = service.getMonthlyBalance()
+            .iterator()
+            .next();
 
-        Assertions.assertEquals(Double.valueOf(0)
-            .floatValue(), result.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0, after being saved into the repository")
-    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
-    public void testGetBalance_SaveAndRead_DecimalsAddUpToZero() {
-        final Balance result;
-
-        repository.save(ModelFactory.transaction(-40.8f));
-        repository.save(ModelFactory.transaction(13.6f));
-        repository.save(ModelFactory.transaction(13.6f));
-        repository.save(ModelFactory.transaction(13.6f));
-
-        result = service.getBalance();
-
-        Assertions.assertEquals(Double.valueOf(0)
-            .floatValue(), result.getAmount());
+        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
+            .getTime());
+        Assertions.assertEquals(0, data.getTotal());
+        Assertions.assertEquals(0, data.getCumulative());
     }
 
 }

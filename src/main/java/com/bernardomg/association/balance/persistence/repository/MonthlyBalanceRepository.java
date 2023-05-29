@@ -22,42 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.balance.controller;
+package com.bernardomg.association.balance.persistence.repository;
 
-import java.util.Collection;
+import java.util.Date;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.balance.model.Balance;
-import com.bernardomg.association.balance.model.MonthlyBalance;
-import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.balance.persistence.model.PersistentMonthlyBalance;
 
-import lombok.AllArgsConstructor;
-
-/**
- * Fee REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@RestController
-@RequestMapping("/balance")
-@AllArgsConstructor
-public class BalanceController {
-
-    private final BalanceService service;
-
-    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<MonthlyBalance> readMonthlyBalance() {
-        return service.getMonthlyBalance();
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Balance readTotalBalance() {
-        return service.getTotalBalance();
-    }
+public interface MonthlyBalanceRepository extends JpaRepository<PersistentMonthlyBalance, Date> {
 
 }
