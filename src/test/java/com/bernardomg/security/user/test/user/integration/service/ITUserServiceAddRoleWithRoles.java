@@ -2,7 +2,6 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -48,7 +47,7 @@ public class ITUserServiceAddRoleWithRoles {
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)
-            .collect(Collectors.toList());
+            .toList();
 
         Assertions.assertTrue(roleNames.contains("ADMIN"));
     }
@@ -69,7 +68,7 @@ public class ITUserServiceAddRoleWithRoles {
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)
-            .collect(Collectors.toList());
+            .toList();
 
         Assertions.assertTrue(roleNames.contains("ADMIN"));
         Assertions.assertTrue(roleNames.contains("ALT"));

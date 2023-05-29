@@ -104,7 +104,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         memberIds = readFees.stream()
             .map(FeeCalendarRow::getMemberId)
             .distinct()
-            .collect(Collectors.toList());
+            .toList();
 
         years = new ArrayList<>();
         for (final Long member : memberIds) {

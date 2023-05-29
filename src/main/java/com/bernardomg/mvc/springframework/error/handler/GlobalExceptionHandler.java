@@ -26,7 +26,6 @@ package com.bernardomg.mvc.springframework.error.handler;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mapping.PropertyReferenceException;
@@ -174,7 +173,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .getFieldErrors()
             .stream()
             .map(this::toFieldFailure)
-            .collect(Collectors.toList());
+            .toList();
 
         response = Response.failure(errors);
 

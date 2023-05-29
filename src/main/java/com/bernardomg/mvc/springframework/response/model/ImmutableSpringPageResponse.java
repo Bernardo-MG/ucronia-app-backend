@@ -24,8 +24,6 @@
 
 package com.bernardomg.mvc.springframework.response.model;
 
-import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Order;
 
@@ -69,7 +67,7 @@ public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<I
         sort = pg.getSort()
             .stream()
             .map(this::getPropertySort)
-            .collect(Collectors.toList());
+            .toList();
 
         page = pg;
     }

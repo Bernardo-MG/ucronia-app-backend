@@ -2,7 +2,6 @@
 package com.bernardomg.security.user.test.resource.integration.service;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -65,7 +64,7 @@ public class ITResourceServiceGetAll {
 
         names = StreamSupport.stream(data.spliterator(), false)
             .map(Resource::getName)
-            .collect(Collectors.toList());
+            .toList();
 
         Assertions.assertTrue(names.contains("DATA1"));
         Assertions.assertTrue(names.contains("DATA2"));
