@@ -24,8 +24,8 @@
 
 package com.bernardomg.mvc.response.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of the error response.
@@ -33,18 +33,12 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public class ImmutableErrorResponse implements ErrorResponse {
 
     private final String code;
 
     private final String message;
-
-    public ImmutableErrorResponse(@NonNull final String msg, @NonNull final String cd) {
-        super();
-
-        message = msg;
-        code = cd;
-    }
 
 }

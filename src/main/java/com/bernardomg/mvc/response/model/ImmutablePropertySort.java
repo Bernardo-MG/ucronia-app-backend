@@ -24,21 +24,15 @@
 
 package com.bernardomg.mvc.response.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public class ImmutablePropertySort implements PropertySort {
 
     private String direction;
 
     private String property;
-
-    public ImmutablePropertySort(@NonNull final String prop, @NonNull final String dir) {
-        super();
-
-        property = prop;
-        direction = dir;
-    }
 
 }

@@ -33,7 +33,9 @@ import com.bernardomg.mvc.response.model.ImmutablePropertySort;
 import com.bernardomg.mvc.response.model.PaginatedResponse;
 import com.bernardomg.mvc.response.model.PropertySort;
 
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Paginated response wrapping a Spring page.
@@ -43,6 +45,8 @@ import lombok.NonNull;
  * @param <T>
  *            response content type
  */
+@ToString
+@EqualsAndHashCode
 public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<Iterable<T>> {
 
     /**
@@ -124,7 +128,10 @@ public final class ImmutableSpringPageResponse<T> implements PaginatedResponse<I
             direction = "desc";
         }
 
-        return new ImmutablePropertySort(order.getProperty(), direction);
+        return ImmutablePropertySort.builder()
+            .property(order.getProperty())
+            .direction(direction)
+            .build();
     }
 
 }

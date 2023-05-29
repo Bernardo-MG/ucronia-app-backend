@@ -39,23 +39,34 @@ import com.bernardomg.validation.failure.Failure;
 public interface Response<T> {
 
     public static <T> Response<T> empty() {
-        return new ImmutableResponse<>();
+        return ImmutableResponse.<T> builder()
+            .build();
     }
 
     public static ErrorResponse error(final String code) {
-        return new ImmutableErrorResponse(code, code);
+        return ImmutableErrorResponse.builder()
+            .code(code)
+            .message(code)
+            .build();
     }
 
     public static ErrorResponse error(final String message, final String code) {
-        return new ImmutableErrorResponse(message, code);
+        return ImmutableErrorResponse.builder()
+            .code(code)
+            .message(message)
+            .build();
     }
 
     public static FailureResponse failure(final Collection<? extends Failure> errors) {
-        return new ImmutableFailureResponse(errors);
+        return ImmutableFailureResponse.builder()
+            .failures(errors)
+            .build();
     }
 
     public static <T> Response<T> of(final T content) {
-        return new ImmutableResponse<>(content);
+        return ImmutableResponse.<T> builder()
+            .content(content)
+            .build();
     }
 
     /**

@@ -24,8 +24,8 @@
 
 package com.bernardomg.mvc.response.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of the response.
@@ -35,33 +35,13 @@ import lombok.NonNull;
  * @param <T>
  *            response content type
  */
-@Data
+@Value
+@Builder
 public class ImmutableResponse<T> implements Response<T> {
 
     /**
      * Response content.
      */
     private final T content;
-
-    /**
-     * Default constructor.
-     */
-    public ImmutableResponse() {
-        super();
-
-        content = null;
-    }
-
-    /**
-     * Constructs a response with the specified content.
-     *
-     * @param cont
-     *            content
-     */
-    public ImmutableResponse(@NonNull final T cont) {
-        super();
-
-        content = cont;
-    }
 
 }
