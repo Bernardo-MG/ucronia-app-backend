@@ -185,7 +185,6 @@
       <spring.boot.version>3.1.0</spring.boot.version>
       <spring.data.version>2023.0.0</spring.data.version>
       <spring.version>6.0.9</spring.version>
-      <snakeyaml.version>2.0</snakeyaml.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
@@ -502,15 +501,6 @@
          <!-- Byte Buddy -->
          <groupId>net.bytebuddy</groupId>
          <artifactId>byte-buddy</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ========== DEPENDENCY CONVERGENCE ============ -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- SnakeYAML -->
-         <groupId>org.yaml</groupId>
-         <artifactId>snakeyaml</artifactId>
-         <version>${snakeyaml.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
