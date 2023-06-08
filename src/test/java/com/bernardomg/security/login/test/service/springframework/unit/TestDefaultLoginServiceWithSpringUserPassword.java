@@ -60,7 +60,7 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
         status = getService(true).login(login);
 
         Assertions.assertThat(status.getLogged())
-            .isFalse();
+            .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
     }

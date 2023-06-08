@@ -25,7 +25,7 @@
 package com.bernardomg.association.test.fee.calendar.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee calendar service - get all - only active")
+@DisplayName("Fee calendar service - get all - filter by only active status")
 public class ITFeeCalendarServiceGetAllFilterOnlyActive {
 
     @Autowired
@@ -58,10 +58,12 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
 
         result = service.getAll(2020, true, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(12, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(12);
     }
 
     @Test
@@ -75,7 +77,8 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
 
         result = service.getAll(2020, true, sort);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
 }

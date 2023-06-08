@@ -27,7 +27,7 @@ package com.bernardomg.association.test.fee.calendar.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +61,12 @@ public class ITFeeCalendarServiceGetAllInactiveMember {
 
         result = service.getAll(2020, false, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(12, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(12);
     }
 
     @Test
@@ -82,62 +84,91 @@ public class ITFeeCalendarServiceGetAllInactiveMember {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(false, result.getActive());
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isEqualTo(false);
 
         months = result.getMonths()
             .iterator();
 
         month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(1);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(2, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(2);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(3, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(3);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(4, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(4);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(5, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(5);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(6, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(6);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(7, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(7);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(8, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(8);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(9, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(9);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(10, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(10);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(11, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(11);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(12, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(12);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
     }
 
 }

@@ -1,3 +1,4 @@
+
 package com.bernardomg.association.test.fee.calendar.assertion;
 
 import java.util.Iterator;
@@ -8,10 +9,10 @@ import com.bernardomg.association.fee.calendar.model.FeeMonth;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 
 public class CalendarAssertions {
-    
-    public static final void assertFullYear(final UserFeeCalendar           result) {
-        final Iterator<FeeMonth>        months;
-        FeeMonth                        month;
+
+    public static final void assertFullYear(final UserFeeCalendar result) {
+        final Iterator<FeeMonth> months;
+        FeeMonth                 month;
 
         months = result.getMonths()
             .iterator();

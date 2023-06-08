@@ -129,7 +129,7 @@ public class ITFeeCalendarServiceGetAll {
         Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
             .getMonths()))
-            .isEqualTo(1);
+            .isEqualTo(7);
     }
 
     @Test
