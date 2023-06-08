@@ -26,40 +26,23 @@ package com.bernardomg.association.fee.calendar.model;
 
 import java.util.Collection;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
 
-    @NonNull
     private final Boolean              active;
 
-    @NonNull
     private final Long                 memberId;
 
-    @NonNull
     private final Collection<FeeMonth> months;
 
-    @NonNull
     private final String               name;
 
-    @NonNull
     private final String               surname;
 
-    @NonNull
     private final Integer              year;
-
-    public ImmutableUserFeeCalendar(@NonNull final Long id, @NonNull final String nm, @NonNull final String surnm,
-            @NonNull final Boolean actv, @NonNull final Collection<FeeMonth> mnths, @NonNull final Integer yr) {
-        super();
-
-        memberId = id;
-        name = nm;
-        surname = surnm;
-        active = actv;
-        months = mnths;
-        year = yr;
-    }
 
 }

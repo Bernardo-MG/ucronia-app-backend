@@ -54,8 +54,8 @@ public class ITFeeCalendarServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -70,11 +70,11 @@ public class ITFeeCalendarServiceGetAllInactiveMember {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterator<? extends UserFeeCalendar> data;
-        UserFeeCalendar                           result;
-        Iterator<FeeMonth>                        months;
-        FeeMonth                                  month;
-        final Sort                                sort;
+        final Iterator<UserFeeCalendar> data;
+        UserFeeCalendar                 result;
+        Iterator<FeeMonth>              months;
+        FeeMonth                        month;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 

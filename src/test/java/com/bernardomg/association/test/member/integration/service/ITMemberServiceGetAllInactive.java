@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMemberRequest;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberRequest;
+import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQueryRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,13 +55,13 @@ public class ITMemberServiceGetAllInactive {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<? extends Member> result;
-        final MemberRequest              sample;
-        final Pageable                   pageable;
+        final Iterable<Member>   result;
+        final MemberQueryRequest sample;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberRequest();
+        sample = new DtoMemberQueryRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -71,14 +71,14 @@ public class ITMemberServiceGetAllInactive {
     @Test
     @DisplayName("Returns all the entities data")
     public void testGetAll_Data() {
-        final Iterator<? extends Member> result;
-        final MemberRequest              sample;
-        Member                           data;
-        final Pageable                   pageable;
+        final Iterator<Member>   result;
+        final MemberQueryRequest sample;
+        Member                   data;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberRequest();
+        sample = new DtoMemberQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();

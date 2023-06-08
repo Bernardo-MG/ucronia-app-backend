@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransactionForm;
-import com.bernardomg.association.transaction.model.PersistentTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -57,9 +57,9 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final DtoTransactionForm transaction;
+        final DtoTransactionCreationQuery transaction;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -72,10 +72,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Updates persisted data with decimal values")
     public void testUpdate_Decimal_PersistedData() {
-        final DtoTransactionForm    transaction;
-        final PersistentTransaction entity;
+        final DtoTransactionCreationQuery transaction;
+        final PersistentTransaction       entity;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1.2f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -95,10 +95,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Returns the updated data with decimal values")
     public void testUpdate_Decimal_ReturnedData() {
-        final Transaction        result;
-        final DtoTransactionForm transaction;
+        final Transaction                 result;
+        final DtoTransactionCreationQuery transaction;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
         transaction.setAmount(1.2f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -115,9 +115,9 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("When updating a not existing entity a new one is added")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoTransactionForm transaction;
+        final DtoTransactionCreationQuery transaction;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -130,10 +130,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final DtoTransactionForm    transaction;
-        final PersistentTransaction entity;
+        final DtoTransactionCreationQuery transaction;
+        final PersistentTransaction       entity;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
@@ -153,10 +153,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final Transaction        result;
-        final DtoTransactionForm transaction;
+        final Transaction                 result;
+        final DtoTransactionCreationQuery transaction;
 
-        transaction = new DtoTransactionForm();
+        transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));

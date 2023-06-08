@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
+import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -19,9 +19,8 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Iterable<? extends UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive,
-            final Sort sort) {
-        final Iterable<? extends UserFeeCalendar> result;
+    public final Iterable<UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
+        final Iterable<UserFeeCalendar> result;
 
         if (onlyActive) {
             result = repository.findAllForYearWithActiveMember(year, sort);

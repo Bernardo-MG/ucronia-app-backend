@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.service;
 
-import com.bernardomg.security.login.model.Login;
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.request.LoginRequest;
 
 /**
  * Login service. Handles the login process, which receives a user credentials and returns the login status, which tells
@@ -43,6 +43,6 @@ public interface LoginService {
      *            login details
      * @return login status
      */
-    public LoginStatus login(final Login login);
+    public LoginStatus login(final LoginRequest login);
 
 }

@@ -36,7 +36,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.calendar.model.FeeMonth;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
+import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -55,9 +55,9 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembers {
     @Test
     @DisplayName("With a full year it returns all the entities")
     public void testFindAllForYear_FullYear_TwoMembers_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Iterator<? extends UserFeeCalendar> itr;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Iterator<UserFeeCalendar> itr;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 
@@ -75,11 +75,11 @@ public class ITFeeCalendarRepositoryFindAllForYearTwoMembers {
     @Test
     @DisplayName("With a full year it returns all the data")
     public void testFindAllForYear_FullYear_TwoMembers_Data() {
-        final Iterator<? extends UserFeeCalendar> data;
-        UserFeeCalendar                           result;
-        Iterator<FeeMonth>                        months;
-        FeeMonth                                  month;
-        final Sort                                sort;
+        final Iterator<UserFeeCalendar> data;
+        UserFeeCalendar                 result;
+        Iterator<FeeMonth>              months;
+        FeeMonth                        month;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 

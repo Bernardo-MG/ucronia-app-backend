@@ -35,8 +35,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMemberRequest;
-import com.bernardomg.association.member.model.MemberRequest;
+import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQueryRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,13 +55,13 @@ public class ITMemberServiceGetAllError {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
-        final MemberRequest sample;
-        final Pageable      pageable;
-        final Executable    executable;
+        final MemberQueryRequest sample;
+        final Pageable           pageable;
+        final Executable         executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoMemberRequest();
+        sample = new DtoMemberQueryRequest();
 
         executable = () -> service.getAll(sample, pageable)
             .iterator();

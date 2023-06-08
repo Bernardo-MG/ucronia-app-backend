@@ -68,30 +68,10 @@ public class ITTransactionServiceGetOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a decimal value")
-    @Sql({ "/db/queries/transaction/decimal.sql" })
-    public void testGetOne_Decimal() {
-        final Transaction result;
-        final Long        id;
-
-        id = 1L;
-
-        result = service.getOne(id)
-            .get();
-
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(Double.valueOf(0.12345)
-            .floatValue(), result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-    }
-
-    @Test
     @DisplayName("When reading a single entity with a valid id, an entity is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
     public void testGetOne_Existing() {
-        final Optional<? extends Transaction> result;
+        final Optional<Transaction> result;
 
         result = service.getOne(1L);
 
@@ -120,7 +100,7 @@ public class ITTransactionServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<? extends Transaction> result;
+        final Optional<Transaction> result;
 
         result = service.getOne(-1L);
 

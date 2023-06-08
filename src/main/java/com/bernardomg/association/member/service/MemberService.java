@@ -6,8 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberForm;
-import com.bernardomg.association.member.model.MemberRequest;
+import com.bernardomg.association.member.model.request.MemberQueryRequest;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -24,7 +23,7 @@ public interface MemberService {
      *            member to persist
      * @return the persisted member
      */
-    public Member create(final MemberForm member);
+    public Member create(final Member member);
 
     /**
      * Deletes the member with the received id.
@@ -44,7 +43,7 @@ public interface MemberService {
      *            pagination to apply
      * @return all the members matching the sample
      */
-    public Iterable<? extends Member> getAll(final MemberRequest sample, final Pageable pageable);
+    public Iterable<Member> getAll(final MemberQueryRequest sample, final Pageable pageable);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -53,7 +52,7 @@ public interface MemberService {
      *            id of the member to acquire
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<? extends Member> getOne(final Long id);
+    public Optional<Member> getOne(final Long id);
 
     /**
      * Updates the member for the received id with the received data.
@@ -64,6 +63,6 @@ public interface MemberService {
      *            new data for the member
      * @return the updated member
      */
-    public Member update(final Long id, final MemberForm member);
+    public Member update(final Long id, final Member member);
 
 }

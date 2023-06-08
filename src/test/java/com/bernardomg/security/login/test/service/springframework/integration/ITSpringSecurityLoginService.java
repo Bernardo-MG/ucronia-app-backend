@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.login.model.DtoLogin;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
+import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
+import com.bernardomg.security.test.constant.TokenConstants;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
 
 @IntegrationTest
 @DisplayName("SpringSecurityLoginService")
@@ -31,10 +36,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_CredentialsExpired() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -53,10 +58,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Disabled() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -75,10 +80,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Expired() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -97,10 +102,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Locked() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -117,10 +122,10 @@ public class ITSpringSecurityLoginService {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
     public void testLogIn_NotExisting() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -139,10 +144,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -163,10 +168,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid_Case() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("ADMIN");
         login.setPassword("1234");
 
@@ -181,14 +186,42 @@ public class ITSpringSecurityLoginService {
     }
 
     @Test
+    @DisplayName("On a succesful login returns a valid JWT token")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    public void testLogIn_Valid_JwtToken() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+        final JwtParser       parser;
+        final Claims          claims;
+
+        login = new DtoLoginRequest();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        parser = Jwts.parserBuilder()
+            .setSigningKey(TokenConstants.KEY)
+            .build();
+
+        claims = parser.parseClaimsJws(((TokenLoginStatus) status).getToken())
+            .getBody();
+
+        Assertions.assertEquals("admin", claims.getSubject());
+    }
+
+    @Test
     @DisplayName("Doesn't log in a user with no permissions")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid_NoPermissions() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
@@ -207,10 +240,10 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
     public void testLogIn_Valid_NotGrantedPermissions() {
-        final LoginStatus status;
-        final DtoLogin    login;
+        final LoginStatus     status;
+        final DtoLoginRequest login;
 
-        login = new DtoLogin();
+        login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 

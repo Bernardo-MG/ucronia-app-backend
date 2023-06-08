@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.password.change.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +35,7 @@ import com.bernardomg.security.password.change.model.PasswordChangeStatus;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**

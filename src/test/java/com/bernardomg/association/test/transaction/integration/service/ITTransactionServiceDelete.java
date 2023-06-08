@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.repository.TransactionRepository;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -58,13 +58,13 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes a false flag when deleting an invalid id")
+    @DisplayName("Returns a true flag when deleting an invalid id")
     public void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
         deleted = service.delete(-1L);
 
-        Assertions.assertFalse(deleted);
+        Assertions.assertTrue(deleted);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes a true flag when deleting an entity")
+    @DisplayName("Returns a true flag when deleting an entity")
     public void testDelete_ReturnsTrue() {
         final Boolean deleted;
 

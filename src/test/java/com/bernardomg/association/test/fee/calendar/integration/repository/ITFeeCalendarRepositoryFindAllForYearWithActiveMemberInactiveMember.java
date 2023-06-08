@@ -33,7 +33,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.repository.FeeCalendarRepository;
+import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,8 +51,8 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberInactiveMember
     @DisplayName("Returns no data for an inactive member")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Count() {
-        final Iterable<? extends UserFeeCalendar> result;
-        final Sort                                sort;
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
 
         sort = Sort.unsorted();
 

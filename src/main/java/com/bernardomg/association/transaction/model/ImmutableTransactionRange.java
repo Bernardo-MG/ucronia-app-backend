@@ -24,33 +24,19 @@
 
 package com.bernardomg.association.transaction.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public final class ImmutableTransactionRange implements TransactionRange {
 
-    @NonNull
     private final Integer endMonth;
 
-    @NonNull
     private final Integer endYear;
 
-    @NonNull
     private final Integer startMonth;
 
-    @NonNull
     private final Integer startYear;
-
-    public ImmutableTransactionRange(@NonNull final Integer strtMonth, @NonNull final Integer strtYear,
-            @NonNull final Integer ndMonth, @NonNull final Integer ndYear) {
-        super();
-
-        startYear = strtYear;
-        startMonth = strtMonth;
-
-        endMonth = ndMonth;
-        endYear = ndYear;
-    }
 
 }

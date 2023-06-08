@@ -41,9 +41,16 @@ public class PersistenceExceptionTestController {
         throw new BadSqlGrammarException("", "", new SQLException("", "", 0));
     }
 
+    @SuppressWarnings("unchecked")
     @GetMapping(path = "/property_reference", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> propertyReferenceException() {
-        throw new PropertyReferenceException("property", Mockito.mock(TypeInformation.class), Collections.emptyList());
+        final TypeInformation<String> info;
+
+        info = Mockito.mock(TypeInformation.class);
+        Mockito.when(info.getType())
+            .thenReturn(String.class);
+
+        throw new PropertyReferenceException("property", info, Collections.emptyList());
     }
 
 }

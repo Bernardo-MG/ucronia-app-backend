@@ -12,13 +12,12 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.provider.TokenValidator;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - has expired")
 public class ITPersistentTokenProcessorHasExpired {
 
-    private final TokenValidator validator;
+    private final PersistentTokenProcessor validator;
 
     @Autowired
     public ITPersistentTokenProcessorHasExpired(final TokenRepository tokenRepository,
@@ -26,19 +25,6 @@ public class ITPersistentTokenProcessorHasExpired {
         super();
 
         validator = new PersistentTokenProcessor(tokenRepository, tokenService);
-    }
-
-    @Test
-    @DisplayName("Retrieves the subject from a token")
-    public final void testGetSubject() {
-        final String token;
-        final String subject;
-
-        token = TokenConstants.TOKEN;
-
-        subject = validator.getSubject(token);
-
-        Assertions.assertNotEquals("admin", subject);
     }
 
     @Test

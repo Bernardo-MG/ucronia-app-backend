@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.model.Login;
+import com.bernardomg.security.login.model.request.LoginRequest;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class SpringValidLoginPredicate implements Predicate<Login> {
+public final class SpringValidLoginPredicate implements Predicate<LoginRequest> {
 
     /**
      * Password encoder, for validating passwords.
@@ -51,7 +51,7 @@ public final class SpringValidLoginPredicate implements Predicate<Login> {
     }
 
     @Override
-    public final boolean test(final Login login) {
+    public final boolean test(final LoginRequest login) {
         final Boolean         valid;
         Optional<UserDetails> details;
 

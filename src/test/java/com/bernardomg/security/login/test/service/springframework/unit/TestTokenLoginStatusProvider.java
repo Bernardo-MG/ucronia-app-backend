@@ -12,7 +12,7 @@ import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.test.constant.TokenConstants;
-import com.bernardomg.security.token.provider.TokenProvider;
+import com.bernardomg.security.token.TokenEncoder;
 
 @DisplayName("TokenLoginStatusProvider - get status")
 public class TestTokenLoginStatusProvider {
@@ -48,14 +48,15 @@ public class TestTokenLoginStatusProvider {
         Assertions.assertEquals("admin", status.getUsername());
     }
 
+    @SuppressWarnings("unchecked")
     private final LoginStatusProvider getLoginStatusProvider() {
-        final TokenProvider tokenProvider;
+        final TokenEncoder<String> tokenEncoder;
 
-        tokenProvider = Mockito.mock(TokenProvider.class);
-        Mockito.when(tokenProvider.generateToken(ArgumentMatchers.anyString()))
+        tokenEncoder = Mockito.mock(TokenEncoder.class);
+        Mockito.when(tokenEncoder.encode(ArgumentMatchers.anyString()))
             .thenReturn(TokenConstants.TOKEN);
 
-        return new TokenLoginStatusProvider(tokenProvider);
+        return new TokenLoginStatusProvider(tokenEncoder);
     }
 
 }

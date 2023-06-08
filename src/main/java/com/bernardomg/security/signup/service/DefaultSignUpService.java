@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.failure.Failure;
@@ -94,15 +94,16 @@ public final class DefaultSignUpService implements SignUpService {
             .toLowerCase();
         log.debug("Creating user {} with mail {}", username, email);
 
-        entity = new PersistentUser();
-        entity.setUsername(username);
-        entity.setPassword("");
-        entity.setName(username);
-        entity.setEmail(email);
-        entity.setCredentialsExpired(false);
-        entity.setEnabled(false);
-        entity.setExpired(false);
-        entity.setLocked(false);
+        entity = PersistentUser.builder()
+            .username(username)
+            .password("")
+            .name(username)
+            .email(email)
+            .credentialsExpired(false)
+            .enabled(false)
+            .expired(false)
+            .locked(false)
+            .build();
 
         created = repository.save(entity);
 

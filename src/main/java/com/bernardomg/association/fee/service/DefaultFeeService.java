@@ -7,19 +7,21 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.fee.model.DtoMemberFee;
-import com.bernardomg.association.fee.model.FeeForm;
-import com.bernardomg.association.fee.model.FeeRequest;
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.PersistentFee;
-import com.bernardomg.association.fee.repository.FeeRepository;
-import com.bernardomg.association.fee.repository.MemberFeeRepository;
-import com.bernardomg.association.member.repository.MemberRepository;
+import com.bernardomg.association.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
+import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
 
@@ -37,20 +39,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
+    private final FeeRepository       feeRepository;
+
     private final MemberFeeRepository memberFeeRepository;
 
     private final MemberRepository    memberRepository;
 
-    private final FeeRepository       repository;
-
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
-    public final MemberFee create(final FeeForm form) {
+    public final MemberFee create(final MemberFee request) {
         final PersistentFee            entity;
         final PersistentFee            created;
         final Collection<FieldFailure> failures;
 
-        failures = validateCreate(form);
+        failures = validateCreate(request);
 
         // TODO: Validate that the entity doesn't exist, or handle DB exceptions
         if (!failures.isEmpty()) {
@@ -58,10 +60,10 @@ public final class DefaultFeeService implements FeeService {
             throw new FieldFailureException(failures);
         }
 
-        entity = toEntity(form);
+        entity = toEntity(request);
         entity.setId(null);
 
-        created = repository.save(entity);
+        created = feeRepository.save(entity);
 
         return toDto(created);
     }
@@ -69,41 +71,42 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
     public final Boolean delete(final Long id) {
-        Boolean deleted;
+        feeRepository.deleteById(id);
 
-        try {
-            repository.deleteById(id);
-            deleted = true;
-        } catch (final EmptyResultDataAccessException e) {
-            log.error("Tried to delete id {}, which doesn't exist", id);
-            deleted = false;
+        return true;
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FEE:READ')")
+    public final Iterable<MemberFee> getAll(final FeeQueryRequest request, final Pageable pageable) {
+        final Page<PersistentMemberFee>                    page;
+        final Optional<Specification<PersistentMemberFee>> spec;
+        // TODO: Test repository
+        // TODO: Test reading with no name or surname
+
+        spec = MemberFeeSpecifications.fromRequest(request);
+
+        if (spec.isEmpty()) {
+            page = memberFeeRepository.findAll(pageable);
+        } else {
+            page = memberFeeRepository.findAll(spec.get(), pageable);
         }
 
-        return deleted;
+        return page.map(this::toDto);
     }
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Iterable<? extends MemberFee> getAll(final FeeRequest request, final Pageable pageable) {
-        // TODO: Test repository
-        // TODO: Test reading with no name or surname
-        return memberFeeRepository.findAllWithMember(request, pageable);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Optional<? extends MemberFee> getOne(final Long id) {
-        final Optional<MemberFee>           found;
-        final Optional<? extends MemberFee> result;
-        final MemberFee                     data;
+    public final Optional<MemberFee> getOne(final Long id) {
+        final Optional<PersistentMemberFee> found;
+        final Optional<MemberFee>           result;
 
         // TODO: Test repository
         // TODO: Test reading with no name or surname
-        found = memberFeeRepository.findOneByIdWithMember(id);
+        found = memberFeeRepository.findById(id);
 
         if (found.isPresent()) {
-            data = found.get();
-            result = Optional.of(data);
+            result = found.map(this::toDto);
         } else {
             result = Optional.empty();
         }
@@ -113,7 +116,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
-    public final MemberFee update(final Long id, final FeeForm form) {
+    public final MemberFee update(final Long id, final MemberFee form) {
         final PersistentFee            entity;
         final PersistentFee            created;
         final Collection<FieldFailure> failures;
@@ -129,7 +132,7 @@ public final class DefaultFeeService implements FeeService {
         entity = toEntity(form);
         entity.setId(id);
 
-        created = repository.save(entity);
+        created = feeRepository.save(entity);
         return toDto(created);
     }
 
@@ -144,8 +147,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final MemberFee toDto(final PersistentFee entity) {
-        final DtoMemberFee data;
-        final Calendar     date;
+        final Calendar date;
 
         if (entity.getDate() != null) {
             date = removeDay(entity.getDate());
@@ -153,30 +155,51 @@ public final class DefaultFeeService implements FeeService {
             date = null;
         }
 
-        data = new DtoMemberFee();
-        data.setId(entity.getId());
-        data.setMemberId(entity.getMemberId());
-        data.setDate(date);
-        data.setPaid(entity.getPaid());
-
-        return data;
+        return ImmutableMemberFee.builder()
+            .id(entity.getId())
+            .memberId(entity.getMemberId())
+            .date(date)
+            .paid(entity.getPaid())
+            .build();
     }
 
-    private final PersistentFee toEntity(final FeeForm data) {
-        final PersistentFee entity;
-        final Calendar      date;
+    private final MemberFee toDto(final PersistentMemberFee entity) {
+        final Calendar date;
 
-        entity = new PersistentFee();
-        entity.setMemberId(data.getMemberId());
-        entity.setPaid(data.getPaid());
+        if (entity.getDate() != null) {
+            date = removeDay(entity.getDate());
+        } else {
+            date = null;
+        }
 
-        date = removeDay(data.getDate());
-        entity.setDate(date);
-
-        return entity;
+        return ImmutableMemberFee.builder()
+            .id(entity.getId())
+            .memberId(entity.getMemberId())
+            .date(date)
+            .paid(entity.getPaid())
+            .name(entity.getName())
+            .surname(entity.getSurname())
+            .build();
     }
 
-    private final Collection<FieldFailure> validateCreate(final FeeForm form) {
+    private final PersistentFee toEntity(final MemberFee request) {
+        final Calendar date;
+
+        if (request.getDate() != null) {
+            date = removeDay(request.getDate());
+        } else {
+            date = null;
+        }
+
+        return PersistentFee.builder()
+            .id(request.getId())
+            .memberId(request.getMemberId())
+            .paid(request.getPaid())
+            .date(date)
+            .build();
+    }
+
+    private final Collection<FieldFailure> validateCreate(final MemberFee form) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
 
@@ -196,7 +219,7 @@ public final class DefaultFeeService implements FeeService {
         return failures;
     }
 
-    private final Collection<FieldFailure> validateUpdate(final FeeForm form) {
+    private final Collection<FieldFailure> validateUpdate(final MemberFee form) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
 

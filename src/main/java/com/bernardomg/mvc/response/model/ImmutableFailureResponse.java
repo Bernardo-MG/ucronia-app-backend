@@ -28,8 +28,8 @@ import java.util.Collection;
 
 import com.bernardomg.validation.failure.Failure;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of the failure response.
@@ -37,24 +37,13 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public class ImmutableFailureResponse implements FailureResponse {
 
     /**
      * Response failures.
      */
     private final Collection<? extends Failure> failures;
-
-    /**
-     * Constructs a response with the specified failures.
-     *
-     * @param fails
-     *            failures
-     */
-    public ImmutableFailureResponse(@NonNull final Collection<? extends Failure> fails) {
-        super();
-
-        failures = fails;
-    }
 
 }

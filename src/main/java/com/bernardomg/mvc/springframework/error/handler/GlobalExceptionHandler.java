@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,14 +26,16 @@ package com.bernardomg.mvc.springframework.error.handler;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,9 +66,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         super();
     }
 
+    /**
+     * Handles unmapped exceptions.
+     *
+     * @param ex
+     *            exception to handle
+     * @param request
+     *            request
+     * @return internal error response
+     */
     @ExceptionHandler({ RuntimeException.class })
-    public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request)
-            throws Exception {
+    public final ResponseEntity<Object> handleExceptionDefault(final Exception ex, final WebRequest request) {
         final ErrorResponse response;
 
         log.warn(ex.getMessage(), ex);
@@ -88,7 +98,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({ AccessDeniedException.class })
+    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
     public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
             throws Exception {
         final ErrorResponse response;
@@ -139,8 +149,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected final ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body,
-            final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, @Nullable final Object body,
+            final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         final ErrorResponse response;
         final String        message;
 
@@ -150,12 +160,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         response = Response.error(message, "500");
 
-        return super.handleExceptionInternal(ex, response, headers, status, request);
+        return super.handleExceptionInternal(ex, response, headers, statusCode, request);
     }
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
-            final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+            final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
         final Collection<FieldFailure> errors;
         final FailureResponse          response;
 
@@ -163,7 +173,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .getFieldErrors()
             .stream()
             .map(this::toFieldFailure)
-            .collect(Collectors.toList());
+            .toList();
 
         response = Response.failure(errors);
 

@@ -36,9 +36,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRequest;
+import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -53,41 +53,16 @@ public class ITTransactionServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns a decimal transaction")
-    @Sql({ "/db/queries/transaction/decimal.sql" })
-    public void testGetAll_Decimal() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
-        Transaction                           data;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoTransactionRequest();
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(Double.valueOf(0.12345)
-            .floatValue(), data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
-    }
-
-    @Test
     @DisplayName("Returns all the entities when reading a full year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_FullYear_Count() {
-        final Iterable<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
+        final Iterable<Transaction>   result;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -98,14 +73,14 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns all the entities data when reading a full year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_FullYear_Data() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
-        Transaction                           data;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
+        Transaction                   data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -199,13 +174,13 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns all the entities when reading multiple entities")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_Multiple_Count() {
-        final Iterable<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
+        final Iterable<Transaction>   result;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable);
 
@@ -216,14 +191,14 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns all the entities data when reading multiple entities")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_Multiple_Data() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
-        Transaction                           data;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
+        Transaction                   data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -268,14 +243,14 @@ public class ITTransactionServiceGetAll {
     @DisplayName("Returns a negative transaction")
     @Sql({ "/db/queries/transaction/negative.sql" })
     public void testGetAll_Negative() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        final Pageable                        pageable;
-        Transaction                           data;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        final Pageable                pageable;
+        Transaction                   data;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();

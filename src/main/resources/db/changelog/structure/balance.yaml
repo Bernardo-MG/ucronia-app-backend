@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: members
+      id: balance
       author: Bernardo
       changes:
         - createTable:
@@ -21,7 +21,7 @@ databaseChangeLog:
                   defaultValue: ''
               - column:
                   name: amount
-                  type: float
+                  type: decimal(10,2)
                   constraints:
                     nullable: false
                   defaultValueNumeric: 0
@@ -71,3 +71,15 @@ databaseChangeLog:
             constraintName: fees_unique_date
             tableName: fees
             columnNames: 'member_id, date'
+  - changeSet:
+      id: balance_views
+      author: Bernardo
+      changes:
+        -  createView:  
+            remarks: Fees joined with their members
+            selectQuery: SELECT f.id AS id, m.id AS member_id, m.name AS name, m.surname AS surname, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id
+            viewName: member_fees
+        -  createView:  
+            remarks: Monthly balance
+            selectQuery: SELECT month_year AS date, total, SUM(total) OVER (ORDER BY month_year) AS cumulative FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS total FROM transactions GROUP BY month_year) AS subquery
+            viewName: monthly_balances

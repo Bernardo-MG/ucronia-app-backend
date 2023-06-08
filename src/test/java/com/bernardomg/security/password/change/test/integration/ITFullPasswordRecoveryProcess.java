@@ -9,11 +9,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.data.persistence.model.PersistentUser;
-import com.bernardomg.security.data.persistence.repository.UserRepository;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("Full password recovery process")

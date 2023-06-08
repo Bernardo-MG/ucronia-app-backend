@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.model;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of {@link TokenLoginStatus}.
@@ -33,7 +33,8 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public final class ImmutableTokenLoginStatus implements TokenLoginStatus {
 
     /**
@@ -50,24 +51,5 @@ public final class ImmutableTokenLoginStatus implements TokenLoginStatus {
      * Username of the user who attempted login.
      */
     private final String  username;
-
-    /**
-     * Builds a login status with the specified arguments.
-     *
-     * @param user
-     *            username
-     * @param flag
-     *            logged status
-     * @param tokn
-     *            authentication token
-     */
-    public ImmutableTokenLoginStatus(@NonNull final String user, @NonNull final Boolean flag,
-            @NonNull final String tokn) {
-        super();
-
-        username = user;
-        logged = flag;
-        token = tokn;
-    }
 
 }

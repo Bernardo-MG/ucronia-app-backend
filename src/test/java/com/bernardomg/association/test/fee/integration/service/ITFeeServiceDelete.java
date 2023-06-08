@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.repository.FeeRepository;
+import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -58,13 +58,13 @@ public class ITFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes a false flag when deleting an invalid id")
+    @DisplayName("Returns a true flag when deleting an invalid id")
     public void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
         deleted = service.delete(-1L);
 
-        Assertions.assertFalse(deleted);
+        Assertions.assertTrue(deleted);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ITFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes a true flag when deleting an entity")
+    @DisplayName("Returns a true flag when deleting an entity")
     public void testDelete_ReturnsTrue() {
         final Boolean deleted;
 

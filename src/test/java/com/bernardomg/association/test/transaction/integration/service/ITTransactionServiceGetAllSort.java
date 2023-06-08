@@ -37,9 +37,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.DtoTransactionRequest;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRequest;
+import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -57,14 +57,14 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by date")
     public void testGetAll_Asc_Date() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        Transaction                   data;
+        final Pageable                pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -108,14 +108,14 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in ascending order by description")
     public void testGetAll_Asc_Description() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        Transaction                   data;
+        final Pageable                pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "description");
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -159,14 +159,14 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by date")
     public void testGetAll_Desc_Date() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        Transaction                   data;
+        final Pageable                pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
@@ -210,14 +210,14 @@ public class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("Returns all data in descending order by description")
     public void testGetAll_Desc_Description() {
-        final Iterator<? extends Transaction> result;
-        final TransactionRequest              sample;
-        Transaction                           data;
-        final Pageable                        pageable;
+        final Iterator<Transaction>   result;
+        final TransactionQueryRequest sample;
+        Transaction                   data;
+        final Pageable                pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "description");
 
-        sample = new DtoTransactionRequest();
+        sample = new DtoTransactionQueryRequest();
 
         result = service.getAll(sample, pageable)
             .iterator();
