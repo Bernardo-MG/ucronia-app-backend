@@ -3,7 +3,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -39,8 +39,10 @@ public class TestDefaultLoginServiceWithSpringUserFailure {
 
         status = getServiceWithNullUser().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     private final DefaultLoginService getService(final UserDetails user) {

@@ -27,7 +27,7 @@ package com.bernardomg.association.test.fee.calendar.integration.repository;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,7 @@ import com.bernardomg.association.fee.calendar.model.FeeMonth;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.calendar.assertion.CalendarAssertions;
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year")
@@ -61,10 +62,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(12, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(12);
     }
 
     @Test
@@ -73,9 +76,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     public void testFindAllForYear_FullYear_Data() {
         final Iterator<UserFeeCalendar> data;
         final UserFeeCalendar           result;
-        final Iterator<FeeMonth>        months;
         final Sort                      sort;
-        FeeMonth                        month;
 
         sort = Sort.unsorted();
 
@@ -83,62 +84,18 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isEqualTo(true);
 
-        months = result.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(2, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(3, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(4, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(5, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(6, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(7, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(8, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(9, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(10, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(11, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(12, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        CalendarAssertions.assertFullYear(result);
     }
 
     @Test
@@ -151,7 +108,8 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
     @Test
@@ -165,10 +123,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(1, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(1);
     }
 
     @Test
@@ -187,18 +147,25 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isEqualTo(true);
 
         months = result.getMonths()
             .iterator();
 
         month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(1);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
     }
 
     @Test
@@ -212,10 +179,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(1, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(1);
     }
 
     @Test
@@ -234,18 +203,25 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isEqualTo(true);
 
         months = result.getMonths()
             .iterator();
 
         month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(false, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(1);
+        Assertions.assertThat(month.getPaid())
+            .isFalse();
     }
 
     @Test
@@ -259,10 +235,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2019, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(3, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(3);
     }
 
     @Test
@@ -280,26 +258,37 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .iterator()
             .next();
 
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2019, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2019);
+        Assertions.assertThat(result.getActive())
+            .isEqualTo(true);
 
         months = result.getMonths()
             .iterator();
 
         month = months.next();
-        Assertions.assertEquals(10, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(10);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(11, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(11);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(12, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(12);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
     }
 
     @Test
@@ -313,10 +302,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
-        Assertions.assertEquals(7, IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
             .next()
-            .getMonths()));
+            .getMonths()))
+            .isEqualTo(7);
     }
 
     @Test
@@ -334,42 +325,61 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .iterator()
             .next();
 
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isEqualTo(true);
 
         months = result.getMonths()
             .iterator();
 
         month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(1);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(2, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(2);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(3, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(3);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(4, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(4);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(5, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(5);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(6, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(6);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
 
         month = months.next();
-        Assertions.assertEquals(7, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        Assertions.assertThat(month.getMonth())
+            .isEqualTo(7);
+        Assertions.assertThat(month.getPaid())
+            .isTrue();
     }
 
 }

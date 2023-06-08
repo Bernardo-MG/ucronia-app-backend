@@ -24,10 +24,10 @@
 
 package com.bernardomg.association.test.fee.calendar.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -52,15 +52,16 @@ public class ITFeeCalendarServiceGetAllError {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
-        final Sort       sort;
-        final Executable executable;
+        final Sort             sort;
+        final ThrowingCallable executable;
 
         sort = Sort.by(Direction.ASC, "abc");
 
         executable = () -> service.getAll(2020, false, sort)
             .iterator();
 
-        Assertions.assertThrows(BadSqlGrammarException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(BadSqlGrammarException.class);
     }
 
 }

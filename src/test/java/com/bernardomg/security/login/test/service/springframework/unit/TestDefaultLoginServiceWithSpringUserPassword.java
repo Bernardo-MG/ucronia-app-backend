@@ -4,7 +4,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 import java.util.Collections;
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -41,8 +41,10 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
 
         status = getService(false).login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -57,8 +59,10 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
 
         status = getService(true).login(login);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     private final DefaultLoginService getService(final Boolean match) {

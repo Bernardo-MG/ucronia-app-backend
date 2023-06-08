@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,8 @@ public class ITBalanceServiceGetTotalBalance {
 
         result = service.getTotalBalance();
 
-        Assertions.assertEquals(5, result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(5);
     }
 
     @Test
@@ -64,7 +65,8 @@ public class ITBalanceServiceGetTotalBalance {
 
         result = service.getTotalBalance();
 
-        Assertions.assertEquals(-1, result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(-1);
     }
 
     @Test
@@ -74,7 +76,8 @@ public class ITBalanceServiceGetTotalBalance {
 
         result = service.getTotalBalance();
 
-        Assertions.assertEquals(0, result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(0);
     }
 
     @Test
@@ -85,7 +88,8 @@ public class ITBalanceServiceGetTotalBalance {
 
         result = service.getTotalBalance();
 
-        Assertions.assertEquals(1, result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1);
     }
 
     @Test
@@ -96,8 +100,8 @@ public class ITBalanceServiceGetTotalBalance {
 
         result = service.getTotalBalance();
 
-        Assertions.assertEquals(Double.valueOf(1.5)
-            .floatValue(), result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1.5f);
     }
 
 }

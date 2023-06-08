@@ -25,7 +25,7 @@
 package com.bernardomg.association.test.fee.calendar.integration.repository;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,8 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberInactiveMember
 
         result = repository.findAllForYearWithActiveMember(2020, sort);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
 }

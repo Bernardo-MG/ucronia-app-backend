@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,8 @@ public class TestJwtSubjectTokenEncoderGenerateToken {
 
         token = encoder.encode("subject");
 
-        Assertions.assertFalse(token.isEmpty());
+        Assertions.assertThat(token.isEmpty())
+            .isFalse();
     }
 
 }

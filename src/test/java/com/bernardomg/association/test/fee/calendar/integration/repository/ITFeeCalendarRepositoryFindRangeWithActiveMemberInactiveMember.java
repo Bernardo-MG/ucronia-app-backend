@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.fee.calendar.integration.repository;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +53,10 @@ public class ITFeeCalendarRepositoryFindRangeWithActiveMemberInactiveMember {
 
         result = repository.findRangeWithActiveMember();
 
-        Assertions.assertEquals(0, result.getStart());
-        Assertions.assertEquals(0, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(0);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(0);
     }
 
 }

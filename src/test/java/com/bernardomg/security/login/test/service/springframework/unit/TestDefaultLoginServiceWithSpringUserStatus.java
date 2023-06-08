@@ -4,7 +4,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 import java.util.Collections;
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -42,8 +42,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForAccountExpired().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -58,8 +60,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -74,8 +78,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForDisabled().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -90,8 +96,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForLocked().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -106,8 +114,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForNotExisting().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -122,8 +132,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForValid().login(login);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     private final DefaultLoginService getService(final UserDetails user) {
