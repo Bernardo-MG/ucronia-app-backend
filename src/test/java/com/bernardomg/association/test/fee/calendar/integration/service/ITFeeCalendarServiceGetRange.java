@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.fee.calendar.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +53,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
@@ -66,8 +68,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
@@ -78,8 +82,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
@@ -89,8 +95,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(0, result.getStart());
-        Assertions.assertEquals(0, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(0);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(0);
     }
 
     @Test
@@ -101,8 +109,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
@@ -113,8 +123,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(2019, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(2019);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
@@ -125,8 +137,10 @@ public class ITFeeCalendarServiceGetRange {
 
         result = service.getRange(false);
 
-        Assertions.assertEquals(2018, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(2018);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(2020);
     }
 
 }
