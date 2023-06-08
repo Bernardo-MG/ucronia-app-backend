@@ -15,17 +15,14 @@ public final class DtoMemberCreationRequest implements Member {
 
     private Long    id;
 
-    @NotNull
     private String  identifier;
 
     @NotEmpty
     @NotNull
     private String  name;
 
-    @NotNull
     private String  phone;
 
-    @NotNull
     private String  surname;
 
 }
