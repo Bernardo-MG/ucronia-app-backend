@@ -26,7 +26,7 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +66,8 @@ public class ITFeeServiceCreate {
 
         service.create(fee);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -85,11 +86,15 @@ public class ITFeeServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(true, entity.getPaid());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(entity.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        Assertions.assertThat(entity.getPaid())
+            .isTrue();
     }
 
     @Test
@@ -108,11 +113,15 @@ public class ITFeeServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(true, entity.getPaid());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(entity.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        Assertions.assertThat(entity.getPaid())
+            .isTrue();
     }
 
     @Test
@@ -128,11 +137,15 @@ public class ITFeeServiceCreate {
 
         result = service.create(fee);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(true, result.getPaid());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        Assertions.assertThat(result.getPaid())
+            .isTrue();
     }
 
 }

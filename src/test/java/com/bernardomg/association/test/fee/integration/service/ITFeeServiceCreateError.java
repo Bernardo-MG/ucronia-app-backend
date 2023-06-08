@@ -26,11 +26,11 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
@@ -59,7 +59,7 @@ public class ITFeeServiceCreateError {
     @DisplayName("Throws an exception when there is an entry for that member and date")
     public void testCreate_ExistingDateAndMember() {
         final DtoFeeCreationRequest fee;
-        final Executable            executable;
+        final ThrowingCallable      executable;
 
         fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
@@ -71,14 +71,15 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when there is an entry for that member and date, ignoring the day")
     public void testCreate_ExistingDateAndMember_ChangesDay() {
         final DtoFeeCreationRequest fee;
-        final Executable            executable;
+        final ThrowingCallable      executable;
 
         fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
@@ -90,7 +91,8 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
@@ -98,7 +100,7 @@ public class ITFeeServiceCreateError {
     @Disabled("The model rejects this case")
     public void testCreate_MissingDate() {
         final DtoFeeCreationRequest fee;
-        final Executable            executable;
+        final ThrowingCallable      executable;
 
         fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
@@ -110,14 +112,15 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the paid flag is missing")
     public void testCreate_MissingPaid() {
         final DtoFeeCreationRequest fee;
-        final Executable            executable;
+        final ThrowingCallable      executable;
 
         fee = new DtoFeeCreationRequest();
         fee.setMemberId(1L);
@@ -129,7 +132,8 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
 }
