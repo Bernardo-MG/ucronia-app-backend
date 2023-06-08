@@ -32,7 +32,7 @@ public class PersistentMember implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "active", nullable = false, unique = true)
+    @Column(name = "active", nullable = false)
     private Boolean           active;
 
     @Id
@@ -40,16 +40,16 @@ public class PersistentMember implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "identifier", nullable = false, unique = true)
+    @Column(name = "identifier")
     private String            identifier;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String            name;
 
-    @Column(name = "phone", nullable = false, unique = true)
+    @Column(name = "phone")
     private String            phone;
 
-    @Column(name = "surname", nullable = false, unique = true)
+    @Column(name = "surname")
     private String            surname;
 
 }
