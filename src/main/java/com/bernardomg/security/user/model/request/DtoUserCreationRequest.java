@@ -13,6 +13,7 @@ public final class DtoUserCreationRequest implements User {
      * User expired flag.
      */
     @NotNull
+    @Deprecated
     private Boolean    credentialsExpired;
 
     /**
@@ -25,12 +26,14 @@ public final class DtoUserCreationRequest implements User {
      * User enabled flag.
      */
     @NotNull
+    @Deprecated
     private Boolean    enabled;
 
     /**
      * User expired flag.
      */
     @NotNull
+    @Deprecated
     private Boolean    expired;
 
     /**
@@ -43,6 +46,7 @@ public final class DtoUserCreationRequest implements User {
      * User locked flag.
      */
     @NotNull
+    @Deprecated
     private Boolean    locked;
 
     /**
