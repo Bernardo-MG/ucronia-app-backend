@@ -26,6 +26,9 @@ package com.bernardomg.mvc.springframework.error.handler;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mapping.PropertyReferenceException;
@@ -113,11 +116,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ FieldFailureException.class })
     public final ResponseEntity<Object> handleValidationException(final FieldFailureException ex,
             final WebRequest request) throws Exception {
-        final FailureResponse response;
+        final FailureResponse                 response;
+        final Map<String, List<FieldFailure>> failures;
 
         log.warn(ex.getMessage(), ex);
 
-        response = Response.failure(ex.getFailures());
+        failures = ex.getFailures()
+            .stream()
+            .collect(Collectors.groupingBy(FieldFailure::getField));
+
+        response = Response.failure(failures);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -149,7 +157,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, @Nullable final Object body,
+    protected final ResponseEntity<Object> handleExceptionInternal(final Exception ex, @Nullable final Object body,
             final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
         final ErrorResponse response;
         final String        message;
@@ -166,16 +174,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
             final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
-        final Collection<FieldFailure> errors;
-        final FailureResponse          response;
+        final Map<String, List<FieldFailure>> failures;
+        final FailureResponse                 response;
 
-        errors = ex.getBindingResult()
+        failures = ex.getBindingResult()
             .getFieldErrors()
             .stream()
             .map(this::toFieldFailure)
-            .toList();
+            .collect(Collectors.groupingBy(FieldFailure::getField));
 
-        response = Response.failure(errors);
+        response = Response.failure(failures);
 
         return super.handleExceptionInternal(ex, response, headers, status, request);
     }

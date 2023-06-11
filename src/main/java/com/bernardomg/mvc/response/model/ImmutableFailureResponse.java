@@ -24,9 +24,10 @@
 
 package com.bernardomg.mvc.response.model;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.Builder;
 import lombok.Value;
@@ -44,6 +45,6 @@ public class ImmutableFailureResponse implements FailureResponse {
     /**
      * Response failures.
      */
-    private final Collection<? extends Failure> failures;
+    private final Map<String, List<FieldFailure>> failures;
 
 }
