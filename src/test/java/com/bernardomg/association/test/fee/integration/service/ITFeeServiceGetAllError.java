@@ -24,11 +24,11 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -57,9 +57,9 @@ public class ITFeeServiceGetAllError {
     @DisplayName("Ordering by a not existing field generates an error")
     @Disabled
     public void testGetAll_NotExisting() {
-        final FeeQueryRequest sample;
-        final Pageable        pageable;
-        final Executable      executable;
+        final FeeQueryRequest  sample;
+        final Pageable         pageable;
+        final ThrowingCallable executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
@@ -68,7 +68,8 @@ public class ITFeeServiceGetAllError {
         executable = () -> service.getAll(sample, pageable)
             .iterator();
 
-        Assertions.assertThrows(BadSqlGrammarException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(BadSqlGrammarException.class);
     }
 
 }

@@ -29,17 +29,19 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - get all - filter")
@@ -70,7 +72,8 @@ public class ITFeeServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -81,7 +84,6 @@ public class ITFeeServiceGetAllFilter {
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
-        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -93,14 +95,13 @@ public class ITFeeServiceGetAllFilter {
         result = service.getAll(sample, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+            .id(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -121,7 +122,8 @@ public class ITFeeServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
     @Test
@@ -142,7 +144,8 @@ public class ITFeeServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -153,7 +156,6 @@ public class ITFeeServiceGetAllFilter {
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
-        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -165,14 +167,13 @@ public class ITFeeServiceGetAllFilter {
         result = service.getAll(sample, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(2, data.getMemberId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+            .id(2L)
+            .name("Member 2")
+            .surname("Surname 2")
+            .date(new GregorianCalendar(2020, 2, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -184,7 +185,6 @@ public class ITFeeServiceGetAllFilter {
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
-        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -196,16 +196,16 @@ public class ITFeeServiceGetAllFilter {
         read = service.getAll(sample, pageable);
         result = read.iterator();
 
-        Assertions.assertEquals(1, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isEqualTo(1);
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+            .id(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 0, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -217,7 +217,6 @@ public class ITFeeServiceGetAllFilter {
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
-        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -229,16 +228,16 @@ public class ITFeeServiceGetAllFilter {
         read = service.getAll(sample, pageable);
         result = read.iterator();
 
-        Assertions.assertEquals(1, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isEqualTo(1);
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 11, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+            .id(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 11, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -259,7 +258,8 @@ public class ITFeeServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
     @Test
@@ -280,7 +280,8 @@ public class ITFeeServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -291,7 +292,6 @@ public class ITFeeServiceGetAllFilter {
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
-        MemberFee                 data;
 
         pageable = Pageable.unpaged();
 
@@ -303,14 +303,13 @@ public class ITFeeServiceGetAllFilter {
         result = service.getAll(sample, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(5, data.getMemberId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertFalse(data.getPaid());
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+            .id(5L)
+            .name("Member 5")
+            .surname("Surname 5")
+            .date(new GregorianCalendar(2020, 5, 1))
+            .paid(false)
+            .build());
     }
 
     @Test
@@ -331,7 +330,8 @@ public class ITFeeServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(0, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
 }

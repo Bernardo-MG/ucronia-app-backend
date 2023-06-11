@@ -28,7 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +37,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
 import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - get all - pagination")
@@ -68,7 +70,8 @@ public class ITFeeServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -76,7 +79,6 @@ public class ITFeeServiceGetAllPagination {
     public void testGetAll_Page1_Data() {
         final FeeQueryRequest     sample;
         final Iterator<MemberFee> data;
-        final MemberFee           result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 1);
@@ -86,14 +88,13 @@ public class ITFeeServiceGetAllPagination {
         data = service.getAll(sample, pageable)
             .iterator();
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertTrue(result.getPaid());
+        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+            .id(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -101,7 +102,6 @@ public class ITFeeServiceGetAllPagination {
     public void testGetAll_Page2_Data() {
         final FeeQueryRequest     sample;
         final Iterator<MemberFee> data;
-        final MemberFee           result;
         final Pageable            pageable;
 
         pageable = PageRequest.of(1, 1);
@@ -111,14 +111,13 @@ public class ITFeeServiceGetAllPagination {
         data = service.getAll(sample, pageable)
             .iterator();
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2", result.getName());
-        Assertions.assertEquals("Surname 2", result.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertTrue(result.getPaid());
+        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+            .id(2L)
+            .name("Member 2")
+            .surname("Surname 2")
+            .date(new GregorianCalendar(2020, 2, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -134,7 +133,8 @@ public class ITFeeServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -150,7 +150,8 @@ public class ITFeeServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }

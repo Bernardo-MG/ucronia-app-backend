@@ -32,12 +32,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - create")
@@ -86,15 +88,13 @@ public class ITFeeServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertThat(entity.getId())
-            .isNotNull();
-        Assertions.assertThat(entity.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(entity.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(entity.getPaid())
-            .isTrue();
+        FeeAssertions.isEqualTo(entity, ImmutableMemberFee.builder()
+            .id(1L)
+            .name("name")
+            .surname("surname")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -113,15 +113,13 @@ public class ITFeeServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertThat(entity.getId())
-            .isNotNull();
-        Assertions.assertThat(entity.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(entity.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(entity.getPaid())
-            .isTrue();
+        FeeAssertions.isEqualTo(entity, ImmutableMemberFee.builder()
+            .id(1L)
+            .name("name")
+            .surname("surname")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
@@ -137,15 +135,13 @@ public class ITFeeServiceCreate {
 
         result = service.create(fee);
 
-        Assertions.assertThat(result.getId())
-            .isNotNull();
-        Assertions.assertThat(result.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(result.getPaid())
-            .isTrue();
+        FeeAssertions.isEqualTo(result, ImmutableMemberFee.builder()
+            .id(1L)
+            .name(null)
+            .surname(null)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
 }

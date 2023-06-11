@@ -26,10 +26,10 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -55,7 +55,7 @@ public class ITFeeServiceCreateValidation {
     @DisplayName("Throws an exception when the member id does not exist")
     public void testCreate_InvalidMember() {
         final DtoFeeCreationRequest fee;
-        final Executable            executable;
+        final ThrowingCallable      executable;
         final FieldFailureException exception;
         final FieldFailure          failure;
 
@@ -66,18 +66,21 @@ public class ITFeeServiceCreateValidation {
 
         executable = () -> service.create(fee);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        exception = Assertions.catchThrowableOfType(executable, FieldFailureException.class);
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
+        Assertions.assertThat(exception.getFailures())
+            .hasSize(1);
 
         failure = exception.getFailures()
             .iterator()
             .next();
 
-        Assertions.assertEquals("notExists", failure.getCode());
-        Assertions.assertEquals("memberId", failure.getField());
-        Assertions.assertEquals("memberId.notExists", failure.getMessage());
+        Assertions.assertThat(failure.getCode())
+            .isEqualTo("notExists");
+        Assertions.assertThat(failure.getField())
+            .isEqualTo("memberId");
+        Assertions.assertThat(failure.getMessage())
+            .isEqualTo("memberId.notExists");
     }
 
 }
