@@ -27,7 +27,7 @@ package com.bernardomg.association.test.transaction.integration.service;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +60,15 @@ public class ITTransactionServiceGetOne {
         result = service.getOne(id)
             .get();
 
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
+        Assertions.assertThat(result.getId())
+            .isEqualTo(id);
+        Assertions.assertThat(result.getDescription())
+            .isEqualTo("Transaction 1");
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
     }
 
     @Test
@@ -75,7 +79,8 @@ public class ITTransactionServiceGetOne {
 
         result = service.getOne(1L);
 
-        Assertions.assertTrue(result.isPresent());
+        Assertions.assertThat(result)
+            .isPresent();
     }
 
     @Test
@@ -90,11 +95,15 @@ public class ITTransactionServiceGetOne {
         result = service.getOne(id)
             .get();
 
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(-1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
+        Assertions.assertThat(result.getId())
+            .isEqualTo(id);
+        Assertions.assertThat(result.getDescription())
+            .isEqualTo("Transaction 1");
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(-1);
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
     }
 
     @Test
@@ -104,7 +113,8 @@ public class ITTransactionServiceGetOne {
 
         result = service.getOne(-1L);
 
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertThat(result)
+            .isNotPresent();
     }
 
 }

@@ -181,7 +181,7 @@ public class ITTransactionServiceGetAllFilter {
 
         result = service.getAll(sample, pageable)
             .iterator();
-        
+
         data = result.next();
         Assertions.assertThat(data.getId())
             .isNotNull();

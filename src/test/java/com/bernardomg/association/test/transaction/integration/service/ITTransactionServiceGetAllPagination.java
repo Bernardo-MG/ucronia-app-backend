@@ -28,7 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,8 @@ public class ITTransactionServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -87,11 +88,15 @@ public class ITTransactionServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getDescription())
+            .isEqualTo("Transaction 1");
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1f);
     }
 
     @Test
@@ -110,11 +115,15 @@ public class ITTransactionServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction 2", result.getDescription());
-        Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), result.getDate()
-            .getTime());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getDescription())
+            .isEqualTo("Transaction 2");
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1f);
     }
 
     @Test
@@ -130,7 +139,8 @@ public class ITTransactionServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isOne();
     }
 
     @Test
@@ -146,7 +156,8 @@ public class ITTransactionServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }
