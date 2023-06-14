@@ -61,11 +61,14 @@ public final class ITControllerValidationException {
             .isBadRequest());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures", Matchers.hasSize(1)));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].message", Matchers.equalTo("Error message")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].field", Matchers.equalTo("field")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].code", Matchers.equalTo("code")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures[0].value", Matchers.equalTo("value")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures", Matchers.aMapWithSize(1)));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures", Matchers.hasKey("field")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures['field']", Matchers.hasSize(1)));
+        result.andExpect(
+            MockMvcResultMatchers.jsonPath("$.failures['field'][0].message", Matchers.equalTo("Error message")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures['field'][0].field", Matchers.equalTo("field")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures['field'][0].code", Matchers.equalTo("code")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.failures['field'][0].value", Matchers.equalTo("value")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")

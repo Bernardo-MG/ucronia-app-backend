@@ -24,9 +24,10 @@
 
 package com.bernardomg.mvc.response.model;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import com.bernardomg.validation.failure.Failure;
+import com.bernardomg.validation.failure.FieldFailure;
 
 /**
  * Response to the frontend.
@@ -57,7 +58,7 @@ public interface Response<T> {
             .build();
     }
 
-    public static FailureResponse failure(final Collection<? extends Failure> errors) {
+    public static FailureResponse failure(final Map<String, List<FieldFailure>> errors) {
         return ImmutableFailureResponse.builder()
             .failures(errors)
             .build();
