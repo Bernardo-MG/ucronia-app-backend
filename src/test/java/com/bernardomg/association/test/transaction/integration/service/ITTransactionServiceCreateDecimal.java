@@ -26,7 +26,7 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -71,24 +71,26 @@ public class ITTransactionServiceCreateDecimal {
             .iterator()
             .next();
 
-        Assertions.assertEquals(amount, entity.getAmount());
+        Assertions.assertThat(entity.getAmount())
+            .isEqualTo(amount);
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("Returns the created data with a decimal value")
-    public void testCreate_Decimal_Low_ReturnedData(final Float value) {
+    public void testCreate_Decimal_Low_ReturnedData(final Float amount) {
         final Transaction                 result;
         final DtoTransactionCreationQuery transaction;
 
         transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
-        transaction.setAmount(value);
+        transaction.setAmount(amount);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.create(transaction);
 
-        Assertions.assertEquals(value, result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(amount);
     }
 
 }

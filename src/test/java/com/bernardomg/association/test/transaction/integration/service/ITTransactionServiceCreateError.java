@@ -26,10 +26,10 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
@@ -58,7 +58,7 @@ public class ITTransactionServiceCreateError {
     @DisplayName("Throws an exception when the amount is missing")
     public void testCreate_MissingAmount() {
         final DtoTransactionCreationQuery transaction;
-        final Executable                  executable;
+        final ThrowingCallable            executable;
 
         transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
@@ -70,14 +70,15 @@ public class ITTransactionServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the date is missing")
     public void testCreate_MissingDate() {
         final DtoTransactionCreationQuery transaction;
-        final Executable                  executable;
+        final ThrowingCallable            executable;
 
         transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
@@ -89,14 +90,15 @@ public class ITTransactionServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the description is missing")
     public void testCreate_MissingName() {
         final DtoTransactionCreationQuery transaction;
-        final Executable                  executable;
+        final ThrowingCallable            executable;
 
         transaction = new DtoTransactionCreationQuery();
         transaction.setDescription(null);
@@ -108,7 +110,8 @@ public class ITTransactionServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
 }

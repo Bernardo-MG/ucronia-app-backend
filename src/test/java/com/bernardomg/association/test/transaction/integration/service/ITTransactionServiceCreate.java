@@ -26,7 +26,7 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,8 @@ public class ITTransactionServiceCreate {
 
         service.create(transaction);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isOne();
     }
 
     @Test
@@ -83,11 +84,15 @@ public class ITTransactionServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, entity.getAmount());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getDescription())
+            .isEqualTo("Transaction");
+        Assertions.assertThat(entity.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
+        Assertions.assertThat(entity.getAmount())
+            .isEqualTo(1f);
     }
 
     @Test
@@ -103,11 +108,15 @@ public class ITTransactionServiceCreate {
 
         result = service.create(transaction);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, result.getAmount());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getDescription())
+            .isEqualTo("Transaction");
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1f);
     }
 
     @Test
@@ -122,7 +131,8 @@ public class ITTransactionServiceCreate {
 
         service.create(transaction);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isOne();
     }
 
     @Test
@@ -141,11 +151,15 @@ public class ITTransactionServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, entity.getAmount());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getDescription())
+            .isEqualTo("Transaction");
+        Assertions.assertThat(entity.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        Assertions.assertThat(entity.getAmount())
+            .isEqualTo(1f);
     }
 
     @Test
@@ -161,11 +175,15 @@ public class ITTransactionServiceCreate {
 
         result = service.create(transaction);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, result.getAmount());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getDescription())
+            .isEqualTo("Transaction");
+        Assertions.assertThat(result.getDate()
+            .getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(1f);
     }
 
     @Test
@@ -182,7 +200,8 @@ public class ITTransactionServiceCreate {
 
         service.create(transaction);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
 }
