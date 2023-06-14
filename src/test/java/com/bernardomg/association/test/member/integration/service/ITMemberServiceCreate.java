@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,8 @@ public class ITMemberServiceCreate {
 
         service.create(member);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isOne();
     }
 
     @Test
@@ -90,7 +91,8 @@ public class ITMemberServiceCreate {
 
         service.create(member);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
     @Test
@@ -111,12 +113,18 @@ public class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Member", entity.getName());
-        Assertions.assertEquals("Surname", entity.getSurname());
-        Assertions.assertEquals("12345", entity.getPhone());
-        Assertions.assertEquals("6789", entity.getIdentifier());
-        Assertions.assertEquals(true, entity.getActive());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getName())
+            .isEqualTo("Member");
+        Assertions.assertThat(entity.getSurname())
+            .isEqualTo("Surname");
+        Assertions.assertThat(entity.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(entity.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(entity.getActive())
+            .isTrue();
     }
 
     @Test
@@ -134,12 +142,18 @@ public class ITMemberServiceCreate {
 
         result = service.create(member);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Member", result.getName());
-        Assertions.assertEquals("Surname", result.getSurname());
-        Assertions.assertEquals("12345", result.getPhone());
-        Assertions.assertEquals("6789", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname");
+        Assertions.assertThat(result.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(result.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(result.getActive())
+            .isTrue();
     }
 
 }

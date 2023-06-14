@@ -27,7 +27,7 @@ package com.bernardomg.association.test.member.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,8 @@ public class ITMemberServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -86,12 +87,18 @@ public class ITMemberServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals("12345", result.getPhone());
-        Assertions.assertEquals("6789", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(result.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(result.getActive())
+            .isTrue();
     }
 
     @Test
@@ -110,12 +117,18 @@ public class ITMemberServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Member 2", result.getName());
-        Assertions.assertEquals("Surname 2", result.getSurname());
-        Assertions.assertEquals("12346", result.getPhone());
-        Assertions.assertEquals("6780", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(result.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(result.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(result.getActive())
+            .isTrue();
     }
 
     @Test
@@ -131,7 +144,8 @@ public class ITMemberServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isOne();
     }
 
     @Test
@@ -147,7 +161,8 @@ public class ITMemberServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }

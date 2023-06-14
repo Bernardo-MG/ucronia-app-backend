@@ -25,7 +25,7 @@
 package com.bernardomg.association.test.member.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,8 @@ public class ITMemberServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(4, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(4);
     }
 
     @Test
@@ -80,7 +81,8 @@ public class ITMemberServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(5, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(5);
     }
 
     @Test
@@ -97,7 +99,8 @@ public class ITMemberServiceGetAllFilter {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
 }

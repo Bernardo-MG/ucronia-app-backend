@@ -26,7 +26,7 @@ package com.bernardomg.association.test.member.integration.service;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,8 @@ public class ITMemberServiceGetOneInactive {
 
         result = service.getOne(1L);
 
-        Assertions.assertTrue(result.isPresent());
+        Assertions.assertThat(result)
+            .isPresent();
     }
 
     @Test
@@ -69,12 +70,18 @@ public class ITMemberServiceGetOneInactive {
         result = service.getOne(id)
             .get();
 
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals("12345", result.getPhone());
-        Assertions.assertEquals("6789", result.getIdentifier());
-        Assertions.assertEquals(false, result.getActive());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(result.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(result.getActive())
+            .isFalse();
     }
 
     @Test
@@ -84,7 +91,8 @@ public class ITMemberServiceGetOneInactive {
 
         result = service.getOne(-1L);
 
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertThat(result)
+            .isNotPresent();
     }
 
 }

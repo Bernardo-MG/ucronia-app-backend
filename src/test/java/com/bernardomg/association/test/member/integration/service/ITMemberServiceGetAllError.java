@@ -24,10 +24,10 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -57,7 +57,7 @@ public class ITMemberServiceGetAllError {
     public void testGetAll_NotExisting() {
         final MemberQueryRequest sample;
         final Pageable           pageable;
-        final Executable         executable;
+        final ThrowingCallable   executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
@@ -66,7 +66,8 @@ public class ITMemberServiceGetAllError {
         executable = () -> service.getAll(sample, pageable)
             .iterator();
 
-        Assertions.assertThrows(PropertyReferenceException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(PropertyReferenceException.class);
     }
 
 }

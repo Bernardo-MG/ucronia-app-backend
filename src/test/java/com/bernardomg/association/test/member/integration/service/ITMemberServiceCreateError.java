@@ -24,10 +24,10 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
@@ -56,7 +56,7 @@ public class ITMemberServiceCreateError {
     @DisplayName("Throws an exception when the active flag is missing")
     public void testCreate_MissingActive() {
         final DtoMemberCreationRequest member;
-        final Executable               executable;
+        final ThrowingCallable         executable;
 
         member = new DtoMemberCreationRequest();
         member.setName("Member");
@@ -70,14 +70,15 @@ public class ITMemberServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the identifier is missing")
     public void testCreate_MissingIdentifier() {
         final DtoMemberCreationRequest member;
-        final Executable               executable;
+        final ThrowingCallable         executable;
 
         member = new DtoMemberCreationRequest();
         member.setName("Member");
@@ -91,14 +92,15 @@ public class ITMemberServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the name is missing")
     public void testCreate_MissingName() {
         final DtoMemberCreationRequest member;
-        final Executable               executable;
+        final ThrowingCallable         executable;
 
         member = new DtoMemberCreationRequest();
         member.setName(null);
@@ -112,14 +114,15 @@ public class ITMemberServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the phone is missing")
     public void testCreate_MissingPhone() {
         final DtoMemberCreationRequest member;
-        final Executable               executable;
+        final ThrowingCallable         executable;
 
         member = new DtoMemberCreationRequest();
         member.setName("Member");
@@ -133,14 +136,15 @@ public class ITMemberServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("Throws an exception when the surname is missing")
     public void testCreate_MissingSurname() {
         final DtoMemberCreationRequest member;
-        final Executable               executable;
+        final ThrowingCallable         executable;
 
         member = new DtoMemberCreationRequest();
         member.setName("Member");
@@ -154,7 +158,8 @@ public class ITMemberServiceCreateError {
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
 }
