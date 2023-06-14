@@ -27,7 +27,7 @@ package com.bernardomg.association.test.transaction.integration.repository;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,8 @@ public class ITTransactionRepositoryFindMaxDate {
 
         result = repository.findMaxDate();
 
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).getTime(), result.getTime());
+        Assertions.assertThat(result.getTime())
+            .isEqualTo(new GregorianCalendar(2020, 1, 5, 0, 0, 0).getTime());
     }
 
     @Test
@@ -65,7 +66,8 @@ public class ITTransactionRepositoryFindMaxDate {
 
         result = repository.findMaxDate();
 
-        Assertions.assertNull(result);
+        Assertions.assertThat(result)
+            .isNull();
     }
 
 }

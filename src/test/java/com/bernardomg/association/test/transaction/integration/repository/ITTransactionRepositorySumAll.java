@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.integration.repository;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,8 @@ public class ITTransactionRepositorySumAll {
 
         result = repository.sumAll();
 
-        Assertions.assertEquals(5, result);
+        Assertions.assertThat(result)
+            .isEqualTo(5);
     }
 
     @Test
@@ -63,7 +64,8 @@ public class ITTransactionRepositorySumAll {
 
         result = repository.sumAll();
 
-        Assertions.assertEquals(-1, result);
+        Assertions.assertThat(result)
+            .isEqualTo(-1);
     }
 
     @Test
@@ -73,7 +75,8 @@ public class ITTransactionRepositorySumAll {
 
         result = repository.sumAll();
 
-        Assertions.assertNull(result);
+        Assertions.assertThat(result)
+            .isNull();
     }
 
     @Test
@@ -84,7 +87,8 @@ public class ITTransactionRepositorySumAll {
 
         result = repository.sumAll();
 
-        Assertions.assertEquals(1, result);
+        Assertions.assertThat(result)
+            .isEqualTo(1);
     }
 
     @Test
@@ -95,8 +99,8 @@ public class ITTransactionRepositorySumAll {
 
         result = repository.sumAll();
 
-        Assertions.assertEquals(Double.valueOf(1.5)
-            .floatValue(), result);
+        Assertions.assertThat(result)
+            .isEqualTo(1.5f);
     }
 
 }
