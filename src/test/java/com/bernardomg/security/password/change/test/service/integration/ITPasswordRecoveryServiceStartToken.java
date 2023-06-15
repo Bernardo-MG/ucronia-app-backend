@@ -3,7 +3,7 @@ package com.bernardomg.security.password.change.test.service.integration;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,8 @@ public class ITPasswordRecoveryServiceStartToken {
             .stream()
             .findFirst();
 
-        Assertions.assertTrue(token.isPresent());
+        Assertions.assertThat(token)
+            .isPresent();
     }
 
     @Test
@@ -63,7 +64,8 @@ public class ITPasswordRecoveryServiceStartToken {
             .stream()
             .findFirst();
 
-        Assertions.assertFalse(token.isPresent());
+        Assertions.assertThat(token)
+            .isNotPresent();
     }
 
 }
