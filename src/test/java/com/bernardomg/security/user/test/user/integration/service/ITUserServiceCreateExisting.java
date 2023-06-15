@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,9 @@ public class ITUserServiceCreateExisting {
 
         result = service.create(user);
 
-        Assertions.assertNotEquals(1L, result.getId());
+        // TODO: What is this tests for?
+        Assertions.assertThat(result.getId())
+            .isNotEqualTo(1);
     }
 
     @Test
@@ -50,7 +52,8 @@ public class ITUserServiceCreateExisting {
 
         service.create(user);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
     private final ImmutableUser getUser() {

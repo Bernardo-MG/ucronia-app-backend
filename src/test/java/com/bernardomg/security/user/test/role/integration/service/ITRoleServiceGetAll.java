@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.test.role.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,8 @@ public class ITRoleServiceGetAll {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -62,8 +63,10 @@ public class ITRoleServiceGetAll {
         role = data.iterator()
             .next();
 
-        Assertions.assertNotNull(role.getId());
-        Assertions.assertEquals("ADMIN", role.getName());
+        Assertions.assertThat(role.getId())
+            .isNotNull();
+        Assertions.assertThat(role.getName())
+            .isEqualTo("ADMIN");
     }
 
 }

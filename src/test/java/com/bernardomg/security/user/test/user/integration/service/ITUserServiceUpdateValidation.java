@@ -40,7 +40,7 @@ public class ITUserServiceUpdateValidation {
         executable = () -> service.update(data);
 
         // TODO: Is this value really the correct one?
-        failure = FieldFailure.of("username.immutable", "username", "immutable", "1");
+        failure = FieldFailure.of("username.immutable", "username", "immutable", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

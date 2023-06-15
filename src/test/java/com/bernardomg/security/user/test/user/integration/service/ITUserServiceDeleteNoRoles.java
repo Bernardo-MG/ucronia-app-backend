@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,8 @@ public class ITUserServiceDeleteNoRoles {
     public void testDelete_RemovesEntity() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(0);
     }
 
     @Test
@@ -64,7 +65,8 @@ public class ITUserServiceDeleteNoRoles {
 
         deleted = service.delete(1L);
 
-        Assertions.assertTrue(deleted);
+        Assertions.assertThat(deleted)
+            .isTrue();
     }
 
 }

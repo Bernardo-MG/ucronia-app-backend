@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,8 @@ public class ITUserServiceGetRolesNoRoles {
 
         result = service.getRoles(1L, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(0);
     }
 
 }

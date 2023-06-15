@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.role.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,8 @@ public class ITRoleServiceGetPermissionsPagination {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -56,8 +57,10 @@ public class ITRoleServiceGetPermissionsPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals("DATA", result.getResource());
-        Assertions.assertEquals("CREATE", result.getAction());
+        Assertions.assertThat(result.getResource())
+            .isEqualTo("DATA");
+        Assertions.assertThat(result.getAction())
+            .isEqualTo("CREATE");
     }
 
     @Test
@@ -73,8 +76,10 @@ public class ITRoleServiceGetPermissionsPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertEquals("DATA", result.getResource());
-        Assertions.assertEquals("READ", result.getAction());
+        Assertions.assertThat(result.getResource())
+            .isEqualTo("DATA");
+        Assertions.assertThat(result.getAction())
+            .isEqualTo("READ");
     }
 
     @Test
@@ -87,7 +92,8 @@ public class ITRoleServiceGetPermissionsPagination {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -100,7 +106,8 @@ public class ITRoleServiceGetPermissionsPagination {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }

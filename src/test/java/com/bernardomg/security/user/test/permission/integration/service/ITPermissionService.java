@@ -3,7 +3,7 @@ package com.bernardomg.security.user.test.permission.integration.service;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,19 +38,25 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(1, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .hasSize(1);
 
         actions = permissions.getPermissions()
             .get("DATA");
-        Assertions.assertEquals(4, actions.size());
+        Assertions.assertThat(actions)
+            .hasSize(4);
 
-        Assertions.assertTrue(actions.contains("CREATE"));
-        Assertions.assertTrue(actions.contains("READ"));
-        Assertions.assertTrue(actions.contains("UPDATE"));
-        Assertions.assertTrue(actions.contains("DELETE"));
+        Assertions.assertThat(actions)
+            .contains("CREATE");
+        Assertions.assertThat(actions)
+            .contains("READ");
+        Assertions.assertThat(actions)
+            .contains("UPDATE");
+        Assertions.assertThat(actions)
+            .contains("DELETE");
     }
 
     @Test
@@ -66,10 +72,11 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(0, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .isEmpty();
     }
 
     @Test
@@ -85,10 +92,11 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(0, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .isEmpty();
     }
 
     @Test
@@ -104,10 +112,11 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(0, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .isEmpty();
     }
 
     @Test
@@ -123,10 +132,11 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(0, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .isEmpty();
     }
 
     @Test
@@ -140,10 +150,11 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(0, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .isEmpty();
     }
 
     @Test
@@ -157,10 +168,11 @@ public class ITPermissionService {
         username = "admin";
         permissions = service.getPermissions(username);
 
-        Assertions.assertEquals(username, permissions.getUsername());
+        Assertions.assertThat(permissions.getUsername())
+            .isEqualTo(username);
 
-        Assertions.assertEquals(0, permissions.getPermissions()
-            .size());
+        Assertions.assertThat(permissions.getPermissions())
+            .isEmpty();
     }
 
 }

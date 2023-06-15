@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +43,16 @@ public class ITUserServiceAddRoleWithRoles {
         service.addRole(1l, 2l);
         result = service.getRoles(1l, pageable);
 
-        Assertions.assertEquals(2L, IterableUtils.size(result));
+        // FIXME: Should be a single role
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(2);
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)
             .toList();
 
-        Assertions.assertTrue(roleNames.contains("ADMIN"));
+        Assertions.assertThat(roleNames)
+            .contains("ADMIN");
     }
 
     @Test
@@ -64,14 +67,18 @@ public class ITUserServiceAddRoleWithRoles {
         service.addRole(1l, 2l);
         result = service.getRoles(1l, pageable);
 
-        Assertions.assertEquals(2L, IterableUtils.size(result));
+        // FIXME: Should be a single role
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(2);
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)
             .toList();
 
-        Assertions.assertTrue(roleNames.contains("ADMIN"));
-        Assertions.assertTrue(roleNames.contains("ALT"));
+        Assertions.assertThat(roleNames)
+            .contains("ADMIN");
+        Assertions.assertThat(roleNames)
+            .contains("ALT");
     }
 
 }

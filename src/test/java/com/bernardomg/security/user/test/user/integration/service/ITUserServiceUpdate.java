@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,7 @@ import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.assertion.UserAssertions;
 
 @IntegrationTest
 @DisplayName("Role service - update with no roles")
@@ -63,7 +64,8 @@ public class ITUserServiceUpdate {
 
         service.update(user);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -79,14 +81,16 @@ public class ITUserServiceUpdate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("email2@somewhere.com", entity.getEmail());
-        Assertions.assertEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", entity.getPassword());
-        Assertions.assertEquals(false, entity.getCredentialsExpired());
-        Assertions.assertEquals(true, entity.getEnabled());
-        Assertions.assertEquals(false, entity.getExpired());
-        Assertions.assertEquals(false, entity.getLocked());
+        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email2@somewhere.com")
+            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
     @Test
@@ -102,7 +106,8 @@ public class ITUserServiceUpdate {
             .iterator()
             .next();
 
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
@@ -115,13 +120,15 @@ public class ITUserServiceUpdate {
 
         result = service.update(user);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("email2@somewhere.com", result.getEmail());
-        Assertions.assertEquals(false, result.getCredentialsExpired());
-        Assertions.assertEquals(true, result.getEnabled());
-        Assertions.assertEquals(false, result.getExpired());
-        Assertions.assertEquals(false, result.getLocked());
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email2@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
     @Test
@@ -134,7 +141,8 @@ public class ITUserServiceUpdate {
 
         result = service.update(user);
 
-        Assertions.assertEquals("email2@somewhere.com", result.getEmail());
+        Assertions.assertThat(result.getEmail())
+            .isEqualTo("email2@somewhere.com");
     }
 
     private final ImmutableUser getUser() {

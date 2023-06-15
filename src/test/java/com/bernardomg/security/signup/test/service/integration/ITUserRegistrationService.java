@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.signup.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,8 @@ public class ITUserRegistrationService {
 
         service.signUp(signUp);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1L);
     }
 
     @Test
@@ -56,11 +57,15 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertFalse(entity.getEnabled());
+        Assertions.assertThat(entity.getEnabled())
+            .isFalse();
 
-        Assertions.assertFalse(entity.getCredentialsExpired());
-        Assertions.assertFalse(entity.getExpired());
-        Assertions.assertFalse(entity.getLocked());
+        Assertions.assertThat(entity.getCredentialsExpired())
+            .isFalse();
+        Assertions.assertThat(entity.getExpired())
+            .isFalse();
+        Assertions.assertThat(entity.getLocked())
+            .isFalse();
     }
 
     @Test
@@ -78,7 +83,8 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertEquals("", entity.getPassword());
+        Assertions.assertThat(entity.getPassword())
+            .isEmpty();
     }
 
     @Test
@@ -96,9 +102,12 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("user", entity.getUsername());
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
@@ -116,9 +125,12 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("user", entity.getUsername());
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
@@ -133,9 +145,12 @@ public class ITUserRegistrationService {
 
         status = service.signUp(signUp);
 
-        Assertions.assertEquals("user", status.getUsername());
-        Assertions.assertEquals("email@somewhere.com", status.getEmail());
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(status.getEmail())
+            .isEqualTo("email@somewhere.com");
+        Assertions.assertThat(status.getSuccessful())
+            .isTrue();
     }
 
     @Test
@@ -150,9 +165,12 @@ public class ITUserRegistrationService {
 
         status = service.signUp(signUp);
 
-        Assertions.assertEquals("user", status.getUsername());
-        Assertions.assertEquals("email@somewhere.com", status.getEmail());
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(status.getEmail())
+            .isEqualTo("email@somewhere.com");
+        Assertions.assertThat(status.getSuccessful())
+            .isTrue();
     }
 
 }

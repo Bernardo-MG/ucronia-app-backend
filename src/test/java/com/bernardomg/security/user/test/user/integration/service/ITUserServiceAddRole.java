@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,8 @@ public class ITUserServiceAddRole {
     public void testAddRole_AddsEntity() {
         service.addRole(1L, 1L);
 
-        Assertions.assertEquals(1L, userRolesRepository.count());
+        Assertions.assertThat(userRolesRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -52,12 +53,14 @@ public class ITUserServiceAddRole {
         service.addRole(1L, 1L);
         result = service.getRoles(1L, pageable);
 
-        Assertions.assertEquals(1L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
 
         role = result.iterator()
             .next();
 
-        Assertions.assertEquals("ADMIN", role.getName());
+        Assertions.assertThat(role.getName())
+            .isEqualTo("ADMIN");
     }
 
     @Test
@@ -71,8 +74,10 @@ public class ITUserServiceAddRole {
             .iterator()
             .next();
 
-        Assertions.assertEquals(1L, entity.getUserId());
-        Assertions.assertEquals(1L, entity.getRoleId());
+        Assertions.assertThat(entity.getUserId())
+            .isEqualTo(1);
+        Assertions.assertThat(entity.getRoleId())
+            .isEqualTo(1);
     }
 
 }

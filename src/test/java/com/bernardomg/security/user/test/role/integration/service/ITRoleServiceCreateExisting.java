@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,8 @@ public class ITRoleServiceCreateExisting {
 
         result = service.create(data);
 
-        Assertions.assertNotEquals(1L, result.getId());
+        Assertions.assertThat(result.getId())
+            .isNotEqualTo(1);
     }
 
     @Test
@@ -56,7 +57,8 @@ public class ITRoleServiceCreateExisting {
 
         service.create(data);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
 }

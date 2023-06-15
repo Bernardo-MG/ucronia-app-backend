@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.action.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,8 @@ public class ITActionServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -65,8 +66,10 @@ public class ITActionServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("CREATE", result.getName());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("CREATE");
     }
 
     @Test
@@ -86,8 +89,10 @@ public class ITActionServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("DELETE", result.getName());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("DELETE");
     }
 
     @Test
@@ -104,7 +109,8 @@ public class ITActionServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -121,7 +127,8 @@ public class ITActionServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }

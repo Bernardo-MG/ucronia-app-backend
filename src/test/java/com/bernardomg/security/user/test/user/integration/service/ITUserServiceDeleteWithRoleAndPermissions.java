@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +64,12 @@ public class ITUserServiceDeleteWithRoleAndPermissions {
     public void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, repository.count());
-        Assertions.assertEquals(1L, roleRepository.count());
-        Assertions.assertEquals(4L, actionRepository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(0);
+        Assertions.assertThat(roleRepository.count())
+            .isEqualTo(1);
+        Assertions.assertThat(actionRepository.count())
+            .isEqualTo(4);
     }
 
 }
