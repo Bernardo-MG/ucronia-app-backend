@@ -26,13 +26,15 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
@@ -66,7 +68,8 @@ public class ITTransactionServiceUpdate {
 
         service.update(1L, transaction);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -76,7 +79,7 @@ public class ITTransactionServiceUpdate {
         final PersistentTransaction       entity;
 
         transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction 123");
+        transaction.setDescription("Transaction");
         transaction.setAmount(1.2f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
 
@@ -85,11 +88,11 @@ public class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1.2f, entity.getAmount());
+        TransactionAssertions.isEqualTo(entity, ImmutableTransaction.builder()
+            .description("Transaction")
+            .amount(1.2f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
@@ -105,11 +108,11 @@ public class ITTransactionServiceUpdate {
 
         result = service.update(1L, transaction);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1.2f, result.getAmount());
+        TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
+            .description("Transaction")
+            .amount(1.2f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
@@ -124,7 +127,8 @@ public class ITTransactionServiceUpdate {
 
         service.update(10L, transaction);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
     @Test
@@ -143,11 +147,11 @@ public class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, entity.getAmount());
+        TransactionAssertions.isEqualTo(entity, ImmutableTransaction.builder()
+            .description("Transaction 123")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
@@ -157,17 +161,17 @@ public class ITTransactionServiceUpdate {
         final DtoTransactionCreationQuery transaction;
 
         transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
+        transaction.setDescription("Transaction 123");
         transaction.setAmount(1f);
         transaction.setDate(new GregorianCalendar(2020, 1, 1));
 
         result = service.update(1L, transaction);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, result.getAmount());
+        TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
+            .description("Transaction 123")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
 }

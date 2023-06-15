@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +53,15 @@ public class ITTransactionServiceGetRange {
 
         result = service.getRange();
 
-        Assertions.assertEquals(0, result.getStartMonth());
-        Assertions.assertEquals(2020, result.getStartYear());
+        Assertions.assertThat(result.getStartMonth())
+            .isEqualTo(0);
+        Assertions.assertThat(result.getStartYear())
+            .isEqualTo(2020);
 
-        Assertions.assertEquals(11, result.getEndMonth());
-        Assertions.assertEquals(2020, result.getEndYear());
+        Assertions.assertThat(result.getEndMonth())
+            .isEqualTo(11);
+        Assertions.assertThat(result.getEndYear())
+            .isEqualTo(2020);
     }
 
 }

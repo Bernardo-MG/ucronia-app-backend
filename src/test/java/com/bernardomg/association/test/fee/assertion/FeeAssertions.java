@@ -12,7 +12,7 @@ public final class FeeAssertions {
         Assertions.assertThat(received.getId())
             .isNotNull();
         Assertions.assertThat(received.getMemberId())
-            .isEqualTo(expected.getId());
+            .isEqualTo(expected.getMemberId());
         Assertions.assertThat(received.getName())
             .isEqualTo(expected.getName());
         Assertions.assertThat(received.getSurname())

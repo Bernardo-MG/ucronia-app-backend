@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -72,7 +72,8 @@ public class ITTransactionServiceGetAllDecimal {
             .iterator()
             .next();
 
-        Assertions.assertEquals(amount, result.getAmount());
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(amount);
     }
 
 }
