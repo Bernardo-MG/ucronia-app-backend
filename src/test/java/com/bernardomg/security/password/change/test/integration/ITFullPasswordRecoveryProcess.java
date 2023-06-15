@@ -48,7 +48,8 @@ public class ITFullPasswordRecoveryProcess {
 
         recoveryStatus = passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertThat(recoveryStatus.getSuccessful()).isTrue();
+        Assertions.assertThat(recoveryStatus.getSuccessful())
+            .isTrue();
 
         token = tokenRepository.findAll()
             .stream()
@@ -58,18 +59,21 @@ public class ITFullPasswordRecoveryProcess {
 
         validTokenStatus = passwordRecoveryService.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus.getSuccessful()).isTrue();
+        Assertions.assertThat(validTokenStatus.getSuccessful())
+            .isTrue();
 
         changeStatus = passwordRecoveryService.changePassword(token, "abc");
 
-        Assertions.assertThat(changeStatus.getSuccessful()).isTrue();
+        Assertions.assertThat(changeStatus.getSuccessful())
+            .isTrue();
 
         user = userRepository.findAll()
             .stream()
             .findFirst()
             .get();
 
-        Assertions.assertThat(user.getPassword()).isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
+        Assertions.assertThat(user.getPassword())
+            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
     }
 
 }

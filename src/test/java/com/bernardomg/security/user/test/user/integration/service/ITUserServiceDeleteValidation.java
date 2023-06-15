@@ -24,16 +24,15 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("User service - delete validation")
@@ -49,24 +48,14 @@ public class ITUserServiceDeleteValidation {
     @Test
     @DisplayName("Throws an exception when the user doesn't exist")
     public void testDelete_NotExisting() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
 
         executable = () -> service.delete(1L);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("notExisting", failure.getCode());
-        Assertions.assertEquals("id", failure.getField());
-        Assertions.assertEquals("id.notExisting", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
 }

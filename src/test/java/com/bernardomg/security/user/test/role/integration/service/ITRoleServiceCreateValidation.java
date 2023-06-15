@@ -1,18 +1,17 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableRole;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Role service - create validation")
@@ -29,10 +28,9 @@ public class ITRoleServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the name already exist")
     public void testCreate_NameExists() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final ImmutableRole         data;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final ImmutableRole    data;
 
         data = ImmutableRole.builder()
             .name("ADMIN")
@@ -40,18 +38,9 @@ public class ITRoleServiceCreateValidation {
 
         executable = () -> service.create(data);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("name.existing", "name", "existing", "ADMIN");
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("existing", failure.getCode());
-        Assertions.assertEquals("name", failure.getField());
-        Assertions.assertEquals("name.existing", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
 }

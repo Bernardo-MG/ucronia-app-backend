@@ -41,6 +41,7 @@ public final class CreateRoleValidator implements Validator<Role> {
         // The role doesn't exist
         if (roleRepository.exists(Example.of(sample))) {
             log.error("A role already exists with the name {}", role.getName());
+            // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("name", "existing", role.getName());
             failures.add(failure);
         }

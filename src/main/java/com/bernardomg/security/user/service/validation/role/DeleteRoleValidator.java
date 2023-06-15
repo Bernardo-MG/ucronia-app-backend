@@ -40,6 +40,7 @@ public final class DeleteRoleValidator implements Validator<Long> {
         // The role exists
         if (!roleRepository.existsById(id)) {
             log.error("Found no role with id {}", id);
+            // TODO: Is the code not exists or is it not existing? Make sure all use the same
             failure = FieldFailure.of("id", "notExisting", id);
             failures.add(failure);
         }
@@ -51,6 +52,7 @@ public final class DeleteRoleValidator implements Validator<Long> {
         // No user has the role
         if (userRolesRepository.exists(Example.of(sample))) {
             log.error("Role with id {} has a relationship with a user", id);
+            // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("user", "existing", id);
             failures.add(failure);
         }

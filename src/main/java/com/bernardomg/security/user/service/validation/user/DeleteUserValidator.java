@@ -32,6 +32,7 @@ public final class DeleteUserValidator implements Validator<Long> {
         // User exists
         if (!userRepository.existsById(id)) {
             log.error("Found no user with id {}", id);
+            // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("id", "notExisting", id);
             failures.add(failure);
         }
