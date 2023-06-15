@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.test.fee.calendar.integration.repository;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -57,19 +58,19 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Count() {
-        final Iterable<UserFeeCalendar> result;
-        final Sort                      sort;
+        final Collection<UserFeeCalendar> result;
+        final Sort                        sort;
 
         sort = Sort.unsorted();
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(result)
+            .hasSize(1);
+        Assertions.assertThat(result.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(12);
+            .getMonths())
+            .hasSize(12);
     }
 
     @Test
@@ -122,12 +123,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(result)
+            .hasSize(1);
+        Assertions.assertThat(result.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(1);
+            .getMonths())
+            .hasSize(1);
     }
 
     @Test
@@ -175,12 +176,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(result)
+            .hasSize(1);
+        Assertions.assertThat(result.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(1);
+            .getMonths())
+            .hasSize(1);
     }
 
     @Test
@@ -228,12 +229,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2019, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(result)
+            .hasSize(1);
+        Assertions.assertThat(result.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(3);
+            .getMonths())
+            .hasSize(3);
     }
 
     @Test
@@ -292,12 +293,12 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
         result = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(result)
+            .hasSize(1);
+        Assertions.assertThat(result.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(7);
+            .getMonths())
+            .hasSize(7);
     }
 
     @Test
