@@ -80,9 +80,9 @@ public class ITBalanceServiceGetMonthlyBalanceDecimal {
             .getTime())
             .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
         Assertions.assertThat(data.getTotal())
-            .isEqualTo(0);
+            .isZero();
         Assertions.assertThat(data.getCumulative())
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

@@ -37,7 +37,7 @@ public class ITUserServiceRemoveRole {
         service.removeRole(1L, 1L);
 
         Assertions.assertThat(userRolesRepository.count())
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -52,7 +52,7 @@ public class ITUserServiceRemoveRole {
         result = service.getRoles(1L, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

@@ -37,7 +37,7 @@ public class ITRoleServiceGetPermissions {
         result = service.getPermission(-1l, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -101,7 +101,7 @@ public class ITRoleServiceGetPermissions {
         result = service.getPermission(1l, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -118,7 +118,7 @@ public class ITRoleServiceGetPermissions {
         result = service.getPermission(1l, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

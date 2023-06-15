@@ -123,7 +123,7 @@ public class ITFeeServiceGetAllFilter {
         result = service.getAll(sample, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -259,7 +259,7 @@ public class ITFeeServiceGetAllFilter {
         result = service.getAll(sample, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -331,7 +331,7 @@ public class ITFeeServiceGetAllFilter {
         result = service.getAll(sample, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

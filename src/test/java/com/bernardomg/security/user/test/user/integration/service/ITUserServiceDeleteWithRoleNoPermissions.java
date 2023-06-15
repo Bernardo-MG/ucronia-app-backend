@@ -64,11 +64,11 @@ public class ITUserServiceDeleteWithRoleNoPermissions {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(0);
+            .isZero();
         Assertions.assertThat(roleRepository.count())
             .isEqualTo(1);
         Assertions.assertThat(actionRepository.count())
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

@@ -38,7 +38,7 @@ public class ITUserServiceGetRolesNoRoles {
         result = service.getRoles(1L, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

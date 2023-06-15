@@ -78,7 +78,7 @@ public class ITFeeCalendarServiceGetAllFilterOnlyActive {
         result = service.getAll(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

@@ -71,7 +71,7 @@ public class ITBalanceServiceGetTotalBalanceDecimal {
         result = service.getTotalBalance();
 
         Assertions.assertThat(result.getAmount())
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ITBalanceServiceGetTotalBalanceDecimal {
         result = service.getTotalBalance();
 
         Assertions.assertThat(result.getAmount())
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

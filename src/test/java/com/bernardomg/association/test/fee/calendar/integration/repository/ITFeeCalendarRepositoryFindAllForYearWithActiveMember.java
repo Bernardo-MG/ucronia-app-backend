@@ -109,7 +109,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
         result = repository.findAllForYearWithActiveMember(2020, sort);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test

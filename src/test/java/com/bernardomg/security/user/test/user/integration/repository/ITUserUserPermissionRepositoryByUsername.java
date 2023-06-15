@@ -50,7 +50,7 @@ public class ITUserUserPermissionRepositoryByUsername {
         read = repository.findAllByUsername("admin");
 
         Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ITUserUserPermissionRepositoryByUsername {
         read = repository.findAllByUsername("abc");
 
         Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -80,7 +80,7 @@ public class ITUserUserPermissionRepositoryByUsername {
         read = repository.findAllByUsername("abc");
 
         Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test

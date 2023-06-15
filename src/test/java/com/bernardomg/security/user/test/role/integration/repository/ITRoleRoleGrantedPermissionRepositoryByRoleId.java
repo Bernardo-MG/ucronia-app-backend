@@ -154,7 +154,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         read = repository.findAllByRoleId(1L, pageable);
 
         Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -172,7 +172,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         read = repository.findAllByRoleId(-1L, pageable);
 
         Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -190,7 +190,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         read = repository.findAllByRoleId(1L, pageable);
 
         Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(0);
+            .isZero();
     }
 
 }

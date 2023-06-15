@@ -110,7 +110,7 @@ public class ITFeeCalendarServiceGetAll {
         result = service.getAll(2020, false, sort);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test

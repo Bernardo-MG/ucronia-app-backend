@@ -67,7 +67,7 @@ public class ITRoleServiceDelete {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -78,7 +78,7 @@ public class ITRoleServiceDelete {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
@@ -89,7 +89,7 @@ public class ITRoleServiceDelete {
         service.delete(1L);
 
         Assertions.assertThat(rolePermissionRepository.count())
-            .isEqualTo(0);
+            .isZero();
         Assertions.assertThat(actionRepository.count())
             .isEqualTo(4);
         Assertions.assertThat(resourceRepository.count())

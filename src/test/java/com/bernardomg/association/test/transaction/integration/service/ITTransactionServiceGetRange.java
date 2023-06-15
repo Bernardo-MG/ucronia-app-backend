@@ -54,7 +54,7 @@ public class ITTransactionServiceGetRange {
         result = service.getRange();
 
         Assertions.assertThat(result.getStartMonth())
-            .isEqualTo(0);
+            .isZero();
         Assertions.assertThat(result.getStartYear())
             .isEqualTo(2020);
 
