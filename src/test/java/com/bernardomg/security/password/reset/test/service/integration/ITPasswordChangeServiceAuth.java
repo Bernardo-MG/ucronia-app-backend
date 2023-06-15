@@ -1,10 +1,10 @@
 
 package com.bernardomg.security.password.reset.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.jdbc.Sql;
@@ -30,14 +30,15 @@ public class ITPasswordChangeServiceAuth {
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
     public final void testStartPasswordRecovery_NotAuthenticated() {
-        final Executable executable;
-        final Exception  exception;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
         executable = () -> service.changePassword("1234", "abc");
 
-        exception = Assertions.assertThrows(UsernameNotFoundException.class, executable);
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
-        Assertions.assertEquals("user", exception.getMessage());
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("user");
     }
 
 }
