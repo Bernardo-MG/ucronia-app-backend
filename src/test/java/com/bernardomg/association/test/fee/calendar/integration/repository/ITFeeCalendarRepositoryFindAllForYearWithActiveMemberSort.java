@@ -26,7 +26,6 @@ package com.bernardomg.association.test.fee.calendar.integration.repository;
 
 import java.util.Iterator;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.calendar.assertion.CalendarAssertions;
+import com.bernardomg.association.test.fee.calendar.assertion.UserFeeCalendarAssertions;
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year with active member - sort")
@@ -65,30 +66,24 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .iterator();
 
         result = data.next();
-        Assertions.assertThat(result.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
-            .isTrue();
+        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .year(2020)
+            .active(true)
+            .build());
 
         CalendarAssertions.assertFullYear(result);
 
         result = data.next();
-        Assertions.assertThat(result.getMemberId())
-            .isEqualTo(2);
-        Assertions.assertThat(result.getName())
-            .isEqualTo("Member 2");
-        Assertions.assertThat(result.getSurname())
-            .isEqualTo("Surname 2");
-        Assertions.assertThat(result.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
-            .isTrue();
+        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+            .memberId(2L)
+            .name("Member 2")
+            .surname("Surname 2")
+            .year(2020)
+            .active(true)
+            .build());
 
         CalendarAssertions.assertFullYear(result);
     }
@@ -106,30 +101,24 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .iterator();
 
         result = data.next();
-        Assertions.assertThat(result.getMemberId())
-            .isEqualTo(2);
-        Assertions.assertThat(result.getName())
-            .isEqualTo("Member 2");
-        Assertions.assertThat(result.getSurname())
-            .isEqualTo("Surname 2");
-        Assertions.assertThat(result.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
-            .isTrue();
+        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+            .memberId(2L)
+            .name("Member 2")
+            .surname("Surname 2")
+            .year(2020)
+            .active(true)
+            .build());
 
         CalendarAssertions.assertFullYear(result);
 
         result = data.next();
-        Assertions.assertThat(result.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
-            .isTrue();
+        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .year(2020)
+            .active(true)
+            .build());
 
         CalendarAssertions.assertFullYear(result);
     }
