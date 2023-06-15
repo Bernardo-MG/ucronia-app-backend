@@ -93,7 +93,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
     }
@@ -156,7 +156,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         months = result.getMonths()
             .iterator();
@@ -212,7 +212,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         months = result.getMonths()
             .iterator();
@@ -267,7 +267,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2019);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         months = result.getMonths()
             .iterator();
@@ -334,7 +334,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         months = result.getMonths()
             .iterator();

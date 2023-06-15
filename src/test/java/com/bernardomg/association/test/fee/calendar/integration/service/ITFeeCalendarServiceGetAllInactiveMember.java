@@ -93,7 +93,7 @@ public class ITFeeCalendarServiceGetAllInactiveMember {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(false);
+            .isFalse();
 
         months = result.getMonths()
             .iterator();

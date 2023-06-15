@@ -74,7 +74,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
 
@@ -88,7 +88,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
     }
@@ -115,7 +115,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
 
@@ -129,7 +129,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
     }
@@ -156,7 +156,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
 
@@ -170,7 +170,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
     }
@@ -197,7 +197,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
 
@@ -211,7 +211,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
         Assertions.assertThat(result.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(result.getActive())
-            .isEqualTo(true);
+            .isTrue();
 
         CalendarAssertions.assertFullYear(result);
     }
