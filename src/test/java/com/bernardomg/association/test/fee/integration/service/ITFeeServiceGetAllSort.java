@@ -70,7 +70,7 @@ public class ITFeeServiceGetAllSort {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -78,7 +78,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
@@ -86,7 +86,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(3L)
+            .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
@@ -94,7 +94,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(4L)
+            .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
@@ -102,7 +102,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(5L)
+            .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
@@ -125,7 +125,7 @@ public class ITFeeServiceGetAllSort {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(5L)
+            .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
@@ -133,7 +133,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(4L)
+            .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
@@ -141,7 +141,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(3L)
+            .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
@@ -149,7 +149,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
@@ -157,7 +157,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -180,7 +180,7 @@ public class ITFeeServiceGetAllSort {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -188,7 +188,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
@@ -196,7 +196,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(3L)
+            .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
@@ -204,7 +204,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(4L)
+            .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
@@ -212,7 +212,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(5L)
+            .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
@@ -235,7 +235,7 @@ public class ITFeeServiceGetAllSort {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(5L)
+            .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
@@ -243,7 +243,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(4L)
+            .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
@@ -251,7 +251,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(3L)
+            .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
@@ -259,7 +259,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
@@ -267,7 +267,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -290,7 +290,7 @@ public class ITFeeServiceGetAllSort {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(5L)
+            .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
@@ -298,7 +298,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -306,7 +306,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
@@ -314,7 +314,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(3L)
+            .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
@@ -322,7 +322,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(4L)
+            .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
@@ -345,7 +345,7 @@ public class ITFeeServiceGetAllSort {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -353,7 +353,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
@@ -361,7 +361,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(3L)
+            .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
@@ -369,7 +369,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(4L)
+            .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
@@ -377,7 +377,7 @@ public class ITFeeServiceGetAllSort {
             .build());
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(5L)
+            .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))

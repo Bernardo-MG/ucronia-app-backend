@@ -107,7 +107,7 @@ public class ITFeeServiceUpdate {
             .next();
 
         FeeAssertions.isEqualTo(entity, ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -133,7 +133,7 @@ public class ITFeeServiceUpdate {
             .next();
 
         FeeAssertions.isEqualTo(entity, ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -156,7 +156,7 @@ public class ITFeeServiceUpdate {
         result = service.update(1L, fee);
 
         FeeAssertions.isEqualTo(result, ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name(null)
             .surname(null)
             .date(new GregorianCalendar(2020, 1, 1))
