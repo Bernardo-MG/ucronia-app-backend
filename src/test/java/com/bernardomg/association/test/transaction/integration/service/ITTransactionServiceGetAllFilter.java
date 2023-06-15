@@ -224,7 +224,7 @@ public class ITTransactionServiceGetAllFilter {
         result = service.getAll(sample, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
+            .isOne();
     }
 
     @Test

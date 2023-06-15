@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.change.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +53,10 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertTrue(expiredAfter);
+        Assertions.assertThat(expiredBefore)
+            .isFalse();
+        Assertions.assertThat(expiredAfter)
+            .isTrue();
     }
 
     @Test
@@ -79,8 +81,10 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertFalse(expiredAfter);
+        Assertions.assertThat(expiredBefore)
+            .isFalse();
+        Assertions.assertThat(expiredAfter)
+            .isFalse();
     }
 
     @Test
@@ -105,8 +109,10 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertFalse(expiredAfter);
+        Assertions.assertThat(expiredBefore)
+            .isFalse();
+        Assertions.assertThat(expiredAfter)
+            .isFalse();
     }
 
 }

@@ -38,6 +38,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
@@ -88,15 +90,11 @@ public class ITTransactionServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertThat(result.getId())
-            .isNotNull();
-        Assertions.assertThat(result.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(result.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(result.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
@@ -115,15 +113,11 @@ public class ITTransactionServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertThat(result.getId())
-            .isNotNull();
-        Assertions.assertThat(result.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(result.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
-        Assertions.assertThat(result.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .build());
     }
 
     @Test

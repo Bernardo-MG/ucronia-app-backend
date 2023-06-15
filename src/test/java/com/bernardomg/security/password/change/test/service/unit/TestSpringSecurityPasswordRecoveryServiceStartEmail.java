@@ -4,7 +4,7 @@ package com.bernardomg.security.password.change.test.service.unit;
 import java.util.Collections;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -97,7 +97,8 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
         Mockito.verify(mailSender)
             .sendPasswordRecoveryEmail(emailCaptor.capture(), ArgumentMatchers.any());
 
-        Assertions.assertEquals("email@somewhere.com", emailCaptor.getValue());
+        Assertions.assertThat(emailCaptor.getValue())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test

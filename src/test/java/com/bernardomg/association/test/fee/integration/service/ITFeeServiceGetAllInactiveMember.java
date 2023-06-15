@@ -89,7 +89,7 @@ public class ITFeeServiceGetAllInactiveMember {
 
         result = data.next();
         FeeAssertions.isEqualTo(result, ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))

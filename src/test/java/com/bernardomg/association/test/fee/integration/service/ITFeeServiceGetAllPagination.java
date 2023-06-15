@@ -89,7 +89,7 @@ public class ITFeeServiceGetAllPagination {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(1L)
+            .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
@@ -112,7 +112,7 @@ public class ITFeeServiceGetAllPagination {
             .iterator();
 
         FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
-            .id(2L)
+            .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))

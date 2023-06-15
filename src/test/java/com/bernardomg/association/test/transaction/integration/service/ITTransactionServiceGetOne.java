@@ -34,6 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.service.TransactionService;
 
@@ -60,15 +62,11 @@ public class ITTransactionServiceGetOne {
         result = service.getOne(id)
             .get();
 
-        Assertions.assertThat(result.getId())
-            .isEqualTo(id);
-        Assertions.assertThat(result.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(result.getAmount())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
@@ -95,15 +93,11 @@ public class ITTransactionServiceGetOne {
         result = service.getOne(id)
             .get();
 
-        Assertions.assertThat(result.getId())
-            .isEqualTo(id);
-        Assertions.assertThat(result.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(result.getAmount())
-            .isEqualTo(-1);
-        Assertions.assertThat(result.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+        TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(-1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test

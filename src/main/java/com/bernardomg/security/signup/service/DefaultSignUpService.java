@@ -129,6 +129,7 @@ public final class DefaultSignUpService implements SignUpService {
         if (repository.existsByUsername(signUp.getUsername()
             .toLowerCase())) {
             log.error("A user already exists with the username {}", signUp.getUsername());
+            // TODO: The code is exists or is it existing? Make sure all use the same
             error = FieldFailure.of("username", "existing", signUp.getUsername());
             failures.add(error);
         }
@@ -137,6 +138,7 @@ public final class DefaultSignUpService implements SignUpService {
         if (repository.existsByEmail(signUp.getEmail()
             .toLowerCase())) {
             log.error("A user already exists with the email {}", signUp.getEmail());
+            // TODO: The code is exists or is it existing? Make sure all use the same
             error = FieldFailure.of("email", "existing", signUp.getEmail());
             failures.add(error);
         }

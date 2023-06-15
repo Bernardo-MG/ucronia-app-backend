@@ -27,7 +27,6 @@ package com.bernardomg.association.test.transaction.integration.service;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
@@ -70,59 +71,39 @@ public class ITTransactionServiceGetAllSort {
             .iterator();
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 3");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 3).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 3))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 4");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 4).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 4))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 5");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 5).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 5))
+            .build());
     }
 
     @Test
@@ -141,59 +122,39 @@ public class ITTransactionServiceGetAllSort {
             .iterator();
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 3");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 3).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 3))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 4");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 4).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 4))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 5");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 5).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 5))
+            .build());
     }
 
     @Test
@@ -212,59 +173,39 @@ public class ITTransactionServiceGetAllSort {
             .iterator();
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 5");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 5).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 5))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 4");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 4).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 4))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 3");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 3).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 3))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
@@ -283,59 +224,39 @@ public class ITTransactionServiceGetAllSort {
             .iterator();
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 5");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 5).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 5))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 4");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 4).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 4))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 3");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 3).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 3))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .build());
 
         data = result.next();
-        Assertions.assertThat(data.getId())
-            .isNotNull();
-        Assertions.assertThat(data.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getAmount())
-            .isEqualTo(1f);
+        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
 }
