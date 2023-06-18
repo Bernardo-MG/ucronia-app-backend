@@ -107,6 +107,17 @@ public class ITBalanceServiceGetTotalBalance {
     }
 
     @Test
+    @DisplayName("With not data it returns nothing")
+    public void testGetTotalBalance_Empty() {
+        final Balance result;
+
+        result = service.getTotalBalance();
+
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(0);
+    }
+
+    @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetTotalBalance_Multiple() {

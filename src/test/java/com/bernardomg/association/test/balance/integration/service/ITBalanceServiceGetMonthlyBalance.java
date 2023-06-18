@@ -261,4 +261,15 @@ public class ITBalanceServiceGetMonthlyBalance {
             .build());
     }
 
+    @Test
+    @DisplayName("With no data it returns nothing")
+    public void testGetMonthlyBalance_NoData() {
+        final Collection<MonthlyBalance> read;
+
+        read = service.getMonthlyBalance();
+
+        Assertions.assertThat(read)
+            .isEmpty();
+    }
+
 }

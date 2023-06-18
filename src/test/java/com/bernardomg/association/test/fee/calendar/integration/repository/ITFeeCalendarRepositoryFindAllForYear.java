@@ -99,7 +99,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     }
 
     @Test
-    @DisplayName("When there is no data it returns nothing")
+    @DisplayName("With no data it returns nothing")
     public void testFindAllForYear_NoData_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
