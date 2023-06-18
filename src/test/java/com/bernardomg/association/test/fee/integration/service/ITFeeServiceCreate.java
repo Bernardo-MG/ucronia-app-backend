@@ -88,11 +88,9 @@ public class ITFeeServiceCreate {
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(entity, ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .name("name")
-            .surname("surname")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -114,11 +112,9 @@ public class ITFeeServiceCreate {
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(entity, ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .name("name")
-            .surname("surname")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());

@@ -8,7 +8,7 @@ import com.bernardomg.association.transaction.persistence.model.PersistentTransa
 
 public final class TransactionAssertions {
 
-    public static final void isEqualTo(final PersistentTransaction received, final Transaction expected) {
+    public static final void isEqualTo(final PersistentTransaction received, final PersistentTransaction expected) {
         Assertions.assertThat(received.getId())
             .isNotNull();
         Assertions.assertThat(received.getDescription())

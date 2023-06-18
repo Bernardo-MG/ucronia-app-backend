@@ -88,7 +88,7 @@ public class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(entity, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .description("Transaction")
             .amount(1.2f)
             .date(new GregorianCalendar(2020, 1, 1))
@@ -147,7 +147,7 @@ public class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(entity, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .description("Transaction 123")
             .amount(1f)
             .date(new GregorianCalendar(2020, 1, 1))

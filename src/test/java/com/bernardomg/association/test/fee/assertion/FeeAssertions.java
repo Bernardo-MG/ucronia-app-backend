@@ -31,7 +31,7 @@ public final class FeeAssertions {
             .isEqualTo(expected.getPaid());
     }
 
-    public static final void isEqualTo(final PersistentFee received, final MemberFee expected) {
+    public static final void isEqualTo(final PersistentFee received, final PersistentFee expected) {
         Assertions.assertThat(received.getId())
             .withFailMessage("Expected id to not be null")
             .isNotNull();
