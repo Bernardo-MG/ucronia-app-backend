@@ -57,22 +57,6 @@ public class ITFeeServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
-        final DtoFeeCreationRequest fee;
-
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
-
-        service.create(fee);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Persists the data with a day which is not the first of the month")
     public void testCreate_AnotherDay_PersistedData() {
         final DtoFeeCreationRequest fee;
@@ -84,10 +68,13 @@ public class ITFeeServiceCreate {
         fee.setPaid(true);
 
         service.create(fee);
+
         entity = repository.findAll()
             .iterator()
             .next();
 
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
         FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
@@ -97,7 +84,7 @@ public class ITFeeServiceCreate {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("With new data it adds the entity data to the persistence layer")
     public void testCreate_PersistedData() {
         final DtoFeeCreationRequest fee;
         final PersistentFee         entity;
@@ -108,10 +95,13 @@ public class ITFeeServiceCreate {
         fee.setPaid(true);
 
         service.create(fee);
+
         entity = repository.findAll()
             .iterator()
             .next();
 
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
         FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
@@ -121,7 +111,7 @@ public class ITFeeServiceCreate {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("With new data it returns the created data")
     public void testCreate_ReturnedData() {
         final MemberFee             result;
         final DtoFeeCreationRequest fee;

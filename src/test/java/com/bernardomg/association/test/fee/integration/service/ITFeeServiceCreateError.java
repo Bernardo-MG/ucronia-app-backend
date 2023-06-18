@@ -56,7 +56,7 @@ public class ITFeeServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when there is an entry for that member and date")
+    @DisplayName("With a repeated member and month it throws an exception")
     public void testCreate_ExistingDateAndMember() {
         final DtoFeeCreationRequest fee;
         final ThrowingCallable      executable;
@@ -71,12 +71,13 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
-    @DisplayName("Throws an exception when there is an entry for that member and date, ignoring the day")
+    @DisplayName("With a repeated member and month, but with another day, it throws an exception")
     public void testCreate_ExistingDateAndMember_ChangesDay() {
         final DtoFeeCreationRequest fee;
         final ThrowingCallable      executable;
@@ -91,12 +92,13 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
-    @DisplayName("Throws an exception when the date is missing")
+    @DisplayName("With a missing date it throws an exception")
     @Disabled("The model rejects this case")
     public void testCreate_MissingDate() {
         final DtoFeeCreationRequest fee;
@@ -112,12 +114,13 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
-    @DisplayName("Throws an exception when the paid flag is missing")
+    @DisplayName("With a missing paid flag it throws an exception")
     public void testCreate_MissingPaid() {
         final DtoFeeCreationRequest fee;
         final ThrowingCallable      executable;
@@ -132,6 +135,7 @@ public class ITFeeServiceCreateError {
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(DataIntegrityViolationException.class);
     }

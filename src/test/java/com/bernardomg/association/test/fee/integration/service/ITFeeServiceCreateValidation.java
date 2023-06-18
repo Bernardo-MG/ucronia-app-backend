@@ -51,7 +51,7 @@ public class ITFeeServiceCreateValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the member id does not exist")
+    @DisplayName("With a missing id it throws an exception")
     public void testCreate_InvalidMember() {
         final DtoFeeCreationRequest fee;
         final ThrowingCallable      executable;

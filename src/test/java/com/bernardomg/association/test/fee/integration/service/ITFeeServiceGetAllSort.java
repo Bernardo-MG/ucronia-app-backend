@@ -27,12 +27,16 @@ package com.bernardomg.association.test.fee.integration.service;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
@@ -273,6 +277,25 @@ public class ITFeeServiceGetAllSort {
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
+    }
+
+    @Test
+    @DisplayName("Ordering by a not existing field generates an error")
+    @Disabled
+    public void testGetAll_NotExisting() {
+        final FeeQueryRequest  sample;
+        final Pageable         pageable;
+        final ThrowingCallable executable;
+
+        pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
+
+        sample = new DtoFeeQueryRequest();
+
+        executable = () -> service.getAll(sample, pageable)
+            .iterator();
+
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(BadSqlGrammarException.class);
     }
 
     @Test

@@ -55,7 +55,7 @@ public class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities when reading a full year")
+    @DisplayName("With a full year it returns all the fees")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Count() {
         final Iterable<MemberFee> result;
@@ -73,7 +73,7 @@ public class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all data when reading a full year")
+    @DisplayName("With a full year it returns all the fees data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Data() {
         final Iterator<MemberFee> result;
@@ -185,7 +185,7 @@ public class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities when reading multiple entities")
+    @DisplayName("With multiple fees it returns all the fees")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_Multiple_Count() {
         final Iterable<MemberFee> result;
@@ -203,7 +203,7 @@ public class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all data when reading multiple entities")
+    @DisplayName("With multiple fees it returns all the fees data")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_Multiple_Data() {
         final Iterator<MemberFee> result;
@@ -259,7 +259,7 @@ public class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("Retursn no entity when there is no fee data")
+    @DisplayName("With no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoFee_Count() {
         final Iterable<MemberFee> result;
