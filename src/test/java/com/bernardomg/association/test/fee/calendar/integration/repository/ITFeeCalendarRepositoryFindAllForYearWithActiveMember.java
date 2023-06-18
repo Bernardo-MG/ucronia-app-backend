@@ -56,7 +56,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYear_FullYear_Count() {
+    public void testFindAllForYearWithActiveMember_FullYear_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
 
@@ -75,7 +75,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYear_FullYear_Data() {
+    public void testFindAllForYearWithActiveMember_FullYear_Data() {
         final Iterator<UserFeeCalendar> data;
         final UserFeeCalendar           result;
         final Sort                      sort;
@@ -98,8 +98,23 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     }
 
     @Test
-    @DisplayName("When there is no data it returns nothing")
-    public void testFindAllForYear_NoData_Count() {
+    @DisplayName("Returns no data for an inactive member")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testFindAllForYearWithActiveMember_Inactive_FullYear_Count() {
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
+
+        sort = Sort.unsorted();
+
+        result = repository.findAllForYearWithActiveMember(2020, sort);
+
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
+    public void testFindAllForYearWithActiveMember_NoData_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
 
@@ -114,7 +129,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    public void testFindAllForYear_SingleMonth_Count() {
+    public void testFindAllForYearWithActiveMember_SingleMonth_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
 
@@ -133,7 +148,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    public void testFindAllForYear_SingleMonth_Data() {
+    public void testFindAllForYearWithActiveMember_SingleMonth_Data() {
         final Iterator<UserFeeCalendar> data;
         final UserFeeCalendar           result;
         final Iterator<FeeMonth>        months;
@@ -167,7 +182,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    public void testFindAllForYear_SingleMonthUnpaid_Count() {
+    public void testFindAllForYearWithActiveMember_SingleMonthUnpaid_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
 
@@ -186,7 +201,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    public void testFindAllForYear_SingleMonthUnpaid_Data() {
+    public void testFindAllForYearWithActiveMember_SingleMonthUnpaid_Data() {
         final Iterator<UserFeeCalendar> data;
         final UserFeeCalendar           result;
         final Iterator<FeeMonth>        months;
@@ -220,7 +235,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the entities for the first year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_First_Count() {
+    public void testFindAllForYearWithActiveMember_TwoConnectedYears_First_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
 
@@ -239,7 +254,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_First_Data() {
+    public void testFindAllForYearWithActiveMember_TwoConnectedYears_First_Data() {
         final UserFeeCalendar result;
         final Sort            sort;
         Iterator<FeeMonth>    months;
@@ -284,7 +299,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the entities for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_Second_Count() {
+    public void testFindAllForYearWithActiveMember_TwoConnectedYears_Second_Count() {
         final Iterable<UserFeeCalendar> result;
         final Sort                      sort;
 
@@ -303,7 +318,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the data for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_Second_Data() {
+    public void testFindAllForYearWithActiveMember_TwoConnectedYears_Second_Data() {
         final UserFeeCalendar result;
         final Sort            sort;
         Iterator<FeeMonth>    months;

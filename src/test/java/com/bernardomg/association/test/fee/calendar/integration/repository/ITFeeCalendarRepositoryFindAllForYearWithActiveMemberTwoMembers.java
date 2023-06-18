@@ -56,7 +56,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Test
     @DisplayName("With a full year it returns all the entities")
-    public void testFindAllForYear_FullYear_TwoMembers_Count() {
+    public void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Count() {
         final Iterable<UserFeeCalendar> result;
         final Iterator<UserFeeCalendar> itr;
         final Sort                      sort;
@@ -79,7 +79,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Test
     @DisplayName("With a full year it returns all the data")
-    public void testFindAllForYear_FullYear_TwoMembers_Data() {
+    public void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Data() {
         final Iterator<UserFeeCalendar> data;
         UserFeeCalendar                 result;
         final Sort                      sort;

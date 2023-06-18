@@ -75,6 +75,19 @@ public class ITFeeCalendarRepositoryFindRange {
     }
 
     @Test
+    @DisplayName("With no data it returns no dates")
+    public void testFindRange_NoData() {
+        final FeeCalendarRange result;
+
+        result = repository.findRange();
+
+        Assertions.assertThat(result.getStart())
+            .isEqualTo(0);
+        Assertions.assertThat(result.getEnd())
+            .isEqualTo(0);
+    }
+
+    @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testFindRange_Single() {
