@@ -82,9 +82,9 @@ public class ITFeeCalendarRepositoryFindRange {
         result = repository.findRange();
 
         Assertions.assertThat(result.getStart())
-            .isEqualTo(0);
+            .isZero();
         Assertions.assertThat(result.getEnd())
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test

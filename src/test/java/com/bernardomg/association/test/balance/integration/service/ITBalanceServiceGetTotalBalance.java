@@ -114,7 +114,7 @@ public class ITBalanceServiceGetTotalBalance {
         result = service.getTotalBalance();
 
         Assertions.assertThat(result.getAmount())
-            .isEqualTo(0);
+            .isZero();
     }
 
     @Test
