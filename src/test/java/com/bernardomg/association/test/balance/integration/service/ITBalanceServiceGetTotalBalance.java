@@ -52,13 +52,9 @@ public class ITBalanceServiceGetTotalBalance {
     @Autowired
     private BalanceService        service;
 
-    public ITBalanceServiceGetTotalBalance() {
-        super();
-    }
-
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("Reads values around zero")
+    @DisplayName("Returns the correct amount when reading values around zero")
     public void testGetTotalBalance_AroundZero(final Float amount) {
         final Balance               result;
         final PersistentTransaction entity;

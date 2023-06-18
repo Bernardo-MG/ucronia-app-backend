@@ -56,13 +56,9 @@ public class ITBalanceServiceGetMonthlyBalance {
     @Autowired
     private BalanceService        service;
 
-    public ITBalanceServiceGetMonthlyBalance() {
-        super();
-    }
-
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("Returns the correct data when reading values around zero")
+    @DisplayName("Returns the correct amount when reading values around zero")
     public void testGetMonthlyBalance_AroundZero(final Float amount) {
         final MonthlyBalance        data;
         final PersistentTransaction entity;
@@ -88,7 +84,7 @@ public class ITBalanceServiceGetMonthlyBalance {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("Returns the correct data when reading decimal values")
+    @DisplayName("Returns the correct amount when reading decimal values")
     public void testGetMonthlyBalance_Decimal(final Float amount) {
         final MonthlyBalance        data;
         final PersistentTransaction entity;
