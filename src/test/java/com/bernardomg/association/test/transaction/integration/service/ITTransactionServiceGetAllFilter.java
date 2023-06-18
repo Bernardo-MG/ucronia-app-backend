@@ -65,7 +65,7 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionQueryRequest();
 
-        date = new GregorianCalendar(2020, 1, 2);
+        date = new GregorianCalendar(2020, 0, 2);
         sample.setStartDate(date);
 
         result = service.getAll(sample, pageable);
@@ -88,7 +88,7 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionQueryRequest();
 
-        date = new GregorianCalendar(2020, 1, 2);
+        date = new GregorianCalendar(2020, 0, 2);
         sample.setStartDate(date);
 
         result = service.getAll(sample, pageable)
@@ -101,7 +101,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 2");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 2).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
 
@@ -112,7 +112,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 3");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 3).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 3).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
 
@@ -123,7 +123,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 4");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 4).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 4).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
 
@@ -134,7 +134,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 5");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 5).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 5).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
     }
@@ -152,7 +152,7 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionQueryRequest();
 
-        date = new GregorianCalendar(2020, 1, 2);
+        date = new GregorianCalendar(2020, 0, 2);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable);
@@ -176,7 +176,7 @@ public class ITTransactionServiceGetAllFilter {
         sample = new DtoTransactionQueryRequest();
 
         date = new GregorianCalendar();
-        date.set(2020, 1, 2);
+        date.set(2020, 0, 2);
         sample.setEndDate(date);
 
         result = service.getAll(sample, pageable)
@@ -189,7 +189,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 1");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
 
@@ -200,7 +200,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 2");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 2).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
     }
@@ -218,7 +218,7 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionQueryRequest();
 
-        date = new GregorianCalendar(2020, 1, 2);
+        date = new GregorianCalendar(2020, 0, 2);
         sample.setDate(date);
 
         result = service.getAll(sample, pageable);
@@ -241,7 +241,7 @@ public class ITTransactionServiceGetAllFilter {
 
         sample = new DtoTransactionQueryRequest();
 
-        date = new GregorianCalendar(2020, 1, 2);
+        date = new GregorianCalendar(2020, 0, 2);
         sample.setDate(date);
 
         result = service.getAll(sample, pageable)
@@ -254,7 +254,7 @@ public class ITTransactionServiceGetAllFilter {
             .isEqualTo("Transaction 2");
         Assertions.assertThat(data.getDate()
             .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 2).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 2).getTime());
         Assertions.assertThat(data.getAmount())
             .isEqualTo(1f);
     }

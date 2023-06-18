@@ -26,14 +26,15 @@ package com.bernardomg.association.test.balance.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.balance.model.MonthlyBalance;
 import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.test.balance.assertion.BalanceAssertions;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,13 +58,11 @@ public class ITBalanceServiceGetMonthlyBalanceDecimal {
             .iterator()
             .next();
 
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(0.12f);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(0.12f);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .total(0.12f)
+            .cumulative(0.12f)
+            .build());
     }
 
     @Test
@@ -76,13 +75,11 @@ public class ITBalanceServiceGetMonthlyBalanceDecimal {
             .iterator()
             .next();
 
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isZero();
-        Assertions.assertThat(data.getCumulative())
-            .isZero();
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .total(0f)
+            .cumulative(0f)
+            .build());
     }
 
 }

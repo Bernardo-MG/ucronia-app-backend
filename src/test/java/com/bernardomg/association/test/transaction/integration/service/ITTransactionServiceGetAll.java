@@ -211,35 +211,35 @@ public class ITTransactionServiceGetAll {
         TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(new GregorianCalendar(2020, 0, 1))
             .build());
 
         data = result.next();
         TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 0, 2))
             .build());
 
         data = result.next();
         TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 3))
+            .date(new GregorianCalendar(2020, 0, 3))
             .build());
 
         data = result.next();
         TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 4))
+            .date(new GregorianCalendar(2020, 0, 4))
             .build());
 
         data = result.next();
         TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 5))
+            .date(new GregorianCalendar(2020, 0, 5))
             .build());
     }
 
@@ -263,7 +263,7 @@ public class ITTransactionServiceGetAll {
         TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(-1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(new GregorianCalendar(2020, 0, 1))
             .build());
     }
 

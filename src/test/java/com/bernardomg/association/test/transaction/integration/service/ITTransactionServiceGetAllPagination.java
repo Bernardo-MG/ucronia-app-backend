@@ -93,7 +93,7 @@ public class ITTransactionServiceGetAllPagination {
         TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(new GregorianCalendar(2020, 0, 1))
             .build());
     }
 
@@ -116,7 +116,7 @@ public class ITTransactionServiceGetAllPagination {
         TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 0, 2))
             .build());
     }
 

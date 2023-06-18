@@ -56,7 +56,7 @@ public class ITTransactionRepositoryFindMaxDate {
         result = repository.findMaxDate();
 
         Assertions.assertThat(result.getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 5, 0, 0, 0).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 5).getTime());
     }
 
     @Test

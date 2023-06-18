@@ -56,7 +56,7 @@ public class ITTransactionRepositoryFindMinDate {
         result = repository.findMinDate();
 
         Assertions.assertThat(result.getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1, 0, 0, 0).getTime());
+            .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
     }
 
     @Test

@@ -24,16 +24,22 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
+import java.util.GregorianCalendar;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.config.factory.ModelFactory;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 @IntegrationTest
@@ -50,16 +56,25 @@ public class ITBalanceServiceGetTotalBalanceDecimal {
         super();
     }
 
-    @Test
-    @DisplayName("Returns the expected balance when there is a decimal transaction")
-    @Sql({ "/db/queries/transaction/decimal.sql" })
-    public void testGetTotalBalance_Decimal() {
-        final Balance result;
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("Reads decimal values")
+    public void testGetTotalBalance_Decimal(final Float amount) {
+        final Balance               result;
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
 
         result = service.getTotalBalance();
 
         Assertions.assertThat(result.getAmount())
-            .isEqualTo(0.12f);
+            .isEqualTo(amount);
     }
 
     @Test

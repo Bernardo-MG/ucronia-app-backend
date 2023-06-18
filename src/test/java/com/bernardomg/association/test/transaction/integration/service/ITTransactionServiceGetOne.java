@@ -65,7 +65,7 @@ public class ITTransactionServiceGetOne {
         TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(new GregorianCalendar(2020, 0, 1))
             .build());
     }
 
@@ -96,7 +96,7 @@ public class ITTransactionServiceGetOne {
         TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(-1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(new GregorianCalendar(2020, 0, 1))
             .build());
     }
 

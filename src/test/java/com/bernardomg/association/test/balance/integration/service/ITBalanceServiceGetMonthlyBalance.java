@@ -34,8 +34,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.balance.model.MonthlyBalance;
 import com.bernardomg.association.balance.service.BalanceService;
+import com.bernardomg.association.test.balance.assertion.BalanceAssertions;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -72,112 +74,88 @@ public class ITBalanceServiceGetMonthlyBalance {
             .iterator();
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(1);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .total(1f)
+            .cumulative(1f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(2);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 1, 1))
+            .total(1f)
+            .cumulative(2f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 2, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(3);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 2, 1))
+            .total(1f)
+            .cumulative(3f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 3, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(4);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 3, 1))
+            .total(1f)
+            .cumulative(4f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 4, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(5);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 4, 1))
+            .total(1f)
+            .cumulative(5f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 5, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(6);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 5, 1))
+            .total(1f)
+            .cumulative(6f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 6, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(7);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 6, 1))
+            .total(1f)
+            .cumulative(7f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 7, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(8);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 7, 1))
+            .total(1f)
+            .cumulative(8f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 8, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(9);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 8, 1))
+            .total(1f)
+            .cumulative(9f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 9, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(10);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 9, 1))
+            .total(1f)
+            .cumulative(10f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 10, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(11);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 10, 1))
+            .total(1f)
+            .cumulative(11f)
+            .build());
 
         data = read.next();
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 11, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(12);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 11, 1))
+            .total(1f)
+            .cumulative(12f)
+            .build());
     }
 
     @Test
@@ -202,13 +180,11 @@ public class ITBalanceServiceGetMonthlyBalance {
             .iterator()
             .next();
 
-        Assertions.assertThat(data.getDate()
-            .getTime())
-            .isEqualTo(new GregorianCalendar(2020, 1, 1).getTime());
-        Assertions.assertThat(data.getTotal())
-            .isEqualTo(5);
-        Assertions.assertThat(data.getCumulative())
-            .isEqualTo(5);
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .total(5f)
+            .cumulative(5f)
+            .build());
     }
 
 }
