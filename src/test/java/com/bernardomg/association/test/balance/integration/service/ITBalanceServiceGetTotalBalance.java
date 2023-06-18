@@ -54,7 +54,7 @@ public class ITBalanceServiceGetTotalBalance {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("Returns the correct amount when reading values around zero")
+    @DisplayName("With values around zero it returns the correct amounts")
     public void testGetTotalBalance_AroundZero(final Float amount) {
         final Balance               result;
         final PersistentTransaction entity;
@@ -75,7 +75,7 @@ public class ITBalanceServiceGetTotalBalance {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("Returns the correct amount when reading decimal values")
+    @DisplayName("With decimal values it returns the correct amounts")
     public void testGetTotalBalance_Decimal(final Float amount) {
         final Balance               result;
         final PersistentTransaction entity;
@@ -95,7 +95,7 @@ public class ITBalanceServiceGetTotalBalance {
     }
 
     @Test
-    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0")
+    @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     public void testGetTotalBalance_DecimalsAddUpToZero() {
         final Balance result;
@@ -107,7 +107,7 @@ public class ITBalanceServiceGetTotalBalance {
     }
 
     @Test
-    @DisplayName("Returns the expected balance when there are multiple transactions")
+    @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetTotalBalance_Multiple() {
         final Balance result;

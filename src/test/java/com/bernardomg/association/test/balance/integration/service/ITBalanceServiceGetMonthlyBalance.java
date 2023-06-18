@@ -58,7 +58,7 @@ public class ITBalanceServiceGetMonthlyBalance {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("Returns the correct amount when reading values around zero")
+    @DisplayName("With values around zero it returns the correct amounts")
     public void testGetMonthlyBalance_AroundZero(final Float amount) {
         final MonthlyBalance        data;
         final PersistentTransaction entity;
@@ -84,7 +84,7 @@ public class ITBalanceServiceGetMonthlyBalance {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("Returns the correct amount when reading decimal values")
+    @DisplayName("With decimal values it returns the correct amounts")
     public void testGetMonthlyBalance_Decimal(final Float amount) {
         final MonthlyBalance        data;
         final PersistentTransaction entity;
@@ -109,7 +109,7 @@ public class ITBalanceServiceGetMonthlyBalance {
     }
 
     @Test
-    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0")
+    @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     public void testGetMonthlyBalance_DecimalsAddUpToZero() {
         final MonthlyBalance data;
@@ -126,7 +126,7 @@ public class ITBalanceServiceGetMonthlyBalance {
     }
 
     @Test
-    @DisplayName("Returns all the objects for a full year")
+    @DisplayName("With a full year it returns twelve months")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetMonthlyBalance_FullYear_Count() {
         final Collection<MonthlyBalance> read;
@@ -138,7 +138,7 @@ public class ITBalanceServiceGetMonthlyBalance {
     }
 
     @Test
-    @DisplayName("Returns the correct values for a full year")
+    @DisplayName("With a full year it returns the correct data for all the months")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetMonthlyBalance_FullYear_Data() {
         final Iterator<MonthlyBalance> read;
@@ -233,7 +233,7 @@ public class ITBalanceServiceGetMonthlyBalance {
     }
 
     @Test
-    @DisplayName("Returns a single object for a month with multiple transactions")
+    @DisplayName("With multiple transactions for a single month it returns a single month")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetMonthlyBalance_Multiple_Count() {
         final Collection<MonthlyBalance> read;
@@ -245,7 +245,7 @@ public class ITBalanceServiceGetMonthlyBalance {
     }
 
     @Test
-    @DisplayName("Returns the correct values for a month with multiple transactions")
+    @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetMonthlyBalance_Multiple_Data() {
         final MonthlyBalance data;
