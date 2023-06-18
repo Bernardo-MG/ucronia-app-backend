@@ -75,7 +75,7 @@ public class ITFeeCalendarServiceGetRange {
     }
 
     @Test
-    @DisplayName("Returns the range for an inactive member")
+    @DisplayName("With an inactive member it returns the range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Inactive() {
         final FeeCalendarRange result;

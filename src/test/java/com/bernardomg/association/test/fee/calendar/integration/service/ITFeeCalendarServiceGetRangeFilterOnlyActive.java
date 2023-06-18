@@ -46,7 +46,7 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
     }
 
     @Test
-    @DisplayName("Returns the range for an active user")
+    @DisplayName("With an active member it returns the full range")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Active() {
         final FeeCalendarRange result;
@@ -60,9 +60,22 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
     }
 
     @Test
-    @DisplayName("Returns no range for an inactive user")
+    @DisplayName("With an inactive member it returns no range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Inactive() {
+        final FeeCalendarRange result;
+
+        result = service.getRange(true);
+
+        Assertions.assertThat(result.getStart())
+            .isZero();
+        Assertions.assertThat(result.getEnd())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With no data it returns no range")
+    public void testGetRange_NoData() {
         final FeeCalendarRange result;
 
         result = service.getRange(true);
