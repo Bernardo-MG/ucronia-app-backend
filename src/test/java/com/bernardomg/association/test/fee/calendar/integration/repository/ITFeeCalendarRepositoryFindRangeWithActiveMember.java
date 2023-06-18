@@ -75,6 +75,20 @@ public class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     }
 
     @Test
+    @DisplayName("With an inactive member it returns no range")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testFindRangeWithActiveMember_Inactive_FullYear() {
+        final FeeCalendarRange result;
+
+        result = repository.findRangeWithActiveMember();
+
+        Assertions.assertThat(result.getStart())
+            .isZero();
+        Assertions.assertThat(result.getEnd())
+            .isZero();
+    }
+
+    @Test
     @DisplayName("With no data it returns no dates")
     public void testFindRangeWithActiveMember_NoData() {
         final FeeCalendarRange result;
