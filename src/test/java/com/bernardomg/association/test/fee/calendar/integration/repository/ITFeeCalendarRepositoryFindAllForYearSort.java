@@ -91,9 +91,9 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
 
         result = data.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
-            .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
             .year(2020)
             .active(true)
             .build());
