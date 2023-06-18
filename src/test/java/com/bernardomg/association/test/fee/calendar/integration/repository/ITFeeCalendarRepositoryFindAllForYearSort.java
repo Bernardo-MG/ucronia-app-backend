@@ -37,11 +37,10 @@ import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.calendar.assertion.CalendarAssertions;
 import com.bernardomg.association.test.fee.calendar.assertion.UserFeeCalendarAssertions;
 
 @IntegrationTest
-@DisplayName("Fee calendar repository - find all for year - two members")
+@DisplayName("Fee calendar repository - find all for year - sorted")
 public class ITFeeCalendarRepositoryFindAllForYearSort {
 
     @Autowired
@@ -73,7 +72,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
     @Test
@@ -98,7 +97,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
     @Test
@@ -124,7 +123,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
 
         result = data.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
@@ -135,7 +134,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
     @Test
@@ -161,7 +160,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
 
         result = data.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
@@ -172,7 +171,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
     @Test
@@ -198,7 +197,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
 
         result = data.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
@@ -209,7 +208,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
     @Test
@@ -235,7 +234,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
 
         result = data.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
@@ -246,7 +245,7 @@ public class ITFeeCalendarRepositoryFindAllForYearSort {
             .active(true)
             .build());
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
 }

@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.fee.calendar.integration.service;
 
+import java.util.Iterator;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -31,26 +33,83 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.calendar.assertion.UserFeeCalendarAssertions;
 
 @IntegrationTest
-@DisplayName("Fee calendar service - get all - error")
+@DisplayName("Fee calendar service - get all - sorted")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeCalendarServiceGetAllError {
+public class ITFeeCalendarServiceGetAllSort {
 
     @Autowired
     private FeeCalendarService service;
 
-    public ITFeeCalendarServiceGetAllError() {
+    public ITFeeCalendarServiceGetAllSort() {
         super();
     }
 
     @Test
-    @DisplayName("Ordering by a not existing field generates an error")
+    @DisplayName("With ascending order by name it returns the ordered data")
+    public void testGetAll_Name_Asc() {
+        final Sort                      sort;
+        final Iterator<UserFeeCalendar> data;
+        final UserFeeCalendar           result;
+
+        sort = Sort.by(Order.asc("name"));
+
+        data = service.getAll(2020, false, sort)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isTrue();
+
+        UserFeeCalendarAssertions.assertFullYear(result);
+    }
+
+    @Test
+    @DisplayName("With descending order by name it returns the ordered data")
+    public void testGetAll_Name_Desc() {
+        final Sort                      sort;
+        final Iterator<UserFeeCalendar> data;
+        final UserFeeCalendar           result;
+
+        sort = Sort.by(Order.asc("name"));
+
+        data = service.getAll(2020, false, sort)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isTrue();
+
+        UserFeeCalendarAssertions.assertFullYear(result);
+    }
+
+    @Test
+    @DisplayName("With an invalid field ordering throws an exception")
     public void testGetAll_NotExisting() {
         final Sort             sort;
         final ThrowingCallable executable;

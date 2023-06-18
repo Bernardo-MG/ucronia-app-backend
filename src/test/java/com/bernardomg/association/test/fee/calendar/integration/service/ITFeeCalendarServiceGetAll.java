@@ -38,7 +38,7 @@ import com.bernardomg.association.fee.calendar.model.FeeMonth;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.calendar.assertion.CalendarAssertions;
+import com.bernardomg.association.test.fee.calendar.assertion.UserFeeCalendarAssertions;
 
 @IntegrationTest
 @DisplayName("Fee calendar service - get all")
@@ -52,7 +52,7 @@ public class ITFeeCalendarServiceGetAll {
     }
 
     @Test
-    @DisplayName("With a full year it returns all the data")
+    @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Count() {
         final Iterable<UserFeeCalendar> result;
@@ -75,7 +75,7 @@ public class ITFeeCalendarServiceGetAll {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Data() {
         final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
+        final UserFeeCalendar           result;
         final Sort                      sort;
 
         sort = Sort.unsorted();
@@ -95,7 +95,54 @@ public class ITFeeCalendarServiceGetAll {
         Assertions.assertThat(result.getActive())
             .isTrue();
 
-        CalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(result);
+    }
+
+    @Test
+    @DisplayName("With an inactive user and a full year it returns all the data")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetAll_Inactive_Count() {
+        final Iterable<UserFeeCalendar> result;
+        final Sort                      sort;
+
+        sort = Sort.unsorted();
+
+        result = service.getAll(2020, false, sort);
+
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+        Assertions.assertThat(IterableUtils.size(result.iterator()
+            .next()
+            .getMonths()))
+            .isEqualTo(12);
+    }
+
+    @Test
+    @DisplayName("With an inactive user and a full year it returns all data")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
+    public void testGetAll_Inactive_Data() {
+        final Iterator<UserFeeCalendar> data;
+        UserFeeCalendar                 result;
+        final Sort                      sort;
+
+        sort = Sort.unsorted();
+
+        data = service.getAll(2020, false, sort)
+            .iterator();
+
+        result = data.next();
+        Assertions.assertThat(result.getMemberId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(result.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(result.getYear())
+            .isEqualTo(2020);
+        Assertions.assertThat(result.getActive())
+            .isFalse();
+
+        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
     @Test
