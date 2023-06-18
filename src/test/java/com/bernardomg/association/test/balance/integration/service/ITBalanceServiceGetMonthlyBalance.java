@@ -31,6 +31,8 @@ import java.util.Iterator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -39,22 +41,98 @@ import com.bernardomg.association.balance.model.MonthlyBalance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.balance.assertion.BalanceAssertions;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 @IntegrationTest
 @DisplayName("Balance service - get monthly balance")
 public class ITBalanceServiceGetMonthlyBalance {
 
     @Autowired
-    private BalanceService service;
+    private TransactionRepository repository;
+
+    @Autowired
+    private BalanceService        service;
 
     public ITBalanceServiceGetMonthlyBalance() {
         super();
     }
 
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(AroundZeroArgumentsProvider.class)
+    @DisplayName("Returns the correct data when reading values around zero")
+    public void testGetMonthlyBalance_AroundZero(final Float amount) {
+        final MonthlyBalance        data;
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+
+        data = service.getMonthlyBalance()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(data.getTotal())
+            .isEqualTo(amount);
+        Assertions.assertThat(data.getCumulative())
+            .isEqualTo(amount);
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("Returns the correct data when reading decimal values")
+    public void testGetMonthlyBalance_Decimal(final Float amount) {
+        final MonthlyBalance        data;
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+
+        data = service.getMonthlyBalance()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(data.getTotal())
+            .isEqualTo(amount);
+        Assertions.assertThat(data.getCumulative())
+            .isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0")
+    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    public void testGetMonthlyBalance_DecimalsAddUpToZero() {
+        final MonthlyBalance data;
+
+        data = service.getMonthlyBalance()
+            .iterator()
+            .next();
+
+        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .total(0f)
+            .cumulative(0f)
+            .build());
+    }
+
     @Test
     @DisplayName("Returns all the objects for a full year")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetMonthlyBalance_FullYear() {
+    public void testGetMonthlyBalance_FullYear_Count() {
         final Collection<MonthlyBalance> read;
 
         read = service.getMonthlyBalance();
@@ -161,7 +239,7 @@ public class ITBalanceServiceGetMonthlyBalance {
     @Test
     @DisplayName("Returns a single object for a month with multiple transactions")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetMonthlyBalance_Multiple_count() {
+    public void testGetMonthlyBalance_Multiple_Count() {
         final Collection<MonthlyBalance> read;
 
         read = service.getMonthlyBalance();

@@ -38,6 +38,7 @@ import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
@@ -74,6 +75,39 @@ public class ITBalanceServiceGetTotalBalance {
 
         Assertions.assertThat(result.getAmount())
             .isEqualTo(amount);
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("Returns the correct amount when reading decimal values")
+    public void testGetTotalBalance_Decimal(final Float amount) {
+        final Balance               result;
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+
+        result = service.getTotalBalance();
+
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("Returns the expected balance when the sum of the decimal transactions is 0")
+    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    public void testGetTotalBalance_DecimalsAddUpToZero() {
+        final Balance result;
+
+        result = service.getTotalBalance();
+
+        Assertions.assertThat(result.getAmount())
+            .isZero();
     }
 
     @Test
