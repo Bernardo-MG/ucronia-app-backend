@@ -51,7 +51,7 @@ public final class ITMemberControllerRequestFilter {
     }
 
     @Test
-    @DisplayName("Filters by active")
+    @DisplayName("With a filter by active, only active members are returned")
     public final void testGet_Active() throws Exception {
         final ResultActions result;
 
@@ -66,7 +66,7 @@ public final class ITMemberControllerRequestFilter {
     }
 
     @Test
-    @DisplayName("Reads all when not using a filter")
+    @DisplayName("With no filter, all the members are returned")
     public final void testGet_NoFilter() throws Exception {
         final ResultActions result;
 
@@ -81,7 +81,7 @@ public final class ITMemberControllerRequestFilter {
     }
 
     @Test
-    @DisplayName("Filters by not active")
+    @DisplayName("With a filter by not active, only not active members are returned")
     public final void testGet_NotActive() throws Exception {
         final ResultActions result;
 

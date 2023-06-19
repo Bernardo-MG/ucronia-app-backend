@@ -38,7 +38,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Member service - get one")
-@Sql({ "/db/queries/member/single.sql" })
 public class ITMemberServiceGetOne {
 
     @Autowired
@@ -49,38 +48,58 @@ public class ITMemberServiceGetOne {
     }
 
     @Test
-    @DisplayName("When reading a single entity with a valid id, an entity is returned")
+    @DisplayName("With a valid id, the related entity is returned")
+    @Sql({ "/db/queries/member/single.sql" })
     public void testGetOne_Existing() {
         final Optional<Member> result;
+        final Member           data;
 
         result = service.getOne(1L);
 
         Assertions.assertThat(result)
             .isPresent();
+
+        data = result.get();
+
+        Assertions.assertThat(data.getId())
+            .isNotNull();
+        Assertions.assertThat(data.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(data.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(data.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(data.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(data.getActive())
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
-        final Member result;
-        final Long   id;
+    @DisplayName("With a valid id for an inactive member, the related entity is returned")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    public void testGetOne_Inactive() {
+        final Optional<Member> result;
+        final Member           data;
 
-        id = 1L;
+        result = service.getOne(1L);
 
-        result = service.getOne(id)
-            .get();
+        Assertions.assertThat(result)
+            .isPresent();
 
-        Assertions.assertThat(result.getId())
+        data = result.get();
+
+        Assertions.assertThat(data.getId())
             .isNotNull();
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(data.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(data.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getPhone())
+        Assertions.assertThat(data.getPhone())
             .isEqualTo("12345");
-        Assertions.assertThat(result.getIdentifier())
+        Assertions.assertThat(data.getIdentifier())
             .isEqualTo("6789");
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(data.getActive())
             .isTrue();
     }
 
@@ -89,7 +108,7 @@ public class ITMemberServiceGetOne {
     public void testGetOne_NotExisting() {
         final Optional<Member> result;
 
-        result = service.getOne(-1L);
+        result = service.getOne(1L);
 
         Assertions.assertThat(result)
             .isNotPresent();

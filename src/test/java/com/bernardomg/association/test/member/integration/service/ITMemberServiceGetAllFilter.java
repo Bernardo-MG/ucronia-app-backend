@@ -34,7 +34,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
-import com.bernardomg.association.member.model.request.MemberQueryRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -51,7 +50,7 @@ public class ITMemberServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Filters by active")
+    @DisplayName("With a filter applied to active status, the returned data is filtered")
     public void testGetAll_Active_Count() {
         final Iterable<Member>      result;
         final DtoMemberQueryRequest sample;
@@ -69,24 +68,7 @@ public class ITMemberServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Returns all the entities when not filtering")
-    public void testGetAll_Count() {
-        final Iterable<Member>   result;
-        final MemberQueryRequest sample;
-        final Pageable           pageable;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoMemberQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(5);
-    }
-
-    @Test
-    @DisplayName("Filters by noy active")
+    @DisplayName("With a filter applied to not active status, the returned data is filtered")
     public void testGetAll_NotActive_Count() {
         final Iterable<Member>      result;
         final DtoMemberQueryRequest sample;

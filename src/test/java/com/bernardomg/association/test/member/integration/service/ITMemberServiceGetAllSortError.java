@@ -43,12 +43,12 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Member service - get all - errors")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberServiceGetAllError {
+public class ITMemberServiceGetAllSortError {
 
     @Autowired
     private MemberService service;
 
-    public ITMemberServiceGetAllError() {
+    public ITMemberServiceGetAllSortError() {
         super();
     }
 

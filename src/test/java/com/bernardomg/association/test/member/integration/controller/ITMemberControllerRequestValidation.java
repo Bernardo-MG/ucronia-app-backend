@@ -56,7 +56,7 @@ public final class ITMemberControllerRequestValidation {
     }
 
     @Test
-    @DisplayName("Creates an entity")
+    @DisplayName("With a valid member, returns the created member")
     public final void testPost_Full_Valid() throws Exception {
         final ResultActions            result;
         final DtoMemberCreationRequest member;
@@ -79,7 +79,7 @@ public final class ITMemberControllerRequestValidation {
     }
 
     @Test
-    @DisplayName("Rejects an entity with no name")
+    @DisplayName("With a member missing the name, returns a bad request response")
     @Disabled("The model rejects this case")
     public final void testPost_NoName_Invalid() throws Exception {
         final ResultActions            result;

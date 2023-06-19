@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
-import java.util.Iterator;
-
 import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +53,7 @@ public class ITMemberServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
+    @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
         final Iterable<Member>   result;
         final MemberQueryRequest sample;
@@ -73,9 +71,9 @@ public class ITMemberServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    public void testGetAll_Page1() {
         final MemberQueryRequest sample;
-        final Iterator<Member>   data;
+        final Iterable<Member>   data;
         final Member             result;
         final Pageable           pageable;
 
@@ -83,10 +81,13 @@ public class ITMemberServiceGetAllPagination {
 
         sample = new DtoMemberQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        data = service.getAll(sample, pageable);
 
-        result = data.next();
+        Assertions.assertThat(IterableUtils.size(data))
+            .isEqualTo(1);
+
+        result = data.iterator()
+            .next();
         Assertions.assertThat(result.getId())
             .isNotNull();
         Assertions.assertThat(result.getName())
@@ -103,9 +104,9 @@ public class ITMemberServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    public void testGetAll_Page2() {
         final MemberQueryRequest sample;
-        final Iterator<Member>   data;
+        final Iterable<Member>   data;
         final Member             result;
         final Pageable           pageable;
 
@@ -113,10 +114,13 @@ public class ITMemberServiceGetAllPagination {
 
         sample = new DtoMemberQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        data = service.getAll(sample, pageable);
 
-        result = data.next();
+        Assertions.assertThat(IterableUtils.size(data))
+            .isEqualTo(1);
+
+        result = data.iterator()
+            .next();
         Assertions.assertThat(result.getId())
             .isNotNull();
         Assertions.assertThat(result.getName())
@@ -132,24 +136,7 @@ public class ITMemberServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
-        final Iterable<Member>      result;
-        final DtoMemberQueryRequest sample;
-        final Pageable              pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        sample = new DtoMemberQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertThat(IterableUtils.size(result))
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
+    @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
         final Iterable<Member>   result;
         final MemberQueryRequest sample;

@@ -51,25 +51,7 @@ public class ITMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
-        final DtoMemberCreationRequest member;
-
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
-
-        service.create(member);
-
-        Assertions.assertThat(repository.count())
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("Adds two entities with minimal data")
+    @DisplayName("With two members with minimal data, the members are persisted")
     public void testCreate_Minimal_Additional_AddsEntity() {
         DtoMemberCreationRequest member;
 
@@ -96,7 +78,7 @@ public class ITMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("With a valid member, the member is persisted")
     public void testCreate_PersistedData() {
         final DtoMemberCreationRequest member;
         final PersistentMember         entity;
@@ -109,6 +91,10 @@ public class ITMemberServiceCreate {
         member.setActive(true);
 
         service.create(member);
+
+        Assertions.assertThat(repository.count())
+            .isOne();
+
         entity = repository.findAll()
             .iterator()
             .next();
@@ -128,7 +114,7 @@ public class ITMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("With a valid member, the created member is returned")
     public void testCreate_ReturnedData() {
         final Member                   result;
         final DtoMemberCreationRequest member;

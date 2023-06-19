@@ -53,11 +53,13 @@ public class ITMemberServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    @DisplayName("With multiple members it returns all the members")
+    public void testGetAll() {
         final Iterable<Member>   result;
+        final Iterator<Member>   itr;
         final MemberQueryRequest sample;
         final Pageable           pageable;
+        Member                   data;
 
         pageable = Pageable.unpaged();
 
@@ -67,24 +69,10 @@ public class ITMemberServiceGetAll {
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(5);
-    }
 
-    @Test
-    @DisplayName("Returns all the entities data")
-    public void testGetAll_Data() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
-        final Pageable           pageable;
+        itr = result.iterator();
 
-        pageable = Pageable.unpaged();
-
-        sample = new DtoMemberQueryRequest();
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
+        data = itr.next();
         Assertions.assertThat(data.getId())
             .isNotNull();
         Assertions.assertThat(data.getName())
@@ -98,7 +86,7 @@ public class ITMemberServiceGetAll {
         Assertions.assertThat(data.getActive())
             .isTrue();
 
-        data = result.next();
+        data = itr.next();
         Assertions.assertThat(data.getId())
             .isNotNull();
         Assertions.assertThat(data.getName())
@@ -112,7 +100,7 @@ public class ITMemberServiceGetAll {
         Assertions.assertThat(data.getActive())
             .isTrue();
 
-        data = result.next();
+        data = itr.next();
         Assertions.assertThat(data.getId())
             .isNotNull();
         Assertions.assertThat(data.getName())
@@ -126,7 +114,7 @@ public class ITMemberServiceGetAll {
         Assertions.assertThat(data.getActive())
             .isTrue();
 
-        data = result.next();
+        data = itr.next();
         Assertions.assertThat(data.getId())
             .isNotNull();
         Assertions.assertThat(data.getName())
@@ -140,7 +128,7 @@ public class ITMemberServiceGetAll {
         Assertions.assertThat(data.getActive())
             .isTrue();
 
-        data = result.next();
+        data = itr.next();
         Assertions.assertThat(data.getId())
             .isNotNull();
         Assertions.assertThat(data.getName())
@@ -151,6 +139,42 @@ public class ITMemberServiceGetAll {
             .isEqualTo("12349");
         Assertions.assertThat(data.getIdentifier())
             .isEqualTo("6783");
+        Assertions.assertThat(data.getActive())
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With an inactive member it returns the member")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    public void testGetAll_Inactive() {
+        final Iterable<Member>   result;
+        final Iterator<Member>   itr;
+        final MemberQueryRequest sample;
+        final Pageable           pageable;
+        Member                   data;
+
+        pageable = Pageable.unpaged();
+
+        sample = new DtoMemberQueryRequest();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
+
+        itr = result.iterator();
+
+        data = itr.next();
+        Assertions.assertThat(data.getId())
+            .isNotNull();
+        Assertions.assertThat(data.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(data.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(data.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(data.getIdentifier())
+            .isEqualTo("6789");
         Assertions.assertThat(data.getActive())
             .isFalse();
     }

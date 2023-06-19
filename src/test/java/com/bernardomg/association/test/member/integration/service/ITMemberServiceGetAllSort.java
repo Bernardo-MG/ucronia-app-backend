@@ -54,7 +54,7 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by active flag")
+    @DisplayName("With ascending order by active flag it returns the ordered data")
     public void testGetAll_Active_Asc() {
         final Iterator<Member>   result;
         final MemberQueryRequest sample;
@@ -140,7 +140,7 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by active flag")
+    @DisplayName("With descending order by active flag it returns the ordered data")
     public void testGetAll_Active_Desc() {
         final Iterator<Member>   result;
         final MemberQueryRequest sample;
@@ -226,7 +226,7 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by name")
+    @DisplayName("With ascending order by name it returns the ordered data")
     public void testGetAll_Name_Asc() {
         final Iterator<Member>   result;
         final MemberQueryRequest sample;
@@ -312,7 +312,7 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by name")
+    @DisplayName("With descending order by name it returns the ordered data")
     public void testGetAll_Name_Desc() {
         final Iterator<Member>   result;
         final MemberQueryRequest sample;
@@ -398,7 +398,7 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by surname")
+    @DisplayName("With ascending order by surname it returns the ordered data")
     public void testGetAll_Surname_Asc() {
         final Iterator<Member>   result;
         final MemberQueryRequest sample;
@@ -484,7 +484,7 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by surname")
+    @DisplayName("With descending order by surname it returns the ordered data")
     public void testGetAll_Surname_Desc() {
         final Iterator<Member>   result;
         final MemberQueryRequest sample;

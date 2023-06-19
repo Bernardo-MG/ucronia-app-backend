@@ -53,7 +53,7 @@ public class ITMemberServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the active flag is missing")
+    @DisplayName("With a missing active flag it throws an exception")
     public void testCreate_MissingActive() {
         final DtoMemberCreationRequest member;
         final ThrowingCallable         executable;
@@ -75,7 +75,7 @@ public class ITMemberServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the identifier is missing")
+    @DisplayName("With a missing identifier it throws an exception")
     public void testCreate_MissingIdentifier() {
         final DtoMemberCreationRequest member;
         final ThrowingCallable         executable;
@@ -97,7 +97,7 @@ public class ITMemberServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the name is missing")
+    @DisplayName("With a missing name it throws an exception")
     public void testCreate_MissingName() {
         final DtoMemberCreationRequest member;
         final ThrowingCallable         executable;
@@ -119,7 +119,7 @@ public class ITMemberServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the phone is missing")
+    @DisplayName("With a missing phone it throws an exception")
     public void testCreate_MissingPhone() {
         final DtoMemberCreationRequest member;
         final ThrowingCallable         executable;
@@ -141,7 +141,7 @@ public class ITMemberServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the surname is missing")
+    @DisplayName("With a missing surname it throws an exception")
     public void testCreate_MissingSurname() {
         final DtoMemberCreationRequest member;
         final ThrowingCallable         executable;
