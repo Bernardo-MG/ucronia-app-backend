@@ -48,7 +48,7 @@ public class ITTransactionRepositoryFindMaxDate {
     }
 
     @Test
-    @DisplayName("Returns the max date")
+    @DisplayName("With multiple transactions, it returns the max date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
         final Calendar result;
@@ -60,7 +60,7 @@ public class ITTransactionRepositoryFindMaxDate {
     }
 
     @Test
-    @DisplayName("Returns null when there is no data")
+    @DisplayName("Withno transactions, no max date is returned")
     public void testFindSumAll_NoData() {
         final Calendar result;
 

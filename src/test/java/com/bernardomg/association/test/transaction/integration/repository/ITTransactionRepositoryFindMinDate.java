@@ -48,7 +48,7 @@ public class ITTransactionRepositoryFindMinDate {
     }
 
     @Test
-    @DisplayName("Returns the min date")
+    @DisplayName("With multiple transactions, it returns the min date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
         final Calendar result;
@@ -60,7 +60,7 @@ public class ITTransactionRepositoryFindMinDate {
     }
 
     @Test
-    @DisplayName("Returns null when there is no data")
+    @DisplayName("Withno transactions, no min date is returned")
     public void testFindSumAll_NoData() {
         final Calendar result;
 
