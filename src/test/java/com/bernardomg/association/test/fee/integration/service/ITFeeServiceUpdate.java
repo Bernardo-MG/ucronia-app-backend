@@ -56,7 +56,7 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
+    @DisplayName("With an existing entity, no new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_AddsNoEntity() {
         final DtoFeeCreationRequest fee;
@@ -73,7 +73,7 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a not existing entity a new one is added")
+    @DisplayName("With a not existing entity, a new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_NotExisting_AddsEntity() {
         final DtoFeeCreationRequest fee;
@@ -90,7 +90,7 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When changing a fee from unpaid to paid the persisted data is updated")
+    @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     public void testUpdate_Pay_PersistedData() {
         final DtoFeeCreationRequest fee;
@@ -114,7 +114,7 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("Updates persisted data")
+    @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_PersistedData() {
         final DtoFeeCreationRequest fee;
@@ -138,7 +138,7 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("With a changed entity, the changed data is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_ReturnedData() {
         final DtoFeeCreationRequest fee;

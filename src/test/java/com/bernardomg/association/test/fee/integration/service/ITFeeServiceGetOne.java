@@ -41,7 +41,6 @@ import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - get one")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 public class ITFeeServiceGetOne {
 
     @Autowired
@@ -52,7 +51,8 @@ public class ITFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("When reading a single entity with a valid id, an entity is returned")
+    @DisplayName("With a valid id, the related entity is returned")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testGetOne_Existing() {
         final Optional<MemberFee> result;
 
@@ -60,20 +60,8 @@ public class ITFeeServiceGetOne {
 
         Assertions.assertThat(result)
             .isPresent();
-    }
 
-    @Test
-    @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
-        final MemberFee result;
-        final Long      id;
-
-        id = 1L;
-
-        result = service.getOne(id)
-            .get();
-
-        FeeAssertions.isEqualTo(result, ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(result.get(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -83,7 +71,28 @@ public class ITFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
+    @DisplayName("With an inactive member, the related entity is returned")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
+    public void testGetOne_Inactive() {
+        final Optional<MemberFee> result;
+
+        result = service.getOne(1L);
+
+        Assertions.assertThat(result)
+            .isPresent();
+
+        FeeAssertions.isEqualTo(result.get(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
+    }
+
+    @Test
+    @DisplayName("With an invalid id, no entity is returned")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testGetOne_NotExisting() {
         final Optional<MemberFee> result;
 

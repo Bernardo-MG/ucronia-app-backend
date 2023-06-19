@@ -58,7 +58,7 @@ public class ITFeeServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
+    @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
         final Iterable<MemberFee> result;
         final FeeQueryRequest     sample;
@@ -75,20 +75,25 @@ public class ITFeeServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    @DisplayName("With pagination for the first page, it returns the first page")
+    public void testGetAll_Page1() {
         final FeeQueryRequest     sample;
-        final Iterator<MemberFee> data;
+        final Iterator<MemberFee> result;
+        final Iterable<MemberFee> data;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 1);
 
         sample = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        data = service.getAll(sample, pageable);
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        Assertions.assertThat(IterableUtils.size(data))
+            .isEqualTo(1);
+
+        result = data.iterator();
+
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -98,20 +103,25 @@ public class ITFeeServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    @DisplayName("With pagination for the second page, it returns the second page")
+    public void testGetAll_Page2() {
         final FeeQueryRequest     sample;
-        final Iterator<MemberFee> data;
+        final Iterator<MemberFee> result;
+        final Iterable<MemberFee> data;
         final Pageable            pageable;
 
         pageable = PageRequest.of(1, 1);
 
         sample = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        data = service.getAll(sample, pageable);
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        Assertions.assertThat(IterableUtils.size(data))
+            .isEqualTo(1);
+
+        result = data.iterator();
+
+        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -121,24 +131,7 @@ public class ITFeeServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
-        final Iterable<MemberFee> result;
-        final FeeQueryRequest     sample;
-        final Pageable            pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        sample = new DtoFeeQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
+    @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
         final Iterable<MemberFee> result;
         final FeeQueryRequest     sample;

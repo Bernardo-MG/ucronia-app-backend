@@ -26,7 +26,6 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
@@ -55,9 +54,9 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Filters by end date and returns all the entities")
+    @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_EndDate_Count() {
+    public void testGetAll_EndDate() {
         final Iterable<MemberFee> result;
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
@@ -74,28 +73,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("Filters by end date and returns all the data")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_EndDate_Data() {
-        final Iterator<MemberFee> result;
-        final DtoFeeQueryRequest  sample;
-        final Pageable            pageable;
-        final Calendar            date;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoFeeQueryRequest();
-
-        date = new GregorianCalendar(2020, 1, 1);
-        sample.setEndDate(date);
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(result), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -105,7 +83,7 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by a end date which includes no fee nothing is returned")
+    @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_EndDate_NotInRange() {
         final Iterable<MemberFee> result;
@@ -127,9 +105,9 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Filters by date and returns all the entities")
+    @DisplayName("With a filter applied to the date, the returned data is filtered")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_InDate_Count() {
+    public void testGetAll_InDate() {
         final Iterable<MemberFee> result;
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
@@ -146,28 +124,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("Filters by date and returns all the data")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_InDate_Data() {
-        final Iterator<MemberFee> result;
-        final DtoFeeQueryRequest  sample;
-        final Pageable            pageable;
-        final Calendar            date;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoFeeQueryRequest();
-
-        date = new GregorianCalendar(2020, 2, 1);
-        sample.setDate(date);
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(result), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -177,11 +134,10 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by the first day of the year only that day is returned")
+    @DisplayName("With a filter applied to the date using the lowest date, the returned data is filtered")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_FirstDay_Data() {
         final Iterable<MemberFee> read;
-        final Iterator<MemberFee> result;
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
@@ -194,12 +150,10 @@ public class ITFeeServiceGetAllFilter {
         sample.setDate(date);
 
         read = service.getAll(sample, pageable);
-        result = read.iterator();
 
         Assertions.assertThat(IterableUtils.size(read))
             .isEqualTo(1);
-
-        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(read), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -209,11 +163,10 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by the last day of the year only that day is returned")
+    @DisplayName("With a filter applied to the date using the highest date, the returned data is filtered")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_LastDay_Data() {
         final Iterable<MemberFee> read;
-        final Iterator<MemberFee> result;
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
         final Calendar            date;
@@ -226,12 +179,10 @@ public class ITFeeServiceGetAllFilter {
         sample.setDate(date);
 
         read = service.getAll(sample, pageable);
-        result = read.iterator();
 
         Assertions.assertThat(IterableUtils.size(read))
             .isEqualTo(1);
-
-        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(read), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -241,7 +192,7 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by a not existing date nothing is returned")
+    @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_NotExisting() {
         final Iterable<MemberFee> result;
@@ -263,9 +214,9 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Filters by start date and returns all the entities")
+    @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_StartDate_Count() {
+    public void testGetAll_StartDate() {
         final Iterable<MemberFee> result;
         final DtoFeeQueryRequest  sample;
         final Pageable            pageable;
@@ -282,28 +233,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("Filters by start date and returns all the data")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_StartDate_Data() {
-        final Iterator<MemberFee> result;
-        final DtoFeeQueryRequest  sample;
-        final Pageable            pageable;
-        final Calendar            date;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoFeeQueryRequest();
-
-        date = new GregorianCalendar(2020, 5, 1);
-        sample.setStartDate(date);
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        FeeAssertions.isEqualTo(result.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(result), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -313,7 +243,7 @@ public class ITFeeServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by a start date which includes no fee nothing is returned")
+    @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_StartDate_NotInRange() {
         final Iterable<MemberFee> result;
