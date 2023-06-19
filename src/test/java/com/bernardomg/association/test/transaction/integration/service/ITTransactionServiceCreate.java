@@ -29,9 +29,12 @@ import java.util.GregorianCalendar;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
@@ -54,10 +57,50 @@ public class ITTransactionServiceCreate {
         super();
     }
 
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("With a decimal value, the transaction is persisted")
+    public void testCreate_Decimal_PersistedData(final Float amount) {
+        final DtoTransactionCreationQuery transaction;
+        final PersistentTransaction       entity;
+
+        transaction = new DtoTransactionCreationQuery();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(amount);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+
+        service.create(transaction);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(entity.getAmount())
+            .isEqualTo(amount);
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("With a decimal value, the persisted transaction is returned")
+    public void testCreate_Decimal_ReturnedData(final Float amount) {
+        final Transaction                 result;
+        final DtoTransactionCreationQuery transaction;
+
+        transaction = new DtoTransactionCreationQuery();
+        transaction.setDescription("Transaction");
+        transaction.setAmount(amount);
+        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+
+        result = service.create(transaction);
+
+        Assertions.assertThat(result.getAmount())
+            .isEqualTo(amount);
+    }
+
     @Test
-    @DisplayName("Adds an entity when creating for the first day of the year")
+    @DisplayName("With a transaction for the first day of the year, the member is persisted")
     public void testCreate_FirstDay_AddsEntity() {
         final DtoTransactionCreationQuery transaction;
+        final PersistentTransaction       entity;
 
         transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
@@ -68,20 +111,7 @@ public class ITTransactionServiceCreate {
 
         Assertions.assertThat(repository.count())
             .isOne();
-    }
 
-    @Test
-    @DisplayName("Persists the data when creating for the first day of the year")
-    public void testCreate_FirstDay_PersistedData() {
-        final DtoTransactionCreationQuery transaction;
-        final PersistentTransaction       entity;
-
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 0, 1));
-
-        service.create(transaction);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -94,7 +124,7 @@ public class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Returns the created data when creating for the first day of the year")
+    @DisplayName("With a transaction for the first day of the year, the persisted data is returned")
     public void testCreate_FirstDay_ReturnedData() {
         final Transaction                 result;
         final DtoTransactionCreationQuery transaction;
@@ -114,9 +144,10 @@ public class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds an entity when creating during the year")
+    @DisplayName("With a transaction for the a day during year, the member is persisted")
     public void testCreate_InYear_AddsEntity() {
         final DtoTransactionCreationQuery transaction;
+        final PersistentTransaction       entity;
 
         transaction = new DtoTransactionCreationQuery();
         transaction.setDescription("Transaction");
@@ -127,20 +158,7 @@ public class ITTransactionServiceCreate {
 
         Assertions.assertThat(repository.count())
             .isOne();
-    }
 
-    @Test
-    @DisplayName("Persists the data when creating during the year")
-    public void testCreate_InYear_PersistedData() {
-        final DtoTransactionCreationQuery transaction;
-        final PersistentTransaction       entity;
-
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
-
-        service.create(transaction);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -153,7 +171,7 @@ public class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Returns the created data when creating during the year")
+    @DisplayName("With a transaction for the a day during year, the persisted member is created")
     public void testCreate_InYear_ReturnedData() {
         final Transaction                 result;
         final DtoTransactionCreationQuery transaction;
@@ -173,7 +191,7 @@ public class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds entities when creating the same twice")
+    @DisplayName("With a repeated creation, two members are persisted")
     public void testCreate_Repeat_AddsEntity() {
         final DtoTransactionCreationQuery transaction;
 

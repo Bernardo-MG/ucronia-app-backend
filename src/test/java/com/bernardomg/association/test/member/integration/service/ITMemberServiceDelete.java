@@ -50,7 +50,7 @@ public class ITMemberServiceDelete {
     }
 
     @Test
-    @DisplayName("With an invalid id it removes no entity")
+    @DisplayName("With an invalid id, it removes no entity")
     public void testDelete_NotExisting_NotRemovesEntity() {
         service.delete(-1L);
 
@@ -59,7 +59,7 @@ public class ITMemberServiceDelete {
     }
 
     @Test
-    @DisplayName("With an invalid id it returns a true flag")
+    @DisplayName("With an invalid id, it returns a true flag")
     public void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 

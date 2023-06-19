@@ -55,7 +55,7 @@ public class ITTransactionServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the amount is missing")
+    @DisplayName("With a transaction missing the amount, an exception is thrown")
     public void testCreate_MissingAmount() {
         final DtoTransactionCreationQuery transaction;
         final ThrowingCallable            executable;
@@ -75,7 +75,7 @@ public class ITTransactionServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the date is missing")
+    @DisplayName("With a transaction missing the date, an exception is thrown")
     public void testCreate_MissingDate() {
         final DtoTransactionCreationQuery transaction;
         final ThrowingCallable            executable;
@@ -95,7 +95,7 @@ public class ITTransactionServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the description is missing")
+    @DisplayName("With a transaction missing the description, an exception is thrown")
     public void testCreate_MissingName() {
         final DtoTransactionCreationQuery transaction;
         final ThrowingCallable            executable;

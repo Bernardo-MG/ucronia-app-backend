@@ -50,7 +50,7 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes no entity when deleting an invalid id")
+    @DisplayName("With an invalid id, it removes no entity")
     public void testDelete_NotExisting_NotRemovesEntity() {
         service.delete(-1L);
 
@@ -59,10 +59,11 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Returns a true flag when deleting an invalid id")
+    @DisplayName("With an invalid id, it returns a true flag")
     public void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
+        // TODO: Shouldn't this be an error?
         deleted = service.delete(-1L);
 
         Assertions.assertThat(deleted)
@@ -70,7 +71,7 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes an entity when deleting")
+    @DisplayName("With a valid id it removes the entity")
     public void testDelete_RemovesEntity() {
         service.delete(1L);
 
@@ -79,7 +80,7 @@ public class ITTransactionServiceDelete {
     }
 
     @Test
-    @DisplayName("Returns a true flag when deleting an entity")
+    @DisplayName("With a valid id it returns a true flag")
     public void testDelete_ReturnsTrue() {
         final Boolean deleted;
 
