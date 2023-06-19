@@ -100,7 +100,7 @@ public class ITMemberServiceGetOne {
         Assertions.assertThat(data.getIdentifier())
             .isEqualTo("6789");
         Assertions.assertThat(data.getActive())
-            .isTrue();
+            .isFalse();
     }
 
     @Test
