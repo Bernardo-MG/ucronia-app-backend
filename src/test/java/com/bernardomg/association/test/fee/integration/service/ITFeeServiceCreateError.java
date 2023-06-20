@@ -58,37 +58,37 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a repeated member and month it throws an exception")
     public void testCreate_ExistingDateAndMember() {
-        final DtoFeeCreationRequest fee;
-        final ThrowingCallable      executable;
+        final DtoFeeCreationRequest feeRequest;
+        final ThrowingCallable      execution;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        executable = () -> {
-            service.create(fee);
+        execution = () -> {
+            service.create(feeRequest);
             repository.flush();
         };
 
         // TODO: Shouldn't this be a validation error?
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("With a repeated member and month, but with another day, it throws an exception")
     public void testCreate_ExistingDateAndMember_ChangesDay() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final ThrowingCallable      executable;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 2));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 2));
+        feeRequest.setPaid(true);
 
         executable = () -> {
-            service.create(fee);
+            service.create(feeRequest);
             repository.flush();
         };
 
@@ -101,16 +101,16 @@ public class ITFeeServiceCreateError {
     @DisplayName("With a missing date it throws an exception")
     @Disabled("The model rejects this case")
     public void testCreate_MissingDate() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final ThrowingCallable      executable;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(null);
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(null);
+        feeRequest.setPaid(true);
 
         executable = () -> {
-            service.create(fee);
+            service.create(feeRequest);
             repository.flush();
         };
 
@@ -122,16 +122,16 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a missing paid flag it throws an exception")
     public void testCreate_MissingPaid() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final ThrowingCallable      executable;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2021, 1, 1));
-        fee.setPaid(null);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2021, 1, 1));
+        feeRequest.setPaid(null);
 
         executable = () -> {
-            service.create(fee);
+            service.create(feeRequest);
             repository.flush();
         };
 

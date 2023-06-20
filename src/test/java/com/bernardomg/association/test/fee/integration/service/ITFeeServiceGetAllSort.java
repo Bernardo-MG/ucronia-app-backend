@@ -62,18 +62,18 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
     public void testGetAll_Date_Asc() {
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterator<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
+        fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -81,7 +81,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -89,7 +89,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -97,7 +97,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -105,7 +105,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -117,18 +117,18 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
     public void testGetAll_Date_Desc() {
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterator<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
+        fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -136,7 +136,7 @@ public class ITFeeServiceGetAllSort {
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -144,7 +144,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -152,7 +152,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -160,7 +160,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -172,18 +172,18 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     public void testGetAll_Name_Asc() {
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterator<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
+        fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -191,7 +191,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -199,7 +199,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -207,7 +207,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -215,7 +215,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -227,18 +227,18 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     public void testGetAll_Name_Desc() {
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterator<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
+        fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -246,7 +246,7 @@ public class ITFeeServiceGetAllSort {
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -254,7 +254,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -262,7 +262,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -270,7 +270,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -283,15 +283,15 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
     public void testGetAll_NotExisting() {
-        final FeeQueryRequest  sample;
+        final FeeQueryRequest  feeQuery;
         final Pageable         pageable;
         final ThrowingCallable executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        executable = () -> service.getAll(sample, pageable)
+        executable = () -> service.getAll(feeQuery, pageable)
             .iterator();
 
         Assertions.assertThatThrownBy(executable)
@@ -301,18 +301,18 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
     public void testGetAll_Paid_Asc() {
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterator<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
+        fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -320,7 +320,7 @@ public class ITFeeServiceGetAllSort {
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -328,7 +328,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -336,7 +336,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -344,7 +344,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -356,18 +356,18 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
     public void testGetAll_Paid_Desc() {
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterator<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        data = service.getAll(sample, pageable)
+        fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -375,7 +375,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -383,7 +383,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -391,7 +391,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -399,7 +399,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")

@@ -55,16 +55,16 @@ public class ITFeeCalendarServiceGetAll {
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, false, sort);
+        calendars = service.getAll(2020, false, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(calendars.iterator()
             .next()
             .getMonths()))
             .isEqualTo(12);
@@ -74,44 +74,44 @@ public class ITFeeCalendarServiceGetAll {
     @DisplayName("With a full year it returns all data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear_Data() {
-        final Iterator<UserFeeCalendar> data;
-        final UserFeeCalendar           result;
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, false, sort)
+        calendars = service.getAll(2020, false, sort)
             .iterator();
 
-        result = data.next();
-        Assertions.assertThat(result.getMemberId())
+        calendar = calendars.next();
+        Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(calendar.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(calendar.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
+        Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(calendar.getActive())
             .isTrue();
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
     @DisplayName("With an inactive user and a full year it returns all the data")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_Inactive_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, false, sort);
+        calendars = service.getAll(2020, false, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(calendars.iterator()
             .next()
             .getMonths()))
             .isEqualTo(12);
@@ -121,42 +121,42 @@ public class ITFeeCalendarServiceGetAll {
     @DisplayName("With an inactive user and a full year it returns all data")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_Inactive_Data() {
-        final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, false, sort)
+        calendars = service.getAll(2020, false, sort)
             .iterator();
 
-        result = data.next();
-        Assertions.assertThat(result.getMemberId())
+        calendar = calendars.next();
+        Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(calendar.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(calendar.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
+        Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(calendar.getActive())
             .isFalse();
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
     @DisplayName("When there is no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoData_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, false, sort);
+        calendars = service.getAll(2020, false, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
     }
 
@@ -164,16 +164,16 @@ public class ITFeeCalendarServiceGetAll {
     @DisplayName("With two connected years it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetAll_TwoConnectedYears_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = service.getAll(2020, false, sort);
+        calendars = service.getAll(2020, false, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(result.iterator()
+        Assertions.assertThat(IterableUtils.size(calendars.iterator()
             .next()
             .getMonths()))
             .isEqualTo(7);
@@ -183,30 +183,30 @@ public class ITFeeCalendarServiceGetAll {
     @DisplayName("With two connected years it returns all data for the queried year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetAll_TwoConnectedYears_Data() {
-        final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
+        final Iterator<UserFeeCalendar> calendars;
+        final Sort                      sort;
+        UserFeeCalendar                 calendar;
         Iterator<FeeMonth>              months;
         FeeMonth                        month;
-        final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        data = service.getAll(2020, false, sort)
+        calendars = service.getAll(2020, false, sort)
             .iterator();
 
-        result = data.next();
-        Assertions.assertThat(result.getMemberId())
+        calendar = calendars.next();
+        Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(calendar.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(calendar.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
+        Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(calendar.getActive())
             .isTrue();
 
-        months = result.getMonths()
+        months = calendar.getMonths()
             .iterator();
 
         month = months.next();

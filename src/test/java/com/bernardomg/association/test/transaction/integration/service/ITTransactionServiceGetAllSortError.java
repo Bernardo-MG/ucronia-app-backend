@@ -55,15 +55,15 @@ public class ITTransactionServiceGetAllSortError {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
-        final TransactionQueryRequest sample;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
         final ThrowingCallable        executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        executable = () -> service.getAll(sample, pageable)
+        executable = () -> service.getAll(transactionQuery, pageable)
             .iterator();
 
         Assertions.assertThatThrownBy(executable)

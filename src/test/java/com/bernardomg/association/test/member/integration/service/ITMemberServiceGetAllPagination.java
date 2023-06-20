@@ -55,100 +55,100 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Member>   result;
-        final MemberQueryRequest sample;
+        final Iterable<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(members)
             .isInstanceOf(Page.class);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     public void testGetAll_Page1() {
-        final MemberQueryRequest sample;
-        final Iterable<Member>   data;
-        final Member             result;
+        final MemberQueryRequest memberQuery;
+        final Iterable<Member>   members;
+        final Member             member;
         final Pageable           pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        data = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(data))
+        Assertions.assertThat(IterableUtils.size(members))
             .isEqualTo(1);
 
-        result = data.iterator()
+        member = members.iterator()
             .next();
-        Assertions.assertThat(result.getId())
+        Assertions.assertThat(member.getId())
             .isNotNull();
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(member.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(member.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getPhone())
+        Assertions.assertThat(member.getPhone())
             .isEqualTo("12345");
-        Assertions.assertThat(result.getIdentifier())
+        Assertions.assertThat(member.getIdentifier())
             .isEqualTo("6789");
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(member.getActive())
             .isTrue();
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     public void testGetAll_Page2() {
-        final MemberQueryRequest sample;
-        final Iterable<Member>   data;
-        final Member             result;
+        final MemberQueryRequest memberQuery;
+        final Iterable<Member>   members;
+        final Member             member;
         final Pageable           pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        data = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(data))
+        Assertions.assertThat(IterableUtils.size(members))
             .isEqualTo(1);
 
-        result = data.iterator()
+        member = members.iterator()
             .next();
-        Assertions.assertThat(result.getId())
+        Assertions.assertThat(member.getId())
             .isNotNull();
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(member.getName())
             .isEqualTo("Member 2");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(member.getSurname())
             .isEqualTo("Surname 2");
-        Assertions.assertThat(result.getPhone())
+        Assertions.assertThat(member.getPhone())
             .isEqualTo("12346");
-        Assertions.assertThat(result.getIdentifier())
+        Assertions.assertThat(member.getIdentifier())
             .isEqualTo("6780");
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(member.getActive())
             .isTrue();
     }
 
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Member>   result;
-        final MemberQueryRequest sample;
+        final Iterable<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(members)
             .isInstanceOf(Page.class);
     }
 

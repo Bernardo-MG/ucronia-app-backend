@@ -58,23 +58,23 @@ public class ITFeeServiceGetAll {
     @DisplayName("With a full year it returns all the fees")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_FullYear() {
-        final Iterable<MemberFee> result;
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(12);
 
-        data = result.iterator();
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -82,7 +82,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -90,7 +90,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -98,7 +98,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -106,7 +106,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -114,7 +114,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -122,7 +122,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -130,7 +130,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -138,7 +138,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -146,7 +146,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -154,7 +154,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -162,7 +162,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -175,20 +175,20 @@ public class ITFeeServiceGetAll {
     @DisplayName("With an inactive user it returns all the fees")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
     public void testGetAll_Inactive() {
-        final Iterable<MemberFee> result;
-        final FeeQueryRequest     sample;
+        final Iterable<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(1);
 
-        FeeAssertions.isEqualTo(result.iterator()
+        FeeAssertions.isEqualTo(fees.iterator()
             .next(),
             ImmutableMemberFee.builder()
                 .memberId(1L)
@@ -203,23 +203,23 @@ public class ITFeeServiceGetAll {
     @DisplayName("With multiple fees it returns all the fees")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_Multiple() {
-        final Iterable<MemberFee> result;
-        final Iterator<MemberFee> data;
-        final FeeQueryRequest     sample;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(5);
 
-        data = result.iterator();
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -227,7 +227,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -235,7 +235,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -243,7 +243,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -251,7 +251,7 @@ public class ITFeeServiceGetAll {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(data.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -264,7 +264,7 @@ public class ITFeeServiceGetAll {
     @DisplayName("With no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoFee() {
-        final Iterable<MemberFee> result;
+        final Iterable<MemberFee> fees;
         final FeeQueryRequest     sample;
         final Pageable            pageable;
 
@@ -272,9 +272,9 @@ public class ITFeeServiceGetAll {
 
         sample = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        fees = service.getAll(sample, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(fees))
             .isZero();
     }
 

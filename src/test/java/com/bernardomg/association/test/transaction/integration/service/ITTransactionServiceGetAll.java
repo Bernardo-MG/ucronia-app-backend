@@ -66,22 +66,22 @@ public class ITTransactionServiceGetAll {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns it")
     public void testGetAll_AroundZero(final Float amount) {
-        final Iterator<Transaction>   result;
-        final TransactionQueryRequest sample;
+        final Iterator<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
-        Transaction                   data;
+        Transaction                   transaction;
 
         repository.save(ModelFactory.transaction(amount));
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        transactions = service.getAll(transactionQuery, pageable)
             .iterator();
 
-        data = result.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(amount)
             .date(new GregorianCalendar(2020, 1, 1))
@@ -92,22 +92,22 @@ public class ITTransactionServiceGetAll {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns it")
     public void testGetAll_Decimal(final Float amount) {
-        final Iterator<Transaction>   result;
-        final TransactionQueryRequest sample;
+        final Iterator<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
-        Transaction                   data;
+        Transaction                   transaction;
 
         repository.save(ModelFactory.transaction(amount));
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        transactions = service.getAll(transactionQuery, pageable)
             .iterator();
 
-        data = result.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(amount)
             .date(new GregorianCalendar(2020, 1, 1))
@@ -118,102 +118,102 @@ public class ITTransactionServiceGetAll {
     @DisplayName("With a full year, it returns all the transactions")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_FullYear_Count() {
-        final Iterable<Transaction>   result;
-        final Iterator<Transaction>   itr;
-        final TransactionQueryRequest sample;
+        final Iterable<Transaction>   transactions;
+        final Iterator<Transaction>   transactionsItr;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
-        Transaction                   data;
+        Transaction                   transaction;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(transactions))
             .isEqualTo(12);
 
-        itr = result.iterator();
+        transactionsItr = transactions.iterator();
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
             .date(new GregorianCalendar(2020, 1, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
             .date(new GregorianCalendar(2020, 2, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
             .date(new GregorianCalendar(2020, 3, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
             .date(new GregorianCalendar(2020, 4, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 6")
             .amount(1f)
             .date(new GregorianCalendar(2020, 5, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 7")
             .amount(1f)
             .date(new GregorianCalendar(2020, 6, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 8")
             .amount(1f)
             .date(new GregorianCalendar(2020, 7, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 9")
             .amount(1f)
             .date(new GregorianCalendar(2020, 8, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 10")
             .amount(1f)
             .date(new GregorianCalendar(2020, 9, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 11")
             .amount(1f)
             .date(new GregorianCalendar(2020, 10, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 12")
             .amount(1f)
             .date(new GregorianCalendar(2020, 11, 1))
@@ -224,53 +224,53 @@ public class ITTransactionServiceGetAll {
     @DisplayName("With multiple transactions, it returns all the transactions")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_Multiple_Count() {
-        final Iterable<Transaction>   result;
-        final Iterator<Transaction>   itr;
-        final TransactionQueryRequest sample;
+        final Iterable<Transaction>   transactions;
+        final Iterator<Transaction>   transactionsItr;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
-        Transaction                   data;
+        Transaction                   transaction;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(transactions))
             .isEqualTo(5);
 
-        itr = result.iterator();
+        transactionsItr = transactions.iterator();
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 1))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 2))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 3))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 4))
             .build());
 
-        data = itr.next();
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        transaction = transactionsItr.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 5))

@@ -53,11 +53,11 @@ public class ITTransactionRepositorySumAll {
     @DisplayName("With multiple transactions, it returns the sum of all")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
-        final Float result;
+        final Float calendar;
 
-        result = repository.sumAll();
+        calendar = repository.sumAll();
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendar)
             .isEqualTo(5);
     }
 
@@ -65,11 +65,11 @@ public class ITTransactionRepositorySumAll {
     @DisplayName("With a negative transaction, it returns the sum of it")
     @Sql({ "/db/queries/transaction/negative.sql" })
     public void testFindSumAll_Negative() {
-        final Float result;
+        final Float calendar;
 
-        result = repository.sumAll();
+        calendar = repository.sumAll();
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendar)
             .isEqualTo(-1);
     }
 

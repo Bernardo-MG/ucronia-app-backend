@@ -55,110 +55,110 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing active flag it throws an exception")
     public void testCreate_MissingActive() {
-        final DtoMemberCreationRequest member;
-        final ThrowingCallable         executable;
+        final DtoMemberCreationRequest memberRequest;
+        final ThrowingCallable         execution;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("111");
-        member.setIdentifier("6789");
-        member.setActive(null);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("111");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(null);
 
-        executable = () -> {
-            service.create(member);
+        execution = () -> {
+            service.create(memberRequest);
             repository.flush();
         };
 
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("With a missing identifier it throws an exception")
     public void testCreate_MissingIdentifier() {
-        final DtoMemberCreationRequest member;
-        final ThrowingCallable         executable;
+        final DtoMemberCreationRequest memberRequest;
+        final ThrowingCallable         execution;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("111");
-        member.setIdentifier(null);
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("111");
+        memberRequest.setIdentifier(null);
+        memberRequest.setActive(true);
 
-        executable = () -> {
-            service.create(member);
+        execution = () -> {
+            service.create(memberRequest);
             repository.flush();
         };
 
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("With a missing name it throws an exception")
     public void testCreate_MissingName() {
-        final DtoMemberCreationRequest member;
-        final ThrowingCallable         executable;
+        final DtoMemberCreationRequest memberRequest;
+        final ThrowingCallable         execution;
 
-        member = new DtoMemberCreationRequest();
-        member.setName(null);
-        member.setSurname("Surname");
-        member.setPhone("111");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName(null);
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("111");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        executable = () -> {
-            service.create(member);
+        execution = () -> {
+            service.create(memberRequest);
             repository.flush();
         };
 
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("With a missing phone it throws an exception")
     public void testCreate_MissingPhone() {
-        final DtoMemberCreationRequest member;
-        final ThrowingCallable         executable;
+        final DtoMemberCreationRequest memberRequest;
+        final ThrowingCallable         execution;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone(null);
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone(null);
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        executable = () -> {
-            service.create(member);
+        execution = () -> {
+            service.create(memberRequest);
             repository.flush();
         };
 
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("With a missing surname it throws an exception")
     public void testCreate_MissingSurname() {
-        final DtoMemberCreationRequest member;
-        final ThrowingCallable         executable;
+        final DtoMemberCreationRequest memberRequest;
+        final ThrowingCallable         execution;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname(null);
-        member.setPhone("111");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname(null);
+        memberRequest.setPhone("111");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        executable = () -> {
-            service.create(member);
+        execution = () -> {
+            service.create(memberRequest);
             repository.flush();
         };
 
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 

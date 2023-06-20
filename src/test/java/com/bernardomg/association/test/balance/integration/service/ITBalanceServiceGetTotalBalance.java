@@ -56,20 +56,13 @@ public class ITBalanceServiceGetTotalBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     public void testGetTotalBalance_AroundZero(final Float amount) {
-        final Balance               result;
-        final PersistentTransaction entity;
+        final Balance balance;
 
-        entity = PersistentTransaction.builder()
-            .date(new GregorianCalendar(2020, 0, 1))
-            .description("Description")
-            .amount(amount)
-            .build();
+        persist(amount);
 
-        repository.save(entity);
+        balance = service.getTotalBalance();
 
-        result = service.getTotalBalance();
-
-        Assertions.assertThat(result.getAmount())
+        Assertions.assertThat(balance.getAmount())
             .isEqualTo(amount);
     }
 
@@ -77,7 +70,52 @@ public class ITBalanceServiceGetTotalBalance {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     public void testGetTotalBalance_Decimal(final Float amount) {
-        final Balance               result;
+        final Balance balance;
+
+        persist(amount);
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("With decimal values which sum zero the returned balance is zero")
+    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    public void testGetTotalBalance_DecimalsAddUpToZero() {
+        final Balance balance;
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With multiple transactions for a single month it returns the correct data")
+    @Sql({ "/db/queries/transaction/multiple.sql" })
+    public void testGetTotalBalance_Multiple() {
+        final Balance balance;
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("With not data it returns nothing")
+    public void testGetTotalBalance_NoData() {
+        final Balance balance;
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isZero();
+    }
+
+    private final void persist(final Float amount) {
         final PersistentTransaction entity;
 
         entity = PersistentTransaction.builder()
@@ -87,46 +125,7 @@ public class ITBalanceServiceGetTotalBalance {
             .build();
 
         repository.save(entity);
-
-        result = service.getTotalBalance();
-
-        Assertions.assertThat(result.getAmount())
-            .isEqualTo(amount);
-    }
-
-    @Test
-    @DisplayName("With decimal values which sum zero the returned balance is zero")
-    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
-    public void testGetTotalBalance_DecimalsAddUpToZero() {
-        final Balance result;
-
-        result = service.getTotalBalance();
-
-        Assertions.assertThat(result.getAmount())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("With not data it returns nothing")
-    public void testGetTotalBalance_Empty() {
-        final Balance result;
-
-        result = service.getTotalBalance();
-
-        Assertions.assertThat(result.getAmount())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("With multiple transactions for a single month it returns the correct data")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetTotalBalance_Multiple() {
-        final Balance result;
-
-        result = service.getTotalBalance();
-
-        Assertions.assertThat(result.getAmount())
-            .isEqualTo(5);
+        repository.flush();
     }
 
 }

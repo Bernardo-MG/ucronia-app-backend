@@ -51,27 +51,27 @@ public class ITMemberServiceGetOne {
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetOne_Existing() {
-        final Optional<Member> result;
-        final Member           data;
+        final Optional<Member> memberOptional;
+        final Member           member;
 
-        result = service.getOne(1L);
+        memberOptional = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(memberOptional)
             .isPresent();
 
-        data = result.get();
+        member = memberOptional.get();
 
-        Assertions.assertThat(data.getId())
+        Assertions.assertThat(member.getId())
             .isNotNull();
-        Assertions.assertThat(data.getName())
+        Assertions.assertThat(member.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(data.getSurname())
+        Assertions.assertThat(member.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(data.getPhone())
+        Assertions.assertThat(member.getPhone())
             .isEqualTo("12345");
-        Assertions.assertThat(data.getIdentifier())
+        Assertions.assertThat(member.getIdentifier())
             .isEqualTo("6789");
-        Assertions.assertThat(data.getActive())
+        Assertions.assertThat(member.getActive())
             .isTrue();
     }
 
@@ -79,27 +79,27 @@ public class ITMemberServiceGetOne {
     @DisplayName("With a valid id for an inactive member, the related entity is returned")
     @Sql({ "/db/queries/member/inactive.sql" })
     public void testGetOne_Inactive() {
-        final Optional<Member> result;
-        final Member           data;
+        final Optional<Member> memberOptional;
+        final Member           member;
 
-        result = service.getOne(1L);
+        memberOptional = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(memberOptional)
             .isPresent();
 
-        data = result.get();
+        member = memberOptional.get();
 
-        Assertions.assertThat(data.getId())
+        Assertions.assertThat(member.getId())
             .isNotNull();
-        Assertions.assertThat(data.getName())
+        Assertions.assertThat(member.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(data.getSurname())
+        Assertions.assertThat(member.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(data.getPhone())
+        Assertions.assertThat(member.getPhone())
             .isEqualTo("12345");
-        Assertions.assertThat(data.getIdentifier())
+        Assertions.assertThat(member.getIdentifier())
             .isEqualTo("6789");
-        Assertions.assertThat(data.getActive())
+        Assertions.assertThat(member.getActive())
             .isFalse();
     }
 

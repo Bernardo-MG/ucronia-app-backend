@@ -53,25 +53,25 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With two members with minimal data, the members are persisted")
     public void testCreate_Minimal_Additional_AddsEntity() {
-        DtoMemberCreationRequest member;
+        DtoMemberCreationRequest memberRequest;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("");
-        member.setPhone("");
-        member.setIdentifier("");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname("");
+        memberRequest.setPhone("");
+        memberRequest.setIdentifier("");
+        memberRequest.setActive(true);
 
-        service.create(member);
+        service.create(memberRequest);
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member 2");
-        member.setSurname("");
-        member.setPhone("");
-        member.setIdentifier("");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member 2");
+        memberRequest.setSurname("");
+        memberRequest.setPhone("");
+        memberRequest.setIdentifier("");
+        memberRequest.setActive(true);
 
-        service.create(member);
+        service.create(memberRequest);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
@@ -80,17 +80,17 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     public void testCreate_PersistedData() {
-        final DtoMemberCreationRequest member;
+        final DtoMemberCreationRequest memberRequest;
         final PersistentMember         entity;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("12345");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        service.create(member);
+        service.create(memberRequest);
 
         Assertions.assertThat(repository.count())
             .isOne();
@@ -116,29 +116,29 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     public void testCreate_ReturnedData() {
-        final Member                   result;
-        final DtoMemberCreationRequest member;
+        final DtoMemberCreationRequest memberRequest;
+        final Member                   member;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("12345");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        result = service.create(member);
+        member = service.create(memberRequest);
 
-        Assertions.assertThat(result.getId())
+        Assertions.assertThat(member.getId())
             .isNotNull();
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(member.getName())
             .isEqualTo("Member");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(member.getSurname())
             .isEqualTo("Surname");
-        Assertions.assertThat(result.getPhone())
+        Assertions.assertThat(member.getPhone())
             .isEqualTo("12345");
-        Assertions.assertThat(result.getIdentifier())
+        Assertions.assertThat(member.getIdentifier())
             .isEqualTo("6789");
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(member.getActive())
             .isTrue();
     }
 

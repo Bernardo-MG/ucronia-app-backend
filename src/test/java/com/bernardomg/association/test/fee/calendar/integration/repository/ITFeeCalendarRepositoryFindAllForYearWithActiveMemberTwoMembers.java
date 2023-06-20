@@ -56,22 +56,22 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
     @Test
     @DisplayName("With a full year it returns all the entities")
     public void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Count() {
-        final Iterable<UserFeeCalendar> result;
-        final Iterator<UserFeeCalendar> itr;
+        final Iterable<UserFeeCalendar> calendars;
+        final Iterator<UserFeeCalendar> calendarsItr;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYearWithActiveMember(2020, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(2);
 
-        itr = result.iterator();
-        Assertions.assertThat(IterableUtils.size(itr.next()
+        calendarsItr = calendars.iterator();
+        Assertions.assertThat(IterableUtils.size(calendarsItr.next()
             .getMonths()))
             .isEqualTo(12);
-        Assertions.assertThat(IterableUtils.size(itr.next()
+        Assertions.assertThat(IterableUtils.size(calendarsItr.next()
             .getMonths()))
             .isEqualTo(12);
     }
@@ -79,18 +79,18 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
     @Test
     @DisplayName("With a full year it returns all the data")
     public void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Data() {
-        final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
         // First member
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -98,11 +98,11 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
 
         // Second member
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -110,7 +110,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
 }

@@ -59,15 +59,15 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("Persists the data with a day which is not the first of the month")
     public void testCreate_AnotherDay_PersistedData() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final PersistentFee         entity;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 2));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 2));
+        feeRequest.setPaid(true);
 
-        service.create(fee);
+        service.create(feeRequest);
 
         entity = repository.findAll()
             .iterator()
@@ -86,15 +86,15 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it adds the entity data to the persistence layer")
     public void testCreate_PersistedData() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final PersistentFee         entity;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        service.create(fee);
+        service.create(feeRequest);
 
         entity = repository.findAll()
             .iterator()
@@ -113,17 +113,17 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it returns the created data")
     public void testCreate_ReturnedData() {
-        final MemberFee             result;
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
+        final MemberFee             fee;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        result = service.create(fee);
+        fee = service.create(feeRequest);
 
-        FeeAssertions.isEqualTo(result, ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fee, ImmutableMemberFee.builder()
             .id(1L)
             .memberId(1L)
             .name(null)

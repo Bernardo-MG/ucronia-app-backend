@@ -55,15 +55,15 @@ public class ITMemberServiceGetAllSortError {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
-        final MemberQueryRequest sample;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
         final ThrowingCallable   executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        executable = () -> service.getAll(sample, pageable)
+        executable = () -> service.getAll(memberQuery, pageable)
             .iterator();
 
         Assertions.assertThatThrownBy(executable)

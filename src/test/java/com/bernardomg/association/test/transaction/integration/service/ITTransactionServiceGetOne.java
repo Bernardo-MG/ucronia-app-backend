@@ -63,17 +63,17 @@ public class ITTransactionServiceGetOne {
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
     public void testGetOne() {
-        final Optional<Transaction> result;
-        final Transaction           data;
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
-        result = service.getOne(1L);
+        transactionOptional = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(transactionOptional)
             .isPresent();
 
-        data = result.get();
+        transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
             .date(new GregorianCalendar(2020, 0, 1))
@@ -85,19 +85,19 @@ public class ITTransactionServiceGetOne {
     @DisplayName("With a value around zero, the related entity is returned")
     @Sql({ "/db/queries/transaction/negative.sql" })
     public void testGetOne_AroundZero(final Float amount) {
-        final Optional<Transaction> result;
-        final Transaction           data;
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
         repository.save(ModelFactory.transaction(amount));
 
-        result = service.getOne(1L);
+        transactionOptional = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(transactionOptional)
             .isPresent();
 
-        data = result.get();
+        transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(-1f)
             .date(new GregorianCalendar(2020, 0, 1))
@@ -109,19 +109,19 @@ public class ITTransactionServiceGetOne {
     @DisplayName("With a decimal value, the related entity is returned")
     @Sql({ "/db/queries/transaction/negative.sql" })
     public void testGetOne_Decimal(final Float amount) {
-        final Optional<Transaction> result;
-        final Transaction           data;
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
         repository.save(ModelFactory.transaction(amount));
 
-        result = service.getOne(1L);
+        transactionOptional = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(transactionOptional)
             .isPresent();
 
-        data = result.get();
+        transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(-1f)
             .date(new GregorianCalendar(2020, 0, 1))
@@ -132,17 +132,17 @@ public class ITTransactionServiceGetOne {
     @DisplayName("Returns the correct data when reading a negative value")
     @Sql({ "/db/queries/transaction/negative.sql" })
     public void testGetOne_Negative() {
-        final Optional<Transaction> result;
-        final Transaction           data;
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
-        result = service.getOne(1L);
+        transactionOptional = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(transactionOptional)
             .isPresent();
 
-        data = result.get();
+        transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(data, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(-1f)
             .date(new GregorianCalendar(2020, 0, 1))
@@ -152,11 +152,11 @@ public class ITTransactionServiceGetOne {
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<Transaction> result;
+        final Optional<Transaction> transaction;
 
-        result = service.getOne(1L);
+        transaction = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(transaction)
             .isNotPresent();
     }
 

@@ -54,17 +54,17 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @DisplayName("With ascending order by name it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYearWithActiveMember_Name_Asc() {
-        final Iterator<UserFeeCalendar> data;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
-        UserFeeCalendar                 result;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.by(Order.asc("name"));
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -72,24 +72,24 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYearWithActiveMember_Name_Desc() {
-        final Iterator<UserFeeCalendar> data;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
-        UserFeeCalendar                 result;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.by(Order.desc("name"));
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -97,7 +97,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -105,17 +105,17 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testFindAllForYearWithActiveMember_TwoMembers_Name_Asc() {
-        final Iterator<UserFeeCalendar> data;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
-        UserFeeCalendar                 result;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.by(Order.asc("name"));
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -123,10 +123,10 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -134,7 +134,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -142,17 +142,17 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testFindAllForYearWithActiveMember_TwoMembers_Name_Desc() {
-        final Iterator<UserFeeCalendar> data;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
-        UserFeeCalendar                 result;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.by(Order.desc("name"));
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -160,10 +160,10 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -171,7 +171,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -179,17 +179,17 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testFindAllForYearWithActiveMember_TwoMembers_Surname_Asc() {
-        final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.by(Order.asc("surname"));
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -197,10 +197,10 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -208,7 +208,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -216,16 +216,16 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testFindAllForYearWithActiveMember_TwoMembers_Surname_Desc() {
-        final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
+        UserFeeCalendar                 result;
 
         sort = Sort.by(Order.desc("surname"));
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
-        result = data.next();
+        result = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
             .name("Member 2")
@@ -236,7 +236,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
 
         UserFeeCalendarAssertions.assertFullYear(result);
 
-        result = data.next();
+        result = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")

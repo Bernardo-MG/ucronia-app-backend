@@ -51,22 +51,22 @@ public class ITTransactionRepositoryFindMinDate {
     @DisplayName("With multiple transactions, it returns the min date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
-        final Calendar result;
+        final Calendar calendar;
 
-        result = repository.findMinDate();
+        calendar = repository.findMinDate();
 
-        Assertions.assertThat(result.getTime())
+        Assertions.assertThat(calendar.getTime())
             .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
     }
 
     @Test
     @DisplayName("Withno transactions, no min date is returned")
     public void testFindSumAll_NoData() {
-        final Calendar result;
+        final Calendar calendar;
 
-        result = repository.findMinDate();
+        calendar = repository.findMinDate();
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendar)
             .isNull();
     }
 

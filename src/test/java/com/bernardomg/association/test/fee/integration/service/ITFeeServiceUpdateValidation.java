@@ -55,20 +55,20 @@ public class ITFeeServiceUpdateValidation {
     @Sql({ "/db/queries/fee/single.sql" })
     @Disabled("This can't happen, it required an inconsistent DB")
     public void testUpdate_InvalidMember() {
-        final DtoFeeCreationRequest fee;
-        final ThrowingCallable      executable;
+        final DtoFeeCreationRequest feeRequest;
+        final ThrowingCallable      execution;
         final FieldFailure          failure;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(false);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(false);
 
-        executable = () -> service.update(1L, fee);
+        execution = () -> service.update(1L, feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", 1L);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }

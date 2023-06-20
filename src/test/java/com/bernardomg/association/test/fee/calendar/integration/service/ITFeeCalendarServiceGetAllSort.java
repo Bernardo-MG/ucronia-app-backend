@@ -58,68 +58,68 @@ public class ITFeeCalendarServiceGetAllSort {
     @DisplayName("With ascending order by name it returns the ordered data")
     public void testGetAll_Name_Asc() {
         final Sort                      sort;
-        final Iterator<UserFeeCalendar> data;
-        final UserFeeCalendar           result;
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
 
         sort = Sort.by(Order.asc("name"));
 
-        data = service.getAll(2020, false, sort)
+        calendars = service.getAll(2020, false, sort)
             .iterator();
 
-        result = data.next();
-        Assertions.assertThat(result.getMemberId())
+        calendar = calendars.next();
+        Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(calendar.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(calendar.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
+        Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(calendar.getActive())
             .isTrue();
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     public void testGetAll_Name_Desc() {
         final Sort                      sort;
-        final Iterator<UserFeeCalendar> data;
-        final UserFeeCalendar           result;
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
 
         sort = Sort.by(Order.asc("name"));
 
-        data = service.getAll(2020, false, sort)
+        calendars = service.getAll(2020, false, sort)
             .iterator();
 
-        result = data.next();
-        Assertions.assertThat(result.getMemberId())
+        calendar = calendars.next();
+        Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(calendar.getName())
             .isEqualTo("Member 1");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(calendar.getSurname())
             .isEqualTo("Surname 1");
-        Assertions.assertThat(result.getYear())
+        Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(calendar.getActive())
             .isTrue();
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     public void testGetAll_NotExisting() {
         final Sort             sort;
-        final ThrowingCallable executable;
+        final ThrowingCallable execution;
 
         sort = Sort.by(Direction.ASC, "abc");
 
-        executable = () -> service.getAll(2020, false, sort)
+        execution = () -> service.getAll(2020, false, sort)
             .iterator();
 
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(BadSqlGrammarException.class);
     }
 

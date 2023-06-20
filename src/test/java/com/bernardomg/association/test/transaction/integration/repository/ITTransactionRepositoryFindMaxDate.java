@@ -51,22 +51,22 @@ public class ITTransactionRepositoryFindMaxDate {
     @DisplayName("With multiple transactions, it returns the max date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
-        final Calendar result;
+        final Calendar calendar;
 
-        result = repository.findMaxDate();
+        calendar = repository.findMaxDate();
 
-        Assertions.assertThat(result.getTime())
+        Assertions.assertThat(calendar.getTime())
             .isEqualTo(new GregorianCalendar(2020, 0, 5).getTime());
     }
 
     @Test
     @DisplayName("Withno transactions, no max date is returned")
     public void testFindSumAll_NoData() {
-        final Calendar result;
+        final Calendar calendar;
 
-        result = repository.findMaxDate();
+        calendar = repository.findMaxDate();
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendar)
             .isNull();
     }
 

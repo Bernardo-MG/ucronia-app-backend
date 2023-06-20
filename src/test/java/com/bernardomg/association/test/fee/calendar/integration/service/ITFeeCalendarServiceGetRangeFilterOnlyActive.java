@@ -49,13 +49,13 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
     @DisplayName("With an active member it returns the full range")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Active() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(true);
+        range = service.getRange(true);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 
@@ -63,26 +63,26 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
     @DisplayName("With an inactive member it returns no range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Inactive() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(true);
+        range = service.getRange(true);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isZero();
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isZero();
     }
 
     @Test
     @DisplayName("With no data it returns no range")
     public void testGetRange_NoData() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(true);
+        range = service.getRange(true);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isZero();
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isZero();
     }
 

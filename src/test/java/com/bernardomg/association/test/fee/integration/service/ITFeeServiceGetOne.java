@@ -54,14 +54,14 @@ public class ITFeeServiceGetOne {
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testGetOne_Existing() {
-        final Optional<MemberFee> result;
+        final Optional<MemberFee> fee;
 
-        result = service.getOne(1L);
+        fee = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(fee)
             .isPresent();
 
-        FeeAssertions.isEqualTo(result.get(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -74,14 +74,14 @@ public class ITFeeServiceGetOne {
     @DisplayName("With an inactive member, the related entity is returned")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
     public void testGetOne_Inactive() {
-        final Optional<MemberFee> result;
+        final Optional<MemberFee> fee;
 
-        result = service.getOne(1L);
+        fee = service.getOne(1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(fee)
             .isPresent();
 
-        FeeAssertions.isEqualTo(result.get(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -94,11 +94,11 @@ public class ITFeeServiceGetOne {
     @DisplayName("With an invalid id, no entity is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testGetOne_NotExisting() {
-        final Optional<MemberFee> result;
+        final Optional<MemberFee> fee;
 
-        result = service.getOne(-1L);
+        fee = service.getOne(-1L);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(fee)
             .isNotPresent();
     }
 

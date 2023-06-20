@@ -60,25 +60,22 @@ public class ITBalanceServiceGetMonthlyBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     public void testGetMonthlyBalance_AroundZero(final Float amount) {
-        final MonthlyBalance        data;
-        final PersistentTransaction entity;
+        final Collection<MonthlyBalance> balances;
+        final MonthlyBalance             balance;
 
-        entity = PersistentTransaction.builder()
-            .date(new GregorianCalendar(2020, 0, 1))
-            .description("Description")
-            .amount(amount)
-            .build();
+        persist(amount);
 
-        repository.save(entity);
-        repository.flush();
+        balances = service.getMonthlyBalance();
 
-        data = service.getMonthlyBalance()
-            .iterator()
+        Assertions.assertThat(balances)
+            .hasSize(1);
+
+        balance = balances.iterator()
             .next();
 
-        Assertions.assertThat(data.getTotal())
+        Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
-        Assertions.assertThat(data.getCumulative())
+        Assertions.assertThat(balance.getCumulative())
             .isEqualTo(amount);
     }
 
@@ -86,25 +83,22 @@ public class ITBalanceServiceGetMonthlyBalance {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     public void testGetMonthlyBalance_Decimal(final Float amount) {
-        final MonthlyBalance        data;
-        final PersistentTransaction entity;
+        final Collection<MonthlyBalance> balances;
+        final MonthlyBalance             balance;
 
-        entity = PersistentTransaction.builder()
-            .date(new GregorianCalendar(2020, 0, 1))
-            .description("Description")
-            .amount(amount)
-            .build();
+        persist(amount);
 
-        repository.save(entity);
-        repository.flush();
+        balances = service.getMonthlyBalance();
 
-        data = service.getMonthlyBalance()
-            .iterator()
+        Assertions.assertThat(balances)
+            .hasSize(1);
+
+        balance = balances.iterator()
             .next();
 
-        Assertions.assertThat(data.getTotal())
+        Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
-        Assertions.assertThat(data.getCumulative())
+        Assertions.assertThat(balance.getCumulative())
             .isEqualTo(amount);
     }
 
@@ -112,13 +106,18 @@ public class ITBalanceServiceGetMonthlyBalance {
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     public void testGetMonthlyBalance_DecimalsAddUpToZero() {
-        final MonthlyBalance data;
+        final Collection<MonthlyBalance> balances;
+        final MonthlyBalance             balance;
 
-        data = service.getMonthlyBalance()
-            .iterator()
+        balances = service.getMonthlyBalance();
+
+        Assertions.assertThat(balances)
+            .hasSize(1);
+
+        balance = balances.iterator()
             .next();
 
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 0, 1))
             .total(0f)
             .cumulative(0f)
@@ -128,104 +127,97 @@ public class ITBalanceServiceGetMonthlyBalance {
     @Test
     @DisplayName("With a full year it returns twelve months")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetMonthlyBalance_FullYear_Count() {
-        final Collection<MonthlyBalance> read;
+    public void testGetMonthlyBalance_FullYear() {
+        final Collection<MonthlyBalance> balances;
+        final Iterator<MonthlyBalance>   balancesItr;
+        MonthlyBalance                   balance;
 
-        read = service.getMonthlyBalance();
+        balances = service.getMonthlyBalance();
 
-        Assertions.assertThat(read)
+        Assertions.assertThat(balances)
             .hasSize(12);
-    }
 
-    @Test
-    @DisplayName("With a full year it returns the correct data for all the months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetMonthlyBalance_FullYear_Data() {
-        final Iterator<MonthlyBalance> read;
-        MonthlyBalance                 data;
+        balancesItr = balances.iterator();
 
-        read = service.getMonthlyBalance()
-            .iterator();
-
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 0, 1))
             .total(1f)
             .cumulative(1f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 1, 1))
             .total(1f)
             .cumulative(2f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 2, 1))
             .total(1f)
             .cumulative(3f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 3, 1))
             .total(1f)
             .cumulative(4f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 4, 1))
             .total(1f)
             .cumulative(5f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 5, 1))
             .total(1f)
             .cumulative(6f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 6, 1))
             .total(1f)
             .cumulative(7f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 7, 1))
             .total(1f)
             .cumulative(8f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 8, 1))
             .total(1f)
             .cumulative(9f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 9, 1))
             .total(1f)
             .cumulative(10f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 10, 1))
             .total(1f)
             .cumulative(11f)
             .build());
 
-        data = read.next();
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 11, 1))
             .total(1f)
             .cumulative(12f)
@@ -235,26 +227,20 @@ public class ITBalanceServiceGetMonthlyBalance {
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetMonthlyBalance_Multiple_Count() {
-        final Collection<MonthlyBalance> read;
+    public void testGetMonthlyBalance_Multiple() {
+        final Collection<MonthlyBalance> balances;
+        final Iterator<MonthlyBalance>   balancesItr;
+        MonthlyBalance                   balance;
 
-        read = service.getMonthlyBalance();
+        balances = service.getMonthlyBalance();
 
-        Assertions.assertThat(read)
+        Assertions.assertThat(balances)
             .hasSize(1);
-    }
 
-    @Test
-    @DisplayName("With multiple transactions for a single month it returns the correct data")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetMonthlyBalance_Multiple_Data() {
-        final MonthlyBalance data;
+        balancesItr = balances.iterator();
 
-        data = service.getMonthlyBalance()
-            .iterator()
-            .next();
-
-        BalanceAssertions.isEqualTo(data, ImmutableMonthlyBalance.builder()
+        balance = balancesItr.next();
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .date(new GregorianCalendar(2020, 0, 1))
             .total(5f)
             .cumulative(5f)
@@ -264,12 +250,25 @@ public class ITBalanceServiceGetMonthlyBalance {
     @Test
     @DisplayName("With no data it returns nothing")
     public void testGetMonthlyBalance_NoData() {
-        final Collection<MonthlyBalance> read;
+        final Collection<MonthlyBalance> balances;
 
-        read = service.getMonthlyBalance();
+        balances = service.getMonthlyBalance();
 
-        Assertions.assertThat(read)
+        Assertions.assertThat(balances)
             .isEmpty();
+    }
+
+    private final void persist(final Float amount) {
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
     }
 
 }

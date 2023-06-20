@@ -49,36 +49,36 @@ public class ITTransactionServiceGetRange {
     @DisplayName("With a full year, a range for the full year is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetRange_FullYear() {
-        final TransactionRange result;
+        final TransactionRange range;
 
-        result = service.getRange();
+        range = service.getRange();
 
-        Assertions.assertThat(result.getStartMonth())
+        Assertions.assertThat(range.getStartMonth())
             .isZero();
-        Assertions.assertThat(result.getStartYear())
+        Assertions.assertThat(range.getStartYear())
             .isEqualTo(2020);
 
-        Assertions.assertThat(result.getEndMonth())
+        Assertions.assertThat(range.getEndMonth())
             .isEqualTo(11);
-        Assertions.assertThat(result.getEndYear())
+        Assertions.assertThat(range.getEndYear())
             .isEqualTo(2020);
     }
 
     @Test
     @DisplayName("With no data, an empty range is returned")
     public void testGetRange_NoData() {
-        final TransactionRange result;
+        final TransactionRange range;
 
-        result = service.getRange();
+        range = service.getRange();
 
-        Assertions.assertThat(result.getStartMonth())
+        Assertions.assertThat(range.getStartMonth())
             .isZero();
-        Assertions.assertThat(result.getStartYear())
+        Assertions.assertThat(range.getStartYear())
             .isZero();
 
-        Assertions.assertThat(result.getEndMonth())
+        Assertions.assertThat(range.getEndMonth())
             .isZero();
-        Assertions.assertThat(result.getEndYear())
+        Assertions.assertThat(range.getEndYear())
             .isZero();
     }
 

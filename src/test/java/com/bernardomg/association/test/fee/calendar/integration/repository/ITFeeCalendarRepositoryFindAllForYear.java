@@ -57,18 +57,21 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Count() {
-        final Collection<UserFeeCalendar> result;
+        final Collection<UserFeeCalendar> calendars;
+        final Collection<FeeMonth>        months;
         final Sort                        sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(result.iterator()
+
+        months = calendars.iterator()
             .next()
-            .getMonths())
+            .getMonths();
+        Assertions.assertThat(months)
             .hasSize(12);
     }
 
@@ -76,17 +79,17 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindAllForYear_FullYear_Data() {
-        final Iterator<UserFeeCalendar> data;
-        final UserFeeCalendar           result;
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -94,20 +97,20 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .active(true)
             .build());
 
-        UserFeeCalendarAssertions.assertFullYear(result);
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
     public void testFindAllForYear_NoData_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
     }
 
@@ -115,16 +118,16 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
     public void testFindAllForYear_SingleMonth_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(result.iterator()
+        Assertions.assertThat(calendars.iterator()
             .next()
             .getMonths())
             .hasSize(1);
@@ -134,19 +137,19 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
     public void testFindAllForYear_SingleMonth_Data() {
-        final Iterator<UserFeeCalendar> data;
-        final UserFeeCalendar           result;
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
         final Iterator<FeeMonth>        months;
         final Sort                      sort;
         FeeMonth                        month;
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -154,7 +157,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .active(true)
             .build());
 
-        months = result.getMonths()
+        months = calendar.getMonths()
             .iterator();
 
         month = months.next();
@@ -168,16 +171,16 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
     public void testFindAllForYear_SingleMonthUnpaid_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(result.iterator()
+        Assertions.assertThat(calendars.iterator()
             .next()
             .getMonths())
             .hasSize(1);
@@ -187,19 +190,19 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
     public void testFindAllForYear_SingleMonthUnpaid_Data() {
-        final Iterator<UserFeeCalendar> data;
-        final UserFeeCalendar           result;
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
         final Iterator<FeeMonth>        months;
         final Sort                      sort;
         FeeMonth                        month;
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(2020, sort)
             .iterator();
 
-        result = data.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -207,7 +210,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .active(true)
             .build());
 
-        months = result.getMonths()
+        months = calendar.getMonths()
             .iterator();
 
         month = months.next();
@@ -221,16 +224,16 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With two connected years it returns all the entities for the first year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindAllForYear_TwoConnectedYears_First_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2019, sort);
+        calendars = repository.findAllForYear(2019, sort);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(result.iterator()
+        Assertions.assertThat(calendars.iterator()
             .next()
             .getMonths())
             .hasSize(3);
@@ -240,18 +243,18 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With two connected years it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindAllForYear_TwoConnectedYears_First_Data() {
-        final UserFeeCalendar result;
+        final UserFeeCalendar calendar;
         final Sort            sort;
         Iterator<FeeMonth>    months;
         FeeMonth              month;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2019, sort)
+        calendar = repository.findAllForYear(2019, sort)
             .iterator()
             .next();
 
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -259,7 +262,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .active(true)
             .build());
 
-        months = result.getMonths()
+        months = calendar.getMonths()
             .iterator();
 
         month = months.next();
@@ -285,16 +288,16 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With two connected years it returns all the entities for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindAllForYear_TwoConnectedYears_Second_Count() {
-        final Iterable<UserFeeCalendar> result;
+        final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(2020, sort);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(result.iterator()
+        Assertions.assertThat(calendars.iterator()
             .next()
             .getMonths())
             .hasSize(7);
@@ -304,18 +307,18 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @DisplayName("With two connected years it returns all the data for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindAllForYear_TwoConnectedYears_Second_Data() {
-        final UserFeeCalendar result;
+        final UserFeeCalendar calendar;
         final Sort            sort;
         Iterator<FeeMonth>    months;
         FeeMonth              month;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYear(2020, sort)
+        calendar = repository.findAllForYear(2020, sort)
             .iterator()
             .next();
 
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -323,7 +326,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
             .active(true)
             .build());
 
-        months = result.getMonths()
+        months = calendar.getMonths()
             .iterator();
 
         month = months.next();

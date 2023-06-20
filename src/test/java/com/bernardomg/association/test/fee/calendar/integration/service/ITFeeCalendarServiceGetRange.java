@@ -49,13 +49,13 @@ public class ITFeeCalendarServiceGetRange {
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_FullYear() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 
@@ -64,13 +64,13 @@ public class ITFeeCalendarServiceGetRange {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testGetRange_FullYear_TwoMembers() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 
@@ -78,26 +78,26 @@ public class ITFeeCalendarServiceGetRange {
     @DisplayName("With an inactive member it returns the range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     public void testGetRange_Inactive() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 
     @Test
     @DisplayName("With no data the range is empty")
     public void testGetRange_NoData() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isZero();
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isZero();
     }
 
@@ -105,13 +105,13 @@ public class ITFeeCalendarServiceGetRange {
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testGetRange_Single() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 
@@ -119,13 +119,13 @@ public class ITFeeCalendarServiceGetRange {
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testGetRange_TwoConnectedYears() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2019);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 
@@ -133,13 +133,13 @@ public class ITFeeCalendarServiceGetRange {
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
     public void testGetRange_TwoYearsWithGap() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange range;
 
-        result = service.getRange(false);
+        range = service.getRange(false);
 
-        Assertions.assertThat(result.getStart())
+        Assertions.assertThat(range.getStart())
             .isEqualTo(2018);
-        Assertions.assertThat(result.getEnd())
+        Assertions.assertThat(range.getEnd())
             .isEqualTo(2020);
     }
 

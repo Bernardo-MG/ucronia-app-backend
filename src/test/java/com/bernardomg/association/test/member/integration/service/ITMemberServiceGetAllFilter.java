@@ -52,36 +52,36 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to active status, the returned data is filtered")
     public void testGetAll_Active_Count() {
-        final Iterable<Member>      result;
-        final DtoMemberQueryRequest sample;
+        final Iterable<Member>      members;
+        final DtoMemberQueryRequest memberQuery;
         final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberQueryRequest();
-        sample.setActive(true);
+        memberQuery = new DtoMemberQueryRequest();
+        memberQuery.setActive(true);
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(members))
             .isEqualTo(4);
     }
 
     @Test
     @DisplayName("With a filter applied to not active status, the returned data is filtered")
     public void testGetAll_NotActive_Count() {
-        final Iterable<Member>      result;
-        final DtoMemberQueryRequest sample;
+        final Iterable<Member>      members;
+        final DtoMemberQueryRequest memberQuery;
         final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberQueryRequest();
-        sample.setActive(false);
+        memberQuery = new DtoMemberQueryRequest();
+        memberQuery.setActive(false);
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
+        Assertions.assertThat(IterableUtils.size(members))
             .isEqualTo(1);
     }
 

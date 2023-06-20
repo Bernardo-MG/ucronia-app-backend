@@ -61,12 +61,7 @@ public final class ITMemberControllerRequestValidation {
         final ResultActions            result;
         final DtoMemberCreationRequest member;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        member = getRequest();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -85,11 +80,7 @@ public final class ITMemberControllerRequestValidation {
         final ResultActions            result;
         final DtoMemberCreationRequest member;
 
-        member = new DtoMemberCreationRequest();
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        member = getRequestNoName();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -105,6 +96,31 @@ public final class ITMemberControllerRequestValidation {
         return MockMvcRequestBuilders.post(TestUrls.MEMBER)
             .contentType(MediaType.APPLICATION_JSON)
             .content(json);
+    }
+
+    private final DtoMemberCreationRequest getRequest() {
+        final DtoMemberCreationRequest member;
+
+        member = new DtoMemberCreationRequest();
+        member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        return member;
+    }
+
+    private final DtoMemberCreationRequest getRequestNoName() {
+        final DtoMemberCreationRequest member;
+
+        member = new DtoMemberCreationRequest();
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        return member;
     }
 
 }

@@ -55,16 +55,16 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
     public void testUpdate_AddsNoEntity() {
-        final DtoMemberCreationRequest member;
+        final DtoMemberCreationRequest memberRequest;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member 123");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member 123");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("12345");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        service.update(1L, member);
+        service.update(1L, memberRequest);
 
         Assertions.assertThat(repository.count())
             .isOne();
@@ -73,16 +73,16 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoMemberCreationRequest member;
+        final DtoMemberCreationRequest memberRequest;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member 123");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member 123");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("12345");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        service.update(10L, member);
+        service.update(10L, memberRequest);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
@@ -91,17 +91,17 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     public void testUpdate_PersistedData() {
-        final DtoMemberCreationRequest member;
+        final DtoMemberCreationRequest memberRequest;
         final PersistentMember         entity;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member 123");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member 123");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("12345");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        service.update(1L, member);
+        service.update(1L, memberRequest);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -123,29 +123,29 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     public void testUpdate_ReturnedData() {
-        final Member                   result;
-        final DtoMemberCreationRequest member;
+        final DtoMemberCreationRequest memberRequest;
+        final Member                   member;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member 123");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        memberRequest = new DtoMemberCreationRequest();
+        memberRequest.setName("Member 123");
+        memberRequest.setSurname("Surname");
+        memberRequest.setPhone("12345");
+        memberRequest.setIdentifier("6789");
+        memberRequest.setActive(true);
 
-        result = service.update(1L, member);
+        member = service.update(1L, memberRequest);
 
-        Assertions.assertThat(result.getId())
+        Assertions.assertThat(member.getId())
             .isNotNull();
-        Assertions.assertThat(result.getName())
+        Assertions.assertThat(member.getName())
             .isEqualTo("Member 123");
-        Assertions.assertThat(result.getSurname())
+        Assertions.assertThat(member.getSurname())
             .isEqualTo("Surname");
-        Assertions.assertThat(result.getPhone())
+        Assertions.assertThat(member.getPhone())
             .isEqualTo("12345");
-        Assertions.assertThat(result.getIdentifier())
+        Assertions.assertThat(member.getIdentifier())
             .isEqualTo("6789");
-        Assertions.assertThat(result.getActive())
+        Assertions.assertThat(member.getActive())
             .isTrue();
     }
 

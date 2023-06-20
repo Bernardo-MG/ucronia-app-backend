@@ -53,20 +53,20 @@ public class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("With a missing id it throws an exception")
     public void testCreate_InvalidMember() {
-        final DtoFeeCreationRequest fee;
-        final ThrowingCallable      executable;
+        final DtoFeeCreationRequest feeRequest;
+        final ThrowingCallable      execution;
         final FieldFailure          failure;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(-1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(-1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        executable = () -> service.create(fee);
+        execution = () -> service.create(feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }
