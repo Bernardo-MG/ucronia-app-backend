@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -54,8 +55,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
-        if ((corsProperties.getOrigins() != null) && (!corsProperties.getOrigins()
-            .isBlank())) {
+        if (StringUtils.isNotBlank(corsProperties.getOrigins())) {
             registry.addMapping("/**")
                 .allowedMethods("*")
                 .allowedOrigins(corsProperties.getOrigins()
