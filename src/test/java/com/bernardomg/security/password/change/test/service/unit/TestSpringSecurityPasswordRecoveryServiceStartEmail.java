@@ -2,7 +2,6 @@
 package com.bernardomg.security.password.change.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -36,6 +35,9 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @Mock
+    private Authentication          authentication;
+
+    @Mock
     private SecurityMessageSender   mailSender;
 
     @Mock
@@ -58,9 +60,6 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @BeforeEach
     public final void initializeAuthentication() {
-        final Authentication authentication;
-
-        authentication = mock(Authentication.class);
         given(authentication.getName()).willReturn("admin");
 
         SecurityContextHolder.getContext()

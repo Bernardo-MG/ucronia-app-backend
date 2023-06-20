@@ -34,6 +34,8 @@ public class TestTokenLoginStatusProvider {
     public void testGetStatus_Logged() {
         final LoginStatus status;
 
+        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn(TokenConstants.TOKEN);
+
         status = getLoginStatusProvider().getStatus("admin", true);
 
         Assertions.assertThat(status)
@@ -64,8 +66,6 @@ public class TestTokenLoginStatusProvider {
     }
 
     private final LoginStatusProvider getLoginStatusProvider() {
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn(TokenConstants.TOKEN);
-
         return new TokenLoginStatusProvider(tokenEncoder);
     }
 

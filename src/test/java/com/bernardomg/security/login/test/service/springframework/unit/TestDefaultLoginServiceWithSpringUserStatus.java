@@ -2,7 +2,6 @@
 package com.bernardomg.security.login.test.service.springframework.unit;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import java.util.Collections;
 import java.util.function.Predicate;
@@ -138,6 +137,8 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
+        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+
         login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
@@ -151,16 +152,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     }
 
     private final DefaultLoginService getService(final UserDetails user) {
-        final UserDetailsService      userDetService;
-        final PasswordEncoder         passEncoder;
         final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
-        userDetService = mock(UserDetailsService.class);
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
-
-        passEncoder = mock(PasswordEncoder.class);
-        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
