@@ -57,7 +57,7 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
+    @DisplayName("With an existing entity, no new entity is persisted")
     public void testUpdate_AddsNoEntity() {
         final DtoTransactionCreationQuery transaction;
 
@@ -73,7 +73,7 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Updates persisted data with decimal values")
+    @DisplayName("With a transaction containing a decimal value, the values are persisted")
     public void testUpdate_Decimal_PersistedData() {
         final DtoTransactionCreationQuery transaction;
         final PersistentTransaction       entity;
@@ -96,7 +96,7 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated data with decimal values")
+    @DisplayName("With a transaction containing a decimal value, the data is returned")
     public void testUpdate_Decimal_ReturnedData() {
         final Transaction                 result;
         final DtoTransactionCreationQuery transaction;
@@ -116,7 +116,7 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a not existing entity a new one is added")
+    @DisplayName("With a not existing entity, a new entity is persisted")
     public void testUpdate_NotExisting_AddsEntity() {
         final DtoTransactionCreationQuery transaction;
 
@@ -132,7 +132,7 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Updates persisted data")
+    @DisplayName("With a changed entity, the change is persisted")
     public void testUpdate_PersistedData() {
         final DtoTransactionCreationQuery transaction;
         final PersistentTransaction       entity;
@@ -155,7 +155,7 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("With a changed entity, the changed data is returned")
     public void testUpdate_ReturnedData() {
         final Transaction                 result;
         final DtoTransactionCreationQuery transaction;
