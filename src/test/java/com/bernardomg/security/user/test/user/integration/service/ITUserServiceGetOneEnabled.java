@@ -3,15 +3,17 @@ package com.bernardomg.security.user.test.user.integration.service;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.assertion.UserAssertions;
 
 @IntegrationTest
 @DisplayName("User service - get one - enabled")
@@ -32,7 +34,8 @@ public class ITUserServiceGetOneEnabled {
 
         result = service.getOne(1l);
 
-        Assertions.assertTrue(result.isPresent());
+        Assertions.assertThat(result)
+            .isPresent();
     }
 
     @Test
@@ -43,13 +46,15 @@ public class ITUserServiceGetOneEnabled {
         result = service.getOne(1l)
             .get();
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("email@somewhere.com", result.getEmail());
-        Assertions.assertFalse(result.getCredentialsExpired());
-        Assertions.assertTrue(result.getEnabled());
-        Assertions.assertFalse(result.getExpired());
-        Assertions.assertFalse(result.getLocked());
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
 }

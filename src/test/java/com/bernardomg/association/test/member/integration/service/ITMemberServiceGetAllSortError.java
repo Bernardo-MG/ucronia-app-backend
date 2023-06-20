@@ -22,39 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.calendar.integration.repository;
+package com.bernardomg.association.test.member.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
+import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee calendar repository - find range with active member - inactive member")
-public class ITFeeCalendarRepositoryFindRangeWithActiveMemberInactiveMember {
+@DisplayName("Member service - get all - errors")
+@Sql({ "/db/queries/member/multiple.sql" })
+public class ITMemberServiceGetAllSortError {
 
     @Autowired
-    private FeeCalendarRepository repository;
+    private MemberService service;
 
-    public ITFeeCalendarRepositoryFindRangeWithActiveMemberInactiveMember() {
+    public ITMemberServiceGetAllSortError() {
         super();
     }
 
     @Test
-    @DisplayName("Returns no range for an inactive member")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindRange_FullYear() {
-        final FeeCalendarRange result;
+    @DisplayName("Ordering by a not existing field generates an error")
+    public void testGetAll_NotExisting() {
+        final MemberQueryRequest memberQuery;
+        final Pageable           pageable;
+        final ThrowingCallable   executable;
 
-        result = repository.findRangeWithActiveMember();
+        pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        Assertions.assertEquals(0, result.getStart());
-        Assertions.assertEquals(0, result.getEnd());
+        memberQuery = new DtoMemberQueryRequest();
+
+        executable = () -> service.getAll(memberQuery, pageable)
+            .iterator();
+
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(PropertyReferenceException.class);
     }
 
 }

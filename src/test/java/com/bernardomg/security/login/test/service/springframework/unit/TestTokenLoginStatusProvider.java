@@ -1,11 +1,15 @@
 
 package com.bernardomg.security.login.test.service.springframework.unit;
 
-import org.junit.jupiter.api.Assertions;
+import static org.mockito.BDDMockito.given;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
@@ -14,8 +18,12 @@ import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenEncoder;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginStatusProvider - get status")
 public class TestTokenLoginStatusProvider {
+
+    @Mock
+    private TokenEncoder<String> tokenEncoder;
 
     public TestTokenLoginStatusProvider() {
         super();
@@ -26,13 +34,19 @@ public class TestTokenLoginStatusProvider {
     public void testGetStatus_Logged() {
         final LoginStatus status;
 
+        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn(TokenConstants.TOKEN);
+
         status = getLoginStatusProvider().getStatus("admin", true);
 
-        Assertions.assertInstanceOf(TokenLoginStatus.class, status);
+        Assertions.assertThat(status)
+            .isInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
-        Assertions.assertEquals(TokenConstants.TOKEN, ((TokenLoginStatus) status).getToken());
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+            .isEqualTo(TokenConstants.TOKEN);
     }
 
     @Test
@@ -42,20 +56,16 @@ public class TestTokenLoginStatusProvider {
 
         status = getLoginStatusProvider().getStatus("admin", false);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
-    @SuppressWarnings("unchecked")
     private final LoginStatusProvider getLoginStatusProvider() {
-        final TokenEncoder<String> tokenEncoder;
-
-        tokenEncoder = Mockito.mock(TokenEncoder.class);
-        Mockito.when(tokenEncoder.encode(ArgumentMatchers.anyString()))
-            .thenReturn(TokenConstants.TOKEN);
-
         return new TokenLoginStatusProvider(tokenEncoder);
     }
 

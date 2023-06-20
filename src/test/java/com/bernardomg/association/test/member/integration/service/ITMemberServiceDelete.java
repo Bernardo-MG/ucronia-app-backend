@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,39 +50,44 @@ public class ITMemberServiceDelete {
     }
 
     @Test
-    @DisplayName("Removes no entity when deleting an invalid id")
+    @DisplayName("With an invalid id, it removes no entity")
     public void testDelete_NotExisting_NotRemovesEntity() {
         service.delete(-1L);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isOne();
     }
 
     @Test
-    @DisplayName("Removes a true flag when deleting an invalid id")
+    @DisplayName("With an invalid id, it returns a true flag")
     public void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
+        // TODO: Shouldn't this be an error?
         deleted = service.delete(-1L);
 
-        Assertions.assertTrue(deleted);
+        Assertions.assertThat(deleted)
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Removes an entity when deleting")
+    @DisplayName("With a valid id it removes the entity")
     public void testDelete_RemovesEntity() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isZero();
     }
 
     @Test
-    @DisplayName("Removes a true flag when deleting an entity")
+    @DisplayName("With a valid id it returns a true flag")
     public void testDelete_ReturnsTrue() {
         final Boolean deleted;
 
         deleted = service.delete(1L);
 
-        Assertions.assertTrue(deleted);
+        Assertions.assertThat(deleted)
+            .isTrue();
     }
 
 }

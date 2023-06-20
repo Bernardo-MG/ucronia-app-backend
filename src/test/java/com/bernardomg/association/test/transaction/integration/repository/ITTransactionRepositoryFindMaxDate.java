@@ -27,7 +27,7 @@ package com.bernardomg.association.test.transaction.integration.repository;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,24 +48,26 @@ public class ITTransactionRepositoryFindMaxDate {
     }
 
     @Test
-    @DisplayName("Returns the max date")
+    @DisplayName("With multiple transactions, it returns the max date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testFindSumAll_Multiple() {
-        final Calendar result;
+        final Calendar calendar;
 
-        result = repository.findMaxDate();
+        calendar = repository.findMaxDate();
 
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5, 0, 0, 0).getTime(), result.getTime());
+        Assertions.assertThat(calendar.getTime())
+            .isEqualTo(new GregorianCalendar(2020, 0, 5).getTime());
     }
 
     @Test
-    @DisplayName("Returns null when there is no data")
+    @DisplayName("Withno transactions, no max date is returned")
     public void testFindSumAll_NoData() {
-        final Calendar result;
+        final Calendar calendar;
 
-        result = repository.findMaxDate();
+        calendar = repository.findMaxDate();
 
-        Assertions.assertNull(result);
+        Assertions.assertThat(calendar)
+            .isNull();
     }
 
 }

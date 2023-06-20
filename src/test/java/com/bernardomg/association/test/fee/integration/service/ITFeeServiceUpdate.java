@@ -26,18 +26,20 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - update")
@@ -54,104 +56,108 @@ public class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
+    @DisplayName("With an existing entity, no new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_AddsNoEntity() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(false);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(false);
 
-        service.update(1L, fee);
+        service.update(1L, feeRequest);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
-    @DisplayName("When updating a not existing entity a new one is added")
+    @DisplayName("With a not existing entity, a new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 2, 1));
-        fee.setPaid(false);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 2, 1));
+        feeRequest.setPaid(false);
 
-        service.update(10L, fee);
+        service.update(10L, feeRequest);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
     @Test
-    @DisplayName("When changing a fee from unpaid to paid the persisted data is updated")
+    @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     public void testUpdate_Pay_PersistedData() {
-        final DtoFeeCreationRequest fee;
-        final PersistentFee         entity;
+        final DtoFeeCreationRequest feeRequest;
+        final PersistentFee         fee;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        service.update(1L, fee);
-        entity = repository.findAll()
+        service.update(1L, feeRequest);
+        fee = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(true, entity.getPaid());
+        FeeAssertions.isEqualTo(fee, PersistentFee.builder()
+            .memberId(1L)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
-    @DisplayName("Updates persisted data")
+    @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_PersistedData() {
-        final DtoFeeCreationRequest fee;
-        final PersistentFee         entity;
+        final DtoFeeCreationRequest feeRequest;
+        final PersistentFee         fee;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(false);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(false);
 
-        service.update(1L, fee);
-        entity = repository.findAll()
+        service.update(1L, feeRequest);
+        fee = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(false, entity.getPaid());
+        FeeAssertions.isEqualTo(fee, PersistentFee.builder()
+            .memberId(1L)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(false)
+            .build());
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("With a changed entity, the changed data is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_ReturnedData() {
-        final DtoFeeCreationRequest fee;
-        final MemberFee             result;
+        final DtoFeeCreationRequest feeRequest;
+        final MemberFee             fee;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(false);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(false);
 
-        result = service.update(1L, fee);
+        fee = service.update(1L, feeRequest);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(false, result.getPaid());
+        FeeAssertions.isEqualTo(fee, ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name(null)
+            .surname(null)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(false)
+            .build());
     }
 
 }

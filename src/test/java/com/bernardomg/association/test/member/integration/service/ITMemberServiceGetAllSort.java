@@ -26,7 +26,7 @@ package com.bernardomg.association.test.member.integration.service;
 
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,339 +54,519 @@ public class ITMemberServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by active flag")
+    @DisplayName("With ascending order by active flag it returns the ordered data")
     public void testGetAll_Active_Asc() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
+        final Iterator<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
+        Member                   member;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "active");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        members = service.getAll(memberQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals("12349", data.getPhone());
-        Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(false, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 5");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 5");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12349");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6783");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals("12346", data.getPhone());
-        Assertions.assertEquals("6780", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals("12347", data.getPhone());
-        Assertions.assertEquals("6781", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 3");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 3");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12347");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6781");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals("12348", data.getPhone());
-        Assertions.assertEquals("6782", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 4");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 4");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12348");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6782");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by active flag")
+    @DisplayName("With descending order by active flag it returns the ordered data")
     public void testGetAll_Active_Desc() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
+        final Iterator<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
+        Member                   member;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "active");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        members = service.getAll(memberQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals("12346", data.getPhone());
-        Assertions.assertEquals("6780", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals("12347", data.getPhone());
-        Assertions.assertEquals("6781", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 3");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 3");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12347");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6781");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals("12348", data.getPhone());
-        Assertions.assertEquals("6782", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 4");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 4");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12348");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6782");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals("12349", data.getPhone());
-        Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(false, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 5");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 5");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12349");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6783");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by name")
+    @DisplayName("With ascending order by name it returns the ordered data")
     public void testGetAll_Name_Asc() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
+        final Iterator<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
+        Member                   member;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        members = service.getAll(memberQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals("12346", data.getPhone());
-        Assertions.assertEquals("6780", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals("12347", data.getPhone());
-        Assertions.assertEquals("6781", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 3");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 3");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12347");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6781");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals("12348", data.getPhone());
-        Assertions.assertEquals("6782", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 4");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 4");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12348");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6782");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals("12349", data.getPhone());
-        Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(false, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 5");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 5");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12349");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6783");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by name")
+    @DisplayName("With descending order by name it returns the ordered data")
     public void testGetAll_Name_Desc() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
+        final Iterator<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
+        Member                   member;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        members = service.getAll(memberQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals("12349", data.getPhone());
-        Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(false, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 5");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 5");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12349");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6783");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals("12348", data.getPhone());
-        Assertions.assertEquals("6782", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 4");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 4");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12348");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6782");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals("12347", data.getPhone());
-        Assertions.assertEquals("6781", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 3");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 3");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12347");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6781");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals("12346", data.getPhone());
-        Assertions.assertEquals("6780", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by surname")
+    @DisplayName("With ascending order by surname it returns the ordered data")
     public void testGetAll_Surname_Asc() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
+        final Iterator<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
+        Member                   member;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        members = service.getAll(memberQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals("12346", data.getPhone());
-        Assertions.assertEquals("6780", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals("12347", data.getPhone());
-        Assertions.assertEquals("6781", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 3");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 3");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12347");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6781");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals("12348", data.getPhone());
-        Assertions.assertEquals("6782", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 4");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 4");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12348");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6782");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals("12349", data.getPhone());
-        Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(false, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 5");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 5");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12349");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6783");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by surname")
+    @DisplayName("With descending order by surname it returns the ordered data")
     public void testGetAll_Surname_Desc() {
-        final Iterator<Member>   result;
-        final MemberQueryRequest sample;
-        Member                   data;
+        final Iterator<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
+        Member                   member;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        members = service.getAll(memberQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals("12349", data.getPhone());
-        Assertions.assertEquals("6783", data.getIdentifier());
-        Assertions.assertEquals(false, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 5");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 5");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12349");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6783");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals("12348", data.getPhone());
-        Assertions.assertEquals("6782", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 4");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 4");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12348");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6782");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals("12347", data.getPhone());
-        Assertions.assertEquals("6781", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 3");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 3");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12347");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6781");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals("12346", data.getPhone());
-        Assertions.assertEquals("6780", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals("12345", data.getPhone());
-        Assertions.assertEquals("6789", data.getIdentifier());
-        Assertions.assertEquals(true, data.getActive());
+        member = members.next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
     }
 
 }

@@ -25,7 +25,7 @@
 package com.bernardomg.association.test.member.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
-import com.bernardomg.association.member.model.request.MemberQueryRequest;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -51,53 +50,39 @@ public class ITMemberServiceGetAllFilter {
     }
 
     @Test
-    @DisplayName("Filters by active")
+    @DisplayName("With a filter applied to active status, the returned data is filtered")
     public void testGetAll_Active_Count() {
-        final Iterable<Member>      result;
-        final DtoMemberQueryRequest sample;
+        final Iterable<Member>      members;
+        final DtoMemberQueryRequest memberQuery;
         final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberQueryRequest();
-        sample.setActive(true);
+        memberQuery = new DtoMemberQueryRequest();
+        memberQuery.setActive(true);
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertEquals(4, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(members))
+            .isEqualTo(4);
     }
 
     @Test
-    @DisplayName("Returns all the entities when not filtering")
-    public void testGetAll_Count() {
-        final Iterable<Member>   result;
-        final MemberQueryRequest sample;
-        final Pageable           pageable;
-
-        pageable = Pageable.unpaged();
-
-        sample = new DtoMemberQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertEquals(5, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Filters by noy active")
+    @DisplayName("With a filter applied to not active status, the returned data is filtered")
     public void testGetAll_NotActive_Count() {
-        final Iterable<Member>      result;
-        final DtoMemberQueryRequest sample;
+        final Iterable<Member>      members;
+        final DtoMemberQueryRequest memberQuery;
         final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberQueryRequest();
-        sample.setActive(false);
+        memberQuery = new DtoMemberQueryRequest();
+        memberQuery.setActive(false);
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(members))
+            .isEqualTo(1);
     }
 
 }

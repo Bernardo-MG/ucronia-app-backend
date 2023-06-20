@@ -27,7 +27,6 @@ package com.bernardomg.association.test.transaction.integration.service;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
@@ -55,207 +56,207 @@ public class ITTransactionServiceGetAllSort {
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by date")
-    public void testGetAll_Asc_Date() {
-        final Iterator<Transaction>   result;
-        final TransactionQueryRequest sample;
-        Transaction                   data;
+    @DisplayName("With ascending order by date it returns the ordered data")
+    public void testGetAll_Date_Asc() {
+        final Iterator<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
+        Transaction                   transaction;
         final Pageable                pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        transactions = service.getAll(transactionQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 2))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 3))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 4))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 5))
+            .build());
     }
 
     @Test
-    @DisplayName("Returns all data in ascending order by description")
-    public void testGetAll_Asc_Description() {
-        final Iterator<Transaction>   result;
-        final TransactionQueryRequest sample;
-        Transaction                   data;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(0, 10, Direction.ASC, "description");
-
-        sample = new DtoTransactionQueryRequest();
-
-        result = service.getAll(sample, pageable)
-            .iterator();
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
-            .getTime());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
-            .getTime());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
-            .getTime());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
-            .getTime());
-    }
-
-    @Test
-    @DisplayName("Returns all data in descending order by date")
-    public void testGetAll_Desc_Date() {
-        final Iterator<Transaction>   result;
-        final TransactionQueryRequest sample;
-        Transaction                   data;
+    @DisplayName("With descending order by date it returns the ordered data")
+    public void testGetAll_Date_Desc() {
+        final Iterator<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
+        Transaction                   transaction;
         final Pageable                pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        transactions = service.getAll(transactionQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 5))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 4))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 3))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 2))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
     }
 
     @Test
-    @DisplayName("Returns all data in descending order by description")
-    public void testGetAll_Desc_Description() {
-        final Iterator<Transaction>   result;
-        final TransactionQueryRequest sample;
-        Transaction                   data;
+    @DisplayName("With ascending order by description it returns the ordered data")
+    public void testGetAll_Description_Asc() {
+        final Iterator<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
+        Transaction                   transaction;
         final Pageable                pageable;
+
+        pageable = PageRequest.of(0, 10, Direction.ASC, "description");
+
+        transactionQuery = new DtoTransactionQueryRequest();
+
+        transactions = service.getAll(transactionQuery, pageable)
+            .iterator();
+
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
+
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 2))
+            .build());
+
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 3))
+            .build());
+
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 4))
+            .build());
+
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 5))
+            .build());
+    }
+
+    @Test
+    @DisplayName("With descending order by description it returns the ordered data")
+    public void testGetAll_Description_Desc() {
+        final Iterator<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
+        final Pageable                pageable;
+        Transaction                   transaction;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "description");
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable)
+        transactions = service.getAll(transactionQuery, pageable)
             .iterator();
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 5", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 5).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 5")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 5))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 4", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 4).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 4")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 4))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 3", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 3).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 3")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 3))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 2", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 2))
+            .build());
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals("Transaction 1", data.getDescription());
-        Assertions.assertEquals(1, data.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
+        transaction = transactions.next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
     }
 
 }

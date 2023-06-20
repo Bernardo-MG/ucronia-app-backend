@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
 import com.bernardomg.security.user.model.request.UserQueryRequest;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.assertion.UserAssertions;
 
 @IntegrationTest
 @DisplayName("User service - get all")
@@ -41,7 +43,8 @@ public class ITUserServiceGetAll {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -62,13 +65,15 @@ public class ITUserServiceGetAll {
         user = data.iterator()
             .next();
 
-        Assertions.assertNotNull(user.getId());
-        Assertions.assertEquals("admin", user.getUsername());
-        Assertions.assertEquals("email@somewhere.com", user.getEmail());
-        Assertions.assertFalse(user.getCredentialsExpired());
-        Assertions.assertTrue(user.getEnabled());
-        Assertions.assertFalse(user.getExpired());
-        Assertions.assertFalse(user.getLocked());
+        UserAssertions.isEqualTo(user, ImmutableUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
 }

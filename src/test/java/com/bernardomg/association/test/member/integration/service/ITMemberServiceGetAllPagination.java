@@ -24,10 +24,8 @@
 
 package com.bernardomg.association.test.member.integration.service;
 
-import java.util.Iterator;
-
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,99 +53,103 @@ public class ITMemberServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
+    @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Member>   result;
-        final MemberQueryRequest sample;
+        final Iterable<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(members)
+            .isInstanceOf(Page.class);
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
-        final MemberQueryRequest sample;
-        final Iterator<Member>   data;
-        final Member             result;
+    @DisplayName("With pagination for the first page, it returns the first page")
+    public void testGetAll_Page1() {
+        final MemberQueryRequest memberQuery;
+        final Iterable<Member>   members;
+        final Member             member;
         final Pageable           pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        members = service.getAll(memberQuery, pageable);
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals("12345", result.getPhone());
-        Assertions.assertEquals("6789", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(IterableUtils.size(members))
+            .isEqualTo(1);
+
+        member = members.iterator()
+            .next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
-        final MemberQueryRequest sample;
-        final Iterator<Member>   data;
-        final Member             result;
+    @DisplayName("With pagination for the second page, it returns the second page")
+    public void testGetAll_Page2() {
+        final MemberQueryRequest memberQuery;
+        final Iterable<Member>   members;
+        final Member             member;
         final Pageable           pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        members = service.getAll(memberQuery, pageable);
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Member 2", result.getName());
-        Assertions.assertEquals("Surname 2", result.getSurname());
-        Assertions.assertEquals("12346", result.getPhone());
-        Assertions.assertEquals("6780", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        Assertions.assertThat(IterableUtils.size(members))
+            .isEqualTo(1);
+
+        member = members.iterator()
+            .next();
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 2");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 2");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12346");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6780");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
-        final Iterable<Member>      result;
-        final DtoMemberQueryRequest sample;
-        final Pageable              pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        sample = new DtoMemberQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertEquals(1, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
+    @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Member>   result;
-        final MemberQueryRequest sample;
+        final Iterable<Member>   members;
+        final MemberQueryRequest memberQuery;
         final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoMemberQueryRequest();
+        memberQuery = new DtoMemberQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(members)
+            .isInstanceOf(Page.class);
     }
 
 }

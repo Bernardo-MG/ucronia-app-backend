@@ -43,6 +43,7 @@ public final class CreateUserValidator implements Validator<User> {
         // Verify the username is not registered
         if (userRepository.existsByUsername(user.getUsername())) {
             log.error("A user already exists with the username {}", user.getUsername());
+            // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("username", "existing", user.getUsername());
             failures.add(failure);
         }
@@ -51,6 +52,7 @@ public final class CreateUserValidator implements Validator<User> {
         // Verify the email is not registered
         if (userRepository.existsByEmail(user.getEmail())) {
             log.error("A user already exists with the username {}", user.getUsername());
+            // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());
             failures.add(failure);
         }

@@ -26,18 +26,20 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - create")
@@ -55,84 +57,80 @@ public class ITFeeServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
-        final DtoFeeCreationRequest fee;
-
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
-
-        service.create(fee);
-
-        Assertions.assertEquals(1L, repository.count());
-    }
-
-    @Test
     @DisplayName("Persists the data with a day which is not the first of the month")
     public void testCreate_AnotherDay_PersistedData() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final PersistentFee         entity;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 2));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 2));
+        feeRequest.setPaid(true);
 
-        service.create(fee);
+        service.create(feeRequest);
+
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(true, entity.getPaid());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
+        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("With new data it adds the entity data to the persistence layer")
     public void testCreate_PersistedData() {
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
         final PersistentFee         entity;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        service.create(fee);
+        service.create(feeRequest);
+
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals(1, entity.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(true, entity.getPaid());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
+        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("With new data it returns the created data")
     public void testCreate_ReturnedData() {
-        final MemberFee             result;
-        final DtoFeeCreationRequest fee;
+        final DtoFeeCreationRequest feeRequest;
+        final MemberFee             fee;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(true);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(true);
 
-        result = service.create(fee);
+        fee = service.create(feeRequest);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(true, result.getPaid());
+        FeeAssertions.isEqualTo(fee, ImmutableMemberFee.builder()
+            .id(1L)
+            .memberId(1L)
+            .name(null)
+            .surname(null)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
     }
 
 }

@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,8 @@ public class ITRoleServiceUpdate {
 
         service.update(data);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -77,8 +78,10 @@ public class ITRoleServiceUpdate {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Role", entity.getName());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getName())
+            .isEqualTo("Role");
     }
 
     @Test
@@ -91,8 +94,10 @@ public class ITRoleServiceUpdate {
 
         result = service.update(data);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Role", result.getName());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Role");
     }
 
     private final Role getRoleWithNoActions() {

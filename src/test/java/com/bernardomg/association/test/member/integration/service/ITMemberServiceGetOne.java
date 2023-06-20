@@ -26,7 +26,7 @@ package com.bernardomg.association.test.member.integration.service;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,6 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Member service - get one")
-@Sql({ "/db/queries/member/single.sql" })
 public class ITMemberServiceGetOne {
 
     @Autowired
@@ -49,32 +48,59 @@ public class ITMemberServiceGetOne {
     }
 
     @Test
-    @DisplayName("When reading a single entity with a valid id, an entity is returned")
+    @DisplayName("With a valid id, the related entity is returned")
+    @Sql({ "/db/queries/member/single.sql" })
     public void testGetOne_Existing() {
-        final Optional<Member> result;
+        final Optional<Member> memberOptional;
+        final Member           member;
 
-        result = service.getOne(1L);
+        memberOptional = service.getOne(1L);
 
-        Assertions.assertTrue(result.isPresent());
+        Assertions.assertThat(memberOptional)
+            .isPresent();
+
+        member = memberOptional.get();
+
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isTrue();
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
-        final Member result;
-        final Long   id;
+    @DisplayName("With a valid id for an inactive member, the related entity is returned")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    public void testGetOne_Inactive() {
+        final Optional<Member> memberOptional;
+        final Member           member;
 
-        id = 1L;
+        memberOptional = service.getOne(1L);
 
-        result = service.getOne(id)
-            .get();
+        Assertions.assertThat(memberOptional)
+            .isPresent();
 
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals("12345", result.getPhone());
-        Assertions.assertEquals("6789", result.getIdentifier());
-        Assertions.assertEquals(true, result.getActive());
+        member = memberOptional.get();
+
+        Assertions.assertThat(member.getId())
+            .isNotNull();
+        Assertions.assertThat(member.getName())
+            .isEqualTo("Member 1");
+        Assertions.assertThat(member.getSurname())
+            .isEqualTo("Surname 1");
+        Assertions.assertThat(member.getPhone())
+            .isEqualTo("12345");
+        Assertions.assertThat(member.getIdentifier())
+            .isEqualTo("6789");
+        Assertions.assertThat(member.getActive())
+            .isFalse();
     }
 
     @Test
@@ -82,9 +108,10 @@ public class ITMemberServiceGetOne {
     public void testGetOne_NotExisting() {
         final Optional<Member> result;
 
-        result = service.getOne(-1L);
+        result = service.getOne(1L);
 
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertThat(result)
+            .isNotPresent();
     }
 
 }

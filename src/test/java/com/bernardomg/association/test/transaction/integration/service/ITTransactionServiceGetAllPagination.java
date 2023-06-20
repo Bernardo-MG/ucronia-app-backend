@@ -25,10 +25,9 @@
 package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +37,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
@@ -56,97 +57,89 @@ public class ITTransactionServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
+    @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Transaction>   result;
-        final TransactionQueryRequest sample;
+        final Iterable<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(transactions)
+            .isInstanceOf(Page.class);
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
-        final TransactionQueryRequest sample;
-        final Iterator<Transaction>   data;
-        final Transaction             result;
+    @DisplayName("With pagination for the first page, it returns the first page")
+    public void testGetAll_Page1() {
+        final Iterable<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
+        final Transaction             transaction;
         final Pageable                pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        transactions = service.getAll(transactionQuery, pageable);
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
+        Assertions.assertThat(IterableUtils.size(transactions))
+            .isEqualTo(1);
+
+        transaction = transactions.iterator()
+            .next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
-        final TransactionQueryRequest sample;
-        final Iterator<Transaction>   data;
-        final Transaction             result;
+    @DisplayName("With pagination for the second page, it returns the second page")
+    public void testGetAll_Page2() {
+        final Iterable<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
+        final Transaction             transaction;
         final Pageable                pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        transactions = service.getAll(transactionQuery, pageable);
 
-        result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction 2", result.getDescription());
-        Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 2).getTime(), result.getDate()
-            .getTime());
+        Assertions.assertThat(IterableUtils.size(transactions))
+            .isEqualTo(1);
+
+        transaction = transactions.iterator()
+            .next();
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 2")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 2))
+            .build());
     }
 
     @Test
-    @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
-        final Iterable<Transaction>   result;
-        final TransactionQueryRequest sample;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        sample = new DtoTransactionQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertEquals(1, IterableUtils.size(result));
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
+    @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Transaction>   result;
-        final TransactionQueryRequest sample;
+        final Iterable<Transaction>   transactions;
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(transactions)
+            .isInstanceOf(Page.class);
     }
 
 }

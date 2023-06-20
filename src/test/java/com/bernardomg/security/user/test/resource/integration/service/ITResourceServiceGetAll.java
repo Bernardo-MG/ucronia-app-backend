@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,8 @@ public class ITResourceServiceGetAll {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(4, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(4);
     }
 
     @Test
@@ -66,10 +67,14 @@ public class ITResourceServiceGetAll {
             .map(Resource::getName)
             .toList();
 
-        Assertions.assertTrue(names.contains("DATA1"));
-        Assertions.assertTrue(names.contains("DATA2"));
-        Assertions.assertTrue(names.contains("DATA3"));
-        Assertions.assertTrue(names.contains("DATA4"));
+        Assertions.assertThat(names)
+            .contains("DATA1");
+        Assertions.assertThat(names)
+            .contains("DATA2");
+        Assertions.assertThat(names)
+            .contains("DATA3");
+        Assertions.assertThat(names)
+            .contains("DATA4");
     }
 
 }

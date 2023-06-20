@@ -56,17 +56,12 @@ public final class ITMemberControllerRequestValidation {
     }
 
     @Test
-    @DisplayName("Creates an entity")
+    @DisplayName("With a valid member, returns the created member")
     public final void testPost_Full_Valid() throws Exception {
         final ResultActions            result;
         final DtoMemberCreationRequest member;
 
-        member = new DtoMemberCreationRequest();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        member = getRequest();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -79,17 +74,13 @@ public final class ITMemberControllerRequestValidation {
     }
 
     @Test
-    @DisplayName("Rejects an entity with no name")
+    @DisplayName("With a member missing the name, returns a bad request response")
     @Disabled("The model rejects this case")
     public final void testPost_NoName_Invalid() throws Exception {
         final ResultActions            result;
         final DtoMemberCreationRequest member;
 
-        member = new DtoMemberCreationRequest();
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
+        member = getRequestNoName();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -105,6 +96,31 @@ public final class ITMemberControllerRequestValidation {
         return MockMvcRequestBuilders.post(TestUrls.MEMBER)
             .contentType(MediaType.APPLICATION_JSON)
             .content(json);
+    }
+
+    private final DtoMemberCreationRequest getRequest() {
+        final DtoMemberCreationRequest member;
+
+        member = new DtoMemberCreationRequest();
+        member.setName("Member");
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        return member;
+    }
+
+    private final DtoMemberCreationRequest getRequestNoName() {
+        final DtoMemberCreationRequest member;
+
+        member = new DtoMemberCreationRequest();
+        member.setSurname("Surname");
+        member.setPhone("12345");
+        member.setIdentifier("6789");
+        member.setActive(true);
+
+        return member;
     }
 
 }

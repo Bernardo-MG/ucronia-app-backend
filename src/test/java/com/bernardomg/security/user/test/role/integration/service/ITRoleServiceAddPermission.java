@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.role.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.assertion.RolePermissionAssertions;
 
 @IntegrationTest
 @DisplayName("Role service - add permission")
@@ -40,15 +41,18 @@ public class ITRoleServiceAddPermission {
         service.addPermission(1l, 1l, 1l);
         result = rolePermissionRepository.findAll();
 
-        Assertions.assertEquals(1L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
 
         found = result.iterator()
             .next();
 
-        Assertions.assertEquals(1L, found.getActionId());
-        Assertions.assertEquals(1L, found.getResourceId());
-        Assertions.assertEquals(1L, found.getRoleId());
-        Assertions.assertTrue(found.getGranted());
+        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+            .actionId(1L)
+            .resourceId(1L)
+            .roleId(1L)
+            .granted(true)
+            .build());
     }
 
     @Test
@@ -63,37 +67,46 @@ public class ITRoleServiceAddPermission {
         service.addPermission(1l, 1l, 1l);
         result = rolePermissionRepository.findAll();
 
-        Assertions.assertEquals(4L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(4);
 
         itr = result.iterator();
 
         found = itr.next();
 
-        Assertions.assertEquals(1L, found.getActionId());
-        Assertions.assertEquals(1L, found.getResourceId());
-        Assertions.assertEquals(1L, found.getRoleId());
-        Assertions.assertTrue(found.getGranted());
+        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+            .actionId(1L)
+            .resourceId(1L)
+            .roleId(1L)
+            .granted(true)
+            .build());
 
         found = itr.next();
 
-        Assertions.assertEquals(2L, found.getActionId());
-        Assertions.assertEquals(1L, found.getResourceId());
-        Assertions.assertEquals(1L, found.getRoleId());
-        Assertions.assertTrue(found.getGranted());
+        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+            .actionId(2L)
+            .resourceId(1L)
+            .roleId(1L)
+            .granted(true)
+            .build());
 
         found = itr.next();
 
-        Assertions.assertEquals(3L, found.getActionId());
-        Assertions.assertEquals(1L, found.getResourceId());
-        Assertions.assertEquals(1L, found.getRoleId());
-        Assertions.assertTrue(found.getGranted());
+        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+            .actionId(3L)
+            .resourceId(1L)
+            .roleId(1L)
+            .granted(true)
+            .build());
 
         found = itr.next();
 
-        Assertions.assertEquals(4L, found.getActionId());
-        Assertions.assertEquals(1L, found.getResourceId());
-        Assertions.assertEquals(1L, found.getRoleId());
-        Assertions.assertTrue(found.getGranted());
+        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+            .actionId(4L)
+            .resourceId(1L)
+            .roleId(1L)
+            .granted(true)
+            .build());
     }
 
 }

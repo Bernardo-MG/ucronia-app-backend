@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.role.integration.service;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,8 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(-1l, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
     @Test
@@ -52,35 +53,39 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(4L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(4);
 
         // DATA:CREATE
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
-
+        Assertions.assertThat(found)
+            .isTrue();
         // DATA:READ
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertThat(found)
+            .isTrue();
 
         // DATA:UPDATE
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "UPDATE".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertThat(found)
+            .isTrue();
 
         // DATA:DELETE
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "DELETE".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertThat(found)
+            .isTrue();
     }
 
     @Test
@@ -95,7 +100,8 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
     @Test
@@ -111,7 +117,8 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
 }

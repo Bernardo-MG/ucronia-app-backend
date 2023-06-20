@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,8 @@ public class ITActionServiceGetAll {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(4, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(4);
     }
 
     @Test
@@ -66,10 +67,14 @@ public class ITActionServiceGetAll {
             .map(Action::getName)
             .toList();
 
-        Assertions.assertTrue(names.contains("CREATE"));
-        Assertions.assertTrue(names.contains("READ"));
-        Assertions.assertTrue(names.contains("UPDATE"));
-        Assertions.assertTrue(names.contains("DELETE"));
+        Assertions.assertThat(names)
+            .contains("CREATE");
+        Assertions.assertThat(names)
+            .contains("READ");
+        Assertions.assertThat(names)
+            .contains("UPDATE");
+        Assertions.assertThat(names)
+            .contains("DELETE");
     }
 
 }

@@ -26,13 +26,15 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
@@ -55,119 +57,121 @@ public class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
+    @DisplayName("With an existing entity, no new entity is persisted")
     public void testUpdate_AddsNoEntity() {
-        final DtoTransactionCreationQuery transaction;
+        final DtoTransactionCreationQuery transactionRequest;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction 123");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction 123");
+        transactionRequest.setAmount(1f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        service.update(1L, transaction);
+        service.update(1L, transactionRequest);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
-    @DisplayName("Updates persisted data with decimal values")
+    @DisplayName("With a transaction containing a decimal value, the values are persisted")
     public void testUpdate_Decimal_PersistedData() {
-        final DtoTransactionCreationQuery transaction;
-        final PersistentTransaction       entity;
+        final DtoTransactionCreationQuery transactionRequest;
+        final PersistentTransaction       transaction;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction 123");
-        transaction.setAmount(1.2f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction");
+        transactionRequest.setAmount(1.2f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        service.update(1L, transaction);
-        entity = repository.findAll()
+        service.update(1L, transactionRequest);
+        transaction = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1.2f, entity.getAmount());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
+            .description("Transaction")
+            .amount(1.2f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
-    @DisplayName("Returns the updated data with decimal values")
+    @DisplayName("With a transaction containing a decimal value, the data is returned")
     public void testUpdate_Decimal_ReturnedData() {
-        final Transaction                 result;
-        final DtoTransactionCreationQuery transaction;
+        final DtoTransactionCreationQuery transactionRequest;
+        final Transaction                 transaction;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1.2f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction");
+        transactionRequest.setAmount(1.2f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        result = service.update(1L, transaction);
+        transaction = service.update(1L, transactionRequest);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1.2f, result.getAmount());
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction")
+            .amount(1.2f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
-    @DisplayName("When updating a not existing entity a new one is added")
+    @DisplayName("With a not existing entity, a new entity is persisted")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoTransactionCreationQuery transaction;
+        final DtoTransactionCreationQuery transactionRequest;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction 123");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction 123");
+        transactionRequest.setAmount(1f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        service.update(10L, transaction);
+        service.update(10L, transactionRequest);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
     @Test
-    @DisplayName("Updates persisted data")
+    @DisplayName("With a changed entity, the change is persisted")
     public void testUpdate_PersistedData() {
-        final DtoTransactionCreationQuery transaction;
-        final PersistentTransaction       entity;
+        final DtoTransactionCreationQuery transactionRequest;
+        final PersistentTransaction       transaction;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction 123");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction 123");
+        transactionRequest.setAmount(1f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        service.update(1L, transaction);
-        entity = repository.findAll()
+        service.update(1L, transactionRequest);
+        transaction = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Transaction 123", entity.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), entity.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, entity.getAmount());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
+            .description("Transaction 123")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("With a changed entity, the changed data is returned")
     public void testUpdate_ReturnedData() {
-        final Transaction                 result;
-        final DtoTransactionCreationQuery transaction;
+        final DtoTransactionCreationQuery transactionRequest;
+        final Transaction                 transaction;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction 123");
+        transactionRequest.setAmount(1f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        result = service.update(1L, transaction);
+        transaction = service.update(1L, transactionRequest);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Transaction", result.getDescription());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
-        Assertions.assertEquals(1f, result.getAmount());
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 123")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .build());
     }
 
 }

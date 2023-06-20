@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.user.integration.repository;
 import java.util.Collection;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,8 @@ public class ITUserUserPermissionRepositoryByUsername {
 
         read = repository.findAllByUsername("admin");
 
-        Assertions.assertEquals(4, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isEqualTo(4);
     }
 
     @Test
@@ -48,7 +49,8 @@ public class ITUserUserPermissionRepositoryByUsername {
 
         read = repository.findAllByUsername("admin");
 
-        Assertions.assertEquals(0, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isZero();
     }
 
     @Test
@@ -62,7 +64,8 @@ public class ITUserUserPermissionRepositoryByUsername {
 
         read = repository.findAllByUsername("abc");
 
-        Assertions.assertEquals(0, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isZero();
     }
 
     @Test
@@ -76,7 +79,8 @@ public class ITUserUserPermissionRepositoryByUsername {
 
         read = repository.findAllByUsername("abc");
 
-        Assertions.assertEquals(0, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isZero();
     }
 
     @Test
@@ -92,7 +96,8 @@ public class ITUserUserPermissionRepositoryByUsername {
 
         read = repository.findAllByUsername("admin");
 
-        Assertions.assertEquals(4, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isEqualTo(4);
     }
 
 }

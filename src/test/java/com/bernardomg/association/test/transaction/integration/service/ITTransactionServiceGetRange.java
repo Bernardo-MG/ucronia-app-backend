@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,18 +46,40 @@ public class ITTransactionServiceGetRange {
     }
 
     @Test
-    @DisplayName("Returns the range for a full year")
+    @DisplayName("With a full year, a range for the full year is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetRange_FullYear() {
-        final TransactionRange result;
+        final TransactionRange range;
 
-        result = service.getRange();
+        range = service.getRange();
 
-        Assertions.assertEquals(0, result.getStartMonth());
-        Assertions.assertEquals(2020, result.getStartYear());
+        Assertions.assertThat(range.getStartMonth())
+            .isZero();
+        Assertions.assertThat(range.getStartYear())
+            .isEqualTo(2020);
 
-        Assertions.assertEquals(11, result.getEndMonth());
-        Assertions.assertEquals(2020, result.getEndYear());
+        Assertions.assertThat(range.getEndMonth())
+            .isEqualTo(11);
+        Assertions.assertThat(range.getEndYear())
+            .isEqualTo(2020);
+    }
+
+    @Test
+    @DisplayName("With no data, an empty range is returned")
+    public void testGetRange_NoData() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getStartMonth())
+            .isZero();
+        Assertions.assertThat(range.getStartYear())
+            .isZero();
+
+        Assertions.assertThat(range.getEndMonth())
+            .isZero();
+        Assertions.assertThat(range.getEndYear())
+            .isZero();
     }
 
 }

@@ -26,19 +26,18 @@ package com.bernardomg.association.test.fee.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Fee service - update validation")
@@ -52,34 +51,24 @@ public class ITFeeServiceUpdateValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the member id does not exist")
+    @DisplayName("With an invalid id, an exception is thrown")
     @Sql({ "/db/queries/fee/single.sql" })
     @Disabled("This can't happen, it required an inconsistent DB")
     public void testUpdate_InvalidMember() {
-        final DtoFeeCreationRequest fee;
-        final Executable            executable;
-        final FieldFailureException exception;
+        final DtoFeeCreationRequest feeRequest;
+        final ThrowingCallable      execution;
         final FieldFailure          failure;
 
-        fee = new DtoFeeCreationRequest();
-        fee.setMemberId(1L);
-        fee.setDate(new GregorianCalendar(2020, 1, 1));
-        fee.setPaid(false);
+        feeRequest = new DtoFeeCreationRequest();
+        feeRequest.setMemberId(1L);
+        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        feeRequest.setPaid(false);
 
-        executable = () -> service.update(1L, fee);
+        execution = () -> service.update(1L, feeRequest);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", 1L);
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("notExists", failure.getCode());
-        Assertions.assertEquals("memberId", failure.getField());
-        Assertions.assertEquals("memberId.notExists", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }

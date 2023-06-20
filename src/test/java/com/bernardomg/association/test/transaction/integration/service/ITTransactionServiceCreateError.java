@@ -26,10 +26,10 @@ package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
@@ -55,60 +55,63 @@ public class ITTransactionServiceCreateError {
     }
 
     @Test
-    @DisplayName("Throws an exception when the amount is missing")
+    @DisplayName("With a transaction missing the amount, an exception is thrown")
     public void testCreate_MissingAmount() {
-        final DtoTransactionCreationQuery transaction;
-        final Executable                  executable;
+        final DtoTransactionCreationQuery transactionRequest;
+        final ThrowingCallable            execution;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(null);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction");
+        transactionRequest.setAmount(null);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        executable = () -> {
-            service.create(transaction);
+        execution = () -> {
+            service.create(transactionRequest);
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
-    @DisplayName("Throws an exception when the date is missing")
+    @DisplayName("With a transaction missing the date, an exception is thrown")
     public void testCreate_MissingDate() {
-        final DtoTransactionCreationQuery transaction;
-        final Executable                  executable;
+        final DtoTransactionCreationQuery transactionRequest;
+        final ThrowingCallable            execution;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription("Transaction");
-        transaction.setAmount(1f);
-        transaction.setDate(null);
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription("Transaction");
+        transactionRequest.setAmount(1f);
+        transactionRequest.setDate(null);
 
-        executable = () -> {
-            service.create(transaction);
+        execution = () -> {
+            service.create(transactionRequest);
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
-    @DisplayName("Throws an exception when the description is missing")
+    @DisplayName("With a transaction missing the description, an exception is thrown")
     public void testCreate_MissingName() {
-        final DtoTransactionCreationQuery transaction;
-        final Executable                  executable;
+        final DtoTransactionCreationQuery transactionRequest;
+        final ThrowingCallable            execution;
 
-        transaction = new DtoTransactionCreationQuery();
-        transaction.setDescription(null);
-        transaction.setAmount(1f);
-        transaction.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = new DtoTransactionCreationQuery();
+        transactionRequest.setDescription(null);
+        transactionRequest.setAmount(1f);
+        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
 
-        executable = () -> {
-            service.create(transaction);
+        execution = () -> {
+            service.create(transactionRequest);
             repository.flush();
         };
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, executable);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
 }

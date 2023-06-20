@@ -3,7 +3,7 @@ package com.bernardomg.security.user.test.resource.integration.service;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,8 @@ public class ITResourceServiceGetOne {
 
         result = service.getOne(1l);
 
-        Assertions.assertTrue(result.isPresent());
+        Assertions.assertThat(result)
+            .isPresent();
     }
 
     @Test
@@ -43,7 +44,8 @@ public class ITResourceServiceGetOne {
         result = service.getOne(1l)
             .get();
 
-        Assertions.assertEquals("DATA1", result.getName());
+        Assertions.assertThat(result.getName())
+            .isEqualTo("DATA1");
     }
 
     @Test
@@ -53,7 +55,8 @@ public class ITResourceServiceGetOne {
 
         result = service.getOne(-1L);
 
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertThat(result)
+            .isNotPresent();
     }
 
 }

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.token.test.persistence.provider.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,8 @@ public class ITPersistentTokenProcessorGenerateToken {
 
         token = provider.generateToken("admin");
 
-        Assertions.assertNotNull(token);
+        Assertions.assertThat(token)
+            .isNotNull();
     }
 
 }

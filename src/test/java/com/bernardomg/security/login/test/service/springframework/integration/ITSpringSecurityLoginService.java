@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.login.test.service.springframework.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +45,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -67,10 +70,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -89,10 +95,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -111,10 +120,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -131,10 +143,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -153,12 +168,15 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertInstanceOf(TokenLoginStatus.class, status);
+        Assertions.assertThat(status)
+            .isInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
-        Assertions.assertFalse(((TokenLoginStatus) status).getToken()
-            .isBlank());
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+            .isNotBlank();
     }
 
     @Test
@@ -177,12 +195,15 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertInstanceOf(TokenLoginStatus.class, status);
+        Assertions.assertThat(status)
+            .isInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
-        Assertions.assertFalse(((TokenLoginStatus) status).getToken()
-            .isBlank());
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+            .isNotBlank();
     }
 
     @Test
@@ -210,7 +231,8 @@ public class ITSpringSecurityLoginService {
         claims = parser.parseClaimsJws(((TokenLoginStatus) status).getToken())
             .getBody();
 
-        Assertions.assertEquals("admin", claims.getSubject());
+        Assertions.assertThat(claims.getSubject())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -227,10 +249,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -249,10 +274,13 @@ public class ITSpringSecurityLoginService {
 
         status = service.login(login);
 
-        Assertions.assertFalse((status instanceof TokenLoginStatus));
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
 }

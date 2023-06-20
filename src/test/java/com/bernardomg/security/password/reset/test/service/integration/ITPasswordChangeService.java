@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.reset.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,8 @@ public class ITPasswordChangeService {
             .findFirst()
             .get();
 
-        Assertions.assertNotEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", user.getPassword());
+        Assertions.assertThat(user.getPassword())
+            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
     }
 
     @Test
@@ -60,7 +61,8 @@ public class ITPasswordChangeService {
 
         status = service.changePassword("1234", "abc");
 
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isTrue();
     }
 
     @Test
@@ -75,7 +77,8 @@ public class ITPasswordChangeService {
 
         status = service.changePassword("def", "abc");
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isFalse();
     }
 
     @Test
@@ -86,7 +89,8 @@ public class ITPasswordChangeService {
 
         status = service.changePassword("1234", "abc");
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isFalse();
     }
 
 }

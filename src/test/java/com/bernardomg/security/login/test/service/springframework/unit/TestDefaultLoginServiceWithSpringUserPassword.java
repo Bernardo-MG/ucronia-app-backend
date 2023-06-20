@@ -1,14 +1,18 @@
 
 package com.bernardomg.security.login.test.service.springframework.unit;
 
+import static org.mockito.BDDMockito.given;
+
 import java.util.Collections;
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,8 +26,15 @@ import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityLoginService - password validation")
 public class TestDefaultLoginServiceWithSpringUserPassword {
+
+    @Mock
+    private PasswordEncoder    passEncoder;
+
+    @Mock
+    private UserDetailsService userDetService;
 
     public TestDefaultLoginServiceWithSpringUserPassword() {
         super();
@@ -41,8 +52,10 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
 
         status = getService(false).login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -57,26 +70,22 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
 
         status = getService(true).login(login);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     private final DefaultLoginService getService(final Boolean match) {
-        final UserDetailsService      userDetService;
-        final PasswordEncoder         passEncoder;
         final UserDetails             user;
         final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
-        userDetService = Mockito.mock(UserDetailsService.class);
-        Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .thenReturn(user);
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
-        passEncoder = Mockito.mock(PasswordEncoder.class);
-        Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
-            .thenReturn(match);
+        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(match);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);

@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.fee.calendar.integration.repository;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +49,14 @@ public class ITFeeCalendarRepositoryFindRange {
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testFindRange_FullYear() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange calendar;
 
-        result = repository.findRange();
+        calendar = repository.findRange();
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(calendar.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(calendar.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
@@ -62,48 +64,69 @@ public class ITFeeCalendarRepositoryFindRange {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     public void testFindRange_FullYear_TwoMembers() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange calendar;
 
-        result = repository.findRange();
+        calendar = repository.findRange();
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(calendar.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(calendar.getEnd())
+            .isEqualTo(2020);
+    }
+
+    @Test
+    @DisplayName("With no data it returns no dates")
+    public void testFindRange_NoData() {
+        final FeeCalendarRange calendar;
+
+        calendar = repository.findRange();
+
+        Assertions.assertThat(calendar.getStart())
+            .isZero();
+        Assertions.assertThat(calendar.getEnd())
+            .isZero();
     }
 
     @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testFindRange_Single() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange calendar;
 
-        result = repository.findRange();
+        calendar = repository.findRange();
 
-        Assertions.assertEquals(2020, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(calendar.getStart())
+            .isEqualTo(2020);
+        Assertions.assertThat(calendar.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     public void testFindRange_TwoConnectedYears() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange calendar;
 
-        result = repository.findRange();
+        calendar = repository.findRange();
 
-        Assertions.assertEquals(2019, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(calendar.getStart())
+            .isEqualTo(2019);
+        Assertions.assertThat(calendar.getEnd())
+            .isEqualTo(2020);
     }
 
     @Test
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
     public void testFindRange_TwoYearsWithGap() {
-        final FeeCalendarRange result;
+        final FeeCalendarRange calendar;
 
-        result = repository.findRange();
+        calendar = repository.findRange();
 
-        Assertions.assertEquals(2018, result.getStart());
-        Assertions.assertEquals(2020, result.getEnd());
+        Assertions.assertThat(calendar.getStart())
+            .isEqualTo(2018);
+        Assertions.assertThat(calendar.getEnd())
+            .isEqualTo(2020);
     }
 
 }

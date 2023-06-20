@@ -3,7 +3,7 @@ package com.bernardomg.security.jwt.token.test.unit;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,8 @@ public class TestJwtSubjectTokenEncoderHasExpired {
         token = encoder.encode("subject");
         expired = validator.hasExpired(token);
 
-        Assertions.assertFalse(expired);
+        Assertions.assertThat(expired)
+            .isFalse();
     }
 
     @Test
@@ -57,7 +58,8 @@ public class TestJwtSubjectTokenEncoderHasExpired {
 
         expired = validator.hasExpired(token);
 
-        Assertions.assertTrue(expired);
+        Assertions.assertThat(expired)
+            .isTrue();
     }
 
 }

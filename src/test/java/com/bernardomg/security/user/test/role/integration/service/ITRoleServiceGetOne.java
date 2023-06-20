@@ -3,7 +3,7 @@ package com.bernardomg.security.user.test.role.integration.service;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,8 @@ public class ITRoleServiceGetOne {
 
         result = service.getOne(1l);
 
-        Assertions.assertTrue(result.isPresent());
+        Assertions.assertThat(result)
+            .isPresent();
     }
 
     @Test
@@ -43,8 +44,10 @@ public class ITRoleServiceGetOne {
         result = service.getOne(1l)
             .get();
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getName());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("ADMIN");
     }
 
     @Test
@@ -54,7 +57,8 @@ public class ITRoleServiceGetOne {
 
         result = service.getOne(-1L);
 
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertThat(result)
+            .isNotPresent();
     }
 
 }

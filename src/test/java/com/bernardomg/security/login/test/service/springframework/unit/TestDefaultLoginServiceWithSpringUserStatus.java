@@ -1,14 +1,18 @@
 
 package com.bernardomg.security.login.test.service.springframework.unit;
 
+import static org.mockito.BDDMockito.given;
+
 import java.util.Collections;
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,8 +27,15 @@ import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityLoginService - login with various user status")
 public class TestDefaultLoginServiceWithSpringUserStatus {
+
+    @Mock
+    private PasswordEncoder    passEncoder;
+
+    @Mock
+    private UserDetailsService userDetService;
 
     public TestDefaultLoginServiceWithSpringUserStatus() {
         super();
@@ -42,8 +53,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForAccountExpired().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -58,8 +71,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -74,8 +89,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForDisabled().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -90,8 +107,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForLocked().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -106,8 +125,10 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
         status = getServiceForNotExisting().login(login);
 
-        Assertions.assertFalse(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -116,29 +137,25 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
+        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+
         login = new DtoLoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 
         status = getServiceForValid().login(login);
 
-        Assertions.assertTrue(status.getLogged());
-        Assertions.assertEquals("admin", status.getUsername());
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     private final DefaultLoginService getService(final UserDetails user) {
-        final UserDetailsService      userDetService;
-        final PasswordEncoder         passEncoder;
         final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
-        userDetService = Mockito.mock(UserDetailsService.class);
-        Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .thenReturn(user);
-
-        passEncoder = Mockito.mock(PasswordEncoder.class);
-        Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
-            .thenReturn(true);
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
@@ -179,16 +196,11 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     }
 
     private final DefaultLoginService getServiceForNotExisting() {
-        final UserDetailsService      userDetService;
-        final PasswordEncoder         passEncoder;
         final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
-        userDetService = Mockito.mock(UserDetailsService.class);
-        Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .thenThrow(UsernameNotFoundException.class);
-
-        passEncoder = Mockito.mock(PasswordEncoder.class);
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
+            .willThrow(UsernameNotFoundException.class);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);

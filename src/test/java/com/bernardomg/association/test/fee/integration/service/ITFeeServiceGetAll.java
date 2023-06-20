@@ -28,18 +28,20 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
 import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - get all")
@@ -53,224 +55,227 @@ public class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities when reading a full year")
+    @DisplayName("With a full year it returns all the fees")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_FullYear_Count() {
-        final Iterable<MemberFee> result;
-        final FeeQueryRequest     sample;
+    public void testGetAll_FullYear() {
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertEquals(12, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(fees))
+            .isEqualTo(12);
+
+        feesItr = fees.iterator();
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 0, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 2, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 3, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 4, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 5, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 6, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 7, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 8, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 9, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 10, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 11, 1))
+            .paid(true)
+            .build());
     }
 
     @Test
-    @DisplayName("Returns all data when reading a full year")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_FullYear_Data() {
-        final Iterator<MemberFee> result;
-        final FeeQueryRequest     sample;
-        MemberFee                 data;
+    @DisplayName("With an inactive user it returns all the fees")
+    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
+    public void testGetAll_Inactive() {
+        final Iterable<MemberFee> fees;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable)
-            .iterator();
+        fees = service.getAll(feeQuery, pageable);
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 0, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
+        Assertions.assertThat(IterableUtils.size(fees))
+            .isEqualTo(1);
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 6, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 7, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 8, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 9, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 10, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 11, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
+        FeeAssertions.isEqualTo(fees.iterator()
+            .next(),
+            ImmutableMemberFee.builder()
+                .memberId(1L)
+                .name("Member 1")
+                .surname("Surname 1")
+                .date(new GregorianCalendar(2020, 1, 1))
+                .paid(true)
+                .build());
     }
 
     @Test
-    @DisplayName("Returns all the entities when reading multiple entities")
+    @DisplayName("With multiple fees it returns all the fees")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_Multiple_Count() {
-        final Iterable<MemberFee> result;
-        final FeeQueryRequest     sample;
+    public void testGetAll_Multiple() {
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
+        final FeeQueryRequest     feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertEquals(5, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(fees))
+            .isEqualTo(5);
+
+        feesItr = fees.iterator();
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(2L)
+            .name("Member 2")
+            .surname("Surname 2")
+            .date(new GregorianCalendar(2020, 2, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(3L)
+            .name("Member 3")
+            .surname("Surname 3")
+            .date(new GregorianCalendar(2020, 3, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(4L)
+            .name("Member 4")
+            .surname("Surname 4")
+            .date(new GregorianCalendar(2020, 4, 1))
+            .paid(true)
+            .build());
+
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+            .memberId(5L)
+            .name("Member 5")
+            .surname("Surname 5")
+            .date(new GregorianCalendar(2020, 5, 1))
+            .paid(false)
+            .build());
     }
 
     @Test
-    @DisplayName("Returns all data when reading multiple entities")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_Multiple_Data() {
-        final Iterator<MemberFee> result;
+    @DisplayName("With no data it returns nothing")
+    @Sql({ "/db/queries/member/single.sql" })
+    public void testGetAll_NoFee() {
+        final Iterable<MemberFee> fees;
         final FeeQueryRequest     sample;
-        MemberFee                 data;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
         sample = new DtoFeeQueryRequest();
 
-        result = service.getAll(sample, pageable)
-            .iterator();
+        fees = service.getAll(sample, pageable);
 
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(1, data.getMemberId());
-        Assertions.assertEquals("Member 1", data.getName());
-        Assertions.assertEquals("Surname 1", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(2, data.getMemberId());
-        Assertions.assertEquals("Member 2", data.getName());
-        Assertions.assertEquals("Surname 2", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 2, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(3, data.getMemberId());
-        Assertions.assertEquals("Member 3", data.getName());
-        Assertions.assertEquals("Surname 3", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 3, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(4, data.getMemberId());
-        Assertions.assertEquals("Member 4", data.getName());
-        Assertions.assertEquals("Surname 4", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 4, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertTrue(data.getPaid());
-
-        data = result.next();
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(5, data.getMemberId());
-        Assertions.assertEquals("Member 5", data.getName());
-        Assertions.assertEquals("Surname 5", data.getSurname());
-        Assertions.assertEquals(new GregorianCalendar(2020, 5, 1).getTime(), data.getDate()
-            .getTime());
-        Assertions.assertFalse(data.getPaid());
+        Assertions.assertThat(IterableUtils.size(fees))
+            .isZero();
     }
 
 }

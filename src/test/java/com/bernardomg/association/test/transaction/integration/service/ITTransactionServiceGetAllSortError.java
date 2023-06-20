@@ -24,55 +24,50 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mapping.PropertyReferenceException;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
 import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
-@DisplayName("Transaction service - get all with decimal values")
-public class ITTransactionServiceGetAllDecimal {
+@DisplayName("Transaction service - get all - errors")
+@Sql({ "/db/queries/transaction/multiple.sql" })
+public class ITTransactionServiceGetAllSortError {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionService service;
 
-    @Autowired
-    private TransactionService    service;
-
-    public ITTransactionServiceGetAllDecimal() {
+    public ITTransactionServiceGetAllSortError() {
         super();
     }
 
-    @ParameterizedTest(name = "Amount: {0}")
-    @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("Returns a decimal transaction")
-    public void testGetOne_Decimal(final Float amount) {
-        final Transaction             result;
-        final TransactionQueryRequest sample;
+    @Test
+    @DisplayName("Ordering by a not existing field generates an error")
+    public void testGetAll_NotExisting() {
+        final TransactionQueryRequest transactionQuery;
         final Pageable                pageable;
+        final ThrowingCallable        executable;
 
-        pageable = Pageable.unpaged();
+        pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        sample = new DtoTransactionQueryRequest();
+        transactionQuery = new DtoTransactionQueryRequest();
 
-        repository.save(ModelFactory.transaction(amount));
+        executable = () -> service.getAll(transactionQuery, pageable)
+            .iterator();
 
-        result = service.getAll(sample, pageable)
-            .iterator()
-            .next();
-
-        Assertions.assertEquals(amount, result.getAmount());
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(PropertyReferenceException.class);
     }
 
 }

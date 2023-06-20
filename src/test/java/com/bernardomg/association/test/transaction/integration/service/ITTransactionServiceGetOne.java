@@ -27,14 +27,22 @@ package com.bernardomg.association.test.transaction.integration.service;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.test.config.factory.ModelFactory;
+import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -42,69 +50,114 @@ import com.bernardomg.association.transaction.service.TransactionService;
 public class ITTransactionServiceGetOne {
 
     @Autowired
-    private TransactionService service;
+    private TransactionRepository repository;
+
+    @Autowired
+    private TransactionService    service;
 
     public ITTransactionServiceGetOne() {
         super();
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a single entity")
+    @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testGetOne_Data() {
-        final Transaction result;
-        final Long        id;
+    public void testGetOne() {
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
-        id = 1L;
+        transactionOptional = service.getOne(1L);
 
-        result = service.getOne(id)
-            .get();
+        Assertions.assertThat(transactionOptional)
+            .isPresent();
 
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
+        transaction = transactionOptional.get();
+
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
     }
 
-    @Test
-    @DisplayName("When reading a single entity with a valid id, an entity is returned")
-    @Sql({ "/db/queries/transaction/single.sql" })
-    public void testGetOne_Existing() {
-        final Optional<Transaction> result;
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(AroundZeroArgumentsProvider.class)
+    @DisplayName("With a value around zero, the related entity is returned")
+    @Sql({ "/db/queries/transaction/negative.sql" })
+    public void testGetOne_AroundZero(final Float amount) {
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
-        result = service.getOne(1L);
+        repository.save(ModelFactory.transaction(amount));
 
-        Assertions.assertTrue(result.isPresent());
+        transactionOptional = service.getOne(1L);
+
+        Assertions.assertThat(transactionOptional)
+            .isPresent();
+
+        transaction = transactionOptional.get();
+
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(-1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("With a decimal value, the related entity is returned")
+    @Sql({ "/db/queries/transaction/negative.sql" })
+    public void testGetOne_Decimal(final Float amount) {
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
+
+        repository.save(ModelFactory.transaction(amount));
+
+        transactionOptional = service.getOne(1L);
+
+        Assertions.assertThat(transactionOptional)
+            .isPresent();
+
+        transaction = transactionOptional.get();
+
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(-1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
     }
 
     @Test
     @DisplayName("Returns the correct data when reading a negative value")
     @Sql({ "/db/queries/transaction/negative.sql" })
     public void testGetOne_Negative() {
-        final Transaction result;
-        final Long        id;
+        final Optional<Transaction> transactionOptional;
+        final Transaction           transaction;
 
-        id = 1L;
+        transactionOptional = service.getOne(1L);
 
-        result = service.getOne(id)
-            .get();
+        Assertions.assertThat(transactionOptional)
+            .isPresent();
 
-        Assertions.assertEquals(id, result.getId());
-        Assertions.assertEquals("Transaction 1", result.getDescription());
-        Assertions.assertEquals(-1, result.getAmount());
-        Assertions.assertEquals(new GregorianCalendar(2020, 1, 1).getTime(), result.getDate()
-            .getTime());
+        transaction = transactionOptional.get();
+
+        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+            .description("Transaction 1")
+            .amount(-1f)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .build());
     }
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
     public void testGetOne_NotExisting() {
-        final Optional<Transaction> result;
+        final Optional<Transaction> transaction;
 
-        result = service.getOne(-1L);
+        transaction = service.getOne(1L);
 
-        Assertions.assertFalse(result.isPresent());
+        Assertions.assertThat(transaction)
+            .isNotPresent();
     }
 
 }

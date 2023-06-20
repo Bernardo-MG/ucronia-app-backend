@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.role.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,8 @@ public class ITRoleServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -65,8 +66,10 @@ public class ITRoleServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("ADMIN", result.getName());
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("ADMIN");
     }
 
     @Test
@@ -83,7 +86,8 @@ public class ITRoleServiceGetAllPagination {
 
         data = service.getAll(sample, pageable);
 
-        Assertions.assertTrue(IterableUtils.isEmpty(data));
+        Assertions.assertThat(IterableUtils.isEmpty(data))
+            .isTrue();
     }
 
     @Test
@@ -100,7 +104,8 @@ public class ITRoleServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -117,7 +122,8 @@ public class ITRoleServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }

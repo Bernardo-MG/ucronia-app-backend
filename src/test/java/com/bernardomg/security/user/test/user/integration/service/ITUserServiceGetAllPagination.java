@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.user.integration.service;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
 import com.bernardomg.security.user.model.request.UserQueryRequest;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.assertion.UserAssertions;
 
 @IntegrationTest
 @DisplayName("User service - get all")
@@ -45,7 +47,8 @@ public class ITUserServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
     @Test
@@ -65,13 +68,15 @@ public class ITUserServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("email@somewhere.com", result.getEmail());
-        Assertions.assertFalse(result.getCredentialsExpired());
-        Assertions.assertTrue(result.getEnabled());
-        Assertions.assertFalse(result.getExpired());
-        Assertions.assertFalse(result.getLocked());
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
     @Test
@@ -88,7 +93,8 @@ public class ITUserServiceGetAllPagination {
 
         data = service.getAll(sample, pageable);
 
-        Assertions.assertTrue(IterableUtils.isEmpty(data));
+        Assertions.assertThat(IterableUtils.isEmpty(data))
+            .isTrue();
     }
 
     @Test
@@ -105,7 +111,8 @@ public class ITUserServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
@@ -122,7 +129,8 @@ public class ITUserServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertInstanceOf(Page.class, result);
+        Assertions.assertThat(result)
+            .isInstanceOf(Page.class);
     }
 
 }
