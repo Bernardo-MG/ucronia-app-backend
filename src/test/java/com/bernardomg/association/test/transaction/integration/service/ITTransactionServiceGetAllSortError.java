@@ -53,7 +53,7 @@ public class ITTransactionServiceGetAllSortError {
     }
 
     @Test
-    @DisplayName("Returns all data in default order when ordering by a not existing field")
+    @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
         final TransactionQueryRequest sample;
         final Pageable                pageable;

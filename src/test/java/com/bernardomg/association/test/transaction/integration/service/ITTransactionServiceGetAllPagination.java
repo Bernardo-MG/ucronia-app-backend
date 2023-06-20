@@ -25,7 +25,6 @@
 package com.bernardomg.association.test.transaction.integration.service;
 
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
@@ -58,7 +57,7 @@ public class ITTransactionServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
+    @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
         final Iterable<Transaction>   result;
         final TransactionQueryRequest sample;
@@ -75,10 +74,10 @@ public class ITTransactionServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    @DisplayName("With pagination for the first page, it returns the first page")
+    public void testGetAll_Page1() {
         final TransactionQueryRequest sample;
-        final Iterator<Transaction>   data;
+        final Iterable<Transaction>   data;
         final Transaction             result;
         final Pageable                pageable;
 
@@ -86,10 +85,13 @@ public class ITTransactionServiceGetAllPagination {
 
         sample = new DtoTransactionQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        data = service.getAll(sample, pageable);
 
-        result = data.next();
+        Assertions.assertThat(IterableUtils.size(data))
+            .isEqualTo(1);
+
+        result = data.iterator()
+            .next();
         TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
@@ -98,10 +100,10 @@ public class ITTransactionServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    @DisplayName("With pagination for the second page, it returns the second page")
+    public void testGetAll_Page2() {
         final TransactionQueryRequest sample;
-        final Iterator<Transaction>   data;
+        final Iterable<Transaction>   data;
         final Transaction             result;
         final Pageable                pageable;
 
@@ -109,10 +111,13 @@ public class ITTransactionServiceGetAllPagination {
 
         sample = new DtoTransactionQueryRequest();
 
-        data = service.getAll(sample, pageable)
-            .iterator();
+        data = service.getAll(sample, pageable);
 
-        result = data.next();
+        Assertions.assertThat(IterableUtils.size(data))
+            .isEqualTo(1);
+
+        result = data.iterator()
+            .next();
         TransactionAssertions.isEqualTo(result, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
@@ -121,24 +126,7 @@ public class ITTransactionServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
-        final Iterable<Transaction>   result;
-        final TransactionQueryRequest sample;
-        final Pageable                pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        sample = new DtoTransactionQueryRequest();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertThat(IterableUtils.size(result))
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
+    @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
         final Iterable<Transaction>   result;
         final TransactionQueryRequest sample;

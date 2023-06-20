@@ -46,7 +46,7 @@ public class ITTransactionServiceGetRange {
     }
 
     @Test
-    @DisplayName("Returns the range for a full year")
+    @DisplayName("With a full year, a range for the full year is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetRange_FullYear() {
         final TransactionRange result;

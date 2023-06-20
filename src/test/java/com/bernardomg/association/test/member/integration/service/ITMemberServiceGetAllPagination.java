@@ -70,7 +70,7 @@ public class ITMemberServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
+    @DisplayName("With pagination for the first page, it returns the first page")
     public void testGetAll_Page1() {
         final MemberQueryRequest sample;
         final Iterable<Member>   data;
@@ -103,7 +103,7 @@ public class ITMemberServiceGetAllPagination {
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
+    @DisplayName("With pagination for the second page, it returns the second page")
     public void testGetAll_Page2() {
         final MemberQueryRequest sample;
         final Iterable<Member>   data;
