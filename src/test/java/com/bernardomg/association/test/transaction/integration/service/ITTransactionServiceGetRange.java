@@ -64,4 +64,22 @@ public class ITTransactionServiceGetRange {
             .isEqualTo(2020);
     }
 
+    @Test
+    @DisplayName("With no data, an empty range is returned")
+    public void testGetRange_NoData() {
+        final TransactionRange result;
+
+        result = service.getRange();
+
+        Assertions.assertThat(result.getStartMonth())
+            .isZero();
+        Assertions.assertThat(result.getStartYear())
+            .isZero();
+
+        Assertions.assertThat(result.getEndMonth())
+            .isZero();
+        Assertions.assertThat(result.getEndYear())
+            .isZero();
+    }
+
 }

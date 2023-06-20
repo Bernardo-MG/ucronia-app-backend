@@ -103,11 +103,21 @@ public final class DefaultTransactionService implements TransactionService {
         min = repository.findMinDate();
         max = repository.findMaxDate();
 
-        startMonth = min.get(Calendar.MONTH);
-        startYear = min.get(Calendar.YEAR);
+        if (min != null) {
+            startMonth = min.get(Calendar.MONTH);
+            startYear = min.get(Calendar.YEAR);
+        } else {
+            startMonth = 0;
+            startYear = 0;
+        }
 
-        endMonth = max.get(Calendar.MONTH);
-        endYear = max.get(Calendar.YEAR);
+        if (max != null) {
+            endMonth = max.get(Calendar.MONTH);
+            endYear = max.get(Calendar.YEAR);
+        } else {
+            endMonth = 0;
+            endYear = 0;
+        }
 
         return ImmutableTransactionRange.builder()
             .startMonth(startMonth)
