@@ -1,14 +1,19 @@
 
 package com.bernardomg.security.login.test.service.springframework.unit;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+
 import java.util.Collections;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,8 +28,15 @@ import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityLoginService - login with various user status")
 public class TestDefaultLoginServiceWithSpringUserStatus {
+
+    @Mock
+    private PasswordEncoder    passEncoder;
+
+    @Mock
+    private UserDetailsService userDetService;
 
     public TestDefaultLoginServiceWithSpringUserStatus() {
         super();
@@ -144,13 +156,11 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
         final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
-        userDetService = Mockito.mock(UserDetailsService.class);
-        Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .thenReturn(user);
+        userDetService = mock(UserDetailsService.class);
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
-        passEncoder = Mockito.mock(PasswordEncoder.class);
-        Mockito.when(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
-            .thenReturn(true);
+        passEncoder = mock(PasswordEncoder.class);
+        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
@@ -191,16 +201,11 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
     }
 
     private final DefaultLoginService getServiceForNotExisting() {
-        final UserDetailsService      userDetService;
-        final PasswordEncoder         passEncoder;
         final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
-        userDetService = Mockito.mock(UserDetailsService.class);
-        Mockito.when(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .thenThrow(UsernameNotFoundException.class);
-
-        passEncoder = Mockito.mock(PasswordEncoder.class);
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
+            .willThrow(UsernameNotFoundException.class);
 
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);

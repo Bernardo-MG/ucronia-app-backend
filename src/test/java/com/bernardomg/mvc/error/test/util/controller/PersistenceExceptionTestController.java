@@ -1,11 +1,13 @@
 
 package com.bernardomg.mvc.error.test.util.controller;
 
+import static org.mockito.BDDMockito.given;
+
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import org.mockito.Mockito;
+import org.mockito.Mock;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.util.TypeInformation;
@@ -19,13 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(PersistenceExceptionTestController.PATH)
 public class PersistenceExceptionTestController {
 
-    public static final String PATH                    = "/test/exception";
+    public static final String      PATH                    = "/test/exception";
 
-    public static final String PATH_DATA_INTEGRITY     = PATH + "/data_integrity";
+    public static final String      PATH_DATA_INTEGRITY     = PATH + "/data_integrity";
 
-    public static final String PATH_JDBC_GRAMMAR       = PATH + "/jdbc_grammar";
+    public static final String      PATH_JDBC_GRAMMAR       = PATH + "/jdbc_grammar";
 
-    public static final String PATH_PROPERTY_REFERENCE = PATH + "/property_reference";
+    public static final String      PATH_PROPERTY_REFERENCE = PATH + "/property_reference";
+
+    @Mock
+    private TypeInformation<String> info;
 
     public PersistenceExceptionTestController() {
         super();
@@ -41,14 +46,9 @@ public class PersistenceExceptionTestController {
         throw new BadSqlGrammarException("", "", new SQLException("", "", 0));
     }
 
-    @SuppressWarnings("unchecked")
     @GetMapping(path = "/property_reference", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> propertyReferenceException() {
-        final TypeInformation<String> info;
-
-        info = Mockito.mock(TypeInformation.class);
-        Mockito.when(info.getType())
-            .thenReturn(String.class);
+        given(info.getType()).willReturn(String.class);
 
         throw new PropertyReferenceException("property", info, Collections.emptyList());
     }
