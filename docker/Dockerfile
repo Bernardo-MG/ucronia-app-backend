@@ -26,7 +26,6 @@ COPY --from=build ./usr/src/app/target/*.war ./app.war
 
 # Simple user
 RUN adduser -D runner -g "runner" -s /bin/sh -D runner
-RUN chown runner:runner app.war
 USER runner
 
 # Exposed ports
