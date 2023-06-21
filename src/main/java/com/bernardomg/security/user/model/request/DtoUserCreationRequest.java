@@ -39,7 +39,6 @@ public final class DtoUserCreationRequest implements User {
     /**
      * User id.
      */
-    @NotNull
     private final Long id = null;
 
     /**
