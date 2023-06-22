@@ -42,10 +42,10 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
-import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all - sort")
@@ -68,7 +68,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -123,7 +123,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -178,7 +178,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -233,7 +233,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -289,7 +289,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         executable = () -> service.getAll(feeQuery, pageable)
             .iterator();
@@ -307,7 +307,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -362,7 +362,7 @@ public class ITFeeServiceGetAllSort {
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();

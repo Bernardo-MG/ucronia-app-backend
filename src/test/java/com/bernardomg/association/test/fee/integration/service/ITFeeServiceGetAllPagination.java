@@ -40,10 +40,10 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
-import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all - pagination")
@@ -66,7 +66,7 @@ public class ITFeeServiceGetAllPagination {
 
         pageable = Pageable.ofSize(10);
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -84,7 +84,7 @@ public class ITFeeServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -112,7 +112,7 @@ public class ITFeeServiceGetAllPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -139,7 +139,7 @@ public class ITFeeServiceGetAllPagination {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 

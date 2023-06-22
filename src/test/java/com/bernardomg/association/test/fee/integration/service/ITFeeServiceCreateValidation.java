@@ -57,16 +57,21 @@ public class ITFeeServiceCreateValidation {
         final ThrowingCallable   execution;
         final FieldFailure       failure;
 
-        feeRequest = new ValidatedFeeCreate();
-        feeRequest.setMemberId(-1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(true);
+        feeRequest = getInvalidIdFeeCreate();
 
         execution = () -> service.create(feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    private final ValidatedFeeCreate getInvalidIdFeeCreate() {
+        return ValidatedFeeCreate.builder()
+            .memberId(-1L)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .paid(true)
+            .build();
     }
 
 }

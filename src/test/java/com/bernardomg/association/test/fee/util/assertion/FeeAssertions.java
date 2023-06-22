@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.fee.assertion;
+package com.bernardomg.association.test.fee.util.assertion;
 
 import org.assertj.core.api.Assertions;
 

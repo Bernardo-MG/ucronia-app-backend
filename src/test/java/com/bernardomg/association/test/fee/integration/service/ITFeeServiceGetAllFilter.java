@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -37,10 +36,11 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
+import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all - filter")
@@ -58,16 +58,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_EndDate() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 1, 1);
-        feeQuery.setEndDate(date);
+        feeQuery = FeesQuery.endDate(new GregorianCalendar(2020, 1, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -87,16 +83,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_EndDate_NotInRange() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 0, 1);
-        feeQuery.setEndDate(date);
+        feeQuery = FeesQuery.endDate(new GregorianCalendar(2020, 0, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -109,16 +101,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 2, 1);
-        feeQuery.setDate(date);
+        feeQuery = FeesQuery.inDate(new GregorianCalendar(2020, 2, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -138,16 +126,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_FirstDay_Data() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 0, 1);
-        feeQuery.setDate(date);
+        feeQuery = FeesQuery.endDate(new GregorianCalendar(2020, 0, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -167,16 +151,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     public void testGetAll_InDate_LastDay_Data() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 11, 1);
-        feeQuery.setDate(date);
+        feeQuery = FeesQuery.inDate(new GregorianCalendar(2020, 11, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -196,16 +176,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_InDate_NotExisting() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 10, 1);
-        feeQuery.setDate(date);
+        feeQuery = FeesQuery.inDate(new GregorianCalendar(2020, 10, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -218,16 +194,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_StartDate() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 5, 1);
-        feeQuery.setStartDate(date);
+        feeQuery = FeesQuery.startDate(new GregorianCalendar(2020, 5, 1));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -247,16 +219,12 @@ public class ITFeeServiceGetAllFilter {
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     public void testGetAll_StartDate_NotInRange() {
         final Iterable<MemberFee> fees;
-        final ValidatedFeeQuery   feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
-        final Calendar            date;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
-
-        date = new GregorianCalendar(2020, 6, 1);
-        feeQuery.setStartDate(date);
+        feeQuery = FeesQuery.startDate(new GregorianCalendar(2020, 6, 1));
 
         fees = service.getAll(feeQuery, pageable);
 

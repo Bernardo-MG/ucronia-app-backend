@@ -38,10 +38,10 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
-import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all")
@@ -65,7 +65,7 @@ public class ITFeeServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -181,7 +181,7 @@ public class ITFeeServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -210,7 +210,7 @@ public class ITFeeServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -265,14 +265,14 @@ public class ITFeeServiceGetAll {
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoFee() {
         final Iterable<MemberFee> fees;
-        final FeeQuery            sample;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new ValidatedFeeQuery();
+        feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isZero();
