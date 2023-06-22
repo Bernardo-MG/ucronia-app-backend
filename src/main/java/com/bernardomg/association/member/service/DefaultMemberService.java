@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.mapper.MemberMapper;
 import com.bernardomg.association.member.model.request.MemberCreate;
@@ -49,7 +48,7 @@ public final class DefaultMemberService implements MemberService {
 
         created = repository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
@@ -70,7 +69,7 @@ public final class DefaultMemberService implements MemberService {
         entity = mapper.toEntity(sample);
 
         return repository.findAll(Example.of(entity), pageable)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
@@ -83,7 +82,7 @@ public final class DefaultMemberService implements MemberService {
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            data = toDto(found.get());
+            data = mapper.toDto(found.get());
             result = Optional.of(data);
         } else {
             result = Optional.empty();
@@ -102,18 +101,7 @@ public final class DefaultMemberService implements MemberService {
         entity.setId(id);
 
         updated = repository.save(entity);
-        return toDto(updated);
-    }
-
-    private final Member toDto(final PersistentMember entity) {
-        return ImmutableMember.builder()
-            .id(entity.getId())
-            .name(entity.getName())
-            .surname(entity.getSurname())
-            .identifier(entity.getIdentifier())
-            .phone(entity.getPhone())
-            .active(entity.getActive())
-            .build();
+        return mapper.toDto(updated);
     }
 
 }
