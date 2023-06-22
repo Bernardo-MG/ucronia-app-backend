@@ -1,17 +1,19 @@
 
 package com.bernardomg.security.user.model.request;
 
-import com.bernardomg.security.user.model.Role;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public final class DtoRoleCreateRequest implements Role {
-
-    private final Long id = null;
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class DtoRoleCreateRequest implements RoleCreateRequest {
 
     @NotNull
-    private String     name;
+    private String name;
 
 }

@@ -2,10 +2,16 @@
 package com.bernardomg.security.user.model.request;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public final class DtoPermissionCreateRequest {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class DtoPermissionCreateRequest implements PermissionCreateRequest {
 
     @NotNull
     private Long actionId;

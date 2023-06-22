@@ -31,8 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.DtoRoleUpdateRequest;
+import com.bernardomg.security.user.model.request.RoleUpdateRequest;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
@@ -55,7 +56,7 @@ public class ITRoleServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final Role data;
+        final RoleUpdateRequest data;
 
         data = getRoleWithNoActions();
 
@@ -68,8 +69,8 @@ public class ITRoleServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final Role           data;
-        final PersistentRole entity;
+        final RoleUpdateRequest data;
+        final PersistentRole    entity;
 
         data = getRoleWithNoActions();
 
@@ -87,8 +88,8 @@ public class ITRoleServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final Role data;
-        final Role result;
+        final RoleUpdateRequest data;
+        final Role              result;
 
         data = getRoleWithNoActions();
 
@@ -100,8 +101,8 @@ public class ITRoleServiceUpdate {
             .isEqualTo("Role");
     }
 
-    private final Role getRoleWithNoActions() {
-        return ImmutableRole.builder()
+    private final RoleUpdateRequest getRoleWithNoActions() {
+        return DtoRoleUpdateRequest.builder()
             .id(1L)
             .name("Role")
             .build();

@@ -33,6 +33,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.DtoUserUpdateRequest;
+import com.bernardomg.security.user.model.request.UserUpdateRequest;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
@@ -58,7 +60,7 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final User user;
+        final UserUpdateRequest user;
 
         user = getUser();
 
@@ -71,8 +73,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final User           user;
-        final PersistentUser entity;
+        final UserUpdateRequest user;
+        final PersistentUser    entity;
 
         user = getUser();
 
@@ -96,8 +98,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data, ignoring case")
     public void testUpdate_PersistedData_Case() {
-        final ImmutableUser  user;
-        final PersistentUser entity;
+        final UserUpdateRequest user;
+        final PersistentUser    entity;
 
         user = getUser("EMAIL@SOMEWHERE.COM");
 
@@ -113,8 +115,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final User user;
-        final User result;
+        final UserUpdateRequest user;
+        final User              result;
 
         user = getUser();
 
@@ -134,8 +136,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Returns the updated data, ignoring case")
     public void testUpdate_ReturnedData_Case() {
-        final ImmutableUser user;
-        final User          result;
+        final UserUpdateRequest user;
+        final User              result;
 
         user = getUser("EMAIL2@SOMEWHERE.COM");
 
@@ -145,8 +147,8 @@ public class ITUserServiceUpdate {
             .isEqualTo("email2@somewhere.com");
     }
 
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
+    private final UserUpdateRequest getUser() {
+        return DtoUserUpdateRequest.builder()
             .id(1L)
             .username("admin")
             .name("Admin")
@@ -158,8 +160,8 @@ public class ITUserServiceUpdate {
             .build();
     }
 
-    private final ImmutableUser getUser(final String email) {
-        return ImmutableUser.builder()
+    private final UserUpdateRequest getUser(final String email) {
+        return DtoUserUpdateRequest.builder()
             .id(1L)
             .username("admin")
             .name("Admin")

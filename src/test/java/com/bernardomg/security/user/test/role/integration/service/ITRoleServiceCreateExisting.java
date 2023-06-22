@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.DtoRoleCreateRequest;
+import com.bernardomg.security.user.model.request.RoleCreateRequest;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
 
@@ -31,11 +32,10 @@ public class ITRoleServiceCreateExisting {
     @Test
     @DisplayName("Doesn't create over existing ids")
     public void testCreate() {
-        final ImmutableRole data;
-        final Role          result;
+        final RoleCreateRequest data;
+        final Role              result;
 
-        data = ImmutableRole.builder()
-            .id(1L)
+        data = DtoRoleCreateRequest.builder()
             .name("Role")
             .build();
 
@@ -48,10 +48,9 @@ public class ITRoleServiceCreateExisting {
     @Test
     @DisplayName("Doesn't create over existing ids")
     public void testCreate_AddsEntity() {
-        final ImmutableRole data;
+        final RoleCreateRequest data;
 
-        data = ImmutableRole.builder()
-            .id(1L)
+        data = DtoRoleCreateRequest.builder()
             .name("Role")
             .build();
 

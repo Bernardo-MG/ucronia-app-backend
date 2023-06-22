@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.RoleCreateRequest;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
@@ -16,7 +16,7 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateRoleValidator implements Validator<Role> {
+public final class CreateRoleValidator implements Validator<RoleCreateRequest> {
 
     private final RoleRepository roleRepository;
 
@@ -27,7 +27,7 @@ public final class CreateRoleValidator implements Validator<Role> {
     }
 
     @Override
-    public final void validate(final Role role) {
+    public final void validate(final RoleCreateRequest role) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
         final PersistentRole           sample;

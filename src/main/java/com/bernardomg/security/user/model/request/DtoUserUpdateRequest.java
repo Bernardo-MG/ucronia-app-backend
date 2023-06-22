@@ -1,13 +1,17 @@
 
 package com.bernardomg.security.user.model.request;
 
-import com.bernardomg.security.user.model.User;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public final class DtoUserUpdateRequest implements User {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class DtoUserUpdateRequest implements UserUpdateRequest {
 
     /**
      * User expired flag.

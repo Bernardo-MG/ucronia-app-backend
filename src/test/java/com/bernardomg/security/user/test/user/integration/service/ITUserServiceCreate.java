@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.DtoUserCreateRequest;
+import com.bernardomg.security.user.model.request.UserCreateRequest;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
@@ -31,7 +33,7 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final User user;
+        final UserCreateRequest user;
 
         user = getUser();
 
@@ -44,8 +46,8 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final User           user;
-        final PersistentUser entity;
+        final UserCreateRequest user;
+        final PersistentUser    entity;
 
         user = getUser();
 
@@ -69,8 +71,8 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Persists the data, ignoring case")
     public void testCreate_PersistedData_Case() {
-        final ImmutableUser  user;
-        final PersistentUser entity;
+        final UserCreateRequest user;
+        final PersistentUser    entity;
 
         user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
 
@@ -88,8 +90,8 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final User user;
-        final User result;
+        final UserCreateRequest user;
+        final User              result;
 
         user = getUser();
 
@@ -109,8 +111,8 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Returns the created data, ignoring case")
     public void testCreate_ReturnedData_Case() {
-        final ImmutableUser user;
-        final User          result;
+        final UserCreateRequest user;
+        final User              result;
 
         user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
 
@@ -122,8 +124,8 @@ public class ITUserServiceCreate {
             .isEqualTo("email@somewhere.com");
     }
 
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
+    private final UserCreateRequest getUser() {
+        return DtoUserCreateRequest.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
@@ -134,8 +136,8 @@ public class ITUserServiceCreate {
             .build();
     }
 
-    private final ImmutableUser getUser(final String username, final String email) {
-        return ImmutableUser.builder()
+    private final UserCreateRequest getUser(final String username, final String email) {
+        return DtoUserCreateRequest.builder()
             .username(username)
             .name("Admin")
             .email(email)

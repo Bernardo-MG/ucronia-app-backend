@@ -13,7 +13,9 @@ import com.bernardomg.security.user.model.ImmutableUserRole;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.UserRole;
+import com.bernardomg.security.user.model.request.UserCreateRequest;
 import com.bernardomg.security.user.model.request.UserQueryRequest;
+import com.bernardomg.security.user.model.request.UserUpdateRequest;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
@@ -28,21 +30,21 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultUserService implements UserService {
 
-    private final Validator<UserRole> addUserRoleValidator;
+    private final Validator<UserRole>          addUserRoleValidator;
 
-    private final Validator<User>     createUserValidator;
+    private final Validator<UserCreateRequest> createUserValidator;
 
-    private final Validator<Long>     deleteUserValidator;
+    private final Validator<Long>              deleteUserValidator;
 
-    private final Validator<UserRole> removeUserRoleValidator;
+    private final Validator<UserRole>          removeUserRoleValidator;
 
-    private final RoleRepository      roleRepository;
+    private final RoleRepository               roleRepository;
 
-    private final Validator<User>     updateUserValidator;
+    private final Validator<UserUpdateRequest> updateUserValidator;
 
-    private final UserRepository      userRepository;
+    private final UserRepository               userRepository;
 
-    private final UserRolesRepository userRolesRepository;
+    private final UserRolesRepository          userRolesRepository;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
             final UserRolesRepository userRolesRepo) {
@@ -80,7 +82,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User create(final User user) {
+    public final User create(final UserCreateRequest user) {
         final PersistentUser entity;
         final PersistentUser created;
 
@@ -144,7 +146,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User update(final User user) {
+    public final User update(final UserUpdateRequest user) {
         final PersistentUser           entity;
         final PersistentUser           created;
         final Optional<PersistentUser> old;
@@ -185,7 +187,7 @@ public final class DefaultUserService implements UserService {
             .build();
     }
 
-    private final PersistentUser toEntity(final User data) {
+    private final PersistentUser toEntity(final UserCreateRequest data) {
         final String username;
         final String email;
 
@@ -203,7 +205,6 @@ public final class DefaultUserService implements UserService {
         }
 
         return PersistentUser.builder()
-            .id(data.getId())
             .username(username)
             .email(email)
             .name(data.getName())
@@ -232,6 +233,35 @@ public final class DefaultUserService implements UserService {
         }
 
         return PersistentUser.builder()
+            .username(username)
+            .email(email)
+            .name(data.getName())
+            .credentialsExpired(data.getCredentialsExpired())
+            .enabled(data.getEnabled())
+            .expired(data.getExpired())
+            .locked(data.getLocked())
+            .build();
+    }
+
+    private final PersistentUser toEntity(final UserUpdateRequest data) {
+        final String username;
+        final String email;
+
+        if (data.getUsername() != null) {
+            username = data.getUsername()
+                .toLowerCase();
+        } else {
+            username = null;
+        }
+        if (data.getEmail() != null) {
+            email = data.getEmail()
+                .toLowerCase();
+        } else {
+            email = null;
+        }
+
+        return PersistentUser.builder()
+            .id(data.getId())
             .username(username)
             .email(email)
             .name(data.getName())

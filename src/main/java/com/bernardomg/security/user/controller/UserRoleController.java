@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.DtoRoleCreateRequest;
+import com.bernardomg.security.user.model.request.DtoUserRoleAddRequest;
 import com.bernardomg.security.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -55,7 +55,7 @@ public class UserRoleController {
     private final UserService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean create(@PathVariable("id") final Long id, @Valid @RequestBody final DtoRoleCreateRequest role) {
+    public Boolean create(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUserRoleAddRequest role) {
         return service.addRole(id, role.getId());
     }
 

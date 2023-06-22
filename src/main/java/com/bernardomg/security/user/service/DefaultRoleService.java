@@ -14,7 +14,9 @@ import com.bernardomg.security.user.model.ImmutableRolePermission;
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.RolePermission;
+import com.bernardomg.security.user.model.request.RoleCreateRequest;
 import com.bernardomg.security.user.model.request.RoleQueryRequest;
+import com.bernardomg.security.user.model.request.RoleUpdateRequest;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.model.PersistentRoleGrantedPermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
@@ -35,7 +37,7 @@ public final class DefaultRoleService implements RoleService {
 
     private final Validator<RolePermission>       addRolePermissionValidator;
 
-    private final Validator<Role>                 createRoleValidator;
+    private final Validator<RoleCreateRequest>    createRoleValidator;
 
     private final Validator<Long>                 deleteRoleValidator;
 
@@ -47,7 +49,7 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleRepository                  roleRepository;
 
-    private final Validator<Role>                 updateRoleValidator;
+    private final Validator<RoleUpdateRequest>    updateRoleValidator;
 
     public DefaultRoleService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
             final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
@@ -90,7 +92,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role create(final Role role) {
+    public final Role create(final RoleCreateRequest role) {
         final PersistentRole entity;
         final PersistentRole created;
 
@@ -158,7 +160,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role update(final Role role) {
+    public final Role update(final RoleUpdateRequest role) {
         final PersistentRole entity;
         final PersistentRole created;
 
@@ -195,15 +197,21 @@ public final class DefaultRoleService implements RoleService {
             .build();
     }
 
-    private final PersistentRole toEntity(final Role data) {
+    private final PersistentRole toEntity(final RoleCreateRequest data) {
         return PersistentRole.builder()
-            .id(data.getId())
             .name(data.getName())
             .build();
     }
 
     private final PersistentRole toEntity(final RoleQueryRequest data) {
         return PersistentRole.builder()
+            .name(data.getName())
+            .build();
+    }
+
+    private final PersistentRole toEntity(final RoleUpdateRequest data) {
+        return PersistentRole.builder()
+            .id(data.getId())
             .name(data.getName())
             .build();
     }

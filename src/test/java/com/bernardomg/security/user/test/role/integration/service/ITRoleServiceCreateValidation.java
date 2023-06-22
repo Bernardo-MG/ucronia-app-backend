@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
+import com.bernardomg.security.user.model.request.DtoRoleCreateRequest;
+import com.bernardomg.security.user.model.request.RoleCreateRequest;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -28,11 +29,11 @@ public class ITRoleServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the name already exist")
     public void testCreate_NameExists() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final ImmutableRole    data;
+        final ThrowingCallable  executable;
+        final FieldFailure      failure;
+        final RoleCreateRequest data;
 
-        data = ImmutableRole.builder()
+        data = DtoRoleCreateRequest.builder()
             .name("ADMIN")
             .build();
 

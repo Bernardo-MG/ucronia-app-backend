@@ -1,61 +1,60 @@
 
 package com.bernardomg.security.user.model.request;
 
-import com.bernardomg.security.user.model.User;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public final class DtoUserCreateRequest implements User {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class DtoUserCreateRequest implements UserCreateRequest {
 
     /**
      * User expired flag.
      */
     @NotNull
     @Deprecated
-    private Boolean    credentialsExpired;
+    private Boolean credentialsExpired;
 
     /**
      * User email.
      */
     @NotNull
-    private String     email;
+    private String  email;
 
     /**
      * User enabled flag.
      */
     @NotNull
     @Deprecated
-    private Boolean    enabled;
+    private Boolean enabled;
 
     /**
      * User expired flag.
      */
     @NotNull
     @Deprecated
-    private Boolean    expired;
-
-    /**
-     * User id.
-     */
-    private final Long id = null;
+    private Boolean expired;
 
     /**
      * User locked flag.
      */
     @NotNull
     @Deprecated
-    private Boolean    locked;
+    private Boolean locked;
 
     /**
      * User name.
      */
-    private String     name;
+    private String  name;
 
     /**
      * User username.
      */
-    private String     username;
+    private String  username;
 
 }

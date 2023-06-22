@@ -11,12 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class DtoRoleUpdateRequest implements RoleUpdateRequest {
+public final class DtoUserRoleAddRequest implements UserRoleAddRequest {
 
     @NotNull
-    private Long   id;
-
-    @NotNull
-    private String name;
+    private Long id;
 
 }

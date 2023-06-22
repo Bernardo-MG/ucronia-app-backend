@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.security.user.model.request.DtoUserCreateRequest;
+import com.bernardomg.security.user.model.request.UserCreateRequest;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -28,9 +29,9 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingEmail() {
-        final ImmutableUser    data;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
+        final UserCreateRequest data;
+        final ThrowingCallable  executable;
+        final FieldFailure      failure;
 
         data = getUser("abc", "email@somewhere.com");
 
@@ -45,9 +46,9 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingUsername() {
-        final ImmutableUser    data;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
+        final UserCreateRequest data;
+        final ThrowingCallable  executable;
+        final FieldFailure      failure;
 
         data = getUser("admin", "email2@somewhere.com");
 
@@ -61,9 +62,9 @@ public class ITUserServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the email doesn't match the valid pattern")
     public void testCreate_invalidEmail() {
-        final ImmutableUser    data;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
+        final UserCreateRequest data;
+        final ThrowingCallable  executable;
+        final FieldFailure      failure;
 
         data = getUser("admin", "abc");
 
@@ -74,8 +75,8 @@ public class ITUserServiceCreateValidation {
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
-    private final ImmutableUser getUser(final String username, final String email) {
-        return ImmutableUser.builder()
+    private final UserCreateRequest getUser(final String username, final String email) {
+        return DtoUserCreateRequest.builder()
             .username(username)
             .name("Admin")
             .email(email)

@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.UserCreateRequest;
 import com.bernardomg.security.user.model.request.UserQueryRequest;
+import com.bernardomg.security.user.model.request.UserUpdateRequest;
 
 public interface UserService {
 
@@ -29,7 +31,7 @@ public interface UserService {
      *            user to persist
      * @return the persisted user
      */
-    public User create(final User user);
+    public User create(final UserCreateRequest user);
 
     /**
      * Deletes the user with the received id.
@@ -89,6 +91,6 @@ public interface UserService {
      *            new data for the user
      * @return the updated user
      */
-    public User update(final User user);
+    public User update(final UserUpdateRequest user);
 
 }
