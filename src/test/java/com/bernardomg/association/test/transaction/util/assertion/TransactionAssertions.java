@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.transaction.assertion;
+package com.bernardomg.association.test.transaction.util.assertion;
 
 import org.assertj.core.api.Assertions;
 

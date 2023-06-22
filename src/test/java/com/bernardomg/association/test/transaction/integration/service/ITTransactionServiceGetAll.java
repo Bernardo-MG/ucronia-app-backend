@@ -40,11 +40,11 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
-import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
@@ -75,7 +75,7 @@ public class ITTransactionServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable)
             .iterator();
@@ -101,7 +101,7 @@ public class ITTransactionServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable)
             .iterator();
@@ -126,7 +126,7 @@ public class ITTransactionServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -232,7 +232,7 @@ public class ITTransactionServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable);
 

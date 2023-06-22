@@ -37,11 +37,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
-import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -65,7 +65,7 @@ public class ITTransactionServiceGetAllPagination {
 
         pageable = Pageable.ofSize(10);
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -83,7 +83,7 @@ public class ITTransactionServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -109,7 +109,7 @@ public class ITTransactionServiceGetAllPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -134,7 +134,7 @@ public class ITTransactionServiceGetAllPagination {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         transactions = service.getAll(transactionQuery, pageable);
 

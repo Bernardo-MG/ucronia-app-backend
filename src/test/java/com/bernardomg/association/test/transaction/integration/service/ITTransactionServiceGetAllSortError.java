@@ -36,8 +36,8 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
-import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -61,7 +61,7 @@ public class ITTransactionServiceGetAllSortError {
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        transactionQuery = new ValidatedTransactionQuery();
+        transactionQuery = TransactionsQuery.empty();
 
         executable = () -> service.getAll(transactionQuery, pageable)
             .iterator();
