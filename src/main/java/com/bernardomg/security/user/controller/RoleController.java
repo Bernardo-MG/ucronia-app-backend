@@ -68,7 +68,7 @@ public class RoleController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Role> readAll(final ValidatedRoleQuery role, final Pageable pageable) {
+    public Iterable<Role> readAll(@Valid final ValidatedRoleQuery role, final Pageable pageable) {
         return service.getAll(role, pageable);
     }
 

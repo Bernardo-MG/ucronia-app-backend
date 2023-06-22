@@ -74,7 +74,7 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<MemberFee> readAll(final ValidatedFeeQuery request, final Pageable pageable) {
+    public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 

@@ -72,7 +72,7 @@ public class TransactionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Transaction> readAll(final ValidatedTransactionQuery request, final Pageable pageable) {
+    public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 

@@ -71,7 +71,7 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Member> readAll(final ValidatedMemberQuery member, final Pageable pageable) {
+    public Iterable<Member> readAll(@Valid final ValidatedMemberQuery member, final Pageable pageable) {
         return service.getAll(member, pageable);
     }
 
