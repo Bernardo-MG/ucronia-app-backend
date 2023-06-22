@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.DtoRoleCreateRequest;
-import com.bernardomg.security.user.model.request.RoleCreateRequest;
+import com.bernardomg.security.user.model.request.RoleCreate;
+import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
@@ -31,9 +31,9 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final RoleCreateRequest data;
+        final RoleCreate data;
 
-        data = DtoRoleCreateRequest.builder()
+        data = ValidatedRoleCreate.builder()
             .name("Role")
             .build();
 
@@ -46,10 +46,10 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final RoleCreateRequest data;
-        final PersistentRole    entity;
+        final RoleCreate     data;
+        final PersistentRole entity;
 
-        data = DtoRoleCreateRequest.builder()
+        data = ValidatedRoleCreate.builder()
             .name("Role")
             .build();
 
@@ -67,10 +67,10 @@ public class ITRoleServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final RoleCreateRequest data;
-        final Role              result;
+        final RoleCreate data;
+        final Role       result;
 
-        data = DtoRoleCreateRequest.builder()
+        data = ValidatedRoleCreate.builder()
             .name("Role")
             .build();
 

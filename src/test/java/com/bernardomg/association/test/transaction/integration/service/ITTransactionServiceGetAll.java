@@ -43,8 +43,8 @@ import com.bernardomg.association.test.config.factory.ModelFactory;
 import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
-import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
@@ -66,16 +66,16 @@ public class ITTransactionServiceGetAll {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns it")
     public void testGetAll_AroundZero(final Float amount) {
-        final Iterator<Transaction>   transactions;
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
-        Transaction                   transaction;
+        final Iterator<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+        Transaction                 transaction;
 
         repository.save(ModelFactory.transaction(amount));
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable)
             .iterator();
@@ -92,16 +92,16 @@ public class ITTransactionServiceGetAll {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns it")
     public void testGetAll_Decimal(final Float amount) {
-        final Iterator<Transaction>   transactions;
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
-        Transaction                   transaction;
+        final Iterator<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+        Transaction                 transaction;
 
         repository.save(ModelFactory.transaction(amount));
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable)
             .iterator();
@@ -118,15 +118,15 @@ public class ITTransactionServiceGetAll {
     @DisplayName("With a full year, it returns all the transactions")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_FullYear_Count() {
-        final Iterable<Transaction>   transactions;
-        final Iterator<Transaction>   transactionsItr;
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
-        Transaction                   transaction;
+        final Iterable<Transaction> transactions;
+        final Iterator<Transaction> transactionsItr;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+        Transaction                 transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -224,15 +224,15 @@ public class ITTransactionServiceGetAll {
     @DisplayName("With multiple transactions, it returns all the transactions")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_Multiple_Count() {
-        final Iterable<Transaction>   transactions;
-        final Iterator<Transaction>   transactionsItr;
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
-        Transaction                   transaction;
+        final Iterable<Transaction> transactions;
+        final Iterator<Transaction> transactionsItr;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
+        Transaction                 transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable);
 

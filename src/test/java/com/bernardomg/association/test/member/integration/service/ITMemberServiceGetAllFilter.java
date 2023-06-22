@@ -33,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -52,13 +52,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to active status, the returned data is filtered")
     public void testGetAll_Active_Count() {
-        final Iterable<Member>      members;
-        final DtoMemberQueryRequest memberQuery;
-        final Pageable              pageable;
+        final Iterable<Member>     members;
+        final ValidatedMemberQuery memberQuery;
+        final Pageable             pageable;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
         memberQuery.setActive(true);
 
         members = service.getAll(memberQuery, pageable);
@@ -70,13 +70,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to not active status, the returned data is filtered")
     public void testGetAll_NotActive_Count() {
-        final Iterable<Member>      members;
-        final DtoMemberQueryRequest memberQuery;
-        final Pageable              pageable;
+        final Iterable<Member>     members;
+        final ValidatedMemberQuery memberQuery;
+        final Pageable             pageable;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
         memberQuery.setActive(false);
 
         members = service.getAll(memberQuery, pageable);

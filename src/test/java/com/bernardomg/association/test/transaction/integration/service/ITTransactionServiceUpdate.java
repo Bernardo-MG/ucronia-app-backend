@@ -36,7 +36,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.request.DtoTransactionUpdateQuery;
+import com.bernardomg.association.transaction.model.request.ValidatedTransactionUpdate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
@@ -59,9 +59,9 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
     public void testUpdate_AddsNoEntity() {
-        final DtoTransactionUpdateQuery transactionRequest;
+        final ValidatedTransactionUpdate transactionRequest;
 
-        transactionRequest = new DtoTransactionUpdateQuery();
+        transactionRequest = new ValidatedTransactionUpdate();
         transactionRequest.setDescription("Transaction 123");
         transactionRequest.setAmount(1f);
         transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
@@ -75,10 +75,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
     public void testUpdate_Decimal_PersistedData() {
-        final DtoTransactionUpdateQuery transactionRequest;
-        final PersistentTransaction     transaction;
+        final ValidatedTransactionUpdate transactionRequest;
+        final PersistentTransaction      transaction;
 
-        transactionRequest = new DtoTransactionUpdateQuery();
+        transactionRequest = new ValidatedTransactionUpdate();
         transactionRequest.setDescription("Transaction");
         transactionRequest.setAmount(1.2f);
         transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
@@ -98,10 +98,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a transaction containing a decimal value, the data is returned")
     public void testUpdate_Decimal_ReturnedData() {
-        final DtoTransactionUpdateQuery transactionRequest;
-        final Transaction               transaction;
+        final ValidatedTransactionUpdate transactionRequest;
+        final Transaction                transaction;
 
-        transactionRequest = new DtoTransactionUpdateQuery();
+        transactionRequest = new ValidatedTransactionUpdate();
         transactionRequest.setDescription("Transaction");
         transactionRequest.setAmount(1.2f);
         transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
@@ -118,9 +118,9 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoTransactionUpdateQuery transactionRequest;
+        final ValidatedTransactionUpdate transactionRequest;
 
-        transactionRequest = new DtoTransactionUpdateQuery();
+        transactionRequest = new ValidatedTransactionUpdate();
         transactionRequest.setDescription("Transaction 123");
         transactionRequest.setAmount(1f);
         transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
@@ -134,10 +134,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     public void testUpdate_PersistedData() {
-        final DtoTransactionUpdateQuery transactionRequest;
-        final PersistentTransaction     transaction;
+        final ValidatedTransactionUpdate transactionRequest;
+        final PersistentTransaction      transaction;
 
-        transactionRequest = new DtoTransactionUpdateQuery();
+        transactionRequest = new ValidatedTransactionUpdate();
         transactionRequest.setDescription("Transaction 123");
         transactionRequest.setAmount(1f);
         transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
@@ -157,10 +157,10 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     public void testUpdate_ReturnedData() {
-        final DtoTransactionUpdateQuery transactionRequest;
-        final Transaction               transaction;
+        final ValidatedTransactionUpdate transactionRequest;
+        final Transaction                transaction;
 
-        transactionRequest = new DtoTransactionUpdateQuery();
+        transactionRequest = new ValidatedTransactionUpdate();
         transactionRequest.setDescription("Transaction 123");
         transactionRequest.setAmount(1f);
         transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));

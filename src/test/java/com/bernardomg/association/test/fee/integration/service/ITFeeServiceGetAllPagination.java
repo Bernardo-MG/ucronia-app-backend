@@ -39,8 +39,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
-import com.bernardomg.association.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQuery;
+import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.assertion.FeeAssertions;
@@ -61,12 +61,12 @@ public class ITFeeServiceGetAllPagination {
     @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
         final Iterable<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.ofSize(10);
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -77,14 +77,14 @@ public class ITFeeServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     public void testGetAll_Page1() {
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -105,14 +105,14 @@ public class ITFeeServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     public void testGetAll_Page2() {
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
         final Pageable            pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -134,12 +134,12 @@ public class ITFeeServiceGetAllPagination {
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
         final Iterable<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable);
 

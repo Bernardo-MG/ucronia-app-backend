@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.DtoRoleCreateRequest;
-import com.bernardomg.security.user.model.request.DtoRoleQueryRequest;
-import com.bernardomg.security.user.model.request.DtoRoleUpdateRequest;
+import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
+import com.bernardomg.security.user.model.request.ValidatedRoleQuery;
+import com.bernardomg.security.user.model.request.ValidatedRoleUpdate;
 import com.bernardomg.security.user.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -58,7 +58,7 @@ public class RoleController {
     private final RoleService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role create(@Valid @RequestBody final DtoRoleCreateRequest form) {
+    public Role create(@Valid @RequestBody final ValidatedRoleCreate form) {
         return service.create(form);
     }
 
@@ -68,7 +68,7 @@ public class RoleController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Role> readAll(final DtoRoleQueryRequest role, final Pageable pageable) {
+    public Iterable<Role> readAll(final ValidatedRoleQuery role, final Pageable pageable) {
         return service.getAll(role, pageable);
     }
 
@@ -79,7 +79,7 @@ public class RoleController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoRoleUpdateRequest form) {
+    public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedRoleUpdate form) {
         form.setId(id);
 
         return service.update(form);

@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.request.DtoRoleUpdateRequest;
-import com.bernardomg.security.user.model.request.RoleUpdateRequest;
+import com.bernardomg.security.user.model.request.RoleUpdate;
+import com.bernardomg.security.user.model.request.ValidatedRoleUpdate;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -50,9 +50,9 @@ public class ITRoleServiceUpdateValidation {
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     public void testUpdate_NotExistingRole() {
-        final ThrowingCallable  executable;
-        final FieldFailure      failure;
-        final RoleUpdateRequest data;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final RoleUpdate       data;
 
         data = getRoleWithNoActions();
 
@@ -63,8 +63,8 @@ public class ITRoleServiceUpdateValidation {
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
-    private final RoleUpdateRequest getRoleWithNoActions() {
-        return DtoRoleUpdateRequest.builder()
+    private final RoleUpdate getRoleWithNoActions() {
+        return ValidatedRoleUpdate.builder()
             .id(1L)
             .name("Role")
             .build();

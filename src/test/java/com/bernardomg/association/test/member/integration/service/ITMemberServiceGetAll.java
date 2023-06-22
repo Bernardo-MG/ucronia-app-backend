@@ -35,8 +35,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
-import com.bernardomg.association.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQuery;
+import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,15 +55,15 @@ public class ITMemberServiceGetAll {
     @Test
     @DisplayName("With multiple members it returns all the members")
     public void testGetAll() {
-        final Iterable<Member>   members;
-        final Iterator<Member>   membersItr;
-        final MemberQueryRequest memberQuery;
-        final Pageable           pageable;
-        Member                   member;
+        final Iterable<Member> members;
+        final Iterator<Member> membersItr;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        Member                 member;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -147,15 +147,15 @@ public class ITMemberServiceGetAll {
     @DisplayName("With an inactive member it returns the member")
     @Sql({ "/db/queries/member/inactive.sql" })
     public void testGetAll_Inactive() {
-        final Iterable<Member>   members;
-        final Iterator<Member>   membersItr;
-        final MemberQueryRequest memberQuery;
-        final Pageable           pageable;
-        Member                   member;
+        final Iterable<Member> members;
+        final Iterator<Member> membersItr;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        Member                 member;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
 
         members = service.getAll(memberQuery, pageable);
 

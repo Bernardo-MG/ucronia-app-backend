@@ -16,8 +16,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
-import com.bernardomg.security.user.model.request.UserQueryRequest;
+import com.bernardomg.security.user.model.request.UserQuery;
+import com.bernardomg.security.user.model.request.ValidatedUserQuery;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.assertion.UserAssertions;
 
@@ -36,13 +36,13 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page")
     public void testGetAll_Page_Container() {
-        final Iterable<User>   result;
-        final UserQueryRequest sample;
-        final Pageable         pageable;
+        final Iterable<User> result;
+        final UserQuery      sample;
+        final Pageable       pageable;
 
         pageable = Pageable.ofSize(10);
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -54,14 +54,14 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     public void testGetAll_Page1_Data() {
-        final UserQueryRequest sample;
-        final Iterator<User>   data;
-        final User             result;
-        final Pageable         pageable;
+        final UserQuery      sample;
+        final Iterator<User> data;
+        final User           result;
+        final Pageable       pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         data = service.getAll(sample, pageable)
@@ -82,13 +82,13 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     public void testGetAll_Page2_Data() {
-        final UserQueryRequest sample;
-        final Iterable<User>   data;
-        final Pageable         pageable;
+        final UserQuery      sample;
+        final Iterable<User> data;
+        final Pageable       pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         data = service.getAll(sample, pageable);
@@ -100,13 +100,13 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns the page entities")
     public void testGetAll_Paged_Count() {
-        final UserQueryRequest sample;
-        final Iterable<User>   result;
-        final Pageable         pageable;
+        final UserQuery      sample;
+        final Iterable<User> result;
+        final Pageable       pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -118,13 +118,13 @@ public class ITUserServiceGetAllPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<User>   result;
-        final UserQueryRequest sample;
-        final Pageable         pageable;
+        final Iterable<User> result;
+        final UserQuery      sample;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         result = service.getAll(sample, pageable);

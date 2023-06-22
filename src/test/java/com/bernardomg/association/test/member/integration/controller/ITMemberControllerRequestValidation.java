@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.member.model.request.DtoMemberCreateRequest;
-import com.bernardomg.association.member.model.request.MemberCreateRequest;
+import com.bernardomg.association.member.model.request.MemberCreate;
+import com.bernardomg.association.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.association.test.config.constant.TestUrls;
 import com.google.gson.Gson;
@@ -58,8 +58,8 @@ public final class ITMemberControllerRequestValidation {
     @Test
     @DisplayName("With a valid member, returns the created member")
     public final void testPost_Full_Valid() throws Exception {
-        final ResultActions          result;
-        final DtoMemberCreateRequest member;
+        final ResultActions         result;
+        final ValidatedMemberCreate member;
 
         member = getRequest();
 
@@ -77,8 +77,8 @@ public final class ITMemberControllerRequestValidation {
     @DisplayName("With a member missing the name, returns a bad request response")
     @Disabled("The model rejects this case")
     public final void testPost_NoName_Invalid() throws Exception {
-        final ResultActions          result;
-        final DtoMemberCreateRequest member;
+        final ResultActions         result;
+        final ValidatedMemberCreate member;
 
         member = getRequestNoName();
 
@@ -89,7 +89,7 @@ public final class ITMemberControllerRequestValidation {
             .isBadRequest());
     }
 
-    private final RequestBuilder getPostRequest(final MemberCreateRequest member) {
+    private final RequestBuilder getPostRequest(final MemberCreate member) {
         final String json;
 
         json = gson.toJson(member);
@@ -98,10 +98,10 @@ public final class ITMemberControllerRequestValidation {
             .content(json);
     }
 
-    private final DtoMemberCreateRequest getRequest() {
-        final DtoMemberCreateRequest member;
+    private final ValidatedMemberCreate getRequest() {
+        final ValidatedMemberCreate member;
 
-        member = new DtoMemberCreateRequest();
+        member = new ValidatedMemberCreate();
         member.setName("Member");
         member.setSurname("Surname");
         member.setPhone("12345");
@@ -111,10 +111,10 @@ public final class ITMemberControllerRequestValidation {
         return member;
     }
 
-    private final DtoMemberCreateRequest getRequestNoName() {
-        final DtoMemberCreateRequest member;
+    private final ValidatedMemberCreate getRequestNoName() {
+        final ValidatedMemberCreate member;
 
-        member = new DtoMemberCreateRequest();
+        member = new ValidatedMemberCreate();
         member.setSurname("Surname");
         member.setPhone("12345");
         member.setIdentifier("6789");

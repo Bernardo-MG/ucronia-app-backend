@@ -9,8 +9,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserCreateRequest;
-import com.bernardomg.security.user.model.request.UserCreateRequest;
+import com.bernardomg.security.user.model.request.UserCreate;
+import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 
@@ -32,8 +32,8 @@ public class ITUserServiceCreateExisting {
     @Test
     @DisplayName("Doesn't create over existing ids")
     public void testCreate() {
-        final User              result;
-        final UserCreateRequest user;
+        final User       result;
+        final UserCreate user;
 
         user = getUser();
 
@@ -47,7 +47,7 @@ public class ITUserServiceCreateExisting {
     @Test
     @DisplayName("Adds an entity when creating with an existing id")
     public void testCreate_AddsEntity() {
-        final UserCreateRequest user;
+        final UserCreate user;
 
         user = getUser();
 
@@ -57,8 +57,8 @@ public class ITUserServiceCreateExisting {
             .isEqualTo(2);
     }
 
-    private final UserCreateRequest getUser() {
-        return DtoUserCreateRequest.builder()
+    private final UserCreate getUser() {
+        return ValidatedUserCreate.builder()
             .username("user")
             .name("User")
             .email("email2@somewhere.com")

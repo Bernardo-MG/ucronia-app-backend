@@ -34,7 +34,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeUpdateRequest;
+import com.bernardomg.association.fee.model.request.ValidatedFeeUpdate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
@@ -59,9 +59,9 @@ public class ITFeeServiceUpdate {
     @DisplayName("With an existing entity, no new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_AddsNoEntity() {
-        final DtoFeeUpdateRequest feeRequest;
+        final ValidatedFeeUpdate feeRequest;
 
-        feeRequest = new DtoFeeUpdateRequest();
+        feeRequest = new ValidatedFeeUpdate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(false);
@@ -76,9 +76,9 @@ public class ITFeeServiceUpdate {
     @DisplayName("With a not existing entity, a new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoFeeUpdateRequest feeRequest;
+        final ValidatedFeeUpdate feeRequest;
 
-        feeRequest = new DtoFeeUpdateRequest();
+        feeRequest = new ValidatedFeeUpdate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 2, 1));
         feeRequest.setPaid(false);
@@ -93,10 +93,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     public void testUpdate_Pay_PersistedData() {
-        final DtoFeeUpdateRequest feeRequest;
-        final PersistentFee       fee;
+        final ValidatedFeeUpdate feeRequest;
+        final PersistentFee      fee;
 
-        feeRequest = new DtoFeeUpdateRequest();
+        feeRequest = new ValidatedFeeUpdate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(true);
@@ -117,10 +117,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_PersistedData() {
-        final DtoFeeUpdateRequest feeRequest;
-        final PersistentFee       fee;
+        final ValidatedFeeUpdate feeRequest;
+        final PersistentFee      fee;
 
-        feeRequest = new DtoFeeUpdateRequest();
+        feeRequest = new ValidatedFeeUpdate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(false);
@@ -141,10 +141,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("With a changed entity, the changed data is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_ReturnedData() {
-        final DtoFeeUpdateRequest feeRequest;
-        final MemberFee           fee;
+        final ValidatedFeeUpdate feeRequest;
+        final MemberFee          fee;
 
-        feeRequest = new DtoFeeUpdateRequest();
+        feeRequest = new ValidatedFeeUpdate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(false);

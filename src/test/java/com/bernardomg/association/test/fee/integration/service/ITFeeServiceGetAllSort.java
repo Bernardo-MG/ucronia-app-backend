@@ -41,8 +41,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
-import com.bernardomg.association.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQuery;
+import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.assertion.FeeAssertions;
@@ -63,12 +63,12 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With ascending order by date it returns the ordered data")
     public void testGetAll_Date_Asc() {
         final Iterator<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -118,12 +118,12 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With descending order by date it returns the ordered data")
     public void testGetAll_Date_Desc() {
         final Iterator<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -173,12 +173,12 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With ascending order by name it returns the ordered data")
     public void testGetAll_Name_Asc() {
         final Iterator<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -228,12 +228,12 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With descending order by name it returns the ordered data")
     public void testGetAll_Name_Desc() {
         final Iterator<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -283,13 +283,13 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
     public void testGetAll_NotExisting() {
-        final FeeQueryRequest  feeQuery;
+        final FeeQuery         feeQuery;
         final Pageable         pageable;
         final ThrowingCallable executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         executable = () -> service.getAll(feeQuery, pageable)
             .iterator();
@@ -302,12 +302,12 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With ascending order by paid flag it returns the ordered data")
     public void testGetAll_Paid_Asc() {
         final Iterator<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();
@@ -357,12 +357,12 @@ public class ITFeeServiceGetAllSort {
     @DisplayName("With descending order by paid flag it returns the ordered data")
     public void testGetAll_Paid_Desc() {
         final Iterator<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = new ValidatedFeeQuery();
 
         fees = service.getAll(feeQuery, pageable)
             .iterator();

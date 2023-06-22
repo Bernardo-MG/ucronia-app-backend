@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.request.DtoUserUpdateRequest;
-import com.bernardomg.security.user.model.request.UserUpdateRequest;
+import com.bernardomg.security.user.model.request.UserUpdate;
+import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -31,9 +31,9 @@ public class ITUserServiceUpdateValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
     public void testUpdate_ChangeUsername() {
-        final ThrowingCallable  executable;
-        final FieldFailure      failure;
-        final UserUpdateRequest data;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final UserUpdate       data;
 
         data = getUser("abc");
 
@@ -51,9 +51,9 @@ public class ITUserServiceUpdateValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql" })
     public void testUpdate_ExistingMail() {
-        final ThrowingCallable  executable;
-        final FieldFailure      failure;
-        final UserUpdateRequest data;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final UserUpdate       data;
 
         data = getUser("admin", "email2@somewhere.com");
 
@@ -70,9 +70,9 @@ public class ITUserServiceUpdateValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
     public void testUpdate_InvalidMail() {
-        final ThrowingCallable  executable;
-        final FieldFailure      failure;
-        final UserUpdateRequest data;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final UserUpdate       data;
 
         data = getUser("admin", "abc");
 
@@ -86,9 +86,9 @@ public class ITUserServiceUpdateValidation {
     @Test
     @DisplayName("Throws an exception when the user doesn't exist")
     public void testUpdate_NotExistingUser() {
-        final ThrowingCallable  executable;
-        final FieldFailure      failure;
-        final UserUpdateRequest data;
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final UserUpdate       data;
 
         data = getUser();
 
@@ -99,8 +99,8 @@ public class ITUserServiceUpdateValidation {
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
-    private final UserUpdateRequest getUser() {
-        return DtoUserUpdateRequest.builder()
+    private final UserUpdate getUser() {
+        return ValidatedUserUpdate.builder()
             .id(1L)
             .username("admin")
             .name("Admin")
@@ -112,8 +112,8 @@ public class ITUserServiceUpdateValidation {
             .build();
     }
 
-    private final UserUpdateRequest getUser(final String username) {
-        return DtoUserUpdateRequest.builder()
+    private final UserUpdate getUser(final String username) {
+        return ValidatedUserUpdate.builder()
             .id(1L)
             .username(username)
             .name("Admin")
@@ -125,8 +125,8 @@ public class ITUserServiceUpdateValidation {
             .build();
     }
 
-    private final UserUpdateRequest getUser(final String username, final String email) {
-        return DtoUserUpdateRequest.builder()
+    private final UserUpdate getUser(final String username, final String email) {
+        return ValidatedUserUpdate.builder()
             .id(1L)
             .username(username)
             .name("Admin")

@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Permission;
-import com.bernardomg.security.user.model.request.DtoPermissionCreateRequest;
+import com.bernardomg.security.user.model.request.ValidatedPermissionCreate;
 import com.bernardomg.security.user.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -56,7 +56,7 @@ public class RolePermissionController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean addPermission(@PathVariable("id") final Long id,
-            @Valid @RequestBody final DtoPermissionCreateRequest permission) {
+            @Valid @RequestBody final ValidatedPermissionCreate permission) {
         return service.addPermission(id, permission.getResourceId(), permission.getActionId());
     }
 

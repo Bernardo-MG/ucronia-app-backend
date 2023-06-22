@@ -14,8 +14,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Resource;
-import com.bernardomg.security.user.model.request.DtoResourceQueryRequest;
-import com.bernardomg.security.user.model.request.ResourceQueryRequest;
+import com.bernardomg.security.user.model.request.ResourceQuery;
+import com.bernardomg.security.user.model.request.ValidatedResourceQuery;
 import com.bernardomg.security.user.service.ResourceService;
 
 @IntegrationTest
@@ -33,13 +33,13 @@ public class ITResourceServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<Resource>   result;
-        final ResourceQueryRequest sample;
-        final Pageable             pageable;
+        final Iterable<Resource> result;
+        final ResourceQuery      sample;
+        final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoResourceQueryRequest.builder()
+        sample = ValidatedResourceQuery.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -51,14 +51,14 @@ public class ITResourceServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<Resource>   data;
-        final ResourceQueryRequest sample;
-        final Pageable             pageable;
-        final Collection<String>   names;
+        final Iterable<Resource> data;
+        final ResourceQuery      sample;
+        final Pageable           pageable;
+        final Collection<String> names;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoResourceQueryRequest.builder()
+        sample = ValidatedResourceQuery.builder()
             .build();
 
         data = service.getAll(sample, pageable);

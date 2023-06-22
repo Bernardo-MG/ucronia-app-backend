@@ -35,8 +35,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
-import com.bernardomg.association.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQuery;
+import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
@@ -55,13 +55,13 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Member>   members;
-        final MemberQueryRequest memberQuery;
-        final Pageable           pageable;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
 
         pageable = Pageable.ofSize(10);
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -72,14 +72,14 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     public void testGetAll_Page1() {
-        final MemberQueryRequest memberQuery;
-        final Iterable<Member>   members;
-        final Member             member;
-        final Pageable           pageable;
+        final MemberQuery      memberQuery;
+        final Iterable<Member> members;
+        final Member           member;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -105,14 +105,14 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     public void testGetAll_Page2() {
-        final MemberQueryRequest memberQuery;
-        final Iterable<Member>   members;
-        final Member             member;
-        final Pageable           pageable;
+        final MemberQuery      memberQuery;
+        final Iterable<Member> members;
+        final Member           member;
+        final Pageable         pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -138,13 +138,13 @@ public class ITMemberServiceGetAllPagination {
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Member>   members;
-        final MemberQueryRequest memberQuery;
-        final Pageable           pageable;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
+        memberQuery = new ValidatedMemberQuery();
 
         members = service.getAll(memberQuery, pageable);
 

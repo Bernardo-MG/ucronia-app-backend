@@ -33,8 +33,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserUpdateRequest;
-import com.bernardomg.security.user.model.request.UserUpdateRequest;
+import com.bernardomg.security.user.model.request.UserUpdate;
+import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
@@ -60,7 +60,7 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final UserUpdateRequest user;
+        final UserUpdate user;
 
         user = getUser();
 
@@ -73,8 +73,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final UserUpdateRequest user;
-        final PersistentUser    entity;
+        final UserUpdate     user;
+        final PersistentUser entity;
 
         user = getUser();
 
@@ -98,8 +98,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data, ignoring case")
     public void testUpdate_PersistedData_Case() {
-        final UserUpdateRequest user;
-        final PersistentUser    entity;
+        final UserUpdate     user;
+        final PersistentUser entity;
 
         user = getUser("EMAIL@SOMEWHERE.COM");
 
@@ -115,8 +115,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final UserUpdateRequest user;
-        final User              result;
+        final UserUpdate user;
+        final User       result;
 
         user = getUser();
 
@@ -136,8 +136,8 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Returns the updated data, ignoring case")
     public void testUpdate_ReturnedData_Case() {
-        final UserUpdateRequest user;
-        final User              result;
+        final UserUpdate user;
+        final User       result;
 
         user = getUser("EMAIL2@SOMEWHERE.COM");
 
@@ -147,8 +147,8 @@ public class ITUserServiceUpdate {
             .isEqualTo("email2@somewhere.com");
     }
 
-    private final UserUpdateRequest getUser() {
-        return DtoUserUpdateRequest.builder()
+    private final UserUpdate getUser() {
+        return ValidatedUserUpdate.builder()
             .id(1L)
             .username("admin")
             .name("Admin")
@@ -160,8 +160,8 @@ public class ITUserServiceUpdate {
             .build();
     }
 
-    private final UserUpdateRequest getUser(final String email) {
-        return DtoUserUpdateRequest.builder()
+    private final UserUpdate getUser(final String email) {
+        return ValidatedUserUpdate.builder()
             .id(1L)
             .username("admin")
             .name("Admin")

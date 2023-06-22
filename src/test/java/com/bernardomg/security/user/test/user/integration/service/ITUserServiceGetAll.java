@@ -12,8 +12,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
-import com.bernardomg.security.user.model.request.UserQueryRequest;
+import com.bernardomg.security.user.model.request.UserQuery;
+import com.bernardomg.security.user.model.request.ValidatedUserQuery;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.assertion.UserAssertions;
 
@@ -32,13 +32,13 @@ public class ITUserServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<User>   result;
-        final UserQueryRequest sample;
-        final Pageable         pageable;
+        final Iterable<User> result;
+        final UserQuery      sample;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -50,14 +50,14 @@ public class ITUserServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
-        final Iterable<User>   data;
-        final UserQueryRequest sample;
-        final Pageable         pageable;
-        final User             user;
+        final Iterable<User> data;
+        final UserQuery      sample;
+        final Pageable       pageable;
+        final User           user;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoUserQueryRequest.builder()
+        sample = ValidatedUserQuery.builder()
             .build();
 
         data = service.getAll(sample, pageable);

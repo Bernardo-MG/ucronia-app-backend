@@ -36,8 +36,8 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
-import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -55,13 +55,13 @@ public class ITTransactionServiceGetAllSortError {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     public void testGetAll_NotExisting() {
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
-        final ThrowingCallable        executable;
+        final TransactionQuery transactionQuery;
+        final Pageable         pageable;
+        final ThrowingCallable executable;
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         executable = () -> service.getAll(transactionQuery, pageable)
             .iterator();

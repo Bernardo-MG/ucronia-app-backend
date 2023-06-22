@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.DtoFeeCreateRequest;
+import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -53,11 +53,11 @@ public class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("With a missing id it throws an exception")
     public void testCreate_InvalidMember() {
-        final DtoFeeCreateRequest feeRequest;
-        final ThrowingCallable    execution;
-        final FieldFailure        failure;
+        final ValidatedFeeCreate feeRequest;
+        final ThrowingCallable   execution;
+        final FieldFailure       failure;
 
-        feeRequest = new DtoFeeCreateRequest();
+        feeRequest = new ValidatedFeeCreate();
         feeRequest.setMemberId(-1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(true);

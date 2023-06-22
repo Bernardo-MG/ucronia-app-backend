@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.MemberCreateRequest;
-import com.bernardomg.association.member.model.request.MemberQueryRequest;
-import com.bernardomg.association.member.model.request.MemberUpdateRequest;
+import com.bernardomg.association.member.model.request.MemberCreate;
+import com.bernardomg.association.member.model.request.MemberQuery;
+import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
@@ -35,7 +35,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:CREATE')")
-    public final Member create(final MemberCreateRequest member) {
+    public final Member create(final MemberCreate member) {
         final PersistentMember entity;
         final PersistentMember created;
 
@@ -62,7 +62,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
-    public final Iterable<Member> getAll(final MemberQueryRequest sample, final Pageable pageable) {
+    public final Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable) {
         final PersistentMember entity;
 
         entity = toEntity(sample);
@@ -92,7 +92,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
-    public final Member update(final Long id, final MemberUpdateRequest member) {
+    public final Member update(final Long id, final MemberUpdate member) {
         final PersistentMember entity;
         final PersistentMember updated;
 
@@ -114,7 +114,7 @@ public final class DefaultMemberService implements MemberService {
             .build();
     }
 
-    private final PersistentMember toEntity(final MemberCreateRequest data) {
+    private final PersistentMember toEntity(final MemberCreate data) {
         return PersistentMember.builder()
             .name(data.getName())
             .surname(data.getSurname())
@@ -124,7 +124,7 @@ public final class DefaultMemberService implements MemberService {
             .build();
     }
 
-    private final PersistentMember toEntity(final MemberQueryRequest data) {
+    private final PersistentMember toEntity(final MemberQuery data) {
         return PersistentMember.builder()
             .name(data.getName())
             .surname(data.getSurname())
@@ -134,7 +134,7 @@ public final class DefaultMemberService implements MemberService {
             .build();
     }
 
-    private final PersistentMember toEntity(final MemberUpdateRequest data) {
+    private final PersistentMember toEntity(final MemberUpdate data) {
         return PersistentMember.builder()
             .id(data.getId())
             .name(data.getName())

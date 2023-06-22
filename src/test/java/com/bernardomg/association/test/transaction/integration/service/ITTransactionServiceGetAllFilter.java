@@ -38,7 +38,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -56,16 +56,16 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_AfterDate() {
-        final Iterable<Transaction>      transactions;
-        final Iterator<Transaction>      transactionsItr;
-        final DtoTransactionQueryRequest transactionQuery;
-        final Pageable                   pageable;
-        final Calendar                   date;
-        Transaction                      transaction;
+        final Iterable<Transaction>     transactions;
+        final Iterator<Transaction>     transactionsItr;
+        final ValidatedTransactionQuery transactionQuery;
+        final Pageable                  pageable;
+        final Calendar                  date;
+        Transaction                     transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         date = new GregorianCalendar(2020, 0, 2);
         transactionQuery.setStartDate(date);
@@ -126,16 +126,16 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_BeforeDate() {
-        final Iterable<Transaction>      transactions;
-        final Iterator<Transaction>      transactionsItr;
-        final DtoTransactionQueryRequest transactionQuery;
-        final Pageable                   pageable;
-        final Calendar                   date;
-        Transaction                      transaction;
+        final Iterable<Transaction>     transactions;
+        final Iterator<Transaction>     transactionsItr;
+        final ValidatedTransactionQuery transactionQuery;
+        final Pageable                  pageable;
+        final Calendar                  date;
+        Transaction                     transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         date = new GregorianCalendar(2020, 0, 2);
         transactionQuery.setEndDate(date);
@@ -174,16 +174,16 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     public void testGetAll_InDate() {
-        final Iterable<Transaction>      transactions;
-        final Iterator<Transaction>      transactionsItr;
-        final DtoTransactionQueryRequest transactionQuery;
-        final Pageable                   pageable;
-        final Calendar                   date;
-        Transaction                      transaction;
+        final Iterable<Transaction>     transactions;
+        final Iterator<Transaction>     transactionsItr;
+        final ValidatedTransactionQuery transactionQuery;
+        final Pageable                  pageable;
+        final Calendar                  date;
+        Transaction                     transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         date = new GregorianCalendar(2020, 0, 2);
         transactionQuery.setDate(date);
@@ -211,16 +211,16 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("With a filter applied to the date for the first day of the year, the returned data is filtered")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_InDate_FirstDay() {
-        final Iterable<Transaction>      transactions;
-        final Iterator<Transaction>      transactionsItr;
-        final DtoTransactionQueryRequest transactionQuery;
-        final Pageable                   pageable;
-        final Calendar                   date;
-        Transaction                      transaction;
+        final Iterable<Transaction>     transactions;
+        final Iterator<Transaction>     transactionsItr;
+        final ValidatedTransactionQuery transactionQuery;
+        final Pageable                  pageable;
+        final Calendar                  date;
+        Transaction                     transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         date = new GregorianCalendar(2020, 0, 1);
         transactionQuery.setDate(date);
@@ -248,16 +248,16 @@ public class ITTransactionServiceGetAllFilter {
     @DisplayName("With a filter applied to the date for the last day of the year, the returned data is filtered")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     public void testGetAll_InDate_LastDay() {
-        final Iterable<Transaction>      transactions;
-        final Iterator<Transaction>      transactionsItr;
-        final DtoTransactionQueryRequest transactionQuery;
-        final Pageable                   pageable;
-        final Calendar                   date;
-        Transaction                      transaction;
+        final Iterable<Transaction>     transactions;
+        final Iterator<Transaction>     transactionsItr;
+        final ValidatedTransactionQuery transactionQuery;
+        final Pageable                  pageable;
+        final Calendar                  date;
+        Transaction                     transaction;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         date = new GregorianCalendar(2020, 11, 1);
         transactionQuery.setDate(date);

@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberUpdateRequest;
+import com.bernardomg.association.member.model.request.ValidatedMemberUpdate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
@@ -55,9 +55,9 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
     public void testUpdate_AddsNoEntity() {
-        final DtoMemberUpdateRequest memberRequest;
+        final ValidatedMemberUpdate memberRequest;
 
-        memberRequest = new DtoMemberUpdateRequest();
+        memberRequest = new ValidatedMemberUpdate();
         memberRequest.setName("Member 123");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("12345");
@@ -73,9 +73,9 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoMemberUpdateRequest memberRequest;
+        final ValidatedMemberUpdate memberRequest;
 
-        memberRequest = new DtoMemberUpdateRequest();
+        memberRequest = new ValidatedMemberUpdate();
         memberRequest.setName("Member 123");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("12345");
@@ -91,10 +91,10 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     public void testUpdate_PersistedData() {
-        final DtoMemberUpdateRequest memberRequest;
-        final PersistentMember       entity;
+        final ValidatedMemberUpdate memberRequest;
+        final PersistentMember      entity;
 
-        memberRequest = new DtoMemberUpdateRequest();
+        memberRequest = new ValidatedMemberUpdate();
         memberRequest.setName("Member 123");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("12345");
@@ -123,10 +123,10 @@ public class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     public void testUpdate_ReturnedData() {
-        final DtoMemberUpdateRequest memberRequest;
-        final Member                 member;
+        final ValidatedMemberUpdate memberRequest;
+        final Member                member;
 
-        memberRequest = new DtoMemberUpdateRequest();
+        memberRequest = new ValidatedMemberUpdate();
         memberRequest.setName("Member 123");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("12345");

@@ -13,9 +13,9 @@ import com.bernardomg.security.user.model.ImmutableUserRole;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.UserRole;
-import com.bernardomg.security.user.model.request.UserCreateRequest;
-import com.bernardomg.security.user.model.request.UserQueryRequest;
-import com.bernardomg.security.user.model.request.UserUpdateRequest;
+import com.bernardomg.security.user.model.request.UserCreate;
+import com.bernardomg.security.user.model.request.UserQuery;
+import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
@@ -30,21 +30,21 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultUserService implements UserService {
 
-    private final Validator<UserRole>          addUserRoleValidator;
+    private final Validator<UserRole>   addUserRoleValidator;
 
-    private final Validator<UserCreateRequest> createUserValidator;
+    private final Validator<UserCreate> createUserValidator;
 
-    private final Validator<Long>              deleteUserValidator;
+    private final Validator<Long>       deleteUserValidator;
 
-    private final Validator<UserRole>          removeUserRoleValidator;
+    private final Validator<UserRole>   removeUserRoleValidator;
 
-    private final RoleRepository               roleRepository;
+    private final RoleRepository        roleRepository;
 
-    private final Validator<UserUpdateRequest> updateUserValidator;
+    private final Validator<UserUpdate> updateUserValidator;
 
-    private final UserRepository               userRepository;
+    private final UserRepository        userRepository;
 
-    private final UserRolesRepository          userRolesRepository;
+    private final UserRolesRepository   userRolesRepository;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
             final UserRolesRepository userRolesRepo) {
@@ -82,7 +82,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User create(final UserCreateRequest user) {
+    public final User create(final UserCreate user) {
         final PersistentUser entity;
         final PersistentUser created;
 
@@ -106,7 +106,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQueryRequest sample, final Pageable pageable) {
+    public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
         entity = toEntity(sample);
@@ -146,7 +146,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User update(final UserUpdateRequest user) {
+    public final User update(final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
         final Optional<PersistentUser> old;
@@ -187,7 +187,7 @@ public final class DefaultUserService implements UserService {
             .build();
     }
 
-    private final PersistentUser toEntity(final UserCreateRequest data) {
+    private final PersistentUser toEntity(final UserCreate data) {
         final String username;
         final String email;
 
@@ -215,7 +215,7 @@ public final class DefaultUserService implements UserService {
             .build();
     }
 
-    private final PersistentUser toEntity(final UserQueryRequest data) {
+    private final PersistentUser toEntity(final UserQuery data) {
         final String username;
         final String email;
 
@@ -243,7 +243,7 @@ public final class DefaultUserService implements UserService {
             .build();
     }
 
-    private final PersistentUser toEntity(final UserUpdateRequest data) {
+    private final PersistentUser toEntity(final UserUpdate data) {
         final String username;
         final String email;
 

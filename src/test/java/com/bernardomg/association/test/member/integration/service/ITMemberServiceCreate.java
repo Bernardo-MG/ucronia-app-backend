@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberCreateRequest;
+import com.bernardomg.association.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
@@ -53,9 +53,9 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With two members with minimal data, the members are persisted")
     public void testCreate_Minimal_Additional_AddsEntity() {
-        DtoMemberCreateRequest memberRequest;
+        ValidatedMemberCreate memberRequest;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname("");
         memberRequest.setPhone("");
@@ -64,7 +64,7 @@ public class ITMemberServiceCreate {
 
         service.create(memberRequest);
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member 2");
         memberRequest.setSurname("");
         memberRequest.setPhone("");
@@ -80,10 +80,10 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     public void testCreate_PersistedData() {
-        final DtoMemberCreateRequest memberRequest;
-        final PersistentMember       entity;
+        final ValidatedMemberCreate memberRequest;
+        final PersistentMember      entity;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("12345");
@@ -116,10 +116,10 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     public void testCreate_ReturnedData() {
-        final DtoMemberCreateRequest memberRequest;
-        final Member                 member;
+        final ValidatedMemberCreate memberRequest;
+        final Member                member;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("12345");

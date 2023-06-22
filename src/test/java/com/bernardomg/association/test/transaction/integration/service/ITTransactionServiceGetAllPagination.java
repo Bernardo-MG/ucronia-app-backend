@@ -40,8 +40,8 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
-import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
@@ -59,13 +59,13 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
     public void testGetAll_Page_Container() {
-        final Iterable<Transaction>   transactions;
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
 
         pageable = Pageable.ofSize(10);
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -76,14 +76,14 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     public void testGetAll_Page1() {
-        final Iterable<Transaction>   transactions;
-        final TransactionQueryRequest transactionQuery;
-        final Transaction             transaction;
-        final Pageable                pageable;
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Transaction           transaction;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -102,14 +102,14 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     public void testGetAll_Page2() {
-        final Iterable<Transaction>   transactions;
-        final TransactionQueryRequest transactionQuery;
-        final Transaction             transaction;
-        final Pageable                pageable;
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Transaction           transaction;
+        final Pageable              pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -128,13 +128,13 @@ public class ITTransactionServiceGetAllPagination {
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
     public void testGetAll_Unpaged_Container() {
-        final Iterable<Transaction>   transactions;
-        final TransactionQueryRequest transactionQuery;
-        final Pageable                pageable;
+        final Iterable<Transaction> transactions;
+        final TransactionQuery      transactionQuery;
+        final Pageable              pageable;
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = new DtoTransactionQueryRequest();
+        transactionQuery = new ValidatedTransactionQuery();
 
         transactions = service.getAll(transactionQuery, pageable);
 

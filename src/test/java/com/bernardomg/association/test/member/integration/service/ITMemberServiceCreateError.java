@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.request.DtoMemberCreateRequest;
+import com.bernardomg.association.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -55,10 +55,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing active flag it throws an exception")
     public void testCreate_MissingActive() {
-        final DtoMemberCreateRequest memberRequest;
-        final ThrowingCallable       execution;
+        final ValidatedMemberCreate memberRequest;
+        final ThrowingCallable      execution;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("111");
@@ -77,10 +77,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing identifier it throws an exception")
     public void testCreate_MissingIdentifier() {
-        final DtoMemberCreateRequest memberRequest;
-        final ThrowingCallable       execution;
+        final ValidatedMemberCreate memberRequest;
+        final ThrowingCallable      execution;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("111");
@@ -99,10 +99,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing name it throws an exception")
     public void testCreate_MissingName() {
-        final DtoMemberCreateRequest memberRequest;
-        final ThrowingCallable       execution;
+        final ValidatedMemberCreate memberRequest;
+        final ThrowingCallable      execution;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName(null);
         memberRequest.setSurname("Surname");
         memberRequest.setPhone("111");
@@ -121,10 +121,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing phone it throws an exception")
     public void testCreate_MissingPhone() {
-        final DtoMemberCreateRequest memberRequest;
-        final ThrowingCallable       execution;
+        final ValidatedMemberCreate memberRequest;
+        final ThrowingCallable      execution;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname("Surname");
         memberRequest.setPhone(null);
@@ -143,10 +143,10 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing surname it throws an exception")
     public void testCreate_MissingSurname() {
-        final DtoMemberCreateRequest memberRequest;
-        final ThrowingCallable       execution;
+        final ValidatedMemberCreate memberRequest;
+        final ThrowingCallable      execution;
 
-        memberRequest = new DtoMemberCreateRequest();
+        memberRequest = new ValidatedMemberCreate();
         memberRequest.setName("Member");
         memberRequest.setSurname(null);
         memberRequest.setPhone("111");

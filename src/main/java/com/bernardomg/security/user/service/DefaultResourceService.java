@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.model.ImmutableResource;
 import com.bernardomg.security.user.model.Resource;
-import com.bernardomg.security.user.model.request.ResourceQueryRequest;
+import com.bernardomg.security.user.model.request.ResourceQuery;
 import com.bernardomg.security.user.persistence.model.PersistentResource;
 import com.bernardomg.security.user.persistence.repository.ResourceRepository;
 
@@ -22,7 +22,7 @@ public final class DefaultResourceService implements ResourceService {
     private final ResourceRepository repository;
 
     @Override
-    public final Iterable<Resource> getAll(final ResourceQueryRequest sample, final Pageable pageable) {
+    public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entity;
 
         entity = toEntity(sample);
@@ -44,7 +44,7 @@ public final class DefaultResourceService implements ResourceService {
             .build();
     }
 
-    private final PersistentResource toEntity(final ResourceQueryRequest data) {
+    private final PersistentResource toEntity(final ResourceQuery data) {
         return PersistentResource.builder()
             .name(data.getName())
             .build();

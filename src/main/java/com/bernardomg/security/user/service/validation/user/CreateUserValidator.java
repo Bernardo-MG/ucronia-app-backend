@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.security.user.model.request.UserCreateRequest;
+import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.ValidationRule;
@@ -17,7 +17,7 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateUserValidator implements Validator<UserCreateRequest> {
+public final class CreateUserValidator implements Validator<UserCreate> {
 
     /**
      * Email validation rule. To check the email fits into the valid email pattern.
@@ -33,7 +33,7 @@ public final class CreateUserValidator implements Validator<UserCreateRequest> {
     }
 
     @Override
-    public final void validate(final UserCreateRequest user) {
+    public final void validate(final UserCreate user) {
         final Collection<FieldFailure> failures;
         final Optional<Failure>        optFailure;
         FieldFailure                   failure;

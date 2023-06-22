@@ -34,7 +34,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeCreateRequest;
+import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
@@ -59,10 +59,10 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("Persists the data with a day which is not the first of the month")
     public void testCreate_AnotherDay_PersistedData() {
-        final DtoFeeCreateRequest feeRequest;
-        final PersistentFee       entity;
+        final ValidatedFeeCreate feeRequest;
+        final PersistentFee      entity;
 
-        feeRequest = new DtoFeeCreateRequest();
+        feeRequest = new ValidatedFeeCreate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 2));
         feeRequest.setPaid(true);
@@ -86,10 +86,10 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it adds the entity data to the persistence layer")
     public void testCreate_PersistedData() {
-        final DtoFeeCreateRequest feeRequest;
-        final PersistentFee       entity;
+        final ValidatedFeeCreate feeRequest;
+        final PersistentFee      entity;
 
-        feeRequest = new DtoFeeCreateRequest();
+        feeRequest = new ValidatedFeeCreate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(true);
@@ -113,10 +113,10 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it returns the created data")
     public void testCreate_ReturnedData() {
-        final DtoFeeCreateRequest feeRequest;
-        final MemberFee           fee;
+        final ValidatedFeeCreate feeRequest;
+        final MemberFee          fee;
 
-        feeRequest = new DtoFeeCreateRequest();
+        feeRequest = new ValidatedFeeCreate();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(true);

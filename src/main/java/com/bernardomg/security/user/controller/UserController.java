@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserCreateRequest;
-import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
-import com.bernardomg.security.user.model.request.DtoUserUpdateRequest;
+import com.bernardomg.security.user.model.request.ValidatedUserCreate;
+import com.bernardomg.security.user.model.request.ValidatedUserQuery;
+import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -58,7 +58,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final DtoUserCreateRequest user) {
+    public User create(@Valid @RequestBody final ValidatedUserCreate user) {
         return service.create(user);
     }
 
@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<User> readAll(final DtoUserQueryRequest user, final Pageable pageable) {
+    public Iterable<User> readAll(final ValidatedUserQuery user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUserUpdateRequest form) {
+    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedUserUpdate form) {
         form.setId(id);
 
         return service.update(form);
