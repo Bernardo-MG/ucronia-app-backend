@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.model.ImmutableBalance;
-import com.bernardomg.association.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.balance.model.MonthlyBalance;
-import com.bernardomg.association.balance.persistence.model.PersistentMonthlyBalance;
+import com.bernardomg.association.balance.model.mapper.BalanceMapper;
 import com.bernardomg.association.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
@@ -20,6 +19,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultBalanceService implements BalanceService {
 
+    private final BalanceMapper            mapper;
+
     private final MonthlyBalanceRepository monthlyBalanceRepository;
 
     private final TransactionRepository    transactionRepository;
@@ -28,7 +29,7 @@ public final class DefaultBalanceService implements BalanceService {
     public final Collection<MonthlyBalance> getMonthlyBalance() {
         return monthlyBalanceRepository.findAll()
             .stream()
-            .map(this::toDto)
+            .map(mapper::toDto)
             .toList();
     }
 
@@ -47,14 +48,6 @@ public final class DefaultBalanceService implements BalanceService {
 
         return ImmutableBalance.builder()
             .amount(sum)
-            .build();
-    }
-
-    private final MonthlyBalance toDto(final PersistentMonthlyBalance entity) {
-        return ImmutableMonthlyBalance.builder()
-            .date(entity.getDate())
-            .total(entity.getTotal())
-            .cumulative(entity.getCumulative())
             .build();
     }
 
