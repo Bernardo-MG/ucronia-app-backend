@@ -32,9 +32,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
 
 @IntegrationTest
 @DisplayName("Member service - get one")
@@ -60,19 +62,13 @@ public class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
     }
 
     @Test
@@ -88,19 +84,13 @@ public class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(member.getActive())
-            .isFalse();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .active(false)
+            .build());
     }
 
     @Test

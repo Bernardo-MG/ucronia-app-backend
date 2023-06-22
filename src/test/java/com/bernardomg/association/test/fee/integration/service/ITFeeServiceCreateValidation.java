@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -53,20 +53,25 @@ public class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("With a missing id it throws an exception")
     public void testCreate_InvalidMember() {
-        final DtoFeeCreationRequest feeRequest;
-        final ThrowingCallable      execution;
-        final FieldFailure          failure;
+        final ValidatedFeeCreate feeRequest;
+        final ThrowingCallable   execution;
+        final FieldFailure       failure;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(-1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(true);
+        feeRequest = getInvalidIdFeeCreate();
 
         execution = () -> service.create(feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    private final ValidatedFeeCreate getInvalidIdFeeCreate() {
+        return ValidatedFeeCreate.builder()
+            .memberId(-1L)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .paid(true)
+            .build();
     }
 
 }

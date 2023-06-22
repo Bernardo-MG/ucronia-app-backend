@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 
 public final class TransactionSpecifications {
@@ -23,7 +23,7 @@ public final class TransactionSpecifications {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<PersistentTransaction>> fromRequest(final TransactionQueryRequest request) {
+    public static Optional<Specification<PersistentTransaction>> fromRequest(final TransactionQuery request) {
         final Optional<Specification<PersistentTransaction>> spec;
 
         if (request.getDate() != null) {

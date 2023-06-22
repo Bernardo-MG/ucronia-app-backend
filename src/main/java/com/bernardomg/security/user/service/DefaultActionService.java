@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.model.Action;
 import com.bernardomg.security.user.model.ImmutableAction;
-import com.bernardomg.security.user.model.request.ActionQueryRequest;
+import com.bernardomg.security.user.model.request.ActionQuery;
 import com.bernardomg.security.user.persistence.model.PersistentAction;
 import com.bernardomg.security.user.persistence.repository.ActionRepository;
 
@@ -22,7 +22,7 @@ public final class DefaultActionService implements ActionService {
     private final ActionRepository repository;
 
     @Override
-    public final Iterable<Action> getAll(final ActionQueryRequest sample, final Pageable pageable) {
+    public final Iterable<Action> getAll(final ActionQuery sample, final Pageable pageable) {
         final PersistentAction entity;
 
         entity = toEntity(sample);
@@ -44,7 +44,7 @@ public final class DefaultActionService implements ActionService {
             .build();
     }
 
-    private final PersistentAction toEntity(final ActionQueryRequest data) {
+    private final PersistentAction toEntity(final ActionQuery data) {
         return PersistentAction.builder()
             .name(data.getName())
             .build();

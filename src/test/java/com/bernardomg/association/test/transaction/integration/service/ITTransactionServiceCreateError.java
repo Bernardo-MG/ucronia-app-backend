@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.test.transaction.integration.service;
 
-import java.util.GregorianCalendar;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +33,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
+import com.bernardomg.association.test.transaction.util.model.TransactionsCreate;
+import com.bernardomg.association.transaction.model.request.TransactionCreation;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
@@ -57,19 +56,17 @@ public class ITTransactionServiceCreateError {
     @Test
     @DisplayName("With a transaction missing the amount, an exception is thrown")
     public void testCreate_MissingAmount() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final ThrowingCallable            execution;
+        final TransactionCreation transactionRequest;
+        final ThrowingCallable    execution;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(null);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.missingAmount();
 
         execution = () -> {
             service.create(transactionRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -77,39 +74,35 @@ public class ITTransactionServiceCreateError {
     @Test
     @DisplayName("With a transaction missing the date, an exception is thrown")
     public void testCreate_MissingDate() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final ThrowingCallable            execution;
+        final TransactionCreation transactionRequest;
+        final ThrowingCallable    execution;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(null);
+        transactionRequest = TransactionsCreate.missingDate();
 
         execution = () -> {
             service.create(transactionRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DisplayName("With a transaction missing the description, an exception is thrown")
-    public void testCreate_MissingName() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final ThrowingCallable            execution;
+    public void testCreate_MissingDescription() {
+        final TransactionCreation transactionRequest;
+        final ThrowingCallable    execution;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription(null);
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.missingDescription();
 
         execution = () -> {
             service.create(transactionRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }

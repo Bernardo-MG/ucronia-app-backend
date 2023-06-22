@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.test.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 
 @IntegrationTest
 @DisplayName("User service - create")
@@ -31,9 +33,9 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     public void testCreate_AddsEntity() {
-        final User user;
+        final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         service.create(user);
 
@@ -44,10 +46,10 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Persists the data")
     public void testCreate_PersistedData() {
-        final User           user;
+        final UserCreate     user;
         final PersistentUser entity;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         service.create(user);
         entity = repository.findAll()
@@ -69,10 +71,10 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Persists the data, ignoring case")
     public void testCreate_PersistedData_Case() {
-        final ImmutableUser  user;
+        final UserCreate     user;
         final PersistentUser entity;
 
-        user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         service.create(user);
         entity = repository.findAll()
@@ -88,10 +90,10 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Returns the created data")
     public void testCreate_ReturnedData() {
-        final User user;
-        final User result;
+        final UserCreate user;
+        final User       result;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         result = service.create(user);
 
@@ -109,10 +111,10 @@ public class ITUserServiceCreate {
     @Test
     @DisplayName("Returns the created data, ignoring case")
     public void testCreate_ReturnedData_Case() {
-        final ImmutableUser user;
-        final User          result;
+        final UserCreate user;
+        final User       result;
 
-        user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         result = service.create(user);
 
@@ -120,30 +122,6 @@ public class ITUserServiceCreate {
             .isEqualTo("admin");
         Assertions.assertThat(result.getEmail())
             .isEqualTo("email@somewhere.com");
-    }
-
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
-    }
-
-    private final ImmutableUser getUser(final String username, final String email) {
-        return ImmutableUser.builder()
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

@@ -14,7 +14,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.service.RoleService;
-import com.bernardomg.security.user.test.assertion.RolePermissionAssertions;
+import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions;
 
 @IntegrationTest
 @DisplayName("Role service - remove permission")

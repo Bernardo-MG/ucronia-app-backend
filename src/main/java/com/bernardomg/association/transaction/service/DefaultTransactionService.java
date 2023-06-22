@@ -14,7 +14,9 @@ import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.TransactionCreation;
+import com.bernardomg.association.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.persistence.repository.TransactionSpecifications;
@@ -35,7 +37,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
-    public final Transaction create(final Transaction transaction) {
+    public final Transaction create(final TransactionCreation transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
@@ -57,7 +59,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Iterable<Transaction> getAll(final TransactionQueryRequest request, final Pageable pageable) {
+    public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
@@ -129,7 +131,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
-    public final Transaction update(final Long id, final Transaction transaction) {
+    public final Transaction update(final Long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
@@ -149,7 +151,15 @@ public final class DefaultTransactionService implements TransactionService {
             .build();
     }
 
-    private final PersistentTransaction toEntity(final Transaction transaction) {
+    private final PersistentTransaction toEntity(final TransactionCreation transaction) {
+        return PersistentTransaction.builder()
+            .date(transaction.getDate())
+            .description(transaction.getDescription())
+            .amount(transaction.getAmount())
+            .build();
+    }
+
+    private final PersistentTransaction toEntity(final TransactionUpdate transaction) {
         return PersistentTransaction.builder()
             .id(transaction.getId())
             .date(transaction.getDate())

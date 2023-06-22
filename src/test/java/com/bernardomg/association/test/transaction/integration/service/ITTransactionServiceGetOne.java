@@ -39,7 +39,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.config.factory.ModelFactory;
-import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;

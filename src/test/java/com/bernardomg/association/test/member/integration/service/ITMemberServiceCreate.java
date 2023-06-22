@@ -29,12 +29,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
+import com.bernardomg.association.member.model.request.MemberCreate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.test.member.util.model.MembersCreate;
 
 @IntegrationTest
 @DisplayName("Member service - create")
@@ -53,23 +56,13 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With two members with minimal data, the members are persisted")
     public void testCreate_Minimal_Additional_AddsEntity() {
-        DtoMemberCreationRequest memberRequest;
+        MemberCreate memberRequest;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname("");
-        memberRequest.setPhone("");
-        memberRequest.setIdentifier("");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.active();
 
         service.create(memberRequest);
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member 2");
-        memberRequest.setSurname("");
-        memberRequest.setPhone("");
-        memberRequest.setIdentifier("");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.alternative();
 
         service.create(memberRequest);
 
@@ -80,15 +73,10 @@ public class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     public void testCreate_PersistedData() {
-        final DtoMemberCreationRequest memberRequest;
-        final PersistentMember         entity;
+        final MemberCreate     memberRequest;
+        final PersistentMember entity;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname("Surname");
-        memberRequest.setPhone("12345");
-        memberRequest.setIdentifier("6789");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.active();
 
         service.create(memberRequest);
 
@@ -99,47 +87,32 @@ public class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        Assertions.assertThat(entity.getId())
-            .isNotNull();
-        Assertions.assertThat(entity.getName())
-            .isEqualTo("Member");
-        Assertions.assertThat(entity.getSurname())
-            .isEqualTo("Surname");
-        Assertions.assertThat(entity.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(entity.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(entity.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
+            .name("Member")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
     }
 
     @Test
     @DisplayName("With a valid member, the created member is returned")
     public void testCreate_ReturnedData() {
-        final DtoMemberCreationRequest memberRequest;
-        final Member                   member;
+        final MemberCreate memberRequest;
+        final Member       member;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname("Surname");
-        memberRequest.setPhone("12345");
-        memberRequest.setIdentifier("6789");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.active();
 
         member = service.create(memberRequest);
 
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
     }
 
 }

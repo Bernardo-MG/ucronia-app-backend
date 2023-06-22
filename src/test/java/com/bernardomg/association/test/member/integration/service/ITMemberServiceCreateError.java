@@ -32,10 +32,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
+import com.bernardomg.association.member.model.request.MemberCreate;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.model.MembersCreate;
 
 @IntegrationTest
 @DisplayName("Member service - create errors")
@@ -55,21 +56,17 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing active flag it throws an exception")
     public void testCreate_MissingActive() {
-        final DtoMemberCreationRequest memberRequest;
-        final ThrowingCallable         execution;
+        final MemberCreate     memberRequest;
+        final ThrowingCallable execution;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname("Surname");
-        memberRequest.setPhone("111");
-        memberRequest.setIdentifier("6789");
-        memberRequest.setActive(null);
+        memberRequest = MembersCreate.missingActive();
 
         execution = () -> {
             service.create(memberRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -77,21 +74,17 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing identifier it throws an exception")
     public void testCreate_MissingIdentifier() {
-        final DtoMemberCreationRequest memberRequest;
-        final ThrowingCallable         execution;
+        final MemberCreate     memberRequest;
+        final ThrowingCallable execution;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname("Surname");
-        memberRequest.setPhone("111");
-        memberRequest.setIdentifier(null);
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.missingIdentifier();
 
         execution = () -> {
             service.create(memberRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -99,21 +92,17 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing name it throws an exception")
     public void testCreate_MissingName() {
-        final DtoMemberCreationRequest memberRequest;
-        final ThrowingCallable         execution;
+        final MemberCreate     memberRequest;
+        final ThrowingCallable execution;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName(null);
-        memberRequest.setSurname("Surname");
-        memberRequest.setPhone("111");
-        memberRequest.setIdentifier("6789");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.missingName();
 
         execution = () -> {
             service.create(memberRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -121,21 +110,17 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing phone it throws an exception")
     public void testCreate_MissingPhone() {
-        final DtoMemberCreationRequest memberRequest;
-        final ThrowingCallable         execution;
+        final MemberCreate     memberRequest;
+        final ThrowingCallable execution;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname("Surname");
-        memberRequest.setPhone(null);
-        memberRequest.setIdentifier("6789");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.missingPhone();
 
         execution = () -> {
             service.create(memberRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }
@@ -143,21 +128,17 @@ public class ITMemberServiceCreateError {
     @Test
     @DisplayName("With a missing surname it throws an exception")
     public void testCreate_MissingSurname() {
-        final DtoMemberCreationRequest memberRequest;
-        final ThrowingCallable         execution;
+        final MemberCreate     memberRequest;
+        final ThrowingCallable execution;
 
-        memberRequest = new DtoMemberCreationRequest();
-        memberRequest.setName("Member");
-        memberRequest.setSurname(null);
-        memberRequest.setPhone("111");
-        memberRequest.setIdentifier("6789");
-        memberRequest.setActive(true);
+        memberRequest = MembersCreate.missingSurname();
 
         execution = () -> {
             service.create(memberRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(DataIntegrityViolationException.class);
     }

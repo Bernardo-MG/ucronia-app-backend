@@ -32,9 +32,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Action;
-import com.bernardomg.security.user.model.request.DtoActionQueryRequest;
+import com.bernardomg.security.user.model.request.ValidatedActionQuery;
 import com.bernardomg.security.user.service.ActionService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -51,7 +52,7 @@ public class ActionController {
     private final ActionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Action> readAll(final DtoActionQueryRequest action, final Pageable pageable) {
+    public Iterable<Action> readAll(@Valid final ValidatedActionQuery action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 

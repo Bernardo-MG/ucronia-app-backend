@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 
 @IntegrationTest
 @DisplayName("User service - create - existing")
@@ -31,10 +32,10 @@ public class ITUserServiceCreateExisting {
     @Test
     @DisplayName("Doesn't create over existing ids")
     public void testCreate() {
-        final User          result;
-        final ImmutableUser user;
+        final User       result;
+        final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.alternative();
 
         result = service.create(user);
 
@@ -46,27 +47,14 @@ public class ITUserServiceCreateExisting {
     @Test
     @DisplayName("Adds an entity when creating with an existing id")
     public void testCreate_AddsEntity() {
-        final ImmutableUser user;
+        final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.alternative();
 
         service.create(user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
-    }
-
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
-            .id(1L)
-            .username("user")
-            .name("User")
-            .email("email2@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

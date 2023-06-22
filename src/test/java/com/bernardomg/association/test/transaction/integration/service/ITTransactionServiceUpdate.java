@@ -33,17 +33,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.model.TransactionsUpdate;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
+import com.bernardomg.association.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - update")
-@Sql({ "/db/queries/transaction/single.sql" })
 public class ITTransactionServiceUpdate {
 
     @Autowired
@@ -58,13 +58,11 @@ public class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
+    @Sql({ "/db/queries/transaction/single.sql" })
     public void testUpdate_AddsNoEntity() {
-        final DtoTransactionCreationQuery transactionRequest;
+        final TransactionUpdate transactionRequest;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction 123");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsUpdate.descriptionChange();
 
         service.update(1L, transactionRequest);
 
@@ -74,14 +72,12 @@ public class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
+    @Sql({ "/db/queries/transaction/single.sql" })
     public void testUpdate_Decimal_PersistedData() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final PersistentTransaction       transaction;
+        final TransactionUpdate     transactionRequest;
+        final PersistentTransaction transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1.2f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsUpdate.decimal();
 
         service.update(1L, transactionRequest);
         transaction = repository.findAll()
@@ -97,14 +93,12 @@ public class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a transaction containing a decimal value, the data is returned")
+    @Sql({ "/db/queries/transaction/single.sql" })
     public void testUpdate_Decimal_ReturnedData() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final Transaction                 transaction;
+        final TransactionUpdate transactionRequest;
+        final Transaction       transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1.2f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsUpdate.decimal();
 
         transaction = service.update(1L, transactionRequest);
 
@@ -118,29 +112,24 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoTransactionCreationQuery transactionRequest;
+        final TransactionUpdate transactionRequest;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction 123");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsUpdate.descriptionChange();
 
         service.update(10L, transactionRequest);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(2);
+            .isEqualTo(1);
     }
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
+    @Sql({ "/db/queries/transaction/single.sql" })
     public void testUpdate_PersistedData() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final PersistentTransaction       transaction;
+        final TransactionUpdate     transactionRequest;
+        final PersistentTransaction transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction 123");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsUpdate.descriptionChange();
 
         service.update(1L, transactionRequest);
         transaction = repository.findAll()
@@ -156,14 +145,12 @@ public class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
+    @Sql({ "/db/queries/transaction/single.sql" })
     public void testUpdate_ReturnedData() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final Transaction                 transaction;
+        final TransactionUpdate transactionRequest;
+        final Transaction       transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction 123");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsUpdate.descriptionChange();
 
         transaction = service.update(1L, transactionRequest);
 

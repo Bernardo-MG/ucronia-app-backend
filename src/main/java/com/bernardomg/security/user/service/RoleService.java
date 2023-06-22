@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.RoleQueryRequest;
+import com.bernardomg.security.user.model.request.RoleCreate;
+import com.bernardomg.security.user.model.request.RoleQuery;
+import com.bernardomg.security.user.model.request.RoleUpdate;
 
 public interface RoleService {
 
@@ -31,7 +33,7 @@ public interface RoleService {
      *            role to persist
      * @return the persisted role
      */
-    public Role create(final Role role);
+    public Role create(final RoleCreate role);
 
     /**
      * Deletes the role with the received id.
@@ -51,7 +53,7 @@ public interface RoleService {
      *            pagination to apply
      * @return all the roles matching the sample
      */
-    public Iterable<Role> getAll(final RoleQueryRequest sample, final Pageable pageable);
+    public Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable);
 
     /**
      * Returns the role for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -93,6 +95,6 @@ public interface RoleService {
      *            new data for the role
      * @return the updated role
      */
-    public Role update(final Role role);
+    public Role update(final RoleUpdate role);
 
 }

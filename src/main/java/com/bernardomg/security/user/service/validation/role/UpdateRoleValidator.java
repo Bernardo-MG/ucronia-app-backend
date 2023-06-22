@@ -4,7 +4,7 @@ package com.bernardomg.security.user.service.validation.role;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -13,7 +13,7 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class UpdateRoleValidator implements Validator<Role> {
+public final class UpdateRoleValidator implements Validator<RoleUpdate> {
 
     private final RoleRepository roleRepository;
 
@@ -24,7 +24,7 @@ public final class UpdateRoleValidator implements Validator<Role> {
     }
 
     @Override
-    public final void validate(final Role role) {
+    public final void validate(final RoleUpdate role) {
         final Collection<FieldFailure> failures;
         FieldFailure                   failure;
 

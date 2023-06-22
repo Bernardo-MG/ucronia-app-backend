@@ -33,10 +33,12 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.test.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
 @DisplayName("Role service - update with no roles")
@@ -58,9 +60,9 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Adds no entity when updating")
     public void testUpdate_AddsNoEntity() {
-        final User user;
+        final UserUpdate user;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
         service.update(user);
 
@@ -71,10 +73,10 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     public void testUpdate_PersistedData() {
-        final User           user;
+        final UserUpdate     user;
         final PersistentUser entity;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
         service.update(user);
         entity = repository.findAll()
@@ -96,10 +98,10 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Updates persisted data, ignoring case")
     public void testUpdate_PersistedData_Case() {
-        final ImmutableUser  user;
+        final UserUpdate     user;
         final PersistentUser entity;
 
-        user = getUser("EMAIL@SOMEWHERE.COM");
+        user = UsersUpdate.emailChangeUpperCase();
 
         service.update(user);
         entity = repository.findAll()
@@ -107,16 +109,16 @@ public class ITUserServiceUpdate {
             .next();
 
         Assertions.assertThat(entity.getEmail())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo("email2@somewhere.com");
     }
 
     @Test
     @DisplayName("Returns the updated data")
     public void testUpdate_ReturnedData() {
-        final User user;
-        final User result;
+        final UserUpdate user;
+        final User       result;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
         result = service.update(user);
 
@@ -134,41 +136,15 @@ public class ITUserServiceUpdate {
     @Test
     @DisplayName("Returns the updated data, ignoring case")
     public void testUpdate_ReturnedData_Case() {
-        final ImmutableUser user;
-        final User          result;
+        final UserUpdate user;
+        final User       result;
 
-        user = getUser("EMAIL2@SOMEWHERE.COM");
+        user = UsersUpdate.emailChangeUpperCase();
 
         result = service.update(user);
 
         Assertions.assertThat(result.getEmail())
             .isEqualTo("email2@somewhere.com");
-    }
-
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
-            .id(1L)
-            .username("admin")
-            .name("Admin")
-            .email("email2@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
-    }
-
-    private final ImmutableUser getUser(final String email) {
-        return ImmutableUser.builder()
-            .id(1L)
-            .username("admin")
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

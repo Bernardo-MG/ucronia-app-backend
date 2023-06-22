@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.test.fee.integration.service;
 
-import java.util.GregorianCalendar;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -33,9 +31,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.model.request.FeeUpdate;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.util.model.FeesUpdate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -53,16 +52,13 @@ public class ITFeeServiceUpdateValidation {
     @Test
     @DisplayName("With an invalid id, an exception is thrown")
     @Sql({ "/db/queries/fee/single.sql" })
-    @Disabled("This can't happen, it required an inconsistent DB")
+    @Disabled("This can't happen, it requires an inconsistent DB")
     public void testUpdate_InvalidMember() {
-        final DtoFeeCreationRequest feeRequest;
-        final ThrowingCallable      execution;
-        final FieldFailure          failure;
+        final FeeUpdate        feeRequest;
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(false);
+        feeRequest = FeesUpdate.paid();
 
         execution = () -> service.update(1L, feeRequest);
 

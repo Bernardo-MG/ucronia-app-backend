@@ -13,7 +13,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.test.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 
 @IntegrationTest
 @DisplayName("User service - get one - enabled")

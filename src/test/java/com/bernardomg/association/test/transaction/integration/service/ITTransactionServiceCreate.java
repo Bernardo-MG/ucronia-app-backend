@@ -35,10 +35,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.test.transaction.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.test.transaction.util.model.TransactionsCreate;
 import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
+import com.bernardomg.association.transaction.model.request.TransactionCreation;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
@@ -61,13 +62,10 @@ public class ITTransactionServiceCreate {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the transaction is persisted")
     public void testCreate_Decimal_PersistedData(final Float amount) {
-        final DtoTransactionCreationQuery transactionRequest;
-        final PersistentTransaction       entity;
+        final TransactionCreation   transactionRequest;
+        final PersistentTransaction entity;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(amount);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.amount(amount);
 
         service.create(transactionRequest);
         entity = repository.findAll()
@@ -82,13 +80,10 @@ public class ITTransactionServiceCreate {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the persisted transaction is returned")
     public void testCreate_Decimal_ReturnedData(final Float amount) {
-        final DtoTransactionCreationQuery transactionRequest;
-        final Transaction                 transaction;
+        final TransactionCreation transactionRequest;
+        final Transaction         transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(amount);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.amount(amount);
 
         transaction = service.create(transactionRequest);
 
@@ -99,13 +94,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a transaction for the first day of the year, the member is persisted")
     public void testCreate_FirstDay_AddsEntity() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final PersistentTransaction       entity;
+        final TransactionCreation   transactionRequest;
+        final PersistentTransaction entity;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 0, 1));
+        transactionRequest = TransactionsCreate.firstDay();
 
         service.create(transactionRequest);
 
@@ -126,13 +118,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a transaction for the first day of the year, the persisted data is returned")
     public void testCreate_FirstDay_ReturnedData() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final Transaction                 transaction;
+        final TransactionCreation transactionRequest;
+        final Transaction         transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 0, 1));
+        transactionRequest = TransactionsCreate.firstDay();
 
         transaction = service.create(transactionRequest);
 
@@ -146,13 +135,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a transaction for the a day during year, the member is persisted")
     public void testCreate_InYear_AddsEntity() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final PersistentTransaction       entity;
+        final TransactionCreation   transactionRequest;
+        final PersistentTransaction entity;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.inYear();
 
         service.create(transactionRequest);
 
@@ -173,13 +159,10 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a transaction for the a day during year, the persisted member is created")
     public void testCreate_InYear_ReturnedData() {
-        final DtoTransactionCreationQuery transactionRequest;
-        final Transaction                 transaction;
+        final TransactionCreation transactionRequest;
+        final Transaction         transaction;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.inYear();
 
         transaction = service.create(transactionRequest);
 
@@ -193,12 +176,9 @@ public class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a repeated creation, two members are persisted")
     public void testCreate_Repeat_AddsEntity() {
-        final DtoTransactionCreationQuery transactionRequest;
+        final TransactionCreation transactionRequest;
 
-        transactionRequest = new DtoTransactionCreationQuery();
-        transactionRequest.setDescription("Transaction");
-        transactionRequest.setAmount(1f);
-        transactionRequest.setDate(new GregorianCalendar(2020, 1, 1));
+        transactionRequest = TransactionsCreate.inYear();
 
         service.create(transactionRequest);
 

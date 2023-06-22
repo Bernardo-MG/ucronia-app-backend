@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Resource;
-import com.bernardomg.security.user.model.request.ResourceQueryRequest;
+import com.bernardomg.security.user.model.request.ResourceQuery;
 
 public interface ResourceService {
 
@@ -19,7 +19,7 @@ public interface ResourceService {
      *            pagination to apply
      * @return all the action matching the sample
      */
-    public Iterable<Resource> getAll(final ResourceQueryRequest sample, final Pageable pageable);
+    public Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable);
 
     /**
      * Returns the action for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

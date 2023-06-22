@@ -33,9 +33,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.model.MembersQuery;
 
 @IntegrationTest
 @DisplayName("Member service - get all - filter")
@@ -52,14 +53,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to active status, the returned data is filtered")
     public void testGetAll_Active_Count() {
-        final Iterable<Member>      members;
-        final DtoMemberQueryRequest memberQuery;
-        final Pageable              pageable;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
-        memberQuery.setActive(true);
+        memberQuery = MembersQuery.active();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -70,14 +70,13 @@ public class ITMemberServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to not active status, the returned data is filtered")
     public void testGetAll_NotActive_Count() {
-        final Iterable<Member>      members;
-        final DtoMemberQueryRequest memberQuery;
-        final Pageable              pageable;
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new DtoMemberQueryRequest();
-        memberQuery.setActive(false);
+        memberQuery = MembersQuery.notActive();
 
         members = service.getAll(memberQuery, pageable);
 

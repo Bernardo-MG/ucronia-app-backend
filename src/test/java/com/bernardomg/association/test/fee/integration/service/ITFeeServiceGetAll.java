@@ -37,11 +37,11 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
-import com.bernardomg.association.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all")
@@ -60,12 +60,12 @@ public class ITFeeServiceGetAll {
     public void testGetAll_FullYear() {
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -176,12 +176,12 @@ public class ITFeeServiceGetAll {
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
     public void testGetAll_Inactive() {
         final Iterable<MemberFee> fees;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -205,12 +205,12 @@ public class ITFeeServiceGetAll {
     public void testGetAll_Multiple() {
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
-        final FeeQueryRequest     feeQuery;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        feeQuery = new DtoFeeQueryRequest();
+        feeQuery = FeesQuery.empty();
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -265,14 +265,14 @@ public class ITFeeServiceGetAll {
     @Sql({ "/db/queries/member/single.sql" })
     public void testGetAll_NoFee() {
         final Iterable<MemberFee> fees;
-        final FeeQueryRequest     sample;
+        final FeeQuery            feeQuery;
         final Pageable            pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = new DtoFeeQueryRequest();
+        feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(sample, pageable);
+        fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isZero();

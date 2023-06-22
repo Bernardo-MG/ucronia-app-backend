@@ -34,12 +34,13 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.model.request.FeeCreate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesCreate;
 
 @IntegrationTest
 @DisplayName("Fee service - create")
@@ -59,13 +60,10 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("Persists the data with a day which is not the first of the month")
     public void testCreate_AnotherDay_PersistedData() {
-        final DtoFeeCreationRequest feeRequest;
-        final PersistentFee         entity;
+        final FeeCreate     feeRequest;
+        final PersistentFee entity;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 2));
-        feeRequest.setPaid(true);
+        feeRequest = FeesCreate.paid();
 
         service.create(feeRequest);
 
@@ -86,13 +84,10 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it adds the entity data to the persistence layer")
     public void testCreate_PersistedData() {
-        final DtoFeeCreationRequest feeRequest;
-        final PersistentFee         entity;
+        final FeeCreate     feeRequest;
+        final PersistentFee entity;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(true);
+        feeRequest = FeesCreate.paid();
 
         service.create(feeRequest);
 
@@ -113,13 +108,10 @@ public class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it returns the created data")
     public void testCreate_ReturnedData() {
-        final DtoFeeCreationRequest feeRequest;
-        final MemberFee             fee;
+        final FeeCreate feeRequest;
+        final MemberFee fee;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(true);
+        feeRequest = FeesCreate.paid();
 
         fee = service.create(feeRequest);
 

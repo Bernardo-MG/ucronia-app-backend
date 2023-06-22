@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -28,11 +29,11 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingEmail() {
-        final ImmutableUser    data;
+        final UserCreate       data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = getUser("abc", "email@somewhere.com");
+        data = UsersCreate.enabled("abc", "email@somewhere.com");
 
         executable = () -> service.create(data);
 
@@ -45,11 +46,11 @@ public class ITUserServiceCreateValidation {
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testCreate_ExistingUsername() {
-        final ImmutableUser    data;
+        final UserCreate       data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = getUser("admin", "email2@somewhere.com");
+        data = UsersCreate.enabled("admin", "email2@somewhere.com");
 
         executable = () -> service.create(data);
 
@@ -61,29 +62,17 @@ public class ITUserServiceCreateValidation {
     @Test
     @DisplayName("Throws an exception when the email doesn't match the valid pattern")
     public void testCreate_invalidEmail() {
-        final ImmutableUser    data;
+        final UserCreate       data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = getUser("admin", "abc");
+        data = UsersCreate.enabled("admin", "abc");
 
         executable = () -> service.create(data);
 
         failure = FieldFailure.of("email.invalid", "email", "invalid", "abc");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    private final ImmutableUser getUser(final String username, final String email) {
-        return ImmutableUser.builder()
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

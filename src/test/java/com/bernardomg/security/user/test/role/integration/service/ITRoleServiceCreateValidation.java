@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
+import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -30,11 +31,9 @@ public class ITRoleServiceCreateValidation {
     public void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
-        final ImmutableRole    data;
+        final RoleCreate       data;
 
-        data = ImmutableRole.builder()
-            .name("ADMIN")
-            .build();
+        data = RolesCreate.name("ADMIN");
 
         executable = () -> service.create(data);
 

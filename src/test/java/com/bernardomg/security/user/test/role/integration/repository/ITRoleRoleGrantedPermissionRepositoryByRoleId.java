@@ -16,7 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.persistence.model.PersistentRoleGrantedPermission;
 import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
-import com.bernardomg.security.user.test.assertion.RoleGrantedPermissionAssertions;
+import com.bernardomg.security.user.test.util.assertion.RoleGrantedPermissionAssertions;
 
 @IntegrationTest
 @DisplayName("Role repository - find all permissions")

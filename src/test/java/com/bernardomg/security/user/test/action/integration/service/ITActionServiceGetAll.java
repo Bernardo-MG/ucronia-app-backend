@@ -14,8 +14,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Action;
-import com.bernardomg.security.user.model.request.ActionQueryRequest;
-import com.bernardomg.security.user.model.request.DtoActionQueryRequest;
+import com.bernardomg.security.user.model.request.ActionQuery;
+import com.bernardomg.security.user.model.request.ValidatedActionQuery;
 import com.bernardomg.security.user.service.ActionService;
 
 @IntegrationTest
@@ -33,13 +33,13 @@ public class ITActionServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     public void testGetAll_Count() {
-        final Iterable<Action>   result;
-        final ActionQueryRequest sample;
-        final Pageable           pageable;
+        final Iterable<Action> result;
+        final ActionQuery      sample;
+        final Pageable         pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoActionQueryRequest.builder()
+        sample = ValidatedActionQuery.builder()
             .build();
 
         result = service.getAll(sample, pageable);
@@ -52,13 +52,13 @@ public class ITActionServiceGetAll {
     @DisplayName("Returns all data")
     public void testGetAll_Data() {
         final Iterable<Action>   data;
-        final ActionQueryRequest sample;
+        final ActionQuery        sample;
         final Pageable           pageable;
         final Collection<String> names;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoActionQueryRequest.builder()
+        sample = ValidatedActionQuery.builder()
             .build();
 
         data = service.getAll(sample, pageable);
@@ -68,12 +68,9 @@ public class ITActionServiceGetAll {
             .toList();
 
         Assertions.assertThat(names)
-            .contains("CREATE");
-        Assertions.assertThat(names)
-            .contains("READ");
-        Assertions.assertThat(names)
-            .contains("UPDATE");
-        Assertions.assertThat(names)
+            .contains("CREATE")
+            .contains("READ")
+            .contains("UPDATE")
             .contains("DELETE");
     }
 

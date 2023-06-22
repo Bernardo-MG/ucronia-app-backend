@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.UserQueryRequest;
+import com.bernardomg.security.user.model.request.UserCreate;
+import com.bernardomg.security.user.model.request.UserQuery;
+import com.bernardomg.security.user.model.request.UserUpdate;
 
 public interface UserService {
 
@@ -29,7 +31,7 @@ public interface UserService {
      *            user to persist
      * @return the persisted user
      */
-    public User create(final User user);
+    public User create(final UserCreate user);
 
     /**
      * Deletes the user with the received id.
@@ -49,7 +51,7 @@ public interface UserService {
      *            pagination to apply
      * @return all the users matching the sample
      */
-    public Iterable<User> getAll(final UserQueryRequest sample, final Pageable pageable);
+    public Iterable<User> getAll(final UserQuery sample, final Pageable pageable);
 
     /**
      * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -89,6 +91,6 @@ public interface UserService {
      *            new data for the user
      * @return the updated user
      */
-    public User update(final User user);
+    public User update(final UserUpdate user);
 
 }

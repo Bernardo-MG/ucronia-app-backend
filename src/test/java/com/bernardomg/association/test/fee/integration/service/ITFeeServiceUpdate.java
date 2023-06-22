@@ -34,12 +34,13 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.model.request.FeeUpdate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.fee.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.test.fee.util.model.FeesUpdate;
 
 @IntegrationTest
 @DisplayName("Fee service - update")
@@ -59,12 +60,9 @@ public class ITFeeServiceUpdate {
     @DisplayName("With an existing entity, no new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_AddsNoEntity() {
-        final DtoFeeCreationRequest feeRequest;
+        final FeeUpdate feeRequest;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(false);
+        feeRequest = FeesUpdate.unpaid();
 
         service.update(1L, feeRequest);
 
@@ -74,32 +72,26 @@ public class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @Sql({ "/db/queries/member/single.sql" })
     public void testUpdate_NotExisting_AddsEntity() {
-        final DtoFeeCreationRequest feeRequest;
+        final FeeUpdate feeRequest;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 2, 1));
-        feeRequest.setPaid(false);
+        feeRequest = FeesUpdate.paid();
 
         service.update(10L, feeRequest);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(2);
+            .isEqualTo(1);
     }
 
     @Test
     @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     public void testUpdate_Pay_PersistedData() {
-        final DtoFeeCreationRequest feeRequest;
-        final PersistentFee         fee;
+        final FeeUpdate     feeRequest;
+        final PersistentFee fee;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(true);
+        feeRequest = FeesUpdate.paid();
 
         service.update(1L, feeRequest);
         fee = repository.findAll()
@@ -117,13 +109,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_PersistedData() {
-        final DtoFeeCreationRequest feeRequest;
-        final PersistentFee         fee;
+        final FeeUpdate     feeRequest;
+        final PersistentFee fee;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(false);
+        feeRequest = FeesUpdate.unpaid();
 
         service.update(1L, feeRequest);
         fee = repository.findAll()
@@ -141,13 +130,10 @@ public class ITFeeServiceUpdate {
     @DisplayName("With a changed entity, the changed data is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     public void testUpdate_ReturnedData() {
-        final DtoFeeCreationRequest feeRequest;
-        final MemberFee             fee;
+        final FeeUpdate feeRequest;
+        final MemberFee fee;
 
-        feeRequest = new DtoFeeCreationRequest();
-        feeRequest.setMemberId(1L);
-        feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
-        feeRequest.setPaid(false);
+        feeRequest = FeesUpdate.unpaid();
 
         fee = service.update(1L, feeRequest);
 
