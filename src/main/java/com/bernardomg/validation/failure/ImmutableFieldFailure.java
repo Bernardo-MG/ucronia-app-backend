@@ -24,8 +24,8 @@
 
 package com.bernardomg.validation.failure;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of {@code FieldValidationError}.
@@ -33,7 +33,8 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public final class ImmutableFieldFailure implements FieldFailure {
 
     private final String code;
@@ -43,15 +44,5 @@ public final class ImmutableFieldFailure implements FieldFailure {
     private final String message;
 
     private final Object value;
-
-    public ImmutableFieldFailure(@NonNull final String msg, @NonNull final String fld, @NonNull final String cd,
-            final Object val) {
-        super();
-
-        message = msg;
-        field = fld;
-        code = cd;
-        value = val;
-    }
 
 }

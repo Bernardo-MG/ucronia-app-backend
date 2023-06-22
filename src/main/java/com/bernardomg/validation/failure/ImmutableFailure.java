@@ -24,8 +24,8 @@
 
 package com.bernardomg.validation.failure;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable failure object.
@@ -33,18 +33,12 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public final class ImmutableFailure implements Failure {
 
     private final String code;
 
     private final String message;
-
-    public ImmutableFailure(@NonNull final String msg, @NonNull final String cd) {
-        super();
-
-        message = msg;
-        code = cd;
-    }
 
 }
