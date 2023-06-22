@@ -34,7 +34,7 @@ import lombok.NonNull;
  *
  */
 @Data
-public class ImmutableFailure implements Failure {
+public final class ImmutableFailure implements Failure {
 
     private final String code;
 
