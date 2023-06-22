@@ -119,7 +119,7 @@ public class ITTransactionServiceUpdate {
         service.update(10L, transactionRequest);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(2);
+            .isEqualTo(1);
     }
 
     @Test

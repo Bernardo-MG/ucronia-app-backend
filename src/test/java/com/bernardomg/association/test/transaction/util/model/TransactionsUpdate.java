@@ -13,7 +13,7 @@ public final class TransactionsUpdate {
             .id(1L)
             .description("Transaction")
             .amount(1.2f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(new GregorianCalendar(2020, 1, 1))
             .build();
     }
 
@@ -22,7 +22,7 @@ public final class TransactionsUpdate {
             .id(1L)
             .description("Transaction 123")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(new GregorianCalendar(2020, 1, 1))
             .build();
     }
 
