@@ -29,7 +29,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ImmutablePropertySort implements PropertySort {
+public final class ImmutablePropertySort implements PropertySort {
 
     private String direction;
 
