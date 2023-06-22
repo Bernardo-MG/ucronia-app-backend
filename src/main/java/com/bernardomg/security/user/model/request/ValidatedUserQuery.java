@@ -1,46 +1,50 @@
 
 package com.bernardomg.security.user.model.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public final class ValidatedUserQuery implements UserQuery {
 
     /**
      * User expired flag.
      */
-    private final Boolean credentialsExpired;
+    private Boolean credentialsExpired;
 
     /**
      * User email.
      */
-    private final String  email;
+    private String  email;
 
     /**
      * User enabled flag.
      */
-    private final Boolean enabled;
+    private Boolean enabled;
 
     /**
      * User expired flag.
      */
-    private final Boolean expired;
+    private Boolean expired;
 
     /**
      * User locked flag.
      */
-    private final Boolean locked;
+    private Boolean locked;
 
     /**
      * User name.
      */
-    private final String  name;
+    private String  name;
 
     /**
      * User username.
      */
-    private final String  username;
+    private String  username;
 
 }
