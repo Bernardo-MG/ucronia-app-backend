@@ -49,7 +49,12 @@ public interface FieldFailure extends Failure {
 
         message = String.format("%s.%s", field, code);
 
-        return new ImmutableFieldFailure(message, field, code, value);
+        return ImmutableFieldFailure.builder()
+            .message(message)
+            .field(field)
+            .code(code)
+            .value(value)
+            .build();
     }
 
     /**
@@ -66,7 +71,12 @@ public interface FieldFailure extends Failure {
      * @return {@code FieldValidationError} for the received arguments
      */
     public static FieldFailure of(final String message, final String field, final String code, final Object value) {
-        return new ImmutableFieldFailure(message, field, code, value);
+        return ImmutableFieldFailure.builder()
+            .message(message)
+            .field(field)
+            .code(code)
+            .value(value)
+            .build();
     }
 
     /**
