@@ -8,11 +8,11 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.ImmutableUserRole;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.UserRole;
+import com.bernardomg.security.user.model.mapper.UserMapper;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
@@ -36,6 +36,8 @@ public final class DefaultUserService implements UserService {
 
     private final Validator<Long>       deleteUserValidator;
 
+    private final UserMapper            mapper;
+
     private final Validator<UserRole>   removeUserRoleValidator;
 
     private final RoleRepository        roleRepository;
@@ -47,12 +49,13 @@ public final class DefaultUserService implements UserService {
     private final UserRolesRepository   userRolesRepository;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRolesRepository userRolesRepo) {
+            final UserRolesRepository userRolesRepo, final UserMapper userMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         userRolesRepository = Objects.requireNonNull(userRolesRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        mapper = Objects.requireNonNull(userMapper);
 
         createUserValidator = new CreateUserValidator(userRepo);
         updateUserValidator = new UpdateUserValidator(userRepo);
@@ -88,13 +91,13 @@ public final class DefaultUserService implements UserService {
 
         createUserValidator.validate(user);
 
-        entity = toEntity(user);
+        entity = mapper.toEntity(user);
         entity.setId(null);
         entity.setPassword("");
 
         created = userRepository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
@@ -109,16 +112,16 @@ public final class DefaultUserService implements UserService {
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
-        entity = toEntity(sample);
+        entity = mapper.toEntity(sample);
 
         return userRepository.findAll(Example.of(entity), pageable)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
     public final Optional<User> getOne(final Long id) {
         return userRepository.findById(id)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
@@ -153,7 +156,7 @@ public final class DefaultUserService implements UserService {
 
         updateUserValidator.validate(user);
 
-        entity = toEntity(user);
+        entity = mapper.toEntity(user);
         entity.setPassword("");
 
         old = userRepository.findById(user.getId());
@@ -164,111 +167,13 @@ public final class DefaultUserService implements UserService {
 
         created = userRepository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     private final PersistentUserRoles getRelationships(final Long user, final Long role) {
         return PersistentUserRoles.builder()
             .userId(user)
             .roleId(role)
-            .build();
-    }
-
-    private final User toDto(final PersistentUser entity) {
-        return ImmutableUser.builder()
-            .id(entity.getId())
-            .username(entity.getUsername())
-            .name(entity.getName())
-            .email(entity.getEmail())
-            .credentialsExpired(entity.getCredentialsExpired())
-            .enabled(entity.getEnabled())
-            .expired(entity.getExpired())
-            .locked(entity.getLocked())
-            .build();
-    }
-
-    private final PersistentUser toEntity(final UserCreate data) {
-        final String username;
-        final String email;
-
-        if (data.getUsername() != null) {
-            username = data.getUsername()
-                .toLowerCase();
-        } else {
-            username = null;
-        }
-        if (data.getEmail() != null) {
-            email = data.getEmail()
-                .toLowerCase();
-        } else {
-            email = null;
-        }
-
-        return PersistentUser.builder()
-            .username(username)
-            .email(email)
-            .name(data.getName())
-            .credentialsExpired(data.getCredentialsExpired())
-            .enabled(data.getEnabled())
-            .expired(data.getExpired())
-            .locked(data.getLocked())
-            .build();
-    }
-
-    private final PersistentUser toEntity(final UserQuery data) {
-        final String username;
-        final String email;
-
-        if (data.getUsername() != null) {
-            username = data.getUsername()
-                .toLowerCase();
-        } else {
-            username = null;
-        }
-        if (data.getEmail() != null) {
-            email = data.getEmail()
-                .toLowerCase();
-        } else {
-            email = null;
-        }
-
-        return PersistentUser.builder()
-            .username(username)
-            .email(email)
-            .name(data.getName())
-            .credentialsExpired(data.getCredentialsExpired())
-            .enabled(data.getEnabled())
-            .expired(data.getExpired())
-            .locked(data.getLocked())
-            .build();
-    }
-
-    private final PersistentUser toEntity(final UserUpdate data) {
-        final String username;
-        final String email;
-
-        if (data.getUsername() != null) {
-            username = data.getUsername()
-                .toLowerCase();
-        } else {
-            username = null;
-        }
-        if (data.getEmail() != null) {
-            email = data.getEmail()
-                .toLowerCase();
-        } else {
-            email = null;
-        }
-
-        return PersistentUser.builder()
-            .id(data.getId())
-            .username(username)
-            .email(email)
-            .name(data.getName())
-            .credentialsExpired(data.getCredentialsExpired())
-            .enabled(data.getEnabled())
-            .expired(data.getExpired())
-            .locked(data.getLocked())
             .build();
     }
 
