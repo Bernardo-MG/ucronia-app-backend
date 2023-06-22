@@ -37,7 +37,7 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class ImmutableResponse<T> implements Response<T> {
+public final class ImmutableResponse<T> implements Response<T> {
 
     /**
      * Response content.

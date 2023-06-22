@@ -40,7 +40,7 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class ImmutableFailureResponse implements FailureResponse {
+public final class ImmutableFailureResponse implements FailureResponse {
 
     /**
      * Response failures.
