@@ -38,7 +38,7 @@ import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.test.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 
 @IntegrationTest
 @DisplayName("Role service - update with no roles")

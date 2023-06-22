@@ -68,12 +68,9 @@ public class ITActionServiceGetAll {
             .toList();
 
         Assertions.assertThat(names)
-            .contains("CREATE");
-        Assertions.assertThat(names)
-            .contains("READ");
-        Assertions.assertThat(names)
-            .contains("UPDATE");
-        Assertions.assertThat(names)
+            .contains("CREATE")
+            .contains("READ")
+            .contains("UPDATE")
             .contains("DELETE");
     }
 

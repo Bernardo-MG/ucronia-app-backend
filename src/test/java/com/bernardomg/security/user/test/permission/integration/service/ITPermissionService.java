@@ -50,12 +50,9 @@ public class ITPermissionService {
             .hasSize(4);
 
         Assertions.assertThat(actions)
-            .contains("CREATE");
-        Assertions.assertThat(actions)
-            .contains("READ");
-        Assertions.assertThat(actions)
-            .contains("UPDATE");
-        Assertions.assertThat(actions)
+            .contains("CREATE")
+            .contains("READ")
+            .contains("UPDATE")
             .contains("DELETE");
     }
 

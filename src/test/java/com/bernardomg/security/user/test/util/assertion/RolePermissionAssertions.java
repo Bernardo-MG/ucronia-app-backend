@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.test.assertion;
+package com.bernardomg.security.user.test.util.assertion;
 
 import org.assertj.core.api.Assertions;
 

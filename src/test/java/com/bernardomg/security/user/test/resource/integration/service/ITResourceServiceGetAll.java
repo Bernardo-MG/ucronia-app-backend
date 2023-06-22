@@ -68,12 +68,9 @@ public class ITResourceServiceGetAll {
             .toList();
 
         Assertions.assertThat(names)
-            .contains("DATA1");
-        Assertions.assertThat(names)
-            .contains("DATA2");
-        Assertions.assertThat(names)
-            .contains("DATA3");
-        Assertions.assertThat(names)
+            .contains("DATA1")
+            .contains("DATA2")
+            .contains("DATA3")
             .contains("DATA4");
     }
 
