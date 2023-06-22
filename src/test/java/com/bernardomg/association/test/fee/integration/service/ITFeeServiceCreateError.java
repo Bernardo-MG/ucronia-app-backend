@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
+import com.bernardomg.association.fee.model.request.DtoFeeCreateRequest;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -58,10 +58,10 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a repeated member and month it throws an exception")
     public void testCreate_ExistingDateAndMember() {
-        final DtoFeeCreationRequest feeRequest;
-        final ThrowingCallable      execution;
+        final DtoFeeCreateRequest feeRequest;
+        final ThrowingCallable    execution;
 
-        feeRequest = new DtoFeeCreationRequest();
+        feeRequest = new DtoFeeCreateRequest();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 1));
         feeRequest.setPaid(true);
@@ -79,10 +79,10 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a repeated member and month, but with another day, it throws an exception")
     public void testCreate_ExistingDateAndMember_ChangesDay() {
-        final DtoFeeCreationRequest feeRequest;
-        final ThrowingCallable      executable;
+        final DtoFeeCreateRequest feeRequest;
+        final ThrowingCallable    executable;
 
-        feeRequest = new DtoFeeCreationRequest();
+        feeRequest = new DtoFeeCreateRequest();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2020, 1, 2));
         feeRequest.setPaid(true);
@@ -101,10 +101,10 @@ public class ITFeeServiceCreateError {
     @DisplayName("With a missing date it throws an exception")
     @Disabled("The model rejects this case")
     public void testCreate_MissingDate() {
-        final DtoFeeCreationRequest feeRequest;
-        final ThrowingCallable      executable;
+        final DtoFeeCreateRequest feeRequest;
+        final ThrowingCallable    executable;
 
-        feeRequest = new DtoFeeCreationRequest();
+        feeRequest = new DtoFeeCreateRequest();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(null);
         feeRequest.setPaid(true);
@@ -122,10 +122,10 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a missing paid flag it throws an exception")
     public void testCreate_MissingPaid() {
-        final DtoFeeCreationRequest feeRequest;
-        final ThrowingCallable      executable;
+        final DtoFeeCreateRequest feeRequest;
+        final ThrowingCallable    executable;
 
-        feeRequest = new DtoFeeCreationRequest();
+        feeRequest = new DtoFeeCreateRequest();
         feeRequest.setMemberId(1L);
         feeRequest.setDate(new GregorianCalendar(2021, 1, 1));
         feeRequest.setPaid(null);

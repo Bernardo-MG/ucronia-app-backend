@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.MemberCreationRequest;
+import com.bernardomg.association.member.model.request.MemberCreateRequest;
 import com.bernardomg.association.member.model.request.MemberQueryRequest;
 import com.bernardomg.association.member.model.request.MemberUpdateRequest;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
@@ -35,7 +35,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:CREATE')")
-    public final Member create(final MemberCreationRequest member) {
+    public final Member create(final MemberCreateRequest member) {
         final PersistentMember entity;
         final PersistentMember created;
 
@@ -114,7 +114,7 @@ public final class DefaultMemberService implements MemberService {
             .build();
     }
 
-    private final PersistentMember toEntity(final MemberCreationRequest data) {
+    private final PersistentMember toEntity(final MemberCreateRequest data) {
         return PersistentMember.builder()
             .name(data.getName())
             .surname(data.getSurname())

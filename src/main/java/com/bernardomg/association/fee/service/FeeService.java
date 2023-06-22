@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeeCreationRequest;
+import com.bernardomg.association.fee.model.request.FeeCreateRequest;
 import com.bernardomg.association.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.fee.model.request.FeeUpdateRequest;
 
@@ -25,7 +25,7 @@ public interface FeeService {
      *            fee to persist
      * @return the persisted fee
      */
-    public MemberFee create(final FeeCreationRequest fee);
+    public MemberFee create(final FeeCreateRequest fee);
 
     /**
      * Deletes the fee with the received id.

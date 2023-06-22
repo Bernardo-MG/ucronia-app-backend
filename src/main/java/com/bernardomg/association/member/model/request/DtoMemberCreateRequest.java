@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoMemberCreationRequest implements MemberCreationRequest {
+public final class DtoMemberCreateRequest implements MemberCreateRequest {
 
     @NotNull
     private Boolean active;

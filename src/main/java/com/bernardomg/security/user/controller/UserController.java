@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserCreationRequest;
+import com.bernardomg.security.user.model.request.DtoUserCreateRequest;
 import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
 import com.bernardomg.security.user.model.request.DtoUserUpdateRequest;
 import com.bernardomg.security.user.service.UserService;
@@ -58,7 +58,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final DtoUserCreationRequest user) {
+    public User create(@Valid @RequestBody final DtoUserCreateRequest user) {
         return service.create(user);
     }
 

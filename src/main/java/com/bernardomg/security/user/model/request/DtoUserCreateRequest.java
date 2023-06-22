@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoUserCreationRequest implements User {
+public final class DtoUserCreateRequest implements User {
 
     /**
      * User expired flag.

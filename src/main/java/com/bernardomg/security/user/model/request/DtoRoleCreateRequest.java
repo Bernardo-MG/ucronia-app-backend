@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoRoleCreationRequest implements Role {
+public final class DtoRoleCreateRequest implements Role {
 
     private final Long id = null;
 

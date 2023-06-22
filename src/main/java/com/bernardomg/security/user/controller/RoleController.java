@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.DtoRoleCreationRequest;
+import com.bernardomg.security.user.model.request.DtoRoleCreateRequest;
 import com.bernardomg.security.user.model.request.DtoRoleQueryRequest;
 import com.bernardomg.security.user.model.request.DtoRoleUpdateRequest;
 import com.bernardomg.security.user.service.RoleService;
@@ -58,7 +58,7 @@ public class RoleController {
     private final RoleService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role create(@Valid @RequestBody final DtoRoleCreationRequest form) {
+    public Role create(@Valid @RequestBody final DtoRoleCreateRequest form) {
         return service.create(form);
     }
 

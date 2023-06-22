@@ -3,7 +3,7 @@ package com.bernardomg.association.fee.model.request;
 
 import java.util.Calendar;
 
-public interface FeeCreationRequest {
+public interface FeeCreateRequest {
 
     public Calendar getDate();
 

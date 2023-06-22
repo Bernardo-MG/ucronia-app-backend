@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
+import com.bernardomg.association.member.model.request.DtoMemberCreateRequest;
 import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
 import com.bernardomg.association.member.model.request.DtoMemberUpdateRequest;
 import com.bernardomg.association.member.service.MemberService;
@@ -61,7 +61,7 @@ public class MemberController {
     private final MemberService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member create(@Valid @RequestBody final DtoMemberCreationRequest member) {
+    public Member create(@Valid @RequestBody final DtoMemberCreateRequest member) {
         return service.create(member);
     }
 

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoPermissionCreationRequest {
+public final class DtoPermissionCreateRequest {
 
     @NotNull
     private Long actionId;

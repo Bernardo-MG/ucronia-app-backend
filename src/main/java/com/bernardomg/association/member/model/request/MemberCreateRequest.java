@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.member.model.request;
 
-public interface MemberCreationRequest {
+public interface MemberCreateRequest {
 
     public Boolean getActive();
 

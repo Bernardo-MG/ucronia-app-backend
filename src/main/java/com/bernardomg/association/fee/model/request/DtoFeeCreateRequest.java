@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoFeeCreationRequest implements FeeCreationRequest {
+public final class DtoFeeCreateRequest implements FeeCreateRequest {
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
