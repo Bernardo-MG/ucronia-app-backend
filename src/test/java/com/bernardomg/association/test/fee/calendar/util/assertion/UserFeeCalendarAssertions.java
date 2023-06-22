@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.fee.calendar.assertion;
+package com.bernardomg.association.test.fee.calendar.util.assertion;
 
 import java.util.Iterator;
 
