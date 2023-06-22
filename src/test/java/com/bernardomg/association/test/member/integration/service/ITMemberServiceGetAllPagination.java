@@ -34,11 +34,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberQuery;
-import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.test.member.util.model.MembersQuery;
 
 @IntegrationTest
 @DisplayName("Member service - get all - pagination")
@@ -61,7 +63,7 @@ public class ITMemberServiceGetAllPagination {
 
         pageable = Pageable.ofSize(10);
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -79,7 +81,7 @@ public class ITMemberServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -88,18 +90,13 @@ public class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
     }
 
     @Test
@@ -112,7 +109,7 @@ public class ITMemberServiceGetAllPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -121,18 +118,13 @@ public class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 2");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 2");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12346");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6780");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 2")
+            .surname("Surname 2")
+            .phone("12346")
+            .identifier("6790")
+            .active(true)
+            .build());
     }
 
     @Test
@@ -144,7 +136,7 @@ public class ITMemberServiceGetAllPagination {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         members = service.getAll(memberQuery, pageable);
 

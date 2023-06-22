@@ -34,11 +34,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberQuery;
-import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.test.member.util.model.MembersQuery;
 
 @IntegrationTest
 @DisplayName("Member service - get all")
@@ -63,7 +65,7 @@ public class ITMemberServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -73,74 +75,49 @@ public class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
 
         member = membersItr.next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 2");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 2");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12346");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6780");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 2")
+            .surname("Surname 2")
+            .phone("12346")
+            .identifier("6790")
+            .active(true)
+            .build());
 
         member = membersItr.next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 3");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 3");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12347");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6781");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 3")
+            .surname("Surname 3")
+            .phone("12347")
+            .identifier("6791")
+            .active(true)
+            .build());
 
         member = membersItr.next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 4");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 4");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12348");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6782");
-        Assertions.assertThat(member.getActive())
-            .isTrue();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 4")
+            .surname("Surname 4")
+            .phone("12348")
+            .identifier("6792")
+            .active(true)
+            .build());
 
         member = membersItr.next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 5");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 5");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12349");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6783");
-        Assertions.assertThat(member.getActive())
-            .isFalse();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 5")
+            .surname("Surname 5")
+            .phone("12349")
+            .identifier("6793")
+            .active(false)
+            .build());
     }
 
     @Test
@@ -155,7 +132,7 @@ public class ITMemberServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -165,18 +142,13 @@ public class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        Assertions.assertThat(member.getId())
-            .isNotNull();
-        Assertions.assertThat(member.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(member.getSurname())
-            .isEqualTo("Surname 1");
-        Assertions.assertThat(member.getPhone())
-            .isEqualTo("12345");
-        Assertions.assertThat(member.getIdentifier())
-            .isEqualTo("6789");
-        Assertions.assertThat(member.getActive())
-            .isFalse();
+        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .active(false)
+            .build());
     }
 
 }

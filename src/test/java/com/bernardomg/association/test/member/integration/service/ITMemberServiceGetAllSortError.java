@@ -36,9 +36,9 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.request.MemberQuery;
-import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.member.util.model.MembersQuery;
 
 @IntegrationTest
 @DisplayName("Member service - get all - errors")
@@ -61,7 +61,7 @@ public class ITMemberServiceGetAllSortError {
 
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
-        memberQuery = new ValidatedMemberQuery();
+        memberQuery = MembersQuery.empty();
 
         executable = () -> service.getAll(memberQuery, pageable)
             .iterator();

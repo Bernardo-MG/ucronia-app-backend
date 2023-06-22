@@ -37,9 +37,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.bernardomg.association.member.model.request.MemberCreate;
-import com.bernardomg.association.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.association.test.config.constant.TestUrls;
+import com.bernardomg.association.test.member.util.model.MembersCreate;
 import com.google.gson.Gson;
 
 @MvcIntegrationTest
@@ -58,10 +58,10 @@ public final class ITMemberControllerRequestValidation {
     @Test
     @DisplayName("With a valid member, returns the created member")
     public final void testPost_Full_Valid() throws Exception {
-        final ResultActions         result;
-        final ValidatedMemberCreate member;
+        final ResultActions result;
+        final MemberCreate  member;
 
-        member = getRequest();
+        member = MembersCreate.active();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -77,10 +77,10 @@ public final class ITMemberControllerRequestValidation {
     @DisplayName("With a member missing the name, returns a bad request response")
     @Disabled("The model rejects this case")
     public final void testPost_NoName_Invalid() throws Exception {
-        final ResultActions         result;
-        final ValidatedMemberCreate member;
+        final ResultActions result;
+        final MemberCreate  member;
 
-        member = getRequestNoName();
+        member = MembersCreate.missingName();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -96,31 +96,6 @@ public final class ITMemberControllerRequestValidation {
         return MockMvcRequestBuilders.post(TestUrls.MEMBER)
             .contentType(MediaType.APPLICATION_JSON)
             .content(json);
-    }
-
-    private final ValidatedMemberCreate getRequest() {
-        final ValidatedMemberCreate member;
-
-        member = new ValidatedMemberCreate();
-        member.setName("Member");
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
-
-        return member;
-    }
-
-    private final ValidatedMemberCreate getRequestNoName() {
-        final ValidatedMemberCreate member;
-
-        member = new ValidatedMemberCreate();
-        member.setSurname("Surname");
-        member.setPhone("12345");
-        member.setIdentifier("6789");
-        member.setActive(true);
-
-        return member;
     }
 
 }
