@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
+import com.bernardomg.association.member.model.request.MemberCreationRequest;
 import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.association.test.config.constant.TestUrls;
 import com.google.gson.Gson;
@@ -89,7 +89,7 @@ public final class ITMemberControllerRequestValidation {
             .isBadRequest());
     }
 
-    private final RequestBuilder getPostRequest(final Member member) {
+    private final RequestBuilder getPostRequest(final MemberCreationRequest member) {
         final String json;
 
         json = gson.toJson(member);

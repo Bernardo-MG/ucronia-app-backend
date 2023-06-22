@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoMemberCreationRequest implements MemberCreationRequest {
+public final class DtoMemberUpdateRequest implements MemberUpdateRequest {
 
     @NotNull
     private Boolean active;
+
+    private Long    id;
 
     private String  identifier;
 

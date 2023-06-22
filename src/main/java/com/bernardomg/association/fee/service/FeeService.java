@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.request.FeeCreationRequest;
 import com.bernardomg.association.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeUpdateRequest;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -23,7 +25,7 @@ public interface FeeService {
      *            fee to persist
      * @return the persisted fee
      */
-    public MemberFee create(final MemberFee fee);
+    public MemberFee create(final FeeCreationRequest fee);
 
     /**
      * Deletes the fee with the received id.
@@ -63,6 +65,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public MemberFee update(final Long id, final MemberFee fee);
+    public MemberFee update(final Long id, final FeeUpdateRequest fee);
 
 }

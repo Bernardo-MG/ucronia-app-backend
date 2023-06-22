@@ -11,12 +11,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoFeeCreationRequest implements FeeCreationRequest {
+public final class DtoFeeUpdateRequest implements FeeUpdateRequest {
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
     private Calendar date;
+
+    private Long     id;
 
     @NotNull
     private Long     memberId;

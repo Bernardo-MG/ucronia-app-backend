@@ -39,6 +39,7 @@ import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.request.DtoTransactionCreationQuery;
 import com.bernardomg.association.transaction.model.request.DtoTransactionQueryRequest;
+import com.bernardomg.association.transaction.model.request.DtoTransactionUpdateQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 import jakarta.validation.Valid;
@@ -88,7 +89,7 @@ public class TransactionController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Transaction update(@PathVariable("id") final Long id,
-            @Valid @RequestBody final DtoTransactionCreationQuery transaction) {
+            @Valid @RequestBody final DtoTransactionUpdateQuery transaction) {
         return service.update(id, transaction);
     }
 

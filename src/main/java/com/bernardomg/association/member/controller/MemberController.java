@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.DtoMemberCreationRequest;
 import com.bernardomg.association.member.model.request.DtoMemberQueryRequest;
+import com.bernardomg.association.member.model.request.DtoMemberUpdateRequest;
 import com.bernardomg.association.member.service.MemberService;
 
 import jakarta.validation.Valid;
@@ -81,7 +82,7 @@ public class MemberController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoMemberCreationRequest member) {
+    public Member update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoMemberUpdateRequest member) {
         return service.update(id, member);
     }
 

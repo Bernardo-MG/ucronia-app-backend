@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.request.MemberCreationRequest;
 import com.bernardomg.association.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberUpdateRequest;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
@@ -33,7 +35,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:CREATE')")
-    public final Member create(final Member member) {
+    public final Member create(final MemberCreationRequest member) {
         final PersistentMember entity;
         final PersistentMember created;
 
@@ -90,7 +92,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
-    public final Member update(final Long id, final Member member) {
+    public final Member update(final Long id, final MemberUpdateRequest member) {
         final PersistentMember entity;
         final PersistentMember updated;
 
@@ -112,9 +114,8 @@ public final class DefaultMemberService implements MemberService {
             .build();
     }
 
-    private final PersistentMember toEntity(final Member data) {
+    private final PersistentMember toEntity(final MemberCreationRequest data) {
         return PersistentMember.builder()
-            .id(data.getId())
             .name(data.getName())
             .surname(data.getSurname())
             .identifier(data.getIdentifier())
@@ -125,6 +126,17 @@ public final class DefaultMemberService implements MemberService {
 
     private final PersistentMember toEntity(final MemberQueryRequest data) {
         return PersistentMember.builder()
+            .name(data.getName())
+            .surname(data.getSurname())
+            .identifier(data.getIdentifier())
+            .phone(data.getPhone())
+            .active(data.getActive())
+            .build();
+    }
+
+    private final PersistentMember toEntity(final MemberUpdateRequest data) {
+        return PersistentMember.builder()
+            .id(data.getId())
             .name(data.getName())
             .surname(data.getSurname())
             .identifier(data.getIdentifier())

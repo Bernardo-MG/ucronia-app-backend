@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.DtoFeeCreationRequest;
 import com.bernardomg.association.fee.model.request.DtoFeeQueryRequest;
+import com.bernardomg.association.fee.model.request.DtoFeeUpdateRequest;
 import com.bernardomg.association.fee.service.FeeService;
 
 import jakarta.validation.Valid;
@@ -84,7 +85,7 @@ public class FeeController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MemberFee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeCreationRequest fee) {
+    public MemberFee update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoFeeUpdateRequest fee) {
         return service.update(id, fee);
     }
 

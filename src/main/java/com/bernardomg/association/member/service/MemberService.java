@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.request.MemberCreationRequest;
 import com.bernardomg.association.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.member.model.request.MemberUpdateRequest;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -23,7 +25,7 @@ public interface MemberService {
      *            member to persist
      * @return the persisted member
      */
-    public Member create(final Member member);
+    public Member create(final MemberCreationRequest member);
 
     /**
      * Deletes the member with the received id.
@@ -63,6 +65,6 @@ public interface MemberService {
      *            new data for the member
      * @return the updated member
      */
-    public Member update(final Long id, final Member member);
+    public Member update(final Long id, final MemberUpdateRequest member);
 
 }

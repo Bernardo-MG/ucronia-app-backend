@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public final class DtoTransactionCreationQuery implements TransactionCreationQuery {
+public final class DtoTransactionUpdateQuery implements TransactionUpdateQuery {
 
     @NotNull
     private Float    amount;
