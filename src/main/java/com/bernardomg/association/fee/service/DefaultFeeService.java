@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.fee.model.request.FeeCreate;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.model.request.FeeUpdate;
@@ -43,6 +44,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeRepository       feeRepository;
 
+    private final FeeMapper           mapper;
+
     private final MemberFeeRepository memberFeeRepository;
 
     private final MemberRepository    memberRepository;
@@ -62,8 +65,7 @@ public final class DefaultFeeService implements FeeService {
             throw new FieldFailureException(failures);
         }
 
-        entity = toEntity(request);
-        entity.setId(null);
+        entity = mapper.toEntity(request);
 
         created = feeRepository.save(entity);
 
@@ -132,7 +134,7 @@ public final class DefaultFeeService implements FeeService {
             throw new FieldFailureException(failures);
         }
 
-        entity = toEntity(form);
+        entity = mapper.toEntity(form);
         entity.setId(id);
 
         created = feeRepository.save(entity);
@@ -184,39 +186,6 @@ public final class DefaultFeeService implements FeeService {
             .paid(entity.getPaid())
             .name(entity.getName())
             .surname(entity.getSurname())
-            .build();
-    }
-
-    private final PersistentFee toEntity(final FeeCreate request) {
-        final Calendar date;
-
-        if (request.getDate() != null) {
-            date = removeDay(request.getDate());
-        } else {
-            date = null;
-        }
-
-        return PersistentFee.builder()
-            .memberId(request.getMemberId())
-            .paid(request.getPaid())
-            .date(date)
-            .build();
-    }
-
-    private final PersistentFee toEntity(final FeeUpdate request) {
-        final Calendar date;
-
-        if (request.getDate() != null) {
-            date = removeDay(request.getDate());
-        } else {
-            date = null;
-        }
-
-        return PersistentFee.builder()
-            .id(request.getId())
-            .memberId(request.getMemberId())
-            .paid(request.getPaid())
-            .date(date)
             .build();
     }
 
