@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.request.RoleUpdate;
-import com.bernardomg.security.user.model.request.ValidatedRoleUpdate;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesUpdate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -54,20 +54,13 @@ public class ITRoleServiceUpdateValidation {
         final FieldFailure     failure;
         final RoleUpdate       data;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         executable = () -> service.update(data);
 
         failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    private final RoleUpdate getRoleWithNoActions() {
-        return ValidatedRoleUpdate.builder()
-            .id(1L)
-            .name("Role")
-            .build();
     }
 
 }

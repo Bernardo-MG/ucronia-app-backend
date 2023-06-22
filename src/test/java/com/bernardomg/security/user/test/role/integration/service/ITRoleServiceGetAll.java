@@ -12,8 +12,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.request.RoleQuery;
-import com.bernardomg.security.user.model.request.ValidatedRoleQuery;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesQuery;
 
 @IntegrationTest
 @DisplayName("Role service - get all")
@@ -36,8 +36,7 @@ public class ITRoleServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        sample = ValidatedRoleQuery.builder()
-            .build();
+        sample = RolesQuery.empty();
 
         result = service.getAll(sample, pageable);
 
@@ -55,8 +54,7 @@ public class ITRoleServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        sample = ValidatedRoleQuery.builder()
-            .build();
+        sample = RolesQuery.empty();
 
         data = service.getAll(sample, pageable);
 

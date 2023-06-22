@@ -17,9 +17,9 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserQuery;
-import com.bernardomg.security.user.model.request.ValidatedUserQuery;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersQuery;
 
 @IntegrationTest
 @DisplayName("User service - get all")
@@ -42,8 +42,7 @@ public class ITUserServiceGetAllPagination {
 
         pageable = Pageable.ofSize(10);
 
-        sample = ValidatedUserQuery.builder()
-            .build();
+        sample = UsersQuery.empty();
 
         result = service.getAll(sample, pageable);
 
@@ -61,8 +60,7 @@ public class ITUserServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ValidatedUserQuery.builder()
-            .build();
+        sample = UsersQuery.empty();
 
         data = service.getAll(sample, pageable)
             .iterator();
@@ -88,8 +86,7 @@ public class ITUserServiceGetAllPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        sample = ValidatedUserQuery.builder()
-            .build();
+        sample = UsersQuery.empty();
 
         data = service.getAll(sample, pageable);
 
@@ -106,8 +103,7 @@ public class ITUserServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        sample = ValidatedUserQuery.builder()
-            .build();
+        sample = UsersQuery.empty();
 
         result = service.getAll(sample, pageable);
 
@@ -124,8 +120,7 @@ public class ITUserServiceGetAllPagination {
 
         pageable = Pageable.unpaged();
 
-        sample = ValidatedUserQuery.builder()
-            .build();
+        sample = UsersQuery.empty();
 
         result = service.getAll(sample, pageable);
 

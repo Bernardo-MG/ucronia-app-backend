@@ -9,8 +9,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.request.RoleCreate;
-import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -33,9 +33,7 @@ public class ITRoleServiceCreateValidation {
         final FieldFailure     failure;
         final RoleCreate       data;
 
-        data = ValidatedRoleCreate.builder()
-            .name("ADMIN")
-            .build();
+        data = RolesCreate.name("ADMIN");
 
         executable = () -> service.create(data);
 

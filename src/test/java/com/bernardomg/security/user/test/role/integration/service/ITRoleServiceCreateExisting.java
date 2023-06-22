@@ -10,9 +10,9 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.request.RoleCreate;
-import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesCreate;
 
 @IntegrationTest
 @DisplayName("Role service - create - existing")
@@ -35,9 +35,7 @@ public class ITRoleServiceCreateExisting {
         final RoleCreate data;
         final Role       result;
 
-        data = ValidatedRoleCreate.builder()
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         result = service.create(data);
 
@@ -50,9 +48,7 @@ public class ITRoleServiceCreateExisting {
     public void testCreate_AddsEntity() {
         final RoleCreate data;
 
-        data = ValidatedRoleCreate.builder()
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         service.create(data);
 

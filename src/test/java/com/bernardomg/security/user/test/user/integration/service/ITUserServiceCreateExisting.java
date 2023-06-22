@@ -10,9 +10,9 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 
 @IntegrationTest
 @DisplayName("User service - create - existing")
@@ -35,7 +35,7 @@ public class ITUserServiceCreateExisting {
         final User       result;
         final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.alternative();
 
         result = service.create(user);
 
@@ -49,24 +49,12 @@ public class ITUserServiceCreateExisting {
     public void testCreate_AddsEntity() {
         final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.alternative();
 
         service.create(user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
-    }
-
-    private final UserCreate getUser() {
-        return ValidatedUserCreate.builder()
-            .username("user")
-            .name("User")
-            .email("email2@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

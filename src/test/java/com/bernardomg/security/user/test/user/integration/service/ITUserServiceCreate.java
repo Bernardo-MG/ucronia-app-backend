@@ -10,11 +10,11 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 
 @IntegrationTest
 @DisplayName("User service - create")
@@ -35,7 +35,7 @@ public class ITUserServiceCreate {
     public void testCreate_AddsEntity() {
         final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         service.create(user);
 
@@ -49,7 +49,7 @@ public class ITUserServiceCreate {
         final UserCreate     user;
         final PersistentUser entity;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         service.create(user);
         entity = repository.findAll()
@@ -74,7 +74,7 @@ public class ITUserServiceCreate {
         final UserCreate     user;
         final PersistentUser entity;
 
-        user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         service.create(user);
         entity = repository.findAll()
@@ -93,7 +93,7 @@ public class ITUserServiceCreate {
         final UserCreate user;
         final User       result;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         result = service.create(user);
 
@@ -114,7 +114,7 @@ public class ITUserServiceCreate {
         final UserCreate user;
         final User       result;
 
-        user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         result = service.create(user);
 
@@ -122,30 +122,6 @@ public class ITUserServiceCreate {
             .isEqualTo("admin");
         Assertions.assertThat(result.getEmail())
             .isEqualTo("email@somewhere.com");
-    }
-
-    private final UserCreate getUser() {
-        return ValidatedUserCreate.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
-    }
-
-    private final UserCreate getUser(final String username, final String email) {
-        return ValidatedUserCreate.builder()
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

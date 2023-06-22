@@ -33,10 +33,10 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.request.RoleUpdate;
-import com.bernardomg.security.user.model.request.ValidatedRoleUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesUpdate;
 
 @IntegrationTest
 @DisplayName("Role service - update")
@@ -58,7 +58,7 @@ public class ITRoleServiceUpdate {
     public void testUpdate_AddsNoEntity() {
         final RoleUpdate data;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         service.update(data);
 
@@ -72,7 +72,7 @@ public class ITRoleServiceUpdate {
         final RoleUpdate     data;
         final PersistentRole entity;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         service.update(data);
         entity = repository.findAll()
@@ -91,7 +91,7 @@ public class ITRoleServiceUpdate {
         final RoleUpdate data;
         final Role       result;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         result = service.update(data);
 
@@ -99,13 +99,6 @@ public class ITRoleServiceUpdate {
             .isNotNull();
         Assertions.assertThat(result.getName())
             .isEqualTo("Role");
-    }
-
-    private final RoleUpdate getRoleWithNoActions() {
-        return ValidatedRoleUpdate.builder()
-            .id(1L)
-            .name("Role")
-            .build();
     }
 
 }

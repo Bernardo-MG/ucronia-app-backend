@@ -9,8 +9,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.request.UserUpdate;
-import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.model.UsersUpdate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -35,7 +35,7 @@ public class ITUserServiceUpdateValidation {
         final FieldFailure     failure;
         final UserUpdate       data;
 
-        data = getUser("abc");
+        data = UsersUpdate.usernameChange();
 
         executable = () -> service.update(data);
 
@@ -55,7 +55,7 @@ public class ITUserServiceUpdateValidation {
         final FieldFailure     failure;
         final UserUpdate       data;
 
-        data = getUser("admin", "email2@somewhere.com");
+        data = UsersUpdate.emailChange();
 
         executable = () -> service.update(data);
 
@@ -74,7 +74,7 @@ public class ITUserServiceUpdateValidation {
         final FieldFailure     failure;
         final UserUpdate       data;
 
-        data = getUser("admin", "abc");
+        data = UsersUpdate.invalidEmail();
 
         executable = () -> service.update(data);
 
@@ -90,52 +90,13 @@ public class ITUserServiceUpdateValidation {
         final FieldFailure     failure;
         final UserUpdate       data;
 
-        data = getUser();
+        data = UsersUpdate.valid();
 
         executable = () -> service.update(data);
 
         failure = FieldFailure.of("id.notExisting", "id", "notExisting", "admin");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    private final UserUpdate getUser() {
-        return ValidatedUserUpdate.builder()
-            .id(1L)
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
-    }
-
-    private final UserUpdate getUser(final String username) {
-        return ValidatedUserUpdate.builder()
-            .id(1L)
-            .username(username)
-            .name("Admin")
-            .email("email@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
-    }
-
-    private final UserUpdate getUser(final String username, final String email) {
-        return ValidatedUserUpdate.builder()
-            .id(1L)
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

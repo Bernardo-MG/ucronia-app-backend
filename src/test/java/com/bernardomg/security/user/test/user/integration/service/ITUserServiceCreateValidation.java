@@ -9,8 +9,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -33,7 +33,7 @@ public class ITUserServiceCreateValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = getUser("abc", "email@somewhere.com");
+        data = UsersCreate.enabled("abc", "email@somewhere.com");
 
         executable = () -> service.create(data);
 
@@ -50,7 +50,7 @@ public class ITUserServiceCreateValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = getUser("admin", "email2@somewhere.com");
+        data = UsersCreate.enabled("admin", "email2@somewhere.com");
 
         executable = () -> service.create(data);
 
@@ -66,25 +66,13 @@ public class ITUserServiceCreateValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = getUser("admin", "abc");
+        data = UsersCreate.enabled("admin", "abc");
 
         executable = () -> service.create(data);
 
         failure = FieldFailure.of("email.invalid", "email", "invalid", "abc");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    private final UserCreate getUser(final String username, final String email) {
-        return ValidatedUserCreate.builder()
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }

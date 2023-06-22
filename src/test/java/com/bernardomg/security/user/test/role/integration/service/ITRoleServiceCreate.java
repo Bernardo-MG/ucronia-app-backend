@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.request.RoleCreate;
-import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesCreate;
 
 @IntegrationTest
 @DisplayName("Role service - create")
@@ -33,9 +33,7 @@ public class ITRoleServiceCreate {
     public void testCreate_AddsEntity() {
         final RoleCreate data;
 
-        data = ValidatedRoleCreate.builder()
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         service.create(data);
 
@@ -49,9 +47,7 @@ public class ITRoleServiceCreate {
         final RoleCreate     data;
         final PersistentRole entity;
 
-        data = ValidatedRoleCreate.builder()
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         service.create(data);
         entity = repository.findAll()
@@ -70,9 +66,7 @@ public class ITRoleServiceCreate {
         final RoleCreate data;
         final Role       result;
 
-        data = ValidatedRoleCreate.builder()
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         result = service.create(data);
 

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class DtoFeeCalendarQueryRequest {
 
-    private Boolean onlyActive = false;
+    private Boolean onlyActive;
 
 }

@@ -34,11 +34,11 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.ImmutableUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserUpdate;
-import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
 @DisplayName("Role service - update with no roles")
@@ -62,7 +62,7 @@ public class ITUserServiceUpdate {
     public void testUpdate_AddsNoEntity() {
         final UserUpdate user;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
         service.update(user);
 
@@ -76,7 +76,7 @@ public class ITUserServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
         service.update(user);
         entity = repository.findAll()
@@ -101,7 +101,7 @@ public class ITUserServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = getUser("EMAIL@SOMEWHERE.COM");
+        user = UsersUpdate.emailChangeUpperCase();
 
         service.update(user);
         entity = repository.findAll()
@@ -109,7 +109,7 @@ public class ITUserServiceUpdate {
             .next();
 
         Assertions.assertThat(entity.getEmail())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo("email2@somewhere.com");
     }
 
     @Test
@@ -118,7 +118,7 @@ public class ITUserServiceUpdate {
         final UserUpdate user;
         final User       result;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
         result = service.update(user);
 
@@ -139,38 +139,12 @@ public class ITUserServiceUpdate {
         final UserUpdate user;
         final User       result;
 
-        user = getUser("EMAIL2@SOMEWHERE.COM");
+        user = UsersUpdate.emailChangeUpperCase();
 
         result = service.update(user);
 
         Assertions.assertThat(result.getEmail())
             .isEqualTo("email2@somewhere.com");
-    }
-
-    private final UserUpdate getUser() {
-        return ValidatedUserUpdate.builder()
-            .id(1L)
-            .username("admin")
-            .name("Admin")
-            .email("email2@somewhere.com")
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
-    }
-
-    private final UserUpdate getUser(final String email) {
-        return ValidatedUserUpdate.builder()
-            .id(1L)
-            .username("admin")
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
     }
 
 }
