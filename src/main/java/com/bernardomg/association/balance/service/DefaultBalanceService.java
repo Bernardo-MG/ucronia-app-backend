@@ -26,7 +26,7 @@ public final class DefaultBalanceService implements BalanceService {
     private final TransactionRepository    transactionRepository;
 
     @Override
-    public final Collection<MonthlyBalance> getMonthlyBalance() {
+    public final Collection<? extends MonthlyBalance> getMonthlyBalance() {
         return monthlyBalanceRepository.findAll()
             .stream()
             .map(mapper::toDto)

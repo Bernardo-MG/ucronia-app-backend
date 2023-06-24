@@ -3,8 +3,7 @@ package com.bernardomg.security.user.model.mapper;
 
 import org.mapstruct.Mapper;
 
-import com.bernardomg.security.user.model.ImmutableUser;
-import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
@@ -13,18 +12,7 @@ import com.bernardomg.security.user.persistence.model.PersistentUser;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    public default User toDto(final PersistentUser entity) {
-        return ImmutableUser.builder()
-            .id(entity.getId())
-            .username(entity.getUsername())
-            .name(entity.getName())
-            .email(entity.getEmail())
-            .credentialsExpired(entity.getCredentialsExpired())
-            .enabled(entity.getEnabled())
-            .expired(entity.getExpired())
-            .locked(entity.getLocked())
-            .build();
-    }
+    public DtoUser toDto(final PersistentUser entity);
 
     public default PersistentUser toEntity(final UserCreate data) {
         final String username;

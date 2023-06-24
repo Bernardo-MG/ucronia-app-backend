@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.model.ImmutableMember;
+import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberCreate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
@@ -106,7 +106,7 @@ public class ITMemberServiceCreate {
 
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
             .name("Member")
             .surname("Surname")
             .phone("12345")
