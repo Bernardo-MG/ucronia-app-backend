@@ -1,23 +1,20 @@
 
-package com.bernardomg.security.user.service.validation.user;
+package com.bernardomg.security.user.validation.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.validation.EmailValidationRule;
+import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.ValidationRule;
-import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateUserValidator implements Validator<UserCreate> {
+public final class CreateUserValidator extends AbstractValidator<UserCreate> {
 
     /**
      * Email validation rule. To check the email fits into the valid email pattern.
@@ -33,19 +30,16 @@ public final class CreateUserValidator implements Validator<UserCreate> {
     }
 
     @Override
-    public final void validate(final UserCreate user) {
-        final Collection<FieldFailure> failures;
-        final Optional<Failure>        optFailure;
-        FieldFailure                   failure;
-
-        failures = new ArrayList<>();
+    protected final void checkRules(final UserCreate user) {
+        final Optional<Failure> optFailure;
+        FieldFailure            failure;
 
         // Verify the username is not registered
         if (userRepository.existsByUsername(user.getUsername())) {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("username", "existing", user.getUsername());
-            failures.add(failure);
+            addFailure(failure);
         }
 
         // TODO: Don't give hints about existing emails
@@ -54,23 +48,19 @@ public final class CreateUserValidator implements Validator<UserCreate> {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());
-            failures.add(failure);
+            addFailure(failure);
         }
 
         // Verify the email matches the valid pattern
         optFailure = emailValidationRule.test(user.getEmail());
         if (optFailure.isPresent()) {
+            log.error("Received invalid email {}", user.getEmail());
             failure = FieldFailure.of(optFailure.get()
                 .getMessage(), "email",
                 optFailure.get()
                     .getCode(),
                 user.getEmail());
-            failures.add(failure);
-        }
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
+            addFailure(failure);
         }
     }
 

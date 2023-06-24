@@ -21,10 +21,10 @@ import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
-import com.bernardomg.security.user.service.validation.user.AddUserRoleValidator;
-import com.bernardomg.security.user.service.validation.user.CreateUserValidator;
-import com.bernardomg.security.user.service.validation.user.DeleteUserValidator;
-import com.bernardomg.security.user.service.validation.user.UpdateUserValidator;
+import com.bernardomg.security.user.validation.user.AddUserRoleValidator;
+import com.bernardomg.security.user.validation.user.CreateUserValidator;
+import com.bernardomg.security.user.validation.user.DeleteUserValidator;
+import com.bernardomg.security.user.validation.user.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
 
 @Service

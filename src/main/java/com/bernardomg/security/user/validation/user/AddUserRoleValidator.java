@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.service.validation.user;
+package com.bernardomg.security.user.validation.user;
 
 import java.util.ArrayList;
 import java.util.Collection;

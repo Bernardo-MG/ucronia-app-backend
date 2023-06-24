@@ -226,15 +226,15 @@ public final class DefaultFeeService implements FeeService {
 
         failures = new ArrayList<>();
 
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
-        }
-
         if (!memberRepository.existsById(form.getMemberId())) {
             log.error("Found no member with id {}", form.getMemberId());
             failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
             failures.add(failure);
+        }
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
         }
 
         return failures;
@@ -246,16 +246,16 @@ public final class DefaultFeeService implements FeeService {
 
         failures = new ArrayList<>();
 
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
-        }
-
         // TODO: Test validation
         if (!memberRepository.existsById(form.getMemberId())) {
             log.error("Found no member with id {}", form.getMemberId());
             failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
             failures.add(failure);
+        }
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
         }
 
         return failures;
