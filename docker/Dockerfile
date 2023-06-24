@@ -29,10 +29,10 @@ RUN adduser -S runner -G runners
 COPY --from=build ./usr/src/app/target/*.war ./app.war
 
 # Add logs folder
-RUN touch app.log
-RUN mkdir ./logs
-RUN chown runner app.log
-RUN chown runner ./logs
+RUN touch app.log && \
+    mkdir ./logs && \
+    chown runner app.log && \
+    chown runner ./logs
 VOLUME ./logs
 
 # Exposed ports
