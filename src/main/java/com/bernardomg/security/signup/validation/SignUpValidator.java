@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.signup.validation;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.security.signup.model.SignUp;
@@ -34,7 +35,7 @@ public final class SignUpValidator extends AbstractValidator<SignUp> {
     }
 
     @Override
-    protected final void checkRules(final SignUp signUp) {
+    protected final void checkRules(final SignUp signUp, final Collection<FieldFailure> failures) {
         final FieldFailure      failure;
         final Optional<Failure> optFailure;
         FieldFailure            error;
@@ -45,7 +46,7 @@ public final class SignUpValidator extends AbstractValidator<SignUp> {
             log.error("A user already exists with the username {}", signUp.getUsername());
             // TODO: The code is exists or is it existing? Make sure all use the same
             error = FieldFailure.of("username", "existing", signUp.getUsername());
-            addFailure(error);
+            failures.add(error);
         }
 
         // Verify no user exists with the received email
@@ -54,7 +55,7 @@ public final class SignUpValidator extends AbstractValidator<SignUp> {
             log.error("A user already exists with the email {}", signUp.getEmail());
             // TODO: The code is exists or is it existing? Make sure all use the same
             error = FieldFailure.of("email", "existing", signUp.getEmail());
-            addFailure(error);
+            failures.add(error);
         }
 
         // Verify the email matches the valid pattern
@@ -65,7 +66,7 @@ public final class SignUpValidator extends AbstractValidator<SignUp> {
                 optFailure.get()
                     .getCode(),
                 signUp.getEmail());
-            addFailure(failure);
+            failures.add(failure);
         }
     }
 

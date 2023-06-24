@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.fee.validation;
 
+import java.util.Collection;
+
 import com.bernardomg.association.fee.model.request.FeeCreate;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.validation.AbstractValidator;
@@ -20,14 +22,14 @@ public final class CreateFeeValidator extends AbstractValidator<FeeCreate> {
     }
 
     @Override
-    protected final void checkRules(final FeeCreate fee) {
+    protected final void checkRules(final FeeCreate fee, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
         // Verify the member exists
         if (!memberRepository.existsById(fee.getMemberId())) {
             log.error("Found no member with id {}", fee.getMemberId());
             failure = FieldFailure.of("memberId", "notExists", fee.getMemberId());
-            addFailure(failure);
+            failures.add(failure);
         }
     }
 

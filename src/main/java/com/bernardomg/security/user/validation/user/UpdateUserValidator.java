@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.user.validation.user;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserUpdate;
@@ -30,7 +31,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
     }
 
     @Override
-    protected final void checkRules(final UserUpdate user) {
+    protected final void checkRules(final UserUpdate user, final Collection<FieldFailure> failures) {
         final Optional<Failure> optFailure;
         final Boolean           exists;
         FieldFailure            failure;
@@ -40,7 +41,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
             log.error("No user exists for id {}", user.getId());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("id", "notExisting", user.getUsername());
-            addFailure(failure);
+            failures.add(failure);
             exists = false;
         } else {
             exists = true;
@@ -52,7 +53,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
                 log.error("A user already exists with the username {}", user.getUsername());
                 // TODO: Is the code exists or is it existing? Make sure all use the same
                 failure = FieldFailure.of("email", "existing", user.getEmail());
-                addFailure(failure);
+                failures.add(failure);
             }
 
             // Verify the email matches the valid pattern
@@ -63,14 +64,14 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
                     optFailure.get()
                         .getCode(),
                     user.getEmail());
-                addFailure(failure);
+                failures.add(failure);
             }
 
             // Verify the name is not changed
             if (!userRepository.existsByIdAndUsername(user.getId(), user.getUsername())) {
                 log.error("Tried to change username for {} with id {}", user.getUsername(), user.getId());
                 failure = FieldFailure.of("username", "immutable", user.getId());
-                addFailure(failure);
+                failures.add(failure);
             }
         }
     }

@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.user.validation.user;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserCreate;
@@ -30,7 +31,7 @@ public final class CreateUserValidator extends AbstractValidator<UserCreate> {
     }
 
     @Override
-    protected final void checkRules(final UserCreate user) {
+    protected final void checkRules(final UserCreate user, final Collection<FieldFailure> failures) {
         final Optional<Failure> optFailure;
         FieldFailure            failure;
 
@@ -39,7 +40,7 @@ public final class CreateUserValidator extends AbstractValidator<UserCreate> {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("username", "existing", user.getUsername());
-            addFailure(failure);
+            failures.add(failure);
         }
 
         // TODO: Don't give hints about existing emails
@@ -48,7 +49,7 @@ public final class CreateUserValidator extends AbstractValidator<UserCreate> {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());
-            addFailure(failure);
+            failures.add(failure);
         }
 
         // Verify the email matches the valid pattern
@@ -60,7 +61,7 @@ public final class CreateUserValidator extends AbstractValidator<UserCreate> {
                 optFailure.get()
                     .getCode(),
                 user.getEmail());
-            addFailure(failure);
+            failures.add(failure);
         }
     }
 

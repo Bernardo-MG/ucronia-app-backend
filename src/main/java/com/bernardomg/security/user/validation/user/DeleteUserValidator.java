@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.user.validation.user;
 
+import java.util.Collection;
+
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -19,7 +21,7 @@ public final class DeleteUserValidator extends AbstractValidator<Long> {
     }
 
     @Override
-    protected final void checkRules(final Long id) {
+    protected final void checkRules(final Long id, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
         // User exists
@@ -27,7 +29,7 @@ public final class DeleteUserValidator extends AbstractValidator<Long> {
             log.error("Found no user with id {}", id);
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("id", "notExisting", id);
-            addFailure(failure);
+            failures.add(failure);
         }
     }
 

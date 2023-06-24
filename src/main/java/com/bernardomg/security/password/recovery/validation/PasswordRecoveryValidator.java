@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.password.recovery.validation;
 
+import java.util.Collection;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -18,7 +20,7 @@ public final class PasswordRecoveryValidator extends AbstractValidator<PasswordV
     }
 
     @Override
-    protected final void checkRules(final PasswordValidationData data) {
+    protected final void checkRules(final PasswordValidationData data, final Collection<FieldFailure> failures) {
         final FieldFailure   failure;
         final Authentication auth;
         final String         sessionUser;
@@ -28,7 +30,7 @@ public final class PasswordRecoveryValidator extends AbstractValidator<PasswordV
             .isPresent()) {
             log.warn("The email {} isn't registered", data.getEmail());
             failure = FieldFailure.of("email", "invalid", data.getEmail());
-            addFailure(failure);
+            failures.add(failure);
         } else {
             // TODO: This process will be started by users not authenticated
             auth = SecurityContextHolder.getContext()
@@ -45,7 +47,7 @@ public final class PasswordRecoveryValidator extends AbstractValidator<PasswordV
                 .equals(sessionUser)) {
                 log.error("The user {} tried to change the password for {}", sessionUser, user.getUsername());
                 failure = FieldFailure.of("email", "invalid", data.getEmail());
-                addFailure(failure);
+                failures.add(failure);
             }
         }
     }

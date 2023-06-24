@@ -12,11 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractValidator<T> implements Validator<T> {
 
-    private final Collection<FieldFailure> failures = new ArrayList<>();
-
     @Override
     public final void validate(final T obj) {
-        checkRules(obj);
+        final Collection<FieldFailure> failures;
+
+        failures = new ArrayList<>();
+
+        checkRules(obj, failures);
 
         if (!failures.isEmpty()) {
             log.debug("Got failures: {}", failures);
@@ -24,10 +26,6 @@ public abstract class AbstractValidator<T> implements Validator<T> {
         }
     }
 
-    protected final void addFailure(final FieldFailure failure) {
-        failures.add(failure);
-    }
-
-    protected abstract void checkRules(final T obj);
+    protected abstract void checkRules(final T obj, final Collection<FieldFailure> failures);
 
 }
