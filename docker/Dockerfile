@@ -21,12 +21,19 @@ FROM openjdk:17-alpine as deployment
 
 WORKDIR /app
 
+# Create user
+RUN addgroup -S runners
+RUN adduser -S runner -G runners
+
 # Copy from build stage
 COPY --from=build ./usr/src/app/target/*.war ./app.war
 
-# Simple user
-RUN adduser -D runner -g "runner" -s /bin/sh -D runner
-USER runner
+# Add logs folder
+RUN touch app.log
+RUN mkdir ./logs
+RUN chown runner app.log
+RUN chown runner ./logs
+VOLUME ./logs
 
 # Exposed ports
 EXPOSE 8080
@@ -34,6 +41,9 @@ EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --retries=5 --timeout=10s CMD curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1
+
+# Change user
+USER runner
 
 # Run with remote debugging
 ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8000", "-jar", "app.war"]
