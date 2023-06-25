@@ -11,7 +11,7 @@ public final class FeesCreate {
     public static final FeeCreate invalidId() {
         return ValidatedFeeCreate.builder()
             .memberId(-1L)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build();
     }
@@ -26,14 +26,14 @@ public final class FeesCreate {
     public static final FeeCreate missingPaid() {
         return ValidatedFeeCreate.builder()
             .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 1, 1))
             .build();
     }
 
     public static final FeeCreate paid() {
         return ValidatedFeeCreate.builder()
             .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build();
     }

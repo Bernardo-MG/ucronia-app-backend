@@ -94,6 +94,14 @@ public final class DefaultUserService implements UserService {
         entity = mapper.toEntity(user);
         entity.setId(null);
         entity.setPassword("");
+        if (entity.getUsername() != null) {
+            entity.setUsername(entity.getUsername()
+                .toLowerCase());
+        }
+        if (entity.getEmail() != null) {
+            entity.setEmail(entity.getEmail()
+                .toLowerCase());
+        }
 
         created = userRepository.save(entity);
 
@@ -113,6 +121,14 @@ public final class DefaultUserService implements UserService {
         final PersistentUser entity;
 
         entity = mapper.toEntity(sample);
+        if (entity.getUsername() != null) {
+            entity.setUsername(entity.getUsername()
+                .toLowerCase());
+        }
+        if (entity.getEmail() != null) {
+            entity.setEmail(entity.getEmail()
+                .toLowerCase());
+        }
 
         return userRepository.findAll(Example.of(entity), pageable)
             .map(mapper::toDto);
@@ -158,6 +174,14 @@ public final class DefaultUserService implements UserService {
 
         entity = mapper.toEntity(user);
         entity.setPassword("");
+        if (entity.getUsername() != null) {
+            entity.setUsername(entity.getUsername()
+                .toLowerCase());
+        }
+        if (entity.getEmail() != null) {
+            entity.setEmail(entity.getEmail()
+                .toLowerCase());
+        }
 
         old = userRepository.findById(user.getId());
         if (old.isPresent()) {

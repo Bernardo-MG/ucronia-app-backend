@@ -23,7 +23,10 @@ public final class FeeAssertions {
             .isEqualTo(expected.getSurname());
         Assertions.assertThat(received.getDate()
             .getTime())
-            .withFailMessage("Expected date '%s' but got '%s'", received.getDate(), expected.getDate())
+            .withFailMessage("Expected date '%s' but got '%s'", received.getDate()
+                .getTime(),
+                expected.getDate()
+                    .getTime())
             .isEqualTo(expected.getDate()
                 .getTime());
         Assertions.assertThat(received.getPaid())
@@ -40,7 +43,10 @@ public final class FeeAssertions {
             .isEqualTo(expected.getMemberId());
         Assertions.assertThat(received.getDate()
             .getTime())
-            .withFailMessage("Expected date '%s' but got '%s'", received.getDate(), expected.getDate())
+            .withFailMessage("Expected date '%s' but got '%s'", received.getDate()
+                .getTime(),
+                expected.getDate()
+                    .getTime())
             .isEqualTo(expected.getDate()
                 .getTime());
         Assertions.assertThat(received.getPaid())

@@ -39,7 +39,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.ImmutableMemberFee;
+import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
@@ -73,7 +73,7 @@ public class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -81,7 +81,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -89,7 +89,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -97,7 +97,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -105,7 +105,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -128,7 +128,7 @@ public class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -136,7 +136,7 @@ public class ITFeeServiceGetAllSort {
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -144,7 +144,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -152,7 +152,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -160,7 +160,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -183,7 +183,7 @@ public class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -191,7 +191,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -199,7 +199,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -207,7 +207,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -215,7 +215,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -238,7 +238,7 @@ public class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -246,7 +246,7 @@ public class ITFeeServiceGetAllSort {
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -254,7 +254,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -262,7 +262,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -270,7 +270,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -312,7 +312,7 @@ public class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
@@ -320,7 +320,7 @@ public class ITFeeServiceGetAllSort {
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -328,7 +328,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -336,7 +336,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -344,7 +344,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -367,7 +367,7 @@ public class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -375,7 +375,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -383,7 +383,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
             .name("Member 3")
             .surname("Surname 3")
@@ -391,7 +391,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
             .name("Member 4")
             .surname("Surname 4")
@@ -399,7 +399,7 @@ public class ITFeeServiceGetAllSort {
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")
