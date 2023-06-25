@@ -25,11 +25,11 @@ public final class DefaultResourceService implements ResourceService {
 
     @Override
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
-        final PersistentResource entity;
+        final PersistentResource entitySample;
 
-        entity = mapper.toEntity(sample);
+        entitySample = mapper.toEntity(sample);
 
-        return repository.findAll(Example.of(entity), pageable)
+        return repository.findAll(Example.of(entitySample), pageable)
             .map(mapper::toDto);
     }
 

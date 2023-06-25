@@ -30,23 +30,23 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultUserService implements UserService {
 
-    private final Validator<UserRole>   addUserRoleValidator;
-
-    private final Validator<UserCreate> createUserValidator;
-
-    private final Validator<Long>       deleteUserValidator;
-
     private final UserMapper            mapper;
 
-    private final Validator<UserRole>   removeUserRoleValidator;
-
     private final RoleRepository        roleRepository;
-
-    private final Validator<UserUpdate> updateUserValidator;
 
     private final UserRepository        userRepository;
 
     private final UserRolesRepository   userRolesRepository;
+
+    private final Validator<UserRole>   validatorAddUserRole;
+
+    private final Validator<UserCreate> validatorCreateUser;
+
+    private final Validator<Long>       validatorDeleteUser;
+
+    private final Validator<UserRole>   validatorRemoveUserRole;
+
+    private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
             final UserRolesRepository userRolesRepo, final UserMapper userMapper) {
@@ -57,29 +57,29 @@ public final class DefaultUserService implements UserService {
         roleRepository = Objects.requireNonNull(roleRepo);
         mapper = Objects.requireNonNull(userMapper);
 
-        createUserValidator = new CreateUserValidator(userRepo);
-        updateUserValidator = new UpdateUserValidator(userRepo);
-        deleteUserValidator = new DeleteUserValidator(userRepo);
+        validatorCreateUser = new CreateUserValidator(userRepo);
+        validatorUpdateUser = new UpdateUserValidator(userRepo);
+        validatorDeleteUser = new DeleteUserValidator(userRepo);
 
-        addUserRoleValidator = new AddUserRoleValidator(userRepo, roleRepo);
-        removeUserRoleValidator = new AddUserRoleValidator(userRepo, roleRepo);
+        validatorAddUserRole = new AddUserRoleValidator(userRepo, roleRepo);
+        validatorRemoveUserRole = new AddUserRoleValidator(userRepo, roleRepo);
     }
 
     @Override
     public final Boolean addRole(final Long id, final Long role) {
-        final PersistentUserRoles relationship;
+        final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
 
         userRole = ImmutableUserRole.builder()
             .user(id)
             .role(role)
             .build();
-        addUserRoleValidator.validate(userRole);
+        validatorAddUserRole.validate(userRole);
 
-        relationship = getRelationships(id, role);
+        userRoleSample = getUserRoleSample(id, role);
 
         // Persist relationship
-        userRolesRepository.save(relationship);
+        userRolesRepository.save(userRoleSample);
 
         return true;
     }
@@ -89,11 +89,9 @@ public final class DefaultUserService implements UserService {
         final PersistentUser entity;
         final PersistentUser created;
 
-        createUserValidator.validate(user);
+        validatorCreateUser.validate(user);
 
         entity = mapper.toEntity(user);
-        entity.setId(null);
-        entity.setPassword("");
         if (entity.getUsername() != null) {
             entity.setUsername(entity.getUsername()
                 .toLowerCase());
@@ -102,6 +100,10 @@ public final class DefaultUserService implements UserService {
             entity.setEmail(entity.getEmail()
                 .toLowerCase());
         }
+
+        // TODO: Handle this better, disable until it has a password
+        // TODO: Should be the DB default value
+        entity.setPassword("");
 
         entity.setExpired(false);
         entity.setLocked(false);
@@ -114,7 +116,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean delete(final Long id) {
-        deleteUserValidator.validate(id);
+        validatorDeleteUser.validate(id);
         userRepository.deleteById(id);
 
         return true;
@@ -151,19 +153,19 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean removeRole(final Long id, final Long role) {
-        final PersistentUserRoles relationship;
+        final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
 
         userRole = ImmutableUserRole.builder()
             .user(id)
             .role(role)
             .build();
-        removeUserRoleValidator.validate(userRole);
+        validatorRemoveUserRole.validate(userRole);
 
-        relationship = getRelationships(id, role);
+        userRoleSample = getUserRoleSample(id, role);
 
         // Persist relationship
-        userRolesRepository.delete(relationship);
+        userRolesRepository.delete(userRoleSample);
 
         return true;
     }
@@ -174,10 +176,9 @@ public final class DefaultUserService implements UserService {
         final PersistentUser           created;
         final Optional<PersistentUser> old;
 
-        updateUserValidator.validate(user);
+        validatorUpdateUser.validate(user);
 
         entity = mapper.toEntity(user);
-        entity.setPassword("");
         if (entity.getUsername() != null) {
             entity.setUsername(entity.getUsername()
                 .toLowerCase());
@@ -193,6 +194,7 @@ public final class DefaultUserService implements UserService {
                 .getPassword());
         }
 
+        // TODO: Should keep the values in the database
         entity.setExpired(false);
         entity.setLocked(false);
         entity.setCredentialsExpired(false);
@@ -202,7 +204,7 @@ public final class DefaultUserService implements UserService {
         return mapper.toDto(created);
     }
 
-    private final PersistentUserRoles getRelationships(final Long user, final Long role) {
+    private final PersistentUserRoles getUserRoleSample(final Long user, final Long role) {
         return PersistentUserRoles.builder()
             .userId(user)
             .roleId(role)

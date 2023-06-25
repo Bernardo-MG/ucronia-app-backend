@@ -25,11 +25,11 @@ public final class DefaultActionService implements ActionService {
 
     @Override
     public final Iterable<Action> getAll(final ActionQuery sample, final Pageable pageable) {
-        final PersistentAction entity;
+        final PersistentAction entitySample;
 
-        entity = mapper.toEntity(sample);
+        entitySample = mapper.toEntity(sample);
 
-        return repository.findAll(Example.of(entity), pageable)
+        return repository.findAll(Example.of(entitySample), pageable)
             .map(mapper::toDto);
     }
 

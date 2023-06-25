@@ -33,15 +33,7 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultRoleService implements RoleService {
 
-    private final Validator<RolePermission>       addRolePermissionValidator;
-
-    private final Validator<RoleCreate>           createRoleValidator;
-
-    private final Validator<Long>                 deleteRoleValidator;
-
     private final RoleMapper                      mapper;
-
-    private final Validator<RolePermission>       removeRolePermissionValidator;
 
     private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
 
@@ -49,7 +41,15 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleRepository                  roleRepository;
 
-    private final Validator<RoleUpdate>           updateRoleValidator;
+    private final Validator<RolePermission>       validatorAddRolePermission;
+
+    private final Validator<RoleCreate>           validatorCreateRole;
+
+    private final Validator<Long>                 validatorDeleteRole;
+
+    private final Validator<RolePermission>       validatorRemoveRolePermission;
+
+    private final Validator<RoleUpdate>           validatorUpdateRole;
 
     public DefaultRoleService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
             final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
@@ -62,18 +62,18 @@ public final class DefaultRoleService implements RoleService {
         roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
         mapper = Objects.requireNonNull(roleMapper);
 
-        createRoleValidator = new CreateRoleValidator(roleRepo);
-        updateRoleValidator = new UpdateRoleValidator(roleRepo);
-        deleteRoleValidator = new DeleteRoleValidator(roleRepo, userRolesRepo);
+        validatorCreateRole = new CreateRoleValidator(roleRepo);
+        validatorUpdateRole = new UpdateRoleValidator(roleRepo);
+        validatorDeleteRole = new DeleteRoleValidator(roleRepo, userRolesRepo);
 
-        addRolePermissionValidator = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
+        validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
         // TODO: Just validate if the permission exists
-        removeRolePermissionValidator = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
+        validatorRemoveRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
     }
 
     @Override
     public final Boolean addPermission(final Long id, final Long resource, final Long action) {
-        final PersistentRolePermission relationship;
+        final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
 
         roleAction = ImmutableRolePermission.builder()
@@ -81,14 +81,14 @@ public final class DefaultRoleService implements RoleService {
             .resource(resource)
             .action(action)
             .build();
-        addRolePermissionValidator.validate(roleAction);
+        validatorAddRolePermission.validate(roleAction);
 
         // Build relationship entities
-        relationship = getRelationship(id, resource, action);
-        relationship.setGranted(true);
+        rolePermissionSample = getRolePermissionSample(id, resource, action);
+        rolePermissionSample.setGranted(true);
 
         // Persist relationship entities
-        rolePermissionRepository.save(relationship);
+        rolePermissionRepository.save(rolePermissionSample);
 
         return true;
     }
@@ -98,10 +98,9 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRole entity;
         final PersistentRole created;
 
-        createRoleValidator.validate(role);
+        validatorCreateRole.validate(role);
 
         entity = mapper.toEntity(role);
-        entity.setId(null);
 
         created = roleRepository.save(entity);
 
@@ -110,7 +109,8 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Boolean delete(final Long id) {
-        deleteRoleValidator.validate(id);
+        validatorDeleteRole.validate(id);
+
         rolePermissionRepository.deleteAllByRoleId(id);
         roleRepository.deleteById(id);
 
@@ -119,11 +119,11 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
-        final PersistentRole entity;
+        final PersistentRole entitySample;
 
-        entity = mapper.toEntity(sample);
+        entitySample = mapper.toEntity(sample);
 
-        return roleRepository.findAll(Example.of(entity), pageable)
+        return roleRepository.findAll(Example.of(entitySample), pageable)
             .map(mapper::toDto);
     }
 
@@ -141,7 +141,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Boolean removePermission(final Long id, final Long resource, final Long action) {
-        final PersistentRolePermission relationship;
+        final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
 
         roleAction = ImmutableRolePermission.builder()
@@ -149,14 +149,14 @@ public final class DefaultRoleService implements RoleService {
             .resource(resource)
             .action(action)
             .build();
-        removeRolePermissionValidator.validate(roleAction);
+        validatorRemoveRolePermission.validate(roleAction);
 
         // Build relationship entities
-        relationship = getRelationship(id, resource, action);
-        relationship.setGranted(false);
+        rolePermissionSample = getRolePermissionSample(id, resource, action);
+        rolePermissionSample.setGranted(false);
 
         // Delete relationship entities
-        rolePermissionRepository.save(relationship);
+        rolePermissionRepository.save(rolePermissionSample);
 
         return true;
     }
@@ -166,16 +166,16 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRole entity;
         final PersistentRole created;
 
-        updateRoleValidator.validate(role);
+        validatorUpdateRole.validate(role);
 
         entity = mapper.toEntity(role);
-
         created = roleRepository.save(entity);
 
         return mapper.toDto(created);
     }
 
-    private final PersistentRolePermission getRelationship(final Long role, final Long resource, final Long action) {
+    private final PersistentRolePermission getRolePermissionSample(final Long role, final Long resource,
+            final Long action) {
         return PersistentRolePermission.builder()
             .roleId(role)
             .resourceId(resource)
