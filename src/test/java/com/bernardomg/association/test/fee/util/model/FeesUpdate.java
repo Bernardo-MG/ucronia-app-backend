@@ -12,7 +12,7 @@ public final class FeesUpdate {
         return ValidatedFeeUpdate.builder()
             .id(1L)
             .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build();
     }
@@ -21,7 +21,7 @@ public final class FeesUpdate {
         return ValidatedFeeUpdate.builder()
             .id(1L)
             .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 2))
+            .date(new GregorianCalendar(2020, 1, 1))
             .paid(false)
             .build();
     }

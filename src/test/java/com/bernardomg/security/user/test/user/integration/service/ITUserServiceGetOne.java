@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
@@ -47,7 +47,7 @@ public class ITUserServiceGetOne {
         result = service.getOne(1l)
             .get();
 
-        UserAssertions.isEqualTo(result, ImmutableUser.builder()
+        UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")

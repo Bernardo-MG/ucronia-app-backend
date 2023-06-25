@@ -7,8 +7,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.user.model.ImmutableResource;
 import com.bernardomg.security.user.model.Resource;
+import com.bernardomg.security.user.model.mapper.ResourceMapper;
 import com.bernardomg.security.user.model.request.ResourceQuery;
 import com.bernardomg.security.user.persistence.model.PersistentResource;
 import com.bernardomg.security.user.persistence.repository.ResourceRepository;
@@ -19,35 +19,24 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultResourceService implements ResourceService {
 
+    private final ResourceMapper     mapper;
+
     private final ResourceRepository repository;
 
     @Override
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entity;
 
-        entity = toEntity(sample);
+        entity = mapper.toEntity(sample);
 
         return repository.findAll(Example.of(entity), pageable)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
     public final Optional<Resource> getOne(final Long id) {
         return repository.findById(id)
-            .map(this::toDto);
-    }
-
-    private final Resource toDto(final PersistentResource entity) {
-        return ImmutableResource.builder()
-            .id(entity.getId())
-            .name(entity.getName())
-            .build();
-    }
-
-    private final PersistentResource toEntity(final ResourceQuery data) {
-        return PersistentResource.builder()
-            .name(data.getName())
-            .build();
+            .map(mapper::toDto);
     }
 
 }

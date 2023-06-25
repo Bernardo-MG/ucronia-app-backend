@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.ImmutableMember;
+import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
@@ -111,7 +111,7 @@ public class ITMemberServiceUpdate {
         memberRequest = MembersUpdate.nameChange();
 
         member = service.update(1L, memberRequest);
-        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
             .name("Member 123")
             .surname("Surname")
             .phone("12345")

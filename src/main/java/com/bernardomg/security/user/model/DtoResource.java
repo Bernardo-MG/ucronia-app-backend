@@ -2,11 +2,11 @@
 package com.bernardomg.security.user.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
-public final class ImmutableResource implements Resource {
+public final class DtoResource implements Resource {
 
     private final Long   id;
 
