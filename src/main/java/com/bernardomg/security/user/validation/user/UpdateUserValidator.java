@@ -6,9 +6,7 @@ import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.validation.EmailValidationRule;
 import com.bernardomg.validation.AbstractValidator;
-import com.bernardomg.validation.ValidationRule;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -17,12 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 
-    /**
-     * Email validation rule. To check the email fits into the valid email pattern.
-     */
-    private final ValidationRule<String> emailValidationRule = new EmailValidationRule();
-
-    private final UserRepository         userRepository;
+    private final UserRepository userRepository;
 
     public UpdateUserValidator(final UserRepository userRepo) {
         super();
@@ -53,17 +46,6 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
                 log.error("A user already exists with the username {}", user.getUsername());
                 // TODO: Is the code exists or is it existing? Make sure all use the same
                 failure = FieldFailure.of("email", "existing", user.getEmail());
-                failures.add(failure);
-            }
-
-            // Verify the email matches the valid pattern
-            optFailure = emailValidationRule.test(user.getEmail());
-            if (optFailure.isPresent()) {
-                failure = FieldFailure.of(optFailure.get()
-                    .getMessage(), "email",
-                    optFailure.get()
-                        .getCode(),
-                    user.getEmail());
                 failures.add(failure);
             }
 

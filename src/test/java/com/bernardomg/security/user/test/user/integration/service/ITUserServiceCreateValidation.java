@@ -59,20 +59,4 @@ public class ITUserServiceCreateValidation {
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
-    @Test
-    @DisplayName("Throws an exception when the email doesn't match the valid pattern")
-    public void testCreate_invalidEmail() {
-        final UserCreate       data;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        data = UsersCreate.enabled("admin", "abc");
-
-        executable = () -> service.create(data);
-
-        failure = FieldFailure.of("email.invalid", "email", "invalid", "abc");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
 }

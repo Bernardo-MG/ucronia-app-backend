@@ -25,24 +25,6 @@ public class ITUserRegistrationServiceValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email is empty")
-    public void testSignUp_EmptyEmail() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final DtoSignUp        signUp;
-
-        signUp = new DtoSignUp();
-        signUp.setUsername("user");
-        signUp.setEmail("");
-
-        executable = () -> service.signUp(signUp);
-
-        failure = FieldFailure.of("email.invalid", "email", "invalid", "");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
     public void testSignUp_ExistingEmail() {
@@ -114,24 +96,6 @@ public class ITUserRegistrationServiceValidation {
         executable = () -> service.signUp(signUp);
 
         failure = FieldFailure.of("username.existing", "username", "existing", "ADMIN");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the email doesn't match the email pattern")
-    public void testSignUp_NoEmailPattern() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final DtoSignUp        signUp;
-
-        signUp = new DtoSignUp();
-        signUp.setUsername("user");
-        signUp.setEmail("abc");
-
-        executable = () -> service.signUp(signUp);
-
-        failure = FieldFailure.of("email.invalid", "email", "invalid", "abc");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

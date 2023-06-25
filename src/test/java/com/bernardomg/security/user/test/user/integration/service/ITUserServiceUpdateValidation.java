@@ -65,25 +65,6 @@ public class ITUserServiceUpdateValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email doesn't match the valid pattern")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
-    public void testUpdate_InvalidMail() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final UserUpdate       data;
-
-        data = UsersUpdate.invalidEmail();
-
-        executable = () -> service.update(data);
-
-        failure = FieldFailure.of("email.invalid", "email", "invalid", "abc");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
     @DisplayName("Throws an exception when the user doesn't exist")
     public void testUpdate_NotExistingUser() {
         final ThrowingCallable executable;
