@@ -24,20 +24,13 @@
 
 package com.bernardomg.security.signup.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-
 import com.bernardomg.security.signup.model.ImmutableSignUpStatus;
 import com.bernardomg.security.signup.model.SignUp;
 import com.bernardomg.security.signup.model.SignUpStatus;
+import com.bernardomg.security.signup.validation.SignUpValidator;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.validation.EmailValidationRule;
-import com.bernardomg.validation.ValidationRule;
-import com.bernardomg.validation.failure.Failure;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.Validator;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -59,34 +52,27 @@ import lombok.extern.slf4j.Slf4j;
 public final class DefaultSignUpService implements SignUpService {
 
     /**
-     * Email validation rule. To check the email fits into the valid email pattern.
-     */
-    private final ValidationRule<String> emailValidationRule = new EmailValidationRule();
-
-    /**
      * User repository.
      */
-    private final UserRepository         repository;
+    private final UserRepository    repository;
+
+    private final Validator<SignUp> signUpValidator;
 
     public DefaultSignUpService(@NonNull final UserRepository repo) {
         super();
 
         repository = repo;
+        signUpValidator = new SignUpValidator(repo);
     }
 
     @Override
     public final SignUpStatus signUp(final SignUp signUp) {
-        final PersistentUser           entity;
-        final PersistentUser           created;
-        final Collection<FieldFailure> errors;
-        final String                   username;
-        final String                   email;
+        final PersistentUser entity;
+        final PersistentUser created;
+        final String         username;
+        final String         email;
 
-        errors = validate(signUp);
-        if (!errors.isEmpty()) {
-            // Validation errors
-            throw new FieldFailureException(errors);
-        }
+        signUpValidator.validate(signUp);
 
         username = signUp.getUsername()
             .toLowerCase();
@@ -108,53 +94,6 @@ public final class DefaultSignUpService implements SignUpService {
         created = repository.save(entity);
 
         return new ImmutableSignUpStatus(created.getUsername(), created.getEmail(), true);
-    }
-
-    /**
-     * Validates the sign up.
-     *
-     * @param signUp
-     *            sign up data
-     * @return any validation failure which has ocurred
-     */
-    private final Collection<FieldFailure> validate(final SignUp signUp) {
-        final Collection<FieldFailure> failures;
-        final FieldFailure             failure;
-        final Optional<Failure>        optFailure;
-        FieldFailure                   error;
-
-        failures = new ArrayList<>();
-
-        // Verify no user exists with the received username
-        if (repository.existsByUsername(signUp.getUsername()
-            .toLowerCase())) {
-            log.error("A user already exists with the username {}", signUp.getUsername());
-            // TODO: The code is exists or is it existing? Make sure all use the same
-            error = FieldFailure.of("username", "existing", signUp.getUsername());
-            failures.add(error);
-        }
-
-        // Verify no user exists with the received email
-        if (repository.existsByEmail(signUp.getEmail()
-            .toLowerCase())) {
-            log.error("A user already exists with the email {}", signUp.getEmail());
-            // TODO: The code is exists or is it existing? Make sure all use the same
-            error = FieldFailure.of("email", "existing", signUp.getEmail());
-            failures.add(error);
-        }
-
-        // Verify the email matches the valid pattern
-        optFailure = emailValidationRule.test(signUp.getEmail());
-        if (optFailure.isPresent()) {
-            failure = FieldFailure.of(optFailure.get()
-                .getMessage(), "email",
-                optFailure.get()
-                    .getCode(),
-                signUp.getEmail());
-            failures.add(failure);
-        }
-
-        return failures;
     }
 
 }

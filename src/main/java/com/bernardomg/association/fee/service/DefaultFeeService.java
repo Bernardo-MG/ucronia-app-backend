@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.fee.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -21,12 +19,10 @@ import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
+import com.bernardomg.association.fee.validation.CreateFeeValidator;
+import com.bernardomg.association.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.Validator;
 
 /**
  * Default implementation of the fee service.
@@ -35,32 +31,41 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Service
-@AllArgsConstructor
-@Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final FeeRepository       feeRepository;
+    private final FeeRepository        feeRepository;
 
-    private final FeeMapper           mapper;
+    private final FeeMapper            mapper;
 
-    private final MemberFeeRepository memberFeeRepository;
+    private final MemberFeeRepository  memberFeeRepository;
 
-    private final MemberRepository    memberRepository;
+    private final MemberRepository     memberRepository;
+
+    private final Validator<FeeCreate> validatorCreate;
+
+    private final Validator<FeeUpdate> validatorUpdate;
+
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberFeeRepository memberFeeRepo,
+            final MemberRepository memberRepo, final FeeMapper mpper) {
+        super();
+
+        feeRepository = feeRepo;
+        memberFeeRepository = memberFeeRepo;
+        memberRepository = memberRepo;
+        mapper = mpper;
+
+        // TODO: Test validation
+        validatorCreate = new CreateFeeValidator(memberRepository);
+        validatorUpdate = new UpdateFeeValidator(memberRepository);
+    }
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
     public final MemberFee create(final FeeCreate request) {
-        final PersistentFee            entity;
-        final PersistentFee            created;
-        final Collection<FieldFailure> failures;
+        final PersistentFee entity;
+        final PersistentFee created;
 
-        failures = validateCreate(request);
-
-        // TODO: Validate that the entity doesn't exist, or handle DB exceptions
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
-        }
+        validatorCreate.validate(request);
 
         entity = mapper.toEntity(request);
 
@@ -119,17 +124,10 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
     public final MemberFee update(final Long id, final FeeUpdate form) {
-        final PersistentFee            entity;
-        final PersistentFee            created;
-        final Collection<FieldFailure> failures;
+        final PersistentFee entity;
+        final PersistentFee created;
 
-        failures = validateUpdate(form);
-
-        // TODO: Validate that the entity doesn't exist, or handle DB exceptions
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
-        }
+        validatorUpdate.validate(form);
 
         entity = mapper.toEntity(form);
         entity.setId(id);
@@ -138,47 +136,6 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Doesn't return names
         return mapper.toDto(created);
-    }
-
-    private final Collection<FieldFailure> validateCreate(final FeeCreate form) {
-        final Collection<FieldFailure> failures;
-        final FieldFailure             failure;
-
-        failures = new ArrayList<>();
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
-        }
-
-        if (!memberRepository.existsById(form.getMemberId())) {
-            log.error("Found no member with id {}", form.getMemberId());
-            failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
-            failures.add(failure);
-        }
-
-        return failures;
-    }
-
-    private final Collection<FieldFailure> validateUpdate(final FeeUpdate form) {
-        final Collection<FieldFailure> failures;
-        final FieldFailure             failure;
-
-        failures = new ArrayList<>();
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
-        }
-
-        // TODO: Test validation
-        if (!memberRepository.existsById(form.getMemberId())) {
-            log.error("Found no member with id {}", form.getMemberId());
-            failure = FieldFailure.of("memberId", "notExists", form.getMemberId());
-            failures.add(failure);
-        }
-
-        return failures;
     }
 
 }

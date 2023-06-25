@@ -24,10 +24,10 @@ import com.bernardomg.security.user.persistence.repository.RoleGrantedPermission
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
-import com.bernardomg.security.user.service.validation.role.AddRolePermissionValidator;
-import com.bernardomg.security.user.service.validation.role.CreateRoleValidator;
-import com.bernardomg.security.user.service.validation.role.DeleteRoleValidator;
-import com.bernardomg.security.user.service.validation.role.UpdateRoleValidator;
+import com.bernardomg.security.user.validation.role.AddRolePermissionValidator;
+import com.bernardomg.security.user.validation.role.CreateRoleValidator;
+import com.bernardomg.security.user.validation.role.DeleteRoleValidator;
+import com.bernardomg.security.user.validation.role.UpdateRoleValidator;
 import com.bernardomg.validation.Validator;
 
 @Service

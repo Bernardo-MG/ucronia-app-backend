@@ -24,12 +24,8 @@
 
 package com.bernardomg.security.password.recovery.service.springframework;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,11 +34,12 @@ import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.recovery.validation.PasswordRecoveryValidator;
+import com.bernardomg.security.password.recovery.validation.PasswordValidationData;
 import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.Validator;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -72,27 +69,29 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
      */
-    private final SecurityMessageSender messageSender;
+    private final SecurityMessageSender             messageSender;
 
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder       passwordEncoder;
+    private final PasswordEncoder                   passwordEncoder;
+
+    private final Validator<PasswordValidationData> passwordRecoveryValidator = new PasswordRecoveryValidator();
 
     /**
      * User repository.
      */
-    private final UserRepository        repository;
+    private final UserRepository                    repository;
 
     /**
      * Token processor.
      */
-    private final TokenProcessor        tokenProcessor;
+    private final TokenProcessor                    tokenProcessor;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService    userDetailsService;
+    private final UserDetailsService                userDetailsService;
 
     public SpringSecurityPasswordRecoveryService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
@@ -159,9 +158,14 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final UserDetails              details;
         final Boolean                  valid;
         final String                   token;
+        final PasswordValidationData   validationData;
 
         user = repository.findOneByEmail(email);
-        validate(user, email);
+        validationData = PasswordValidationData.builder()
+            .user(user)
+            .email(email)
+            .build();
+        passwordRecoveryValidator.validate(validationData);
 
         // TODO: Avoid this second query
         details = userDetailsService.loadUserByUsername(user.get()
@@ -199,45 +203,6 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     private final Boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
-    }
-
-    private final void validate(final Optional<PersistentUser> user, final String email) {
-        final FieldFailure             failure;
-        final Collection<FieldFailure> failures;
-        final Authentication           auth;
-        final String                   sessionUser;
-
-        failures = new ArrayList<>();
-
-        if (!user.isPresent()) {
-            log.warn("The email {} isn't registered", email);
-            failure = FieldFailure.of("email", "invalid", email);
-            failures.add(failure);
-        } else {
-            // TODO: This process will be started by users not authenticated
-            auth = SecurityContextHolder.getContext()
-                .getAuthentication();
-            if (auth != null) {
-                sessionUser = auth.getName();
-            } else {
-                sessionUser = "";
-            }
-
-            if (!user.get()
-                .getUsername()
-                .equals(sessionUser)) {
-                log.error("The user {} tried to change the password for {}", sessionUser, user.get()
-                    .getUsername());
-                failure = FieldFailure.of("email", "invalid", email);
-                failures.add(failure);
-            }
-        }
-
-        if (!failures.isEmpty()) {
-            // TODO: The frontend shouldn't get any hint about existing emails
-            throw new FieldFailureException(failures);
-        }
-
     }
 
 }

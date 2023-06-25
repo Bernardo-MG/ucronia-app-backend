@@ -1,23 +1,21 @@
 
-package com.bernardomg.security.user.service.validation.user;
+package com.bernardomg.security.user.validation.user;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.validation.EmailValidationRule;
+import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.ValidationRule;
-import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class UpdateUserValidator implements Validator<UserUpdate> {
+public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 
     /**
      * Email validation rule. To check the email fits into the valid email pattern.
@@ -33,13 +31,10 @@ public final class UpdateUserValidator implements Validator<UserUpdate> {
     }
 
     @Override
-    public final void validate(final UserUpdate user) {
-        final Collection<FieldFailure> failures;
-        final Optional<Failure>        optFailure;
-        final Boolean                  exists;
-        FieldFailure                   failure;
-
-        failures = new ArrayList<>();
+    protected final void checkRules(final UserUpdate user, final Collection<FieldFailure> failures) {
+        final Optional<Failure> optFailure;
+        final Boolean           exists;
+        FieldFailure            failure;
 
         // Verify the id exists
         if (!userRepository.existsById(user.getId())) {
@@ -78,11 +73,6 @@ public final class UpdateUserValidator implements Validator<UserUpdate> {
                 failure = FieldFailure.of("username", "immutable", user.getId());
                 failures.add(failure);
             }
-        }
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
         }
     }
 
