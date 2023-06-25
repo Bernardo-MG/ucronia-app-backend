@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.user.model.request;
 
+import com.bernardomg.constraint.Email;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,7 @@ public final class ValidatedUserUpdate implements UserUpdate {
      * User email.
      */
     @NotNull
+    @Email
     private String  email;
 
     /**
