@@ -12,10 +12,7 @@ public final class UsersUpdate {
             .username("admin")
             .name("Admin")
             .email("email2@somewhere.com")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 
@@ -25,10 +22,7 @@ public final class UsersUpdate {
             .username("admin")
             .name("Admin")
             .email("EMAIL2@SOMEWHERE.COM")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 
@@ -38,10 +32,7 @@ public final class UsersUpdate {
             .username("admin")
             .name("Admin")
             .email("abc")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 
@@ -51,10 +42,7 @@ public final class UsersUpdate {
             .username("abc")
             .name("Admin")
             .email("email@somewhere.com")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 
@@ -64,10 +52,7 @@ public final class UsersUpdate {
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 

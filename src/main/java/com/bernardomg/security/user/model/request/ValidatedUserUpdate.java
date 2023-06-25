@@ -16,12 +16,6 @@ import lombok.NoArgsConstructor;
 public final class ValidatedUserUpdate implements UserUpdate {
 
     /**
-     * User expired flag.
-     */
-    @NotNull
-    private Boolean credentialsExpired;
-
-    /**
      * User email.
      */
     @NotNull
@@ -35,22 +29,10 @@ public final class ValidatedUserUpdate implements UserUpdate {
     private Boolean enabled;
 
     /**
-     * User expired flag.
-     */
-    @NotNull
-    private Boolean expired;
-
-    /**
      * User id.
      */
     @NotNull
     private Long    id;
-
-    /**
-     * User locked flag.
-     */
-    @NotNull
-    private Boolean locked;
 
     /**
      * User name.

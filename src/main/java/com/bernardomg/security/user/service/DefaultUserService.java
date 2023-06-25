@@ -103,6 +103,10 @@ public final class DefaultUserService implements UserService {
                 .toLowerCase());
         }
 
+        entity.setExpired(false);
+        entity.setLocked(false);
+        entity.setCredentialsExpired(false);
+
         created = userRepository.save(entity);
 
         return mapper.toDto(created);
@@ -129,6 +133,10 @@ public final class DefaultUserService implements UserService {
             entity.setEmail(entity.getEmail()
                 .toLowerCase());
         }
+
+        entity.setExpired(false);
+        entity.setLocked(false);
+        entity.setCredentialsExpired(false);
 
         return userRepository.findAll(Example.of(entity), pageable)
             .map(mapper::toDto);
@@ -188,6 +196,10 @@ public final class DefaultUserService implements UserService {
             entity.setPassword(old.get()
                 .getPassword());
         }
+
+        entity.setExpired(false);
+        entity.setLocked(false);
+        entity.setCredentialsExpired(false);
 
         created = userRepository.save(entity);
 

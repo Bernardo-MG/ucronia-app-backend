@@ -11,10 +11,7 @@ public final class UsersCreate {
             .username("user")
             .name("User")
             .email("email2@somewhere.com")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 
@@ -23,10 +20,7 @@ public final class UsersCreate {
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 
@@ -35,10 +29,7 @@ public final class UsersCreate {
             .username(username)
             .name("Admin")
             .email(email)
-            .credentialsExpired(false)
             .enabled(true)
-            .expired(false)
-            .locked(false)
             .build();
     }
 

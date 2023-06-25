@@ -16,13 +16,6 @@ import lombok.NoArgsConstructor;
 public final class ValidatedUserCreate implements UserCreate {
 
     /**
-     * User expired flag.
-     */
-    @NotNull
-    @Deprecated
-    private Boolean credentialsExpired;
-
-    /**
      * User email.
      */
     @NotNull
@@ -33,22 +26,7 @@ public final class ValidatedUserCreate implements UserCreate {
      * User enabled flag.
      */
     @NotNull
-    @Deprecated
     private Boolean enabled;
-
-    /**
-     * User expired flag.
-     */
-    @NotNull
-    @Deprecated
-    private Boolean expired;
-
-    /**
-     * User locked flag.
-     */
-    @NotNull
-    @Deprecated
-    private Boolean locked;
 
     /**
      * User name.
