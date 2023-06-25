@@ -134,10 +134,6 @@ public final class DefaultUserService implements UserService {
                 .toLowerCase());
         }
 
-        entity.setExpired(false);
-        entity.setLocked(false);
-        entity.setCredentialsExpired(false);
-
         return userRepository.findAll(Example.of(entity), pageable)
             .map(mapper::toDto);
     }
