@@ -2,11 +2,11 @@
 package com.bernardomg.security.user.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
-public final class ImmutableUser implements User {
+public final class DtoUser implements User {
 
     /**
      * User expired flag.

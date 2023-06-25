@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.service.UserService;
@@ -66,7 +66,7 @@ public class ITUserServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        UserAssertions.isEqualTo(result, ImmutableUser.builder()
+        UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")

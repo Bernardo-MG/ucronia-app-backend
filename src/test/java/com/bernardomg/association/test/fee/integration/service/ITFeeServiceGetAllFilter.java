@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.ImmutableMemberFee;
+import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
@@ -69,7 +69,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -112,7 +112,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(2L)
             .name("Member 2")
             .surname("Surname 2")
@@ -137,7 +137,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -162,7 +162,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
             .name("Member 1")
             .surname("Surname 1")
@@ -205,7 +205,7 @@ public class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(IterableUtils.size(fees))
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(5L)
             .name("Member 5")
             .surname("Surname 5")

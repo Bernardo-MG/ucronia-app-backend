@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.fee.service;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,8 +9,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
+import com.bernardomg.association.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.fee.model.request.FeeCreate;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.model.request.FeeUpdate;
@@ -37,6 +35,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeRepository        feeRepository;
 
+    private final FeeMapper            mapper;
+
     private final MemberFeeRepository  memberFeeRepository;
 
     private final MemberRepository     memberRepository;
@@ -46,12 +46,13 @@ public final class DefaultFeeService implements FeeService {
     private final Validator<FeeUpdate> validatorUpdate;
 
     public DefaultFeeService(final FeeRepository feeRepo, final MemberFeeRepository memberFeeRepo,
-            final MemberRepository memberRepo) {
+            final MemberRepository memberRepo, final FeeMapper mpper) {
         super();
 
         feeRepository = feeRepo;
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
+        mapper = mpper;
 
         // TODO: Test validation
         validatorCreate = new CreateFeeValidator(memberRepository);
@@ -66,13 +67,12 @@ public final class DefaultFeeService implements FeeService {
 
         validatorCreate.validate(request);
 
-        entity = toEntity(request);
-        entity.setId(null);
+        entity = mapper.toEntity(request);
 
         created = feeRepository.save(entity);
 
         // TODO: Doesn't return names
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
@@ -99,7 +99,7 @@ public final class DefaultFeeService implements FeeService {
             page = memberFeeRepository.findAll(spec.get(), pageable);
         }
 
-        return page.map(this::toDto);
+        return page.map(mapper::toDto);
     }
 
     @Override
@@ -113,7 +113,7 @@ public final class DefaultFeeService implements FeeService {
         found = memberFeeRepository.findById(id);
 
         if (found.isPresent()) {
-            result = found.map(this::toDto);
+            result = found.map(mapper::toDto);
         } else {
             result = Optional.empty();
         }
@@ -129,92 +129,13 @@ public final class DefaultFeeService implements FeeService {
 
         validatorUpdate.validate(form);
 
-        entity = toEntity(form);
+        entity = mapper.toEntity(form);
         entity.setId(id);
 
         created = feeRepository.save(entity);
 
         // TODO: Doesn't return names
-        return toDto(created);
-    }
-
-    private final Calendar removeDay(final Calendar calendar) {
-        final Integer year;
-        final Integer month;
-
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-
-        return new GregorianCalendar(year, month, 1);
-    }
-
-    private final MemberFee toDto(final PersistentFee entity) {
-        final Calendar date;
-
-        if (entity.getDate() != null) {
-            date = removeDay(entity.getDate());
-        } else {
-            date = null;
-        }
-
-        return ImmutableMemberFee.builder()
-            .id(entity.getId())
-            .memberId(entity.getMemberId())
-            .date(date)
-            .paid(entity.getPaid())
-            .build();
-    }
-
-    private final MemberFee toDto(final PersistentMemberFee entity) {
-        final Calendar date;
-
-        if (entity.getDate() != null) {
-            date = removeDay(entity.getDate());
-        } else {
-            date = null;
-        }
-
-        return ImmutableMemberFee.builder()
-            .id(entity.getId())
-            .memberId(entity.getMemberId())
-            .date(date)
-            .paid(entity.getPaid())
-            .name(entity.getName())
-            .surname(entity.getSurname())
-            .build();
-    }
-
-    private final PersistentFee toEntity(final FeeCreate request) {
-        final Calendar date;
-
-        if (request.getDate() != null) {
-            date = removeDay(request.getDate());
-        } else {
-            date = null;
-        }
-
-        return PersistentFee.builder()
-            .memberId(request.getMemberId())
-            .paid(request.getPaid())
-            .date(date)
-            .build();
-    }
-
-    private final PersistentFee toEntity(final FeeUpdate request) {
-        final Calendar date;
-
-        if (request.getDate() != null) {
-            date = removeDay(request.getDate());
-        } else {
-            date = null;
-        }
-
-        return PersistentFee.builder()
-            .id(request.getId())
-            .memberId(request.getMemberId())
-            .paid(request.getPaid())
-            .date(date)
-            .build();
+        return mapper.toDto(created);
     }
 
 }

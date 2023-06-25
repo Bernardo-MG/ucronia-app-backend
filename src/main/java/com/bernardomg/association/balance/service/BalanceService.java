@@ -8,7 +8,7 @@ import com.bernardomg.association.balance.model.MonthlyBalance;
 
 public interface BalanceService {
 
-    public Collection<MonthlyBalance> getMonthlyBalance();
+    public Collection<? extends MonthlyBalance> getMonthlyBalance();
 
     public Balance getTotalBalance();
 

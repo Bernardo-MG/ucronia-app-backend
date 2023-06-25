@@ -51,7 +51,7 @@ public class BalanceController {
     private final BalanceService service;
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<MonthlyBalance> readMonthlyBalance() {
+    public Collection<? extends MonthlyBalance> readMonthlyBalance() {
         return service.getMonthlyBalance();
     }
 

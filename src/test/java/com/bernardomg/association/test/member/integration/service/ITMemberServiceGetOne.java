@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.ImmutableMember;
+import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
@@ -62,7 +62,7 @@ public class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -84,7 +84,7 @@ public class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, ImmutableMember.builder()
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")

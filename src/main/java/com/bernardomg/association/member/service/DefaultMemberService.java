@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.member.model.ImmutableMember;
 import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.mapper.MemberMapper;
 import com.bernardomg.association.member.model.request.MemberCreate;
 import com.bernardomg.association.member.model.request.MemberQuery;
 import com.bernardomg.association.member.model.request.MemberUpdate;
@@ -28,6 +28,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultMemberService implements MemberService {
 
+    private final MemberMapper     mapper;
+
     /**
      * Member repository.
      */
@@ -42,12 +44,11 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        entity = toEntity(member);
-        entity.setId(null);
+        entity = mapper.toEntity(member);
 
         created = repository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
@@ -65,10 +66,10 @@ public final class DefaultMemberService implements MemberService {
     public final Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable) {
         final PersistentMember entity;
 
-        entity = toEntity(sample);
+        entity = mapper.toEntity(sample);
 
         return repository.findAll(Example.of(entity), pageable)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
@@ -81,7 +82,7 @@ public final class DefaultMemberService implements MemberService {
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            data = toDto(found.get());
+            data = mapper.toDto(found.get());
             result = Optional.of(data);
         } else {
             result = Optional.empty();
@@ -96,53 +97,11 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember entity;
         final PersistentMember updated;
 
-        entity = toEntity(member);
+        entity = mapper.toEntity(member);
         entity.setId(id);
 
         updated = repository.save(entity);
-        return toDto(updated);
-    }
-
-    private final Member toDto(final PersistentMember entity) {
-        return ImmutableMember.builder()
-            .id(entity.getId())
-            .name(entity.getName())
-            .surname(entity.getSurname())
-            .identifier(entity.getIdentifier())
-            .phone(entity.getPhone())
-            .active(entity.getActive())
-            .build();
-    }
-
-    private final PersistentMember toEntity(final MemberCreate data) {
-        return PersistentMember.builder()
-            .name(data.getName())
-            .surname(data.getSurname())
-            .identifier(data.getIdentifier())
-            .phone(data.getPhone())
-            .active(data.getActive())
-            .build();
-    }
-
-    private final PersistentMember toEntity(final MemberQuery data) {
-        return PersistentMember.builder()
-            .name(data.getName())
-            .surname(data.getSurname())
-            .identifier(data.getIdentifier())
-            .phone(data.getPhone())
-            .active(data.getActive())
-            .build();
-    }
-
-    private final PersistentMember toEntity(final MemberUpdate data) {
-        return PersistentMember.builder()
-            .id(data.getId())
-            .name(data.getName())
-            .surname(data.getSurname())
-            .identifier(data.getIdentifier())
-            .phone(data.getPhone())
-            .active(data.getActive())
-            .build();
+        return mapper.toDto(updated);
     }
 
 }

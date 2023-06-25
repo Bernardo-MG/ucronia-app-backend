@@ -2,11 +2,11 @@
 package com.bernardomg.association.member.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
-public final class ImmutableMember implements Member {
+public final class DtoMember implements Member {
 
     private final Boolean active;
 

@@ -6,11 +6,11 @@ import java.util.Calendar;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
-public final class ImmutableMemberFee implements MemberFee {
+public final class DtoMemberFee implements MemberFee {
 
     @JsonFormat(pattern = "yyyy-MM")
     private final Calendar date;

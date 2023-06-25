@@ -10,10 +10,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
+import com.bernardomg.association.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.transaction.model.request.TransactionCreation;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.transaction.model.request.TransactionUpdate;
@@ -33,6 +33,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultTransactionService implements TransactionService {
 
+    private final TransactionMapper     mapper;
+
     private final TransactionRepository repository;
 
     @Override
@@ -41,12 +43,12 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
-        entity = toEntity(transaction);
+        entity = mapper.toEntity(transaction);
         entity.setId(null);
 
         created = repository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
@@ -71,7 +73,7 @@ public final class DefaultTransactionService implements TransactionService {
             page = repository.findAll(spec.get(), pageable);
         }
 
-        return page.map(this::toDto);
+        return page.map(mapper::toDto);
     }
 
     @Override
@@ -84,7 +86,7 @@ public final class DefaultTransactionService implements TransactionService {
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            data = toDto(found.get());
+            data = mapper.toDto(found.get());
             result = Optional.of(data);
         } else {
             result = Optional.empty();
@@ -135,37 +137,11 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
-        entity = toEntity(transaction);
+        entity = mapper.toEntity(transaction);
         entity.setId(id);
 
         updated = repository.save(entity);
-        return toDto(updated);
-    }
-
-    private final Transaction toDto(final PersistentTransaction transaction) {
-        return ImmutableTransaction.builder()
-            .id(transaction.getId())
-            .description(transaction.getDescription())
-            .date(transaction.getDate())
-            .amount(transaction.getAmount())
-            .build();
-    }
-
-    private final PersistentTransaction toEntity(final TransactionCreation transaction) {
-        return PersistentTransaction.builder()
-            .date(transaction.getDate())
-            .description(transaction.getDescription())
-            .amount(transaction.getAmount())
-            .build();
-    }
-
-    private final PersistentTransaction toEntity(final TransactionUpdate transaction) {
-        return PersistentTransaction.builder()
-            .id(transaction.getId())
-            .date(transaction.getDate())
-            .description(transaction.getDescription())
-            .amount(transaction.getAmount())
-            .build();
+        return mapper.toDto(updated);
     }
 
 }
