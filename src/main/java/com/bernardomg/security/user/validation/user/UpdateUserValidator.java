@@ -2,12 +2,10 @@
 package com.bernardomg.security.user.validation.user;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
-import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +23,8 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 
     @Override
     protected final void checkRules(final UserUpdate user, final Collection<FieldFailure> failures) {
-        final Optional<Failure> optFailure;
-        final Boolean           exists;
-        FieldFailure            failure;
+        final Boolean exists;
+        FieldFailure  failure;
 
         // Verify the id exists
         if (!userRepository.existsById(user.getId())) {

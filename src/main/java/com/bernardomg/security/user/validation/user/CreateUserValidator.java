@@ -2,12 +2,10 @@
 package com.bernardomg.security.user.validation.user;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
-import com.bernardomg.validation.failure.Failure;
 import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +23,7 @@ public final class CreateUserValidator extends AbstractValidator<UserCreate> {
 
     @Override
     protected final void checkRules(final UserCreate user, final Collection<FieldFailure> failures) {
-        final Optional<Failure> optFailure;
-        FieldFailure            failure;
+        FieldFailure failure;
 
         // Verify the username is not registered
         if (userRepository.existsByUsername(user.getUsername())) {
