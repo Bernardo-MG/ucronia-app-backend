@@ -54,7 +54,7 @@ public final class DefaultMemberService implements MemberService {
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
     public final Boolean delete(final Long id) {
-        // TODO: Handle deleting related data
+        // TODO: Forbid deleting when there are relationships
 
         repository.deleteById(id);
 
