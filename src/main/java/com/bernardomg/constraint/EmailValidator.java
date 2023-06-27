@@ -10,12 +10,12 @@ public final class EmailValidator implements ConstraintValidator<Email, String> 
 
     private final Pattern emailPattern;
 
-    private final String  emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final String  EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
     public EmailValidator() {
         super();
 
-        emailPattern = Pattern.compile(emailRegex);
+        emailPattern = Pattern.compile(EMAIL_REGEX);
     }
 
     @Override

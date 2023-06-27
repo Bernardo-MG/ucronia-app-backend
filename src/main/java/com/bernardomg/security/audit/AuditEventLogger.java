@@ -50,7 +50,6 @@ public class AuditEventLogger {
     public void auditEventHappened(final AuditApplicationEvent auditApplicationEvent) {
         final AuditEvent               auditEvent;
         final Object                   details;
-        final WebAuthenticationDetails webDetails;
         final Object                   message;
 
         auditEvent = auditApplicationEvent.getAuditEvent();
@@ -65,8 +64,7 @@ public class AuditEventLogger {
 
         details = auditEvent.getData()
             .get("details");
-        if (details instanceof WebAuthenticationDetails) {
-            webDetails = (WebAuthenticationDetails) details;
+        if (details instanceof WebAuthenticationDetails webDetails) {
             log.debug("Remote IP address: {}", webDetails.getRemoteAddress());
             log.debug("Session Id: {}", webDetails.getSessionId());
         }

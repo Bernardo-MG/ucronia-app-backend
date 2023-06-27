@@ -62,7 +62,7 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
             // TODO: Avoid this second query
             user = userDetailsService.loadUserByUsername(username);
 
-            successful = validatePasswordChange(user, username, currentPassword);
+            successful = validatePasswordChange(user, currentPassword);
 
             if (successful) {
                 entity = read.get();
@@ -114,7 +114,7 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
      *            current user's password
      * @return {@code true} if the password can be changed, {@code false} otherwise
      */
-    private final Boolean validatePasswordChange(final UserDetails user, final String username,
+    private final Boolean validatePasswordChange(final UserDetails user, 
             final String currentPassword) {
         Boolean valid;
 
