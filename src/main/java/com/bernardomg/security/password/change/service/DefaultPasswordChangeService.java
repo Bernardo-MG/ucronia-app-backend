@@ -114,8 +114,7 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
      *            current user's password
      * @return {@code true} if the password can be changed, {@code false} otherwise
      */
-    private final Boolean validatePasswordChange(final UserDetails user, 
-            final String currentPassword) {
+    private final Boolean validatePasswordChange(final UserDetails user, final String currentPassword) {
         Boolean valid;
 
         valid = true;
