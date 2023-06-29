@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.request.TransactionCreation;
+import com.bernardomg.association.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.transaction.model.request.TransactionUpdate;
 
@@ -26,7 +26,7 @@ public interface TransactionService {
      *            transaction to persist
      * @return the persisted transaction
      */
-    public Transaction create(final TransactionCreation transaction);
+    public Transaction create(final TransactionCreate transaction);
 
     /**
      * Deletes the transaction with the received id.

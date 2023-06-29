@@ -24,8 +24,6 @@ public final class ValidatedFeeUpdate implements FeeUpdate {
     @NotNull
     private Calendar date;
 
-    private Long     id;
-
     @NotNull
     private Long     memberId;
 

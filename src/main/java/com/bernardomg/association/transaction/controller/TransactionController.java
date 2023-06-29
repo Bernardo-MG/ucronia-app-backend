@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.request.ValidatedTransactionCreation;
+import com.bernardomg.association.transaction.model.request.ValidatedTransactionCreate;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionUpdate;
 import com.bernardomg.association.transaction.service.TransactionService;
@@ -62,7 +62,7 @@ public class TransactionController {
     private final TransactionService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction create(@Valid @RequestBody final ValidatedTransactionCreation transaction) {
+    public Transaction create(@Valid @RequestBody final ValidatedTransactionCreate transaction) {
         return service.create(transaction);
     }
 

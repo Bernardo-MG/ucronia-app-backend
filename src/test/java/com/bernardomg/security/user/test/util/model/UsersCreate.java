@@ -42,7 +42,7 @@ public final class UsersCreate {
             .build();
     }
 
-    public static final UserCreate noEmail() {
+    public static final UserCreate missingEmail() {
         return ValidatedUserCreate.builder()
             .username("admin")
             .name("Admin")
@@ -50,7 +50,7 @@ public final class UsersCreate {
             .build();
     }
 
-    public static final UserCreate noEnabled() {
+    public static final UserCreate missingEnabled() {
         return ValidatedUserCreate.builder()
             .username("admin")
             .name("Admin")

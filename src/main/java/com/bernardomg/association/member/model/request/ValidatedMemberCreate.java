@@ -20,7 +20,6 @@ public final class ValidatedMemberCreate implements MemberCreate {
     private String  identifier;
 
     @NotEmpty
-    @NotNull
     private String  name;
 
     private String  phone;
