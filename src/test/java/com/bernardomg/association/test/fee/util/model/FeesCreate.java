@@ -23,6 +23,13 @@ public final class FeesCreate {
             .build();
     }
 
+    public static final FeeCreate missingMemberId() {
+        return ValidatedFeeCreate.builder()
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build();
+    }
+
     public static final FeeCreate missingPaid() {
         return ValidatedFeeCreate.builder()
             .memberId(1L)

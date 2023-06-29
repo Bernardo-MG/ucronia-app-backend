@@ -14,7 +14,7 @@ import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.mapper.TransactionMapper;
-import com.bernardomg.association.transaction.model.request.TransactionCreation;
+import com.bernardomg.association.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
@@ -39,7 +39,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
-    public final Transaction create(final TransactionCreation transaction) {
+    public final Transaction create(final TransactionCreate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 

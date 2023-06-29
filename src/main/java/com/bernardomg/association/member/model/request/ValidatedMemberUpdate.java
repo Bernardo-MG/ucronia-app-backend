@@ -13,12 +13,9 @@ public final class ValidatedMemberUpdate implements MemberUpdate {
     @NotNull
     private Boolean active;
 
-    private Long    id;
-
     private String  identifier;
 
     @NotEmpty
-    @NotNull
     private String  name;
 
     private String  phone;

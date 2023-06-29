@@ -33,4 +33,29 @@ public final class UsersCreate {
             .build();
     }
 
+    public static final UserCreate invalidEmail() {
+        return ValidatedUserCreate.builder()
+            .username("admin")
+            .name("Admin")
+            .email("abc")
+            .enabled(true)
+            .build();
+    }
+
+    public static final UserCreate missingEmail() {
+        return ValidatedUserCreate.builder()
+            .username("admin")
+            .name("Admin")
+            .enabled(true)
+            .build();
+    }
+
+    public static final UserCreate missingEnabled() {
+        return ValidatedUserCreate.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .build();
+    }
+
 }

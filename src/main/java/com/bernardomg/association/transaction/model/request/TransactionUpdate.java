@@ -11,6 +11,4 @@ public interface TransactionUpdate {
 
     public String getDescription();
 
-    public Long getId();
-
 }

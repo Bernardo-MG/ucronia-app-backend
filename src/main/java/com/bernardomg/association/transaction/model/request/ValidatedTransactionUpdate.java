@@ -26,9 +26,6 @@ public final class ValidatedTransactionUpdate implements TransactionUpdate {
     private Calendar date;
 
     @NotEmpty
-    @NotNull
     private String   description;
-
-    private Long     id;
 
 }

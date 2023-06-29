@@ -71,7 +71,7 @@ public class ITUserServiceUpdateValidation {
         final FieldFailure     failure;
         final UserUpdate       data;
 
-        data = UsersUpdate.valid();
+        data = UsersUpdate.enabled();
 
         executable = () -> service.update(data);
 
