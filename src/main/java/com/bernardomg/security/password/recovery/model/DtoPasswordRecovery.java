@@ -24,8 +24,7 @@
 
 package com.bernardomg.security.password.recovery.model;
 
-import com.bernardomg.constraint.Email;
-
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
