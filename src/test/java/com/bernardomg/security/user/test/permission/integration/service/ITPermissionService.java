@@ -45,15 +45,15 @@ public class ITPermissionService {
             .hasSize(1);
 
         actions = permissions.getPermissions()
-            .get("DATA");
+            .get("data");
         Assertions.assertThat(actions)
             .hasSize(4);
 
         Assertions.assertThat(actions)
-            .contains("CREATE")
-            .contains("READ")
-            .contains("UPDATE")
-            .contains("DELETE");
+            .contains("create")
+            .contains("read")
+            .contains("update")
+            .contains("delete");
     }
 
     @Test
