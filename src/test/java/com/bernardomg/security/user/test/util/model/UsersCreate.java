@@ -42,4 +42,20 @@ public final class UsersCreate {
             .build();
     }
 
+    public static final UserCreate noEmail() {
+        return ValidatedUserCreate.builder()
+            .username("admin")
+            .name("Admin")
+            .enabled(true)
+            .build();
+    }
+
+    public static final UserCreate noEnabled() {
+        return ValidatedUserCreate.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .build();
+    }
+
 }

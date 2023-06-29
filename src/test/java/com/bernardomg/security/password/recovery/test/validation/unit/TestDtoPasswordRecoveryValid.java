@@ -23,7 +23,7 @@ public class TestDtoPasswordRecoveryValid {
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalid_email() {
+    public void validate_invalidEmail() {
         final DtoPasswordRecovery                           passwordRecovery;
         final Set<ConstraintViolation<DtoPasswordRecovery>> errors;
         final ConstraintViolation<DtoPasswordRecovery>      error;
@@ -44,6 +44,31 @@ public class TestDtoPasswordRecoveryValid {
             .isEqualTo("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
+    }
+
+    @Test
+    @DisplayName("A DTO with no email is invalid")
+    public void validate_noEmail() {
+        final DtoPasswordRecovery                           passwordRecovery;
+        final Set<ConstraintViolation<DtoPasswordRecovery>> errors;
+        final ConstraintViolation<DtoPasswordRecovery>      error;
+
+        passwordRecovery = new DtoPasswordRecovery();
+        passwordRecovery.setEmail(null);
+
+        errors = validator.validate(passwordRecovery);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("email");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo(null);
     }
 
     @Test

@@ -46,6 +46,33 @@ public final class UsersUpdate {
             .build();
     }
 
+    public static final UserUpdate noEmail() {
+        return ValidatedUserUpdate.builder()
+            .id(1L)
+            .username("admin")
+            .name("Admin")
+            .enabled(true)
+            .build();
+    }
+
+    public static final UserUpdate noEnabled() {
+        return ValidatedUserUpdate.builder()
+            .id(1L)
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .build();
+    }
+
+    public static final UserUpdate noId() {
+        return ValidatedUserUpdate.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .enabled(true)
+            .build();
+    }
+
     public static final UserUpdate usernameChange() {
         return ValidatedUserUpdate.builder()
             .id(1L)

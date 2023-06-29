@@ -24,7 +24,7 @@ public class TestValidatedUserUpdateValid {
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalid_email() {
+    public void validate_invalidEmail() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
@@ -44,6 +44,78 @@ public class TestValidatedUserUpdateValid {
             .isEqualTo("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
+    }
+
+    @Test
+    @DisplayName("A DTO with no email is invalid")
+    public void validate_noEmail() {
+        final UserUpdate                           userUpdate;
+        final Set<ConstraintViolation<UserUpdate>> errors;
+        final ConstraintViolation<UserUpdate>      error;
+
+        userUpdate = UsersUpdate.noEmail();
+
+        errors = validator.validate(userUpdate);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("email");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo(null);
+    }
+
+    @Test
+    @DisplayName("A DTO with no enabled flag is invalid")
+    public void validate_noEnabled() {
+        final UserUpdate                           userUpdate;
+        final Set<ConstraintViolation<UserUpdate>> errors;
+        final ConstraintViolation<UserUpdate>      error;
+
+        userUpdate = UsersUpdate.noEnabled();
+
+        errors = validator.validate(userUpdate);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("enabled");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo(null);
+    }
+
+    @Test
+    @DisplayName("A DTO with no id is invalid")
+    public void validate_noId() {
+        final UserUpdate                           userUpdate;
+        final Set<ConstraintViolation<UserUpdate>> errors;
+        final ConstraintViolation<UserUpdate>      error;
+
+        userUpdate = UsersUpdate.noId();
+
+        errors = validator.validate(userUpdate);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("id");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo(null);
     }
 
     @Test

@@ -23,7 +23,7 @@ public class TestDtoSignUpValid {
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalid_email() {
+    public void validate_invalidEmail() {
         final DtoSignUp                           signUp;
         final Set<ConstraintViolation<DtoSignUp>> errors;
         final ConstraintViolation<DtoSignUp>      error;
@@ -45,6 +45,58 @@ public class TestDtoSignUpValid {
             .isEqualTo("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
+    }
+
+    @Test
+    @DisplayName("A DTO with no email is invalid")
+    public void validate_noEmail() {
+        final DtoSignUp                           signUp;
+        final Set<ConstraintViolation<DtoSignUp>> errors;
+        final ConstraintViolation<DtoSignUp>      error;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail(null);
+
+        errors = validator.validate(signUp);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("email");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo("abc");
+    }
+
+    @Test
+    @DisplayName("A DTO with no username is invalid")
+    public void validate_noUsername() {
+        final DtoSignUp                           signUp;
+        final Set<ConstraintViolation<DtoSignUp>> errors;
+        final ConstraintViolation<DtoSignUp>      error;
+
+        signUp = new DtoSignUp();
+        signUp.setUsername(null);
+        signUp.setEmail("email@somewhere.com");
+
+        errors = validator.validate(signUp);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("username");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo("null");
     }
 
     @Test

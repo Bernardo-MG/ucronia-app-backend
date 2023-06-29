@@ -24,7 +24,7 @@ public class TestValidatedUserCreateValid {
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalid_email() {
+    public void validate_invalidEmail() {
         final UserCreate                           userCreate;
         final Set<ConstraintViolation<UserCreate>> errors;
         final ConstraintViolation<UserCreate>      error;
@@ -44,6 +44,54 @@ public class TestValidatedUserCreateValid {
             .isEqualTo("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
+    }
+
+    @Test
+    @DisplayName("A DTO with no email is invalid")
+    public void validate_noEmail() {
+        final UserCreate                           userCreate;
+        final Set<ConstraintViolation<UserCreate>> errors;
+        final ConstraintViolation<UserCreate>      error;
+
+        userCreate = UsersCreate.noEmail();
+
+        errors = validator.validate(userCreate);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("email");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo(null);
+    }
+
+    @Test
+    @DisplayName("A DTO with no enabled flag is invalid")
+    public void validate_noEnabled() {
+        final UserCreate                           userCreate;
+        final Set<ConstraintViolation<UserCreate>> errors;
+        final ConstraintViolation<UserCreate>      error;
+
+        userCreate = UsersCreate.noEnabled();
+
+        errors = validator.validate(userCreate);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath()
+            .toString())
+            .isEqualTo("enabled");
+        Assertions.assertThat(error.getInvalidValue())
+            .isEqualTo(null);
     }
 
     @Test
