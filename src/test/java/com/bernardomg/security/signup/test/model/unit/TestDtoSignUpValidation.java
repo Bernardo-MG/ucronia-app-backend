@@ -6,20 +6,18 @@ import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.signup.model.DtoSignUp;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@IntegrationTest
 @DisplayName("DtoSignUp validation")
 public class TestDtoSignUpValidation {
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator = Validation.buildDefaultValidatorFactory()
+        .getValidator();
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")

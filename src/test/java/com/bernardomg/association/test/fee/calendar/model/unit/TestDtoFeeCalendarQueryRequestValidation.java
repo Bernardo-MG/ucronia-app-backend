@@ -6,21 +6,19 @@ import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.calendar.model.request.DtoFeeCalendarQueryRequest;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.calendar.util.model.FeeCalendarsQuery;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@IntegrationTest
 @DisplayName("DtoFeeCalendarQueryRequest validation")
 public class TestDtoFeeCalendarQueryRequestValidation {
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator = Validation.buildDefaultValidatorFactory()
+        .getValidator();
 
     @Test
     @DisplayName("A DTO missing the active flag is invalid")

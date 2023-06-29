@@ -6,21 +6,19 @@ import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.model.request.MemberUpdate;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.member.util.model.MembersUpdate;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@IntegrationTest
 @DisplayName("ValidatedMemberUpdate validation")
 public class TestValidatedMemberUpdateValidation {
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator = Validation.buildDefaultValidatorFactory()
+        .getValidator();
 
     @Test
     @DisplayName("A DTO missing the active flag is invalid")
