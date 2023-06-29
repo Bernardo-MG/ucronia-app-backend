@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.test.validation.unit;
+package com.bernardomg.security.signup.test.model.unit;
 
 import java.util.Set;
 
@@ -9,15 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.test.util.model.UsersCreate;
+import com.bernardomg.security.signup.model.DtoSignUp;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
 @IntegrationTest
-@DisplayName("ValidatedUserCreate validation")
-public class TestValidatedUserCreateValidation {
+@DisplayName("DtoSignUp validation")
+public class TestDtoSignUpValidation {
 
     @Autowired
     private Validator validator;
@@ -25,13 +24,15 @@ public class TestValidatedUserCreateValidation {
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
     public void validate_invalidEmail() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
-        final ConstraintViolation<UserCreate>      error;
+        final DtoSignUp                           signUp;
+        final Set<ConstraintViolation<DtoSignUp>> errors;
+        final ConstraintViolation<DtoSignUp>      error;
 
-        userCreate = UsersCreate.invalidEmail();
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("abc");
 
-        errors = validator.validate(userCreate);
+        errors = validator.validate(signUp);
 
         Assertions.assertThat(errors)
             .hasSize(1);
@@ -48,14 +49,16 @@ public class TestValidatedUserCreateValidation {
 
     @Test
     @DisplayName("A DTO missing the email is invalid")
-    public void validate_noEmail() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
-        final ConstraintViolation<UserCreate>      error;
+    public void validate_missingEmail() {
+        final DtoSignUp                           signUp;
+        final Set<ConstraintViolation<DtoSignUp>> errors;
+        final ConstraintViolation<DtoSignUp>      error;
 
-        userCreate = UsersCreate.missingEmail();
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail(null);
 
-        errors = validator.validate(userCreate);
+        errors = validator.validate(signUp);
 
         Assertions.assertThat(errors)
             .hasSize(1);
@@ -71,15 +74,17 @@ public class TestValidatedUserCreateValidation {
     }
 
     @Test
-    @DisplayName("A DTO missing the enabled flag is invalid")
-    public void validate_noEnabled() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
-        final ConstraintViolation<UserCreate>      error;
+    @DisplayName("A DTO missing the username is invalid")
+    public void validate_missingUsername() {
+        final DtoSignUp                           signUp;
+        final Set<ConstraintViolation<DtoSignUp>> errors;
+        final ConstraintViolation<DtoSignUp>      error;
 
-        userCreate = UsersCreate.missingEnabled();
+        signUp = new DtoSignUp();
+        signUp.setUsername(null);
+        signUp.setEmail("email@somewhere.com");
 
-        errors = validator.validate(userCreate);
+        errors = validator.validate(signUp);
 
         Assertions.assertThat(errors)
             .hasSize(1);
@@ -89,7 +94,7 @@ public class TestValidatedUserCreateValidation {
 
         Assertions.assertThat(error.getPropertyPath()
             .toString())
-            .isEqualTo("enabled");
+            .isEqualTo("username");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo(null);
     }
@@ -97,12 +102,14 @@ public class TestValidatedUserCreateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     public void validate_valid() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
+        final DtoSignUp                           signUp;
+        final Set<ConstraintViolation<DtoSignUp>> errors;
 
-        userCreate = UsersCreate.enabled();
+        signUp = new DtoSignUp();
+        signUp.setUsername("user");
+        signUp.setEmail("email@somewhere.com");
 
-        errors = validator.validate(userCreate);
+        errors = validator.validate(signUp);
 
         Assertions.assertThat(errors)
             .isEmpty();

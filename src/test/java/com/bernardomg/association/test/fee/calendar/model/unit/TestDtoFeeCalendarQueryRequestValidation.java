@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.fee.calendar.validation.unit;
+package com.bernardomg.association.test.fee.calendar.model.unit;
 
 import java.util.Set;
 

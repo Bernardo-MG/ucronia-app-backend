@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.test.validation.unit;
+package com.bernardomg.security.user.test.model.unit;
 
 import java.util.Set;
 

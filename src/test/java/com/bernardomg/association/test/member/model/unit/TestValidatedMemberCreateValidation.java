@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.member.validation.unit;
+package com.bernardomg.association.test.member.model.unit;
 
 import java.util.Set;
 
@@ -8,16 +8,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.model.request.MemberUpdate;
+import com.bernardomg.association.member.model.request.MemberCreate;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.member.util.model.MembersUpdate;
+import com.bernardomg.association.test.member.util.model.MembersCreate;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
 @IntegrationTest
-@DisplayName("ValidatedMemberUpdate validation")
-public class TestValidatedMemberUpdateValidation {
+@DisplayName("ValidatedMemberCreate validation")
+public class TestValidatedMemberCreateValidation {
 
     @Autowired
     private Validator validator;
@@ -25,11 +25,11 @@ public class TestValidatedMemberUpdateValidation {
     @Test
     @DisplayName("A DTO missing the active flag is invalid")
     public void validate_missingActive() {
-        final MemberUpdate                           request;
-        final Set<ConstraintViolation<MemberUpdate>> errors;
-        final ConstraintViolation<MemberUpdate>      error;
+        final MemberCreate                           request;
+        final Set<ConstraintViolation<MemberCreate>> errors;
+        final ConstraintViolation<MemberCreate>      error;
 
-        request = MembersUpdate.missingActive();
+        request = MembersCreate.missingActive();
 
         errors = validator.validate(request);
 
@@ -49,11 +49,11 @@ public class TestValidatedMemberUpdateValidation {
     @Test
     @DisplayName("A DTO missing the name is invalid")
     public void validate_missingName() {
-        final MemberUpdate                           request;
-        final Set<ConstraintViolation<MemberUpdate>> errors;
-        final ConstraintViolation<MemberUpdate>      error;
+        final MemberCreate                           request;
+        final Set<ConstraintViolation<MemberCreate>> errors;
+        final ConstraintViolation<MemberCreate>      error;
 
-        request = MembersUpdate.missingName();
+        request = MembersCreate.missingName();
 
         errors = validator.validate(request);
 
@@ -73,10 +73,10 @@ public class TestValidatedMemberUpdateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     public void validate_valid() {
-        final MemberUpdate                           request;
-        final Set<ConstraintViolation<MemberUpdate>> errors;
+        final MemberCreate                           request;
+        final Set<ConstraintViolation<MemberCreate>> errors;
 
-        request = MembersUpdate.active();
+        request = MembersCreate.active();
 
         errors = validator.validate(request);
 

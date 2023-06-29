@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.transaction.validation.unit;
+package com.bernardomg.association.test.transaction.model.unit;
 
 import java.util.Set;
 

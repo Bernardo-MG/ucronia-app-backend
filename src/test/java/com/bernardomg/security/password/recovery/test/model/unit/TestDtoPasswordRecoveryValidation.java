@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.validation.unit;
+package com.bernardomg.security.password.recovery.test.model.unit;
 
 import java.util.Set;
 
