@@ -47,9 +47,7 @@ public class ITPermissionService {
         actions = permissions.getPermissions()
             .get("data");
         Assertions.assertThat(actions)
-            .hasSize(4);
-
-        Assertions.assertThat(actions)
+            .hasSize(4)
             .contains("create")
             .contains("read")
             .contains("update")
