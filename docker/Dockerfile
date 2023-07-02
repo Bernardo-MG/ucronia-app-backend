@@ -17,7 +17,7 @@ RUN mvn clean package -DskipTests
 # -----------------------------------------------------------------------------
 # DEPLOYMENT STAGE
 # -----------------------------------------------------------------------------
-FROM openjdk:17-alpine as deployment
+FROM eclipse-temurin:17-jre-alpine as deployment
 
 WORKDIR /app
 
