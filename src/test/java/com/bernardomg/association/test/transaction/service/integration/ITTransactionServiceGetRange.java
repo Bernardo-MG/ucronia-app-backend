@@ -36,7 +36,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - get range")
-public class ITTransactionServiceGetRange {
+class ITTransactionServiceGetRange {
 
     @Autowired
     private TransactionService service;
@@ -48,7 +48,7 @@ public class ITTransactionServiceGetRange {
     @Test
     @DisplayName("With a full year, a range for the full year is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetRange_FullYear() {
+    void testGetRange_FullYear() {
         final TransactionRange range;
 
         range = service.getRange();
@@ -66,7 +66,7 @@ public class ITTransactionServiceGetRange {
 
     @Test
     @DisplayName("With no data, an empty range is returned")
-    public void testGetRange_NoData() {
+    void testGetRange_NoData() {
         final TransactionRange range;
 
         range = service.getRange();

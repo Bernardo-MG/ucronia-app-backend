@@ -16,7 +16,7 @@ import com.bernardomg.security.user.service.RoleService;
 @IntegrationTest
 @DisplayName("Role service - get one - no action")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetOne {
+class ITRoleServiceGetOne {
 
     @Autowired
     private RoleService service;
@@ -27,7 +27,7 @@ public class ITRoleServiceGetOne {
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<Role> result;
 
         result = service.getOne(1l);
@@ -38,7 +38,7 @@ public class ITRoleServiceGetOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
+    void testGetOne_Existing_Data() {
         final Role result;
 
         result = service.getOne(1l)
@@ -52,7 +52,7 @@ public class ITRoleServiceGetOne {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<Role> result;
 
         result = service.getOne(-1L);

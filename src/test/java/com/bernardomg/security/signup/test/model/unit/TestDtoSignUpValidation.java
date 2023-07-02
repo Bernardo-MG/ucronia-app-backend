@@ -14,14 +14,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("DtoSignUp validation")
-public class TestDtoSignUpValidation {
+class TestDtoSignUpValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalidEmail() {
+    void validate_invalidEmail() {
         final DtoSignUp                           signUp;
         final Set<ConstraintViolation<DtoSignUp>> errors;
         final ConstraintViolation<DtoSignUp>      error;
@@ -47,7 +47,7 @@ public class TestDtoSignUpValidation {
 
     @Test
     @DisplayName("A DTO missing the email is invalid")
-    public void validate_missingEmail() {
+    void validate_missingEmail() {
         final DtoSignUp                           signUp;
         final Set<ConstraintViolation<DtoSignUp>> errors;
         final ConstraintViolation<DtoSignUp>      error;
@@ -73,7 +73,7 @@ public class TestDtoSignUpValidation {
 
     @Test
     @DisplayName("A DTO missing the username is invalid")
-    public void validate_missingUsername() {
+    void validate_missingUsername() {
         final DtoSignUp                           signUp;
         final Set<ConstraintViolation<DtoSignUp>> errors;
         final ConstraintViolation<DtoSignUp>      error;
@@ -99,7 +99,7 @@ public class TestDtoSignUpValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final DtoSignUp                           signUp;
         final Set<ConstraintViolation<DtoSignUp>> errors;
 

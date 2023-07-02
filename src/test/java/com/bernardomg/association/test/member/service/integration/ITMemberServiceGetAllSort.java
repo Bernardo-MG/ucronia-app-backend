@@ -45,7 +45,7 @@ import com.bernardomg.association.test.member.util.model.MembersQuery;
 @IntegrationTest
 @DisplayName("Member service - get all - sort")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberServiceGetAllSort {
+class ITMemberServiceGetAllSort {
 
     @Autowired
     private MemberService service;
@@ -56,7 +56,7 @@ public class ITMemberServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by active flag it returns the ordered data")
-    public void testGetAll_Active_Asc() {
+    void testGetAll_Active_Asc() {
         final Iterator<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -117,7 +117,7 @@ public class ITMemberServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by active flag it returns the ordered data")
-    public void testGetAll_Active_Desc() {
+    void testGetAll_Active_Desc() {
         final Iterator<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -178,7 +178,7 @@ public class ITMemberServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    public void testGetAll_Name_Asc() {
+    void testGetAll_Name_Asc() {
         final Iterator<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -239,7 +239,7 @@ public class ITMemberServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    public void testGetAll_Name_Desc() {
+    void testGetAll_Name_Desc() {
         final Iterator<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -300,7 +300,7 @@ public class ITMemberServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by surname it returns the ordered data")
-    public void testGetAll_Surname_Asc() {
+    void testGetAll_Surname_Asc() {
         final Iterator<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -361,7 +361,7 @@ public class ITMemberServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by surname it returns the ordered data")
-    public void testGetAll_Surname_Desc() {
+    void testGetAll_Surname_Desc() {
         final Iterator<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;

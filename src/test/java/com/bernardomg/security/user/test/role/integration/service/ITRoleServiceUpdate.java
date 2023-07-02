@@ -41,7 +41,7 @@ import com.bernardomg.security.user.test.util.model.RolesUpdate;
 @IntegrationTest
 @DisplayName("Role service - update")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceUpdate {
+class ITRoleServiceUpdate {
 
     @Autowired
     private RoleRepository repository;
@@ -55,7 +55,7 @@ public class ITRoleServiceUpdate {
 
     @Test
     @DisplayName("Adds no entity when updating")
-    public void testUpdate_AddsNoEntity() {
+    void testUpdate_AddsNoEntity() {
         final RoleUpdate data;
 
         data = RolesUpdate.valid();
@@ -68,7 +68,7 @@ public class ITRoleServiceUpdate {
 
     @Test
     @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
+    void testUpdate_PersistedData() {
         final RoleUpdate     data;
         final PersistentRole entity;
 
@@ -87,7 +87,7 @@ public class ITRoleServiceUpdate {
 
     @Test
     @DisplayName("Returns the updated data")
-    public void testUpdate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final RoleUpdate data;
         final Role       result;
 

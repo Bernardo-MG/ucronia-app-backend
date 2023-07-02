@@ -50,7 +50,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - get all")
-public class ITTransactionServiceGetAll {
+class ITTransactionServiceGetAll {
 
     @Autowired
     private TransactionRepository repository;
@@ -65,7 +65,7 @@ public class ITTransactionServiceGetAll {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns it")
-    public void testGetAll_AroundZero(final Float amount) {
+    void testGetAll_AroundZero(final Float amount) {
         final Iterator<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -91,7 +91,7 @@ public class ITTransactionServiceGetAll {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns it")
-    public void testGetAll_Decimal(final Float amount) {
+    void testGetAll_Decimal(final Float amount) {
         final Iterator<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -117,7 +117,7 @@ public class ITTransactionServiceGetAll {
     @Test
     @DisplayName("With a full year, it returns all the transactions")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetAll_FullYear_Count() {
+    void testGetAll_FullYear_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
@@ -223,7 +223,7 @@ public class ITTransactionServiceGetAll {
     @Test
     @DisplayName("With multiple transactions, it returns all the transactions")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetAll_Multiple_Count() {
+    void testGetAll_Multiple_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;

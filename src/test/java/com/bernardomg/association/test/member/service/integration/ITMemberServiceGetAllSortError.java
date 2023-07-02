@@ -43,7 +43,7 @@ import com.bernardomg.association.test.member.util.model.MembersQuery;
 @IntegrationTest
 @DisplayName("Member service - get all - errors")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberServiceGetAllSortError {
+class ITMemberServiceGetAllSortError {
 
     @Autowired
     private MemberService service;
@@ -54,7 +54,7 @@ public class ITMemberServiceGetAllSortError {
 
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
-    public void testGetAll_NotExisting() {
+    void testGetAll_NotExisting() {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
         final ThrowingCallable executable;

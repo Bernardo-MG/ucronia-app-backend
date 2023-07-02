@@ -45,7 +45,7 @@ import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalend
 @IntegrationTest
 @DisplayName("Fee calendar service - get all - sorted")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-public class ITFeeCalendarServiceGetAllSort {
+class ITFeeCalendarServiceGetAllSort {
 
     @Autowired
     private FeeCalendarService service;
@@ -56,7 +56,7 @@ public class ITFeeCalendarServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    public void testGetAll_Name_Asc() {
+    void testGetAll_Name_Asc() {
         final Sort                      sort;
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
@@ -83,7 +83,7 @@ public class ITFeeCalendarServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    public void testGetAll_Name_Desc() {
+    void testGetAll_Name_Desc() {
         final Sort                      sort;
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
@@ -110,7 +110,7 @@ public class ITFeeCalendarServiceGetAllSort {
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
-    public void testGetAll_NotExisting() {
+    void testGetAll_NotExisting() {
         final Sort             sort;
         final ThrowingCallable execution;
 

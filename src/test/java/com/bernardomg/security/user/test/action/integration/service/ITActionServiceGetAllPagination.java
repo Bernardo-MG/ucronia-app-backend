@@ -22,7 +22,7 @@ import com.bernardomg.security.user.service.ActionService;
 @IntegrationTest
 @DisplayName("Action service - get all")
 @Sql({ "/db/queries/security/action/crud.sql" })
-public class ITActionServiceGetAllPagination {
+class ITActionServiceGetAllPagination {
 
     @Autowired
     private ActionService service;
@@ -33,7 +33,7 @@ public class ITActionServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<Action> result;
         final ActionQuery      sample;
         final Pageable         pageable;
@@ -51,7 +51,7 @@ public class ITActionServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    void testGetAll_Page1_Data() {
         final ActionQuery      sample;
         final Iterator<Action> data;
         final Action           result;
@@ -74,7 +74,7 @@ public class ITActionServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    void testGetAll_Page2_Data() {
         final ActionQuery      sample;
         final Iterator<Action> data;
         final Action           result;
@@ -97,7 +97,7 @@ public class ITActionServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
+    void testGetAll_Paged_Count() {
         final ActionQuery      sample;
         final Iterable<Action> result;
         final Pageable         pageable;
@@ -115,7 +115,7 @@ public class ITActionServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<Action> result;
         final ActionQuery      sample;
         final Pageable         pageable;

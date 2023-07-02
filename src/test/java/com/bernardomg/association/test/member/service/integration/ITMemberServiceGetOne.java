@@ -40,7 +40,7 @@ import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
 
 @IntegrationTest
 @DisplayName("Member service - get one")
-public class ITMemberServiceGetOne {
+class ITMemberServiceGetOne {
 
     @Autowired
     private MemberService service;
@@ -52,7 +52,7 @@ public class ITMemberServiceGetOne {
     @Test
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/member/single.sql" })
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<Member> memberOptional;
         final Member           member;
 
@@ -74,7 +74,7 @@ public class ITMemberServiceGetOne {
     @Test
     @DisplayName("With a valid id for an inactive member, the related entity is returned")
     @Sql({ "/db/queries/member/inactive.sql" })
-    public void testGetOne_Inactive() {
+    void testGetOne_Inactive() {
         final Optional<Member> memberOptional;
         final Member           member;
 
@@ -95,7 +95,7 @@ public class ITMemberServiceGetOne {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<Member> result;
 
         result = service.getOne(1L);

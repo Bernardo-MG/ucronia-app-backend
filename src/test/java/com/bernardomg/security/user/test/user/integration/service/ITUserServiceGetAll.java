@@ -20,7 +20,7 @@ import com.bernardomg.security.user.test.util.model.UsersQuery;
 @IntegrationTest
 @DisplayName("User service - get all")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITUserServiceGetAll {
+class ITUserServiceGetAll {
 
     @Autowired
     private UserService service;
@@ -31,7 +31,7 @@ public class ITUserServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    void testGetAll_Count() {
         final Iterable<User> result;
         final UserQuery      sample;
         final Pageable       pageable;
@@ -48,7 +48,7 @@ public class ITUserServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    void testGetAll_Data() {
         final Iterable<User> data;
         final UserQuery      sample;
         final Pageable       pageable;

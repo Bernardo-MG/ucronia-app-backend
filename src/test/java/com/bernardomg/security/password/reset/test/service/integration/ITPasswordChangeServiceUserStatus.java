@@ -14,7 +14,7 @@ import com.bernardomg.security.password.change.service.PasswordChangeService;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - user status")
-public class ITPasswordChangeServiceUserStatus {
+class ITPasswordChangeServiceUserStatus {
 
     @Autowired
     private PasswordChangeService service;
@@ -30,7 +30,7 @@ public class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_CredentialsExpired_Status() {
+    void testChangePassword_CredentialsExpired_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
@@ -46,7 +46,7 @@ public class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_Disabled_Status() {
+    void testChangePassword_Disabled_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
@@ -62,7 +62,7 @@ public class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_Enabled_Status() {
+    void testChangePassword_Enabled_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
@@ -78,7 +78,7 @@ public class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_Expired_Status() {
+    void testChangePassword_Expired_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
@@ -94,7 +94,7 @@ public class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_Locked_Status() {
+    void testChangePassword_Locked_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
@@ -107,7 +107,7 @@ public class ITPasswordChangeServiceUserStatus {
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user gives a failure")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_NotExistingUser_Status() {
+    void testChangePassword_NotExistingUser_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");

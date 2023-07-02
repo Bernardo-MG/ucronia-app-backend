@@ -15,7 +15,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService")
-public class ITUserRegistrationService {
+class ITUserRegistrationService {
 
     @Autowired
     private UserRepository repository;
@@ -29,7 +29,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("Adds an entity when registering")
-    public void testSignUp_AddsEntity() {
+    void testSignUp_AddsEntity() {
         final DtoSignUp signUp;
 
         signUp = new DtoSignUp();
@@ -44,7 +44,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("The new user is disabled")
-    public void testSignUp_Disabled() {
+    void testSignUp_Disabled() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -70,7 +70,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("The new user has no password")
-    public void testSignUp_NoPassword() {
+    void testSignUp_NoPassword() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -89,7 +89,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("Persists the data after a signup")
-    public void testSignUp_PersistedData() {
+    void testSignUp_PersistedData() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -112,7 +112,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("Persists the data, ignoring case")
-    public void testSignUp_PersistedData_Case() {
+    void testSignUp_PersistedData_Case() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -135,7 +135,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("Returns the status after a signup")
-    public void testSignUp_Status() {
+    void testSignUp_Status() {
         final SignUpStatus status;
         final DtoSignUp    signUp;
 
@@ -155,7 +155,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("Returns the status after a signup, ignoring case")
-    public void testSignUp_Status_Case() {
+    void testSignUp_Status_Case() {
         final SignUpStatus status;
         final DtoSignUp    signUp;
 

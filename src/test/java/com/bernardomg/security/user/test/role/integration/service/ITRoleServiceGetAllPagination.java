@@ -22,7 +22,7 @@ import com.bernardomg.security.user.test.util.model.RolesQuery;
 @IntegrationTest
 @DisplayName("Role service - get all")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetAllPagination {
+class ITRoleServiceGetAllPagination {
 
     @Autowired
     private RoleService service;
@@ -33,7 +33,7 @@ public class ITRoleServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<Role> result;
         final RoleQuery      sample;
         final Pageable       pageable;
@@ -50,7 +50,7 @@ public class ITRoleServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    void testGetAll_Page1_Data() {
         final RoleQuery      sample;
         final Iterator<Role> data;
         final Role           result;
@@ -72,7 +72,7 @@ public class ITRoleServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    void testGetAll_Page2_Data() {
         final RoleQuery      sample;
         final Iterable<Role> data;
         final Pageable       pageable;
@@ -89,7 +89,7 @@ public class ITRoleServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
+    void testGetAll_Paged_Count() {
         final RoleQuery      sample;
         final Iterable<Role> result;
         final Pageable       pageable;
@@ -106,7 +106,7 @@ public class ITRoleServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<Role> result;
         final RoleQuery      sample;
         final Pageable       pageable;

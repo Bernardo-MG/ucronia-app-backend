@@ -44,7 +44,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - update")
-public class ITTransactionServiceUpdate {
+class ITTransactionServiceUpdate {
 
     @Autowired
     private TransactionRepository repository;
@@ -59,7 +59,7 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testUpdate_AddsNoEntity() {
+    void testUpdate_AddsNoEntity() {
         final TransactionUpdate transactionRequest;
 
         transactionRequest = TransactionsUpdate.descriptionChange();
@@ -73,7 +73,7 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testUpdate_Decimal_PersistedData() {
+    void testUpdate_Decimal_PersistedData() {
         final TransactionUpdate     transactionRequest;
         final PersistentTransaction transaction;
 
@@ -94,7 +94,7 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a transaction containing a decimal value, the data is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testUpdate_Decimal_ReturnedData() {
+    void testUpdate_Decimal_ReturnedData() {
         final TransactionUpdate transactionRequest;
         final Transaction       transaction;
 
@@ -111,7 +111,7 @@ public class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
-    public void testUpdate_NotExisting_AddsEntity() {
+    void testUpdate_NotExisting_AddsEntity() {
         final TransactionUpdate transactionRequest;
 
         transactionRequest = TransactionsUpdate.descriptionChange();
@@ -125,7 +125,7 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testUpdate_PersistedData() {
+    void testUpdate_PersistedData() {
         final TransactionUpdate     transactionRequest;
         final PersistentTransaction transaction;
 
@@ -146,7 +146,7 @@ public class ITTransactionServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testUpdate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final TransactionUpdate transactionRequest;
         final Transaction       transaction;
 

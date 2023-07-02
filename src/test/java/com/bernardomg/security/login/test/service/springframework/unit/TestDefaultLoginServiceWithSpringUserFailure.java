@@ -26,7 +26,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityLoginService - failure handling")
-public class TestDefaultLoginServiceWithSpringUserFailure {
+class TestDefaultLoginServiceWithSpringUserFailure {
 
     @Mock
     private PasswordEncoder    passEncoder;
@@ -40,7 +40,7 @@ public class TestDefaultLoginServiceWithSpringUserFailure {
 
     @Test
     @DisplayName("When the user details service returns a null the login fails")
-    public void testLogIn_NullUser() {
+    void testLogIn_NullUser() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 

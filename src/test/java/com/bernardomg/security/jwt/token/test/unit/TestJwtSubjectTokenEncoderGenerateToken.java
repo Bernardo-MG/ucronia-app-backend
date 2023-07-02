@@ -10,7 +10,7 @@ import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenEncoder;
 
 @DisplayName("JwtSubjectTokenEncoder - generate token")
-public class TestJwtSubjectTokenEncoderGenerateToken {
+class TestJwtSubjectTokenEncoderGenerateToken {
 
     private final TokenEncoder<String> encoder;
 
@@ -22,7 +22,7 @@ public class TestJwtSubjectTokenEncoderGenerateToken {
 
     @Test
     @DisplayName("Encodes a token")
-    public void testGenerateToken() {
+    void testGenerateToken() {
         final String token;
 
         token = encoder.encode("subject");

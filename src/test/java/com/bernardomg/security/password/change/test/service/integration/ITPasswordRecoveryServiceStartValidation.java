@@ -15,7 +15,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - recovery start - validation")
-public class ITPasswordRecoveryServiceStartValidation {
+class ITPasswordRecoveryServiceStartValidation {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -31,7 +31,7 @@ public class ITPasswordRecoveryServiceStartValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testStartPasswordRecovery_InvalidEmail() {
+    void testStartPasswordRecovery_InvalidEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -45,7 +45,7 @@ public class ITPasswordRecoveryServiceStartValidation {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Throws a validation exception with the correct info when there is no user")
-    public final void testStartPasswordRecovery_NoUser() {
+    void testStartPasswordRecovery_NoUser() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

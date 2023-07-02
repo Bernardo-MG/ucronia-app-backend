@@ -45,7 +45,7 @@ import com.bernardomg.association.test.fee.util.model.FeesCreate;
 @IntegrationTest
 @DisplayName("Fee service - create")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITFeeServiceCreate {
+class ITFeeServiceCreate {
 
     @Autowired
     private FeeRepository repository;
@@ -59,7 +59,7 @@ public class ITFeeServiceCreate {
 
     @Test
     @DisplayName("Persists the data with a day which is not the first of the month")
-    public void testCreate_AnotherDay_PersistedData() {
+    void testCreate_AnotherDay_PersistedData() {
         final FeeCreate     feeRequest;
         final PersistentFee entity;
 
@@ -83,7 +83,7 @@ public class ITFeeServiceCreate {
 
     @Test
     @DisplayName("With new data it adds the entity data to the persistence layer")
-    public void testCreate_PersistedData() {
+    void testCreate_PersistedData() {
         final FeeCreate     feeRequest;
         final PersistentFee entity;
 
@@ -107,7 +107,7 @@ public class ITFeeServiceCreate {
 
     @Test
     @DisplayName("With new data it returns the created data")
-    public void testCreate_ReturnedData() {
+    void testCreate_ReturnedData() {
         final FeeCreate feeRequest;
         final MemberFee fee;
 

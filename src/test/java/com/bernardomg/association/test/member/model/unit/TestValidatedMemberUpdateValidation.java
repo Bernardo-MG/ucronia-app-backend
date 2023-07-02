@@ -15,14 +15,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("ValidatedMemberUpdate validation")
-public class TestValidatedMemberUpdateValidation {
+class TestValidatedMemberUpdateValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO missing the active flag is invalid")
-    public void validate_missingActive() {
+    void validate_missingActive() {
         final MemberUpdate                           request;
         final Set<ConstraintViolation<MemberUpdate>> errors;
         final ConstraintViolation<MemberUpdate>      error;
@@ -46,7 +46,7 @@ public class TestValidatedMemberUpdateValidation {
 
     @Test
     @DisplayName("A DTO missing the name is invalid")
-    public void validate_missingName() {
+    void validate_missingName() {
         final MemberUpdate                           request;
         final Set<ConstraintViolation<MemberUpdate>> errors;
         final ConstraintViolation<MemberUpdate>      error;
@@ -70,7 +70,7 @@ public class TestValidatedMemberUpdateValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final MemberUpdate                           request;
         final Set<ConstraintViolation<MemberUpdate>> errors;
 

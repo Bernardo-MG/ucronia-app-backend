@@ -45,7 +45,7 @@ import com.bernardomg.association.test.member.util.model.MembersQuery;
 @IntegrationTest
 @DisplayName("Member service - get all")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberServiceGetAll {
+class ITMemberServiceGetAll {
 
     @Autowired
     private MemberService service;
@@ -56,7 +56,7 @@ public class ITMemberServiceGetAll {
 
     @Test
     @DisplayName("With multiple members it returns all the members")
-    public void testGetAll() {
+    void testGetAll() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
@@ -123,7 +123,7 @@ public class ITMemberServiceGetAll {
     @Test
     @DisplayName("With an inactive member it returns the member")
     @Sql({ "/db/queries/member/inactive.sql" })
-    public void testGetAll_Inactive() {
+    void testGetAll_Inactive() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;

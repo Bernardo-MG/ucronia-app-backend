@@ -16,7 +16,7 @@ import com.bernardomg.security.user.test.util.model.RolesCreate;
 
 @IntegrationTest
 @DisplayName("Role service - create")
-public class ITRoleServiceCreate {
+class ITRoleServiceCreate {
 
     @Autowired
     private RoleRepository repository;
@@ -30,7 +30,7 @@ public class ITRoleServiceCreate {
 
     @Test
     @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
+    void testCreate_AddsEntity() {
         final RoleCreate data;
 
         data = RolesCreate.valid();
@@ -43,7 +43,7 @@ public class ITRoleServiceCreate {
 
     @Test
     @DisplayName("Persists the data")
-    public void testCreate_PersistedData() {
+    void testCreate_PersistedData() {
         final RoleCreate     data;
         final PersistentRole entity;
 
@@ -62,7 +62,7 @@ public class ITRoleServiceCreate {
 
     @Test
     @DisplayName("Returns the created data")
-    public void testCreate_ReturnedData() {
+    void testCreate_ReturnedData() {
         final RoleCreate data;
         final Role       result;
 

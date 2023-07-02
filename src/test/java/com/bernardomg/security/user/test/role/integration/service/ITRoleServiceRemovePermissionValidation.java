@@ -17,7 +17,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Role service - set action validation")
-public class ITRoleServiceRemovePermissionValidation {
+class ITRoleServiceRemovePermissionValidation {
 
     @Autowired
     private RoleService service;
@@ -29,7 +29,7 @@ public class ITRoleServiceRemovePermissionValidation {
     @Test
     @DisplayName("Throws an exception when the action doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/role/single.sql" })
-    public void testAddPermission_NotExistingAction() {
+    void testAddPermission_NotExistingAction() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -47,7 +47,7 @@ public class ITRoleServiceRemovePermissionValidation {
     @Test
     @DisplayName("Throws an exception when the resource doesn't exist")
     @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/role/single.sql" })
-    public void testAddPermission_NotExistingResource() {
+    void testAddPermission_NotExistingResource() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -65,7 +65,7 @@ public class ITRoleServiceRemovePermissionValidation {
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql" })
-    public void testAddPermission_NotExistingRole() {
+    void testAddPermission_NotExistingRole() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;

@@ -28,7 +28,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityLoginService - password validation")
-public class TestDefaultLoginServiceWithSpringUserPassword {
+class TestDefaultLoginServiceWithSpringUserPassword {
 
     @Mock
     private PasswordEncoder    passEncoder;
@@ -42,7 +42,7 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
 
     @Test
     @DisplayName("Doesn't log in with an invalid password")
-    public void testLogIn_Invalid() {
+    void testLogIn_Invalid() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -60,7 +60,7 @@ public class TestDefaultLoginServiceWithSpringUserPassword {
 
     @Test
     @DisplayName("Logs in with a valid password")
-    public void testLogIn_Valid() {
+    void testLogIn_Valid() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 

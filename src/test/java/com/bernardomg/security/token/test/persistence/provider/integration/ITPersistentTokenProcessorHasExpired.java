@@ -15,7 +15,7 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - has expired")
-public class ITPersistentTokenProcessorHasExpired {
+class ITPersistentTokenProcessorHasExpired {
 
     private final PersistentTokenProcessor validator;
 
@@ -30,7 +30,7 @@ public class ITPersistentTokenProcessorHasExpired {
     @Test
     @DisplayName("A token after the expiration date has expired")
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    public final void testHasExpired_AfterExpirationDate() {
+    void testHasExpired_AfterExpirationDate() {
         final String  token;
         final Boolean expired;
 
@@ -45,7 +45,7 @@ public class ITPersistentTokenProcessorHasExpired {
     @Test
     @DisplayName("A expired token has expired")
     @Sql({ "/db/queries/security/token/expired.sql" })
-    public final void testHasExpired_Expired() {
+    void testHasExpired_Expired() {
         final String  token;
         final Boolean expired;
 
@@ -60,7 +60,7 @@ public class ITPersistentTokenProcessorHasExpired {
     @Test
     @DisplayName("A valid token has not expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testHasExpired_Valid() {
+    void testHasExpired_Valid() {
         final String  token;
         final Boolean expired;
 

@@ -45,7 +45,7 @@ import com.bernardomg.association.test.member.util.model.MembersQuery;
 @IntegrationTest
 @DisplayName("Member service - get all - pagination")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberServiceGetAllPagination {
+class ITMemberServiceGetAllPagination {
 
     @Autowired
     private MemberService service;
@@ -56,7 +56,7 @@ public class ITMemberServiceGetAllPagination {
 
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -73,7 +73,7 @@ public class ITMemberServiceGetAllPagination {
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
-    public void testGetAll_Page1() {
+    void testGetAll_Page1() {
         final MemberQuery      memberQuery;
         final Iterable<Member> members;
         final Member           member;
@@ -101,7 +101,7 @@ public class ITMemberServiceGetAllPagination {
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
-    public void testGetAll_Page2() {
+    void testGetAll_Page2() {
         final MemberQuery      memberQuery;
         final Iterable<Member> members;
         final Member           member;
@@ -129,7 +129,7 @@ public class ITMemberServiceGetAllPagination {
 
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;

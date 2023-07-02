@@ -50,7 +50,7 @@ import com.bernardomg.association.test.fee.util.model.FeesQuery;
 @IntegrationTest
 @DisplayName("Fee service - get all - sort")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-public class ITFeeServiceGetAllSort {
+class ITFeeServiceGetAllSort {
 
     @Autowired
     private FeeService service;
@@ -61,7 +61,7 @@ public class ITFeeServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
-    public void testGetAll_Date_Asc() {
+    void testGetAll_Date_Asc() {
         final Iterator<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -116,7 +116,7 @@ public class ITFeeServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
-    public void testGetAll_Date_Desc() {
+    void testGetAll_Date_Desc() {
         final Iterator<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -171,7 +171,7 @@ public class ITFeeServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    public void testGetAll_Name_Asc() {
+    void testGetAll_Name_Asc() {
         final Iterator<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -226,7 +226,7 @@ public class ITFeeServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    public void testGetAll_Name_Desc() {
+    void testGetAll_Name_Desc() {
         final Iterator<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -282,7 +282,7 @@ public class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
     @Disabled
-    public void testGetAll_NotExisting() {
+    void testGetAll_NotExisting() {
         final FeeQuery         feeQuery;
         final Pageable         pageable;
         final ThrowingCallable executable;
@@ -300,7 +300,7 @@ public class ITFeeServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
-    public void testGetAll_Paid_Asc() {
+    void testGetAll_Paid_Asc() {
         final Iterator<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -355,7 +355,7 @@ public class ITFeeServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
-    public void testGetAll_Paid_Desc() {
+    void testGetAll_Paid_Desc() {
         final Iterator<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;

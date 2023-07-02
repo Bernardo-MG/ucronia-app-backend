@@ -15,14 +15,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("ValidatedFeeUpdate validation")
-public class TestValidatedFeeUpdateValidation {
+class TestValidatedFeeUpdateValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO missing the date is invalid")
-    public void validate_missingDate() {
+    void validate_missingDate() {
         final FeeUpdate                           request;
         final Set<ConstraintViolation<FeeUpdate>> errors;
         final ConstraintViolation<FeeUpdate>      error;
@@ -46,7 +46,7 @@ public class TestValidatedFeeUpdateValidation {
 
     @Test
     @DisplayName("A DTO missing the member id is invalid")
-    public void validate_missingMemberId() {
+    void validate_missingMemberId() {
         final FeeUpdate                           request;
         final Set<ConstraintViolation<FeeUpdate>> errors;
         final ConstraintViolation<FeeUpdate>      error;
@@ -70,7 +70,7 @@ public class TestValidatedFeeUpdateValidation {
 
     @Test
     @DisplayName("A DTO missing the paid flag is invalid")
-    public void validate_missingPaidFlag() {
+    void validate_missingPaidFlag() {
         final FeeUpdate                           request;
         final Set<ConstraintViolation<FeeUpdate>> errors;
         final ConstraintViolation<FeeUpdate>      error;
@@ -94,7 +94,7 @@ public class TestValidatedFeeUpdateValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final FeeUpdate                           request;
         final Set<ConstraintViolation<FeeUpdate>> errors;
 

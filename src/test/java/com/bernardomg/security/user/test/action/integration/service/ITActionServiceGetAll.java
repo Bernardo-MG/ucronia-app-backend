@@ -21,7 +21,7 @@ import com.bernardomg.security.user.service.ActionService;
 @IntegrationTest
 @DisplayName("Action service - get all")
 @Sql({ "/db/queries/security/action/crud.sql" })
-public class ITActionServiceGetAll {
+class ITActionServiceGetAll {
 
     @Autowired
     private ActionService service;
@@ -32,7 +32,7 @@ public class ITActionServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    void testGetAll_Count() {
         final Iterable<Action> result;
         final ActionQuery      sample;
         final Pageable         pageable;
@@ -50,7 +50,7 @@ public class ITActionServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    void testGetAll_Data() {
         final Iterable<Action>   data;
         final ActionQuery        sample;
         final Pageable           pageable;

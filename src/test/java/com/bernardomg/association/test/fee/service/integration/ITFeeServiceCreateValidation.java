@@ -41,7 +41,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @DisplayName("Fee service - create validation")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITFeeServiceCreateValidation {
+class ITFeeServiceCreateValidation {
 
     @Autowired
     private FeeService service;
@@ -52,7 +52,7 @@ public class ITFeeServiceCreateValidation {
 
     @Test
     @DisplayName("With a missing id it throws an exception")
-    public void testCreate_InvalidMember() {
+    void testCreate_InvalidMember() {
         final ValidatedFeeCreate feeRequest;
         final ThrowingCallable   execution;
         final FieldFailure       failure;

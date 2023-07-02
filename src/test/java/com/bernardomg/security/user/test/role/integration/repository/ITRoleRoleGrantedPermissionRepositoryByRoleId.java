@@ -20,7 +20,7 @@ import com.bernardomg.security.user.test.util.assertion.RoleGrantedPermissionAss
 
 @IntegrationTest
 @DisplayName("Role repository - find all permissions")
-public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
+class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
     @Autowired
     private RoleGrantedPermissionRepository repository;
@@ -35,7 +35,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAllByRoleId() {
+    void testAllByRoleId() {
         final Iterable<PersistentRoleGrantedPermission> read;
         final Iterator<PersistentRoleGrantedPermission> itr;
         final Pageable                                  pageable;
@@ -101,7 +101,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAllByRoleId_FirstPage_Count() {
+    void testAllByRoleId_FirstPage_Count() {
         final Page<PersistentRoleGrantedPermission> read;
         final Pageable                              pageable;
 
@@ -119,7 +119,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAllByRoleId_Ids() {
+    void testAllByRoleId_Ids() {
         final Iterable<PersistentRoleGrantedPermission> read;
         final Pageable                                  pageable;
         PersistentRoleGrantedPermission                 found;
@@ -145,7 +145,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @DisplayName("Finds no permissions when the role has none")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAllByRoleId_NoPermissions_Count() {
+    void testAllByRoleId_NoPermissions_Count() {
         final Page<PersistentRoleGrantedPermission> read;
         final Pageable                              pageable;
 
@@ -163,7 +163,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAllByRoleId_NotExisting_Count() {
+    void testAllByRoleId_NotExisting_Count() {
         final Page<PersistentRoleGrantedPermission> read;
         final Pageable                              pageable;
 
@@ -181,7 +181,7 @@ public class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAllByRoleId_NotGranted() {
+    void testAllByRoleId_NotGranted() {
         final Iterable<PersistentRoleGrantedPermission> read;
         final Pageable                                  pageable;
 

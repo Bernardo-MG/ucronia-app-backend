@@ -37,7 +37,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Role service - delete validation")
-public class ITRoleServiceDeleteValidation {
+class ITRoleServiceDeleteValidation {
 
     @Autowired
     private RoleService service;
@@ -48,7 +48,7 @@ public class ITRoleServiceDeleteValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testDelete_NotExisting() {
+    void testDelete_NotExisting() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -65,7 +65,7 @@ public class ITRoleServiceDeleteValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testDelete_UserWithRole() {
+    void testDelete_UserWithRole() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

@@ -46,7 +46,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - create")
-public class ITTransactionServiceCreate {
+class ITTransactionServiceCreate {
 
     @Autowired
     private TransactionRepository repository;
@@ -61,7 +61,7 @@ public class ITTransactionServiceCreate {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the transaction is persisted")
-    public void testCreate_Decimal_PersistedData(final Float amount) {
+    void testCreate_Decimal_PersistedData(final Float amount) {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
 
@@ -79,7 +79,7 @@ public class ITTransactionServiceCreate {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the persisted transaction is returned")
-    public void testCreate_Decimal_ReturnedData(final Float amount) {
+    void testCreate_Decimal_ReturnedData(final Float amount) {
         final TransactionCreate transactionRequest;
         final Transaction       transaction;
 
@@ -93,7 +93,7 @@ public class ITTransactionServiceCreate {
 
     @Test
     @DisplayName("With a transaction for the first day of the year, the member is persisted")
-    public void testCreate_FirstDay_AddsEntity() {
+    void testCreate_FirstDay_AddsEntity() {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
 
@@ -117,7 +117,7 @@ public class ITTransactionServiceCreate {
 
     @Test
     @DisplayName("With a transaction for the first day of the year, the persisted data is returned")
-    public void testCreate_FirstDay_ReturnedData() {
+    void testCreate_FirstDay_ReturnedData() {
         final TransactionCreate transactionRequest;
         final Transaction       transaction;
 
@@ -134,7 +134,7 @@ public class ITTransactionServiceCreate {
 
     @Test
     @DisplayName("With a transaction for the a day during year, the member is persisted")
-    public void testCreate_InYear_AddsEntity() {
+    void testCreate_InYear_AddsEntity() {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
 
@@ -158,7 +158,7 @@ public class ITTransactionServiceCreate {
 
     @Test
     @DisplayName("With a transaction for the a day during year, the persisted member is created")
-    public void testCreate_InYear_ReturnedData() {
+    void testCreate_InYear_ReturnedData() {
         final TransactionCreate transactionRequest;
         final Transaction       transaction;
 
@@ -175,7 +175,7 @@ public class ITTransactionServiceCreate {
 
     @Test
     @DisplayName("With a repeated creation, two members are persisted")
-    public void testCreate_Repeat_AddsEntity() {
+    void testCreate_Repeat_AddsEntity() {
         final TransactionCreate transactionRequest;
 
         transactionRequest = TransactionsCreate.inYear();

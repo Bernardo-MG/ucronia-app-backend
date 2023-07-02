@@ -20,7 +20,7 @@ import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions
 @DisplayName("Role service - remove permission")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-public class ITRoleServiceRemovePermission {
+class ITRoleServiceRemovePermission {
 
     @Autowired
     private RolePermissionRepository rolePermissionRepository;
@@ -34,7 +34,7 @@ public class ITRoleServiceRemovePermission {
 
     @Test
     @DisplayName("Can remove a permission")
-    public void testRemovePermission() {
+    void testRemovePermission() {
         final Iterable<PersistentRolePermission> result;
         final Iterator<PersistentRolePermission> itr;
         PersistentRolePermission                 found;

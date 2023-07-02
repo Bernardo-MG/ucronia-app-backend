@@ -14,14 +14,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("DtoPasswordRecovery validation")
-public class TestDtoPasswordRecoveryValidation {
+class TestDtoPasswordRecoveryValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalidEmail() {
+    void validate_invalidEmail() {
         final DtoPasswordRecovery                           passwordRecovery;
         final Set<ConstraintViolation<DtoPasswordRecovery>> errors;
         final ConstraintViolation<DtoPasswordRecovery>      error;
@@ -46,7 +46,7 @@ public class TestDtoPasswordRecoveryValidation {
 
     @Test
     @DisplayName("A DTO missing the email is invalid")
-    public void validate_noEmail() {
+    void validate_noEmail() {
         final DtoPasswordRecovery                           passwordRecovery;
         final Set<ConstraintViolation<DtoPasswordRecovery>> errors;
         final ConstraintViolation<DtoPasswordRecovery>      error;
@@ -71,7 +71,7 @@ public class TestDtoPasswordRecoveryValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final DtoPasswordRecovery                           passwordRecovery;
         final Set<ConstraintViolation<DtoPasswordRecovery>> errors;
 

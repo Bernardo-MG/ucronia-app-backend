@@ -15,14 +15,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("ValidatedTransactionCreate validation")
-public class TestValidatedTransactionCreateValidation {
+class TestValidatedTransactionCreateValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO with an empty description is invalid")
-    public void validate_emptyDescription() {
+    void validate_emptyDescription() {
         final TransactionCreate                           request;
         final Set<ConstraintViolation<TransactionCreate>> errors;
         final ConstraintViolation<TransactionCreate>      error;
@@ -46,7 +46,7 @@ public class TestValidatedTransactionCreateValidation {
 
     @Test
     @DisplayName("A DTO missing the amount is invalid")
-    public void validate_missingAmount() {
+    void validate_missingAmount() {
         final TransactionCreate                           request;
         final Set<ConstraintViolation<TransactionCreate>> errors;
         final ConstraintViolation<TransactionCreate>      error;
@@ -70,7 +70,7 @@ public class TestValidatedTransactionCreateValidation {
 
     @Test
     @DisplayName("A DTO missing the date is invalid")
-    public void validate_missingDate() {
+    void validate_missingDate() {
         final TransactionCreate                           request;
         final Set<ConstraintViolation<TransactionCreate>> errors;
         final ConstraintViolation<TransactionCreate>      error;
@@ -94,7 +94,7 @@ public class TestValidatedTransactionCreateValidation {
 
     @Test
     @DisplayName("A DTO missing the description is invalid")
-    public void validate_missingDescription() {
+    void validate_missingDescription() {
         final TransactionCreate                           request;
         final Set<ConstraintViolation<TransactionCreate>> errors;
         final ConstraintViolation<TransactionCreate>      error;
@@ -118,7 +118,7 @@ public class TestValidatedTransactionCreateValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final TransactionCreate                           request;
         final Set<ConstraintViolation<TransactionCreate>> errors;
 

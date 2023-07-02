@@ -16,7 +16,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("User service - add roles validation")
-public class ITUserServiceUpdateValidation {
+class ITUserServiceUpdateValidation {
 
     @Autowired
     private UserService service;
@@ -30,7 +30,7 @@ public class ITUserServiceUpdateValidation {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
-    public void testUpdate_ChangeUsername() {
+    void testUpdate_ChangeUsername() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final UserUpdate       data;
@@ -50,7 +50,7 @@ public class ITUserServiceUpdateValidation {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testUpdate_ExistingMail() {
+    void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final UserUpdate       data;
@@ -66,7 +66,7 @@ public class ITUserServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when the user doesn't exist")
-    public void testUpdate_NotExistingUser() {
+    void testUpdate_NotExistingUser() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final UserUpdate       data;

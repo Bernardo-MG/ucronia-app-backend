@@ -15,7 +15,7 @@ import com.bernardomg.security.test.constant.TokenConstants;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - token status")
-public class ITPasswordRecoveryServiceChangeTokenStatus {
+class ITPasswordRecoveryServiceChangeTokenStatus {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -32,7 +32,7 @@ public class ITPasswordRecoveryServiceChangeTokenStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
-    public final void testChangePassword_ExpiredToken_Status() {
+    void testChangePassword_ExpiredToken_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
@@ -48,7 +48,7 @@ public class ITPasswordRecoveryServiceChangeTokenStatus {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_NotExistingToken_Status() {
+    void testChangePassword_NotExistingToken_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");

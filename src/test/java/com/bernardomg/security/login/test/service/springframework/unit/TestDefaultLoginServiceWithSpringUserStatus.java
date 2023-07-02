@@ -29,7 +29,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityLoginService - login with various user status")
-public class TestDefaultLoginServiceWithSpringUserStatus {
+class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Mock
     private PasswordEncoder    passEncoder;
@@ -43,7 +43,7 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Test
     @DisplayName("Doesn't log in a expired user")
-    public void testLogIn_AccountExpired() {
+    void testLogIn_AccountExpired() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -61,7 +61,7 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Test
     @DisplayName("Doesn't log in a user with expired credentials")
-    public void testLogIn_CredentialsExpired() {
+    void testLogIn_CredentialsExpired() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -79,7 +79,7 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Test
     @DisplayName("Doesn't log in a disabled user")
-    public void testLogIn_Disabled() {
+    void testLogIn_Disabled() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -97,7 +97,7 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Test
     @DisplayName("Doesn't log in a locked user")
-    public void testLogIn_Locked() {
+    void testLogIn_Locked() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -115,7 +115,7 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Test
     @DisplayName("Doesn't log in a not existing user")
-    public void testLogIn_NotExisting() {
+    void testLogIn_NotExisting() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -133,7 +133,7 @@ public class TestDefaultLoginServiceWithSpringUserStatus {
 
     @Test
     @DisplayName("Logs in with a valid user")
-    public void testLogIn_Valid() {
+    void testLogIn_Valid() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 

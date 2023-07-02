@@ -17,7 +17,7 @@ import com.bernardomg.security.user.test.util.model.RolesCreate;
 @IntegrationTest
 @DisplayName("Role service - create - existing")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceCreateExisting {
+class ITRoleServiceCreateExisting {
 
     @Autowired
     private RoleRepository repository;
@@ -31,7 +31,7 @@ public class ITRoleServiceCreateExisting {
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    public void testCreate() {
+    void testCreate() {
         final RoleCreate data;
         final Role       result;
 
@@ -45,7 +45,7 @@ public class ITRoleServiceCreateExisting {
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    public void testCreate_AddsEntity() {
+    void testCreate_AddsEntity() {
         final RoleCreate data;
 
         data = RolesCreate.valid();

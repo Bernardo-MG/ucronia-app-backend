@@ -39,7 +39,7 @@ import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - delete with permissions")
-public class ITRoleServiceDelete {
+class ITRoleServiceDelete {
 
     @Autowired
     private ActionRepository         actionRepository;
@@ -63,7 +63,7 @@ public class ITRoleServiceDelete {
     @Test
     @DisplayName("Deletes a role with no permissions")
     @Sql({ "/db/queries/security/role/single.sql" })
-    public void testDelete_NoPermissions() {
+    void testDelete_NoPermissions() {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
@@ -74,7 +74,7 @@ public class ITRoleServiceDelete {
     @DisplayName("Deletes a role with permissions")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testDelete_WithPermissions() {
+    void testDelete_WithPermissions() {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
@@ -85,7 +85,7 @@ public class ITRoleServiceDelete {
     @DisplayName("Deletes the relationships for the role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testDelete_WithPermissions_Relationships() {
+    void testDelete_WithPermissions_Relationships() {
         service.delete(1L);
 
         Assertions.assertThat(rolePermissionRepository.count())

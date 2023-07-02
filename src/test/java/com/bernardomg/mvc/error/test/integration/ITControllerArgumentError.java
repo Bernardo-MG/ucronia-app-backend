@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.ErrorTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - argument validation")
-public final class ITControllerArgumentError {
+class ITControllerArgumentError {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +51,7 @@ public final class ITControllerArgumentError {
 
     @Test
     @DisplayName("Returns the response structure for method argument errors")
-    public final void testErrorHandling_MethodArgumentError_Response() throws Exception {
+    void testErrorHandling_MethodArgumentError_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getMethodArgumentRequest());

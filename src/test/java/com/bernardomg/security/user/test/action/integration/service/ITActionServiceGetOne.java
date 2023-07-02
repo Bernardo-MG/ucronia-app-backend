@@ -16,7 +16,7 @@ import com.bernardomg.security.user.service.ActionService;
 @IntegrationTest
 @DisplayName("Action service - get one")
 @Sql({ "/db/queries/security/action/crud.sql" })
-public class ITActionServiceGetOne {
+class ITActionServiceGetOne {
 
     @Autowired
     private ActionService service;
@@ -27,7 +27,7 @@ public class ITActionServiceGetOne {
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<Action> result;
 
         result = service.getOne(1l);
@@ -38,7 +38,7 @@ public class ITActionServiceGetOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
+    void testGetOne_Existing_Data() {
         final Action result;
 
         result = service.getOne(1l)
@@ -50,7 +50,7 @@ public class ITActionServiceGetOne {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<Action> result;
 
         result = service.getOne(-1L);

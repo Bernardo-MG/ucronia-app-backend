@@ -15,7 +15,7 @@ import com.bernardomg.security.test.constant.TokenConstants;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - user status")
-public class ITPasswordRecoveryServiceChangeUserStatus {
+class ITPasswordRecoveryServiceChangeUserStatus {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -32,7 +32,7 @@ public class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_CredentialsExpired_Status() {
+    void testChangePassword_CredentialsExpired_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
@@ -49,7 +49,7 @@ public class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Disabled_Status() {
+    void testChangePassword_Disabled_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
@@ -66,7 +66,7 @@ public class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Enabled_Status() {
+    void testChangePassword_Enabled_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
@@ -83,7 +83,7 @@ public class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Expired_Status() {
+    void testChangePassword_Expired_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
@@ -100,7 +100,7 @@ public class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Locked_Status() {
+    void testChangePassword_Locked_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
@@ -113,7 +113,7 @@ public class ITPasswordRecoveryServiceChangeUserStatus {
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user gives a failure")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_NotExistingUser_Status() {
+    void testChangePassword_NotExistingUser_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");

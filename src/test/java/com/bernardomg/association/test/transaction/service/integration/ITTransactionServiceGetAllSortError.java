@@ -43,7 +43,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 @IntegrationTest
 @DisplayName("Transaction service - get all - errors")
 @Sql({ "/db/queries/transaction/multiple.sql" })
-public class ITTransactionServiceGetAllSortError {
+class ITTransactionServiceGetAllSortError {
 
     @Autowired
     private TransactionService service;
@@ -54,7 +54,7 @@ public class ITTransactionServiceGetAllSortError {
 
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
-    public void testGetAll_NotExisting() {
+    void testGetAll_NotExisting() {
         final TransactionQuery transactionQuery;
         final Pageable         pageable;
         final ThrowingCallable executable;

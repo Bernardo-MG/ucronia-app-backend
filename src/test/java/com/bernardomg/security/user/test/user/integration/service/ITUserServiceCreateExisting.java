@@ -17,7 +17,7 @@ import com.bernardomg.security.user.test.util.model.UsersCreate;
 @IntegrationTest
 @DisplayName("User service - create - existing")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITUserServiceCreateExisting {
+class ITUserServiceCreateExisting {
 
     @Autowired
     private UserRepository repository;
@@ -31,7 +31,7 @@ public class ITUserServiceCreateExisting {
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    public void testCreate() {
+    void testCreate() {
         final User       result;
         final UserCreate user;
 
@@ -46,7 +46,7 @@ public class ITUserServiceCreateExisting {
 
     @Test
     @DisplayName("Adds an entity when creating with an existing id")
-    public void testCreate_AddsEntity() {
+    void testCreate_AddsEntity() {
         final UserCreate user;
 
         user = UsersCreate.alternative();

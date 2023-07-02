@@ -18,7 +18,7 @@ import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 @IntegrationTest
 @DisplayName("User service - get one - locked")
 @Sql({ "/db/queries/security/user/locked.sql" })
-public class ITUserServiceGetOneLocked {
+class ITUserServiceGetOneLocked {
 
     @Autowired
     private UserService service;
@@ -29,7 +29,7 @@ public class ITUserServiceGetOneLocked {
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<User> result;
 
         result = service.getOne(1l);
@@ -40,7 +40,7 @@ public class ITUserServiceGetOneLocked {
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
+    void testGetOne_Existing_Data() {
         final User result;
 
         result = service.getOne(1l)

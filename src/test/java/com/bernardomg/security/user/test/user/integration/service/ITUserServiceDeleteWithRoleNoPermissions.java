@@ -40,7 +40,7 @@ import com.bernardomg.security.user.service.UserService;
 @DisplayName("User service - delete with role and action")
 @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceDeleteWithRoleNoPermissions {
+class ITUserServiceDeleteWithRoleNoPermissions {
 
     @Autowired
     private ActionRepository actionRepository;
@@ -60,7 +60,7 @@ public class ITUserServiceDeleteWithRoleNoPermissions {
 
     @Test
     @DisplayName("Does not remove roles or action when deleting")
-    public void testDelete_DoesNotRemoveRelations() {
+    void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())

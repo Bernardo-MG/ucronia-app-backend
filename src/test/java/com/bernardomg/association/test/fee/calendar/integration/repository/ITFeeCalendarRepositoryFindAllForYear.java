@@ -44,7 +44,7 @@ import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalend
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year")
-public class ITFeeCalendarRepositoryFindAllForYear {
+class ITFeeCalendarRepositoryFindAllForYear {
 
     @Autowired
     private FeeCalendarRepository repository;
@@ -56,7 +56,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYear_FullYear_Count() {
+    void testFindAllForYear_FullYear_Count() {
         final Collection<UserFeeCalendar> calendars;
         final Collection<FeeMonth>        months;
         final Sort                        sort;
@@ -78,7 +78,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYear_FullYear_Data() {
+    void testFindAllForYear_FullYear_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Sort                      sort;
@@ -102,7 +102,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    public void testFindAllForYear_NoData_Count() {
+    void testFindAllForYear_NoData_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -117,7 +117,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    public void testFindAllForYear_SingleMonth_Count() {
+    void testFindAllForYear_SingleMonth_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -136,7 +136,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    public void testFindAllForYear_SingleMonth_Data() {
+    void testFindAllForYear_SingleMonth_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Iterator<FeeMonth>        months;
@@ -170,7 +170,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    public void testFindAllForYear_SingleMonthUnpaid_Count() {
+    void testFindAllForYear_SingleMonthUnpaid_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -189,7 +189,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    public void testFindAllForYear_SingleMonthUnpaid_Data() {
+    void testFindAllForYear_SingleMonthUnpaid_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Iterator<FeeMonth>        months;
@@ -223,7 +223,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With two connected years it returns all the entities for the first year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_First_Count() {
+    void testFindAllForYear_TwoConnectedYears_First_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -242,7 +242,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With two connected years it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_First_Data() {
+    void testFindAllForYear_TwoConnectedYears_First_Data() {
         final UserFeeCalendar calendar;
         final Sort            sort;
         Iterator<FeeMonth>    months;
@@ -287,7 +287,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With two connected years it returns all the entities for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_Second_Count() {
+    void testFindAllForYear_TwoConnectedYears_Second_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -306,7 +306,7 @@ public class ITFeeCalendarRepositoryFindAllForYear {
     @Test
     @DisplayName("With two connected years it returns all the data for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYear_TwoConnectedYears_Second_Data() {
+    void testFindAllForYear_TwoConnectedYears_Second_Data() {
         final UserFeeCalendar calendar;
         final Sort            sort;
         Iterator<FeeMonth>    months;

@@ -22,7 +22,7 @@ import com.bernardomg.security.user.service.UserService;
         "/db/queries/security/role/single.sql", "/db/queries/security/role/alternative.sql",
         "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
         "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceAddRoleWithRoles {
+class ITUserServiceAddRoleWithRoles {
 
     @Autowired
     private UserService service;
@@ -33,7 +33,7 @@ public class ITUserServiceAddRoleWithRoles {
 
     @Test
     @DisplayName("Adding a role which the user already has adds nothing")
-    public void testAddRoles_AddExisting_CallBack() {
+    void testAddRoles_AddExisting_CallBack() {
         final Iterable<Role>     result;
         final Collection<String> roleNames;
         final Pageable           pageable;
@@ -57,7 +57,7 @@ public class ITUserServiceAddRoleWithRoles {
 
     @Test
     @DisplayName("Reading the roles after adding a new role returns them")
-    public void testAddRoles_AddNew_CallBack() {
+    void testAddRoles_AddNew_CallBack() {
         final Iterable<Role>     result;
         final Collection<String> roleNames;
         final Pageable           pageable;

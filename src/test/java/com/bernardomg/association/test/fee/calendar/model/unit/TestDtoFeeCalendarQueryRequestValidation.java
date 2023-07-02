@@ -15,14 +15,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("DtoFeeCalendarQueryRequest validation")
-public class TestDtoFeeCalendarQueryRequestValidation {
+class TestDtoFeeCalendarQueryRequestValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO missing the active flag is invalid")
-    public void validate_noActive() {
+    void validate_noActive() {
         final DtoFeeCalendarQueryRequest                           request;
         final Set<ConstraintViolation<DtoFeeCalendarQueryRequest>> errors;
         final ConstraintViolation<DtoFeeCalendarQueryRequest>      error;
@@ -46,7 +46,7 @@ public class TestDtoFeeCalendarQueryRequestValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final DtoFeeCalendarQueryRequest                           request;
         final Set<ConstraintViolation<DtoFeeCalendarQueryRequest>> errors;
 

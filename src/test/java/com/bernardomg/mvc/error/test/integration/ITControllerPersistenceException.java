@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.PersistenceExceptionTestCon
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - persistence exceptions")
-public final class ITControllerPersistenceException {
+class ITControllerPersistenceException {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +51,7 @@ public final class ITControllerPersistenceException {
 
     @Test
     @DisplayName("Returns the response structure for a data integrity exception")
-    public final void testErrorHandling_DataIntegrity_Response() throws Exception {
+    void testErrorHandling_DataIntegrity_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getDataIntegrityExceptionRequest());
@@ -75,7 +75,7 @@ public final class ITControllerPersistenceException {
 
     @Test
     @DisplayName("Returns the response structure for a JDBC grammar exception")
-    public final void testErrorHandling_JdbcGrammar_Response() throws Exception {
+    void testErrorHandling_JdbcGrammar_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getJdbcGrammarExceptionRequest());
@@ -99,7 +99,7 @@ public final class ITControllerPersistenceException {
 
     @Test
     @DisplayName("Returns the response structure for a property reference exception")
-    public final void testErrorHandling_PropertyReference_Response() throws Exception {
+    void testErrorHandling_PropertyReference_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getPropertyReferenceExceptionRequest());

@@ -45,7 +45,7 @@ import com.bernardomg.security.user.test.util.model.UsersUpdate;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql" })
-public class ITUserServiceUpdate {
+class ITUserServiceUpdate {
 
     @Autowired
     private UserRepository repository;
@@ -59,7 +59,7 @@ public class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Adds no entity when updating")
-    public void testUpdate_AddsNoEntity() {
+    void testUpdate_AddsNoEntity() {
         final UserUpdate user;
 
         user = UsersUpdate.emailChange();
@@ -72,7 +72,7 @@ public class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
+    void testUpdate_PersistedData() {
         final UserUpdate     user;
         final PersistentUser entity;
 
@@ -97,7 +97,7 @@ public class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Updates persisted data, ignoring case")
-    public void testUpdate_PersistedData_Case() {
+    void testUpdate_PersistedData_Case() {
         final UserUpdate     user;
         final PersistentUser entity;
 
@@ -114,7 +114,7 @@ public class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Returns the updated data")
-    public void testUpdate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final UserUpdate user;
         final User       result;
 
@@ -135,7 +135,7 @@ public class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Returns the updated data, ignoring case")
-    public void testUpdate_ReturnedData_Case() {
+    void testUpdate_ReturnedData_Case() {
         final UserUpdate user;
         final User       result;
 

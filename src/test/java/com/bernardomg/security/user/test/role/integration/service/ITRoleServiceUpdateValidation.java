@@ -38,7 +38,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Role service - update validation")
-public class ITRoleServiceUpdateValidation {
+class ITRoleServiceUpdateValidation {
 
     @Autowired
     private RoleService service;
@@ -49,7 +49,7 @@ public class ITRoleServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testUpdate_NotExistingRole() {
+    void testUpdate_NotExistingRole() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final RoleUpdate       data;

@@ -37,7 +37,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Member service - delete")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITMemberServiceDelete {
+class ITMemberServiceDelete {
 
     @Autowired
     private MemberRepository repository;
@@ -51,7 +51,7 @@ public class ITMemberServiceDelete {
 
     @Test
     @DisplayName("With an invalid id, it removes no entity")
-    public void testDelete_NotExisting_NotRemovesEntity() {
+    void testDelete_NotExisting_NotRemovesEntity() {
         service.delete(-1L);
 
         Assertions.assertThat(repository.count())
@@ -60,7 +60,7 @@ public class ITMemberServiceDelete {
 
     @Test
     @DisplayName("With an invalid id, it returns a true flag")
-    public void testDelete_NotExisting_ReturnsFalse() {
+    void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
         // TODO: Shouldn't this be an error?
@@ -72,7 +72,7 @@ public class ITMemberServiceDelete {
 
     @Test
     @DisplayName("With a valid id it removes the entity")
-    public void testDelete_RemovesEntity() {
+    void testDelete_RemovesEntity() {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
@@ -81,7 +81,7 @@ public class ITMemberServiceDelete {
 
     @Test
     @DisplayName("With a valid id it returns a true flag")
-    public void testDelete_ReturnsTrue() {
+    void testDelete_ReturnsTrue() {
         final Boolean deleted;
 
         deleted = service.delete(1L);

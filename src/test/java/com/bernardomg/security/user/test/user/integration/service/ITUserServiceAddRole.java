@@ -17,7 +17,7 @@ import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
 @DisplayName("User service - add role")
-public class ITUserServiceAddRole {
+class ITUserServiceAddRole {
 
     @Autowired
     private UserService         service;
@@ -34,7 +34,7 @@ public class ITUserServiceAddRole {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
-    public void testAddRole_AddsEntity() {
+    void testAddRole_AddsEntity() {
         final PersistentUserRoles entity;
 
         service.addRole(1L, 1L);
@@ -57,7 +57,7 @@ public class ITUserServiceAddRole {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
-    public void testAddRole_CallBack() {
+    void testAddRole_CallBack() {
         final Iterable<Role> result;
         final Role           role;
         final Pageable       pageable;
@@ -83,7 +83,7 @@ public class ITUserServiceAddRole {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testAddRole_Existing() {
+    void testAddRole_Existing() {
         service.addRole(1L, 1L);
 
         Assertions.assertThat(userRolesRepository.count())

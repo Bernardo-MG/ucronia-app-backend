@@ -40,7 +40,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 
 @IntegrationTest
 @DisplayName("Transaction repository - sum all")
-public class ITTransactionRepositorySumAll {
+class ITTransactionRepositorySumAll {
 
     @Autowired
     private TransactionRepository repository;
@@ -52,7 +52,7 @@ public class ITTransactionRepositorySumAll {
     @Test
     @DisplayName("With multiple transactions, it returns the sum of all")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
+    void testFindSumAll_Multiple() {
         final Float calendar;
 
         calendar = repository.sumAll();
@@ -64,7 +64,7 @@ public class ITTransactionRepositorySumAll {
     @Test
     @DisplayName("With a negative transaction, it returns the sum of it")
     @Sql({ "/db/queries/transaction/negative.sql" })
-    public void testFindSumAll_Negative() {
+    void testFindSumAll_Negative() {
         final Float calendar;
 
         calendar = repository.sumAll();
@@ -75,7 +75,7 @@ public class ITTransactionRepositorySumAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    public void testFindSumAll_NoData() {
+    void testFindSumAll_NoData() {
         final Float result;
 
         result = repository.sumAll();
@@ -87,7 +87,7 @@ public class ITTransactionRepositorySumAll {
     @Test
     @DisplayName("With a single transaction, it returns the sum of it")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testFindSumAll_Single() {
+    void testFindSumAll_Single() {
         final Float result;
 
         result = repository.sumAll();
@@ -99,7 +99,7 @@ public class ITTransactionRepositorySumAll {
     @Test
     @DisplayName("With a variety of transactions, it returns the sum of them")
     @Sql({ "/db/queries/transaction/variety.sql" })
-    public void testFindSumAll_Variety() {
+    void testFindSumAll_Variety() {
         final Float result;
 
         result = repository.sumAll();
@@ -111,7 +111,7 @@ public class ITTransactionRepositorySumAll {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns the sum of it")
-    public void testSumAll_AroundZero(final Float amount) {
+    void testSumAll_AroundZero(final Float amount) {
         final Float sum;
 
         repository.save(ModelFactory.transaction(amount));
@@ -125,7 +125,7 @@ public class ITTransactionRepositorySumAll {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns the sum of it")
-    public void testSumAll_Decimal(final Float amount) {
+    void testSumAll_Decimal(final Float amount) {
         final Float sum;
 
         repository.save(ModelFactory.transaction(amount));
@@ -139,7 +139,7 @@ public class ITTransactionRepositorySumAll {
     @Test
     @DisplayName("With decimal transactions which add up to zero, it returns the sum of them")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
-    public void testSumAll_DecimalsAddUpToZero() {
+    void testSumAll_DecimalsAddUpToZero() {
         final Float sum;
 
         sum = repository.sumAll();

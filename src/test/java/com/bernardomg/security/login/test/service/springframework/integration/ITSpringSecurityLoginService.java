@@ -20,7 +20,7 @@ import io.jsonwebtoken.Jwts;
 
 @IntegrationTest
 @DisplayName("SpringSecurityLoginService")
-public class ITSpringSecurityLoginService {
+class ITSpringSecurityLoginService {
 
     @Autowired
     private DefaultLoginService service;
@@ -35,7 +35,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_CredentialsExpired() {
+    void testLogIn_CredentialsExpired() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -60,7 +60,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Disabled() {
+    void testLogIn_Disabled() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -85,7 +85,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Expired() {
+    void testLogIn_Expired() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -110,7 +110,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Locked() {
+    void testLogIn_Locked() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -133,7 +133,7 @@ public class ITSpringSecurityLoginService {
     @DisplayName("Doesn't log in a not existing user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    public void testLogIn_NotExisting() {
+    void testLogIn_NotExisting() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -158,7 +158,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Valid() {
+    void testLogIn_Valid() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -185,7 +185,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Valid_Case() {
+    void testLogIn_Valid_Case() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -212,7 +212,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Valid_JwtToken() {
+    void testLogIn_Valid_JwtToken() {
         final LoginStatus     status;
         final DtoLoginRequest login;
         final JwtParser       parser;
@@ -239,7 +239,7 @@ public class ITSpringSecurityLoginService {
     @DisplayName("Doesn't log in a user with no permissions")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Valid_NoPermissions() {
+    void testLogIn_Valid_NoPermissions() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -264,7 +264,7 @@ public class ITSpringSecurityLoginService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testLogIn_Valid_NotGrantedPermissions() {
+    void testLogIn_Valid_NotGrantedPermissions() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 

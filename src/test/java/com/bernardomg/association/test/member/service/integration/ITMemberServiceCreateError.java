@@ -41,7 +41,7 @@ import com.bernardomg.association.test.member.util.model.MembersCreate;
 @IntegrationTest
 @DisplayName("Member service - create errors")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITMemberServiceCreateError {
+class ITMemberServiceCreateError {
 
     @Autowired
     private MemberRepository repository;
@@ -55,7 +55,7 @@ public class ITMemberServiceCreateError {
 
     @Test
     @DisplayName("With a missing active flag it throws an exception")
-    public void testCreate_MissingActive() {
+    void testCreate_MissingActive() {
         final MemberCreate     memberRequest;
         final ThrowingCallable execution;
 
@@ -73,7 +73,7 @@ public class ITMemberServiceCreateError {
 
     @Test
     @DisplayName("With a missing identifier it throws an exception")
-    public void testCreate_MissingIdentifier() {
+    void testCreate_MissingIdentifier() {
         final MemberCreate     memberRequest;
         final ThrowingCallable execution;
 
@@ -91,7 +91,7 @@ public class ITMemberServiceCreateError {
 
     @Test
     @DisplayName("With a missing name it throws an exception")
-    public void testCreate_MissingName() {
+    void testCreate_MissingName() {
         final MemberCreate     memberRequest;
         final ThrowingCallable execution;
 
@@ -109,7 +109,7 @@ public class ITMemberServiceCreateError {
 
     @Test
     @DisplayName("With a missing phone it throws an exception")
-    public void testCreate_MissingPhone() {
+    void testCreate_MissingPhone() {
         final MemberCreate     memberRequest;
         final ThrowingCallable execution;
 
@@ -127,7 +127,7 @@ public class ITMemberServiceCreateError {
 
     @Test
     @DisplayName("With a missing surname it throws an exception")
-    public void testCreate_MissingSurname() {
+    void testCreate_MissingSurname() {
         final MemberCreate     memberRequest;
         final ThrowingCallable execution;
 

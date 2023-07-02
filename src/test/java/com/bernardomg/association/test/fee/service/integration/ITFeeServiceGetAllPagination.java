@@ -48,7 +48,7 @@ import com.bernardomg.association.test.fee.util.model.FeesQuery;
 @IntegrationTest
 @DisplayName("Fee service - get all - pagination")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-public class ITFeeServiceGetAllPagination {
+class ITFeeServiceGetAllPagination {
 
     @Autowired
     private FeeService service;
@@ -59,7 +59,7 @@ public class ITFeeServiceGetAllPagination {
 
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -76,7 +76,7 @@ public class ITFeeServiceGetAllPagination {
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
-    public void testGetAll_Page1() {
+    void testGetAll_Page1() {
         final FeeQuery            feeQuery;
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
@@ -104,7 +104,7 @@ public class ITFeeServiceGetAllPagination {
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
-    public void testGetAll_Page2() {
+    void testGetAll_Page2() {
         final FeeQuery            feeQuery;
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
@@ -132,7 +132,7 @@ public class ITFeeServiceGetAllPagination {
 
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;

@@ -22,7 +22,7 @@ import com.bernardomg.security.user.service.ResourceService;
 @IntegrationTest
 @DisplayName("Resource service - get all")
 @Sql({ "/db/queries/security/resource/multiple.sql" })
-public class ITResourceServiceGetAllPagination {
+class ITResourceServiceGetAllPagination {
 
     @Autowired
     private ResourceService service;
@@ -33,7 +33,7 @@ public class ITResourceServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<Resource> result;
         final ResourceQuery      sample;
         final Pageable           pageable;
@@ -51,7 +51,7 @@ public class ITResourceServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    void testGetAll_Page1_Data() {
         final ResourceQuery      sample;
         final Iterator<Resource> data;
         final Resource           result;
@@ -74,7 +74,7 @@ public class ITResourceServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    void testGetAll_Page2_Data() {
         final ResourceQuery      sample;
         final Iterator<Resource> data;
         final Resource           result;
@@ -97,7 +97,7 @@ public class ITResourceServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
+    void testGetAll_Paged_Count() {
         final ResourceQuery      sample;
         final Iterable<Resource> result;
         final Pageable           pageable;
@@ -115,7 +115,7 @@ public class ITResourceServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<Resource> result;
         final ResourceQuery      sample;
         final Pageable           pageable;

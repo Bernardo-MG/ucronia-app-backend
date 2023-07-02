@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 
 @IntegrationTest
 @DisplayName("Transaction repository - min date")
-public class ITTransactionRepositoryFindMinDate {
+class ITTransactionRepositoryFindMinDate {
 
     @Autowired
     private TransactionRepository repository;
@@ -50,7 +50,7 @@ public class ITTransactionRepositoryFindMinDate {
     @Test
     @DisplayName("With multiple transactions, it returns the min date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
+    void testFindSumAll_Multiple() {
         final Calendar calendar;
 
         calendar = repository.findMinDate();
@@ -61,7 +61,7 @@ public class ITTransactionRepositoryFindMinDate {
 
     @Test
     @DisplayName("Withno transactions, no min date is returned")
-    public void testFindSumAll_NoData() {
+    void testFindSumAll_NoData() {
         final Calendar calendar;
 
         calendar = repository.findMinDate();

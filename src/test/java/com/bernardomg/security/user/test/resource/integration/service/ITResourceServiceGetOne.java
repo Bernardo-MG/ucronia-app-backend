@@ -16,7 +16,7 @@ import com.bernardomg.security.user.service.ResourceService;
 @IntegrationTest
 @DisplayName("Resource service - get one")
 @Sql({ "/db/queries/security/resource/multiple.sql" })
-public class ITResourceServiceGetOne {
+class ITResourceServiceGetOne {
 
     @Autowired
     private ResourceService service;
@@ -27,7 +27,7 @@ public class ITResourceServiceGetOne {
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<Resource> result;
 
         result = service.getOne(1l);
@@ -38,7 +38,7 @@ public class ITResourceServiceGetOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
+    void testGetOne_Existing_Data() {
         final Resource result;
 
         result = service.getOne(1l)
@@ -50,7 +50,7 @@ public class ITResourceServiceGetOne {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<Resource> result;
 
         result = service.getOne(-1L);

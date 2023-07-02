@@ -40,7 +40,7 @@ import com.bernardomg.mvc.response.test.controller.util.ResponseTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller advices - response structure")
-public final class ITControllerResponsePaged {
+class ITControllerResponsePaged {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +51,7 @@ public final class ITControllerResponsePaged {
 
     @Test
     @DisplayName("Returns the paginated response structure when returning the default page")
-    public final void testResponseStructure_Page() throws Exception {
+    void testResponseStructure_Page() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getPageRequest());
@@ -80,7 +80,7 @@ public final class ITControllerResponsePaged {
 
     @Test
     @DisplayName("Returns the paginated response structure when returning a sorted page")
-    public final void testResponseStructure_Page_Sorted() throws Exception {
+    void testResponseStructure_Page_Sorted() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getPageRequestSorted());

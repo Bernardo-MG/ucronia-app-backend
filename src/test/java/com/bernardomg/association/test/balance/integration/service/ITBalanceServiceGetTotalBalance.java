@@ -44,7 +44,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 
 @IntegrationTest
 @DisplayName("Balance service - get total balance")
-public class ITBalanceServiceGetTotalBalance {
+class ITBalanceServiceGetTotalBalance {
 
     @Autowired
     private TransactionRepository repository;
@@ -55,7 +55,7 @@ public class ITBalanceServiceGetTotalBalance {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
-    public void testGetTotalBalance_AroundZero(final Float amount) {
+    void testGetTotalBalance_AroundZero(final Float amount) {
         final Balance balance;
 
         persist(amount);
@@ -69,7 +69,7 @@ public class ITBalanceServiceGetTotalBalance {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
-    public void testGetTotalBalance_Decimal(final Float amount) {
+    void testGetTotalBalance_Decimal(final Float amount) {
         final Balance balance;
 
         persist(amount);
@@ -83,7 +83,7 @@ public class ITBalanceServiceGetTotalBalance {
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
-    public void testGetTotalBalance_DecimalsAddUpToZero() {
+    void testGetTotalBalance_DecimalsAddUpToZero() {
         final Balance balance;
 
         balance = service.getTotalBalance();
@@ -95,7 +95,7 @@ public class ITBalanceServiceGetTotalBalance {
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetTotalBalance_Multiple() {
+    void testGetTotalBalance_Multiple() {
         final Balance balance;
 
         balance = service.getTotalBalance();
@@ -106,7 +106,7 @@ public class ITBalanceServiceGetTotalBalance {
 
     @Test
     @DisplayName("With not data it returns nothing")
-    public void testGetTotalBalance_NoData() {
+    void testGetTotalBalance_NoData() {
         final Balance balance;
 
         balance = service.getTotalBalance();

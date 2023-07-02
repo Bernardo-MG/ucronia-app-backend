@@ -44,7 +44,7 @@ import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all - filter")
-public class ITFeeServiceGetAllFilter {
+class ITFeeServiceGetAllFilter {
 
     @Autowired
     private FeeService service;
@@ -56,7 +56,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_EndDate() {
+    void testGetAll_EndDate() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -81,7 +81,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_EndDate_NotInRange() {
+    void testGetAll_EndDate_NotInRange() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -99,7 +99,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_InDate() {
+    void testGetAll_InDate() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -124,7 +124,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date using the lowest date, the returned data is filtered")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_InDate_FirstDay_Data() {
+    void testGetAll_InDate_FirstDay_Data() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -149,7 +149,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date using the highest date, the returned data is filtered")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_InDate_LastDay_Data() {
+    void testGetAll_InDate_LastDay_Data() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -174,7 +174,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_InDate_NotExisting() {
+    void testGetAll_InDate_NotExisting() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -192,7 +192,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_StartDate() {
+    void testGetAll_StartDate() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -217,7 +217,7 @@ public class ITFeeServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_StartDate_NotInRange() {
+    void testGetAll_StartDate_NotInRange() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;

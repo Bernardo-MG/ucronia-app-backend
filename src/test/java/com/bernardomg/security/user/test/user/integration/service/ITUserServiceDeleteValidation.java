@@ -36,7 +36,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("User service - delete validation")
-public class ITUserServiceDeleteValidation {
+class ITUserServiceDeleteValidation {
 
     @Autowired
     private UserService service;
@@ -47,7 +47,7 @@ public class ITUserServiceDeleteValidation {
 
     @Test
     @DisplayName("Throws an exception when the user doesn't exist")
-    public void testDelete_NotExisting() {
+    void testDelete_NotExisting() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

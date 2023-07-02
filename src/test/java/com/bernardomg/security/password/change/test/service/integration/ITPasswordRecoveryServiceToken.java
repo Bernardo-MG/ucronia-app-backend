@@ -15,7 +15,7 @@ import com.bernardomg.security.test.constant.TokenConstants;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - Token verification")
-public class ITPasswordRecoveryServiceToken {
+class ITPasswordRecoveryServiceToken {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -28,7 +28,7 @@ public class ITPasswordRecoveryServiceToken {
     @WithMockUser(username = "admin")
     @DisplayName("An expired token is not verifiable")
     @Sql({ "/db/queries/security/token/expired.sql" })
-    public final void testValidateToken_Expired() {
+    void testValidateToken_Expired() {
         final PasswordRecoveryStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
@@ -41,7 +41,7 @@ public class ITPasswordRecoveryServiceToken {
     @WithMockUser(username = "admin")
     @DisplayName("A not expired token but after expiration date is not verifiable")
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    public final void testValidateToken_NotExpiredAfterExpiration() {
+    void testValidateToken_NotExpiredAfterExpiration() {
         final PasswordRecoveryStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
@@ -54,7 +54,7 @@ public class ITPasswordRecoveryServiceToken {
     @WithMockUser(username = "admin")
     @DisplayName("A valid token is verifiable")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testValidateToken_Valid() {
+    void testValidateToken_Valid() {
         final PasswordRecoveryStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);

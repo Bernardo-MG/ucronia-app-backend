@@ -47,7 +47,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 @IntegrationTest
 @DisplayName("Transaction service - get all - pagination")
 @Sql({ "/db/queries/transaction/multiple.sql" })
-public class ITTransactionServiceGetAllPagination {
+class ITTransactionServiceGetAllPagination {
 
     @Autowired
     private TransactionService service;
@@ -58,7 +58,7 @@ public class ITTransactionServiceGetAllPagination {
 
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
@@ -75,7 +75,7 @@ public class ITTransactionServiceGetAllPagination {
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
-    public void testGetAll_Page1() {
+    void testGetAll_Page1() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Transaction           transaction;
@@ -101,7 +101,7 @@ public class ITTransactionServiceGetAllPagination {
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
-    public void testGetAll_Page2() {
+    void testGetAll_Page2() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Transaction           transaction;
@@ -127,7 +127,7 @@ public class ITTransactionServiceGetAllPagination {
 
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;

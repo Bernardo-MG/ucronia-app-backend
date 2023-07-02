@@ -44,7 +44,7 @@ import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalend
 @DisplayName("Fee calendar repository - find all for year with active member - two members")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
         "/db/queries/fee/full_year_alternative.sql" })
-public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
+class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Autowired
     private FeeCalendarRepository repository;
@@ -55,7 +55,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Test
     @DisplayName("With a full year it returns all the entities")
-    public void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Count() {
+    void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Iterator<UserFeeCalendar> calendarsItr;
         final Sort                      sort;
@@ -78,7 +78,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Test
     @DisplayName("With a full year it returns all the data")
-    public void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Data() {
+    void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;

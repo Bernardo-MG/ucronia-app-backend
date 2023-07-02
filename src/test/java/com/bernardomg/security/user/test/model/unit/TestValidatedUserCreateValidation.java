@@ -15,14 +15,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("ValidatedUserCreate validation")
-public class TestValidatedUserCreateValidation {
+class TestValidatedUserCreateValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalidEmail() {
+    void validate_invalidEmail() {
         final UserCreate                           userCreate;
         final Set<ConstraintViolation<UserCreate>> errors;
         final ConstraintViolation<UserCreate>      error;
@@ -46,7 +46,7 @@ public class TestValidatedUserCreateValidation {
 
     @Test
     @DisplayName("A DTO missing the email is invalid")
-    public void validate_noEmail() {
+    void validate_noEmail() {
         final UserCreate                           userCreate;
         final Set<ConstraintViolation<UserCreate>> errors;
         final ConstraintViolation<UserCreate>      error;
@@ -70,7 +70,7 @@ public class TestValidatedUserCreateValidation {
 
     @Test
     @DisplayName("A DTO missing the enabled flag is invalid")
-    public void validate_noEnabled() {
+    void validate_noEnabled() {
         final UserCreate                           userCreate;
         final Set<ConstraintViolation<UserCreate>> errors;
         final ConstraintViolation<UserCreate>      error;
@@ -94,7 +94,7 @@ public class TestValidatedUserCreateValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final UserCreate                           userCreate;
         final Set<ConstraintViolation<UserCreate>> errors;
 

@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.ExceptionTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - generic exceptions")
-public final class ITControllerException {
+class ITControllerException {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +51,7 @@ public final class ITControllerException {
 
     @Test
     @DisplayName("Returns the response structure for runtime exception")
-    public final void testErrorHandling_RuntimeException_Response() throws Exception {
+    void testErrorHandling_RuntimeException_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getRuntimeExceptionRequest());

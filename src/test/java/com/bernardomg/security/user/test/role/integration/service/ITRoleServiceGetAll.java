@@ -18,7 +18,7 @@ import com.bernardomg.security.user.test.util.model.RolesQuery;
 @IntegrationTest
 @DisplayName("Role service - get all")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetAll {
+class ITRoleServiceGetAll {
 
     @Autowired
     private RoleService service;
@@ -29,7 +29,7 @@ public class ITRoleServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    void testGetAll_Count() {
         final Iterable<Role> result;
         final RoleQuery      sample;
         final Pageable       pageable;
@@ -46,7 +46,7 @@ public class ITRoleServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    void testGetAll_Data() {
         final Iterable<Role> data;
         final RoleQuery      sample;
         final Pageable       pageable;

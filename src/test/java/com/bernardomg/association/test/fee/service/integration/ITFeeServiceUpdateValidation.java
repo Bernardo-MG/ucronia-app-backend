@@ -40,7 +40,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Fee service - update validation")
-public class ITFeeServiceUpdateValidation {
+class ITFeeServiceUpdateValidation {
 
     @Autowired
     private FeeService service;
@@ -53,7 +53,7 @@ public class ITFeeServiceUpdateValidation {
     @DisplayName("With an invalid id, an exception is thrown")
     @Sql({ "/db/queries/fee/single.sql" })
     @Disabled("This can't happen, it requires an inconsistent DB")
-    public void testUpdate_InvalidMember() {
+    void testUpdate_InvalidMember() {
         final FeeUpdate        feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;

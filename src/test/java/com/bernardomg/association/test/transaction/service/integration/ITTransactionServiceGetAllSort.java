@@ -46,7 +46,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 @IntegrationTest
 @DisplayName("Transaction service - get all - sort")
 @Sql({ "/db/queries/transaction/multiple.sql" })
-public class ITTransactionServiceGetAllSort {
+class ITTransactionServiceGetAllSort {
 
     @Autowired
     private TransactionService service;
@@ -57,7 +57,7 @@ public class ITTransactionServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
-    public void testGetAll_Date_Asc() {
+    void testGetAll_Date_Asc() {
         final Iterator<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         Transaction                 transaction;
@@ -108,7 +108,7 @@ public class ITTransactionServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
-    public void testGetAll_Date_Desc() {
+    void testGetAll_Date_Desc() {
         final Iterator<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         Transaction                 transaction;
@@ -159,7 +159,7 @@ public class ITTransactionServiceGetAllSort {
 
     @Test
     @DisplayName("With ascending order by description it returns the ordered data")
-    public void testGetAll_Description_Asc() {
+    void testGetAll_Description_Asc() {
         final Iterator<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         Transaction                 transaction;
@@ -210,7 +210,7 @@ public class ITTransactionServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by description it returns the ordered data")
-    public void testGetAll_Description_Desc() {
+    void testGetAll_Description_Desc() {
         final Iterator<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;

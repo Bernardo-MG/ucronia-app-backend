@@ -43,7 +43,7 @@ import com.bernardomg.association.test.member.util.model.MembersUpdate;
 @IntegrationTest
 @DisplayName("Member service - update")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITMemberServiceUpdate {
+class ITMemberServiceUpdate {
 
     @Autowired
     private MemberRepository repository;
@@ -57,7 +57,7 @@ public class ITMemberServiceUpdate {
 
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
-    public void testUpdate_AddsNoEntity() {
+    void testUpdate_AddsNoEntity() {
         final MemberUpdate memberRequest;
 
         memberRequest = MembersUpdate.nameChange();
@@ -70,7 +70,7 @@ public class ITMemberServiceUpdate {
 
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
-    public void testUpdate_NotExisting_AddsEntity() {
+    void testUpdate_NotExisting_AddsEntity() {
         final MemberUpdate memberRequest;
 
         memberRequest = MembersUpdate.nameChange();
@@ -83,7 +83,7 @@ public class ITMemberServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
-    public void testUpdate_PersistedData() {
+    void testUpdate_PersistedData() {
         final MemberUpdate     memberRequest;
         final PersistentMember entity;
 
@@ -104,7 +104,7 @@ public class ITMemberServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
-    public void testUpdate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final MemberUpdate memberRequest;
         final Member       member;
 

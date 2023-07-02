@@ -18,7 +18,7 @@ import com.bernardomg.security.token.TokenEncoder;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @DisplayName("JwtSubjectTokenEncoder - get subject")
-public class TestJwtSubjectTokenEncoderGetSubject {
+class TestJwtSubjectTokenEncoderGetSubject {
 
     private final TokenDecoder<JwtTokenData> decoder;
 
@@ -33,7 +33,7 @@ public class TestJwtSubjectTokenEncoderGetSubject {
 
     @Test
     @DisplayName("Recovers the subject from a token")
-    public void testGetSubject_fromGeneratedToken() {
+    void testGetSubject_fromGeneratedToken() {
         final String token;
         final String subject;
 
@@ -47,7 +47,7 @@ public class TestJwtSubjectTokenEncoderGetSubject {
 
     @Test
     @DisplayName("Recovering the subject from an expired token generates an exception")
-    public void testGetSubject_fromGeneratedToken_expired() throws InterruptedException {
+    void testGetSubject_fromGeneratedToken_expired() throws InterruptedException {
         final String           token;
         final ThrowingCallable executable;
 

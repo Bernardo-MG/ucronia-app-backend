@@ -36,7 +36,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find range")
-public class ITFeeCalendarRepositoryFindRange {
+class ITFeeCalendarRepositoryFindRange {
 
     @Autowired
     private FeeCalendarRepository repository;
@@ -48,7 +48,7 @@ public class ITFeeCalendarRepositoryFindRange {
     @Test
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindRange_FullYear() {
+    void testFindRange_FullYear() {
         final FeeCalendarRange calendar;
 
         calendar = repository.findRange();
@@ -63,7 +63,7 @@ public class ITFeeCalendarRepositoryFindRange {
     @DisplayName("With a full year and two members the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    public void testFindRange_FullYear_TwoMembers() {
+    void testFindRange_FullYear_TwoMembers() {
         final FeeCalendarRange calendar;
 
         calendar = repository.findRange();
@@ -76,7 +76,7 @@ public class ITFeeCalendarRepositoryFindRange {
 
     @Test
     @DisplayName("With no data it returns no dates")
-    public void testFindRange_NoData() {
+    void testFindRange_NoData() {
         final FeeCalendarRange calendar;
 
         calendar = repository.findRange();
@@ -90,7 +90,7 @@ public class ITFeeCalendarRepositoryFindRange {
     @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testFindRange_Single() {
+    void testFindRange_Single() {
         final FeeCalendarRange calendar;
 
         calendar = repository.findRange();
@@ -104,7 +104,7 @@ public class ITFeeCalendarRepositoryFindRange {
     @Test
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindRange_TwoConnectedYears() {
+    void testFindRange_TwoConnectedYears() {
         final FeeCalendarRange calendar;
 
         calendar = repository.findRange();
@@ -118,7 +118,7 @@ public class ITFeeCalendarRepositoryFindRange {
     @Test
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
-    public void testFindRange_TwoYearsWithGap() {
+    void testFindRange_TwoYearsWithGap() {
         final FeeCalendarRange calendar;
 
         calendar = repository.findRange();

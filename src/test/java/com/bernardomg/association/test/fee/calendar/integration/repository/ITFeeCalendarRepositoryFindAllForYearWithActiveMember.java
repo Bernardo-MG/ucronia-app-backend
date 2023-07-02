@@ -43,7 +43,7 @@ import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalend
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year with active member")
-public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
+class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
     @Autowired
     private FeeCalendarRepository repository;
@@ -55,7 +55,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYearWithActiveMember_FullYear_Count() {
+    void testFindAllForYearWithActiveMember_FullYear_Count() {
         final Iterable<UserFeeCalendar> calendar;
         final Sort                      sort;
 
@@ -74,7 +74,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYearWithActiveMember_FullYear_Data() {
+    void testFindAllForYearWithActiveMember_FullYear_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Sort                      sort;
@@ -99,7 +99,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("Returns no data for an inactive member")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYearWithActiveMember_Inactive_FullYear_Count() {
+    void testFindAllForYearWithActiveMember_Inactive_FullYear_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -113,7 +113,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    public void testFindAllForYearWithActiveMember_NoData_Count() {
+    void testFindAllForYearWithActiveMember_NoData_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -128,7 +128,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    public void testFindAllForYearWithActiveMember_SingleMonth_Count() {
+    void testFindAllForYearWithActiveMember_SingleMonth_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -147,7 +147,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    public void testFindAllForYearWithActiveMember_SingleMonth_Data() {
+    void testFindAllForYearWithActiveMember_SingleMonth_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Iterator<FeeMonth>        months;
@@ -181,7 +181,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    public void testFindAllForYearWithActiveMember_SingleMonthUnpaid_Count() {
+    void testFindAllForYearWithActiveMember_SingleMonthUnpaid_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -200,7 +200,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With a single month it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    public void testFindAllForYearWithActiveMember_SingleMonthUnpaid_Data() {
+    void testFindAllForYearWithActiveMember_SingleMonthUnpaid_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Iterator<FeeMonth>        months;
@@ -234,7 +234,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the entities for the first year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYearWithActiveMember_TwoConnectedYears_First_Count() {
+    void testFindAllForYearWithActiveMember_TwoConnectedYears_First_Count() {
         final Iterable<UserFeeCalendar> calendar;
         final Sort                      sort;
 
@@ -253,7 +253,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYearWithActiveMember_TwoConnectedYears_First_Data() {
+    void testFindAllForYearWithActiveMember_TwoConnectedYears_First_Data() {
         final UserFeeCalendar calendar;
         final Sort            sort;
         Iterator<FeeMonth>    months;
@@ -298,7 +298,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the entities for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYearWithActiveMember_TwoConnectedYears_Second_Count() {
+    void testFindAllForYearWithActiveMember_TwoConnectedYears_Second_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -317,7 +317,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
     @Test
     @DisplayName("With two connected years it returns all the data for the second year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testFindAllForYearWithActiveMember_TwoConnectedYears_Second_Data() {
+    void testFindAllForYearWithActiveMember_TwoConnectedYears_Second_Data() {
         final UserFeeCalendar calendar;
         final Sort            sort;
         Iterator<FeeMonth>    months;

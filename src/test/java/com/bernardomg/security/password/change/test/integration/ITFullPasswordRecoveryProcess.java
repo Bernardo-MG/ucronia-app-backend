@@ -17,7 +17,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("Full password recovery process")
-public class ITFullPasswordRecoveryProcess {
+class ITFullPasswordRecoveryProcess {
 
     @Autowired
     private PasswordRecoveryService passwordRecoveryService;
@@ -39,7 +39,7 @@ public class ITFullPasswordRecoveryProcess {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testRecoverPassword_Valid() {
+    void testRecoverPassword_Valid() {
         final PasswordRecoveryStatus recoveryStatus;
         final PasswordRecoveryStatus changeStatus;
         final PasswordRecoveryStatus validTokenStatus;

@@ -17,7 +17,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceRemoveRoleValidation {
+class ITUserServiceRemoveRoleValidation {
 
     @Autowired
     private UserService service;
@@ -28,7 +28,7 @@ public class ITUserServiceRemoveRoleValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testAddRoles_NotExistingRole() {
+    void testAddRoles_NotExistingRole() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -41,7 +41,7 @@ public class ITUserServiceRemoveRoleValidation {
 
     @Test
     @DisplayName("Throws an exception when the user doesn't exist")
-    public void testAddRoles_NotExistingUser() {
+    void testAddRoles_NotExistingUser() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

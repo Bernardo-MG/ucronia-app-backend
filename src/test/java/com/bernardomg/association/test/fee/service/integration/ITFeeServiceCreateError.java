@@ -42,7 +42,7 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Fee service - create errors")
-public class ITFeeServiceCreateError {
+class ITFeeServiceCreateError {
 
     @Autowired
     private FeeRepository repository;
@@ -57,7 +57,7 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a repeated member and month it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testCreate_ExistingDateAndMember() {
+    void testCreate_ExistingDateAndMember() {
         final FeeCreate        feeRequest;
         final ThrowingCallable execution;
 
@@ -76,7 +76,7 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a repeated member and month, but with another day, it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testCreate_ExistingDateAndMember_ChangesDay() {
+    void testCreate_ExistingDateAndMember_ChangesDay() {
         final FeeCreate        feeRequest;
         final ThrowingCallable executable;
 
@@ -95,7 +95,7 @@ public class ITFeeServiceCreateError {
     @Test
     @DisplayName("With a missing date it throws an exception")
     @Disabled("The model rejects this case")
-    public void testCreate_MissingDate() {
+    void testCreate_MissingDate() {
         final FeeCreate        feeRequest;
         final ThrowingCallable executable;
 
@@ -113,7 +113,7 @@ public class ITFeeServiceCreateError {
 
     @Test
     @DisplayName("With a missing paid flag it throws an exception")
-    public void testCreate_MissingPaid() {
+    void testCreate_MissingPaid() {
         final FeeCreate        feeRequest;
         final ThrowingCallable executable;
 

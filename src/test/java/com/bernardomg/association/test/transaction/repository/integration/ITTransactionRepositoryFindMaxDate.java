@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 
 @IntegrationTest
 @DisplayName("Transaction repository - max date")
-public class ITTransactionRepositoryFindMaxDate {
+class ITTransactionRepositoryFindMaxDate {
 
     @Autowired
     private TransactionRepository repository;
@@ -50,7 +50,7 @@ public class ITTransactionRepositoryFindMaxDate {
     @Test
     @DisplayName("With multiple transactions, it returns the max date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testFindSumAll_Multiple() {
+    void testFindSumAll_Multiple() {
         final Calendar calendar;
 
         calendar = repository.findMaxDate();
@@ -61,7 +61,7 @@ public class ITTransactionRepositoryFindMaxDate {
 
     @Test
     @DisplayName("Withno transactions, no max date is returned")
-    public void testFindSumAll_NoData() {
+    void testFindSumAll_NoData() {
         final Calendar calendar;
 
         calendar = repository.findMaxDate();

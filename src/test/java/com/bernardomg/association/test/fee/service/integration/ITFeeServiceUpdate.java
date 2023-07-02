@@ -44,7 +44,7 @@ import com.bernardomg.association.test.fee.util.model.FeesUpdate;
 
 @IntegrationTest
 @DisplayName("Fee service - update")
-public class ITFeeServiceUpdate {
+class ITFeeServiceUpdate {
 
     @Autowired
     private FeeRepository repository;
@@ -59,7 +59,7 @@ public class ITFeeServiceUpdate {
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testUpdate_AddsNoEntity() {
+    void testUpdate_AddsNoEntity() {
         final FeeUpdate feeRequest;
 
         feeRequest = FeesUpdate.unpaid();
@@ -73,7 +73,7 @@ public class ITFeeServiceUpdate {
     @Test
     @DisplayName("With a not existing entity, a new entity is persisted")
     @Sql({ "/db/queries/member/single.sql" })
-    public void testUpdate_NotExisting_AddsEntity() {
+    void testUpdate_NotExisting_AddsEntity() {
         final FeeUpdate feeRequest;
 
         feeRequest = FeesUpdate.paid();
@@ -87,7 +87,7 @@ public class ITFeeServiceUpdate {
     @Test
     @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
-    public void testUpdate_Pay_PersistedData() {
+    void testUpdate_Pay_PersistedData() {
         final FeeUpdate     feeRequest;
         final PersistentFee fee;
 
@@ -108,7 +108,7 @@ public class ITFeeServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testUpdate_PersistedData() {
+    void testUpdate_PersistedData() {
         final FeeUpdate     feeRequest;
         final PersistentFee fee;
 
@@ -129,7 +129,7 @@ public class ITFeeServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testUpdate_ReturnedData() {
+    void testUpdate_ReturnedData() {
         final FeeUpdate feeRequest;
         final MemberFee fee;
 

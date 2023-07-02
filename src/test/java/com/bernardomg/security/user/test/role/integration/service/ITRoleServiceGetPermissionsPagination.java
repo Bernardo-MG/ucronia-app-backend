@@ -21,7 +21,7 @@ import com.bernardomg.security.user.service.RoleService;
 @DisplayName("Role service - get permissions pagination")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-public class ITRoleServiceGetPermissionsPagination {
+class ITRoleServiceGetPermissionsPagination {
 
     @Autowired
     private RoleService service;
@@ -32,7 +32,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetPermissions_Page_Container() {
+    void testGetPermissions_Page_Container() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -46,7 +46,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetPermissions_Page1_Data() {
+    void testGetPermissions_Page1_Data() {
         final Iterator<Permission> data;
         final Permission           result;
         final Pageable             pageable;
@@ -65,7 +65,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetPermissions_Page2_Data() {
+    void testGetPermissions_Page2_Data() {
         final Iterator<Permission> data;
         final Permission           result;
         final Pageable             pageable;
@@ -84,7 +84,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns a page")
-    public void testGetPermissions_Paged_Count() {
+    void testGetPermissions_Paged_Count() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -98,7 +98,7 @@ public class ITRoleServiceGetPermissionsPagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetPermissions_Unpaged_Container() {
+    void testGetPermissions_Unpaged_Container() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 

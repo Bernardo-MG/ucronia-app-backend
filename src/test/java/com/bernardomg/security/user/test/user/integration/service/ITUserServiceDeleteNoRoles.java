@@ -37,7 +37,7 @@ import com.bernardomg.security.user.service.UserService;
 @IntegrationTest
 @DisplayName("User service - delete without roles")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITUserServiceDeleteNoRoles {
+class ITUserServiceDeleteNoRoles {
 
     @Autowired
     private UserRepository repository;
@@ -51,7 +51,7 @@ public class ITUserServiceDeleteNoRoles {
 
     @Test
     @DisplayName("Removes an entity when deleting")
-    public void testDelete_RemovesEntity() {
+    void testDelete_RemovesEntity() {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
@@ -60,7 +60,7 @@ public class ITUserServiceDeleteNoRoles {
 
     @Test
     @DisplayName("Removes a true flag when deleting an entity")
-    public void testDelete_ReturnsTrue() {
+    void testDelete_ReturnsTrue() {
         final Boolean deleted;
 
         deleted = service.delete(1L);

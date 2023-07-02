@@ -17,7 +17,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Role service - add permission validation")
-public class ITRoleServiceAddPermissionValidation {
+class ITRoleServiceAddPermissionValidation {
 
     @Autowired
     private RoleService service;
@@ -29,7 +29,7 @@ public class ITRoleServiceAddPermissionValidation {
     @Test
     @DisplayName("Throws an exception when adding a permission for a resource which doesn't exist")
     @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/role/single.sql" })
-    public void testAddAction_NotExistingResource() {
+    void testAddAction_NotExistingResource() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -47,7 +47,7 @@ public class ITRoleServiceAddPermissionValidation {
     @Test
     @DisplayName("Throws an exception when adding a permission for a role which doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql" })
-    public void testAddAction_NotExistingRole() {
+    void testAddAction_NotExistingRole() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -65,7 +65,7 @@ public class ITRoleServiceAddPermissionValidation {
     @Test
     @DisplayName("Throws an exception when adding a permission for an action which doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/role/single.sql" })
-    public void testAddPermission_NotExistingAction() {
+    void testAddPermission_NotExistingAction() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;

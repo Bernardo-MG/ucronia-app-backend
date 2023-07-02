@@ -42,7 +42,7 @@ import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalend
 
 @IntegrationTest
 @DisplayName("Fee calendar service - get all")
-public class ITFeeCalendarServiceGetAll {
+class ITFeeCalendarServiceGetAll {
 
     @Autowired
     private FeeCalendarService service;
@@ -54,7 +54,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_FullYear_Count() {
+    void testGetAll_FullYear_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -73,7 +73,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("With a full year it returns all data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_FullYear_Data() {
+    void testGetAll_FullYear_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
         final Sort                      sort;
@@ -101,7 +101,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("With an inactive user and a full year it returns all the data")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_Inactive_Count() {
+    void testGetAll_Inactive_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -120,7 +120,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("With an inactive user and a full year it returns all data")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_Inactive_Data() {
+    void testGetAll_Inactive_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -148,7 +148,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("When there is no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
-    public void testGetAll_NoData_Count() {
+    void testGetAll_NoData_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -163,7 +163,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("With two connected years it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testGetAll_TwoConnectedYears_Count() {
+    void testGetAll_TwoConnectedYears_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
@@ -182,7 +182,7 @@ public class ITFeeCalendarServiceGetAll {
     @Test
     @DisplayName("With two connected years it returns all data for the queried year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    public void testGetAll_TwoConnectedYears_Data() {
+    void testGetAll_TwoConnectedYears_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;

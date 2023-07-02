@@ -16,7 +16,7 @@ import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;
 
 @DisplayName("JwtSubjectTokenEncoder - has expired")
-public class TestJwtSubjectTokenEncoderHasExpired {
+class TestJwtSubjectTokenEncoderHasExpired {
 
     private final TokenEncoder<String> encoder;
 
@@ -34,7 +34,7 @@ public class TestJwtSubjectTokenEncoderHasExpired {
 
     @Test
     @DisplayName("A new token is not expired")
-    public void testHasExpired_fromGeneratedToken() {
+    void testHasExpired_fromGeneratedToken() {
         final String  token;
         final Boolean expired;
 
@@ -47,7 +47,7 @@ public class TestJwtSubjectTokenEncoderHasExpired {
 
     @Test
     @DisplayName("An expired token is identified as such")
-    public void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
+    void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
         final String  token;
         final Boolean expired;
 

@@ -41,7 +41,7 @@ import com.bernardomg.association.test.member.util.model.MembersCreate;
 
 @IntegrationTest
 @DisplayName("Member service - create")
-public class ITMemberServiceCreate {
+class ITMemberServiceCreate {
 
     @Autowired
     private MemberRepository repository;
@@ -55,7 +55,7 @@ public class ITMemberServiceCreate {
 
     @Test
     @DisplayName("With two members with minimal data, the members are persisted")
-    public void testCreate_Minimal_Additional_AddsEntity() {
+    void testCreate_Minimal_Additional_AddsEntity() {
         MemberCreate memberRequest;
 
         memberRequest = MembersCreate.active();
@@ -72,7 +72,7 @@ public class ITMemberServiceCreate {
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
-    public void testCreate_PersistedData() {
+    void testCreate_PersistedData() {
         final MemberCreate     memberRequest;
         final PersistentMember entity;
 
@@ -98,7 +98,7 @@ public class ITMemberServiceCreate {
 
     @Test
     @DisplayName("With a valid member, the created member is returned")
-    public void testCreate_ReturnedData() {
+    void testCreate_ReturnedData() {
         final MemberCreate memberRequest;
         final Member       member;
 

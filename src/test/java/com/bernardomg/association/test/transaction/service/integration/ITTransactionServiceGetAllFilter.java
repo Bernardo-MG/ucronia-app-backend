@@ -43,7 +43,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - get all - filter")
-public class ITTransactionServiceGetAllFilter {
+class ITTransactionServiceGetAllFilter {
 
     @Autowired
     private TransactionService service;
@@ -55,7 +55,7 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetAll_AfterDate() {
+    void testGetAll_AfterDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
@@ -121,7 +121,7 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetAll_BeforeDate() {
+    void testGetAll_BeforeDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
@@ -165,7 +165,7 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetAll_InDate() {
+    void testGetAll_InDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
@@ -198,7 +198,7 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date for the first day of the year, the returned data is filtered")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetAll_InDate_FirstDay() {
+    void testGetAll_InDate_FirstDay() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
@@ -231,7 +231,7 @@ public class ITTransactionServiceGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date for the last day of the year, the returned data is filtered")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    public void testGetAll_InDate_LastDay() {
+    void testGetAll_InDate_LastDay() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;

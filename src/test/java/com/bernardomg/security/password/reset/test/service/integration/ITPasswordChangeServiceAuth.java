@@ -18,7 +18,7 @@ import com.bernardomg.security.password.change.service.PasswordChangeService;
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql",
         "/db/queries/security/relationship/user_role.sql" })
-public class ITPasswordChangeServiceAuth {
+class ITPasswordChangeServiceAuth {
 
     @Autowired
     private PasswordChangeService service;
@@ -29,7 +29,7 @@ public class ITPasswordChangeServiceAuth {
 
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
-    public final void testStartPasswordRecovery_NotAuthenticated() {
+    void testStartPasswordRecovery_NotAuthenticated() {
         final ThrowingCallable executable;
         final Exception        exception;
 

@@ -17,7 +17,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @DisplayName("Role service - create validation")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceCreateValidation {
+class ITRoleServiceCreateValidation {
 
     @Autowired
     private RoleService service;
@@ -28,7 +28,7 @@ public class ITRoleServiceCreateValidation {
 
     @Test
     @DisplayName("Throws an exception when the name already exist")
-    public void testCreate_NameExists() {
+    void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final RoleCreate       data;

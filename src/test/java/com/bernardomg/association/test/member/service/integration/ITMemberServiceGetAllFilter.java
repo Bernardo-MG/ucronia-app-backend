@@ -41,7 +41,7 @@ import com.bernardomg.association.test.member.util.model.MembersQuery;
 @IntegrationTest
 @DisplayName("Member service - get all - filter")
 @Sql({ "/db/queries/member/multiple.sql" })
-public class ITMemberServiceGetAllFilter {
+class ITMemberServiceGetAllFilter {
 
     @Autowired
     private MemberService service;
@@ -52,7 +52,7 @@ public class ITMemberServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to active status, the returned data is filtered")
-    public void testGetAll_Active_Count() {
+    void testGetAll_Active_Count() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
@@ -69,7 +69,7 @@ public class ITMemberServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to not active status, the returned data is filtered")
-    public void testGetAll_NotActive_Count() {
+    void testGetAll_NotActive_Count() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;

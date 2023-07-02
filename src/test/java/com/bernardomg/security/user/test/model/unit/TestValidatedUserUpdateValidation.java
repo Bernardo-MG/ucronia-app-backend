@@ -15,14 +15,14 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("ValidatedUserUpdate validation")
-public class TestValidatedUserUpdateValidation {
+class TestValidatedUserUpdateValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
 
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
-    public void validate_invalidEmail() {
+    void validate_invalidEmail() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
@@ -46,7 +46,7 @@ public class TestValidatedUserUpdateValidation {
 
     @Test
     @DisplayName("A DTO with no email is invalid")
-    public void validate_noEmail() {
+    void validate_noEmail() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
@@ -70,7 +70,7 @@ public class TestValidatedUserUpdateValidation {
 
     @Test
     @DisplayName("A DTO with no enabled flag is invalid")
-    public void validate_noEnabled() {
+    void validate_noEnabled() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
@@ -94,7 +94,7 @@ public class TestValidatedUserUpdateValidation {
 
     @Test
     @DisplayName("A DTO with no id is invalid")
-    public void validate_noId() {
+    void validate_noId() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
@@ -118,7 +118,7 @@ public class TestValidatedUserUpdateValidation {
 
     @Test
     @DisplayName("A valid DTO is valid")
-    public void validate_valid() {
+    void validate_valid() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
 

@@ -17,7 +17,7 @@ import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - get permissions")
-public class ITRoleServiceGetPermissions {
+class ITRoleServiceGetPermissions {
 
     @Autowired
     private RoleService service;
@@ -28,7 +28,7 @@ public class ITRoleServiceGetPermissions {
 
     @Test
     @DisplayName("Returns no permission for a not existing role")
-    public void testGetActions_NotExisting() {
+    void testGetActions_NotExisting() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -44,7 +44,7 @@ public class ITRoleServiceGetPermissions {
     @DisplayName("Returns the permissions for a role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testGetPermissions() {
+    void testGetPermissions() {
         final Iterable<Permission> result;
         final Pageable             pageable;
         Boolean                    found;
@@ -92,7 +92,7 @@ public class ITRoleServiceGetPermissions {
     @DisplayName("When the permission is not granted nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    public void testGetPermissions_NoPermissions() {
+    void testGetPermissions_NoPermissions() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -109,7 +109,7 @@ public class ITRoleServiceGetPermissions {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql" })
-    public void testGetPermissions_NotGranted() {
+    void testGetPermissions_NotGranted() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 

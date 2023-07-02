@@ -19,7 +19,7 @@ import com.bernardomg.validation.failure.FieldFailure;
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql",
         "/db/queries/security/relationship/user_role.sql" })
-public class ITPasswordRecoveryServiceStartAuth {
+class ITPasswordRecoveryServiceStartAuth {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -31,7 +31,7 @@ public class ITPasswordRecoveryServiceStartAuth {
     @Test
     @DisplayName("Throws an exception when trying to edit another user")
     @WithMockUser(username = "admin")
-    public final void testStartPasswordRecovery_AnotherUser() {
+    void testStartPasswordRecovery_AnotherUser() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -44,7 +44,7 @@ public class ITPasswordRecoveryServiceStartAuth {
 
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
-    public final void testStartPasswordRecovery_NotAuthenticated() {
+    void testStartPasswordRecovery_NotAuthenticated() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

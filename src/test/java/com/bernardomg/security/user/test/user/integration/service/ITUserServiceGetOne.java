@@ -19,7 +19,7 @@ import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 @DisplayName("User service - get one - with role and no action")
 @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceGetOne {
+class ITUserServiceGetOne {
 
     @Autowired
     private UserService service;
@@ -30,7 +30,7 @@ public class ITUserServiceGetOne {
 
     @Test
     @DisplayName("Returns a single entity by id")
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<User> result;
 
         result = service.getOne(1l);
@@ -41,7 +41,7 @@ public class ITUserServiceGetOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
-    public void testGetOne_Existing_Data() {
+    void testGetOne_Existing_Data() {
         final User result;
 
         result = service.getOne(1l)
@@ -60,7 +60,7 @@ public class ITUserServiceGetOne {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<User> result;
 
         result = service.getOne(-1L);

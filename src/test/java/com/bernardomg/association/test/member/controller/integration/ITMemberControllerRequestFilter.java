@@ -41,7 +41,7 @@ import com.bernardomg.association.test.config.constant.TestUrls;
 @MvcIntegrationTest
 @DisplayName("Member controller - filtering")
 @Sql({ "/db/queries/member/multiple.sql" })
-public final class ITMemberControllerRequestFilter {
+class ITMemberControllerRequestFilter {
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,7 +52,7 @@ public final class ITMemberControllerRequestFilter {
 
     @Test
     @DisplayName("With a filter by active, only active members are returned")
-    public final void testGet_Active() throws Exception {
+    void testGet_Active() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getGetRequestActive());
@@ -67,7 +67,7 @@ public final class ITMemberControllerRequestFilter {
 
     @Test
     @DisplayName("With no filter, all the members are returned")
-    public final void testGet_NoFilter() throws Exception {
+    void testGet_NoFilter() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getGetRequest());
@@ -82,7 +82,7 @@ public final class ITMemberControllerRequestFilter {
 
     @Test
     @DisplayName("With a filter by not active, only not active members are returned")
-    public final void testGet_NotActive() throws Exception {
+    void testGet_NotActive() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getGetRequestNotActive());

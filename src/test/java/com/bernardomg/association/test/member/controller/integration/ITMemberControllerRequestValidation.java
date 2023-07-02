@@ -44,7 +44,7 @@ import com.google.gson.Gson;
 
 @MvcIntegrationTest
 @DisplayName("Member controller - request validation")
-public final class ITMemberControllerRequestValidation {
+class ITMemberControllerRequestValidation {
 
     private final Gson gson = new Gson();
 
@@ -57,7 +57,7 @@ public final class ITMemberControllerRequestValidation {
 
     @Test
     @DisplayName("With a valid member, returns the created member")
-    public final void testPost_Full_Valid() throws Exception {
+    void testPost_Full_Valid() throws Exception {
         final ResultActions result;
         final MemberCreate  member;
 
@@ -76,7 +76,7 @@ public final class ITMemberControllerRequestValidation {
     @Test
     @DisplayName("With a member missing the name, returns a bad request response")
     @Disabled("The model rejects this case")
-    public final void testPost_MissingName_Invalid() throws Exception {
+    void testPost_MissingName_Invalid() throws Exception {
         final ResultActions result;
         final MemberCreate  member;
 

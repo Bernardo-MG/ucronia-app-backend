@@ -47,7 +47,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
 @DisplayName("Transaction service - get one")
-public class ITTransactionServiceGetOne {
+class ITTransactionServiceGetOne {
 
     @Autowired
     private TransactionRepository repository;
@@ -62,7 +62,7 @@ public class ITTransactionServiceGetOne {
     @Test
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/transaction/single.sql" })
-    public void testGetOne() {
+    void testGetOne() {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
@@ -84,7 +84,7 @@ public class ITTransactionServiceGetOne {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a value around zero, the related entity is returned")
     @Sql({ "/db/queries/transaction/negative.sql" })
-    public void testGetOne_AroundZero(final Float amount) {
+    void testGetOne_AroundZero(final Float amount) {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
@@ -108,7 +108,7 @@ public class ITTransactionServiceGetOne {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the related entity is returned")
     @Sql({ "/db/queries/transaction/negative.sql" })
-    public void testGetOne_Decimal(final Float amount) {
+    void testGetOne_Decimal(final Float amount) {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
@@ -131,7 +131,7 @@ public class ITTransactionServiceGetOne {
     @Test
     @DisplayName("Returns the correct data when reading a negative value")
     @Sql({ "/db/queries/transaction/negative.sql" })
-    public void testGetOne_Negative() {
+    void testGetOne_Negative() {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
@@ -151,7 +151,7 @@ public class ITTransactionServiceGetOne {
 
     @Test
     @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<Transaction> transaction;
 
         transaction = service.getOne(1L);

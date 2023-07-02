@@ -20,7 +20,7 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITPasswordRecoveryServiceStartToken {
+class ITPasswordRecoveryServiceStartToken {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -35,7 +35,7 @@ public class ITPasswordRecoveryServiceStartToken {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing user generates a token")
-    public final void testStartPasswordRecovery_Exists_Token() {
+    void testStartPasswordRecovery_Exists_Token() {
         final Optional<PersistentToken> token;
 
         service.startPasswordRecovery("email@somewhere.com");
@@ -51,7 +51,7 @@ public class ITPasswordRecoveryServiceStartToken {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
-    public final void testStartPasswordRecovery_NotExists_NoToken() {
+    void testStartPasswordRecovery_NotExists_NoToken() {
         final Optional<PersistentToken> token;
 
         try {

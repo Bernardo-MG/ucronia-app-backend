@@ -22,7 +22,7 @@ import com.bernardomg.security.user.service.UserService;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceGetRolesPagination {
+class ITUserServiceGetRolesPagination {
 
     @Autowired
     private UserService service;
@@ -33,7 +33,7 @@ public class ITUserServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetActions_Page_Container() {
+    void testGetActions_Page_Container() {
         final Iterable<Role> result;
         final Pageable       pageable;
 
@@ -47,7 +47,7 @@ public class ITUserServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns a page")
-    public void testGetActions_Paged_Count() {
+    void testGetActions_Paged_Count() {
         final Iterable<Role> result;
         final Pageable       pageable;
 
@@ -61,7 +61,7 @@ public class ITUserServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    void testGetAll_Page1_Data() {
         final Iterator<Role> data;
         final Role           result;
         final Pageable       pageable;
@@ -80,7 +80,7 @@ public class ITUserServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    void testGetAll_Page2_Data() {
         final Iterable<Role> data;
         final Pageable       pageable;
 
@@ -94,7 +94,7 @@ public class ITUserServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<Role> result;
         final Pageable       pageable;
 

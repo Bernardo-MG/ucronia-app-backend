@@ -22,7 +22,7 @@ import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions
 
 @IntegrationTest
 @DisplayName("Role service - add permission")
-public class ITRoleServiceAddPermission {
+class ITRoleServiceAddPermission {
 
     @Autowired
     private RoleGrantedPermissionRepository roleGrantedPermissionRepository;
@@ -41,7 +41,7 @@ public class ITRoleServiceAddPermission {
     @DisplayName("Adds a permission")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    public void testAddPermission_AddsEntity() {
+    void testAddPermission_AddsEntity() {
         final Iterable<PersistentRolePermission> result;
         final PersistentRolePermission           found;
 
@@ -66,7 +66,7 @@ public class ITRoleServiceAddPermission {
     @DisplayName("Reading the permissions after adding a permission returns the new permission")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    public void testAddPermission_CallBack() {
+    void testAddPermission_CallBack() {
         final Iterable<Permission> result;
         final Permission           found;
         final Pageable             pageable;
@@ -95,7 +95,7 @@ public class ITRoleServiceAddPermission {
     @DisplayName("When adding an existing permission no permission is added")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testAddPermission_Existing() {
+    void testAddPermission_Existing() {
         final Iterable<PersistentRolePermission> result;
         final Iterator<PersistentRolePermission> itr;
         PersistentRolePermission                 found;

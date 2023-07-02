@@ -32,7 +32,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
-public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
+class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @Mock
     private Authentication          authentication;
@@ -59,7 +59,7 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
     }
 
     @BeforeEach
-    public final void initializeAuthentication() {
+    void initializeAuthentication() {
         given(authentication.getName()).willReturn("admin");
 
         SecurityContextHolder.getContext()
@@ -67,7 +67,7 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
     }
 
     @BeforeEach
-    public final void initializeService() {
+    void initializeService() {
         final PersistentUser user;
         final UserDetails    details;
 
@@ -88,7 +88,7 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @Test
     @DisplayName("When recovering the password the email is sent to the user email")
-    public final void testStartPasswordRecovery_User_Email() {
+    void testStartPasswordRecovery_User_Email() {
         final ArgumentCaptor<String> emailCaptor;
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
@@ -104,7 +104,7 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @Test
     @DisplayName("When recovering the password an email is sent")
-    public final void testStartPasswordRecovery_User_EmailCall() {
+    void testStartPasswordRecovery_User_EmailCall() {
         service.startPasswordRecovery("email@somewhere.com");
 
         Mockito.verify(mailSender, Mockito.times(1))

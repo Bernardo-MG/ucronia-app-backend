@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.ValidationExceptionTestCont
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - validation exceptions")
-public final class ITControllerValidationException {
+class ITControllerValidationException {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +51,7 @@ public final class ITControllerValidationException {
 
     @Test
     @DisplayName("Returns the response structure for field validation errors")
-    public final void testErrorHandling_FieldValidationError_Response() throws Exception {
+    void testErrorHandling_FieldValidationError_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getFieldValidationRequest());

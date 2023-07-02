@@ -20,7 +20,7 @@ import com.bernardomg.security.token.TokenEncoder;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginStatusProvider - get status")
-public class TestTokenLoginStatusProvider {
+class TestTokenLoginStatusProvider {
 
     @Mock
     private TokenEncoder<String> tokenEncoder;
@@ -31,7 +31,7 @@ public class TestTokenLoginStatusProvider {
 
     @Test
     @DisplayName("Returns a token login status when the user is logged")
-    public void testGetStatus_Logged() {
+    void testGetStatus_Logged() {
         final LoginStatus status;
 
         given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn(TokenConstants.TOKEN);
@@ -51,7 +51,7 @@ public class TestTokenLoginStatusProvider {
 
     @Test
     @DisplayName("Returns a default login status when the user is logged")
-    public void testGetStatus_NotLogged() {
+    void testGetStatus_NotLogged() {
         final LoginStatus status;
 
         status = getLoginStatusProvider().getStatus("admin", false);

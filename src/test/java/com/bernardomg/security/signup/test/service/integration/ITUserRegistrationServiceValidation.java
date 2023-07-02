@@ -15,7 +15,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService - validation")
-public class ITUserRegistrationServiceValidation {
+class ITUserRegistrationServiceValidation {
 
     @Autowired
     private SignUpService service;
@@ -27,7 +27,7 @@ public class ITUserRegistrationServiceValidation {
     @Test
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingEmail() {
+    void testSignUp_ExistingEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final DtoSignUp        signUp;
@@ -46,7 +46,7 @@ public class ITUserRegistrationServiceValidation {
     @Test
     @DisplayName("Throws an exception when the email already exists, ignoring case")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingEmail_Case() {
+    void testSignUp_ExistingEmail_Case() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final DtoSignUp        signUp;
@@ -65,7 +65,7 @@ public class ITUserRegistrationServiceValidation {
     @Test
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingUsername() {
+    void testSignUp_ExistingUsername() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final DtoSignUp        signUp;
@@ -84,7 +84,7 @@ public class ITUserRegistrationServiceValidation {
     @Test
     @DisplayName("Throws an exception when the username already exists, ignoring case")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingUsername_Case() {
+    void testSignUp_ExistingUsername_Case() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
         final DtoSignUp        signUp;

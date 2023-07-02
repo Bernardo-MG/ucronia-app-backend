@@ -18,7 +18,7 @@ import com.bernardomg.security.user.service.UserService;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceGetRoles {
+class ITUserServiceGetRoles {
 
     @Autowired
     private UserService service;
@@ -29,7 +29,7 @@ public class ITUserServiceGetRoles {
 
     @Test
     @DisplayName("Returns the roles for a user")
-    public void testGetRoles() {
+    void testGetRoles() {
         final Iterable<Role> result;
         final Role           role;
         final Pageable       pageable;
@@ -50,7 +50,7 @@ public class ITUserServiceGetRoles {
 
     @Test
     @DisplayName("Returns no roles for a not existing user")
-    public void testGetRoles_NotExisting() {
+    void testGetRoles_NotExisting() {
         final Iterable<Role> result;
         final Pageable       pageable;
 

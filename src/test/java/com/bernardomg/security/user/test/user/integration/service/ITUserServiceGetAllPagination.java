@@ -24,7 +24,7 @@ import com.bernardomg.security.user.test.util.model.UsersQuery;
 @IntegrationTest
 @DisplayName("User service - get all")
 @Sql({ "/db/queries/security/user/single.sql" })
-public class ITUserServiceGetAllPagination {
+class ITUserServiceGetAllPagination {
 
     @Autowired
     private UserService service;
@@ -35,7 +35,7 @@ public class ITUserServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page")
-    public void testGetAll_Page_Container() {
+    void testGetAll_Page_Container() {
         final Iterable<User> result;
         final UserQuery      sample;
         final Pageable       pageable;
@@ -52,7 +52,7 @@ public class ITUserServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    public void testGetAll_Page1_Data() {
+    void testGetAll_Page1_Data() {
         final UserQuery      sample;
         final Iterator<User> data;
         final User           result;
@@ -79,7 +79,7 @@ public class ITUserServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    public void testGetAll_Page2_Data() {
+    void testGetAll_Page2_Data() {
         final UserQuery      sample;
         final Iterable<User> data;
         final Pageable       pageable;
@@ -96,7 +96,7 @@ public class ITUserServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    public void testGetAll_Paged_Count() {
+    void testGetAll_Paged_Count() {
         final UserQuery      sample;
         final Iterable<User> result;
         final Pageable       pageable;
@@ -113,7 +113,7 @@ public class ITUserServiceGetAllPagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    public void testGetAll_Unpaged_Container() {
+    void testGetAll_Unpaged_Container() {
         final Iterable<User> result;
         final UserQuery      sample;
         final Pageable       pageable;

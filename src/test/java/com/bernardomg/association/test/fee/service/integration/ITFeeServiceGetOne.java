@@ -41,7 +41,7 @@ import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 
 @IntegrationTest
 @DisplayName("Fee service - get one")
-public class ITFeeServiceGetOne {
+class ITFeeServiceGetOne {
 
     @Autowired
     private FeeService service;
@@ -53,7 +53,7 @@ public class ITFeeServiceGetOne {
     @Test
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testGetOne_Existing() {
+    void testGetOne_Existing() {
         final Optional<MemberFee> fee;
 
         fee = service.getOne(1L);
@@ -73,7 +73,7 @@ public class ITFeeServiceGetOne {
     @Test
     @DisplayName("With an inactive member, the related entity is returned")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-    public void testGetOne_Inactive() {
+    void testGetOne_Inactive() {
         final Optional<MemberFee> fee;
 
         fee = service.getOne(1L);
@@ -93,7 +93,7 @@ public class ITFeeServiceGetOne {
     @Test
     @DisplayName("With an invalid id, no entity is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    public void testGetOne_NotExisting() {
+    void testGetOne_NotExisting() {
         final Optional<MemberFee> fee;
 
         fee = service.getOne(-1L);

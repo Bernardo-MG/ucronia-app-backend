@@ -45,7 +45,7 @@ import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
 @DisplayName("Fee service - get all")
-public class ITFeeServiceGetAll {
+class ITFeeServiceGetAll {
 
     @Autowired
     private FeeService service;
@@ -57,7 +57,7 @@ public class ITFeeServiceGetAll {
     @Test
     @DisplayName("With a full year it returns all the fees")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetAll_FullYear() {
+    void testGetAll_FullYear() {
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
@@ -174,7 +174,7 @@ public class ITFeeServiceGetAll {
     @Test
     @DisplayName("With an inactive user it returns all the fees")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-    public void testGetAll_Inactive() {
+    void testGetAll_Inactive() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
@@ -202,7 +202,7 @@ public class ITFeeServiceGetAll {
     @Test
     @DisplayName("With multiple fees it returns all the fees")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
-    public void testGetAll_Multiple() {
+    void testGetAll_Multiple() {
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
@@ -263,7 +263,7 @@ public class ITFeeServiceGetAll {
     @Test
     @DisplayName("With no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
-    public void testGetAll_NoFee() {
+    void testGetAll_NoFee() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;

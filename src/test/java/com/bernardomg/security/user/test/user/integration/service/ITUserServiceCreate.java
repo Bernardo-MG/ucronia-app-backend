@@ -18,7 +18,7 @@ import com.bernardomg.security.user.test.util.model.UsersCreate;
 
 @IntegrationTest
 @DisplayName("User service - create")
-public class ITUserServiceCreate {
+class ITUserServiceCreate {
 
     @Autowired
     private UserRepository repository;
@@ -32,7 +32,7 @@ public class ITUserServiceCreate {
 
     @Test
     @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
+    void testCreate_AddsEntity() {
         final UserCreate user;
 
         user = UsersCreate.enabled();
@@ -45,7 +45,7 @@ public class ITUserServiceCreate {
 
     @Test
     @DisplayName("Persists the data")
-    public void testCreate_PersistedData() {
+    void testCreate_PersistedData() {
         final UserCreate     user;
         final PersistentUser entity;
 
@@ -70,7 +70,7 @@ public class ITUserServiceCreate {
 
     @Test
     @DisplayName("Persists the data, ignoring case")
-    public void testCreate_PersistedData_Case() {
+    void testCreate_PersistedData_Case() {
         final UserCreate     user;
         final PersistentUser entity;
 
@@ -89,7 +89,7 @@ public class ITUserServiceCreate {
 
     @Test
     @DisplayName("Returns the created data")
-    public void testCreate_ReturnedData() {
+    void testCreate_ReturnedData() {
         final UserCreate user;
         final User       result;
 
@@ -110,7 +110,7 @@ public class ITUserServiceCreate {
 
     @Test
     @DisplayName("Returns the created data, ignoring case")
-    public void testCreate_ReturnedData_Case() {
+    void testCreate_ReturnedData_Case() {
         final UserCreate user;
         final User       result;
 

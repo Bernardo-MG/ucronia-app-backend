@@ -36,7 +36,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee calendar service - get all - only active")
-public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
+class ITFeeCalendarServiceGetRangeFilterOnlyActive {
 
     @Autowired
     private FeeCalendarService service;
@@ -48,7 +48,7 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
     @Test
     @DisplayName("With an active member it returns the full range")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetRange_Active() {
+    void testGetRange_Active() {
         final FeeCalendarRange range;
 
         range = service.getRange(true);
@@ -62,7 +62,7 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
     @Test
     @DisplayName("With an inactive member it returns no range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    public void testGetRange_Inactive() {
+    void testGetRange_Inactive() {
         final FeeCalendarRange range;
 
         range = service.getRange(true);
@@ -75,7 +75,7 @@ public class ITFeeCalendarServiceGetRangeFilterOnlyActive {
 
     @Test
     @DisplayName("With no data it returns no range")
-    public void testGetRange_NoData() {
+    void testGetRange_NoData() {
         final FeeCalendarRange range;
 
         range = service.getRange(true);

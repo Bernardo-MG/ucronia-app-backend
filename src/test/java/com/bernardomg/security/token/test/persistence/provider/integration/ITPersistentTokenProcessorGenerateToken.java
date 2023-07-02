@@ -14,7 +14,7 @@ import com.bernardomg.security.token.provider.TokenProvider;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - generate token")
-public class ITPersistentTokenProcessorGenerateToken {
+class ITPersistentTokenProcessorGenerateToken {
 
     private final TokenProvider provider;
 
@@ -28,7 +28,7 @@ public class ITPersistentTokenProcessorGenerateToken {
 
     @Test
     @DisplayName("Generates a token")
-    public final void testGenerateToken() {
+    void testGenerateToken() {
         final String token;
 
         token = provider.generateToken("admin");

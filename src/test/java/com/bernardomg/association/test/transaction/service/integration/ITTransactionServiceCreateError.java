@@ -41,7 +41,7 @@ import com.bernardomg.association.transaction.service.TransactionService;
 @IntegrationTest
 @DisplayName("Transaction service - create errors")
 @Sql({ "/db/queries/member/single.sql" })
-public class ITTransactionServiceCreateError {
+class ITTransactionServiceCreateError {
 
     @Autowired
     private TransactionRepository repository;
@@ -55,7 +55,7 @@ public class ITTransactionServiceCreateError {
 
     @Test
     @DisplayName("With a transaction missing the amount, an exception is thrown")
-    public void testCreate_MissingAmount() {
+    void testCreate_MissingAmount() {
         final TransactionCreate transactionRequest;
         final ThrowingCallable  execution;
 
@@ -73,7 +73,7 @@ public class ITTransactionServiceCreateError {
 
     @Test
     @DisplayName("With a transaction missing the date, an exception is thrown")
-    public void testCreate_MissingDate() {
+    void testCreate_MissingDate() {
         final TransactionCreate transactionRequest;
         final ThrowingCallable  execution;
 
@@ -91,7 +91,7 @@ public class ITTransactionServiceCreateError {
 
     @Test
     @DisplayName("With a transaction missing the description, an exception is thrown")
-    public void testCreate_MissingDescription() {
+    void testCreate_MissingDescription() {
         final TransactionCreate transactionRequest;
         final ThrowingCallable  execution;
 

@@ -41,7 +41,7 @@ import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalend
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year with active member - sorted")
-public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
+class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
 
     @Autowired
     private FeeCalendarRepository repository;
@@ -53,7 +53,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYearWithActiveMember_Name_Asc() {
+    void testFindAllForYearWithActiveMember_Name_Asc() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -78,7 +78,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    public void testFindAllForYearWithActiveMember_Name_Desc() {
+    void testFindAllForYearWithActiveMember_Name_Desc() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -104,7 +104,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @DisplayName("With ascending order by name it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    public void testFindAllForYearWithActiveMember_TwoMembers_Name_Asc() {
+    void testFindAllForYearWithActiveMember_TwoMembers_Name_Asc() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -141,7 +141,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @DisplayName("With descending order by name it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    public void testFindAllForYearWithActiveMember_TwoMembers_Name_Desc() {
+    void testFindAllForYearWithActiveMember_TwoMembers_Name_Desc() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -178,7 +178,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @DisplayName("With ascending order by surname it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    public void testFindAllForYearWithActiveMember_TwoMembers_Surname_Asc() {
+    void testFindAllForYearWithActiveMember_TwoMembers_Surname_Asc() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -215,7 +215,7 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
     @DisplayName("With descending order by surname it returns the ordered data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    public void testFindAllForYearWithActiveMember_TwoMembers_Surname_Desc() {
+    void testFindAllForYearWithActiveMember_TwoMembers_Surname_Desc() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 result;

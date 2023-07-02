@@ -21,7 +21,7 @@ import com.bernardomg.security.user.service.ResourceService;
 @IntegrationTest
 @DisplayName("Resource service - get all")
 @Sql({ "/db/queries/security/resource/multiple.sql" })
-public class ITResourceServiceGetAll {
+class ITResourceServiceGetAll {
 
     @Autowired
     private ResourceService service;
@@ -32,7 +32,7 @@ public class ITResourceServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
+    void testGetAll_Count() {
         final Iterable<Resource> result;
         final ResourceQuery      sample;
         final Pageable           pageable;
@@ -50,7 +50,7 @@ public class ITResourceServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
+    void testGetAll_Data() {
         final Iterable<Resource> data;
         final ResourceQuery      sample;
         final Pageable           pageable;
