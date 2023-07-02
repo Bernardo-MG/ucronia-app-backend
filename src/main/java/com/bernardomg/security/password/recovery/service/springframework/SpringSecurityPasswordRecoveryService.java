@@ -26,6 +26,7 @@ package com.bernardomg.security.password.recovery.service.springframework;
 
 import java.util.Optional;
 
+import org.springframework.security.core.token.Token;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -114,38 +115,43 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final String                   encodedPassword;
         final UserDetails              details;
         final Boolean                  valid;
+        final Optional<Token>          tokenOpt;
 
         if (tokenProcessor.hasExpired(token)) {
             log.warn("Token {} has expired", token);
             successful = false;
         } else {
-            // TODO: Check the optional is not empty
-            username = tokenProcessor.decode(token)
-                .get()
-                .getExtendedInformation();
-            user = repository.findOneByUsername(username);
-
-            if (user.isPresent()) {
-                // TODO: Avoid this second query
-                details = userDetailsService.loadUserByUsername(user.get()
-                    .getUsername());
-
-                valid = isValid(details);
-            } else {
-                valid = false;
-            }
-
-            if (valid) {
-                successful = true;
-                entity = user.get();
-
-                encodedPassword = passwordEncoder.encode(password);
-                entity.setPassword(encodedPassword);
-
-                repository.save(entity);
-                tokenProcessor.closeToken(token);
-            } else {
+            tokenOpt = tokenProcessor.decode(token);
+            if (tokenOpt.isEmpty()) {
+                log.error("Failed decoding token");
                 successful = false;
+            } else {
+                username = tokenOpt.get()
+                    .getExtendedInformation();
+                user = repository.findOneByUsername(username);
+
+                if (user.isPresent()) {
+                    // TODO: Avoid this second query
+                    details = userDetailsService.loadUserByUsername(user.get()
+                        .getUsername());
+
+                    valid = isValid(details);
+                } else {
+                    valid = false;
+                }
+
+                if (valid) {
+                    successful = true;
+                    entity = user.get();
+
+                    encodedPassword = passwordEncoder.encode(password);
+                    entity.setPassword(encodedPassword);
+
+                    repository.save(entity);
+                    tokenProcessor.closeToken(token);
+                } else {
+                    successful = false;
+                }
             }
         }
 
@@ -167,18 +173,22 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             .build();
         passwordRecoveryValidator.validate(validationData);
 
-        // TODO: Avoid this second query
-        details = userDetailsService.loadUserByUsername(user.get()
-            .getUsername());
-
-        valid = isValid(details);
-        if (valid) {
-            token = tokenProcessor.generateToken(user.get()
+        if (user.isPresent()) {
+            // TODO: Avoid this second query
+            details = userDetailsService.loadUserByUsername(user.get()
                 .getUsername());
 
-            // TODO: Handle through events
-            messageSender.sendPasswordRecoveryEmail(user.get()
-                .getEmail(), token);
+            valid = isValid(details);
+            if (valid) {
+                token = tokenProcessor.generateToken(user.get()
+                    .getUsername());
+
+                // TODO: Handle through events
+                messageSender.sendPasswordRecoveryEmail(user.get()
+                    .getEmail(), token);
+            }
+        } else {
+            valid = false;
         }
 
         return new ImmutablePasswordRecoveryStatus(valid);

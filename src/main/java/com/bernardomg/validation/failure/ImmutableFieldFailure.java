@@ -39,12 +39,12 @@ public final class ImmutableFieldFailure implements FieldFailure {
 
     private static final long serialVersionUID = 2019589536129094057L;
 
-    private final String code;
+    private final String      code;
 
-    private final String field;
+    private final String      field;
 
-    private final String message;
+    private final String      message;
 
-    private final Object value;
+    private final Object      value;
 
 }
