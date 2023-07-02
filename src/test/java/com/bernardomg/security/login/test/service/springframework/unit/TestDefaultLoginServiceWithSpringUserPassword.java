@@ -40,6 +40,23 @@ class TestDefaultLoginServiceWithSpringUserPassword {
         super();
     }
 
+    private final DefaultLoginService getService(final Boolean match) {
+        final UserDetails             user;
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
+
+        user = new User("username", "password", true, true, true, true, Collections.emptyList());
+
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
+
+        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(match);
+
+        loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
+
+        return new DefaultLoginService(loginStatusProvider, valid);
+    }
+
     @Test
     @DisplayName("Doesn't log in with an invalid password")
     void testLogIn_Invalid() {
@@ -74,23 +91,6 @@ class TestDefaultLoginServiceWithSpringUserPassword {
             .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
-    }
-
-    private final DefaultLoginService getService(final Boolean match) {
-        final UserDetails             user;
-        final LoginStatusProvider     loginStatusProvider;
-        final Predicate<LoginRequest> valid;
-
-        user = new User("username", "password", true, true, true, true, Collections.emptyList());
-
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
-
-        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(match);
-
-        loginStatusProvider = new DefaultLoginStatusProvider();
-        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
-
-        return new DefaultLoginService(loginStatusProvider, valid);
     }
 
 }

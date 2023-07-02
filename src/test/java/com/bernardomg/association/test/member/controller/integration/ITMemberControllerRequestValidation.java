@@ -55,6 +55,15 @@ class ITMemberControllerRequestValidation {
         super();
     }
 
+    private final RequestBuilder getPostRequest(final MemberCreate member) {
+        final String json;
+
+        json = gson.toJson(member);
+        return MockMvcRequestBuilders.post(TestUrls.MEMBER)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json);
+    }
+
     @Test
     @DisplayName("With a valid member, returns the created member")
     void testPost_Full_Valid() throws Exception {
@@ -87,15 +96,6 @@ class ITMemberControllerRequestValidation {
         // The operation was accepted
         result.andExpect(MockMvcResultMatchers.status()
             .isBadRequest());
-    }
-
-    private final RequestBuilder getPostRequest(final MemberCreate member) {
-        final String json;
-
-        json = gson.toJson(member);
-        return MockMvcRequestBuilders.post(TestUrls.MEMBER)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json);
     }
 
 }

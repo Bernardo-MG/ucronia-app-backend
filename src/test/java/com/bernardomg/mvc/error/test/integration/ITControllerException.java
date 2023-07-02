@@ -49,6 +49,11 @@ class ITControllerException {
         super();
     }
 
+    private final RequestBuilder getRuntimeExceptionRequest() {
+        return MockMvcRequestBuilders.get(ExceptionTestController.PATH_RUNTIME)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure for runtime exception")
     void testErrorHandling_RuntimeException_Response() throws Exception {
@@ -71,11 +76,6 @@ class ITControllerException {
         // The response contains no errors attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getRuntimeExceptionRequest() {
-        return MockMvcRequestBuilders.get(ExceptionTestController.PATH_RUNTIME)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

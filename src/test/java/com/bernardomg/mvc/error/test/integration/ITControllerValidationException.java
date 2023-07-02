@@ -49,6 +49,11 @@ class ITControllerValidationException {
         super();
     }
 
+    private final RequestBuilder getFieldValidationRequest() {
+        return MockMvcRequestBuilders.get(ValidationExceptionTestController.PATH_FIELD_VALIDATION)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure for field validation errors")
     void testErrorHandling_FieldValidationError_Response() throws Exception {
@@ -73,11 +78,6 @@ class ITControllerValidationException {
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getFieldValidationRequest() {
-        return MockMvcRequestBuilders.get(ValidationExceptionTestController.PATH_FIELD_VALIDATION)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

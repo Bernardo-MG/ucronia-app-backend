@@ -76,8 +76,7 @@ class ITUserServiceAddRoleWithRoles {
             .toList();
 
         Assertions.assertThat(roleNames)
-            .contains("ADMIN");
-        Assertions.assertThat(roleNames)
+            .contains("ADMIN")
             .contains("ALT");
     }
 

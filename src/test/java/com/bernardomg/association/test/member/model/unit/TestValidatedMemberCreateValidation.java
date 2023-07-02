@@ -37,11 +37,10 @@ class TestValidatedMemberCreateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("active");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("active");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -61,11 +60,10 @@ class TestValidatedMemberCreateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("name");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("name");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

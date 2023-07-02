@@ -56,6 +56,19 @@ class ITBalanceServiceGetMonthlyBalance {
     @Autowired
     private BalanceService        service;
 
+    private final void persist(final Float amount) {
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
@@ -256,19 +269,6 @@ class ITBalanceServiceGetMonthlyBalance {
 
         Assertions.assertThat(balances)
             .isEmpty();
-    }
-
-    private final void persist(final Float amount) {
-        final PersistentTransaction entity;
-
-        entity = PersistentTransaction.builder()
-            .date(new GregorianCalendar(2020, 0, 1))
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
     }
 
 }

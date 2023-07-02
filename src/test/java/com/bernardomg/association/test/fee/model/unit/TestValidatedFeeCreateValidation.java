@@ -37,11 +37,10 @@ class TestValidatedFeeCreateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("date");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("date");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -61,11 +60,10 @@ class TestValidatedFeeCreateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("memberId");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("memberId");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -85,11 +83,10 @@ class TestValidatedFeeCreateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("paid");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("paid");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

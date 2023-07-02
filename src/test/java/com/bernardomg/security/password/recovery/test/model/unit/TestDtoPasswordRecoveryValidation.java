@@ -37,9 +37,8 @@ class TestDtoPasswordRecoveryValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("email");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
     }
@@ -62,11 +61,10 @@ class TestDtoPasswordRecoveryValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("email");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("email");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

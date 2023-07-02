@@ -49,6 +49,21 @@ class ITControllerPersistenceException {
         super();
     }
 
+    private final RequestBuilder getDataIntegrityExceptionRequest() {
+        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_DATA_INTEGRITY)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    private final RequestBuilder getJdbcGrammarExceptionRequest() {
+        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_JDBC_GRAMMAR)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    private final RequestBuilder getPropertyReferenceExceptionRequest() {
+        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_PROPERTY_REFERENCE)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure for a data integrity exception")
     void testErrorHandling_DataIntegrity_Response() throws Exception {
@@ -119,21 +134,6 @@ class ITControllerPersistenceException {
         // The response contains no errors attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getDataIntegrityExceptionRequest() {
-        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_DATA_INTEGRITY)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getJdbcGrammarExceptionRequest() {
-        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_JDBC_GRAMMAR)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getPropertyReferenceExceptionRequest() {
-        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_PROPERTY_REFERENCE)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

@@ -49,6 +49,11 @@ class ITControllerResponse {
         super();
     }
 
+    private final RequestBuilder getCollectionRequest() {
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH_COLLECTION)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure when returning a collection")
     void testResponseStructure_Collection() throws Exception {
@@ -82,11 +87,6 @@ class ITControllerResponse {
         // The response contains no error attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getCollectionRequest() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_COLLECTION)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

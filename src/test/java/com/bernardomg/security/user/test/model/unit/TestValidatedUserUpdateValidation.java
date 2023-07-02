@@ -37,9 +37,8 @@ class TestValidatedUserUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("email");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
     }
@@ -61,11 +60,10 @@ class TestValidatedUserUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("email");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("email");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -85,11 +83,10 @@ class TestValidatedUserUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("enabled");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("enabled");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -109,11 +106,10 @@ class TestValidatedUserUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("id");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("id");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

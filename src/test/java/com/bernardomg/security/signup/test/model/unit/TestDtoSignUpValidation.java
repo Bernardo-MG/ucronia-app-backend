@@ -38,9 +38,8 @@ class TestDtoSignUpValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("email");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("email");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("abc");
     }
@@ -64,11 +63,10 @@ class TestDtoSignUpValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("email");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("email");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -90,11 +88,10 @@ class TestDtoSignUpValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("username");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("username");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

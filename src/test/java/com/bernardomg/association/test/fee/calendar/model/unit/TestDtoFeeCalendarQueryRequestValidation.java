@@ -37,11 +37,10 @@ class TestDtoFeeCalendarQueryRequestValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("onlyActive");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("onlyActive");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

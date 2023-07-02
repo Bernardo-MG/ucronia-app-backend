@@ -39,9 +39,8 @@ class TestValidatedTransactionUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("description");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("description");
         Assertions.assertThat(error.getInvalidValue())
             .isEqualTo("");
     }
@@ -63,11 +62,10 @@ class TestValidatedTransactionUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("amount");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("amount");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -87,11 +85,10 @@ class TestValidatedTransactionUpdateValidation {
         error = errors.iterator()
             .next();
 
-        Assertions.assertThat(error.getPropertyPath()
-            .toString())
-            .isEqualTo("date");
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("date");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test
@@ -115,7 +112,7 @@ class TestValidatedTransactionUpdateValidation {
             .toString())
             .isEqualTo("description");
         Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo(null);
+            .isNull();
     }
 
     @Test

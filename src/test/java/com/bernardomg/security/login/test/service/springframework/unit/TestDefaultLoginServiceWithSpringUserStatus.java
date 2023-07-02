@@ -41,6 +41,71 @@ class TestDefaultLoginServiceWithSpringUserStatus {
         super();
     }
 
+    private final DefaultLoginService getService(final UserDetails user) {
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
+
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
+
+        loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
+
+        return new DefaultLoginService(loginStatusProvider, valid);
+    }
+
+    private final DefaultLoginService getServiceForAccountExpired() {
+        final UserDetails user;
+
+        user = new User("username", "password", true, false, true, true, Collections.emptyList());
+
+        return getService(user);
+    }
+
+    private final DefaultLoginService getServiceForCredentialsExpired() {
+        final UserDetails user;
+
+        user = new User("username", "password", true, true, false, true, Collections.emptyList());
+
+        return getService(user);
+    }
+
+    private final DefaultLoginService getServiceForDisabled() {
+        final UserDetails user;
+
+        user = new User("username", "password", false, true, true, true, Collections.emptyList());
+
+        return getService(user);
+    }
+
+    private final DefaultLoginService getServiceForLocked() {
+        final UserDetails user;
+
+        user = new User("username", "password", true, true, false, true, Collections.emptyList());
+
+        return getService(user);
+    }
+
+    private final DefaultLoginService getServiceForNotExisting() {
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
+
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
+            .willThrow(UsernameNotFoundException.class);
+
+        loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
+
+        return new DefaultLoginService(loginStatusProvider, valid);
+    }
+
+    private final DefaultLoginService getServiceForValid() {
+        final UserDetails user;
+
+        user = new User("username", "password", true, true, true, true, Collections.emptyList());
+
+        return getService(user);
+    }
+
     @Test
     @DisplayName("Doesn't log in a expired user")
     void testLogIn_AccountExpired() {
@@ -149,71 +214,6 @@ class TestDefaultLoginServiceWithSpringUserStatus {
             .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
-    }
-
-    private final DefaultLoginService getService(final UserDetails user) {
-        final LoginStatusProvider     loginStatusProvider;
-        final Predicate<LoginRequest> valid;
-
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
-
-        loginStatusProvider = new DefaultLoginStatusProvider();
-        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
-
-        return new DefaultLoginService(loginStatusProvider, valid);
-    }
-
-    private final DefaultLoginService getServiceForAccountExpired() {
-        final UserDetails user;
-
-        user = new User("username", "password", true, false, true, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final DefaultLoginService getServiceForCredentialsExpired() {
-        final UserDetails user;
-
-        user = new User("username", "password", true, true, false, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final DefaultLoginService getServiceForDisabled() {
-        final UserDetails user;
-
-        user = new User("username", "password", false, true, true, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final DefaultLoginService getServiceForLocked() {
-        final UserDetails user;
-
-        user = new User("username", "password", true, true, false, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final DefaultLoginService getServiceForNotExisting() {
-        final LoginStatusProvider     loginStatusProvider;
-        final Predicate<LoginRequest> valid;
-
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .willThrow(UsernameNotFoundException.class);
-
-        loginStatusProvider = new DefaultLoginStatusProvider();
-        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
-
-        return new DefaultLoginService(loginStatusProvider, valid);
-    }
-
-    private final DefaultLoginService getServiceForValid() {
-        final UserDetails user;
-
-        user = new User("username", "password", true, true, true, true, Collections.emptyList());
-
-        return getService(user);
     }
 
 }

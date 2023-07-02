@@ -50,6 +50,14 @@ class ITFeeServiceCreateValidation {
         super();
     }
 
+    private final ValidatedFeeCreate getInvalidIdFeeCreate() {
+        return ValidatedFeeCreate.builder()
+            .memberId(-1L)
+            .date(new GregorianCalendar(2020, 1, 2))
+            .paid(true)
+            .build();
+    }
+
     @Test
     @DisplayName("With a missing id it throws an exception")
     void testCreate_InvalidMember() {
@@ -64,14 +72,6 @@ class ITFeeServiceCreateValidation {
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    private final ValidatedFeeCreate getInvalidIdFeeCreate() {
-        return ValidatedFeeCreate.builder()
-            .memberId(-1L)
-            .date(new GregorianCalendar(2020, 1, 2))
-            .paid(true)
-            .build();
     }
 
 }

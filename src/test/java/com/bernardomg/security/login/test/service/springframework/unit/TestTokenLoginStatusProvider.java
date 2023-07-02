@@ -29,6 +29,10 @@ class TestTokenLoginStatusProvider {
         super();
     }
 
+    private final LoginStatusProvider getLoginStatusProvider() {
+        return new TokenLoginStatusProvider(tokenEncoder);
+    }
+
     @Test
     @DisplayName("Returns a token login status when the user is logged")
     void testGetStatus_Logged() {
@@ -63,10 +67,6 @@ class TestTokenLoginStatusProvider {
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
-    }
-
-    private final LoginStatusProvider getLoginStatusProvider() {
-        return new TokenLoginStatusProvider(tokenEncoder);
     }
 
 }

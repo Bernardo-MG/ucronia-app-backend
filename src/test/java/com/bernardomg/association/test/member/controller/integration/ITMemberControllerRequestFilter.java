@@ -50,6 +50,20 @@ class ITMemberControllerRequestFilter {
         super();
     }
 
+    private final RequestBuilder getGetRequest() {
+        return MockMvcRequestBuilders.get(TestUrls.MEMBER);
+    }
+
+    private final RequestBuilder getGetRequestActive() {
+        return MockMvcRequestBuilders.get(TestUrls.MEMBER)
+            .param("active", "true");
+    }
+
+    private final RequestBuilder getGetRequestNotActive() {
+        return MockMvcRequestBuilders.get(TestUrls.MEMBER)
+            .param("active", "false");
+    }
+
     @Test
     @DisplayName("With a filter by active, only active members are returned")
     void testGet_Active() throws Exception {
@@ -93,20 +107,6 @@ class ITMemberControllerRequestFilter {
 
         // The response model contains the expected attributes
         result.andExpect(MockMvcResultMatchers.jsonPath("$.totalElements", Matchers.is(1)));
-    }
-
-    private final RequestBuilder getGetRequest() {
-        return MockMvcRequestBuilders.get(TestUrls.MEMBER);
-    }
-
-    private final RequestBuilder getGetRequestActive() {
-        return MockMvcRequestBuilders.get(TestUrls.MEMBER)
-            .param("active", "true");
-    }
-
-    private final RequestBuilder getGetRequestNotActive() {
-        return MockMvcRequestBuilders.get(TestUrls.MEMBER)
-            .param("active", "false");
     }
 
 }

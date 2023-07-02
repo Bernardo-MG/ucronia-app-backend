@@ -38,6 +38,22 @@ class TestDefaultLoginServiceWithSpringUserFailure {
         super();
     }
 
+    private final DefaultLoginService getService(final UserDetails user) {
+        final LoginStatusProvider     loginStatusProvider;
+        final Predicate<LoginRequest> valid;
+
+        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
+
+        loginStatusProvider = new DefaultLoginStatusProvider();
+        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
+
+        return new DefaultLoginService(loginStatusProvider, valid);
+    }
+
+    private final DefaultLoginService getServiceWithNullUser() {
+        return getService(null);
+    }
+
     @Test
     @DisplayName("When the user details service returns a null the login fails")
     void testLogIn_NullUser() {
@@ -54,22 +70,6 @@ class TestDefaultLoginServiceWithSpringUserFailure {
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
-    }
-
-    private final DefaultLoginService getService(final UserDetails user) {
-        final LoginStatusProvider     loginStatusProvider;
-        final Predicate<LoginRequest> valid;
-
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
-
-        loginStatusProvider = new DefaultLoginStatusProvider();
-        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
-
-        return new DefaultLoginService(loginStatusProvider, valid);
-    }
-
-    private final DefaultLoginService getServiceWithNullUser() {
-        return getService(null);
     }
 
 }

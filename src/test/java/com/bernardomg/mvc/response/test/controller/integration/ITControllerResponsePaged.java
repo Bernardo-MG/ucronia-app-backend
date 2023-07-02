@@ -49,6 +49,16 @@ class ITControllerResponsePaged {
         super();
     }
 
+    private final RequestBuilder getPageRequest() {
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    private final RequestBuilder getPageRequestSorted() {
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE_SORTED)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the paginated response structure when returning the default page")
     void testResponseStructure_Page() throws Exception {
@@ -107,16 +117,6 @@ class ITControllerResponsePaged {
         // The response contains no error attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getPageRequest() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getPageRequestSorted() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE_SORTED)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }
