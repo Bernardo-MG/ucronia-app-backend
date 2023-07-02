@@ -37,6 +37,8 @@ import lombok.Value;
 @Builder
 public final class ImmutableFieldFailure implements FieldFailure {
 
+    private static final long serialVersionUID = 2019589536129094057L;
+
     private final String code;
 
     private final String field;

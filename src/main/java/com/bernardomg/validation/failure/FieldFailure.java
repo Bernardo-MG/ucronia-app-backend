@@ -24,6 +24,8 @@
 
 package com.bernardomg.validation.failure;
 
+import java.io.Serializable;
+
 /**
  * Field error message. Usually represents an error when validation a single field from an object. The validation
  * process may generate several of these.
@@ -31,7 +33,7 @@ package com.bernardomg.validation.failure;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface FieldFailure extends Failure {
+public interface FieldFailure extends Failure, Serializable {
 
     /**
      * Creates a {@code FieldFailure} for the received arguments. The message will be generated from the arguments.
