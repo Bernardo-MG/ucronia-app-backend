@@ -54,9 +54,16 @@ public final class DefaultTransactionService implements TransactionService {
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
     public final Boolean delete(final Long id) {
-        repository.deleteById(id);
+        final Boolean deleted;
 
-        return true;
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            deleted = true;
+        } else {
+            deleted = false;
+        }
+
+        return deleted;
     }
 
     @Override

@@ -116,10 +116,17 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean delete(final Long id) {
-        validatorDeleteUser.validate(id);
-        userRepository.deleteById(id);
+        final Boolean deleted;
 
-        return true;
+        if (userRepository.existsById(id)) {
+            validatorDeleteUser.validate(id);
+            userRepository.deleteById(id);
+            deleted = true;
+        } else {
+            deleted = false;
+        }
+
+        return deleted;
     }
 
     @Override

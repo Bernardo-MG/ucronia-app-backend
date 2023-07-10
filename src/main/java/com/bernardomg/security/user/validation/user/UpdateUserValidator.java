@@ -23,7 +23,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 
     @Override
     protected final void checkRules(final UserUpdate user, final Collection<FieldFailure> failures) {
-        FieldFailure  failure;
+        FieldFailure failure;
 
         // Verify the email is not registered
         if (userRepository.existsByIdNotAndEmail(user.getId(), user.getEmail())) {

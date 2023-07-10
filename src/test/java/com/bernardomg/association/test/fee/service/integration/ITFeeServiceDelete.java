@@ -59,15 +59,14 @@ class ITFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("With an invalid id it returns a true flag")
+    @DisplayName("With an invalid id it returns a false flag")
     void testDelete_NotExisting_ReturnsFalse() {
         final Boolean deleted;
 
-        // TODO: Shouldn't this be an error?
         deleted = service.delete(-1L);
 
         Assertions.assertThat(deleted)
-            .isTrue();
+            .isFalse();
     }
 
     @Test

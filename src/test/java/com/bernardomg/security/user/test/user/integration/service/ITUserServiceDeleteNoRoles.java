@@ -50,6 +50,26 @@ class ITUserServiceDeleteNoRoles {
     }
 
     @Test
+    @DisplayName("With an invalid id, it removes no entity")
+    void testDelete_NotExisting_NotRemovesEntity() {
+        service.delete(-1L);
+
+        Assertions.assertThat(repository.count())
+            .isOne();
+    }
+
+    @Test
+    @DisplayName("With an invalid id, it returns a false flag")
+    void testDelete_NotExisting_ReturnsFalse() {
+        final Boolean deleted;
+
+        deleted = service.delete(-1L);
+
+        Assertions.assertThat(deleted)
+            .isFalse();
+    }
+
+    @Test
     @DisplayName("Removes an entity when deleting")
     void testDelete_RemovesEntity() {
         service.delete(1L);
