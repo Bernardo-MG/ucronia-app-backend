@@ -22,40 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.service.integration;
+package com.bernardomg.association.test.fee.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
-@DisplayName("Transaction service - delete")
-@Sql({ "/db/queries/transaction/single.sql" })
-class ITTransactionServiceDelete {
+@DisplayName("Fee service - delete")
+@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+class ITFeeServiceDeleteError {
 
     @Autowired
-    private TransactionRepository repository;
+    private FeeService service;
 
-    @Autowired
-    private TransactionService    service;
-
-    public ITTransactionServiceDelete() {
+    public ITFeeServiceDeleteError() {
         super();
     }
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
-    void testDelete_RemovesEntity() {
-        service.delete(1L);
+    @DisplayName("With an invalid id it removes no entity")
+    void testDelete_NotExisting_NotRemovesEntity() {
+        final ThrowingCallable execution;
 
-        Assertions.assertThat(repository.count())
-            .isZero();
+        execution = () -> service.delete(-1L);
+
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

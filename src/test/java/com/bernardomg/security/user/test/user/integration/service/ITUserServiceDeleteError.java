@@ -25,68 +25,34 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
 @DisplayName("User service - delete without roles")
-@Sql({ "/db/queries/security/user/single.sql" })
-class ITUserServiceDeleteNoRoles {
+class ITUserServiceDeleteError {
 
     @Autowired
-    private UserRepository repository;
+    private UserService service;
 
-    @Autowired
-    private UserService    service;
-
-    public ITUserServiceDeleteNoRoles() {
+    public ITUserServiceDeleteError() {
         super();
     }
 
     @Test
-    @DisplayName("With an invalid id, it removes no entity")
+    @DisplayName("With an invalid id, an exception is thrown")
     void testDelete_NotExisting_NotRemovesEntity() {
-        service.delete(-1L);
+        final ThrowingCallable execution;
 
-        Assertions.assertThat(repository.count())
-            .isOne();
-    }
+        execution = () -> service.delete(1L);
 
-    @Test
-    @DisplayName("With an invalid id, it returns a false flag")
-    void testDelete_NotExisting_ReturnsFalse() {
-        final Boolean deleted;
-
-        deleted = service.delete(-1L);
-
-        Assertions.assertThat(deleted)
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("Removes an entity when deleting")
-    void testDelete_RemovesEntity() {
-        service.delete(1L);
-
-        Assertions.assertThat(repository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("Removes a true flag when deleting an entity")
-    void testDelete_ReturnsTrue() {
-        final Boolean deleted;
-
-        deleted = service.delete(1L);
-
-        Assertions.assertThat(deleted)
-            .isTrue();
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

@@ -53,19 +53,14 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
-    public final Boolean delete(final Long id) {
-        final Boolean deleted;
+    public final void delete(final Long id) {
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed delete. No member with id %s", id));
+        }
 
         // TODO: Forbid deleting when there are relationships
 
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            deleted = true;
-        } else {
-            deleted = false;
-        }
-
-        return deleted;
+        repository.deleteById(id);
     }
 
     @Override

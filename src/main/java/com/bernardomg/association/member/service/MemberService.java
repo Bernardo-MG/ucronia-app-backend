@@ -32,9 +32,8 @@ public interface MemberService {
      *
      * @param id
      *            id of the member to delete
-     * @return {@code true} if it managed to delete, {@code false} otherwise
      */
-    public Boolean delete(final Long id);
+    public void delete(final Long id);
 
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.

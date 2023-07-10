@@ -77,17 +77,12 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
-    public final Boolean delete(final Long id) {
-        final Boolean deleted;
-
-        if (feeRepository.existsById(id)) {
-            feeRepository.deleteById(id);
-            deleted = true;
-        } else {
-            deleted = false;
+    public final void delete(final Long id) {
+        if (!feeRepository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed delete. No fee with id %s", id));
         }
 
-        return deleted;
+        feeRepository.deleteById(id);
     }
 
     @Override

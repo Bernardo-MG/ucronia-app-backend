@@ -53,17 +53,12 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
-    public final Boolean delete(final Long id) {
-        final Boolean deleted;
-
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            deleted = true;
-        } else {
-            deleted = false;
+    public final void delete(final Long id) {
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed delete. No transaction with id %s", id));
         }
 
-        return deleted;
+        repository.deleteById(id);
     }
 
     @Override

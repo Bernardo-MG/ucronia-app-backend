@@ -76,7 +76,7 @@ class ITMemberControllerRequestValidation {
 
         // The operation was accepted
         result.andExpect(MockMvcResultMatchers.status()
-            .isOk());
+            .isCreated());
 
         // The response model contains the expected attributes
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content.name", Matchers.comparesEqualTo("Member")));

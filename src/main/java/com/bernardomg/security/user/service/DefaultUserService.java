@@ -59,7 +59,7 @@ public final class DefaultUserService implements UserService {
 
         validatorCreateUser = new CreateUserValidator(userRepo);
         validatorUpdateUser = new UpdateUserValidator(userRepo);
-        validatorDeleteUser = new DeleteUserValidator(userRepo);
+        validatorDeleteUser = new DeleteUserValidator();
 
         validatorAddUserRole = new AddUserRoleValidator(userRepo, roleRepo);
         validatorRemoveUserRole = new AddUserRoleValidator(userRepo, roleRepo);
@@ -115,18 +115,14 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Boolean delete(final Long id) {
-        final Boolean deleted;
+    public final void delete(final Long id) {
 
-        if (userRepository.existsById(id)) {
-            validatorDeleteUser.validate(id);
-            userRepository.deleteById(id);
-            deleted = true;
-        } else {
-            deleted = false;
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed delete. No user with id %s", id));
         }
 
-        return deleted;
+        validatorDeleteUser.validate(id);
+        userRepository.deleteById(id);
     }
 
     @Override
