@@ -33,6 +33,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
 @DisplayName("Member service - delete")
@@ -54,7 +55,7 @@ class ITMemberServiceDeleteError {
         execution = () -> service.delete(-1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

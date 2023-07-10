@@ -35,6 +35,7 @@ import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.member.util.model.MembersUpdate;
+import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
 @DisplayName("Member service - update")
@@ -59,7 +60,7 @@ class ITMemberServiceUpdateError {
         execution = () -> service.update(10L, memberRequest);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

@@ -22,6 +22,7 @@ import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecificat
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.validation.Validator;
 
 /**
@@ -79,7 +80,7 @@ public final class DefaultFeeService implements FeeService {
     @PreAuthorize("hasAuthority('FEE:DELETE')")
     public final void delete(final Long id) {
         if (!feeRepository.existsById(id)) {
-            throw new IllegalArgumentException(String.format("Failed delete. No fee with id %s", id));
+            throw new InvalidIdException(String.format("Failed delete. No fee with id %s", id), id);
         }
 
         feeRepository.deleteById(id);
@@ -130,7 +131,7 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee created;
 
         if (!feeRepository.existsById(id)) {
-            throw new IllegalArgumentException(String.format("Failed update. No fee with id %s", id));
+            throw new InvalidIdException(String.format("Failed update. No fee with id %s", id));
         }
 
         validatorUpdate.validate(form);

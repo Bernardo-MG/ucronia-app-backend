@@ -35,6 +35,7 @@ import com.bernardomg.association.fee.model.request.FeeUpdate;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.model.FeesUpdate;
+import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
 @DisplayName("Fee service - update errors")
@@ -59,7 +60,7 @@ class ITFeeServiceUpdateError {
         execution = () -> service.update(10L, feeRequest);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

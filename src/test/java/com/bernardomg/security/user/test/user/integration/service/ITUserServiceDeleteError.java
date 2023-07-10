@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
@@ -52,7 +53,7 @@ class ITUserServiceDeleteError {
         execution = () -> service.delete(1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

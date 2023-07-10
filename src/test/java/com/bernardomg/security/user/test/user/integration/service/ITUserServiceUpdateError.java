@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
@@ -60,7 +61,7 @@ class ITUserServiceUpdateError {
         execution = () -> service.update(1L, user);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

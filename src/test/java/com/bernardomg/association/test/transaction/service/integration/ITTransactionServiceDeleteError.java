@@ -33,6 +33,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
 @DisplayName("Transaction service - delete")
@@ -54,7 +55,7 @@ class ITTransactionServiceDeleteError {
         execution = () -> service.delete(-1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }
