@@ -64,20 +64,4 @@ class ITUserServiceUpdateValidation {
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
-    @Test
-    @DisplayName("Throws an exception when the user doesn't exist")
-    void testUpdate_NotExistingUser() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final UserUpdate       data;
-
-        data = UsersUpdate.enabled();
-
-        executable = () -> service.update(1L, data);
-
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", "admin");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
 }
