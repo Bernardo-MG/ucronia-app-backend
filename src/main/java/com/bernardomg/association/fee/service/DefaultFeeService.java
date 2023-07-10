@@ -127,6 +127,10 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee entity;
         final PersistentFee created;
 
+        if (!feeRepository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed update. No fee with id %s", id));
+        }
+
         validatorUpdate.validate(form);
 
         entity = mapper.toEntity(form);

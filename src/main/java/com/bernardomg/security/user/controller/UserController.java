@@ -80,9 +80,7 @@ public class UserController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedUserUpdate form) {
-        form.setId(id);
-
-        return service.update(form);
+        return service.update(id, form);
     }
 
 }

@@ -171,10 +171,14 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User update(final UserUpdate user) {
+    public final User update(final Long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
         final Optional<PersistentUser> old;
+
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed update. No user with id %s", id));
+        }
 
         validatorUpdateUser.validate(user);
 

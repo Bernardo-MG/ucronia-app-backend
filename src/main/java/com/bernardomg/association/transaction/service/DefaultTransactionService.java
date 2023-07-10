@@ -137,6 +137,10 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed update. No transaction with id %s", id));
+        }
+
         entity = mapper.toEntity(transaction);
         entity.setId(id);
 

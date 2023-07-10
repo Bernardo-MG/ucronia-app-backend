@@ -97,6 +97,10 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember entity;
         final PersistentMember updated;
 
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException(String.format("Failed update. No member with id %s", id));
+        }
+
         entity = mapper.toEntity(member);
         entity.setId(id);
 
