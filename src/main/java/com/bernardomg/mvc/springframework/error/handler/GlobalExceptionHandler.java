@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
@@ -87,6 +88,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         response = Response.error("Internal error");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ InvalidIdException.class })
+    public final ResponseEntity<Object> handleMissingDataException(final InvalidIdException ex,
+            final WebRequest request) throws Exception {
+        log.warn(ex.getMessage(), ex);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({ DataAccessException.class, PropertyReferenceException.class })
