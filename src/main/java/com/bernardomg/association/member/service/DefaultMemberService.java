@@ -15,6 +15,7 @@ import com.bernardomg.association.member.model.request.MemberQuery;
 import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.exception.InvalidIdException;
 
 import lombok.AllArgsConstructor;
 
@@ -53,12 +54,14 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
-    public final Boolean delete(final Long id) {
+    public final void delete(final Long id) {
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed delete. No member with id %s", id));
+        }
+
         // TODO: Forbid deleting when there are relationships
 
         repository.deleteById(id);
-
-        return true;
     }
 
     @Override
@@ -96,6 +99,10 @@ public final class DefaultMemberService implements MemberService {
     public final Member update(final Long id, final MemberUpdate member) {
         final PersistentMember entity;
         final PersistentMember updated;
+
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed update. No member with id %s", id));
+        }
 
         entity = mapper.toEntity(member);
         entity.setId(id);

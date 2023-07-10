@@ -22,40 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.service.integration;
+package com.bernardomg.association.test.member.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
-@DisplayName("Transaction service - delete")
-@Sql({ "/db/queries/transaction/single.sql" })
-class ITTransactionServiceDelete {
+@DisplayName("Member service - delete")
+@Sql({ "/db/queries/member/single.sql" })
+class ITMemberServiceDeleteError {
 
     @Autowired
-    private TransactionRepository repository;
+    private MemberService service;
 
-    @Autowired
-    private TransactionService    service;
-
-    public ITTransactionServiceDelete() {
+    public ITMemberServiceDeleteError() {
         super();
     }
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
-    void testDelete_RemovesEntity() {
-        service.delete(1L);
+    @DisplayName("With an invalid id, an exception is thrown")
+    void testDelete_NotExisting_NotRemovesEntity() {
+        final ThrowingCallable execution;
 
-        Assertions.assertThat(repository.count())
-            .isZero();
+        execution = () -> service.delete(-1L);
+
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

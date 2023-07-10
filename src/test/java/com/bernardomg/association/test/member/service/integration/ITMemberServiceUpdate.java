@@ -41,7 +41,7 @@ import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.test.member.util.model.MembersUpdate;
 
 @IntegrationTest
-@DisplayName("Member service - update")
+@DisplayName("Member service - update errors")
 @Sql({ "/db/queries/member/single.sql" })
 class ITMemberServiceUpdate {
 
@@ -66,19 +66,6 @@ class ITMemberServiceUpdate {
 
         Assertions.assertThat(repository.count())
             .isOne();
-    }
-
-    @Test
-    @DisplayName("With a not existing entity, a new entity is persisted")
-    void testUpdate_NotExisting_AddsEntity() {
-        final MemberUpdate memberRequest;
-
-        memberRequest = MembersUpdate.nameChange();
-
-        service.update(10L, memberRequest);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(2);
     }
 
     @Test

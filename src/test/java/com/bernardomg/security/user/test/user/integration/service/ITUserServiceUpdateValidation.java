@@ -37,7 +37,7 @@ class ITUserServiceUpdateValidation {
 
         data = UsersUpdate.usernameChange();
 
-        executable = () -> service.update(data);
+        executable = () -> service.update(1L, data);
 
         // TODO: Is this value really the correct one?
         failure = FieldFailure.of("username.immutable", "username", "immutable", 1L);
@@ -57,25 +57,9 @@ class ITUserServiceUpdateValidation {
 
         data = UsersUpdate.emailChange();
 
-        executable = () -> service.update(data);
+        executable = () -> service.update(1L, data);
 
         failure = FieldFailure.of("email.existing", "email", "existing", "email2@somewhere.com");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the user doesn't exist")
-    void testUpdate_NotExistingUser() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final UserUpdate       data;
-
-        data = UsersUpdate.enabled();
-
-        executable = () -> service.update(data);
-
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", "admin");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

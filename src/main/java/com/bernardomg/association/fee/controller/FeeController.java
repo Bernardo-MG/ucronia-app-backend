@@ -69,8 +69,8 @@ public class FeeController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean delete(@PathVariable("id") final Long id) {
-        return service.delete(id);
+    public void delete(@PathVariable("id") final Long id) {
+        service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

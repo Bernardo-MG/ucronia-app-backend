@@ -8,6 +8,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.ImmutableUserRole;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
@@ -59,7 +60,7 @@ public final class DefaultUserService implements UserService {
 
         validatorCreateUser = new CreateUserValidator(userRepo);
         validatorUpdateUser = new UpdateUserValidator(userRepo);
-        validatorDeleteUser = new DeleteUserValidator(userRepo);
+        validatorDeleteUser = new DeleteUserValidator();
 
         validatorAddUserRole = new AddUserRoleValidator(userRepo, roleRepo);
         validatorRemoveUserRole = new AddUserRoleValidator(userRepo, roleRepo);
@@ -115,11 +116,14 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Boolean delete(final Long id) {
+    public final void delete(final Long id) {
+
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed delete. No user with id %s", id));
+        }
+
         validatorDeleteUser.validate(id);
         userRepository.deleteById(id);
-
-        return true;
     }
 
     @Override
@@ -171,10 +175,14 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User update(final UserUpdate user) {
+    public final User update(final Long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
         final Optional<PersistentUser> old;
+
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed update. No user with id %s", id));
+        }
 
         validatorUpdateUser.validate(user);
 

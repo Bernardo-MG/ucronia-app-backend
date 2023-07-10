@@ -50,44 +50,12 @@ class ITMemberServiceDelete {
     }
 
     @Test
-    @DisplayName("With an invalid id, it removes no entity")
-    void testDelete_NotExisting_NotRemovesEntity() {
-        service.delete(-1L);
-
-        Assertions.assertThat(repository.count())
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("With an invalid id, it returns a true flag")
-    void testDelete_NotExisting_ReturnsFalse() {
-        final Boolean deleted;
-
-        // TODO: Shouldn't this be an error?
-        deleted = service.delete(-1L);
-
-        Assertions.assertThat(deleted)
-            .isTrue();
-    }
-
-    @Test
     @DisplayName("With a valid id it removes the entity")
     void testDelete_RemovesEntity() {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
             .isZero();
-    }
-
-    @Test
-    @DisplayName("With a valid id it returns a true flag")
-    void testDelete_ReturnsTrue() {
-        final Boolean deleted;
-
-        deleted = service.delete(1L);
-
-        Assertions.assertThat(deleted)
-            .isTrue();
     }
 
 }

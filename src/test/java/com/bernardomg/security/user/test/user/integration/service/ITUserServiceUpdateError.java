@@ -24,38 +24,44 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
-@DisplayName("User service - delete validation")
-class ITUserServiceDeleteValidation {
+@DisplayName("Role service - update errors")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+class ITUserServiceUpdateError {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceDeleteValidation() {
+    public ITUserServiceUpdateError() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the user doesn't exist")
-    void testDelete_NotExisting() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testUpdate_NotExisting_Exception() {
+        final UserUpdate       user;
+        final ThrowingCallable execution;
 
-        executable = () -> service.delete(1L);
+        user = UsersUpdate.emailChange();
 
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
+        execution = () -> service.update(1L, user);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

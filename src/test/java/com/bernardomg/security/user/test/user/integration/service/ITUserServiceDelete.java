@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.service.integration;
+package com.bernardomg.security.user.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,26 +31,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
-@DisplayName("Transaction service - delete")
-@Sql({ "/db/queries/transaction/single.sql" })
-class ITTransactionServiceDelete {
+@DisplayName("User service - delete without roles")
+@Sql({ "/db/queries/security/user/single.sql" })
+class ITUserServiceDelete {
 
     @Autowired
-    private TransactionRepository repository;
+    private UserRepository repository;
 
     @Autowired
-    private TransactionService    service;
+    private UserService    service;
 
-    public ITTransactionServiceDelete() {
+    public ITUserServiceDelete() {
         super();
     }
 
     @Test
-    @DisplayName("With a valid id it removes the entity")
+    @DisplayName("Removes an entity when deleting")
     void testDelete_RemovesEntity() {
         service.delete(1L);
 

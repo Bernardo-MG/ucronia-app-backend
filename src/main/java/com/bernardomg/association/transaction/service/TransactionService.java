@@ -33,9 +33,8 @@ public interface TransactionService {
      *
      * @param id
      *            id of the transaction to delete
-     * @return {@code true} if it managed to delete, {@code false} otherwise
      */
-    public Boolean delete(final Long id);
+    public void delete(final Long id);
 
     /**
      * Returns all the transactions matching the sample. If the sample fields are empty, then all the transactions are

@@ -41,7 +41,7 @@ import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
-@DisplayName("Role service - update with no roles")
+@DisplayName("Role service - update")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql" })
@@ -64,7 +64,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChange();
 
-        service.update(user);
+        service.update(1L, user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -78,7 +78,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChange();
 
-        service.update(user);
+        service.update(1L, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -103,7 +103,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChangeUpperCase();
 
-        service.update(user);
+        service.update(1L, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -120,7 +120,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChange();
 
-        result = service.update(user);
+        result = service.update(1L, user);
 
         UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
@@ -141,7 +141,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChangeUpperCase();
 
-        result = service.update(user);
+        result = service.update(1L, user);
 
         Assertions.assertThat(result.getEmail())
             .isEqualTo("email2@somewhere.com");

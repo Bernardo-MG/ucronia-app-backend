@@ -38,9 +38,8 @@ public interface UserService {
      *
      * @param id
      *            id of the user to delete
-     * @return {@code true} if it managed to delete, {@code false} otherwise
      */
-    public Boolean delete(final Long id);
+    public void delete(final Long id);
 
     /**
      * Returns all the users matching the sample. If the sample fields are empty, then all the users are returned.
@@ -87,10 +86,12 @@ public interface UserService {
     /**
      * Updates the user for the received id with the received data.
      *
+     * @param id
+     *            id of the user to update
      * @param user
      *            new data for the user
      * @return the updated user
      */
-    public User update(final UserUpdate user);
+    public User update(final Long id, final UserUpdate user);
 
 }

@@ -22,51 +22,43 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.test.user.integration.service;
+package com.bernardomg.association.test.transaction.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.association.test.transaction.util.model.TransactionsUpdate;
+import com.bernardomg.association.transaction.model.request.TransactionUpdate;
+import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
-@DisplayName("User service - delete without roles")
-@Sql({ "/db/queries/security/user/single.sql" })
-class ITUserServiceDeleteNoRoles {
+@DisplayName("Transaction service - update errors")
+class ITTransactionServiceUpdateError {
 
     @Autowired
-    private UserRepository repository;
+    private TransactionService service;
 
-    @Autowired
-    private UserService    service;
-
-    public ITUserServiceDeleteNoRoles() {
+    public ITTransactionServiceUpdateError() {
         super();
     }
 
     @Test
-    @DisplayName("Removes an entity when deleting")
-    void testDelete_RemovesEntity() {
-        service.delete(1L);
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testUpdate_NotExisting_Exception() {
+        final TransactionUpdate transactionRequest;
+        final ThrowingCallable  execution;
 
-        Assertions.assertThat(repository.count())
-            .isZero();
-    }
+        transactionRequest = TransactionsUpdate.descriptionChange();
 
-    @Test
-    @DisplayName("Removes a true flag when deleting an entity")
-    void testDelete_ReturnsTrue() {
-        final Boolean deleted;
+        execution = () -> service.update(10L, transactionRequest);
 
-        deleted = service.delete(1L);
-
-        Assertions.assertThat(deleted)
-            .isTrue();
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

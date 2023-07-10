@@ -20,6 +20,7 @@ import com.bernardomg.association.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.persistence.repository.TransactionSpecifications;
+import com.bernardomg.exception.InvalidIdException;
 
 import lombok.AllArgsConstructor;
 
@@ -53,10 +54,12 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
-    public final Boolean delete(final Long id) {
-        repository.deleteById(id);
+    public final void delete(final Long id) {
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed delete. No transaction with id %s", id));
+        }
 
-        return true;
+        repository.deleteById(id);
     }
 
     @Override
@@ -136,6 +139,10 @@ public final class DefaultTransactionService implements TransactionService {
     public final Transaction update(final Long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
+
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed update. No transaction with id %s", id));
+        }
 
         entity = mapper.toEntity(transaction);
         entity.setId(id);

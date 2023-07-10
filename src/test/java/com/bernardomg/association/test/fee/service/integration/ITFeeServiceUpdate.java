@@ -71,20 +71,6 @@ class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing entity, a new entity is persisted")
-    @Sql({ "/db/queries/member/single.sql" })
-    void testUpdate_NotExisting_AddsEntity() {
-        final FeeUpdate feeRequest;
-
-        feeRequest = FeesUpdate.paid();
-
-        service.update(10L, feeRequest);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     void testUpdate_Pay_PersistedData() {
