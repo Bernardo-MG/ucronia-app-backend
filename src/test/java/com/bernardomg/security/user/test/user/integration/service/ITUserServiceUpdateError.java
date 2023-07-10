@@ -57,7 +57,7 @@ class ITUserServiceUpdateError {
 
         user = UsersUpdate.emailChange();
 
-        execution = () -> service.update(user);
+        execution = () -> service.update(1L, user);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(IllegalArgumentException.class);

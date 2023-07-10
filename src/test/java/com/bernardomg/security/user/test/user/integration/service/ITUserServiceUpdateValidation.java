@@ -37,7 +37,7 @@ class ITUserServiceUpdateValidation {
 
         data = UsersUpdate.usernameChange();
 
-        executable = () -> service.update(data);
+        executable = () -> service.update(1L, data);
 
         // TODO: Is this value really the correct one?
         failure = FieldFailure.of("username.immutable", "username", "immutable", 1L);
@@ -57,7 +57,7 @@ class ITUserServiceUpdateValidation {
 
         data = UsersUpdate.emailChange();
 
-        executable = () -> service.update(data);
+        executable = () -> service.update(1L, data);
 
         failure = FieldFailure.of("email.existing", "email", "existing", "email2@somewhere.com");
 
@@ -73,7 +73,7 @@ class ITUserServiceUpdateValidation {
 
         data = UsersUpdate.enabled();
 
-        executable = () -> service.update(data);
+        executable = () -> service.update(1L, data);
 
         failure = FieldFailure.of("id.notExisting", "id", "notExisting", "admin");
 

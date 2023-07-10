@@ -64,7 +64,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChange();
 
-        service.update(user);
+        service.update(1L, user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -78,7 +78,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChange();
 
-        service.update(user);
+        service.update(1L, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -103,7 +103,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChangeUpperCase();
 
-        service.update(user);
+        service.update(1L, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -120,7 +120,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChange();
 
-        result = service.update(user);
+        result = service.update(1L, user);
 
         UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
@@ -141,7 +141,7 @@ class ITUserServiceUpdate {
 
         user = UsersUpdate.emailChangeUpperCase();
 
-        result = service.update(user);
+        result = service.update(1L, user);
 
         Assertions.assertThat(result.getEmail())
             .isEqualTo("email2@somewhere.com");
