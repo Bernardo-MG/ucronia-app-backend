@@ -41,7 +41,7 @@ import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
-@DisplayName("Role service - update with no roles")
+@DisplayName("Role service - update")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql" })

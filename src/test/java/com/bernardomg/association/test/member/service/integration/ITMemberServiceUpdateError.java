@@ -25,86 +25,41 @@
 package com.bernardomg.association.test.member.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.member.model.DtoMember;
-import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberUpdate;
-import com.bernardomg.association.member.persistence.model.PersistentMember;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.test.member.util.model.MembersUpdate;
 
 @IntegrationTest
-@DisplayName("Member service - update errors")
+@DisplayName("Member service - update")
 @Sql({ "/db/queries/member/single.sql" })
-class ITMemberServiceUpdate {
+class ITMemberServiceUpdateError {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberService service;
 
-    @Autowired
-    private MemberService    service;
-
-    public ITMemberServiceUpdate() {
+    public ITMemberServiceUpdateError() {
         super();
     }
 
     @Test
-    @DisplayName("With an existing entity, no new entity is persisted")
-    void testUpdate_AddsNoEntity() {
-        final MemberUpdate memberRequest;
-
-        memberRequest = MembersUpdate.nameChange();
-
-        service.update(1L, memberRequest);
-
-        Assertions.assertThat(repository.count())
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the change is persisted")
-    void testUpdate_PersistedData() {
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testUpdate_NotExisting_Exception() {
         final MemberUpdate     memberRequest;
-        final PersistentMember entity;
+        final ThrowingCallable execution;
 
         memberRequest = MembersUpdate.nameChange();
 
-        service.update(1L, memberRequest);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
-            .name("Member 123")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
-    }
+        execution = () -> service.update(10L, memberRequest);
 
-    @Test
-    @DisplayName("With a changed entity, the changed data is returned")
-    void testUpdate_ReturnedData() {
-        final MemberUpdate memberRequest;
-        final Member       member;
-
-        memberRequest = MembersUpdate.nameChange();
-
-        member = service.update(1L, memberRequest);
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 123")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

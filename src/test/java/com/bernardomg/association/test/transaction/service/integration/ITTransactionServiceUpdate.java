@@ -110,19 +110,6 @@ class ITTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing entity, a new entity is persisted")
-    void testUpdate_NotExisting_AddsEntity() {
-        final TransactionUpdate transactionRequest;
-
-        transactionRequest = TransactionsUpdate.descriptionChange();
-
-        service.update(10L, transactionRequest);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/transaction/single.sql" })
     void testUpdate_PersistedData() {
