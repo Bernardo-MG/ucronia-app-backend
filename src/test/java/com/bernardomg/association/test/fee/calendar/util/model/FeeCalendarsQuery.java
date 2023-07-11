@@ -5,11 +5,6 @@ import com.bernardomg.association.fee.calendar.model.request.DtoFeeCalendarQuery
 
 public final class FeeCalendarsQuery {
 
-    public static final DtoFeeCalendarQueryRequest missingOnlyActive() {
-        return DtoFeeCalendarQueryRequest.builder()
-            .build();
-    }
-
     public static final DtoFeeCalendarQueryRequest onlyActive() {
         return DtoFeeCalendarQueryRequest.builder()
             .onlyActive(true)
