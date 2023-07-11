@@ -24,22 +24,21 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
-import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesUpdate;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Role service - update validation")
-public class ITRoleServiceUpdateValidation {
+class ITRoleServiceUpdateValidation {
 
     @Autowired
     private RoleService service;
@@ -50,35 +49,18 @@ public class ITRoleServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testUpdate_NotExistingRole() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final Role                  data;
+    void testUpdate_NotExistingRole() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final RoleUpdate       data;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         executable = () -> service.update(data);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("notExisting", failure.getCode());
-        Assertions.assertEquals("id", failure.getField());
-        Assertions.assertEquals("id.notExisting", failure.getMessage());
-    }
-
-    private final Role getRoleWithNoActions() {
-        return ImmutableRole.builder()
-            .id(1L)
-            .name("Role")
-            .build();
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
 }

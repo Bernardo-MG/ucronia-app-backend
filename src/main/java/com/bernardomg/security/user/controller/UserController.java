@@ -25,6 +25,7 @@
 package com.bernardomg.security.user.controller;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,12 +34,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.DtoUserCreationRequest;
-import com.bernardomg.security.user.model.request.DtoUserQueryRequest;
-import com.bernardomg.security.user.model.request.DtoUserUpdateRequest;
+import com.bernardomg.security.user.model.request.ValidatedUserCreate;
+import com.bernardomg.security.user.model.request.ValidatedUserQuery;
+import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 import com.bernardomg.security.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -58,17 +60,18 @@ public class UserController {
     private final UserService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User create(@Valid @RequestBody final DtoUserCreationRequest user) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public User create(@Valid @RequestBody final ValidatedUserCreate user) {
         return service.create(user);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean delete(@PathVariable("id") final Long id) {
-        return service.delete(id);
+    public void delete(@PathVariable("id") final Long id) {
+        service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<User> readAll(final DtoUserQueryRequest user, final Pageable pageable) {
+    public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
@@ -79,10 +82,8 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final DtoUserUpdateRequest form) {
-        form.setId(id);
-
-        return service.update(form);
+    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedUserUpdate form) {
+        return service.update(id, form);
     }
 
 }

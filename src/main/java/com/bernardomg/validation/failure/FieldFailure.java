@@ -24,6 +24,8 @@
 
 package com.bernardomg.validation.failure;
 
+import java.io.Serializable;
+
 /**
  * Field error message. Usually represents an error when validation a single field from an object. The validation
  * process may generate several of these.
@@ -31,7 +33,7 @@ package com.bernardomg.validation.failure;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface FieldFailure extends Failure {
+public interface FieldFailure extends Failure, Serializable {
 
     /**
      * Creates a {@code FieldFailure} for the received arguments. The message will be generated from the arguments.
@@ -49,7 +51,12 @@ public interface FieldFailure extends Failure {
 
         message = String.format("%s.%s", field, code);
 
-        return new ImmutableFieldFailure(message, field, code, value);
+        return ImmutableFieldFailure.builder()
+            .message(message)
+            .field(field)
+            .code(code)
+            .value(value)
+            .build();
     }
 
     /**
@@ -66,7 +73,12 @@ public interface FieldFailure extends Failure {
      * @return {@code FieldValidationError} for the received arguments
      */
     public static FieldFailure of(final String message, final String field, final String code, final Object value) {
-        return new ImmutableFieldFailure(message, field, code, value);
+        return ImmutableFieldFailure.builder()
+            .message(message)
+            .field(field)
+            .code(code)
+            .value(value)
+            .build();
     }
 
     /**

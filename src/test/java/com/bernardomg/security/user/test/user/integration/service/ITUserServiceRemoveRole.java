@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import com.bernardomg.security.user.service.UserService;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceRemoveRole {
+class ITUserServiceRemoveRole {
 
     @Autowired
     private UserService         service;
@@ -33,15 +33,16 @@ public class ITUserServiceRemoveRole {
 
     @Test
     @DisplayName("Removes the entity when removing a role")
-    public void testAddRole_RemovesEntity() {
+    void testAddRole_RemovesEntity() {
         service.removeRole(1L, 1L);
 
-        Assertions.assertEquals(0L, userRolesRepository.count());
+        Assertions.assertThat(userRolesRepository.count())
+            .isZero();
     }
 
     @Test
     @DisplayName("Reading the roles after removing a role doesn't return it")
-    public void testAddRoles_CallBack() {
+    void testAddRoles_CallBack() {
         final Iterable<Role> result;
         final Pageable       pageable;
 
@@ -50,7 +51,8 @@ public class ITUserServiceRemoveRole {
         service.removeRole(1L, 1L);
         result = service.getRoles(1L, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
 }

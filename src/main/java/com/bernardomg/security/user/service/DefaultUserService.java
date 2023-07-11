@@ -8,115 +8,146 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.ImmutableUserRole;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.UserRole;
-import com.bernardomg.security.user.model.request.UserQueryRequest;
+import com.bernardomg.security.user.model.mapper.UserMapper;
+import com.bernardomg.security.user.model.request.UserCreate;
+import com.bernardomg.security.user.model.request.UserQuery;
+import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
-import com.bernardomg.security.user.service.validation.user.AddUserRoleValidator;
-import com.bernardomg.security.user.service.validation.user.CreateUserValidator;
-import com.bernardomg.security.user.service.validation.user.DeleteUserValidator;
-import com.bernardomg.security.user.service.validation.user.UpdateUserValidator;
+import com.bernardomg.security.user.validation.user.AddUserRoleValidator;
+import com.bernardomg.security.user.validation.user.CreateUserValidator;
+import com.bernardomg.security.user.validation.user.DeleteUserValidator;
+import com.bernardomg.security.user.validation.user.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
 
 @Service
 public final class DefaultUserService implements UserService {
 
-    private final Validator<UserRole> addUserRoleValidator;
+    private final UserMapper            mapper;
 
-    private final Validator<User>     createUserValidator;
+    private final RoleRepository        roleRepository;
 
-    private final Validator<Long>     deleteUserValidator;
+    private final UserRepository        userRepository;
 
-    private final Validator<UserRole> removeUserRoleValidator;
+    private final UserRolesRepository   userRolesRepository;
 
-    private final RoleRepository      roleRepository;
+    private final Validator<UserRole>   validatorAddUserRole;
 
-    private final Validator<User>     updateUserValidator;
+    private final Validator<UserCreate> validatorCreateUser;
 
-    private final UserRepository      userRepository;
+    private final Validator<Long>       validatorDeleteUser;
 
-    private final UserRolesRepository userRolesRepository;
+    private final Validator<UserRole>   validatorRemoveUserRole;
+
+    private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRolesRepository userRolesRepo) {
+            final UserRolesRepository userRolesRepo, final UserMapper userMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         userRolesRepository = Objects.requireNonNull(userRolesRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        mapper = Objects.requireNonNull(userMapper);
 
-        createUserValidator = new CreateUserValidator(userRepo);
-        updateUserValidator = new UpdateUserValidator(userRepo);
-        deleteUserValidator = new DeleteUserValidator(userRepo);
+        validatorCreateUser = new CreateUserValidator(userRepo);
+        validatorUpdateUser = new UpdateUserValidator(userRepo);
+        validatorDeleteUser = new DeleteUserValidator();
 
-        addUserRoleValidator = new AddUserRoleValidator(userRepo, roleRepo);
-        removeUserRoleValidator = new AddUserRoleValidator(userRepo, roleRepo);
+        validatorAddUserRole = new AddUserRoleValidator(userRepo, roleRepo);
+        validatorRemoveUserRole = new AddUserRoleValidator(userRepo, roleRepo);
     }
 
     @Override
     public final Boolean addRole(final Long id, final Long role) {
-        final PersistentUserRoles relationship;
+        final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
 
         userRole = ImmutableUserRole.builder()
             .user(id)
             .role(role)
             .build();
-        addUserRoleValidator.validate(userRole);
+        validatorAddUserRole.validate(userRole);
 
-        relationship = getRelationships(id, role);
+        userRoleSample = getUserRoleSample(id, role);
 
         // Persist relationship
-        userRolesRepository.save(relationship);
+        userRolesRepository.save(userRoleSample);
 
         return true;
     }
 
     @Override
-    public final User create(final User user) {
+    public final User create(final UserCreate user) {
         final PersistentUser entity;
         final PersistentUser created;
 
-        createUserValidator.validate(user);
+        validatorCreateUser.validate(user);
 
-        entity = toEntity(user);
-        entity.setId(null);
+        entity = mapper.toEntity(user);
+        if (entity.getUsername() != null) {
+            entity.setUsername(entity.getUsername()
+                .toLowerCase());
+        }
+        if (entity.getEmail() != null) {
+            entity.setEmail(entity.getEmail()
+                .toLowerCase());
+        }
+
+        // TODO: Handle this better, disable until it has a password
+        // TODO: Should be the DB default value
         entity.setPassword("");
+
+        entity.setExpired(false);
+        entity.setLocked(false);
+        entity.setCredentialsExpired(false);
 
         created = userRepository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
-    public final Boolean delete(final Long id) {
-        deleteUserValidator.validate(id);
+    public final void delete(final Long id) {
+
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed delete. No user with id %s", id));
+        }
+
+        validatorDeleteUser.validate(id);
         userRepository.deleteById(id);
-
-        return true;
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQueryRequest sample, final Pageable pageable) {
+    public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
-        entity = toEntity(sample);
+        entity = mapper.toEntity(sample);
+        if (entity.getUsername() != null) {
+            entity.setUsername(entity.getUsername()
+                .toLowerCase());
+        }
+        if (entity.getEmail() != null) {
+            entity.setEmail(entity.getEmail()
+                .toLowerCase());
+        }
 
         return userRepository.findAll(Example.of(entity), pageable)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
     public final Optional<User> getOne(final Long id) {
         return userRepository.findById(id)
-            .map(this::toDto);
+            .map(mapper::toDto);
     }
 
     @Override
@@ -126,33 +157,44 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Boolean removeRole(final Long id, final Long role) {
-        final PersistentUserRoles relationship;
+        final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
 
         userRole = ImmutableUserRole.builder()
             .user(id)
             .role(role)
             .build();
-        removeUserRoleValidator.validate(userRole);
+        validatorRemoveUserRole.validate(userRole);
 
-        relationship = getRelationships(id, role);
+        userRoleSample = getUserRoleSample(id, role);
 
         // Persist relationship
-        userRolesRepository.delete(relationship);
+        userRolesRepository.delete(userRoleSample);
 
         return true;
     }
 
     @Override
-    public final User update(final User user) {
+    public final User update(final Long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
         final Optional<PersistentUser> old;
 
-        updateUserValidator.validate(user);
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed update. No user with id %s", id));
+        }
 
-        entity = toEntity(user);
-        entity.setPassword("");
+        validatorUpdateUser.validate(user);
+
+        entity = mapper.toEntity(user);
+        if (entity.getUsername() != null) {
+            entity.setUsername(entity.getUsername()
+                .toLowerCase());
+        }
+        if (entity.getEmail() != null) {
+            entity.setEmail(entity.getEmail()
+                .toLowerCase());
+        }
 
         old = userRepository.findById(user.getId());
         if (old.isPresent()) {
@@ -160,85 +202,20 @@ public final class DefaultUserService implements UserService {
                 .getPassword());
         }
 
+        // TODO: Should keep the values in the database
+        entity.setExpired(false);
+        entity.setLocked(false);
+        entity.setCredentialsExpired(false);
+
         created = userRepository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
-    private final PersistentUserRoles getRelationships(final Long user, final Long role) {
+    private final PersistentUserRoles getUserRoleSample(final Long user, final Long role) {
         return PersistentUserRoles.builder()
             .userId(user)
             .roleId(role)
-            .build();
-    }
-
-    private final User toDto(final PersistentUser entity) {
-        return ImmutableUser.builder()
-            .id(entity.getId())
-            .username(entity.getUsername())
-            .name(entity.getName())
-            .email(entity.getEmail())
-            .credentialsExpired(entity.getCredentialsExpired())
-            .enabled(entity.getEnabled())
-            .expired(entity.getExpired())
-            .locked(entity.getLocked())
-            .build();
-    }
-
-    private final PersistentUser toEntity(final User data) {
-        final String username;
-        final String email;
-
-        if (data.getUsername() != null) {
-            username = data.getUsername()
-                .toLowerCase();
-        } else {
-            username = null;
-        }
-        if (data.getEmail() != null) {
-            email = data.getEmail()
-                .toLowerCase();
-        } else {
-            email = null;
-        }
-
-        return PersistentUser.builder()
-            .id(data.getId())
-            .username(username)
-            .email(email)
-            .name(data.getName())
-            .credentialsExpired(data.getCredentialsExpired())
-            .enabled(data.getEnabled())
-            .expired(data.getExpired())
-            .locked(data.getLocked())
-            .build();
-    }
-
-    private final PersistentUser toEntity(final UserQueryRequest data) {
-        final String username;
-        final String email;
-
-        if (data.getUsername() != null) {
-            username = data.getUsername()
-                .toLowerCase();
-        } else {
-            username = null;
-        }
-        if (data.getEmail() != null) {
-            email = data.getEmail()
-                .toLowerCase();
-        } else {
-            email = null;
-        }
-
-        return PersistentUser.builder()
-            .username(username)
-            .email(email)
-            .name(data.getName())
-            .credentialsExpired(data.getCredentialsExpired())
-            .enabled(data.getEnabled())
-            .expired(data.getExpired())
-            .locked(data.getLocked())
             .build();
     }
 

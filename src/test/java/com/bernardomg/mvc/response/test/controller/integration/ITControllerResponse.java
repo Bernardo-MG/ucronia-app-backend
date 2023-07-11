@@ -40,7 +40,7 @@ import com.bernardomg.mvc.response.test.controller.util.ResponseTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller advices - response structure")
-public final class ITControllerResponse {
+class ITControllerResponse {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,9 +49,14 @@ public final class ITControllerResponse {
         super();
     }
 
+    private final RequestBuilder getCollectionRequest() {
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH_COLLECTION)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure when returning a collection")
-    public final void testResponseStructure_Collection() throws Exception {
+    void testResponseStructure_Collection() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getCollectionRequest());
@@ -82,11 +87,6 @@ public final class ITControllerResponse {
         // The response contains no error attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getCollectionRequest() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_COLLECTION)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

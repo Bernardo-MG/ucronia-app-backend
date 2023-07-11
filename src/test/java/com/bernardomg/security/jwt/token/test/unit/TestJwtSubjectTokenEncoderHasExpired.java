@@ -3,7 +3,7 @@ package com.bernardomg.security.jwt.token.test.unit;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;
 
 @DisplayName("JwtSubjectTokenEncoder - has expired")
-public class TestJwtSubjectTokenEncoderHasExpired {
+class TestJwtSubjectTokenEncoderHasExpired {
 
     private final TokenEncoder<String> encoder;
 
@@ -34,19 +34,20 @@ public class TestJwtSubjectTokenEncoderHasExpired {
 
     @Test
     @DisplayName("A new token is not expired")
-    public void testHasExpired_fromGeneratedToken() {
+    void testHasExpired_fromGeneratedToken() {
         final String  token;
         final Boolean expired;
 
         token = encoder.encode("subject");
         expired = validator.hasExpired(token);
 
-        Assertions.assertFalse(expired);
+        Assertions.assertThat(expired)
+            .isFalse();
     }
 
     @Test
     @DisplayName("An expired token is identified as such")
-    public void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
+    void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
         final String  token;
         final Boolean expired;
 
@@ -57,7 +58,8 @@ public class TestJwtSubjectTokenEncoderHasExpired {
 
         expired = validator.hasExpired(token);
 
-        Assertions.assertTrue(expired);
+        Assertions.assertThat(expired)
+            .isTrue();
     }
 
 }

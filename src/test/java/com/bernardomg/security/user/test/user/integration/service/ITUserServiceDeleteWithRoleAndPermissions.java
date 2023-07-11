@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ import com.bernardomg.security.user.service.UserService;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITUserServiceDeleteWithRoleAndPermissions {
+class ITUserServiceDeleteWithRoleAndPermissions {
 
     @Autowired
     private ActionRepository actionRepository;
@@ -61,12 +61,15 @@ public class ITUserServiceDeleteWithRoleAndPermissions {
 
     @Test
     @DisplayName("Does not remove roles or action when deleting")
-    public void testDelete_DoesNotRemoveRelations() {
+    void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, repository.count());
-        Assertions.assertEquals(1L, roleRepository.count());
-        Assertions.assertEquals(4L, actionRepository.count());
+        Assertions.assertThat(repository.count())
+            .isZero();
+        Assertions.assertThat(roleRepository.count())
+            .isEqualTo(1);
+        Assertions.assertThat(actionRepository.count())
+            .isEqualTo(4);
     }
 
 }

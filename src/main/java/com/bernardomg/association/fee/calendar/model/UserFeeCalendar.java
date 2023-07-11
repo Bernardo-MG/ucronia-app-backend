@@ -24,13 +24,15 @@
 
 package com.bernardomg.association.fee.calendar.model;
 
+import java.util.Collection;
+
 public interface UserFeeCalendar {
 
     public Boolean getActive();
 
     public Long getMemberId();
 
-    public Iterable<FeeMonth> getMonths();
+    public Collection<FeeMonth> getMonths();
 
     public String getName();
 

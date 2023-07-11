@@ -1,21 +1,24 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersCreate;
 
 @IntegrationTest
 @DisplayName("User service - create")
-public class ITUserServiceCreate {
+class ITUserServiceCreate {
 
     @Autowired
     private UserRepository repository;
@@ -29,93 +32,72 @@ public class ITUserServiceCreate {
 
     @Test
     @DisplayName("Adds an entity when creating")
-    public void testCreate_AddsEntity() {
-        final User user;
+    void testCreate_AddsEntity() {
+        final UserCreate user;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         service.create(user);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
     @DisplayName("Persists the data")
-    public void testCreate_PersistedData() {
-        final User           user;
+    void testCreate_PersistedData() {
+        final UserCreate     user;
         final PersistentUser entity;
 
-        user = getUser();
+        user = UsersCreate.enabled();
 
         service.create(user);
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("Admin", entity.getName());
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
-        Assertions.assertEquals("", entity.getPassword());
-        Assertions.assertEquals(false, entity.getCredentialsExpired());
-        Assertions.assertEquals(true, entity.getEnabled());
-        Assertions.assertEquals(false, entity.getExpired());
-        Assertions.assertEquals(false, entity.getLocked());
+        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .password("")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
     @Test
     @DisplayName("Persists the data, ignoring case")
-    public void testCreate_PersistedData_Case() {
-        final ImmutableUser  user;
+    void testCreate_PersistedData_Case() {
+        final UserCreate     user;
         final PersistentUser entity;
 
-        user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         service.create(user);
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
     @DisplayName("Returns the created data")
-    public void testCreate_ReturnedData() {
-        final User user;
-        final User result;
+    void testCreate_ReturnedData() {
+        final UserCreate user;
+        final User       result;
 
-        user = getUser();
-
-        result = service.create(user);
-
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("Admin", result.getName());
-        Assertions.assertEquals("email@somewhere.com", result.getEmail());
-        Assertions.assertEquals(false, result.getCredentialsExpired());
-        Assertions.assertEquals(true, result.getEnabled());
-        Assertions.assertEquals(false, result.getExpired());
-        Assertions.assertEquals(false, result.getLocked());
-    }
-
-    @Test
-    @DisplayName("Returns the created data, ignoring case")
-    public void testCreate_ReturnedData_Case() {
-        final ImmutableUser user;
-        final User          result;
-
-        user = getUser("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.enabled();
 
         result = service.create(user);
 
-        Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("email@somewhere.com", result.getEmail());
-    }
-
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
+        UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
@@ -123,19 +105,23 @@ public class ITUserServiceCreate {
             .enabled(true)
             .expired(false)
             .locked(false)
-            .build();
+            .build());
     }
 
-    private final ImmutableUser getUser(final String username, final String email) {
-        return ImmutableUser.builder()
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
+    @Test
+    @DisplayName("Returns the created data, ignoring case")
+    void testCreate_ReturnedData_Case() {
+        final UserCreate user;
+        final User       result;
+
+        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
+
+        result = service.create(user);
+
+        Assertions.assertThat(result.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(result.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
 }

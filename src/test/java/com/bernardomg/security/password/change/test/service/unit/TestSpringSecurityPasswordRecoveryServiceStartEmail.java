@@ -1,16 +1,21 @@
 
 package com.bernardomg.security.password.change.test.service.unit;
 
+import static org.mockito.BDDMockito.given;
+
 import java.util.Collections;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -25,61 +30,57 @@ import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
-public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
+class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
+    @Mock
+    private Authentication          authentication;
+
+    @Mock
     private SecurityMessageSender   mailSender;
 
+    @Mock
+    private PasswordEncoder         passwordEncoder;
+
+    @Mock
+    private UserRepository          repository;
+
     private PasswordRecoveryService service;
+
+    @Mock
+    private TokenProcessor          tokenProcessor;
+
+    @Mock
+    private UserDetailsService      userDetailsService;
 
     public TestSpringSecurityPasswordRecoveryServiceStartEmail() {
         super();
     }
 
     @BeforeEach
-    public final void initializeAuthentication() {
-        final Authentication authentication;
-
-        authentication = Mockito.mock(Authentication.class);
-        Mockito.when(authentication.getName())
-            .thenReturn("admin");
+    void initializeAuthentication() {
+        given(authentication.getName()).willReturn("admin");
 
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
     }
 
     @BeforeEach
-    public final void initializeService() {
-        final UserRepository     repository;
-        final UserDetailsService userDetailsService;
-        final PersistentUser     user;
-        final TokenProcessor     tokenProcessor;
-        final PasswordEncoder    passwordEncoder;
-        final UserDetails        details;
-
-        repository = Mockito.mock(UserRepository.class);
+    void initializeService() {
+        final PersistentUser user;
+        final UserDetails    details;
 
         user = PersistentUser.builder()
             .username("admin")
             .email("email@somewhere.com")
             .build();
 
-        userDetailsService = Mockito.mock(UserDetailsService.class);
-
         details = new User("admin", "password", true, true, true, true, Collections.emptyList());
 
-        Mockito.when(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .thenReturn(details);
+        given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 
-        Mockito.when(repository.findOneByUsername(ArgumentMatchers.anyString()))
-            .thenReturn(Optional.of(user));
-        Mockito.when(repository.findOneByEmail(ArgumentMatchers.anyString()))
-            .thenReturn(Optional.of(user));
-
-        mailSender = Mockito.mock(SecurityMessageSender.class);
-
-        tokenProcessor = Mockito.mock(TokenProcessor.class);
-        passwordEncoder = Mockito.mock(PasswordEncoder.class);
+        given(repository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
 
         service = new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);
@@ -87,7 +88,7 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @Test
     @DisplayName("When recovering the password the email is sent to the user email")
-    public final void testStartPasswordRecovery_User_Email() {
+    void testStartPasswordRecovery_User_Email() {
         final ArgumentCaptor<String> emailCaptor;
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
@@ -97,12 +98,13 @@ public class TestSpringSecurityPasswordRecoveryServiceStartEmail {
         Mockito.verify(mailSender)
             .sendPasswordRecoveryEmail(emailCaptor.capture(), ArgumentMatchers.any());
 
-        Assertions.assertEquals("email@somewhere.com", emailCaptor.getValue());
+        Assertions.assertThat(emailCaptor.getValue())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
     @DisplayName("When recovering the password an email is sent")
-    public final void testStartPasswordRecovery_User_EmailCall() {
+    void testStartPasswordRecovery_User_EmailCall() {
         service.startPasswordRecovery("email@somewhere.com");
 
         Mockito.verify(mailSender, Mockito.times(1))

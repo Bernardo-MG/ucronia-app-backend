@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.change.test.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("Full password recovery process")
-public class ITFullPasswordRecoveryProcess {
+class ITFullPasswordRecoveryProcess {
 
     @Autowired
     private PasswordRecoveryService passwordRecoveryService;
@@ -39,7 +39,7 @@ public class ITFullPasswordRecoveryProcess {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testRecoverPassword_Valid() {
+    void testRecoverPassword_Valid() {
         final PasswordRecoveryStatus recoveryStatus;
         final PasswordRecoveryStatus changeStatus;
         final PasswordRecoveryStatus validTokenStatus;
@@ -48,7 +48,8 @@ public class ITFullPasswordRecoveryProcess {
 
         recoveryStatus = passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
 
-        Assertions.assertTrue(recoveryStatus.getSuccessful());
+        Assertions.assertThat(recoveryStatus.getSuccessful())
+            .isTrue();
 
         token = tokenRepository.findAll()
             .stream()
@@ -58,18 +59,21 @@ public class ITFullPasswordRecoveryProcess {
 
         validTokenStatus = passwordRecoveryService.validateToken(token);
 
-        Assertions.assertTrue(validTokenStatus.getSuccessful());
+        Assertions.assertThat(validTokenStatus.getSuccessful())
+            .isTrue();
 
         changeStatus = passwordRecoveryService.changePassword(token, "abc");
 
-        Assertions.assertTrue(changeStatus.getSuccessful());
+        Assertions.assertThat(changeStatus.getSuccessful())
+            .isTrue();
 
         user = userRepository.findAll()
             .stream()
             .findFirst()
             .get();
 
-        Assertions.assertNotEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", user.getPassword());
+        Assertions.assertThat(user.getPassword())
+            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
     }
 
 }

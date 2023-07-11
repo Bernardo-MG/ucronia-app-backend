@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.signup.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService")
-public class ITUserRegistrationService {
+class ITUserRegistrationService {
 
     @Autowired
     private UserRepository repository;
@@ -29,7 +29,7 @@ public class ITUserRegistrationService {
 
     @Test
     @DisplayName("Adds an entity when registering")
-    public void testSignUp_AddsEntity() {
+    void testSignUp_AddsEntity() {
         final DtoSignUp signUp;
 
         signUp = new DtoSignUp();
@@ -38,12 +38,13 @@ public class ITUserRegistrationService {
 
         service.signUp(signUp);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1L);
     }
 
     @Test
     @DisplayName("The new user is disabled")
-    public void testSignUp_Disabled() {
+    void testSignUp_Disabled() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -56,16 +57,20 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertFalse(entity.getEnabled());
+        Assertions.assertThat(entity.getEnabled())
+            .isFalse();
 
-        Assertions.assertFalse(entity.getCredentialsExpired());
-        Assertions.assertFalse(entity.getExpired());
-        Assertions.assertFalse(entity.getLocked());
+        Assertions.assertThat(entity.getCredentialsExpired())
+            .isFalse();
+        Assertions.assertThat(entity.getExpired())
+            .isFalse();
+        Assertions.assertThat(entity.getLocked())
+            .isFalse();
     }
 
     @Test
     @DisplayName("The new user has no password")
-    public void testSignUp_NoPassword() {
+    void testSignUp_NoPassword() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -78,12 +83,13 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertEquals("", entity.getPassword());
+        Assertions.assertThat(entity.getPassword())
+            .isEmpty();
     }
 
     @Test
     @DisplayName("Persists the data after a signup")
-    public void testSignUp_PersistedData() {
+    void testSignUp_PersistedData() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -96,14 +102,17 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("user", entity.getUsername());
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
     @DisplayName("Persists the data, ignoring case")
-    public void testSignUp_PersistedData_Case() {
+    void testSignUp_PersistedData_Case() {
         final PersistentUser entity;
         final DtoSignUp      signUp;
 
@@ -116,14 +125,17 @@ public class ITUserRegistrationService {
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("user", entity.getUsername());
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email@somewhere.com");
     }
 
     @Test
     @DisplayName("Returns the status after a signup")
-    public void testSignUp_Status() {
+    void testSignUp_Status() {
         final SignUpStatus status;
         final DtoSignUp    signUp;
 
@@ -133,14 +145,17 @@ public class ITUserRegistrationService {
 
         status = service.signUp(signUp);
 
-        Assertions.assertEquals("user", status.getUsername());
-        Assertions.assertEquals("email@somewhere.com", status.getEmail());
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(status.getEmail())
+            .isEqualTo("email@somewhere.com");
+        Assertions.assertThat(status.getSuccessful())
+            .isTrue();
     }
 
     @Test
     @DisplayName("Returns the status after a signup, ignoring case")
-    public void testSignUp_Status_Case() {
+    void testSignUp_Status_Case() {
         final SignUpStatus status;
         final DtoSignUp    signUp;
 
@@ -150,9 +165,12 @@ public class ITUserRegistrationService {
 
         status = service.signUp(signUp);
 
-        Assertions.assertEquals("user", status.getUsername());
-        Assertions.assertEquals("email@somewhere.com", status.getEmail());
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("user");
+        Assertions.assertThat(status.getEmail())
+            .isEqualTo("email@somewhere.com");
+        Assertions.assertThat(status.getSuccessful())
+            .isTrue();
     }
 
 }

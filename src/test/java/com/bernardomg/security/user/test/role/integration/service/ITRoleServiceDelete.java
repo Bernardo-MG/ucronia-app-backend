@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - delete with permissions")
-public class ITRoleServiceDelete {
+class ITRoleServiceDelete {
 
     @Autowired
     private ActionRepository         actionRepository;
@@ -63,32 +63,37 @@ public class ITRoleServiceDelete {
     @Test
     @DisplayName("Deletes a role with no permissions")
     @Sql({ "/db/queries/security/role/single.sql" })
-    public void testDelete_NoPermissions() {
+    void testDelete_NoPermissions() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isZero();
     }
 
     @Test
     @DisplayName("Deletes a role with permissions")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testDelete_WithPermissions() {
+    void testDelete_WithPermissions() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isZero();
     }
 
     @Test
     @DisplayName("Deletes the relationships for the role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testDelete_WithPermissions_Relationships() {
+    void testDelete_WithPermissions_Relationships() {
         service.delete(1L);
 
-        Assertions.assertEquals(0L, rolePermissionRepository.count());
-        Assertions.assertEquals(4L, actionRepository.count());
-        Assertions.assertEquals(1L, resourceRepository.count());
+        Assertions.assertThat(rolePermissionRepository.count())
+            .isZero();
+        Assertions.assertThat(actionRepository.count())
+            .isEqualTo(4);
+        Assertions.assertThat(resourceRepository.count())
+            .isEqualTo(1);
     }
 
 }

@@ -40,7 +40,10 @@ public interface Failure {
      * @return failure with the code
      */
     public static Failure of(final String code) {
-        return new ImmutableFailure(code, code);
+        return ImmutableFailure.builder()
+            .message(code)
+            .code(code)
+            .build();
     }
 
     /**
@@ -53,7 +56,10 @@ public interface Failure {
      * @return failure with the code
      */
     public static Failure of(final String message, final String code) {
-        return new ImmutableFailure(message, code);
+        return ImmutableFailure.builder()
+            .message(message)
+            .code(code)
+            .build();
     }
 
     /**

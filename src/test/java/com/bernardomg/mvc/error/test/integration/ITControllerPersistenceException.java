@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.PersistenceExceptionTestCon
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - persistence exceptions")
-public final class ITControllerPersistenceException {
+class ITControllerPersistenceException {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,9 +49,24 @@ public final class ITControllerPersistenceException {
         super();
     }
 
+    private final RequestBuilder getDataIntegrityExceptionRequest() {
+        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_DATA_INTEGRITY)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    private final RequestBuilder getJdbcGrammarExceptionRequest() {
+        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_JDBC_GRAMMAR)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    private final RequestBuilder getPropertyReferenceExceptionRequest() {
+        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_PROPERTY_REFERENCE)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure for a data integrity exception")
-    public final void testErrorHandling_DataIntegrity_Response() throws Exception {
+    void testErrorHandling_DataIntegrity_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getDataIntegrityExceptionRequest());
@@ -75,7 +90,7 @@ public final class ITControllerPersistenceException {
 
     @Test
     @DisplayName("Returns the response structure for a JDBC grammar exception")
-    public final void testErrorHandling_JdbcGrammar_Response() throws Exception {
+    void testErrorHandling_JdbcGrammar_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getJdbcGrammarExceptionRequest());
@@ -99,7 +114,7 @@ public final class ITControllerPersistenceException {
 
     @Test
     @DisplayName("Returns the response structure for a property reference exception")
-    public final void testErrorHandling_PropertyReference_Response() throws Exception {
+    void testErrorHandling_PropertyReference_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getPropertyReferenceExceptionRequest());
@@ -119,21 +134,6 @@ public final class ITControllerPersistenceException {
         // The response contains no errors attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getDataIntegrityExceptionRequest() {
-        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_DATA_INTEGRITY)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getJdbcGrammarExceptionRequest() {
-        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_JDBC_GRAMMAR)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getPropertyReferenceExceptionRequest() {
-        return MockMvcRequestBuilders.get(PersistenceExceptionTestController.PATH_PROPERTY_REFERENCE)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

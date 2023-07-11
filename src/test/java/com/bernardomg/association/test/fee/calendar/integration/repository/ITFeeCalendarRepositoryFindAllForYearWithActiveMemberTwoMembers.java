@@ -27,23 +27,24 @@ package com.bernardomg.association.test.fee.calendar.integration.repository;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeMonth;
+import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalendarAssertions;
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year with active member - two members")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
         "/db/queries/fee/full_year_alternative.sql" })
-public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
+class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Autowired
     private FeeCalendarRepository repository;
@@ -54,155 +55,62 @@ public class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
     @Test
     @DisplayName("With a full year it returns all the entities")
-    public void testFindAllForYear_FullYear_TwoMembers_Count() {
-        final Iterable<UserFeeCalendar> result;
-        final Iterator<UserFeeCalendar> itr;
+    void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Count() {
+        final Iterable<UserFeeCalendar> calendars;
+        final Iterator<UserFeeCalendar> calendarsItr;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        result = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYearWithActiveMember(2020, sort);
 
-        Assertions.assertEquals(2, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(calendars))
+            .isEqualTo(2);
 
-        itr = result.iterator();
-        Assertions.assertEquals(12, IterableUtils.size(itr.next()
-            .getMonths()));
-        Assertions.assertEquals(12, IterableUtils.size(itr.next()
-            .getMonths()));
+        calendarsItr = calendars.iterator();
+        Assertions.assertThat(IterableUtils.size(calendarsItr.next()
+            .getMonths()))
+            .isEqualTo(12);
+        Assertions.assertThat(IterableUtils.size(calendarsItr.next()
+            .getMonths()))
+            .isEqualTo(12);
     }
 
     @Test
     @DisplayName("With a full year it returns all the data")
-    public void testFindAllForYear_FullYear_TwoMembers_Data() {
-        final Iterator<UserFeeCalendar> data;
-        UserFeeCalendar                 result;
-        Iterator<FeeMonth>              months;
-        FeeMonth                        month;
+    void testFindAllForYearWithActiveMember_FullYear_TwoMembers_Data() {
+        final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
+        UserFeeCalendar                 calendar;
 
         sort = Sort.unsorted();
 
-        data = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYearWithActiveMember(2020, sort)
             .iterator();
 
         // First member
-        result = data.next();
-        Assertions.assertEquals(1, result.getMemberId());
-        Assertions.assertEquals("Member 1", result.getName());
-        Assertions.assertEquals("Surname 1", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .surname("Surname 1")
+            .year(2020)
+            .active(true)
+            .build());
 
-        months = result.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(2, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(3, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(4, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(5, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(6, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(7, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(8, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(9, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(10, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(11, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(12, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        UserFeeCalendarAssertions.assertFullYear(calendar);
 
         // Second member
-        result = data.next();
-        Assertions.assertEquals(2, result.getMemberId());
-        Assertions.assertEquals("Member 2", result.getName());
-        Assertions.assertEquals("Surname 2", result.getSurname());
-        Assertions.assertEquals(2020, result.getYear());
-        Assertions.assertEquals(true, result.getActive());
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(2L)
+            .name("Member 2")
+            .surname("Surname 2")
+            .year(2020)
+            .active(true)
+            .build());
 
-        months = result.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertEquals(1, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(2, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(3, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(4, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(5, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(6, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(7, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(8, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(9, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(10, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(11, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
-
-        month = months.next();
-        Assertions.assertEquals(12, month.getMonth());
-        Assertions.assertEquals(true, month.getPaid());
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 
 public final class MemberFeeSpecifications {
@@ -23,7 +23,7 @@ public final class MemberFeeSpecifications {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<PersistentMemberFee>> fromRequest(final FeeQueryRequest request) {
+    public static Optional<Specification<PersistentMemberFee>> fromRequest(final FeeQuery request) {
         final Optional<Specification<PersistentMemberFee>> spec;
 
         if (request.getDate() != null) {

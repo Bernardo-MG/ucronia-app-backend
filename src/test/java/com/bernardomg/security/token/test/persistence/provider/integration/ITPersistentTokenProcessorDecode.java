@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.token.test.persistence.provider.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - has expired")
-public class ITPersistentTokenProcessorDecode {
+class ITPersistentTokenProcessorDecode {
 
     private final PersistentTokenProcessor validator;
 
@@ -29,7 +29,7 @@ public class ITPersistentTokenProcessorDecode {
     @Test
     @DisplayName("Decodes a token")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testDecode() {
+    void testDecode() {
         final String token;
         final String subject;
 
@@ -39,13 +39,14 @@ public class ITPersistentTokenProcessorDecode {
             .get()
             .getExtendedInformation();
 
-        Assertions.assertEquals("admin", subject);
+        Assertions.assertThat(subject)
+            .isEqualTo("admin");
     }
 
     @Test
     @DisplayName("Decodes an expired token")
     @Sql({ "/db/queries/security/token/expired.sql" })
-    public final void testDecode_Expired() {
+    void testDecode_Expired() {
         final String token;
         final String subject;
 
@@ -55,7 +56,8 @@ public class ITPersistentTokenProcessorDecode {
             .get()
             .getExtendedInformation();
 
-        Assertions.assertEquals("admin", subject);
+        Assertions.assertThat(subject)
+            .isEqualTo("admin");
     }
 
 }

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.token.test.persistence.provider.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import com.bernardomg.security.token.provider.TokenProvider;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - generate token")
-public class ITPersistentTokenProcessorGenerateToken {
+class ITPersistentTokenProcessorGenerateToken {
 
     private final TokenProvider provider;
 
@@ -28,12 +28,13 @@ public class ITPersistentTokenProcessorGenerateToken {
 
     @Test
     @DisplayName("Generates a token")
-    public final void testGenerateToken() {
+    void testGenerateToken() {
         final String token;
 
         token = provider.generateToken("admin");
 
-        Assertions.assertNotNull(token);
+        Assertions.assertThat(token)
+            .isNotNull();
     }
 
 }

@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.test.role.integration.service;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +11,14 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.DtoRoleQueryRequest;
-import com.bernardomg.security.user.model.request.RoleQueryRequest;
+import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesQuery;
 
 @IntegrationTest
 @DisplayName("Role service - get all")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceGetAll {
+class ITRoleServiceGetAll {
 
     @Autowired
     private RoleService service;
@@ -29,41 +29,42 @@ public class ITRoleServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
-    public void testGetAll_Count() {
-        final Iterable<Role>   result;
-        final RoleQueryRequest sample;
-        final Pageable         pageable;
+    void testGetAll_Count() {
+        final Iterable<Role> result;
+        final RoleQuery      sample;
+        final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoRoleQueryRequest.builder()
-            .build();
+        sample = RolesQuery.empty();
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertEquals(1, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(1);
     }
 
     @Test
     @DisplayName("Returns all data")
-    public void testGetAll_Data() {
-        final Iterable<Role>   data;
-        final RoleQueryRequest sample;
-        final Pageable         pageable;
-        final Role             role;
+    void testGetAll_Data() {
+        final Iterable<Role> data;
+        final RoleQuery      sample;
+        final Pageable       pageable;
+        final Role           role;
 
         pageable = Pageable.unpaged();
 
-        sample = DtoRoleQueryRequest.builder()
-            .build();
+        sample = RolesQuery.empty();
 
         data = service.getAll(sample, pageable);
 
         role = data.iterator()
             .next();
 
-        Assertions.assertNotNull(role.getId());
-        Assertions.assertEquals("ADMIN", role.getName());
+        Assertions.assertThat(role.getId())
+            .isNotNull();
+        Assertions.assertThat(role.getName())
+            .isEqualTo("ADMIN");
     }
 
 }

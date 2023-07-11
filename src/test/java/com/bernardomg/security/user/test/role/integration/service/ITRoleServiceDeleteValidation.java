@@ -24,21 +24,20 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("Role service - delete validation")
-public class ITRoleServiceDeleteValidation {
+class ITRoleServiceDeleteValidation {
 
     @Autowired
     private RoleService service;
@@ -49,25 +48,15 @@ public class ITRoleServiceDeleteValidation {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    public void testDelete_NotExisting() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
+    void testDelete_NotExisting() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
 
         executable = () -> service.delete(1L);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("notExisting", failure.getCode());
-        Assertions.assertEquals("id", failure.getField());
-        Assertions.assertEquals("id.notExisting", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
@@ -76,25 +65,15 @@ public class ITRoleServiceDeleteValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testDelete_UserWithRole() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
+    void testDelete_UserWithRole() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
 
         executable = () -> service.delete(1L);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("user.existing", "user", "existing", 1L);
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("existing", failure.getCode());
-        Assertions.assertEquals("user", failure.getField());
-        Assertions.assertEquals("user.existing", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
 }

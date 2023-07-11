@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.ErrorTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - argument validation")
-public final class ITControllerArgumentError {
+class ITControllerArgumentError {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,9 +49,15 @@ public final class ITControllerArgumentError {
         super();
     }
 
+    private final RequestBuilder getMethodArgumentRequest() {
+        return MockMvcRequestBuilders.post(ErrorTestController.PATH_METHOD_ARG)
+            .content("{}")
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure for method argument errors")
-    public final void testErrorHandling_MethodArgumentError_Response() throws Exception {
+    void testErrorHandling_MethodArgumentError_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getMethodArgumentRequest());
@@ -73,12 +79,6 @@ public final class ITControllerArgumentError {
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getMethodArgumentRequest() {
-        return MockMvcRequestBuilders.post(ErrorTestController.PATH_METHOD_ARG)
-            .content("{}")
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

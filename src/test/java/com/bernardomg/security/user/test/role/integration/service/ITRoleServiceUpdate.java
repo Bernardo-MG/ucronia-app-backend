@@ -24,23 +24,24 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesUpdate;
 
 @IntegrationTest
 @DisplayName("Role service - update")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceUpdate {
+class ITRoleServiceUpdate {
 
     @Autowired
     private RoleRepository repository;
@@ -54,52 +55,50 @@ public class ITRoleServiceUpdate {
 
     @Test
     @DisplayName("Adds no entity when updating")
-    public void testUpdate_AddsNoEntity() {
-        final Role data;
+    void testUpdate_AddsNoEntity() {
+        final RoleUpdate data;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         service.update(data);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
     @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
-        final Role           data;
+    void testUpdate_PersistedData() {
+        final RoleUpdate     data;
         final PersistentRole entity;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         service.update(data);
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("Role", entity.getName());
+        Assertions.assertThat(entity.getId())
+            .isNotNull();
+        Assertions.assertThat(entity.getName())
+            .isEqualTo("Role");
     }
 
     @Test
     @DisplayName("Returns the updated data")
-    public void testUpdate_ReturnedData() {
-        final Role data;
-        final Role result;
+    void testUpdate_ReturnedData() {
+        final RoleUpdate data;
+        final Role       result;
 
-        data = getRoleWithNoActions();
+        data = RolesUpdate.valid();
 
         result = service.update(data);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("Role", result.getName());
-    }
-
-    private final Role getRoleWithNoActions() {
-        return ImmutableRole.builder()
-            .id(1L)
-            .name("Role")
-            .build();
+        Assertions.assertThat(result.getId())
+            .isNotNull();
+        Assertions.assertThat(result.getName())
+            .isEqualTo("Role");
     }
 
 }

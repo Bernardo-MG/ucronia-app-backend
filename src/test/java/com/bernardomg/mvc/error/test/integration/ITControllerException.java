@@ -40,7 +40,7 @@ import com.bernardomg.mvc.error.test.util.controller.ExceptionTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller error handling - generic exceptions")
-public final class ITControllerException {
+class ITControllerException {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,9 +49,14 @@ public final class ITControllerException {
         super();
     }
 
+    private final RequestBuilder getRuntimeExceptionRequest() {
+        return MockMvcRequestBuilders.get(ExceptionTestController.PATH_RUNTIME)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the response structure for runtime exception")
-    public final void testErrorHandling_RuntimeException_Response() throws Exception {
+    void testErrorHandling_RuntimeException_Response() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getRuntimeExceptionRequest());
@@ -71,11 +76,6 @@ public final class ITControllerException {
         // The response contains no errors attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getRuntimeExceptionRequest() {
-        return MockMvcRequestBuilders.get(ExceptionTestController.PATH_RUNTIME)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

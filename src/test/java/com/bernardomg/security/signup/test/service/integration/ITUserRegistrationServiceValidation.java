@@ -1,22 +1,21 @@
 
 package com.bernardomg.security.signup.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.signup.model.DtoSignUp;
 import com.bernardomg.security.signup.service.SignUpService;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @DisplayName("UserRegistrationService - validation")
-public class ITUserRegistrationServiceValidation {
+class ITUserRegistrationServiceValidation {
 
     @Autowired
     private SignUpService service;
@@ -26,41 +25,12 @@ public class ITUserRegistrationServiceValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email is empty")
-    public void testSignUp_EmptyEmail() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final DtoSignUp             signUp;
-
-        signUp = new DtoSignUp();
-        signUp.setUsername("user");
-        signUp.setEmail("");
-
-        executable = () -> service.signUp(signUp);
-
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
-
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("invalid", failure.getCode());
-        Assertions.assertEquals("email", failure.getField());
-        Assertions.assertEquals("email.invalid", failure.getMessage());
-    }
-
-    @Test
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingEmail() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final DtoSignUp             signUp;
+    void testSignUp_ExistingEmail() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final DtoSignUp        signUp;
 
         signUp = new DtoSignUp();
         signUp.setUsername("abc");
@@ -68,28 +38,18 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("email.existing", "email", "existing", "email@somewhere.com");
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("existing", failure.getCode());
-        Assertions.assertEquals("email", failure.getField());
-        Assertions.assertEquals("email.existing", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
     @DisplayName("Throws an exception when the email already exists, ignoring case")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingEmail_Case() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final DtoSignUp             signUp;
+    void testSignUp_ExistingEmail_Case() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final DtoSignUp        signUp;
 
         signUp = new DtoSignUp();
         signUp.setUsername("abc");
@@ -97,28 +57,18 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("email.existing", "email", "existing", "EMAIL@somewhere.com");
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("existing", failure.getCode());
-        Assertions.assertEquals("email", failure.getField());
-        Assertions.assertEquals("email.existing", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingUsername() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final DtoSignUp             signUp;
+    void testSignUp_ExistingUsername() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final DtoSignUp        signUp;
 
         signUp = new DtoSignUp();
         signUp.setUsername("admin");
@@ -126,28 +76,18 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("username.existing", "username", "existing", "admin");
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("existing", failure.getCode());
-        Assertions.assertEquals("username", failure.getField());
-        Assertions.assertEquals("username.existing", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
     @DisplayName("Throws an exception when the username already exists, ignoring case")
     @Sql({ "/db/queries/security/user/single.sql" })
-    public void testSignUp_ExistingUsername_Case() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final DtoSignUp             signUp;
+    void testSignUp_ExistingUsername_Case() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+        final DtoSignUp        signUp;
 
         signUp = new DtoSignUp();
         signUp.setUsername("ADMIN");
@@ -155,46 +95,9 @@ public class ITUserRegistrationServiceValidation {
 
         executable = () -> service.signUp(signUp);
 
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
+        failure = FieldFailure.of("username.existing", "username", "existing", "ADMIN");
 
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("existing", failure.getCode());
-        Assertions.assertEquals("username", failure.getField());
-        Assertions.assertEquals("username.existing", failure.getMessage());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the email doesn't match the email pattern")
-    public void testSignUp_NoEmailPattern() {
-        final Executable            executable;
-        final FieldFailureException exception;
-        final FieldFailure          failure;
-        final DtoSignUp             signUp;
-
-        signUp = new DtoSignUp();
-        signUp.setUsername("user");
-        signUp.setEmail("abc");
-
-        executable = () -> service.signUp(signUp);
-
-        exception = Assertions.assertThrows(FieldFailureException.class, executable);
-
-        Assertions.assertEquals(1, exception.getFailures()
-            .size());
-
-        failure = exception.getFailures()
-            .iterator()
-            .next();
-
-        Assertions.assertEquals("invalid", failure.getCode());
-        Assertions.assertEquals("email", failure.getField());
-        Assertions.assertEquals("email.invalid", failure.getMessage());
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
 }

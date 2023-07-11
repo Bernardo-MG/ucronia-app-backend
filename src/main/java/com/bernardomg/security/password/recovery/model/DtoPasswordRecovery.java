@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.password.recovery.model;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -40,6 +41,7 @@ public final class DtoPasswordRecovery implements PasswordRecovery {
      * User email.
      */
     @NotNull
+    @Email
     private String email;
 
 }

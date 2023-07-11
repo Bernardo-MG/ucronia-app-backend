@@ -35,7 +35,7 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class ImmutableErrorResponse implements ErrorResponse {
+public final class ImmutableErrorResponse implements ErrorResponse {
 
     private final String code;
 

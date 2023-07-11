@@ -3,10 +3,10 @@ package com.bernardomg.security.jwt.token.test.unit;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenData;
@@ -18,7 +18,7 @@ import com.bernardomg.security.token.TokenEncoder;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @DisplayName("JwtSubjectTokenEncoder - get subject")
-public class TestJwtSubjectTokenEncoderGetSubject {
+class TestJwtSubjectTokenEncoderGetSubject {
 
     private final TokenDecoder<JwtTokenData> decoder;
 
@@ -33,7 +33,7 @@ public class TestJwtSubjectTokenEncoderGetSubject {
 
     @Test
     @DisplayName("Recovers the subject from a token")
-    public void testGetSubject_fromGeneratedToken() {
+    void testGetSubject_fromGeneratedToken() {
         final String token;
         final String subject;
 
@@ -41,14 +41,15 @@ public class TestJwtSubjectTokenEncoderGetSubject {
         subject = decoder.decode(token)
             .getSubject();
 
-        Assertions.assertEquals("subject", subject);
+        Assertions.assertThat(subject)
+            .isEqualTo("subject");
     }
 
     @Test
     @DisplayName("Recovering the subject from an expired token generates an exception")
-    public void testGetSubject_fromGeneratedToken_expired() throws InterruptedException {
-        final String     token;
-        final Executable executable;
+    void testGetSubject_fromGeneratedToken_expired() throws InterruptedException {
+        final String           token;
+        final ThrowingCallable executable;
 
         token = encoder.encode("subject");
 
@@ -57,7 +58,8 @@ public class TestJwtSubjectTokenEncoderGetSubject {
 
         executable = () -> decoder.decode(token);
 
-        Assertions.assertThrows(ExpiredJwtException.class, executable);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(ExpiredJwtException.class);
     }
 
 }

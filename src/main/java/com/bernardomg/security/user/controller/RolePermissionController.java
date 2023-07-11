@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Permission;
-import com.bernardomg.security.user.model.request.DtoPermissionCreationRequest;
+import com.bernardomg.security.user.model.request.ValidatedPermissionCreate;
 import com.bernardomg.security.user.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -55,18 +55,18 @@ public class RolePermissionController {
     private final RoleService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean addPermission(@PathVariable("id") final Long id,
-            @Valid @RequestBody final DtoPermissionCreationRequest permission) {
+    public Boolean add(@PathVariable("id") final Long id,
+            @Valid @RequestBody final ValidatedPermissionCreate permission) {
         return service.addPermission(id, permission.getResourceId(), permission.getActionId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Permission> readPermissions(@PathVariable("id") final Long id, final Pageable pageable) {
+    public Iterable<Permission> readAll(@PathVariable("id") final Long id, final Pageable pageable) {
         return service.getPermission(id, pageable);
     }
 
     @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean removePermission(@PathVariable("id") final Long id, @PathVariable("resource") final Long resource,
+    public Boolean remove(@PathVariable("id") final Long id, @PathVariable("resource") final Long resource,
             @PathVariable("action") final Long action) {
         return service.removePermission(id, resource, action);
     }

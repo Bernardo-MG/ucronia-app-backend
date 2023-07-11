@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.change.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - token expiration")
-public class ITPasswordRecoveryServiceChangeExpireToken {
+class ITPasswordRecoveryServiceChangeExpireToken {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -35,7 +35,7 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Existing_ExpireToken() {
+    void testChangePassword_Existing_ExpireToken() {
         final Boolean expiredBefore;
         final Boolean expiredAfter;
 
@@ -53,15 +53,17 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertTrue(expiredAfter);
+        Assertions.assertThat(expiredBefore)
+            .isFalse();
+        Assertions.assertThat(expiredAfter)
+            .isTrue();
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an incorrect password doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_IncorrectPassword_NotExpireToken() {
+    void testChangePassword_IncorrectPassword_NotExpireToken() {
         final Boolean expiredBefore;
         final Boolean expiredAfter;
 
@@ -79,15 +81,17 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertFalse(expiredAfter);
+        Assertions.assertThat(expiredBefore)
+            .isFalse();
+        Assertions.assertThat(expiredAfter)
+            .isFalse();
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_NotExistingUser_NotExpireToken() {
+    void testChangePassword_NotExistingUser_NotExpireToken() {
         final Boolean expiredBefore;
         final Boolean expiredAfter;
 
@@ -105,8 +109,10 @@ public class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        Assertions.assertFalse(expiredBefore);
-        Assertions.assertFalse(expiredAfter);
+        Assertions.assertThat(expiredBefore)
+            .isFalse();
+        Assertions.assertThat(expiredAfter)
+            .isFalse();
     }
 
 }

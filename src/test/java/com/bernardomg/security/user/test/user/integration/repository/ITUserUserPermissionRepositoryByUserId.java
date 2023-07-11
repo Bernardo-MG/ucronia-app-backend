@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.user.integration.repository;
 import java.util.Collection;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import com.bernardomg.security.user.persistence.repository.UserGrantedPermission
 
 @IntegrationTest
 @DisplayName("User repository - find permissions")
-public class ITUserUserPermissionRepositoryByUserId {
+class ITUserUserPermissionRepositoryByUserId {
 
     @Autowired
     private UserGrantedPermissionRepository repository;
@@ -31,24 +31,26 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllByUserId_Count() {
+    void testFindAllByUserId_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertEquals(4, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isEqualTo(4);
     }
 
     @Test
     @DisplayName("Finds no permissions when the user has none")
     @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllByUserId_NoPermissions_Count() {
+    void testFindAllByUserId_NoPermissions_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertEquals(0, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isZero();
     }
 
     @Test
@@ -57,12 +59,13 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllByUserId_NotExisting_Count() {
+    void testFindAllByUserId_NotExisting_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(-1L);
 
-        Assertions.assertEquals(0, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isZero();
     }
 
     @Test
@@ -71,12 +74,13 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public void testFindAllByUserId_NotGranted_Count() {
+    void testFindAllByUserId_NotGranted_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertEquals(0, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isZero();
     }
 
     @Test
@@ -87,12 +91,13 @@ public class ITUserUserPermissionRepositoryByUserId {
             "/db/queries/security/relationship/role_permission_alternative.sql",
             "/db/queries/security/relationship/user_role.sql",
             "/db/queries/security/relationship/user_role_alternative.sql" })
-    public void testFindAllByUserId_Repeated_Count() {
+    void testFindAllByUserId_Repeated_Count() {
         final Collection<PersistentUserGrantedPermission> read;
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertEquals(4, IterableUtils.size(read));
+        Assertions.assertThat(IterableUtils.size(read))
+            .isEqualTo(4);
     }
 
 }

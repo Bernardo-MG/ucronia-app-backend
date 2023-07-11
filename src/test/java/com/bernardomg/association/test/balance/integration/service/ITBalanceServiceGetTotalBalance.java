@@ -24,80 +24,108 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.GregorianCalendar;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 
 @IntegrationTest
 @DisplayName("Balance service - get total balance")
-public class ITBalanceServiceGetTotalBalance {
+class ITBalanceServiceGetTotalBalance {
 
     @Autowired
-    private BalanceService service;
+    private TransactionRepository repository;
 
-    public ITBalanceServiceGetTotalBalance() {
-        super();
+    @Autowired
+    private BalanceService        service;
+
+    private final void persist(final Float amount) {
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(AroundZeroArgumentsProvider.class)
+    @DisplayName("With values around zero it returns the correct amounts")
+    void testGetTotalBalance_AroundZero(final Float amount) {
+        final Balance balance;
+
+        persist(amount);
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isEqualTo(amount);
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("With decimal values it returns the correct amounts")
+    void testGetTotalBalance_Decimal(final Float amount) {
+        final Balance balance;
+
+        persist(amount);
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isEqualTo(amount);
     }
 
     @Test
-    @DisplayName("Returns the expected balance when there are multiple transactions")
+    @DisplayName("With decimal values which sum zero the returned balance is zero")
+    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    void testGetTotalBalance_DecimalsAddUpToZero() {
+        final Balance balance;
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getAmount())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple.sql" })
-    public void testGetTotalBalance_Multiple() {
-        final Balance result;
+    void testGetTotalBalance_Multiple() {
+        final Balance balance;
 
-        result = service.getTotalBalance();
+        balance = service.getTotalBalance();
 
-        Assertions.assertEquals(5, result.getAmount());
+        Assertions.assertThat(balance.getAmount())
+            .isEqualTo(5);
     }
 
     @Test
-    @DisplayName("Returns the expected balance when there is a negative transaction")
-    @Sql({ "/db/queries/transaction/negative.sql" })
-    public void testGetTotalBalance_Negative() {
-        final Balance result;
+    @DisplayName("With not data it returns nothing")
+    void testGetTotalBalance_NoData() {
+        final Balance balance;
 
-        result = service.getTotalBalance();
+        balance = service.getTotalBalance();
 
-        Assertions.assertEquals(-1, result.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns zero when there are no transactions")
-    public void testGetTotalBalance_NoData() {
-        final Balance result;
-
-        result = service.getTotalBalance();
-
-        Assertions.assertEquals(0, result.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns the expected balance when there is a single transaction")
-    @Sql({ "/db/queries/transaction/single.sql" })
-    public void testGetTotalBalance_Single() {
-        final Balance result;
-
-        result = service.getTotalBalance();
-
-        Assertions.assertEquals(1, result.getAmount());
-    }
-
-    @Test
-    @DisplayName("Returns the expected balance when there is a variety of values in the transactions")
-    @Sql({ "/db/queries/transaction/variety.sql" })
-    public void testGetTotalBalance_Variety() {
-        final Balance result;
-
-        result = service.getTotalBalance();
-
-        Assertions.assertEquals(Double.valueOf(1.5)
-            .floatValue(), result.getAmount());
+        Assertions.assertThat(balance.getAmount())
+            .isZero();
     }
 
 }

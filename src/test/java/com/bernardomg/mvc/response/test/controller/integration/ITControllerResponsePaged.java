@@ -40,7 +40,7 @@ import com.bernardomg.mvc.response.test.controller.util.ResponseTestController;
 
 @MvcIntegrationTest
 @DisplayName("Controller advices - response structure")
-public final class ITControllerResponsePaged {
+class ITControllerResponsePaged {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,9 +49,19 @@ public final class ITControllerResponsePaged {
         super();
     }
 
+    private final RequestBuilder getPageRequest() {
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    private final RequestBuilder getPageRequestSorted() {
+        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE_SORTED)
+            .contentType(MediaType.APPLICATION_JSON);
+    }
+
     @Test
     @DisplayName("Returns the paginated response structure when returning the default page")
-    public final void testResponseStructure_Page() throws Exception {
+    void testResponseStructure_Page() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getPageRequest());
@@ -80,7 +90,7 @@ public final class ITControllerResponsePaged {
 
     @Test
     @DisplayName("Returns the paginated response structure when returning a sorted page")
-    public final void testResponseStructure_Page_Sorted() throws Exception {
+    void testResponseStructure_Page_Sorted() throws Exception {
         final ResultActions result;
 
         result = mockMvc.perform(getPageRequestSorted());
@@ -107,16 +117,6 @@ public final class ITControllerResponsePaged {
         // The response contains no error attribute
         result.andExpect(MockMvcResultMatchers.jsonPath("$.errors")
             .doesNotExist());
-    }
-
-    private final RequestBuilder getPageRequest() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE)
-            .contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private final RequestBuilder getPageRequestSorted() {
-        return MockMvcRequestBuilders.get(ResponseTestController.PATH_PAGE_SORTED)
-            .contentType(MediaType.APPLICATION_JSON);
     }
 
 }

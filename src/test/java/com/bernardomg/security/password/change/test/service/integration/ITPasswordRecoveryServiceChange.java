@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.change.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password")
-public class ITPasswordRecoveryServiceChange {
+class ITPasswordRecoveryServiceChange {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -37,7 +37,7 @@ public class ITPasswordRecoveryServiceChange {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    public final void testChangePassword_Existing_Changed() {
+    void testChangePassword_Existing_Changed() {
         final PersistentUser user;
 
         service.changePassword(TokenConstants.TOKEN, "abc");
@@ -47,7 +47,8 @@ public class ITPasswordRecoveryServiceChange {
             .findFirst()
             .get();
 
-        Assertions.assertNotEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", user.getPassword());
+        Assertions.assertThat(user.getPassword())
+            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
     }
 
     @Test
@@ -58,12 +59,13 @@ public class ITPasswordRecoveryServiceChange {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    public final void testChangePassword_TokenAfterExpirationDate_Status() {
+    void testChangePassword_TokenAfterExpirationDate_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isFalse();
     }
 
 }

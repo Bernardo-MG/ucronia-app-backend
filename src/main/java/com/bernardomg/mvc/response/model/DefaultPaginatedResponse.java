@@ -26,7 +26,9 @@ package com.bernardomg.mvc.response.model;
 
 import java.util.ArrayList;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -38,6 +40,8 @@ import lombok.NonNull;
  *            response content type
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public final class DefaultPaginatedResponse<T> implements PaginatedResponse<T> {
 
     /**
@@ -82,13 +86,6 @@ public final class DefaultPaginatedResponse<T> implements PaginatedResponse<T> {
      * Total number of pages.
      */
     private Integer                totalPages     = -1;
-
-    /**
-     * Default constructor.
-     */
-    public DefaultPaginatedResponse() {
-        super();
-    }
 
     /**
      * Constructs a response with the specified content.

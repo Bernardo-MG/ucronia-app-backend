@@ -1,22 +1,23 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableRole;
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.util.model.RolesCreate;
 
 @IntegrationTest
 @DisplayName("Role service - create - existing")
 @Sql({ "/db/queries/security/role/single.sql" })
-public class ITRoleServiceCreateExisting {
+class ITRoleServiceCreateExisting {
 
     @Autowired
     private RoleRepository repository;
@@ -30,33 +31,29 @@ public class ITRoleServiceCreateExisting {
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    public void testCreate() {
-        final ImmutableRole data;
-        final Role          result;
+    void testCreate() {
+        final RoleCreate data;
+        final Role       result;
 
-        data = ImmutableRole.builder()
-            .id(1L)
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         result = service.create(data);
 
-        Assertions.assertNotEquals(1L, result.getId());
+        Assertions.assertThat(result.getId())
+            .isNotEqualTo(1);
     }
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    public void testCreate_AddsEntity() {
-        final ImmutableRole data;
+    void testCreate_AddsEntity() {
+        final RoleCreate data;
 
-        data = ImmutableRole.builder()
-            .id(1L)
-            .name("Role")
-            .build();
+        data = RolesCreate.valid();
 
         service.create(data);
 
-        Assertions.assertEquals(2L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
     }
 
 }

@@ -1,11 +1,13 @@
 
 package com.bernardomg.mvc.error.test.util.controller;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.util.TypeInformation;
@@ -46,9 +48,8 @@ public class PersistenceExceptionTestController {
     public List<Object> propertyReferenceException() {
         final TypeInformation<String> info;
 
-        info = Mockito.mock(TypeInformation.class);
-        Mockito.when(info.getType())
-            .thenReturn(String.class);
+        info = mock(TypeInformation.class);
+        given(info.getType()).willReturn(String.class);
 
         throw new PropertyReferenceException("property", info, Collections.emptyList());
     }

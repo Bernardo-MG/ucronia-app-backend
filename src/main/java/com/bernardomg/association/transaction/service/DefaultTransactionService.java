@@ -10,14 +10,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.transaction.model.mapper.TransactionMapper;
+import com.bernardomg.association.transaction.model.request.TransactionCreate;
+import com.bernardomg.association.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.persistence.repository.TransactionSpecifications;
+import com.bernardomg.exception.InvalidIdException;
 
 import lombok.AllArgsConstructor;
 
@@ -31,33 +34,37 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultTransactionService implements TransactionService {
 
+    private final TransactionMapper     mapper;
+
     private final TransactionRepository repository;
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
-    public final Transaction create(final Transaction transaction) {
+    public final Transaction create(final TransactionCreate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
-        entity = toEntity(transaction);
+        entity = mapper.toEntity(transaction);
         entity.setId(null);
 
         created = repository.save(entity);
 
-        return toDto(created);
+        return mapper.toDto(created);
     }
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
-    public final Boolean delete(final Long id) {
-        repository.deleteById(id);
+    public final void delete(final Long id) {
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed delete. No transaction with id %s", id));
+        }
 
-        return true;
+        repository.deleteById(id);
     }
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Iterable<Transaction> getAll(final TransactionQueryRequest request, final Pageable pageable) {
+    public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
@@ -69,7 +76,7 @@ public final class DefaultTransactionService implements TransactionService {
             page = repository.findAll(spec.get(), pageable);
         }
 
-        return page.map(this::toDto);
+        return page.map(mapper::toDto);
     }
 
     @Override
@@ -82,7 +89,7 @@ public final class DefaultTransactionService implements TransactionService {
         found = repository.findById(id);
 
         if (found.isPresent()) {
-            data = toDto(found.get());
+            data = mapper.toDto(found.get());
             result = Optional.of(data);
         } else {
             result = Optional.empty();
@@ -103,11 +110,21 @@ public final class DefaultTransactionService implements TransactionService {
         min = repository.findMinDate();
         max = repository.findMaxDate();
 
-        startMonth = min.get(Calendar.MONTH);
-        startYear = min.get(Calendar.YEAR);
+        if (min != null) {
+            startMonth = min.get(Calendar.MONTH);
+            startYear = min.get(Calendar.YEAR);
+        } else {
+            startMonth = 0;
+            startYear = 0;
+        }
 
-        endMonth = max.get(Calendar.MONTH);
-        endYear = max.get(Calendar.YEAR);
+        if (max != null) {
+            endMonth = max.get(Calendar.MONTH);
+            endYear = max.get(Calendar.YEAR);
+        } else {
+            endMonth = 0;
+            endYear = 0;
+        }
 
         return ImmutableTransactionRange.builder()
             .startMonth(startMonth)
@@ -119,33 +136,19 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
-    public final Transaction update(final Long id, final Transaction transaction) {
+    public final Transaction update(final Long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
-        entity = toEntity(transaction);
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed update. No transaction with id %s", id));
+        }
+
+        entity = mapper.toEntity(transaction);
         entity.setId(id);
 
         updated = repository.save(entity);
-        return toDto(updated);
-    }
-
-    private final Transaction toDto(final PersistentTransaction transaction) {
-        return ImmutableTransaction.builder()
-            .id(transaction.getId())
-            .description(transaction.getDescription())
-            .date(transaction.getDate())
-            .amount(transaction.getAmount())
-            .build();
-    }
-
-    private final PersistentTransaction toEntity(final Transaction transaction) {
-        return PersistentTransaction.builder()
-            .id(transaction.getId())
-            .date(transaction.getDate())
-            .description(transaction.getDescription())
-            .amount(transaction.getAmount())
-            .build();
+        return mapper.toDto(updated);
     }
 
 }

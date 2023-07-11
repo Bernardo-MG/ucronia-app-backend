@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.reset.test.service.integration;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
 @DisplayName("PasswordChangeService - change password")
-public class ITPasswordChangeService {
+class ITPasswordChangeService {
 
     @Autowired
     private PasswordChangeService service;
@@ -35,7 +35,7 @@ public class ITPasswordChangeService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_Existing_Changed() {
+    void testChangePassword_Existing_Changed() {
         final PersistentUser user;
 
         service.changePassword("1234", "abc");
@@ -45,7 +45,8 @@ public class ITPasswordChangeService {
             .findFirst()
             .get();
 
-        Assertions.assertNotEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", user.getPassword());
+        Assertions.assertThat(user.getPassword())
+            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
     }
 
     @Test
@@ -55,12 +56,13 @@ public class ITPasswordChangeService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_Existing_Status() {
+    void testChangePassword_Existing_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
 
-        Assertions.assertTrue(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isTrue();
     }
 
     @Test
@@ -70,23 +72,25 @@ public class ITPasswordChangeService {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    public final void testChangePassword_IncorrectPassword_Status() {
+    void testChangePassword_IncorrectPassword_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("def", "abc");
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isFalse();
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user gives a failure")
-    public final void testChangePassword_NotExistingUser_Status() {
+    void testChangePassword_NotExistingUser_Status() {
         final PasswordChangeStatus status;
 
         status = service.changePassword("1234", "abc");
 
-        Assertions.assertFalse(status.getSuccessful());
+        Assertions.assertThat(status.getSuccessful())
+            .isFalse();
     }
 
 }

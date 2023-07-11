@@ -4,7 +4,7 @@ package com.bernardomg.security.user.test.role.integration.service;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.collections4.IterableUtils;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest
 @DisplayName("Role service - get permissions")
-public class ITRoleServiceGetPermissions {
+class ITRoleServiceGetPermissions {
 
     @Autowired
     private RoleService service;
@@ -28,7 +28,7 @@ public class ITRoleServiceGetPermissions {
 
     @Test
     @DisplayName("Returns no permission for a not existing role")
-    public void testGetActions_NotExisting() {
+    void testGetActions_NotExisting() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -36,14 +36,15 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(-1l, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
     @Test
     @DisplayName("Returns the permissions for a role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    public void testGetPermissions() {
+    void testGetPermissions() {
         final Iterable<Permission> result;
         final Pageable             pageable;
         Boolean                    found;
@@ -52,42 +53,46 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(4L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isEqualTo(4);
 
         // DATA:CREATE
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
-
+        Assertions.assertThat(found)
+            .isTrue();
         // DATA:READ
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertThat(found)
+            .isTrue();
 
         // DATA:UPDATE
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "UPDATE".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertThat(found)
+            .isTrue();
 
         // DATA:DELETE
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "DELETE".equals(p.getAction()))
             .findAny()
             .isPresent();
-        Assertions.assertTrue(found);
+        Assertions.assertThat(found)
+            .isTrue();
     }
 
     @Test
     @DisplayName("When the permission is not granted nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    public void testGetPermissions_NoPermissions() {
+    void testGetPermissions_NoPermissions() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -95,7 +100,8 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
     @Test
@@ -103,7 +109,7 @@ public class ITRoleServiceGetPermissions {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql" })
-    public void testGetPermissions_NotGranted() {
+    void testGetPermissions_NotGranted() {
         final Iterable<Permission> result;
         final Pageable             pageable;
 
@@ -111,7 +117,8 @@ public class ITRoleServiceGetPermissions {
 
         result = service.getPermission(1l, pageable);
 
-        Assertions.assertEquals(0L, IterableUtils.size(result));
+        Assertions.assertThat(IterableUtils.size(result))
+            .isZero();
     }
 
 }

@@ -3,7 +3,7 @@ package com.bernardomg.security.password.change.test.service.integration;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-public class ITPasswordRecoveryServiceStartToken {
+class ITPasswordRecoveryServiceStartToken {
 
     @Autowired
     private PasswordRecoveryService service;
@@ -35,7 +35,7 @@ public class ITPasswordRecoveryServiceStartToken {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing user generates a token")
-    public final void testStartPasswordRecovery_Exists_Token() {
+    void testStartPasswordRecovery_Exists_Token() {
         final Optional<PersistentToken> token;
 
         service.startPasswordRecovery("email@somewhere.com");
@@ -44,13 +44,14 @@ public class ITPasswordRecoveryServiceStartToken {
             .stream()
             .findFirst();
 
-        Assertions.assertTrue(token.isPresent());
+        Assertions.assertThat(token)
+            .isPresent();
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
-    public final void testStartPasswordRecovery_NotExists_NoToken() {
+    void testStartPasswordRecovery_NotExists_NoToken() {
         final Optional<PersistentToken> token;
 
         try {
@@ -63,7 +64,8 @@ public class ITPasswordRecoveryServiceStartToken {
             .stream()
             .findFirst();
 
-        Assertions.assertFalse(token.isPresent());
+        Assertions.assertThat(token)
+            .isNotPresent();
     }
 
 }

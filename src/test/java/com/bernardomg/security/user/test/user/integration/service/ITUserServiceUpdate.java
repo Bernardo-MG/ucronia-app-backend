@@ -24,25 +24,28 @@
 
 package com.bernardomg.security.user.test.user.integration.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.ImmutableUser;
+import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
-@DisplayName("Role service - update with no roles")
+@DisplayName("Role service - update")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql" })
-public class ITUserServiceUpdate {
+class ITUserServiceUpdate {
 
     @Autowired
     private UserRepository repository;
@@ -56,90 +59,70 @@ public class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Adds no entity when updating")
-    public void testUpdate_AddsNoEntity() {
-        final User user;
+    void testUpdate_AddsNoEntity() {
+        final UserUpdate user;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
-        service.update(user);
+        service.update(1L, user);
 
-        Assertions.assertEquals(1L, repository.count());
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
     }
 
     @Test
     @DisplayName("Updates persisted data")
-    public void testUpdate_PersistedData() {
-        final User           user;
+    void testUpdate_PersistedData() {
+        final UserUpdate     user;
         final PersistentUser entity;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
-        service.update(user);
+        service.update(1L, user);
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertNotNull(entity.getId());
-        Assertions.assertEquals("admin", entity.getUsername());
-        Assertions.assertEquals("email2@somewhere.com", entity.getEmail());
-        Assertions.assertEquals("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW", entity.getPassword());
-        Assertions.assertEquals(false, entity.getCredentialsExpired());
-        Assertions.assertEquals(true, entity.getEnabled());
-        Assertions.assertEquals(false, entity.getExpired());
-        Assertions.assertEquals(false, entity.getLocked());
+        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email2@somewhere.com")
+            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .credentialsExpired(false)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
     }
 
     @Test
     @DisplayName("Updates persisted data, ignoring case")
-    public void testUpdate_PersistedData_Case() {
-        final ImmutableUser  user;
+    void testUpdate_PersistedData_Case() {
+        final UserUpdate     user;
         final PersistentUser entity;
 
-        user = getUser("EMAIL@SOMEWHERE.COM");
+        user = UsersUpdate.emailChangeUpperCase();
 
-        service.update(user);
+        service.update(1L, user);
         entity = repository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertEquals("email@somewhere.com", entity.getEmail());
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email2@somewhere.com");
     }
 
     @Test
     @DisplayName("Returns the updated data")
-    public void testUpdate_ReturnedData() {
-        final User user;
-        final User result;
+    void testUpdate_ReturnedData() {
+        final UserUpdate user;
+        final User       result;
 
-        user = getUser();
+        user = UsersUpdate.emailChange();
 
-        result = service.update(user);
+        result = service.update(1L, user);
 
-        Assertions.assertNotNull(result.getId());
-        Assertions.assertEquals("admin", result.getUsername());
-        Assertions.assertEquals("email2@somewhere.com", result.getEmail());
-        Assertions.assertEquals(false, result.getCredentialsExpired());
-        Assertions.assertEquals(true, result.getEnabled());
-        Assertions.assertEquals(false, result.getExpired());
-        Assertions.assertEquals(false, result.getLocked());
-    }
-
-    @Test
-    @DisplayName("Returns the updated data, ignoring case")
-    public void testUpdate_ReturnedData_Case() {
-        final ImmutableUser user;
-        final User          result;
-
-        user = getUser("EMAIL2@SOMEWHERE.COM");
-
-        result = service.update(user);
-
-        Assertions.assertEquals("email2@somewhere.com", result.getEmail());
-    }
-
-    private final ImmutableUser getUser() {
-        return ImmutableUser.builder()
-            .id(1L)
+        UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
             .name("Admin")
             .email("email2@somewhere.com")
@@ -147,20 +130,21 @@ public class ITUserServiceUpdate {
             .enabled(true)
             .expired(false)
             .locked(false)
-            .build();
+            .build());
     }
 
-    private final ImmutableUser getUser(final String email) {
-        return ImmutableUser.builder()
-            .id(1L)
-            .username("admin")
-            .name("Admin")
-            .email(email)
-            .credentialsExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build();
+    @Test
+    @DisplayName("Returns the updated data, ignoring case")
+    void testUpdate_ReturnedData_Case() {
+        final UserUpdate user;
+        final User       result;
+
+        user = UsersUpdate.emailChangeUpperCase();
+
+        result = service.update(1L, user);
+
+        Assertions.assertThat(result.getEmail())
+            .isEqualTo("email2@somewhere.com");
     }
 
 }
