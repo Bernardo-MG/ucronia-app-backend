@@ -72,7 +72,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Boolean addPermission(final Long id, final Long resource, final Long action) {
+    public final Boolean addPermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
 
@@ -108,7 +108,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Boolean delete(final Long id) {
+    public final Boolean delete(final long id) {
         validatorDeleteRole.validate(id);
 
         rolePermissionRepository.deleteAllByRoleId(id);
@@ -128,19 +128,19 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Optional<Role> getOne(final Long id) {
+    public final Optional<Role> getOne(final long id) {
         return roleRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
-    public final Iterable<Permission> getPermission(final Long id, final Pageable pageable) {
+    public final Iterable<Permission> getPermission(final long id, final Pageable pageable) {
         return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
             .map(mapper::toDto);
     }
 
     @Override
-    public final Boolean removePermission(final Long id, final Long resource, final Long action) {
+    public final Boolean removePermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
 

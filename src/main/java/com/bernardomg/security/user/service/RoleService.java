@@ -24,7 +24,7 @@ public interface RoleService {
      *            action id to add
      * @return {@code true} if it managed to add the action, {@code false} otherwise
      */
-    public Boolean addPermission(final Long id, final Long resource, final Long action);
+    public Boolean addPermission(final long id, final long resource, final long action);
 
     /**
      * Persists the received user.
@@ -42,7 +42,7 @@ public interface RoleService {
      *            id of the role to delete
      * @return {@code true} if it managed to delete, {@code false} otherwise
      */
-    public Boolean delete(final Long id);
+    public Boolean delete(final long id);
 
     /**
      * Returns all the roles matching the sample. If the sample fields are empty, then all the roles are returned.
@@ -62,7 +62,7 @@ public interface RoleService {
      *            id of the role to acquire
      * @return an {@code Optional} with the role, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Role> getOne(final Long id);
+    public Optional<Role> getOne(final long id);
 
     /**
      * Returns all action for a role.
@@ -73,7 +73,7 @@ public interface RoleService {
      *            pagination to apply
      * @return action for the role
      */
-    public Iterable<Permission> getPermission(final Long id, final Pageable pageable);
+    public Iterable<Permission> getPermission(final long id, final Pageable pageable);
 
     /**
      * Removes a action from a role.
@@ -86,7 +86,7 @@ public interface RoleService {
      *            action id to remove
      * @return {@code true} if it managed to remove the action, {@code false} otherwise
      */
-    public Boolean removePermission(final Long id, final Long resource, final Long action);
+    public Boolean removePermission(final long id, final long resource, final long action);
 
     /**
      * Updates the role for the received id with the received data.

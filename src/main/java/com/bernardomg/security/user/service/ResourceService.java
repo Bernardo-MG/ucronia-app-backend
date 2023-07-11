@@ -28,6 +28,6 @@ public interface ResourceService {
      *            id of the action to acquire
      * @return an {@code Optional} with the action, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Resource> getOne(final Long id);
+    public Optional<Resource> getOne(final long id);
 
 }

@@ -34,7 +34,7 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public final Optional<Resource> getOne(final Long id) {
+    public final Optional<Resource> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);
     }

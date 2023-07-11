@@ -34,7 +34,7 @@ public final class DefaultActionService implements ActionService {
     }
 
     @Override
-    public final Optional<Action> getOne(final Long id) {
+    public final Optional<Action> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);
     }

@@ -19,7 +19,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Iterable<UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
+    public final Iterable<UserFeeCalendar> getAll(final int year, final boolean onlyActive, final Sort sort) {
         final Iterable<UserFeeCalendar> result;
 
         if (onlyActive) {
@@ -33,7 +33,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final FeeCalendarRange getRange(final Boolean onlyActive) {
+    public final FeeCalendarRange getRange(final boolean onlyActive) {
         final FeeCalendarRange range;
 
         if (onlyActive) {

@@ -54,7 +54,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
-    public final void delete(final Long id) {
+    public final void delete(final long id) {
         if (!repository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No member with id %s", id));
         }
@@ -77,7 +77,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
-    public final Optional<Member> getOne(final Long id) {
+    public final Optional<Member> getOne(final long id) {
         final Optional<PersistentMember> found;
         final Optional<Member>           result;
         final Member                     data;
@@ -96,7 +96,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
-    public final Member update(final Long id, final MemberUpdate member) {
+    public final Member update(final long id, final MemberUpdate member) {
         final PersistentMember entity;
         final PersistentMember updated;
 

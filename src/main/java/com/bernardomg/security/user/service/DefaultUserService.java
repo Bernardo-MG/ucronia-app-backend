@@ -67,7 +67,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Boolean addRole(final Long id, final Long role) {
+    public final Boolean addRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
 
@@ -116,7 +116,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final void delete(final Long id) {
+    public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No user with id %s", id));
@@ -145,18 +145,18 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Optional<User> getOne(final Long id) {
+    public final Optional<User> getOne(final long id) {
         return userRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
-    public final Iterable<Role> getRoles(final Long id, final Pageable pageable) {
+    public final Iterable<Role> getRoles(final long id, final Pageable pageable) {
         return roleRepository.findForUser(id, pageable);
     }
 
     @Override
-    public final Boolean removeRole(final Long id, final Long role) {
+    public final Boolean removeRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
 
@@ -175,7 +175,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final User update(final Long id, final UserUpdate user) {
+    public final User update(final long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
         final Optional<PersistentUser> old;
@@ -202,7 +202,7 @@ public final class DefaultUserService implements UserService {
                 .getPassword());
         }
 
-        // TODO: Should keep the values in the database
+        // TODO: Should initialize the values in the database
         entity.setExpired(false);
         entity.setLocked(false);
         entity.setCredentialsExpired(false);

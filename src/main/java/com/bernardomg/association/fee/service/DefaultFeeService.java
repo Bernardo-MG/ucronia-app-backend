@@ -78,7 +78,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
-    public final void delete(final Long id) {
+    public final void delete(final long id) {
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No fee with id %s", id), id);
         }
@@ -107,7 +107,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Optional<MemberFee> getOne(final Long id) {
+    public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
 
@@ -126,7 +126,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
-    public final MemberFee update(final Long id, final FeeUpdate form) {
+    public final MemberFee update(final long id, final FeeUpdate form) {
         final PersistentFee entity;
         final PersistentFee created;
 

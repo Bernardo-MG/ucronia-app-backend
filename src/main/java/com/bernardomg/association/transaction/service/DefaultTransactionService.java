@@ -54,7 +54,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
-    public final void delete(final Long id) {
+    public final void delete(final long id) {
         if (!repository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No transaction with id %s", id));
         }
@@ -81,7 +81,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:READ')")
-    public final Optional<Transaction> getOne(final Long id) {
+    public final Optional<Transaction> getOne(final long id) {
         final Optional<PersistentTransaction> found;
         final Optional<Transaction>           result;
         final Transaction                     data;
@@ -136,7 +136,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
-    public final Transaction update(final Long id, final TransactionUpdate transaction) {
+    public final Transaction update(final long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
