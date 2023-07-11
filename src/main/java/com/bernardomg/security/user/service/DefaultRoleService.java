@@ -174,8 +174,8 @@ public final class DefaultRoleService implements RoleService {
         return mapper.toDto(created);
     }
 
-    private final PersistentRolePermission getRolePermissionSample(final Long role, final Long resource,
-            final Long action) {
+    private final PersistentRolePermission getRolePermissionSample(final long role, final long resource,
+            final long action) {
         return PersistentRolePermission.builder()
             .roleId(role)
             .resourceId(resource)

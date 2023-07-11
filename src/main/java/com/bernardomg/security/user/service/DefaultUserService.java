@@ -212,7 +212,7 @@ public final class DefaultUserService implements UserService {
         return mapper.toDto(created);
     }
 
-    private final PersistentUserRoles getUserRoleSample(final Long user, final Long role) {
+    private final PersistentUserRoles getUserRoleSample(final long user, final long role) {
         return PersistentUserRoles.builder()
             .userId(user)
             .roleId(role)
