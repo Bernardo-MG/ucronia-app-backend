@@ -21,29 +21,6 @@ class TestDtoFeeCalendarQueryRequestValidation {
         .getValidator();
 
     @Test
-    @DisplayName("A DTO missing the active flag is invalid")
-    void validate_noActive() {
-        final DtoFeeCalendarQueryRequest                           request;
-        final Set<ConstraintViolation<DtoFeeCalendarQueryRequest>> errors;
-        final ConstraintViolation<DtoFeeCalendarQueryRequest>      error;
-
-        request = FeeCalendarsQuery.missingOnlyActive();
-
-        errors = validator.validate(request);
-
-        Assertions.assertThat(errors)
-            .hasSize(1);
-
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("onlyActive");
-        Assertions.assertThat(error.getInvalidValue())
-            .isNull();
-    }
-
-    @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
         final DtoFeeCalendarQueryRequest                           request;
