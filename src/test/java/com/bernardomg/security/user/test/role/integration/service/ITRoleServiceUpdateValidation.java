@@ -56,7 +56,7 @@ class ITRoleServiceUpdateValidation {
 
         data = RolesUpdate.valid();
 
-        executable = () -> service.update(data);
+        executable = () -> service.update(1L, data);
 
         failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
 
