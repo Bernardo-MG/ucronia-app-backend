@@ -11,6 +11,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.ImmutableRolePermission;
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
@@ -184,6 +185,10 @@ public final class DefaultRoleService implements RoleService {
     public final Role update(final long id, final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;
+
+        if (!roleRepository.existsById(id)) {
+            throw new InvalidIdException(String.format("Failed update. No role with id %s", id));
+        }
 
         validatorUpdateRole.validate(role);
 
