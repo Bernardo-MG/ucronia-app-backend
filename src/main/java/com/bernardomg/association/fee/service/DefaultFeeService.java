@@ -93,7 +93,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    @Cacheable("fees")
+    @Cacheable(cacheNames = "fees")
     public final Iterable<MemberFee> getAll(final FeeQuery request, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
@@ -113,7 +113,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    @Cacheable("fee")
+    @Cacheable(cacheNames = "fee", key = "#id")
     public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
@@ -133,7 +133,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
-    @CachePut
+    @CachePut(cacheNames = { "fee", "fees" })
     public final MemberFee update(final long id, final FeeUpdate form) {
         final PersistentFee entity;
         final PersistentFee created;
