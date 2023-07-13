@@ -73,7 +73,7 @@ public final class DefaultRoleService implements RoleService {
         mapper = Objects.requireNonNull(roleMapper);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
-        validatorUpdateRole = new UpdateRoleValidator(roleRepo);
+        validatorUpdateRole = new UpdateRoleValidator();
         validatorDeleteRole = new DeleteRoleValidator(roleRepo, userRolesRepo);
 
         validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
