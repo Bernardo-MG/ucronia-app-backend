@@ -37,6 +37,8 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultFeeService implements FeeService {
 
+    private static final String        CACHE_NAME = "fees";
+
     private final FeeRepository        feeRepository;
 
     private final FeeMapper            mapper;
@@ -65,7 +67,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
-    @CachePut(cacheNames = { "fee", "fees" })
+    @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
     public final MemberFee create(final FeeCreate request) {
         final PersistentFee entity;
         final PersistentFee created;
@@ -82,7 +84,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
-    @CacheEvict(cacheNames = { "fee", "fees" })
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
     public final void delete(final long id) {
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No fee with id %s", id), id);
@@ -93,7 +95,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    @Cacheable(cacheNames = "fees")
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Iterable<MemberFee> getAll(final FeeQuery request, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
@@ -113,7 +115,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    @Cacheable(cacheNames = "fee", key = "#id")
+    @Cacheable(cacheNames = CACHE_NAME, key = "#id")
     public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
@@ -133,7 +135,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
-    @CachePut(cacheNames = { "fee", "fees" })
+    @CachePut(cacheNames = CACHE_NAME, key = "#id")
     public final MemberFee update(final long id, final FeeUpdate form) {
         final PersistentFee entity;
         final PersistentFee created;
