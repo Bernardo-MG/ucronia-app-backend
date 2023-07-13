@@ -84,7 +84,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
-    @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
+    @CacheEvict(cacheNames = CACHE_NAME)
     public final void delete(final long id) {
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No fee with id %s", id), id);
@@ -115,7 +115,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    @Cacheable(cacheNames = CACHE_NAME, key = "#id")
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;

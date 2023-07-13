@@ -75,7 +75,7 @@ class ITRoleServiceAddPermission {
 
         service.addPermission(1l, 1l, 1l);
         roleGrantedPermissionRepository.flush();
-        result = service.getPermission(1l, pageable);
+        result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(1);

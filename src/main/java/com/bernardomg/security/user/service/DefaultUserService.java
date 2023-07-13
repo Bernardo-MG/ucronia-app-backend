@@ -4,6 +4,9 @@ package com.bernardomg.security.user.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,12 @@ import com.bernardomg.validation.Validator;
 
 @Service
 public final class DefaultUserService implements UserService {
+
+    private static final String         CACHE_NAME                = "security_users";
+
+    private static final String         PERMISSION_SET_CACHE_NAME = "security_permission_set";
+
+    private static final String         ROLE_CACHE_NAME           = "security_user_role";
 
     private final UserMapper            mapper;
 
@@ -67,6 +76,8 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @CacheEvict(cacheNames = PERMISSION_SET_CACHE_NAME)
+    @CachePut(cacheNames = ROLE_CACHE_NAME)
     public final Boolean addRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -86,6 +97,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
     public final User create(final UserCreate user) {
         final PersistentUser entity;
         final PersistentUser created;
@@ -116,6 +128,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CACHE_NAME)
     public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
@@ -127,6 +140,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
@@ -145,17 +159,20 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Optional<User> getOne(final long id) {
         return userRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
+    @Cacheable(cacheNames = ROLE_CACHE_NAME)
     public final Iterable<Role> getRoles(final long id, final Pageable pageable) {
         return roleRepository.findForUser(id, pageable);
     }
 
     @Override
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME })
     public final Boolean removeRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -175,6 +192,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @CachePut(cacheNames = CACHE_NAME, key = "#id")
     public final User update(final long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
@@ -187,6 +205,7 @@ public final class DefaultUserService implements UserService {
         validatorUpdateUser.validate(user);
 
         entity = mapper.toEntity(user);
+        entity.setId(id);
         if (entity.getUsername() != null) {
             entity.setUsername(entity.getUsername()
                 .toLowerCase());

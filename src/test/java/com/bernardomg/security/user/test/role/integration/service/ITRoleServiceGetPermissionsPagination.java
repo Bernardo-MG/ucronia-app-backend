@@ -38,7 +38,7 @@ class ITRoleServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        result = service.getPermission(1l, pageable);
+        result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(result)
             .isInstanceOf(Page.class);
@@ -53,7 +53,7 @@ class ITRoleServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        data = service.getPermission(1l, pageable)
+        data = service.getPermissions(1l, pageable)
             .iterator();
 
         result = data.next();
@@ -72,7 +72,7 @@ class ITRoleServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        data = service.getPermission(1l, pageable)
+        data = service.getPermissions(1l, pageable)
             .iterator();
 
         result = data.next();
@@ -90,7 +90,7 @@ class ITRoleServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        result = service.getPermission(1l, pageable);
+        result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(1);
@@ -104,7 +104,7 @@ class ITRoleServiceGetPermissionsPagination {
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermission(1l, pageable);
+        result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(result)
             .isInstanceOf(Page.class);

@@ -4,6 +4,9 @@ package com.bernardomg.security.user.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,12 @@ import com.bernardomg.validation.Validator;
 
 @Service
 public final class DefaultRoleService implements RoleService {
+
+    private static final String                   CACHE_NAME                = "security_roles";
+
+    private static final String                   PERMISSION_CACHE_NAME     = "security_role_permission";
+
+    private static final String                   PERMISSION_SET_CACHE_NAME = "security_permission_set";
 
     private final RoleMapper                      mapper;
 
@@ -72,6 +81,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @CacheEvict(cacheNames = PERMISSION_SET_CACHE_NAME)
+    @CachePut(cacheNames = PERMISSION_CACHE_NAME)
     public final Boolean addPermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -90,10 +101,12 @@ public final class DefaultRoleService implements RoleService {
         // Persist relationship entities
         rolePermissionRepository.save(rolePermissionSample);
 
+        // TODO: Return an object to store in the cache
         return true;
     }
 
     @Override
+    @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
     public final Role create(final RoleCreate role) {
         final PersistentRole entity;
         final PersistentRole created;
@@ -108,6 +121,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CACHE_NAME)
     public final Boolean delete(final long id) {
         validatorDeleteRole.validate(id);
 
@@ -118,6 +132,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
 
@@ -128,18 +143,21 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Optional<Role> getOne(final long id) {
         return roleRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
-    public final Iterable<Permission> getPermission(final long id, final Pageable pageable) {
+    @Cacheable(cacheNames = PERMISSION_CACHE_NAME)
+    public final Iterable<Permission> getPermissions(final long id, final Pageable pageable) {
         return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
             .map(mapper::toDto);
     }
 
     @Override
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME })
     public final Boolean removePermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -162,13 +180,16 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role update(final RoleUpdate role) {
+    @CachePut(cacheNames = CACHE_NAME, key = "#id")
+    public final Role update(final long id, final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;
 
         validatorUpdateRole.validate(role);
 
         entity = mapper.toEntity(role);
+        entity.setId(id);
+
         created = roleRepository.save(entity);
 
         return mapper.toDto(created);

@@ -32,7 +32,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultMemberService implements MemberService {
 
-    private static final String        CACHE_NAME = "members";
+    private static final String    CACHE_NAME = "members";
 
     private final MemberMapper     mapper;
 
@@ -60,7 +60,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
-    @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
+    @CacheEvict(cacheNames = CACHE_NAME)
     public final void delete(final long id) {
         if (!repository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No member with id %s", id));
@@ -85,7 +85,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
-    @Cacheable(cacheNames = CACHE_NAME, key = "#id")
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Optional<Member> getOne(final long id) {
         final Optional<PersistentMember> found;
         final Optional<Member>           result;

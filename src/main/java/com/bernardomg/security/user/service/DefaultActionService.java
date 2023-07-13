@@ -3,6 +3,7 @@ package com.bernardomg.security.user.service;
 
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultActionService implements ActionService {
 
+    private static final String    CACHE_NAME = "security_actions";
+
     private final ActionMapper     mapper;
 
     private final ActionRepository repository;
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Iterable<Action> getAll(final ActionQuery sample, final Pageable pageable) {
         final PersistentAction entitySample;
 
@@ -34,6 +38,7 @@ public final class DefaultActionService implements ActionService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME)
     public final Optional<Action> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);

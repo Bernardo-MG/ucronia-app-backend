@@ -62,7 +62,7 @@ public class RolePermissionController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Permission> readAll(@PathVariable("id") final long id, final Pageable pageable) {
-        return service.getPermission(id, pageable);
+        return service.getPermissions(id, pageable);
     }
 
     @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
