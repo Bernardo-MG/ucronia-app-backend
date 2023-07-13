@@ -11,14 +11,14 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.PermissionsSet;
-import com.bernardomg.security.user.service.DefaultPermissionService;
+import com.bernardomg.security.user.service.PermissionService;
 
 @IntegrationTest
 @DisplayName("PermissionService")
 class ITPermissionService {
 
     @Autowired
-    private DefaultPermissionService service;
+    private PermissionService service;
 
     public ITPermissionService() {
         super();
