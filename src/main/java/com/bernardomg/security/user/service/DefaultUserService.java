@@ -19,14 +19,15 @@ import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.mapper.UserMapper;
+import com.bernardomg.security.user.model.mapper.UserRoleMapper;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
+import com.bernardomg.security.user.persistence.model.PersistentUserRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.validation.user.AddUserRoleValidator;
 import com.bernardomg.security.user.validation.user.CreateUserValidator;
 import com.bernardomg.security.user.validation.user.DeleteUserValidator;
@@ -50,7 +51,9 @@ public final class DefaultUserService implements UserService {
 
     private final UserRepository        userRepository;
 
-    private final UserRolesRepository   userRolesRepository;
+    private final UserRoleMapper        userRoleMapper;
+
+    private final UserRoleRepository   userRoleRepository;
 
     private final Validator<UserRole>   validatorAddUserRole;
 
@@ -63,13 +66,14 @@ public final class DefaultUserService implements UserService {
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRolesRepository userRolesRepo, final UserMapper userMapper) {
+            final UserRoleRepository userRoleRepo, final UserMapper userMapper, final UserRoleMapper roleMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-        userRolesRepository = Objects.requireNonNull(userRolesRepo);
+        userRoleRepository = Objects.requireNonNull(userRoleRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
         mapper = Objects.requireNonNull(userMapper);
+        userRoleMapper = Objects.requireNonNull(roleMapper);
 
         validatorCreateUser = new CreateUserValidator(userRepo);
         validatorUpdateUser = new UpdateUserValidator(userRepo);
@@ -82,9 +86,10 @@ public final class DefaultUserService implements UserService {
     @Override
     @PreAuthorize("hasAuthority('USER:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
-    public final Boolean addRole(final long id, final long role) {
-        final PersistentUserRoles userRoleSample;
-        final UserRole            userRole;
+    public final UserRole addRole(final long id, final long role) {
+        final PersistentUserRole userRoleSample;
+        final UserRole           userRole;
+        final PersistentUserRole created;
 
         userRole = ImmutableUserRole.builder()
             .user(id)
@@ -95,10 +100,9 @@ public final class DefaultUserService implements UserService {
         userRoleSample = getUserRoleSample(id, role);
 
         // Persist relationship
-        userRolesRepository.save(userRoleSample);
+        created = userRoleRepository.save(userRoleSample);
 
-        // TODO: Return an object to store in the cache
-        return true;
+        return userRoleMapper.toDto(created);
     }
 
     @Override
@@ -186,9 +190,9 @@ public final class DefaultUserService implements UserService {
     @Override
     @PreAuthorize("hasAuthority('USER:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
-    public final Boolean removeRole(final long id, final long role) {
-        final PersistentUserRoles userRoleSample;
-        final UserRole            userRole;
+    public final UserRole removeRole(final long id, final long role) {
+        final PersistentUserRole userRoleSample;
+        final UserRole           userRole;
 
         userRole = ImmutableUserRole.builder()
             .user(id)
@@ -199,11 +203,9 @@ public final class DefaultUserService implements UserService {
         userRoleSample = getUserRoleSample(id, role);
 
         // Persist relationship
-        userRolesRepository.delete(userRoleSample);
+        userRoleRepository.delete(userRoleSample);
 
-        // TODO: Return an object to delete only that permission
-
-        return true;
+        return userRoleMapper.toDto(userRoleSample);
     }
 
     @Override
@@ -248,8 +250,8 @@ public final class DefaultUserService implements UserService {
         return mapper.toDto(created);
     }
 
-    private final PersistentUserRoles getUserRoleSample(final long user, final long role) {
-        return PersistentUserRoles.builder()
+    private final PersistentUserRole getUserRoleSample(final long user, final long role) {
+        return PersistentUserRole.builder()
             .userId(user)
             .roleId(role)
             .build();

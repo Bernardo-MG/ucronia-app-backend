@@ -11,8 +11,9 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
-import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.user.model.UserRole;
+import com.bernardomg.security.user.persistence.model.PersistentUserRole;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
@@ -23,7 +24,7 @@ class ITUserServiceAddRole {
     private UserService         service;
 
     @Autowired
-    private UserRolesRepository userRolesRepository;
+    private UserRoleRepository userRoleRepository;
 
     public ITUserServiceAddRole() {
         super();
@@ -35,14 +36,14 @@ class ITUserServiceAddRole {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
     void testAddRole_AddsEntity() {
-        final PersistentUserRoles entity;
+        final PersistentUserRole entity;
 
         service.addRole(1L, 1L);
 
-        Assertions.assertThat(userRolesRepository.count())
+        Assertions.assertThat(userRoleRepository.count())
             .isEqualTo(1);
 
-        entity = userRolesRepository.findAll()
+        entity = userRoleRepository.findAll()
             .iterator()
             .next();
 
@@ -86,7 +87,23 @@ class ITUserServiceAddRole {
     void testAddRole_Existing() {
         service.addRole(1L, 1L);
 
-        Assertions.assertThat(userRolesRepository.count())
+        Assertions.assertThat(userRoleRepository.count())
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Returns the created data")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
+    void testAddRole_ReturnedData() {
+        final UserRole entity;
+
+        entity = service.addRole(1L, 1L);
+
+        Assertions.assertThat(entity.getUser())
+            .isEqualTo(1);
+        Assertions.assertThat(entity.getRole())
             .isEqualTo(1);
     }
 

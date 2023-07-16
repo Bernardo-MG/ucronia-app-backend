@@ -19,6 +19,7 @@ import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.mapper.RoleMapper;
+import com.bernardomg.security.user.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
@@ -29,7 +30,7 @@ import com.bernardomg.security.user.persistence.repository.ResourceRepository;
 import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
-import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.validation.role.AddRolePermissionValidator;
 import com.bernardomg.security.user.validation.role.CreateRoleValidator;
 import com.bernardomg.security.user.validation.role.DeleteRoleValidator;
@@ -51,6 +52,8 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
 
+    private final RolePermissionMapper            rolePermissionMapper;
+
     private final RolePermissionRepository        rolePermissionRepository;
 
     private final RoleRepository                  roleRepository;
@@ -67,18 +70,19 @@ public final class DefaultRoleService implements RoleService {
 
     public DefaultRoleService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
             final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
-            final UserRolesRepository userRolesRepo, final RoleGrantedPermissionRepository roleGrantedPermissionRepo,
-            final RoleMapper roleMapper) {
+            final UserRoleRepository userRoleRepo, final RoleGrantedPermissionRepository roleGrantedPermissionRepo,
+            final RoleMapper roleMapper, final RolePermissionMapper permissionMapper) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
         rolePermissionRepository = Objects.requireNonNull(roleActionsRepo);
         roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
         mapper = Objects.requireNonNull(roleMapper);
+        rolePermissionMapper = Objects.requireNonNull(permissionMapper);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
         validatorUpdateRole = new UpdateRoleValidator();
-        validatorDeleteRole = new DeleteRoleValidator(roleRepo, userRolesRepo);
+        validatorDeleteRole = new DeleteRoleValidator(roleRepo, userRoleRepo);
 
         validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
         // TODO: Just validate if the permission exists
@@ -88,9 +92,10 @@ public final class DefaultRoleService implements RoleService {
     @Override
     @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
-    public final Boolean addPermission(final long id, final long resource, final long action) {
+    public final RolePermission addPermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
+        final PersistentRolePermission created;
 
         roleAction = ImmutableRolePermission.builder()
             .role(id)
@@ -104,10 +109,9 @@ public final class DefaultRoleService implements RoleService {
         rolePermissionSample.setGranted(true);
 
         // Persist relationship entities
-        rolePermissionRepository.save(rolePermissionSample);
+        created = rolePermissionRepository.save(rolePermissionSample);
 
-        // TODO: Return an object to store in the cache
-        return true;
+        return rolePermissionMapper.toDto(created);
     }
 
     @Override
@@ -171,9 +175,10 @@ public final class DefaultRoleService implements RoleService {
     @Override
     @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
-    public final Boolean removePermission(final long id, final long resource, final long action) {
+    public final RolePermission removePermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
+        final PersistentRolePermission updated;
 
         roleAction = ImmutableRolePermission.builder()
             .role(id)
@@ -187,11 +192,9 @@ public final class DefaultRoleService implements RoleService {
         rolePermissionSample.setGranted(false);
 
         // Delete relationship entities
-        rolePermissionRepository.save(rolePermissionSample);
+        updated = rolePermissionRepository.save(rolePermissionSample);
 
-        // TODO: Return an object to delete only that permission
-
-        return true;
+        return rolePermissionMapper.toDto(updated);
     }
 
     @Override

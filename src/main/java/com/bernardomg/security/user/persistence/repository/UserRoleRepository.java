@@ -22,46 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.persistence.model;
+package com.bernardomg.security.user.persistence.repository;
 
-import java.io.Serializable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.bernardomg.security.user.persistence.model.PersistentUserRole;
+import com.bernardomg.security.user.persistence.model.UserRoleKey;
 
 /**
- * Dto implementation of {@code Action}.
+ * Repository for action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "UserRoles")
-@Table(name = "user_roles")
-@IdClass(UserRolesKey.class)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PersistentUserRoles implements Serializable {
-
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 8513041662486312372L;
-
-    @Id
-    @Column(name = "role_id", nullable = false, unique = true)
-    private Long              roleId;
-
-    @Id
-    @Column(name = "user_id", nullable = false, unique = true)
-    private Long              userId;
+public interface UserRoleRepository extends JpaRepository<PersistentUserRole, UserRoleKey> {
 
 }

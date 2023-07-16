@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.service.RoleService;
@@ -30,6 +31,21 @@ class ITRoleServiceRemovePermission {
 
     public ITRoleServiceRemovePermission() {
         super();
+    }
+
+    @Test
+    @DisplayName("Returns the removed data")
+    void testAddRole_ReturnedData() {
+        final RolePermission result;
+
+        result = service.removePermission(1l, 1l, 1l);
+
+        Assertions.assertThat(result.getRole())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getResource())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getAction())
+            .isEqualTo(1);
     }
 
     @Test

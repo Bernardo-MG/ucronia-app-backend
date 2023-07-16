@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRolesKey implements Serializable {
+public class UserRoleKey implements Serializable {
 
     /**
      * Serialization ID.

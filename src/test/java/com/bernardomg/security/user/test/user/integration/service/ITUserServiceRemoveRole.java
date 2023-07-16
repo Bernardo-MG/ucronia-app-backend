@@ -11,7 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.user.model.UserRole;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
@@ -25,7 +26,7 @@ class ITUserServiceRemoveRole {
     private UserService         service;
 
     @Autowired
-    private UserRolesRepository userRolesRepository;
+    private UserRoleRepository userRoleRepository;
 
     public ITUserServiceRemoveRole() {
         super();
@@ -36,8 +37,21 @@ class ITUserServiceRemoveRole {
     void testAddRole_RemovesEntity() {
         service.removeRole(1L, 1L);
 
-        Assertions.assertThat(userRolesRepository.count())
+        Assertions.assertThat(userRoleRepository.count())
             .isZero();
+    }
+
+    @Test
+    @DisplayName("Returns the removed data")
+    void testAddRole_ReturnedData() {
+        final UserRole entity;
+
+        entity = service.removeRole(1L, 1L);
+
+        Assertions.assertThat(entity.getUser())
+            .isEqualTo(1);
+        Assertions.assertThat(entity.getRole())
+            .isEqualTo(1);
     }
 
     @Test

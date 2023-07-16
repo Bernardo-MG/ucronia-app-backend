@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
@@ -22,9 +23,9 @@ public interface RoleService {
      *            resource id to add
      * @param action
      *            action id to add
-     * @return {@code true} if it managed to add the action, {@code false} otherwise
+     * @return the added permission
      */
-    public Boolean addPermission(final long id, final long resource, final long action);
+    public RolePermission addPermission(final long id, final long resource, final long action);
 
     /**
      * Persists the received user.
@@ -84,9 +85,9 @@ public interface RoleService {
      *            resource id to add
      * @param action
      *            action id to remove
-     * @return {@code true} if it managed to remove the action, {@code false} otherwise
+     * @return the removed permission
      */
-    public Boolean removePermission(final long id, final long resource, final long action);
+    public RolePermission removePermission(final long id, final long resource, final long action);
 
     /**
      * Updates the role for the received id with the received data.
