@@ -23,7 +23,7 @@ import com.bernardomg.security.user.service.UserService;
 class ITUserServiceRemoveRole {
 
     @Autowired
-    private UserService         service;
+    private UserService        service;
 
     @Autowired
     private UserRoleRepository userRoleRepository;
@@ -48,9 +48,9 @@ class ITUserServiceRemoveRole {
 
         entity = service.removeRole(1L, 1L);
 
-        Assertions.assertThat(entity.getUser())
+        Assertions.assertThat(entity.getUserId())
             .isEqualTo(1);
-        Assertions.assertThat(entity.getRole())
+        Assertions.assertThat(entity.getRoleId())
             .isEqualTo(1);
     }
 

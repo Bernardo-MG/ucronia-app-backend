@@ -8,10 +8,10 @@ import lombok.Data;
 @Builder
 public final class DtoRolePermission implements RolePermission {
 
-    private final Long action;
+    private final Long actionId;
 
-    private final Long resource;
+    private final Long resourceId;
 
-    private final Long role;
+    private final Long roleId;
 
 }

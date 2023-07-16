@@ -8,8 +8,8 @@ import lombok.Data;
 @Builder
 public final class DtoUserRole implements UserRole {
 
-    private final Long role;
+    private final Long roleId;
 
-    private final Long user;
+    private final Long userId;
 
 }

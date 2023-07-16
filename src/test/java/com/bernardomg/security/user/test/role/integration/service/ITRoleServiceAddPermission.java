@@ -155,11 +155,11 @@ class ITRoleServiceAddPermission {
 
         result = service.addPermission(1l, 1l, 1l);
 
-        Assertions.assertThat(result.getRole())
+        Assertions.assertThat(result.getRoleId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getResource())
+        Assertions.assertThat(result.getResourceId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getAction())
+        Assertions.assertThat(result.getActionId())
             .isEqualTo(1);
     }
 

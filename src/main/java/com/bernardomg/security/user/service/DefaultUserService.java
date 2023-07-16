@@ -53,7 +53,7 @@ public final class DefaultUserService implements UserService {
 
     private final UserRoleMapper        userRoleMapper;
 
-    private final UserRoleRepository   userRoleRepository;
+    private final UserRoleRepository    userRoleRepository;
 
     private final Validator<UserRole>   validatorAddUserRole;
 
@@ -92,8 +92,8 @@ public final class DefaultUserService implements UserService {
         final PersistentUserRole created;
 
         userRole = DtoUserRole.builder()
-            .user(id)
-            .role(role)
+            .userId(id)
+            .roleId(role)
             .build();
         validatorAddUserRole.validate(userRole);
 
@@ -195,8 +195,8 @@ public final class DefaultUserService implements UserService {
         final UserRole           userRole;
 
         userRole = DtoUserRole.builder()
-            .user(id)
-            .role(role)
+            .userId(id)
+            .roleId(role)
             .build();
         validatorRemoveUserRole.validate(userRole);
 

@@ -35,18 +35,18 @@ public final class AddUserRoleValidator implements Validator<UserRole> {
         failures = new ArrayList<>();
 
         // The user exists
-        if (!userRepository.existsById(relationship.getUser())) {
-            log.error("Found no user with id {}", relationship.getUser());
+        if (!userRepository.existsById(relationship.getUserId())) {
+            log.error("Found no user with id {}", relationship.getUserId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("id", "notExisting", relationship.getUser());
+            failure = FieldFailure.of("id", "notExisting", relationship.getUserId());
             failures.add(failure);
         }
 
         // The action exists
-        if (!roleRepository.existsById(relationship.getRole())) {
-            log.error("Found no role with id {}", relationship.getRole());
+        if (!roleRepository.existsById(relationship.getRoleId())) {
+            log.error("Found no role with id {}", relationship.getRoleId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("role", "notExisting", relationship.getRole());
+            failure = FieldFailure.of("role", "notExisting", relationship.getRoleId());
             failures.add(failure);
         }
 

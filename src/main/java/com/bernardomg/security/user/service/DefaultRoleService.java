@@ -98,9 +98,9 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRolePermission created;
 
         roleAction = DtoRolePermission.builder()
-            .role(id)
-            .resource(resource)
-            .action(action)
+            .roleId(id)
+            .resourceId(resource)
+            .actionId(action)
             .build();
         validatorAddRolePermission.validate(roleAction);
 
@@ -181,9 +181,9 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRolePermission updated;
 
         roleAction = DtoRolePermission.builder()
-            .role(id)
-            .resource(resource)
-            .action(action)
+            .roleId(id)
+            .resourceId(resource)
+            .actionId(action)
             .build();
         validatorRemoveRolePermission.validate(roleAction);
 

@@ -40,26 +40,26 @@ public final class AddRolePermissionValidator implements Validator<RolePermissio
         failures = new ArrayList<>();
 
         // The role exists
-        if (!roleRepository.existsById(relationship.getRole())) {
-            log.error("Found no role with id {}", relationship.getRole());
+        if (!roleRepository.existsById(relationship.getRoleId())) {
+            log.error("Found no role with id {}", relationship.getRoleId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("id", "notExisting", relationship.getRole());
+            failure = FieldFailure.of("id", "notExisting", relationship.getRoleId());
             failures.add(failure);
         }
 
         // The resource exists
-        if (!resourceRepository.existsById(relationship.getResource())) {
-            log.error("Found no resource with id {}", relationship.getResource());
+        if (!resourceRepository.existsById(relationship.getResourceId())) {
+            log.error("Found no resource with id {}", relationship.getResourceId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("resource", "notExisting", relationship.getResource());
+            failure = FieldFailure.of("resource", "notExisting", relationship.getResourceId());
             failures.add(failure);
         }
 
         // The action exists
-        if (!actionRepository.existsById(relationship.getAction())) {
-            log.error("Found no action with id {}", relationship.getAction());
+        if (!actionRepository.existsById(relationship.getActionId())) {
+            log.error("Found no action with id {}", relationship.getActionId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("action", "notExisting", relationship.getAction());
+            failure = FieldFailure.of("action", "notExisting", relationship.getActionId());
             failures.add(failure);
         }
 
