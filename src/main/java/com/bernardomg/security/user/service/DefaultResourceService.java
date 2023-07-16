@@ -20,14 +20,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultResourceService implements ResourceService {
 
-    private static final String      CACHE_NAME = "security_resources";
+    private static final String      CACHE_MULTIPLE = "security_resources";
+
+    private static final String      CACHE_SINGLE   = "security_resource";
 
     private final ResourceMapper     mapper;
 
     private final ResourceRepository repository;
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME)
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entitySample;
 
@@ -38,7 +40,7 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME)
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Resource> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,9 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultRoleService implements RoleService {
 
-    private static final String                   CACHE_NAME                = "security_roles";
+    private static final String                   CACHE_MULTIPLE            = "security_roles";
+
+    private static final String                   CACHE_SINGLE              = "security_role";
 
     private static final String                   PERMISSION_CACHE_NAME     = "security_role_permission";
 
@@ -82,8 +85,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @CacheEvict(cacheNames = PERMISSION_SET_CACHE_NAME)
-    @CachePut(cacheNames = PERMISSION_CACHE_NAME)
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final Boolean addPermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -107,7 +109,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Role create(final RoleCreate role) {
         final PersistentRole entity;
         final PersistentRole created;
@@ -122,7 +125,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @CacheEvict(cacheNames = CACHE_NAME)
+    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
+            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final Boolean delete(final long id) {
         validatorDeleteRole.validate(id);
 
@@ -133,7 +137,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME)
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
 
@@ -144,7 +148,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME)
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Role> getOne(final long id) {
         return roleRepository.findById(id)
             .map(mapper::toDto);
@@ -158,7 +162,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME })
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final Boolean removePermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -177,11 +181,14 @@ public final class DefaultRoleService implements RoleService {
         // Delete relationship entities
         rolePermissionRepository.save(rolePermissionSample);
 
+        // TODO: Return an object to delete only that permission
+
         return true;
     }
 
     @Override
-    @CachePut(cacheNames = CACHE_NAME, key = "#id")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Role update(final long id, final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,9 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultUserService implements UserService {
 
-    private static final String         CACHE_NAME                = "security_users";
+    private static final String         CACHE_MULTIPLE            = "security_users";
+
+    private static final String         CACHE_SINGLE              = "security_user";
 
     private static final String         PERMISSION_SET_CACHE_NAME = "security_permission_set";
 
@@ -76,8 +79,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @CacheEvict(cacheNames = PERMISSION_SET_CACHE_NAME)
-    @CachePut(cacheNames = ROLE_CACHE_NAME)
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
     public final Boolean addRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -93,11 +95,13 @@ public final class DefaultUserService implements UserService {
         // Persist relationship
         userRolesRepository.save(userRoleSample);
 
+        // TODO: Return an object to store in the cache
         return true;
     }
 
     @Override
-    @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User create(final UserCreate user) {
         final PersistentUser entity;
         final PersistentUser created;
@@ -128,7 +132,8 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @CacheEvict(cacheNames = CACHE_NAME)
+    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
+            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
@@ -140,7 +145,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME)
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
@@ -159,7 +164,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME)
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<User> getOne(final long id) {
         return userRepository.findById(id)
             .map(mapper::toDto);
@@ -172,7 +177,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME })
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
     public final Boolean removeRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -188,11 +193,14 @@ public final class DefaultUserService implements UserService {
         // Persist relationship
         userRolesRepository.delete(userRoleSample);
 
+        // TODO: Return an object to delete only that permission
+
         return true;
     }
 
     @Override
-    @CachePut(cacheNames = CACHE_NAME, key = "#id")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User update(final long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
