@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
@@ -80,6 +81,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
+    @PreAuthorize("hasAuthority('USER:UPDATE')")
     public final Boolean addRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -102,6 +104,7 @@ public final class DefaultUserService implements UserService {
     @Override
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+    @PreAuthorize("hasAuthority('USER:CREATE')")
     public final User create(final UserCreate user) {
         final PersistentUser entity;
         final PersistentUser created;
@@ -134,6 +137,7 @@ public final class DefaultUserService implements UserService {
     @Override
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
+    @PreAuthorize("hasAuthority('USER:DELETE')")
     public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
@@ -146,6 +150,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     @Cacheable(cacheNames = CACHE_MULTIPLE)
+    @PreAuthorize("hasAuthority('USER:READ')")
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
@@ -165,6 +170,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
+    @PreAuthorize("hasAuthority('USER:READ')")
     public final Optional<User> getOne(final long id) {
         return userRepository.findById(id)
             .map(mapper::toDto);
@@ -172,12 +178,14 @@ public final class DefaultUserService implements UserService {
 
     @Override
     @Cacheable(cacheNames = ROLE_CACHE_NAME)
+    @PreAuthorize("hasAuthority('USER:READ')")
     public final Iterable<Role> getRoles(final long id, final Pageable pageable) {
         return roleRepository.findForUser(id, pageable);
     }
 
     @Override
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
+    @PreAuthorize("hasAuthority('USER:UPDATE')")
     public final Boolean removeRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -201,6 +209,7 @@ public final class DefaultUserService implements UserService {
     @Override
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+    @PreAuthorize("hasAuthority('USER:UPDATE')")
     public final User update(final long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
