@@ -39,13 +39,18 @@ INSERT INTO resources (id, name) VALUES
    (3, 'TRANSACTION'),
    (4, 'BALANCE'),
    (5, 'USER'),
-   (6, 'ROLE');
+   (6, 'ROLE'),
+   (7, 'ACTION'),
+   (8, 'RESOURCE');
 
 INSERT INTO roles (id, name) VALUES
    (1, 'ADMIN'),
    (2, 'READ');
 
 INSERT INTO role_permissions (role_id, resource_id, action_id, granted) VALUES
+   ----------------
+   -- ADMIN role --
+   ----------------
    -- MEMBER
    (1, 1, 1, true),
    (1, 1, 2, true),
@@ -76,6 +81,19 @@ INSERT INTO role_permissions (role_id, resource_id, action_id, granted) VALUES
    (1, 6, 2, true),
    (1, 6, 3, true),
    (1, 6, 4, true),
+   -- ACTION
+   (1, 7, 1, true),
+   (1, 7, 2, true),
+   (1, 7, 3, true),
+   (1, 7, 4, true),
+   -- RESOURCE
+   (1, 8, 1, true),
+   (1, 8, 2, true),
+   (1, 8, 3, true),
+   (1, 8, 4, true),
+   ----------------
+   -- READ role --
+   ----------------
    -- MEMBER
    (2, 1, 1, false),
    (2, 1, 2, true),
