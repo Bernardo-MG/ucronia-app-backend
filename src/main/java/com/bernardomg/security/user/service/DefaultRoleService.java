@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.model.ImmutableRolePermission;
@@ -72,6 +73,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     public final Boolean addPermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -94,6 +96,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:CREATE')")
     public final Role create(final RoleCreate role) {
         final PersistentRole entity;
         final PersistentRole created;
@@ -108,6 +111,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:DELETE')")
     public final Boolean delete(final long id) {
         validatorDeleteRole.validate(id);
 
@@ -118,6 +122,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:READ')")
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
 
@@ -128,18 +133,21 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:READ')")
     public final Optional<Role> getOne(final long id) {
         return roleRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:READ')")
     public final Iterable<Permission> getPermission(final long id, final Pageable pageable) {
         return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
             .map(mapper::toDto);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     public final Boolean removePermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -162,6 +170,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     public final Role update(final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;

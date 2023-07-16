@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
@@ -67,6 +68,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:UPDATE')")
     public final Boolean addRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -86,6 +88,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:CREATE')")
     public final User create(final UserCreate user) {
         final PersistentUser entity;
         final PersistentUser created;
@@ -116,6 +119,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:DELETE')")
     public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
@@ -127,6 +131,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:READ')")
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
@@ -145,17 +150,20 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:READ')")
     public final Optional<User> getOne(final long id) {
         return userRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:READ')")
     public final Iterable<Role> getRoles(final long id, final Pageable pageable) {
         return roleRepository.findForUser(id, pageable);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:UPDATE')")
     public final Boolean removeRole(final long id, final long role) {
         final PersistentUserRoles userRoleSample;
         final UserRole            userRole;
@@ -175,6 +183,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:UPDATE')")
     public final User update(final long id, final UserUpdate user) {
         final PersistentUser           entity;
         final PersistentUser           created;
