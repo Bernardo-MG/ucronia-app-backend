@@ -2,11 +2,11 @@
 package com.bernardomg.security.user.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
-public final class ImmutableRolePermission implements RolePermission {
+public final class DtoRolePermission implements RolePermission {
 
     private final Long action;
 

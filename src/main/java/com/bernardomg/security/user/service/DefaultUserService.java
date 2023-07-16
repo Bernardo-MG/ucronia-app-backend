@@ -14,7 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.security.user.model.ImmutableUserRole;
+import com.bernardomg.security.user.model.DtoUserRole;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.UserRole;
@@ -91,7 +91,7 @@ public final class DefaultUserService implements UserService {
         final UserRole           userRole;
         final PersistentUserRole created;
 
-        userRole = ImmutableUserRole.builder()
+        userRole = DtoUserRole.builder()
             .user(id)
             .role(role)
             .build();
@@ -194,7 +194,7 @@ public final class DefaultUserService implements UserService {
         final PersistentUserRole userRoleSample;
         final UserRole           userRole;
 
-        userRole = ImmutableUserRole.builder()
+        userRole = DtoUserRole.builder()
             .user(id)
             .role(role)
             .build();
