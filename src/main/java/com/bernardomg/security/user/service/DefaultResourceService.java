@@ -30,8 +30,8 @@ public final class DefaultResourceService implements ResourceService {
     private final ResourceRepository repository;
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     @PreAuthorize("hasAuthority('RESOURCE:READ')")
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entitySample;
 
@@ -42,8 +42,8 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     @PreAuthorize("hasAuthority('RESOURCE:READ')")
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Resource> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);

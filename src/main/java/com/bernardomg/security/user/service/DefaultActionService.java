@@ -30,8 +30,8 @@ public final class DefaultActionService implements ActionService {
     private final ActionRepository repository;
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     @PreAuthorize("hasAuthority('ACTION:READ')")
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Action> getAll(final ActionQuery sample, final Pageable pageable) {
         final PersistentAction entitySample;
 
@@ -42,8 +42,8 @@ public final class DefaultActionService implements ActionService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     @PreAuthorize("hasAuthority('ACTION:READ')")
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Action> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);

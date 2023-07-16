@@ -86,8 +86,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     @PreAuthorize("hasAuthority('ROLE:UPDATE')")
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final Boolean addPermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -111,9 +111,9 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
-    @PreAuthorize("hasAuthority('ROLE:CREATE')")
     public final Role create(final RoleCreate role) {
         final PersistentRole entity;
         final PersistentRole created;
@@ -128,9 +128,9 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
-    @PreAuthorize("hasAuthority('ROLE:DELETE')")
     public final Boolean delete(final long id) {
         validatorDeleteRole.validate(id);
 
@@ -141,8 +141,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     @PreAuthorize("hasAuthority('ROLE:READ')")
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
 
@@ -153,24 +153,24 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     @PreAuthorize("hasAuthority('ROLE:READ')")
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Role> getOne(final long id) {
         return roleRepository.findById(id)
             .map(mapper::toDto);
     }
 
     @Override
-    @Cacheable(cacheNames = PERMISSION_CACHE_NAME)
     @PreAuthorize("hasAuthority('ROLE:READ')")
+    @Cacheable(cacheNames = PERMISSION_CACHE_NAME)
     public final Iterable<Permission> getPermissions(final long id, final Pageable pageable) {
         return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
             .map(mapper::toDto);
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     @PreAuthorize("hasAuthority('ROLE:UPDATE')")
+    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final Boolean removePermission(final long id, final long resource, final long action) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -195,9 +195,9 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
-    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     public final Role update(final long id, final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;
