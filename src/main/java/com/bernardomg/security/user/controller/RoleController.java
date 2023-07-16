@@ -80,9 +80,7 @@ public class RoleController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Role update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedRoleUpdate form) {
-        form.setId(id);
-
-        return service.update(form);
+        return service.update(id, form);
     }
 
 }

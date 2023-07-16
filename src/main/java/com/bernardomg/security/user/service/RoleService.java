@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
@@ -22,9 +23,9 @@ public interface RoleService {
      *            resource id to add
      * @param action
      *            action id to add
-     * @return {@code true} if it managed to add the action, {@code false} otherwise
+     * @return the added permission
      */
-    public Boolean addPermission(final long id, final long resource, final long action);
+    public RolePermission addPermission(final long id, final long resource, final long action);
 
     /**
      * Persists the received user.
@@ -73,7 +74,7 @@ public interface RoleService {
      *            pagination to apply
      * @return action for the role
      */
-    public Iterable<Permission> getPermission(final long id, final Pageable pageable);
+    public Iterable<Permission> getPermissions(final long id, final Pageable pageable);
 
     /**
      * Removes a action from a role.
@@ -84,17 +85,19 @@ public interface RoleService {
      *            resource id to add
      * @param action
      *            action id to remove
-     * @return {@code true} if it managed to remove the action, {@code false} otherwise
+     * @return the removed permission
      */
-    public Boolean removePermission(final long id, final long resource, final long action);
+    public RolePermission removePermission(final long id, final long resource, final long action);
 
     /**
      * Updates the role for the received id with the received data.
      *
+     * @param id
+     *            id of the member to update
      * @param role
      *            new data for the role
      * @return the updated role
      */
-    public Role update(final RoleUpdate role);
+    public Role update(final long id, final RoleUpdate role);
 
 }

@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.model.ImmutablePermissionsSet;
@@ -22,6 +23,8 @@ import lombok.NonNull;
 @Service
 public final class DefaultPermissionService implements PermissionService {
 
+    private static final String                   CACHE_NAME = "security_permission_set";
+
     private final Predicate<String>               isValid;
 
     private final UserGrantedPermissionRepository userPermsRepository;
@@ -35,6 +38,7 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME, key = "#username")
     public final PermissionsSet getPermissions(@NonNull final String username) {
         final Map<String, List<String>> permissions;
 

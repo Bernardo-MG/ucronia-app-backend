@@ -60,7 +60,7 @@ class ITRoleServiceUpdate {
 
         data = RolesUpdate.valid();
 
-        service.update(data);
+        service.update(1L, data);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -74,7 +74,7 @@ class ITRoleServiceUpdate {
 
         data = RolesUpdate.valid();
 
-        service.update(data);
+        service.update(1L, data);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -93,7 +93,7 @@ class ITRoleServiceUpdate {
 
         data = RolesUpdate.valid();
 
-        result = service.update(data);
+        result = service.update(1L, data);
 
         Assertions.assertThat(result.getId())
             .isNotNull();

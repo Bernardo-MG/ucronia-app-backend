@@ -3,6 +3,10 @@ package com.bernardomg.association.member.service;
 
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +33,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultMemberService implements MemberService {
 
+    private static final String    CACHE_MULTIPLE = "members";
+
+    private static final String    CACHE_SINGLE   = "member";
+
     private final MemberMapper     mapper;
 
     /**
@@ -38,6 +46,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:CREATE')")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Member create(final MemberCreate member) {
         final PersistentMember entity;
         final PersistentMember created;
@@ -54,6 +64,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:DELETE')")
+    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
+            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
         if (!repository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No member with id %s", id));
@@ -66,6 +78,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable) {
         final PersistentMember entity;
 
@@ -77,6 +90,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:READ')")
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Member> getOne(final long id) {
         final Optional<PersistentMember> found;
         final Optional<Member>           result;
@@ -96,6 +110,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Member update(final long id, final MemberUpdate member) {
         final PersistentMember entity;
         final PersistentMember updated;

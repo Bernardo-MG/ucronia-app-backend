@@ -24,17 +24,17 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.security.user.test.util.model.RolesUpdate;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Role service - update validation")
@@ -50,17 +50,15 @@ class ITRoleServiceUpdateValidation {
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
     void testUpdate_NotExistingRole() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
+        final ThrowingCallable execution;
         final RoleUpdate       data;
 
         data = RolesUpdate.valid();
 
-        executable = () -> service.update(data);
+        execution = () -> service.update(1L, data);
 
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

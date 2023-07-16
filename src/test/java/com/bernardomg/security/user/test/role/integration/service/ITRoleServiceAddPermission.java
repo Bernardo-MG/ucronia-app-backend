@@ -14,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.DtoPermission;
 import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
@@ -75,7 +76,7 @@ class ITRoleServiceAddPermission {
 
         service.addPermission(1l, 1l, 1l);
         roleGrantedPermissionRepository.flush();
-        result = service.getPermission(1l, pageable);
+        result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(IterableUtils.size(result))
             .isEqualTo(1);
@@ -143,6 +144,23 @@ class ITRoleServiceAddPermission {
             .roleId(1L)
             .granted(true)
             .build());
+    }
+
+    @Test
+    @DisplayName("Returns the created data")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql" })
+    void testAddRole_ReturnedData() {
+        final RolePermission result;
+
+        result = service.addPermission(1l, 1l, 1l);
+
+        Assertions.assertThat(result.getRoleId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getResourceId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getActionId())
+            .isEqualTo(1);
     }
 
 }

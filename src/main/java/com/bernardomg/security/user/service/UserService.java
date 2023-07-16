@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
+import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
@@ -20,9 +21,9 @@ public interface UserService {
      *            user id
      * @param role
      *            role id to add
-     * @return {@code true} if it managed to add the role, {@code false} otherwise
+     * @return the added role
      */
-    public Boolean addRole(final long id, final long role);
+    public UserRole addRole(final long id, final long role);
 
     /**
      * Persists the received user.
@@ -79,9 +80,9 @@ public interface UserService {
      *            user id
      * @param role
      *            role id to remove
-     * @return {@code true} if it managed to remove the role, {@code false} otherwise
+     * @return the removed role
      */
-    public Boolean removeRole(final long id, final long role);
+    public UserRole removeRole(final long id, final long role);
 
     /**
      * Updates the user for the received id with the received data.

@@ -21,6 +21,7 @@ public interface MemberMapper {
     @Mapping(target = "id", ignore = true)
     public PersistentMember toEntity(final MemberQuery data);
 
+    @Mapping(target = "id", ignore = true)
     public PersistentMember toEntity(final MemberUpdate data);
 
 }
