@@ -15,18 +15,18 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.permission.model.Permission;
-import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.service.RolePermissionService;
 
 @IntegrationTest
 @DisplayName("Role service - get permissions pagination")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-class ITRoleServiceGetPermissionsPagination {
+class ITRolePermissionServiceGetPermissionsPagination {
 
     @Autowired
-    private RoleService service;
+    private RolePermissionService service;
 
-    public ITRoleServiceGetPermissionsPagination() {
+    public ITRolePermissionServiceGetPermissionsPagination() {
         super();
     }
 

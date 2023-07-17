@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.request.ValidatedUserRoleAdd;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.service.UserRoleService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -53,7 +53,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserRoleController {
 
-    private final UserService service;
+    private final UserRoleService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {

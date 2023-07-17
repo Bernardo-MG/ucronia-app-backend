@@ -11,18 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.service.RolePermissionService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Role service - add permission validation")
-class ITRoleServiceAddPermissionValidation {
+class ITRolePermissionServiceAddPermissionValidation {
 
     @Autowired
-    private RoleService service;
+    private RolePermissionService service;
 
-    public ITRoleServiceAddPermissionValidation() {
+    public ITRolePermissionServiceAddPermissionValidation() {
         super();
     }
 

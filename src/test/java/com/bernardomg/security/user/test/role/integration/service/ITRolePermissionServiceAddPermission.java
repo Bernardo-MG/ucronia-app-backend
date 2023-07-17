@@ -18,12 +18,12 @@ import com.bernardomg.security.permission.persistence.repository.RoleGrantedPerm
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.service.RolePermissionService;
 import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions;
 
 @IntegrationTest
 @DisplayName("Role service - add permission")
-class ITRoleServiceAddPermission {
+class ITRolePermissionServiceAddPermission {
 
     @Autowired
     private RoleGrantedPermissionRepository roleGrantedPermissionRepository;
@@ -32,9 +32,9 @@ class ITRoleServiceAddPermission {
     private RolePermissionRepository        rolePermissionRepository;
 
     @Autowired
-    private RoleService                     service;
+    private RolePermissionService           service;
 
-    public ITRoleServiceAddPermission() {
+    public ITRolePermissionServiceAddPermission() {
         super();
     }
 

@@ -8,21 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.service.UserRoleService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@DisplayName("User service - remove role - validation")
+@DisplayName("User service - add role - validation")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-class ITUserServiceRemoveRoleValidation {
+        "/db/queries/security/relationship/role_permission.sql" })
+class ITUserRoleServiceAddRoleValidation {
 
     @Autowired
-    private UserService service;
+    private UserRoleService service;
 
-    public ITUserServiceRemoveRoleValidation() {
+    public ITUserRoleServiceAddRoleValidation() {
         super();
     }
 
@@ -32,9 +32,9 @@ class ITUserServiceRemoveRoleValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.removeRole(1l, -1l);
+        executable = () -> service.addRole(1l, -1l);
 
-        failure = FieldFailure.of("role.notExisting", "role", "notExisting", -1l);
+        failure = FieldFailure.of("role.notExisting", "role", "notExisting", -1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
@@ -45,9 +45,9 @@ class ITUserServiceRemoveRoleValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.removeRole(-1l, 1l);
+        executable = () -> service.addRole(-1l, 1l);
 
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", -1l);
+        failure = FieldFailure.of("id.notExisting", "id", "notExisting", -1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

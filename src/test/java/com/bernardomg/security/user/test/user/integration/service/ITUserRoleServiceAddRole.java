@@ -14,19 +14,19 @@ import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.persistence.model.PersistentUserRole;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.service.UserRoleService;
 
 @IntegrationTest
 @DisplayName("User service - add role")
-class ITUserServiceAddRole {
+class ITUserRoleServiceAddRole {
 
     @Autowired
-    private UserService        service;
+    private UserRoleService    service;
 
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public ITUserServiceAddRole() {
+    public ITUserRoleServiceAddRole() {
         super();
     }
 
