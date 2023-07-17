@@ -12,11 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.model.DtoPermission;
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions;

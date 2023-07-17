@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.persistence.repository;
+package com.bernardomg.security.permission.persistence.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.user.persistence.model.PersistentRoleGrantedPermission;
-import com.bernardomg.security.user.persistence.model.RoleGrantedPermissionKey;
+import com.bernardomg.security.permission.persistence.model.PersistentRoleGrantedPermission;
+import com.bernardomg.security.permission.persistence.model.RoleGrantedPermissionKey;
 
 /**
  * Repository for action.

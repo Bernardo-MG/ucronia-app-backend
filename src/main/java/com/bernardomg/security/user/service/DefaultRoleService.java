@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.model.DtoRolePermission;
 import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
@@ -27,7 +28,6 @@ import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.persistence.repository.ResourceRepository;
-import com.bernardomg.security.user.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
@@ -168,6 +168,7 @@ public final class DefaultRoleService implements RoleService {
     @PreAuthorize("hasAuthority('ROLE:READ')")
     @Cacheable(cacheNames = PERMISSION_CACHE_NAME)
     public final Iterable<Permission> getPermissions(final long id, final Pageable pageable) {
+        // TODO: Maybe this should be extracted
         return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
             .map(mapper::toDto);
     }

@@ -13,15 +13,22 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
-import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
-import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.validation.PersistentUserValidPredicate;
 
 import lombok.NonNull;
 
+/**
+ * {@link PermissionService} based on the permissions granted to a user. This is actually a view, which shows all the
+ * permissions which a user has, based on the roles configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Service
-public final class DefaultPermissionService implements PermissionService {
+public final class UserGrantedPermissionService implements PermissionService {
 
     private static final String                   CACHE_NAME = "security_permission_set";
 
@@ -29,7 +36,7 @@ public final class DefaultPermissionService implements PermissionService {
 
     private final UserGrantedPermissionRepository userPermsRepository;
 
-    public DefaultPermissionService(final UserGrantedPermissionRepository userPermsRepo,
+    public UserGrantedPermissionService(final UserGrantedPermissionRepository userPermsRepo,
             final UserRepository userRepository) {
         super();
 

@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.persistence.repository;
+package com.bernardomg.security.permission.persistence.repository;
 
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
-import com.bernardomg.security.user.persistence.model.UserPermissionKey;
+import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.permission.persistence.model.UserPermissionKey;
 
 /**
  * Repository for users.

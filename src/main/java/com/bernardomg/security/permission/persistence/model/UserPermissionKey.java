@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.persistence.model;
+package com.bernardomg.security.permission.persistence.model;
 
 import java.io.Serializable;
 
