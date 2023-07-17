@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.login.service.springframework;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -58,7 +59,7 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
         // Find the user
         try {
             details = Optional.ofNullable(userDetailsService.loadUserByUsername(login.getUsername()
-                .toLowerCase()));
+                .toLowerCase(Locale.getDefault())));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }

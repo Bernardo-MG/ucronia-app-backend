@@ -2,10 +2,12 @@
 package com.bernardomg.security.permission.validation;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -38,28 +40,41 @@ public final class UserDetailsServiceUserValidPredicate implements Predicate<Str
 
     @Override
     public final boolean test(final String username) {
-        final Boolean valid;
-        UserDetails   user;
+        final Boolean         valid;
+        Optional<UserDetails> details;
 
         // Find the user
-        // TODO: handle exception
-        user = userDetailsService.loadUserByUsername(username.toLowerCase(Locale.getDefault()));
-        if (isValid(user)) {
+        try {
+            details = Optional
+                .ofNullable(userDetailsService.loadUserByUsername(username.toLowerCase(Locale.getDefault())));
+        } catch (final UsernameNotFoundException e) {
+            details = Optional.empty();
+        }
+
+        if (details.isEmpty()) {
+            // No user found for username
+            log.debug("No user for username {}", username);
+            valid = false;
+        } else if (isValid(details.get())) {
             // User exists
             valid = true;
         } else {
             // Invalid user
             log.debug("Username {} is in an invalid state", username);
-            if (!user.isAccountNonExpired()) {
+            if (!details.get()
+                .isAccountNonExpired()) {
                 log.debug("User {} expired", username);
             }
-            if (!user.isAccountNonLocked()) {
+            if (!details.get()
+                .isAccountNonLocked()) {
                 log.debug("User {} is locked", username);
             }
-            if (!user.isCredentialsNonExpired()) {
+            if (!details.get()
+                .isCredentialsNonExpired()) {
                 log.debug("User {} credentials expired", username);
             }
-            if (!user.isEnabled()) {
+            if (!details.get()
+                .isEnabled()) {
                 log.debug("User {} is disabled", username);
             }
             valid = false;
@@ -75,7 +90,7 @@ public final class UserDetailsServiceUserValidPredicate implements Predicate<Str
      *            user to check
      * @return {@code true} if the user is valid, {@code false} otherwise
      */
-    private final Boolean isValid(final UserDetails user) {
+    private final boolean isValid(final UserDetails user) {
         return (user.isAccountNonExpired()) && (user.isAccountNonLocked()) && (user.isCredentialsNonExpired())
                 && (user.isEnabled());
     }
