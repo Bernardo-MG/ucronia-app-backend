@@ -9,7 +9,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
@@ -25,7 +24,6 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Service
 public final class UserGrantedPermissionService implements PermissionService {
 
     private static final String                   CACHE_NAME = "security_permission_set";
