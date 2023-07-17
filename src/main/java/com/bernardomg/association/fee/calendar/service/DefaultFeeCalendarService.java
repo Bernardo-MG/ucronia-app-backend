@@ -26,6 +26,9 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     public final Iterable<UserFeeCalendar> getAll(final int year, final boolean onlyActive, final Sort sort) {
         final Iterable<UserFeeCalendar> result;
 
+        // TODO: It seems the sort is applied to the months, not the calendar itself
+        // TODO: Make sure the months are being sorted
+
         if (onlyActive) {
             result = repository.findAllForYearWithActiveMember(year, sort);
         } else {

@@ -153,6 +153,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             surname = "";
             months = Collections.emptyList();
         } else {
+            // TODO: Months are not being sorted
             months = new ArrayList<>();
             for (final FeeCalendarRow fee : fees) {
                 feeMonth = toFeeMonth(fee);
