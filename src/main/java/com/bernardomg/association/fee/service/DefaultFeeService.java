@@ -38,6 +38,8 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultFeeService implements FeeService {
 
+    private static final String        CACHE_CALENDAR = "fee_calendar";
+
     private static final String        CACHE_MULTIPLE = "fees";
 
     private static final String        CACHE_SINGLE   = "fee";
@@ -71,7 +73,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
     public final MemberFee create(final FeeCreate request) {
         final PersistentFee entity;
         final PersistentFee created;
@@ -88,7 +90,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
-    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
+    @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
         if (!feeRepository.existsById(id)) {
@@ -141,7 +143,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
     public final MemberFee update(final long id, final FeeUpdate form) {
         final PersistentFee entity;
         final PersistentFee created;
