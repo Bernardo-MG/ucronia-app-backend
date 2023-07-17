@@ -15,8 +15,6 @@ import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
 import com.bernardomg.security.permission.model.PermissionsSet;
 import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.validation.PersistentUserValidPredicate;
 
 import lombok.NonNull;
 
@@ -37,11 +35,11 @@ public final class UserGrantedPermissionService implements PermissionService {
     private final UserGrantedPermissionRepository userPermsRepository;
 
     public UserGrantedPermissionService(final UserGrantedPermissionRepository userPermsRepo,
-            final UserRepository userRepository) {
+            final Predicate<String> usernameValid) {
         super();
 
         userPermsRepository = userPermsRepo;
-        isValid = new PersistentUserValidPredicate(userRepository);
+        isValid = usernameValid;
     }
 
     @Override
