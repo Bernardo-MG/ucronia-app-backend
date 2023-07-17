@@ -14,9 +14,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.security.permission.model.Permission;
+import com.bernardomg.security.permission.model.mapper.PermissionMapper;
 import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.user.model.DtoRolePermission;
-import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.mapper.RoleMapper;
@@ -50,6 +51,8 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleMapper                      mapper;
 
+    private final PermissionMapper                permissionMapper;
+
     private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
 
     private final RolePermissionMapper            rolePermissionMapper;
@@ -71,14 +74,15 @@ public final class DefaultRoleService implements RoleService {
     public DefaultRoleService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
             final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
             final UserRoleRepository userRoleRepo, final RoleGrantedPermissionRepository roleGrantedPermissionRepo,
-            final RoleMapper roleMapper, final RolePermissionMapper permissionMapper) {
+            final RoleMapper roleMapper, final RolePermissionMapper rolePermMapper, final PermissionMapper permMapper) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
         rolePermissionRepository = Objects.requireNonNull(roleActionsRepo);
         roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
         mapper = Objects.requireNonNull(roleMapper);
-        rolePermissionMapper = Objects.requireNonNull(permissionMapper);
+        rolePermissionMapper = Objects.requireNonNull(rolePermMapper);
+        permissionMapper = Objects.requireNonNull(permMapper);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
         validatorUpdateRole = new UpdateRoleValidator();
@@ -170,7 +174,7 @@ public final class DefaultRoleService implements RoleService {
     public final Iterable<Permission> getPermissions(final long id, final Pageable pageable) {
         // TODO: Maybe this should be extracted
         return roleGrantedPermissionRepository.findAllByRoleId(id, pageable)
-            .map(mapper::toDto);
+            .map(permissionMapper::toDto);
     }
 
     @Override

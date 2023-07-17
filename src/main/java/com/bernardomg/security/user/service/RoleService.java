@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.RoleCreate;

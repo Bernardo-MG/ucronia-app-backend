@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest

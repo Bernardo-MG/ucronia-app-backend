@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.model;
+package com.bernardomg.security.permission.model;
 
 public interface Permission {
 
