@@ -5,27 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.user.model.Permission;
 import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
 
 public interface RoleService {
-
-    /**
-     * Adds a action to a role.
-     *
-     * @param id
-     *            role id
-     * @param resource
-     *            resource id to add
-     * @param action
-     *            action id to add
-     * @return the added permission
-     */
-    public RolePermission addPermission(final long id, final long resource, final long action);
 
     /**
      * Persists the received user.
@@ -64,30 +49,6 @@ public interface RoleService {
      * @return an {@code Optional} with the role, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Role> getOne(final long id);
-
-    /**
-     * Returns all action for a role.
-     *
-     * @param id
-     *            role id
-     * @param pageable
-     *            pagination to apply
-     * @return action for the role
-     */
-    public Iterable<Permission> getPermissions(final long id, final Pageable pageable);
-
-    /**
-     * Removes a action from a role.
-     *
-     * @param id
-     *            role id
-     * @param resource
-     *            resource id to add
-     * @param action
-     *            action id to remove
-     * @return the removed permission
-     */
-    public RolePermission removePermission(final long id, final long resource, final long action);
 
     /**
      * Updates the role for the received id with the received data.

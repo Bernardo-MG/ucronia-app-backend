@@ -22,22 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.permission.config;
 
-import java.security.SecureRandom;
+import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.permission.service.PermissionService;
+import com.bernardomg.security.permission.service.UserGrantedPermissionService;
+import com.bernardomg.security.permission.validation.UserDetailsServiceUserValidPredicate;
 
 /**
  * Security configuration.
@@ -46,27 +42,19 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
  *
  */
 @Configuration
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+public class PermissionConfig {
 
-    public SecurityConfig() {
+    public PermissionConfig() {
         super();
     }
 
-    @Bean("authenticationEntryPoint")
-    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
-        return new ErrorResponseAuthenticationEntryPoint();
-    }
+    @Bean("permissionService")
+    public PermissionService getPermissionService(final UserGrantedPermissionRepository userPermsRepo,
+            final UserDetailsService userDetService) {
+        final Predicate<String> usernameValid;
 
-    @Bean("passwordEncoder")
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(10, new SecureRandom());
-    }
-
-    @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final UserGrantedPermissionRepository userPermsRepository) {
-        return new PersistentUserDetailsService(userRepository, userPermsRepository);
+        usernameValid = new UserDetailsServiceUserValidPredicate(userDetService);
+        return new UserGrantedPermissionService(userPermsRepo, usernameValid);
     }
 
 }

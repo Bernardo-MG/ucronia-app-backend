@@ -5,25 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
 
 public interface UserService {
-
-    /**
-     * Adds a role to a user.
-     *
-     * @param id
-     *            user id
-     * @param role
-     *            role id to add
-     * @return the added role
-     */
-    public UserRole addRole(final long id, final long role);
 
     /**
      * Persists the received user.
@@ -61,28 +48,6 @@ public interface UserService {
      * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<User> getOne(final long id);
-
-    /**
-     * Returns all the roles for the user.
-     *
-     * @param id
-     *            user id
-     * @param pageable
-     *            pagination to apply
-     * @return roles for the rules
-     */
-    public Iterable<Role> getRoles(final long id, final Pageable pageable);
-
-    /**
-     * Removes a role from a user.
-     *
-     * @param id
-     *            user id
-     * @param role
-     *            role id to remove
-     * @return the removed role
-     */
-    public UserRole removeRole(final long id, final long role);
 
     /**
      * Updates the user for the received id with the received data.

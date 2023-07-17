@@ -34,10 +34,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.ValidatedPermissionCreate;
-import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.service.RolePermissionService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -53,7 +53,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RolePermissionController {
 
-    private final RoleService service;
+    private final RolePermissionService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public RolePermission add(@PathVariable("id") final long id,

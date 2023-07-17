@@ -14,21 +14,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.security.user.model.DtoUserRole;
-import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.mapper.UserMapper;
-import com.bernardomg.security.user.model.mapper.UserRoleMapper;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.model.PersistentUserRole;
-import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.user.validation.user.AddUserRoleValidator;
 import com.bernardomg.security.user.validation.user.CreateUserValidator;
 import com.bernardomg.security.user.validation.user.DeleteUserValidator;
 import com.bernardomg.security.user.validation.user.UpdateUserValidator;
@@ -37,72 +29,29 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultUserService implements UserService {
 
-    private static final String         CACHE_MULTIPLE            = "security_users";
+    private static final String         CACHE_MULTIPLE = "security_users";
 
-    private static final String         CACHE_SINGLE              = "security_user";
-
-    private static final String         PERMISSION_SET_CACHE_NAME = "security_permission_set";
-
-    private static final String         ROLE_CACHE_NAME           = "security_user_role";
+    private static final String         CACHE_SINGLE   = "security_user";
 
     private final UserMapper            mapper;
 
-    private final RoleRepository        roleRepository;
-
     private final UserRepository        userRepository;
-
-    private final UserRoleMapper        userRoleMapper;
-
-    private final UserRoleRepository    userRoleRepository;
-
-    private final Validator<UserRole>   validatorAddUserRole;
 
     private final Validator<UserCreate> validatorCreateUser;
 
     private final Validator<Long>       validatorDeleteUser;
 
-    private final Validator<UserRole>   validatorRemoveUserRole;
-
     private final Validator<UserUpdate> validatorUpdateUser;
 
-    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo, final UserMapper userMapper, final UserRoleMapper roleMapper) {
+    public DefaultUserService(final UserRepository userRepo, final UserMapper userMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-        userRoleRepository = Objects.requireNonNull(userRoleRepo);
-        roleRepository = Objects.requireNonNull(roleRepo);
         mapper = Objects.requireNonNull(userMapper);
-        userRoleMapper = Objects.requireNonNull(roleMapper);
 
         validatorCreateUser = new CreateUserValidator(userRepo);
         validatorUpdateUser = new UpdateUserValidator(userRepo);
         validatorDeleteUser = new DeleteUserValidator();
-
-        validatorAddUserRole = new AddUserRoleValidator(userRepo, roleRepo);
-        validatorRemoveUserRole = new AddUserRoleValidator(userRepo, roleRepo);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
-    public final UserRole addRole(final long id, final long role) {
-        final PersistentUserRole userRoleSample;
-        final UserRole           userRole;
-        final PersistentUserRole created;
-
-        userRole = DtoUserRole.builder()
-            .userId(id)
-            .roleId(role)
-            .build();
-        validatorAddUserRole.validate(userRole);
-
-        userRoleSample = getUserRoleSample(id, role);
-
-        // Persist relationship
-        created = userRoleRepository.save(userRoleSample);
-
-        return userRoleMapper.toDto(created);
     }
 
     @Override
@@ -181,34 +130,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:READ')")
-    @Cacheable(cacheNames = ROLE_CACHE_NAME)
-    public final Iterable<Role> getRoles(final long id, final Pageable pageable) {
-        return roleRepository.findForUser(id, pageable);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
-    public final UserRole removeRole(final long id, final long role) {
-        final PersistentUserRole userRoleSample;
-        final UserRole           userRole;
-
-        userRole = DtoUserRole.builder()
-            .userId(id)
-            .roleId(role)
-            .build();
-        validatorRemoveUserRole.validate(userRole);
-
-        userRoleSample = getUserRoleSample(id, role);
-
-        // Persist relationship
-        userRoleRepository.delete(userRoleSample);
-
-        return userRoleMapper.toDto(userRoleSample);
-    }
-
-    @Override
     @PreAuthorize("hasAuthority('USER:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
@@ -248,13 +169,6 @@ public final class DefaultUserService implements UserService {
         created = userRepository.save(entity);
 
         return mapper.toDto(created);
-    }
-
-    private final PersistentUserRole getUserRoleSample(final long user, final long role) {
-        return PersistentUserRole.builder()
-            .userId(user)
-            .roleId(role)
-            .build();
     }
 
 }
