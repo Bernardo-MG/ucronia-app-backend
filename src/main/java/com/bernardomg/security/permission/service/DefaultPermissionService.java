@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.service;
+package com.bernardomg.security.permission.service;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.security.user.model.ImmutablePermissionsSet;
-import com.bernardomg.security.user.model.PermissionsSet;
+import com.bernardomg.security.permission.model.ImmutablePermissionsSet;
+import com.bernardomg.security.permission.model.PermissionsSet;
 import com.bernardomg.security.user.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.user.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;

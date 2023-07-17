@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.test.permission.integration.service;
+package com.bernardomg.security.permission.test.integration.service;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.user.model.PermissionsSet;
-import com.bernardomg.security.user.service.PermissionService;
+import com.bernardomg.security.permission.model.PermissionsSet;
+import com.bernardomg.security.permission.service.PermissionService;
 
 @IntegrationTest
 @DisplayName("PermissionService")
