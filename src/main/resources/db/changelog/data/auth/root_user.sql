@@ -27,9 +27,9 @@
 -- This SQL script populates the initial sequences.
 -- ****************************************
 
-INSERT INTO users (id, username, name, password, enabled, locked, expired, credentials_expired) VALUES
-   (1, 'root', 'root', '$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW', true, false, false, false),
-   (1, 'read', 'read', '$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW', true, false, false, false);
+INSERT INTO users (id, username, email, name, password, enabled, locked, expired, credentials_expired) VALUES
+   (1, 'root', 'email1@nowhere.com', 'root', '$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW', true, false, false, false),
+   (2, 'read', 'email2@nowhere.com', 'read', '$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW', true, false, false, false);
 
 INSERT INTO user_roles (user_id, role_id) VALUES
    (1, 1),
