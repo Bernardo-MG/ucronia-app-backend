@@ -15,7 +15,10 @@ services:
             timeout: 10s
             retries: 5
         volumes:
+            # DB content
             - association-data:/var/lib/postgresql/data
+            # Initial schemas
+            - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
     association-backend:
         build:
             context: ../

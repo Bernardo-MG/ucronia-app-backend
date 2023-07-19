@@ -24,10 +24,7 @@
 
 
 -- ****************************************
--- This SQL script populates the initial sequences.
+-- This SQL script creates the initial schemas.
 -- ****************************************
 
-INSERT INTO sequences (sequence, count) VALUES
-   ('fees', 100),
-   ('members', 100),
-   ('transactions', 100);
+CREATE SCHEMA IF NOT EXISTS db_versioning;
