@@ -36,8 +36,8 @@ public final class TestUsersInitializer implements ApplicationRunner {
     public void run(final ApplicationArguments args) throws Exception {
         log.debug("Initializing test users");
 
-        runIfExists(this::initializeRootUser, "root");
-        runIfExists(this::initializeReadUser, "read");
+        runIfNotExists(this::initializeRootUser, "root");
+        runIfNotExists(this::initializeReadUser, "read");
     }
 
     private final PersistentUser getReadUser() {
@@ -114,7 +114,7 @@ public final class TestUsersInitializer implements ApplicationRunner {
         userRoleRepository.save(rootUserRole);
     }
 
-    private final void runIfExists(final Runnable runnable, final String name) {
+    private final void runIfNotExists(final Runnable runnable, final String name) {
         if (!userRepository.existsByUsername(name)) {
             runnable.run();
             log.debug("Initialized {} user", name);

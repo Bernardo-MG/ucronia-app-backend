@@ -43,8 +43,8 @@ public final class TestRolesInitializer implements ApplicationRunner {
     public void run(final ApplicationArguments args) throws Exception {
         log.debug("Initializing test roles");
 
-        runIfExists(this::initializeAdminRole, "ADMIN");
-        runIfExists(this::initializeReadRole, "READ");
+        runIfNotExists(this::initializeAdminRole, "ADMIN");
+        runIfNotExists(this::initializeReadRole, "READ");
     }
 
     private final PersistentRole getReadRole() {
@@ -117,7 +117,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
         }
     }
 
-    private final void runIfExists(final Runnable runnable, final String name) {
+    private final void runIfNotExists(final Runnable runnable, final String name) {
         if (!roleRepository.existsByName(name)) {
             runnable.run();
             log.debug("Initialized {} role", name);
