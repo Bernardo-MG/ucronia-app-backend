@@ -3,26 +3,27 @@ package com.bernardomg.security.initializer;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.model.PersistentUserRole;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
-@AllArgsConstructor
-@ConditionalOnProperty(prefix = "initilize.test", name = "user", havingValue = "true")
 @Slf4j
 public final class TestUsersInitializer implements ApplicationRunner {
 
     private final UserRepository     userRepository;
 
     private final UserRoleRepository userRoleRepository;
+
+    public TestUsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo) {
+        super();
+
+        userRepository = userRepo;
+        userRoleRepository = userRoleRepo;
+    }
 
     @Override
     public void run(final ApplicationArguments args) throws Exception {
