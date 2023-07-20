@@ -3,9 +3,12 @@ package com.bernardomg.security.initializer;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.data.domain.Example;
 
+import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.model.PersistentUserRole;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 
@@ -14,15 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TestUsersInitializer implements ApplicationRunner {
 
+    private final RoleRepository     roleRepository;
+
     private final UserRepository     userRepository;
 
     private final UserRoleRepository userRoleRepository;
 
-    public TestUsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo) {
+    public TestUsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
+            final RoleRepository roleRepo) {
         super();
 
         userRepository = userRepo;
         userRoleRepository = userRoleRepo;
+        roleRepository = roleRepo;
     }
 
     @Override
@@ -74,15 +81,22 @@ public final class TestUsersInitializer implements ApplicationRunner {
         final PersistentUser     readUser;
         final PersistentUser     savedReadUser;
         final PersistentUserRole readUserRole;
+        final PersistentRole     example;
+        final PersistentRole     role;
 
         // Add read user
         readUser = getReadUser();
         savedReadUser = userRepository.save(readUser);
 
-        // TODO: Load the role id dynamically
+        example = PersistentRole.builder()
+            .name("READ")
+            .build();
+        role = roleRepository.findOne(Example.of(example))
+            .get();
+
         readUserRole = PersistentUserRole.builder()
             .userId(savedReadUser.getId())
-            .roleId(2l)
+            .roleId(role.getId())
             .build();
         userRoleRepository.save(readUserRole);
     }
@@ -91,15 +105,22 @@ public final class TestUsersInitializer implements ApplicationRunner {
         final PersistentUser     rootUser;
         final PersistentUser     savedRootUser;
         final PersistentUserRole rootUserRole;
+        final PersistentRole     example;
+        final PersistentRole     role;
 
         // Add root user
         rootUser = getRootUser();
         savedRootUser = userRepository.save(rootUser);
 
-        // TODO: Load the role id dynamically
+        example = PersistentRole.builder()
+            .name("ADMIN")
+            .build();
+        role = roleRepository.findOne(Example.of(example))
+            .get();
+
         rootUserRole = PersistentUserRole.builder()
             .userId(savedRootUser.getId())
-            .roleId(1l)
+            .roleId(role.getId())
             .build();
         userRoleRepository.save(rootUserRole);
     }

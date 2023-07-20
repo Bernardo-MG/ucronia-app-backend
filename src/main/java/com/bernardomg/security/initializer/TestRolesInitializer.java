@@ -90,6 +90,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
                     .roleId(savedRootRole.getId())
                     .actionId(action.getId())
                     .resourceId(resource.getId())
+                    .granted(true)
                     .build();
                 rolePermissionRepository.save(permission);
             }
@@ -120,6 +121,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
                     .roleId(savedReadRole.getId())
                     .actionId(action.getId())
                     .resourceId(resource.getId())
+                    .granted(true)
                     .build();
                 rolePermissionRepository.save(permission);
             }

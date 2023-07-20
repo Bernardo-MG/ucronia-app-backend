@@ -63,8 +63,8 @@ public class SecurityInitializerConfig {
     @DependsOn("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,
-            final UserRoleRepository userRoleRepository) {
-        return new TestUsersInitializer(userRepository, userRoleRepository);
+            final UserRoleRepository userRoleRepository, final RoleRepository roleRepository) {
+        return new TestUsersInitializer(userRepository, userRoleRepository, roleRepository);
     }
 
 }
