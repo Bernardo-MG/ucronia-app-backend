@@ -36,19 +36,8 @@ public final class TestUsersInitializer implements ApplicationRunner {
     public void run(final ApplicationArguments args) throws Exception {
         log.debug("Initializing test users");
 
-        if (!userRepository.existsByUsername("root")) {
-            initializeRootUser();
-            log.debug("Initialized root user");
-        } else {
-            log.debug("User {} already exists. Skipped initialization.", "root");
-        }
-
-        if (!userRepository.existsByUsername("read")) {
-            initializeReadUser();
-            log.debug("Initialized read user");
-        } else {
-            log.debug("User {} already exists. Skipped initialization.", "read");
-        }
+        runIfExists(this::initializeRootUser, "root");
+        runIfExists(this::initializeReadUser, "read");
     }
 
     private final PersistentUser getReadUser() {
@@ -123,6 +112,15 @@ public final class TestUsersInitializer implements ApplicationRunner {
             .roleId(role.getId())
             .build();
         userRoleRepository.save(rootUserRole);
+    }
+
+    private final void runIfExists(final Runnable runnable, final String name) {
+        if (!userRepository.existsByUsername(name)) {
+            runnable.run();
+            log.debug("Initialized {} user", name);
+        } else {
+            log.debug("User {} already exists. Skipped initialization.", name);
+        }
     }
 
 }

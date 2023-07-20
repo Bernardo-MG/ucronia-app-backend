@@ -43,30 +43,19 @@ public final class TestRolesInitializer implements ApplicationRunner {
     public void run(final ApplicationArguments args) throws Exception {
         log.debug("Initializing test roles");
 
-        if (!roleRepository.existsByName("ADMIN")) {
-            initializeAdminRole();
-            log.debug("Initialized root user");
-        } else {
-            log.debug("User {} already exists. Skipped initialization.", "root");
-        }
-
-        if (!roleRepository.existsByName("READ")) {
-            initializeReadRole();
-            log.debug("Initialized read user");
-        } else {
-            log.debug("User {} already exists. Skipped initialization.", "read");
-        }
+        runIfExists(this::initializeAdminRole, "ADMIN");
+        runIfExists(this::initializeReadRole, "READ");
     }
 
     private final PersistentRole getReadRole() {
         return PersistentRole.builder()
-            .name("ADMIN")
+            .name("READ")
             .build();
     }
 
     private final PersistentRole getRootRole() {
         return PersistentRole.builder()
-            .name("READ")
+            .name("ADMIN")
             .build();
     }
 
@@ -125,6 +114,15 @@ public final class TestRolesInitializer implements ApplicationRunner {
                     .build();
                 rolePermissionRepository.save(permission);
             }
+        }
+    }
+
+    private final void runIfExists(final Runnable runnable, final String name) {
+        if (!roleRepository.existsByName(name)) {
+            runnable.run();
+            log.debug("Initialized {} role", name);
+        } else {
+            log.debug("Role {} already exists. Skipped initialization.", name);
         }
     }
 
