@@ -26,40 +26,21 @@ public final class TestUsersInitializer implements ApplicationRunner {
 
     @Override
     public void run(final ApplicationArguments args) throws Exception {
-        final PersistentUser     rootUser;
-        final PersistentUser     savedRootUser;
-        final PersistentUser     readUser;
-        final PersistentUser     savedReadUser;
-        final PersistentUserRole rootUserRole;
-        final PersistentUserRole readUserRole;
-        
         log.debug("Initializing test users");
 
-        // Add root user
-        rootUser = getRootUser();
-        savedRootUser = userRepository.save(rootUser);
+        if (!userRepository.existsByUsername("root")) {
+            initializeRootUser();
+            log.debug("Initialized root user");
+        } else {
+            log.debug("User {} already exists. Skipped initialization.", "root");
+        }
 
-        // TODO: Load the role id dynamically
-        rootUserRole = PersistentUserRole.builder()
-            .userId(savedRootUser.getId())
-            .roleId(1l)
-            .build();
-        userRoleRepository.save(rootUserRole);
-        
-        log.debug("Initialized root user");
-
-        // Add read user
-        readUser = getReadUser();
-        savedReadUser = userRepository.save(readUser);
-
-        // TODO: Load the role id dynamically
-        readUserRole = PersistentUserRole.builder()
-            .userId(savedReadUser.getId())
-            .roleId(2l)
-            .build();
-        userRoleRepository.save(readUserRole);
-        
-        log.debug("Initialized read user");
+        if (!userRepository.existsByUsername("read")) {
+            initializeReadUser();
+            log.debug("Initialized read user");
+        } else {
+            log.debug("User {} already exists. Skipped initialization.", "read");
+        }
     }
 
     private final PersistentUser getReadUser() {
@@ -86,6 +67,40 @@ public final class TestUsersInitializer implements ApplicationRunner {
             .expired(false)
             .credentialsExpired(false)
             .build();
+    }
+
+    private final void initializeReadUser() {
+        final PersistentUser     readUser;
+        final PersistentUser     savedReadUser;
+        final PersistentUserRole readUserRole;
+
+        // Add read user
+        readUser = getReadUser();
+        savedReadUser = userRepository.save(readUser);
+
+        // TODO: Load the role id dynamically
+        readUserRole = PersistentUserRole.builder()
+            .userId(savedReadUser.getId())
+            .roleId(2l)
+            .build();
+        userRoleRepository.save(readUserRole);
+    }
+
+    private final void initializeRootUser() {
+        final PersistentUser     rootUser;
+        final PersistentUser     savedRootUser;
+        final PersistentUserRole rootUserRole;
+
+        // Add root user
+        rootUser = getRootUser();
+        savedRootUser = userRepository.save(rootUser);
+
+        // TODO: Load the role id dynamically
+        rootUserRole = PersistentUserRole.builder()
+            .userId(savedRootUser.getId())
+            .roleId(1l)
+            .build();
+        userRoleRepository.save(rootUserRole);
     }
 
 }
