@@ -39,7 +39,6 @@ import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
  *
  */
 @Configuration
-@ConditionalOnProperty(prefix = "initilize.test", name = "user", havingValue = "true")
 public class SecurityInitializerConfig {
 
     public SecurityInitializerConfig() {
@@ -47,6 +46,7 @@ public class SecurityInitializerConfig {
     }
 
     @Bean("testUsersInitializer")
+    @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,
             final UserRoleRepository userRoleRepository) {
         return new TestUsersInitializer(userRepository, userRoleRepository);
