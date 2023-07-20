@@ -27,8 +27,14 @@ package com.bernardomg.security.initializer.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
+import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.security.initializer.TestUsersInitializer;
+import com.bernardomg.security.user.persistence.repository.ActionRepository;
+import com.bernardomg.security.user.persistence.repository.ResourceRepository;
+import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 
@@ -45,7 +51,16 @@ public class SecurityInitializerConfig {
         super();
     }
 
+    @Bean("testRolesInitializer")
+    @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
+    public TestRolesInitializer getTestRolesInitializer(final ActionRepository actionRepository,
+            final ResourceRepository resourceRepository, final RoleRepository roleRepository,
+            final RolePermissionRepository rolePermissionRepository) {
+        return new TestRolesInitializer(actionRepository, resourceRepository, roleRepository, rolePermissionRepository);
+    }
+
     @Bean("testUsersInitializer")
+    @DependsOn("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,
             final UserRoleRepository userRoleRepository) {
