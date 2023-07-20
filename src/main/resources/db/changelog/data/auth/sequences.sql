@@ -28,7 +28,7 @@
 -- ****************************************
 
 INSERT INTO sequences (sequence, count) VALUES
-   ('users', 10),
+   ('users', 0),
    ('roles', 10),
    ('resources', 10),
    ('action', 10),
