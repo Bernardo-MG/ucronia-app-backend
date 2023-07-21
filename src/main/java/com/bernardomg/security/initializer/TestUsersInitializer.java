@@ -38,6 +38,8 @@ public final class TestUsersInitializer implements ApplicationRunner {
 
         runIfNotExists(this::initializeRootUser, "root");
         runIfNotExists(this::initializeReadUser, "read");
+
+        log.debug("Initialed test users");
     }
 
     private final PersistentUser getReadUser() {
