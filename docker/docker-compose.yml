@@ -32,13 +32,15 @@ services:
         links:
             - "association-db"
         environment:
+            # Activates profile
+            - spring.profiles.active=dev
             # Logs
             - logging.file.path=./logs
+            - logging.level.com.bernardomg=DEBUG
             # JDBC
             - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
             - spring.datasource.username=postgres
             - spring.datasource.password=password
-            - spring.profiles.active=development
             # CORS
             - cors.origins=http://localhost:4200
             # JWT

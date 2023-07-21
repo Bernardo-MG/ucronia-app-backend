@@ -33,12 +33,6 @@ databaseChangeLog:
             stripComments: true
         - sqlFile:
             encoding: UTF-8
-            path: data/auth/root_user.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
-        - sqlFile:
-            encoding: UTF-8
             path: data/auth/sequences.sql
             relativeToChangelogFile: true
             splitStatements: true

@@ -28,8 +28,8 @@
 -- ****************************************
 
 INSERT INTO sequences (sequence, count) VALUES
-   ('users', 10),
-   ('roles', 10),
+   ('users', 0),
+   ('roles', 0),
    ('resources', 10),
    ('action', 10),
    ('tokens', 0);
