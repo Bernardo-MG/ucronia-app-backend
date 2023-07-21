@@ -70,7 +70,7 @@ public class TransactionController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("id") final Long id) {
+    public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
@@ -80,7 +80,7 @@ public class TransactionController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction readOne(@PathVariable("id") final Long id) {
+    public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
@@ -91,7 +91,7 @@ public class TransactionController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Transaction update(@PathVariable("id") final Long id,
+    public Transaction update(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedTransactionUpdate transaction) {
         return service.update(id, transaction);
     }

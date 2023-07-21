@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.calendar.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,18 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
+    private static final String         CACHE = "fee_calendar";
+
     private final FeeCalendarRepository repository;
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Iterable<UserFeeCalendar> getAll(final Integer year, final Boolean onlyActive, final Sort sort) {
+    @Cacheable(cacheNames = CACHE)
+    public final Iterable<UserFeeCalendar> getAll(final int year, final boolean onlyActive, final Sort sort) {
         final Iterable<UserFeeCalendar> result;
+
+        // TODO: It seems the sort is applied to the months, not the calendar itself
+        // TODO: Make sure the months are being sorted
 
         if (onlyActive) {
             result = repository.findAllForYearWithActiveMember(year, sort);
@@ -33,8 +40,10 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final FeeCalendarRange getRange(final Boolean onlyActive) {
+    public final FeeCalendarRange getRange(final boolean onlyActive) {
         final FeeCalendarRange range;
+
+        // TODO: Shouldn't be cached?
 
         if (onlyActive) {
             range = repository.findRangeWithActiveMember();

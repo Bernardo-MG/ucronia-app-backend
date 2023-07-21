@@ -57,7 +57,7 @@ public class ActionController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Action readOne(@PathVariable("id") final Long id) {
+    public Action readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }

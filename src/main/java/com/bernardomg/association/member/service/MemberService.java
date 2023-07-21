@@ -33,7 +33,7 @@ public interface MemberService {
      * @param id
      *            id of the member to delete
      */
-    public void delete(final Long id);
+    public void delete(final long id);
 
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
@@ -53,7 +53,7 @@ public interface MemberService {
      *            id of the member to acquire
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Member> getOne(final Long id);
+    public Optional<Member> getOne(final long id);
 
     /**
      * Updates the member for the received id with the received data.
@@ -64,6 +64,6 @@ public interface MemberService {
      *            new data for the member
      * @return the updated member
      */
-    public Member update(final Long id, final MemberUpdate member);
+    public Member update(final long id, final MemberUpdate member);
 
 }

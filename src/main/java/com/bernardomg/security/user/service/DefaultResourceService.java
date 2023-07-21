@@ -3,8 +3,10 @@ package com.bernardomg.security.user.service;
 
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.model.Resource;
@@ -19,11 +21,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public final class DefaultResourceService implements ResourceService {
 
+    private static final String      CACHE_MULTIPLE = "security_resources";
+
+    private static final String      CACHE_SINGLE   = "security_resource";
+
     private final ResourceMapper     mapper;
 
     private final ResourceRepository repository;
 
     @Override
+    @PreAuthorize("hasAuthority('RESOURCE:READ')")
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entitySample;
 
@@ -34,7 +42,9 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public final Optional<Resource> getOne(final Long id) {
+    @PreAuthorize("hasAuthority('RESOURCE:READ')")
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
+    public final Optional<Resource> getOne(final long id) {
         return repository.findById(id)
             .map(mapper::toDto);
     }

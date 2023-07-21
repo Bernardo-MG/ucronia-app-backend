@@ -35,8 +35,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.user.model.Role;
+import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.request.ValidatedUserRoleAdd;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.service.UserRoleService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -52,20 +53,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserRoleController {
 
-    private final UserService service;
+    private final UserRoleService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean add(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
+    public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
         return service.addRole(id, role.getId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Role> readAll(@PathVariable("id") final Long id, final Pageable pageable) {
+    public Iterable<Role> readAll(@PathVariable("id") final long id, final Pageable pageable) {
         return service.getRoles(id, pageable);
     }
 
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean remove(@PathVariable("id") final Long id, @PathVariable("role") final Long role) {
+    public UserRole remove(@PathVariable("id") final long id, @PathVariable("role") final Long role) {
         return service.removeRole(id, role);
     }
 }

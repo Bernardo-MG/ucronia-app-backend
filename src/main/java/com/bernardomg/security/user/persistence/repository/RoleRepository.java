@@ -41,7 +41,9 @@ import com.bernardomg.security.user.persistence.model.PersistentRole;
  */
 public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
-    @Query("SELECT r FROM Role r JOIN UserRoles ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
+    public Boolean existsByName(final String name);
+
+    @Query("SELECT r FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
     public Page<Role> findForUser(@Param("id") final Long id, final Pageable pageable);
 
 }

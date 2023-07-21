@@ -34,7 +34,7 @@ public interface TransactionService {
      * @param id
      *            id of the transaction to delete
      */
-    public void delete(final Long id);
+    public void delete(final long id);
 
     /**
      * Returns all the transactions matching the sample. If the sample fields are empty, then all the transactions are
@@ -55,7 +55,7 @@ public interface TransactionService {
      *            id of the transaction to acquire
      * @return an {@code Optional} with the transaction, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Transaction> getOne(final Long id);
+    public Optional<Transaction> getOne(final long id);
 
     public TransactionRange getRange();
 
@@ -68,6 +68,6 @@ public interface TransactionService {
      *            new data for the transaction
      * @return the updated transaction
      */
-    public Transaction update(final Long id, final TransactionUpdate transaction);
+    public Transaction update(final long id, final TransactionUpdate transaction);
 
 }

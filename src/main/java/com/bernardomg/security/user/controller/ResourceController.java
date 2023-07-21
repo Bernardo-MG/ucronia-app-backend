@@ -57,7 +57,7 @@ public class ResourceController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Resource readOne(@PathVariable("id") final Long id) {
+    public Resource readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }

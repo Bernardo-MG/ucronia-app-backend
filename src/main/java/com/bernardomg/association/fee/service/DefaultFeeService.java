@@ -3,6 +3,10 @@ package com.bernardomg.association.fee.service;
 
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,6 +38,12 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultFeeService implements FeeService {
 
+    private static final String        CACHE_CALENDAR = "fee_calendar";
+
+    private static final String        CACHE_MULTIPLE = "fees";
+
+    private static final String        CACHE_SINGLE   = "fee";
+
     private final FeeRepository        feeRepository;
 
     private final FeeMapper            mapper;
@@ -62,6 +72,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:CREATE')")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
     public final MemberFee create(final FeeCreate request) {
         final PersistentFee entity;
         final PersistentFee created;
@@ -78,7 +90,9 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:DELETE')")
-    public final void delete(final Long id) {
+    @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true),
+            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
+    public final void delete(final long id) {
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException(String.format("Failed delete. No fee with id %s", id), id);
         }
@@ -88,6 +102,7 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
+    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<MemberFee> getAll(final FeeQuery request, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
@@ -107,7 +122,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:READ')")
-    public final Optional<MemberFee> getOne(final Long id) {
+    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
+    public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
 
@@ -126,7 +142,9 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @PreAuthorize("hasAuthority('FEE:UPDATE')")
-    public final MemberFee update(final Long id, final FeeUpdate form) {
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
+    public final MemberFee update(final long id, final FeeUpdate form) {
         final PersistentFee entity;
         final PersistentFee created;
 

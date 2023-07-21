@@ -1,7 +1,7 @@
 --
 --  The MIT License (MIT)
 --
---  Copyright (c) 2017 Bernardo Martínez Garrido
+--  Copyright (c) 2023 Bernardo Martínez Garrido
 --  
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
 --  of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@
 -- ****************************************
 
 INSERT INTO sequences (sequence, count) VALUES
-   ('users', 10),
-   ('roles', 10),
+   ('users', 0),
+   ('roles', 0),
    ('resources', 10),
    ('action', 10),
    ('tokens', 0);

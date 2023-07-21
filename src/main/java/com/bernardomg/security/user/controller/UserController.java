@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("id") final Long id) {
+    public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
@@ -76,13 +76,13 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User readOne(@PathVariable("id") final Long id) {
+    public User readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedUserUpdate form) {
+    public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate form) {
         return service.update(id, form);
     }
 

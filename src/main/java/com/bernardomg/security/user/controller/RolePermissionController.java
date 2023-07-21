@@ -34,9 +34,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.user.model.Permission;
+import com.bernardomg.security.permission.model.Permission;
+import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.ValidatedPermissionCreate;
-import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.service.RolePermissionService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -52,21 +53,21 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RolePermissionController {
 
-    private final RoleService service;
+    private final RolePermissionService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean add(@PathVariable("id") final Long id,
+    public RolePermission add(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedPermissionCreate permission) {
         return service.addPermission(id, permission.getResourceId(), permission.getActionId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Permission> readAll(@PathVariable("id") final Long id, final Pageable pageable) {
-        return service.getPermission(id, pageable);
+    public Iterable<Permission> readAll(@PathVariable("id") final long id, final Pageable pageable) {
+        return service.getPermissions(id, pageable);
     }
 
     @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean remove(@PathVariable("id") final Long id, @PathVariable("resource") final Long resource,
+    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("resource") final Long resource,
             @PathVariable("action") final Long action) {
         return service.removePermission(id, resource, action);
     }

@@ -33,7 +33,7 @@ public interface FeeService {
      * @param id
      *            id of the fee to delete
      */
-    public void delete(final Long id);
+    public void delete(final long id);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -53,7 +53,7 @@ public interface FeeService {
      *            id of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<MemberFee> getOne(final Long id);
+    public Optional<MemberFee> getOne(final long id);
 
     /**
      * Updates the fee for the received id with the received data.
@@ -64,6 +64,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public MemberFee update(final Long id, final FeeUpdate fee);
+    public MemberFee update(final long id, final FeeUpdate fee);
 
 }

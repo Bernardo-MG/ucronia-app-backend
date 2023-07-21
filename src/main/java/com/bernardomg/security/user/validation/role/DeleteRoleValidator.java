@@ -6,9 +6,9 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.user.persistence.model.PersistentUserRoles;
+import com.bernardomg.security.user.persistence.model.PersistentUserRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
-import com.bernardomg.security.user.persistence.repository.UserRolesRepository;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -18,22 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DeleteRoleValidator implements Validator<Long> {
 
-    private final RoleRepository      roleRepository;
+    private final RoleRepository     roleRepository;
 
-    private final UserRolesRepository userRolesRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    public DeleteRoleValidator(final RoleRepository roleRepo, final UserRolesRepository userRolesRepo) {
+    public DeleteRoleValidator(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
         super();
 
         roleRepository = roleRepo;
-        userRolesRepository = userRolesRepo;
+        userRoleRepository = userRoleRepo;
     }
 
     @Override
     public final void validate(final Long id) {
         final Collection<FieldFailure> failures;
         FieldFailure                   failure;
-        final PersistentUserRoles      sample;
+        final PersistentUserRole       sample;
 
         failures = new ArrayList<>();
 
@@ -45,12 +45,12 @@ public final class DeleteRoleValidator implements Validator<Long> {
             failures.add(failure);
         }
 
-        sample = PersistentUserRoles.builder()
+        sample = PersistentUserRole.builder()
             .roleId(id)
             .build();
 
         // No user has the role
-        if (userRolesRepository.exists(Example.of(sample))) {
+        if (userRoleRepository.exists(Example.of(sample))) {
             log.error("Role with id {} has a relationship with a user", id);
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("user", "existing", id);

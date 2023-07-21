@@ -63,7 +63,7 @@ public class RoleController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean delete(@PathVariable("id") final Long id) {
+    public Boolean delete(@PathVariable("id") final long id) {
         return service.delete(id);
     }
 
@@ -73,16 +73,14 @@ public class RoleController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role readOne(@PathVariable("id") final Long id) {
+    public Role readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Role update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedRoleUpdate form) {
-        form.setId(id);
-
-        return service.update(form);
+    public Role update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedRoleUpdate form) {
+        return service.update(id, form);
     }
 
 }

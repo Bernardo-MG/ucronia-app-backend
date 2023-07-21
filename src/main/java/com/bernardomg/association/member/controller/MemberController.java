@@ -69,7 +69,7 @@ public class MemberController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("id") final Long id) {
+    public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
@@ -79,13 +79,13 @@ public class MemberController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member readOne(@PathVariable("id") final Long id) {
+    public Member readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member update(@PathVariable("id") final Long id, @Valid @RequestBody final ValidatedMemberUpdate member) {
+    public Member update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedMemberUpdate member) {
         return service.update(id, member);
     }
 

@@ -28,6 +28,6 @@ public interface ActionService {
      *            id of the action to acquire
      * @return an {@code Optional} with the action, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Action> getOne(final Long id);
+    public Optional<Action> getOne(final long id);
 
 }
