@@ -24,7 +24,7 @@
 
 
 -- ****************************************
--- This SQL script populates the initial sequences.
+-- This SQL script populates the initial permissions data.
 -- ****************************************
 
 INSERT INTO actions (id, name) VALUES
