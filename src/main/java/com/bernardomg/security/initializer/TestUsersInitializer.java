@@ -33,7 +33,7 @@ public final class TestUsersInitializer implements ApplicationRunner {
     }
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public final void run(final ApplicationArguments args) throws Exception {
         log.debug("Initializing test users");
 
         runIfNotExists(this::initializeRootUser, "root");

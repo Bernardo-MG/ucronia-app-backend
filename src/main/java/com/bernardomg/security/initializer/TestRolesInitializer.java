@@ -40,7 +40,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
     }
 
     @Override
-    public void run(final ApplicationArguments args) throws Exception {
+    public final void run(final ApplicationArguments args) throws Exception {
         log.debug("Initializing test roles");
 
         runIfNotExists(this::initializeAdminRole, "ADMIN");
