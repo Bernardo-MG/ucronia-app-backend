@@ -45,29 +45,31 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
     public final ImmutablePasswordChangeStatus changePassword(final String username, final String currentPassword,
             final String password) {
         final boolean                  successful;
-        final UserDetails              user;
-        final Optional<PersistentUser> read;
-        final PersistentUser           entity;
+        final UserDetails              userDetails;
+        final Optional<PersistentUser> readUser;
+        final PersistentUser           userEntity;
         final String                   encodedPassword;
 
         log.debug("Changing password for user {}", username);
 
-        read = repository.findOneByUsername(username);
+        readUser = repository.findOneByUsername(username);
 
-        if (read.isPresent()) {
+        if (readUser.isPresent()) {
             // TODO: Avoid this second query
-            user = userDetailsService.loadUserByUsername(username);
+            userDetails = userDetailsService.loadUserByUsername(username);
 
-            successful = validatePasswordChange(user, currentPassword);
-
+            successful = validatePasswordChange(userDetails, currentPassword);
             if (successful) {
-                entity = read.get();
+                userEntity = readUser.get();
                 encodedPassword = passwordEncoder.encode(password);
-                entity.setPassword(encodedPassword);
+                userEntity.setPassword(encodedPassword);
 
-                repository.save(entity);
+                repository.save(userEntity);
+                log.debug("Changed password for user {}", username);
             }
         } else {
+            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            // TODO: Return failure cause somehow
             successful = false;
         }
 
@@ -106,9 +108,11 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
         // Verify the password matches is not changed
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             log.warn("Received password doesn't match the one stored for username {}", user.getUsername());
+            // TODO: Return failure cause somehow
             valid = false;
         } else if (!isValid(user)) {
             log.warn("User {} is not enabled", user.getUsername());
+            // TODO: Return failure cause somehow
             valid = false;
         } else {
             valid = true;
