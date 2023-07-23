@@ -41,10 +41,10 @@ import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
-import com.bernardomg.security.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
+import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
+import com.bernardomg.security.password.recovery.service.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.TokenEncoder;
@@ -82,7 +82,7 @@ public class SecurityServiceConfig {
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
-        return new DefaultPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
+        return new SpringSecurityPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
     }
 
     @Bean("passwordRecoveryService")

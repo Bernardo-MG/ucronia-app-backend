@@ -15,7 +15,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class DefaultPasswordChangeService implements PasswordChangeService {
+public final class SpringSecurityPasswordChangeService implements PasswordChangeService {
 
     /**
      * Password encoder, for validating passwords.
@@ -32,7 +32,7 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
      */
     private final UserDetailsService userDetailsService;
 
-    public DefaultPasswordChangeService(@NonNull final UserRepository userRepo,
+    public SpringSecurityPasswordChangeService(@NonNull final UserRepository userRepo,
             @NonNull final UserDetailsService userDetsService, @NonNull final PasswordEncoder passEncoder) {
         super();
 

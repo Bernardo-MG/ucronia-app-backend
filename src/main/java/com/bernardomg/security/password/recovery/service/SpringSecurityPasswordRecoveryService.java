@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.service.springframework;
+package com.bernardomg.security.password.recovery.service;
 
 import java.util.Optional;
 
@@ -34,7 +34,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.password.recovery.validation.PasswordRecoveryValidator;
 import com.bernardomg.security.password.recovery.validation.PasswordValidationData;
 import com.bernardomg.security.token.provider.TokenProcessor;
