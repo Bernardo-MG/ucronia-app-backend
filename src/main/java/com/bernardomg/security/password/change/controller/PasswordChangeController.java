@@ -25,13 +25,16 @@
 package com.bernardomg.security.password.change.controller;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.change.model.DtoPasswordChange;
 import com.bernardomg.security.password.change.model.PasswordChangeStatus;
+import com.bernardomg.security.password.change.model.request.PasswordChangeRequest;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
@@ -62,8 +65,25 @@ public class PasswordChangeController {
      * @return password change status
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordChangeStatus changePassword(@Valid @RequestBody final DtoPasswordChange request) {
-        return service.changePassword(request.getOldPassword(), request.getNewPassword());
+    public PasswordChangeStatus changePassword(@Valid @RequestBody final PasswordChangeRequest request) {
+        final String username;
+
+        username = getCurrentUsername();
+        return service.changePassword(username, request.getOldPassword(), request.getNewPassword());
+    }
+
+    private final String getCurrentUsername() {
+        final Authentication auth;
+
+        auth = SecurityContextHolder.getContext()
+            .getAuthentication();
+        if (auth == null) {
+            // TODO: Improve message
+            // TODO: Shouldn't this be handled automatically by an utils class?
+            throw new UsernameNotFoundException("");
+        }
+
+        return auth.getName();
     }
 
 }

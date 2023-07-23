@@ -33,7 +33,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_CredentialsExpired_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();
@@ -49,7 +49,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_Disabled_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();
@@ -65,7 +65,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_Enabled_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isTrue();
@@ -81,7 +81,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_Expired_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();
@@ -97,7 +97,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_Locked_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();
@@ -110,7 +110,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_NotExistingUser_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();

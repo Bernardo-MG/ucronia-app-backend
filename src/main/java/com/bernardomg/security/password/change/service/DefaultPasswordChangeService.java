@@ -3,15 +3,11 @@ package com.bernardomg.security.password.change.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.password.change.model.ImmutablePasswordChangeStatus;
-import com.bernardomg.security.password.change.model.PasswordChangeStatus;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -46,15 +42,15 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
     }
 
     @Override
-    public final PasswordChangeStatus changePassword(final String currentPassword, final String password) {
-        final Boolean                  successful;
+    public final ImmutablePasswordChangeStatus changePassword(final String username, final String currentPassword,
+            final String password) {
+        final boolean                  successful;
         final UserDetails              user;
         final Optional<PersistentUser> read;
         final PersistentUser           entity;
         final String                   encodedPassword;
-        final String                   username;
 
-        username = getCurrentUsername();
+        log.debug("Changing password for user {}", username);
 
         read = repository.findOneByUsername(username);
 
@@ -75,20 +71,9 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
             successful = false;
         }
 
-        return new ImmutablePasswordChangeStatus(successful);
-    }
-
-    private final String getCurrentUsername() {
-        final Authentication auth;
-
-        auth = SecurityContextHolder.getContext()
-            .getAuthentication();
-        if (auth == null) {
-            // TODO: Improve message
-            throw new UsernameNotFoundException("");
-        }
-
-        return auth.getName();
+        return ImmutablePasswordChangeStatus.builder()
+            .successful(successful)
+            .build();
     }
 
     /**
@@ -98,7 +83,8 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
      *            user the check
      * @return {@code true} if the user is valid, {@code false} otherwise
      */
-    private final Boolean isValid(final UserDetails userDetails) {
+    private final boolean isValid(final UserDetails userDetails) {
+        // TODO: This should be contained in a common class
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }
@@ -114,20 +100,18 @@ public final class DefaultPasswordChangeService implements PasswordChangeService
      *            current user's password
      * @return {@code true} if the password can be changed, {@code false} otherwise
      */
-    private final Boolean validatePasswordChange(final UserDetails user, final String currentPassword) {
-        Boolean valid;
-
-        valid = true;
+    private final boolean validatePasswordChange(final UserDetails user, final String currentPassword) {
+        final boolean valid;
 
         // Verify the password matches is not changed
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             log.warn("Received password doesn't match the one stored for username {}", user.getUsername());
             valid = false;
-        }
-
-        if (!isValid(user)) {
+        } else if (!isValid(user)) {
             log.warn("User {} is not enabled", user.getUsername());
             valid = false;
+        } else {
+            valid = true;
         }
 
         return valid;

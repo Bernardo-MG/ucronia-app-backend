@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model;
+package com.bernardomg.security.password.recovery.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +35,7 @@ import lombok.Data;
  *
  */
 @Data
-public final class DtoPasswordRecovery implements PasswordRecovery {
+public final class DtoPasswordRecoveryRequest {
 
     /**
      * User email.

@@ -114,20 +114,25 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final PersistentUser           entity;
         final String                   encodedPassword;
         final UserDetails              details;
-        final Boolean                  valid;
+        final boolean                  valid;
         final Optional<Token>          tokenOpt;
 
         if (tokenProcessor.hasExpired(token)) {
             log.warn("Token {} has expired", token);
+            // TODO: Return failure cause somehow
             successful = false;
         } else {
             tokenOpt = tokenProcessor.decode(token);
             if (tokenOpt.isEmpty()) {
                 log.error("Failed decoding token");
+                // TODO: Return failure cause somehow
                 successful = false;
             } else {
                 username = tokenOpt.get()
                     .getExtendedInformation();
+
+                log.debug("Applying requested password change for {}", username);
+
                 user = repository.findOneByUsername(username);
 
                 if (user.isPresent()) {
@@ -150,6 +155,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
                     repository.save(entity);
                     tokenProcessor.closeToken(token);
                 } else {
+                    // TODO: Return failure cause somehow
                     successful = false;
                 }
             }
@@ -165,6 +171,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final Boolean                  valid;
         final String                   token;
         final PasswordValidationData   validationData;
+
+        log.debug("Requested password recovery for {}", email);
 
         user = repository.findOneByEmail(email);
         validationData = PasswordValidationData.builder()
@@ -210,7 +218,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
      *            user the check
      * @return {@code true} if the user is valid, {@code false} otherwise
      */
-    private final Boolean isValid(final UserDetails userDetails) {
+    private final boolean isValid(final UserDetails userDetails) {
+        // TODO: This should be contained in a common class
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }

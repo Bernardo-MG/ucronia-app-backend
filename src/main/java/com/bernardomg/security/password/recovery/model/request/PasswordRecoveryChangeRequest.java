@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.model;
+package com.bernardomg.security.password.recovery.model.request;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  *
  */
 @Data
-public class DtoPasswordRecoveryChange implements PasswordRecoveryChange {
+public class PasswordRecoveryChangeRequest {
 
     /**
      * The new password.

@@ -33,7 +33,7 @@ class ITPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword("1234", "abc");
+        executable = () -> service.changePassword("admin", "1234", "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 

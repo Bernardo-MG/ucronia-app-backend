@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.recovery.model.DtoPasswordRecovery;
-import com.bernardomg.security.password.recovery.model.DtoPasswordRecoveryChange;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
+import com.bernardomg.security.password.recovery.model.request.DtoPasswordRecoveryRequest;
+import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryChangeRequest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.model.DtoToken;
 
@@ -63,7 +63,7 @@ public class PasswordRecoveryController {
      * @return password change status
      */
     @PutMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus changePassword(@Valid @RequestBody final DtoPasswordRecoveryChange request) {
+    public PasswordRecoveryStatus changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
         return service.changePassword(request.getToken(), request.getPassword());
     }
 
@@ -75,7 +75,7 @@ public class PasswordRecoveryController {
      * @return password recovery status
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus startRecovery(@Valid @RequestBody final DtoPasswordRecovery request) {
+    public PasswordRecoveryStatus startRecovery(@Valid @RequestBody final DtoPasswordRecoveryRequest request) {
         return service.startPasswordRecovery(request.getEmail());
     }
 

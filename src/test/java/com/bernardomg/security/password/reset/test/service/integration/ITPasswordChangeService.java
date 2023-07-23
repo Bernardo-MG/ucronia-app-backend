@@ -38,7 +38,7 @@ class ITPasswordChangeService {
     void testChangePassword_Existing_Changed() {
         final PersistentUser user;
 
-        service.changePassword("1234", "abc");
+        service.changePassword("admin", "1234", "abc");
 
         user = userRepository.findAll()
             .stream()
@@ -59,7 +59,7 @@ class ITPasswordChangeService {
     void testChangePassword_Existing_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isTrue();
@@ -75,7 +75,7 @@ class ITPasswordChangeService {
     void testChangePassword_IncorrectPassword_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("def", "abc");
+        status = service.changePassword("admin", "def", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();
@@ -87,7 +87,7 @@ class ITPasswordChangeService {
     void testChangePassword_NotExistingUser_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("1234", "abc");
+        status = service.changePassword("admin", "1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isFalse();

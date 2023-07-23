@@ -22,28 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.change.model;
+package com.bernardomg.security.password.change.model.request;
+
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
 /**
- * All the data required for password change during password recovery.
+ * DTO implementation of {@link PasswordRecovery}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PasswordChange {
+@Data
+public final class PasswordChangeRequest {
 
-    /**
-     * Returns the new password.
-     *
-     * @return the new password
-     */
-    public String getNewPassword();
+    @NotEmpty
+    private String newPassword;
 
-    /**
-     * Returns the current user password. Used to authenticate change.
-     *
-     * @return the current user password
-     */
-    public String getOldPassword();
+    @NotEmpty
+    private String oldPassword;
 
 }

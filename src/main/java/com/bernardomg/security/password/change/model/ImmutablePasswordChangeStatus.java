@@ -26,8 +26,8 @@ package com.bernardomg.security.password.change.model;
 
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Immutable implementation of {@link PasswordRecoveryStatus}.
@@ -35,18 +35,13 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
+@Builder
 public final class ImmutablePasswordChangeStatus implements PasswordChangeStatus {
 
     /**
      * Recovery attempt status.
      */
     private final Boolean successful;
-
-    public ImmutablePasswordChangeStatus(@NotNull final Boolean success) {
-        super();
-
-        successful = success;
-    }
 
 }

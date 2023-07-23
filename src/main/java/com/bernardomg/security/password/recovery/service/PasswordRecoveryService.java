@@ -52,6 +52,7 @@ public interface PasswordRecoveryService {
      *            token to validate
      * @return the status indicating if the token is valid or not
      */
+    @Deprecated
     public PasswordRecoveryStatus validateToken(final String token);
 
 }
