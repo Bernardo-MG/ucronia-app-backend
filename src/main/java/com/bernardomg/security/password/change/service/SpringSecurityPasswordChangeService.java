@@ -59,10 +59,11 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         userEntityOptional = repository.findOneByUsername(username);
 
+        // Validate the user exists
         if (!userEntityOptional.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new InvalidPasswordChangeException("Couldn't change password for user, as it doesn't exist",
-                username);
+            throw new UsernameNotFoundException(String.format("Couldn't change password for user %s, as it doesn't exist",
+                username));
         }
 
         // TODO: Avoid this second query
