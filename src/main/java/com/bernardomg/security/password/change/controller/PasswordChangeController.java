@@ -25,9 +25,6 @@
 package com.bernardomg.security.password.change.controller;
 
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,24 +63,7 @@ public class PasswordChangeController {
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PasswordChangeStatus changePassword(@Valid @RequestBody final PasswordChangeRequest request) {
-        final String username;
-
-        username = getCurrentUsername();
-        return service.changePassword(username, request.getOldPassword(), request.getNewPassword());
-    }
-
-    private final String getCurrentUsername() {
-        final Authentication auth;
-
-        auth = SecurityContextHolder.getContext()
-            .getAuthentication();
-        if (auth == null) {
-            // TODO: Improve message
-            // TODO: Shouldn't this be handled automatically by an utils class?
-            throw new UsernameNotFoundException("");
-        }
-
-        return auth.getName();
+        return service.changePasswordForUserInSession(request.getOldPassword(), request.getNewPassword());
     }
 
 }

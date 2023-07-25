@@ -36,7 +36,7 @@ class ITPasswordChangeServiceUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
@@ -55,7 +55,7 @@ class ITPasswordChangeServiceUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
@@ -73,7 +73,7 @@ class ITPasswordChangeServiceUserStatus {
     void testChangePassword_Enabled_Status() {
         final PasswordChangeStatus status;
 
-        status = service.changePassword("admin", "1234", "abc");
+        status = service.changePasswordForUserInSession("1234", "abc");
 
         Assertions.assertThat(status.getSuccessful())
             .isTrue();
@@ -90,7 +90,7 @@ class ITPasswordChangeServiceUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
@@ -109,7 +109,7 @@ class ITPasswordChangeServiceUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 

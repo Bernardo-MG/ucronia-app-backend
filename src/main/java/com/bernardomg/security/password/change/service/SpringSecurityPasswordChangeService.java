@@ -3,6 +3,8 @@ package com.bernardomg.security.password.change.service;
 
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,12 +45,15 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     }
 
     @Override
-    public final ImmutablePasswordChangeStatus changePassword(final String username, final String currentPassword,
+    public final ImmutablePasswordChangeStatus changePasswordForUserInSession(final String currentPassword,
             final String password) {
         final UserDetails              userDetails;
         final Optional<PersistentUser> readUser;
         final PersistentUser           userEntity;
         final String                   encodedPassword;
+        final String                   username;
+
+        username = getCurrentUsername();
 
         log.debug("Changing password for user {}", username);
 
@@ -78,6 +83,18 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         return ImmutablePasswordChangeStatus.builder()
             .successful(true)
             .build();
+    }
+
+    private final String getCurrentUsername() {
+        final Authentication auth;
+
+        auth = SecurityContextHolder.getContext()
+            .getAuthentication();
+        if ((auth == null) || (!auth.isAuthenticated())) {
+            throw new InvalidPasswordChangeException("No user authenticated", "");
+        }
+
+        return auth.getName();
     }
 
     /**

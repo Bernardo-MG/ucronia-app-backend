@@ -42,7 +42,6 @@ import com.bernardomg.Application;
 @ActiveProfiles("test")
 @Transactional
 @Rollback
-@AllAuthoritiesMockUser
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface IntegrationTest {

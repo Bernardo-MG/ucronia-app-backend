@@ -12,17 +12,14 @@ import com.bernardomg.security.password.change.model.PasswordChangeStatus;
 public interface PasswordChangeService {
 
     /**
-     * Changes the password for a user. It requires the current password to authenticate.
+     * Changes the password for the user currently in session. It requires the current password to authenticate.
      *
-     * @param username
-     *            user to change the password
      * @param currentPassword
      *            current password for the user
      * @param password
      *            new password for the user
      * @return the password change status
      */
-    public PasswordChangeStatus changePassword(final String username, final String currentPassword,
-            final String password);
+    public PasswordChangeStatus changePasswordForUserInSession(final String currentPassword, final String password);
 
 }
