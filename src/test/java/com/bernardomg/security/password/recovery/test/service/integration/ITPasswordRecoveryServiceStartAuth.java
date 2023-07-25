@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.change.test.service.integration;
+package com.bernardomg.security.password.recovery.test.service.integration;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -14,24 +14,24 @@ import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - recovery start - validation")
-class ITPasswordRecoveryServiceStartValidation {
+@DisplayName("PasswordRecoveryService - token generation on recovery start")
+@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+        "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql",
+        "/db/queries/security/relationship/user_role.sql" })
+class ITPasswordRecoveryServiceStartAuth {
 
     @Autowired
     private PasswordRecoveryService service;
 
-    public ITPasswordRecoveryServiceStartValidation() {
+    public ITPasswordRecoveryServiceStartAuth() {
         super();
     }
 
     @Test
+    @DisplayName("Throws an exception when trying to edit another user")
     @WithMockUser(username = "admin")
-    @DisplayName("Throws a validation exception with the correct info when the email doesn't match the user email")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    void testStartPasswordRecovery_InvalidEmail() {
+    void testStartPasswordRecovery_AnotherUser() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -43,9 +43,8 @@ class ITPasswordRecoveryServiceStartValidation {
     }
 
     @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Throws a validation exception with the correct info when there is no user")
-    void testStartPasswordRecovery_NoUser() {
+    @DisplayName("Throws an exception when the user is not authenticated")
+    void testStartPasswordRecovery_NotAuthenticated() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

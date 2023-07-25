@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.reset.test.service.integration;
+package com.bernardomg.security.password.change.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

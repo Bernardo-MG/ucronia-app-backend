@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.change.test.integration;
+package com.bernardomg.security.password.recovery.test.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

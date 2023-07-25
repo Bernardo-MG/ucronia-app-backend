@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.change.test.service.unit;
+package com.bernardomg.security.password.recovery.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 

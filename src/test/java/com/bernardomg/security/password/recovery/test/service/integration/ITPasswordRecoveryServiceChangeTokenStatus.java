@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.change.test.service.integration;
+package com.bernardomg.security.password.recovery.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,54 +12,43 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.test.constant.TokenConstants;
-import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - change password")
-class ITPasswordRecoveryServiceChange {
+@DisplayName("PasswordRecoveryService - change password - token status")
+class ITPasswordRecoveryServiceChangeTokenStatus {
 
     @Autowired
     private PasswordRecoveryService service;
 
-    @Autowired
-    private UserRepository          userRepository;
-
-    public ITPasswordRecoveryServiceChange() {
+    public ITPasswordRecoveryServiceChangeTokenStatus() {
         super();
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with an existing user changes the password")
+    @DisplayName("Changing password with an expired token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_Existing_Changed() {
-        final PersistentUser user;
+    @Sql({ "/db/queries/security/token/expired.sql" })
+    void testChangePassword_ExpiredToken_Status() {
+        final PasswordRecoveryStatus status;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        status = service.changePassword(TokenConstants.TOKEN, "abc");
 
-        user = userRepository.findAll()
-            .stream()
-            .findFirst()
-            .get();
-
-        Assertions.assertThat(user.getPassword())
-            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
+        Assertions.assertThat(status.getSuccessful())
+            .isFalse();
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a valid token after expiration date gives a failure")
+    @DisplayName("Changing password with a not existing token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    void testChangePassword_TokenAfterExpirationDate_Status() {
+    void testChangePassword_NotExistingToken_Status() {
         final PasswordRecoveryStatus status;
 
         status = service.changePassword(TokenConstants.TOKEN, "abc");
