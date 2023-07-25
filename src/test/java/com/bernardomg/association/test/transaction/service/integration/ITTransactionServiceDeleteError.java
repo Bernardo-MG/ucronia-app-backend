@@ -31,11 +31,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.transaction.service.TransactionService;
 import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Transaction service - delete")
 @Sql({ "/db/queries/transaction/single.sql" })
 class ITTransactionServiceDeleteError {

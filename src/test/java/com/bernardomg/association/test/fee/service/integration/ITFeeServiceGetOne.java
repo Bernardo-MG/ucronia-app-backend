@@ -36,10 +36,12 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - get one")
 class ITFeeServiceGetOne {
 

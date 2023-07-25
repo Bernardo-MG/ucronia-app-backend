@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.transaction.util.model.TransactionsCreate;
 import com.bernardomg.association.transaction.model.request.TransactionCreate;
@@ -39,6 +40,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Transaction service - create errors")
 @Sql({ "/db/queries/member/single.sql" })
 class ITTransactionServiceCreateError {

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
@@ -18,6 +19,7 @@ import com.bernardomg.security.user.service.RolePermissionService;
 import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - remove permission")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })

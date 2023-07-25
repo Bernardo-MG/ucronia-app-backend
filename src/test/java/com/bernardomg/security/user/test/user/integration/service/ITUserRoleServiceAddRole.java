@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.UserRole;
@@ -17,6 +18,7 @@ import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.service.UserRoleService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("User service - add role")
 class ITUserRoleServiceAddRole {
 

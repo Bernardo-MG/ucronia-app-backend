@@ -35,6 +35,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.test.transaction.util.model.TransactionsQuery;
@@ -44,6 +45,7 @@ import com.bernardomg.association.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all - sort")
 @Sql({ "/db/queries/transaction/multiple.sql" })
 class ITTransactionServiceGetAllSort {

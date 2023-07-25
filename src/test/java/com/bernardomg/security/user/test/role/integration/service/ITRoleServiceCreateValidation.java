@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.service.RoleService;
@@ -15,6 +16,7 @@ import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - create validation")
 @Sql({ "/db/queries/security/role/single.sql" })
 class ITRoleServiceCreateValidation {

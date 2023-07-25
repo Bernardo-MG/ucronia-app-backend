@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
@@ -22,6 +23,7 @@ import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersQuery;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("User service - get all")
 @Sql({ "/db/queries/security/user/single.sql" })
 class ITUserServiceGetAllPagination {

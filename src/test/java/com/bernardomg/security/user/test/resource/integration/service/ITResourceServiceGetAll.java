@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Resource;
 import com.bernardomg.security.user.model.request.ResourceQuery;
@@ -19,6 +20,7 @@ import com.bernardomg.security.user.model.request.ValidatedResourceQuery;
 import com.bernardomg.security.user.service.ResourceService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Resource service - get all")
 @Sql({ "/db/queries/security/resource/multiple.sql" })
 class ITResourceServiceGetAll {

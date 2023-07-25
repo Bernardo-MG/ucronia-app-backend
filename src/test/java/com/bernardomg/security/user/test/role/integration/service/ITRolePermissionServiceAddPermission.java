@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.permission.model.DtoPermission;
 import com.bernardomg.security.permission.model.Permission;
@@ -22,6 +23,7 @@ import com.bernardomg.security.user.service.RolePermissionService;
 import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - add permission")
 class ITRolePermissionServiceAddPermission {
 

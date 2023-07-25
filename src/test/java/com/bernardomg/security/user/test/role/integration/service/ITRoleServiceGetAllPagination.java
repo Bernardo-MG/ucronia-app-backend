@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.request.RoleQuery;
@@ -20,6 +21,7 @@ import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.security.user.test.util.model.RolesQuery;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - get all")
 @Sql({ "/db/queries/security/role/single.sql" })
 class ITRoleServiceGetAllPagination {

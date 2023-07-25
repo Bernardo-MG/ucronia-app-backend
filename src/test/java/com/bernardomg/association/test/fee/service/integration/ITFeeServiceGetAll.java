@@ -39,11 +39,13 @@ import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.test.fee.util.model.FeesQuery;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - get all")
 class ITFeeServiceGetAll {
 

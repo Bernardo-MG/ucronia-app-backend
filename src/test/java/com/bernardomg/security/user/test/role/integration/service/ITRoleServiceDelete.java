@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.persistence.repository.ResourceRepository;
@@ -38,6 +39,7 @@ import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - delete with permissions")
 class ITRoleServiceDelete {
 

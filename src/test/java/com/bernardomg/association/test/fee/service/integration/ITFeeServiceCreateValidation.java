@@ -34,11 +34,13 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - create validation")
 @Sql({ "/db/queries/member/single.sql" })
 class ITFeeServiceCreateValidation {

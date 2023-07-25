@@ -36,11 +36,13 @@ import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.test.member.util.model.MembersUpdate;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Member service - update errors")
 @Sql({ "/db/queries/member/single.sql" })
 class ITMemberServiceUpdate {

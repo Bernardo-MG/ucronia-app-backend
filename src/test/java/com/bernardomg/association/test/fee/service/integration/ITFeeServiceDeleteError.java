@@ -32,10 +32,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.exception.InvalidIdException;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - delete")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 class ITFeeServiceDeleteError {

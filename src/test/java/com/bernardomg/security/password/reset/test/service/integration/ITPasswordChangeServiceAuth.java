@@ -6,11 +6,11 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
+import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 
 @IntegrationTest
 @DisplayName("PasswordChangeService - change password")
@@ -35,7 +35,7 @@ class ITPasswordChangeServiceAuth {
 
         executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("No user authenticated");

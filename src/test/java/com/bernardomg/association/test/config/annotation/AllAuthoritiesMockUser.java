@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.test.config.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -18,6 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Inherited
+@Documented
 public @interface AllAuthoritiesMockUser {
 
 }

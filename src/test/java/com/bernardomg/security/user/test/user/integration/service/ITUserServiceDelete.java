@@ -30,11 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("User service - delete without roles")
 @Sql({ "/db/queries/security/user/single.sql" })
 class ITUserServiceDelete {

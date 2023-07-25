@@ -35,6 +35,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
@@ -46,6 +47,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 import com.bernardomg.association.transaction.service.TransactionService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get one")
 class ITTransactionServiceGetOne {
 

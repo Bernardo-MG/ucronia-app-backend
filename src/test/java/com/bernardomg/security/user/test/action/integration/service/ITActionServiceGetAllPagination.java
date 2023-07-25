@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Action;
 import com.bernardomg.security.user.model.request.ActionQuery;
@@ -20,6 +21,7 @@ import com.bernardomg.security.user.model.request.ValidatedActionQuery;
 import com.bernardomg.security.user.service.ActionService;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Action service - get all")
 @Sql({ "/db/queries/security/action/crud.sql" })
 class ITActionServiceGetAllPagination {

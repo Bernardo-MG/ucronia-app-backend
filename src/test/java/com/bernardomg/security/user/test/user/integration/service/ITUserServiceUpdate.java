@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
@@ -41,6 +42,7 @@ import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - update")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
