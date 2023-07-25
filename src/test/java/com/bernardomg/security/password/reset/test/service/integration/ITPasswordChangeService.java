@@ -6,6 +6,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -63,10 +64,10 @@ class ITPasswordChangeService {
 
         executable = () -> service.changePasswordForUserInSession("def", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+        exception = Assertions.catchThrowableOfType(executable, BadCredentialsException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Received a password which doesn't match the one stored for username");
+            .isEqualTo("Received a password which doesn't match the one stored for admin");
     }
 
     @Test

@@ -3,10 +3,12 @@ package com.bernardomg.security.password.change.service;
 
 import java.util.Optional;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
@@ -67,7 +69,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         userDetails = userDetailsService.loadUserByUsername(username);
 
         // Make sure the user can change the password
-        validatePasswordChange(userDetails, currentPassword);
+        authenticatePasswordChange(userDetails, currentPassword);
 
         userEntity = userEntityOptional.get();
         encodedPassword = passwordEncoder.encode(password);
@@ -76,6 +78,31 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         repository.save(userEntity);
 
         log.debug("Changed password for user {}", username);
+    }
+
+    /**
+     * Authenticates the password change attempt. If the user is not authenticated, then an exception is thrown.
+     *
+     * @param user
+     *            user for which the password is changed, or empty if no user was found
+     * @param username
+     *            user's username
+     * @param currentPassword
+     *            current user's password
+     */
+    private final void authenticatePasswordChange(final UserDetails user, final String currentPassword) {
+        // Verify the current password matches the original one
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            log.warn("Received a password which doesn't match the one stored for username {}", user.getUsername());
+            throw new BadCredentialsException(
+                String.format("Received a password which doesn't match the one stored for %s", user.getUsername()));
+        }
+
+        // Verify the user is enabled
+        if (!isValid(user)) {
+            log.warn("User {} is not enabled", user.getUsername());
+            throw new UsernameNotFoundException(String.format("User %s is not enabled", user.getUsername()));
+        }
     }
 
     private final String getCurrentUsername() {
@@ -101,32 +128,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // TODO: This should be contained in a common class
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
-    }
-
-    /**
-     * Validates the password change.
-     *
-     * @param user
-     *            user for which the password is changed, or empty if no user was found
-     * @param username
-     *            user's username
-     * @param currentPassword
-     *            current user's password
-     */
-    private final void validatePasswordChange(final UserDetails user, final String currentPassword) {
-        // Verify the current password matches the original one
-        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            log.warn("Received a password which doesn't match the one stored for username {}", user.getUsername());
-            // TODO: Improve error message
-            throw new InvalidPasswordChangeException(
-                "Received a password which doesn't match the one stored for username", user.getUsername());
-        }
-
-        if (!isValid(user)) {
-            log.warn("User {} is not enabled", user.getUsername());
-            // TODO: Improve error message
-            throw new InvalidPasswordChangeException("User is not enabled", user.getUsername());
-        }
     }
 
 }
