@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.password.change.model.ImmutablePasswordChangeStatus;
 import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -45,8 +44,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     }
 
     @Override
-    public final ImmutablePasswordChangeStatus changePasswordForUserInSession(final String currentPassword,
-            final String password) {
+    public final void changePasswordForUserInSession(final String currentPassword, final String password) {
         final UserDetails              userDetails;
         final Optional<PersistentUser> userEntityOptional;
         final PersistentUser           userEntity;
@@ -78,10 +76,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         repository.save(userEntity);
 
         log.debug("Changed password for user {}", username);
-
-        return ImmutablePasswordChangeStatus.builder()
-            .successful(true)
-            .build();
     }
 
     private final String getCurrentUsername() {
@@ -124,8 +118,8 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             log.warn("Received a password which doesn't match the one stored for username {}", user.getUsername());
             // TODO: Improve error message
-            throw new InvalidPasswordChangeException("Received a password which doesn't match the one stored for username",
-                user.getUsername());
+            throw new InvalidPasswordChangeException(
+                "Received a password which doesn't match the one stored for username", user.getUsername());
         }
 
         if (!isValid(user)) {
