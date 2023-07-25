@@ -71,6 +71,28 @@ class ITPasswordChangeService {
 
     @Test
     @WithMockUser(username = "admin")
+    @DisplayName("Changing password with an existing user changes the password")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testChangePassword_Long_Changed() {
+        final PersistentUser user;
+
+        service.changePasswordForUserInSession("1234",
+            "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+
+        user = userRepository.findAll()
+            .stream()
+            .findFirst()
+            .get();
+
+        Assertions.assertThat(user.getPassword())
+            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user gives a failure")
     void testChangePassword_NotExistingUser_Exception() {
         final ThrowingCallable executable;
