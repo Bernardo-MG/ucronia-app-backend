@@ -28,6 +28,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -39,6 +40,7 @@ import com.bernardomg.association.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.mvc.error.test.util.controller.PersistenceExceptionTestController;
 
 @MvcIntegrationTest
+@AutoConfigureMockMvc
 @DisplayName("Controller error handling - persistence exceptions")
 class ITControllerPersistenceException {
 
