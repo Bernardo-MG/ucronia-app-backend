@@ -25,7 +25,7 @@
 package com.bernardomg.security.password.recovery.controller;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +46,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/password/recovery")
+@RequestMapping("/password/reset")
 @AllArgsConstructor
 public class PasswordRecoveryController {
 
@@ -62,7 +62,7 @@ public class PasswordRecoveryController {
      *            password change request
      * @return password change status
      */
-    @PutMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
     public PasswordRecoveryStatus changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
         return service.changePassword(request.getToken(), request.getPassword());
     }
@@ -74,7 +74,7 @@ public class PasswordRecoveryController {
      *            password recovery request
      * @return password recovery status
      */
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PasswordRecoveryStatus startRecovery(@Valid @RequestBody final DtoPasswordRecoveryRequest request) {
         return service.startPasswordRecovery(request.getEmail());
     }
@@ -86,7 +86,7 @@ public class PasswordRecoveryController {
      *            token validation request
      * @return token validation status
      */
-    @PutMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
     public PasswordRecoveryStatus validateToken(@Valid @RequestBody final DtoToken request) {
         return service.validateToken(request.getToken());
     }
