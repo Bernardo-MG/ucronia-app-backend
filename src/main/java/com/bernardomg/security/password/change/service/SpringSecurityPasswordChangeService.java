@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.password.change.model.ImmutablePasswordChangeStatus;
+import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -44,7 +45,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     @Override
     public final ImmutablePasswordChangeStatus changePassword(final String username, final String currentPassword,
             final String password) {
-        final boolean                  successful;
         final UserDetails              userDetails;
         final Optional<PersistentUser> readUser;
         final PersistentUser           userEntity;
@@ -54,27 +54,29 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         readUser = repository.findOneByUsername(username);
 
-        if (readUser.isPresent()) {
-            // TODO: Avoid this second query
-            userDetails = userDetailsService.loadUserByUsername(username);
-
-            successful = validatePasswordChange(userDetails, currentPassword);
-            if (successful) {
-                userEntity = readUser.get();
-                encodedPassword = passwordEncoder.encode(password);
-                userEntity.setPassword(encodedPassword);
-
-                repository.save(userEntity);
-                log.debug("Changed password for user {}", username);
-            }
-        } else {
+        if (!readUser.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            // TODO: Return failure cause somehow
-            successful = false;
+            // TODO: Improve error message
+            throw new InvalidPasswordChangeException("Couldn't change password for user, as it doesn't exist",
+                username);
         }
 
+        // TODO: Avoid this second query
+        userDetails = userDetailsService.loadUserByUsername(username);
+
+        // Make sure the user can change the password
+        validatePasswordChange(userDetails, currentPassword);
+
+        userEntity = readUser.get();
+        encodedPassword = passwordEncoder.encode(password);
+        userEntity.setPassword(encodedPassword);
+
+        repository.save(userEntity);
+
+        log.debug("Changed password for user {}", username);
+
         return ImmutablePasswordChangeStatus.builder()
-            .successful(successful)
+            .successful(true)
             .build();
     }
 
@@ -100,25 +102,21 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
      *            user's username
      * @param currentPassword
      *            current user's password
-     * @return {@code true} if the password can be changed, {@code false} otherwise
      */
-    private final boolean validatePasswordChange(final UserDetails user, final String currentPassword) {
-        final boolean valid;
-
-        // Verify the password matches is not changed
+    private final void validatePasswordChange(final UserDetails user, final String currentPassword) {
+        // Verify the current password matches the original one
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             log.warn("Received password doesn't match the one stored for username {}", user.getUsername());
-            // TODO: Return failure cause somehow
-            valid = false;
-        } else if (!isValid(user)) {
-            log.warn("User {} is not enabled", user.getUsername());
-            // TODO: Return failure cause somehow
-            valid = false;
-        } else {
-            valid = true;
+            // TODO: Improve error message
+            throw new InvalidPasswordChangeException("Received password doesn't match the one stored for username",
+                user.getUsername());
         }
 
-        return valid;
+        if (!isValid(user)) {
+            log.warn("User {} is not enabled", user.getUsername());
+            // TODO: Improve error message
+            throw new InvalidPasswordChangeException("User is not enabled", user.getUsername());
+        }
     }
 
 }

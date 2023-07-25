@@ -2,6 +2,7 @@
 package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.change.model.PasswordChangeStatus;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
+import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - user status")
@@ -31,12 +33,15 @@ class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_CredentialsExpired_Status() {
-        final PasswordChangeStatus status;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePassword("admin", "1234", "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User is not enabled");
     }
 
     @Test
@@ -47,12 +52,15 @@ class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_Disabled_Status() {
-        final PasswordChangeStatus status;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePassword("admin", "1234", "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User is not enabled");
     }
 
     @Test
@@ -79,12 +87,15 @@ class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_Expired_Status() {
-        final PasswordChangeStatus status;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePassword("admin", "1234", "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User is not enabled");
     }
 
     @Test
@@ -95,25 +106,15 @@ class ITPasswordChangeServiceUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_Locked_Status() {
-        final PasswordChangeStatus status;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePassword("admin", "1234", "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
-    }
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
-    @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a not existing user gives a failure")
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_NotExistingUser_Status() {
-        final PasswordChangeStatus status;
-
-        status = service.changePassword("admin", "1234", "abc");
-
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User is not enabled");
     }
 
 }

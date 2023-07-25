@@ -2,6 +2,7 @@
 package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.change.model.PasswordChangeStatus;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
+import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -73,24 +75,30 @@ class ITPasswordChangeService {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_IncorrectPassword_Status() {
-        final PasswordChangeStatus status;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword("admin", "def", "abc");
+        executable = () -> service.changePassword("admin", "def", "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("Received password doesn't match the one stored for username");
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user gives a failure")
     void testChangePassword_NotExistingUser_Status() {
-        final PasswordChangeStatus status;
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword("admin", "1234", "abc");
+        executable = () -> service.changePassword("admin", "1234", "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("Couldn't change password for user, as it doesn't exist");
     }
 
 }
