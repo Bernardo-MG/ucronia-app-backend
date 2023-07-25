@@ -83,7 +83,7 @@ class ITPasswordChangeService {
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Received password doesn't match the one stored for username");
+            .isEqualTo("Received a password which doesn't match the one stored for username");
     }
 
     @Test

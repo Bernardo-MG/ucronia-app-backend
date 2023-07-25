@@ -48,7 +48,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     public final ImmutablePasswordChangeStatus changePasswordForUserInSession(final String currentPassword,
             final String password) {
         final UserDetails              userDetails;
-        final Optional<PersistentUser> readUser;
+        final Optional<PersistentUser> userEntityOptional;
         final PersistentUser           userEntity;
         final String                   encodedPassword;
         final String                   username;
@@ -57,11 +57,10 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         log.debug("Changing password for user {}", username);
 
-        readUser = repository.findOneByUsername(username);
+        userEntityOptional = repository.findOneByUsername(username);
 
-        if (!readUser.isPresent()) {
+        if (!userEntityOptional.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            // TODO: Improve error message
             throw new InvalidPasswordChangeException("Couldn't change password for user, as it doesn't exist",
                 username);
         }
@@ -72,7 +71,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         validatePasswordChange(userDetails, currentPassword);
 
-        userEntity = readUser.get();
+        userEntity = userEntityOptional.get();
         encodedPassword = passwordEncoder.encode(password);
         userEntity.setPassword(encodedPassword);
 
@@ -123,9 +122,9 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     private final void validatePasswordChange(final UserDetails user, final String currentPassword) {
         // Verify the current password matches the original one
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            log.warn("Received password doesn't match the one stored for username {}", user.getUsername());
+            log.warn("Received a password which doesn't match the one stored for username {}", user.getUsername());
             // TODO: Improve error message
-            throw new InvalidPasswordChangeException("Received password doesn't match the one stored for username",
+            throw new InvalidPasswordChangeException("Received a password which doesn't match the one stored for username",
                 user.getUsername());
         }
 
