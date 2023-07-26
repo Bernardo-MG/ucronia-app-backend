@@ -60,8 +60,6 @@ class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
     @BeforeEach
     void initializeAuthentication() {
-        given(authentication.getName()).willReturn("admin");
-
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
     }
