@@ -29,17 +29,15 @@ import java.util.Optional;
 import org.springframework.security.core.token.Token;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
-import com.bernardomg.security.password.recovery.validation.PasswordRecoveryValidator;
-import com.bernardomg.security.password.recovery.validation.PasswordValidationData;
 import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.validation.Validator;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -69,29 +67,27 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
      */
-    private final SecurityMessageSender             messageSender;
+    private final SecurityMessageSender messageSender;
 
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder                   passwordEncoder;
-
-    private final Validator<PasswordValidationData> passwordRecoveryValidator = new PasswordRecoveryValidator();
+    private final PasswordEncoder       passwordEncoder;
 
     /**
      * User repository.
      */
-    private final UserRepository                    repository;
+    private final UserRepository        repository;
 
     /**
      * Token processor.
      */
-    private final TokenProcessor                    tokenProcessor;
+    private final TokenProcessor        tokenProcessor;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService                userDetailsService;
+    private final UserDetailsService    userDetailsService;
 
     public SpringSecurityPasswordRecoveryService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
@@ -169,33 +165,31 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final UserDetails              details;
         final Boolean                  valid;
         final String                   token;
-        final PasswordValidationData   validationData;
 
         log.debug("Requested password recovery for {}", email);
 
         user = repository.findOneByEmail(email);
-        validationData = PasswordValidationData.builder()
-            .user(user)
-            .email(email)
-            .build();
-        passwordRecoveryValidator.validate(validationData);
 
-        if (user.isPresent()) {
-            // TODO: Avoid this second query
-            details = userDetailsService.loadUserByUsername(user.get()
+        if (!user.isPresent()) {
+            log.error("Couldn't change password for email {}, as no user exists for it", email);
+            throw new UsernameNotFoundException(
+                String.format("Couldn't change password for email %s, as no user exists for it", email));
+        }
+
+        // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
+
+        // TODO: Avoid this second query
+        details = userDetailsService.loadUserByUsername(user.get()
+            .getUsername());
+
+        valid = isValid(details);
+        if (valid) {
+            token = tokenProcessor.generateToken(user.get()
                 .getUsername());
 
-            valid = isValid(details);
-            if (valid) {
-                token = tokenProcessor.generateToken(user.get()
-                    .getUsername());
-
-                // TODO: Handle through events
-                messageSender.sendPasswordRecoveryEmail(user.get()
-                    .getEmail(), token);
-            }
-        } else {
-            valid = false;
+            // TODO: Handle through events
+            messageSender.sendPasswordRecoveryEmail(user.get()
+                .getEmail(), token);
         }
 
         return new ImmutablePasswordRecoveryStatus(valid);
