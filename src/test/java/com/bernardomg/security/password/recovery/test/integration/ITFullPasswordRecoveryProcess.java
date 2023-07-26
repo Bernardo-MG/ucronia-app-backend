@@ -40,16 +40,12 @@ class ITFullPasswordRecoveryProcess {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testRecoverPassword_Valid() {
-        final PasswordRecoveryStatus recoveryStatus;
         final PasswordRecoveryStatus changeStatus;
         final PasswordRecoveryStatus validTokenStatus;
         final String                 token;
         final PersistentUser         user;
 
-        recoveryStatus = passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
-
-        Assertions.assertThat(recoveryStatus.getSuccessful())
-            .isTrue();
+        passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
 
         token = tokenRepository.findAll()
             .stream()

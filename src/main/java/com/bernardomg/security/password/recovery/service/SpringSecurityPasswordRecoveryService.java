@@ -160,7 +160,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     }
 
     @Override
-    public final PasswordRecoveryStatus startPasswordRecovery(final String email) {
+    public final void startPasswordRecovery(final String email) {
         final PersistentUser user;
         final String         token;
 
@@ -177,8 +177,6 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryEmail(user.getEmail(), token);
-
-        return new ImmutablePasswordRecoveryStatus(true);
     }
 
     @Override

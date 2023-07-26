@@ -41,9 +41,8 @@ public interface PasswordRecoveryService {
      *
      * @param email
      *            email for recovering the user
-     * @return the recovery attempt status
      */
-    public PasswordRecoveryStatus startPasswordRecovery(final String email);
+    public void startPasswordRecovery(final String email);
 
     /**
      * Validate a password recovery token.

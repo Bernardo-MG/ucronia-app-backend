@@ -35,7 +35,7 @@ import lombok.Data;
  *
  */
 @Data
-public final class DtoPasswordRecoveryRequest {
+public final class PasswordRecoveryRequest {
 
     /**
      * User email.

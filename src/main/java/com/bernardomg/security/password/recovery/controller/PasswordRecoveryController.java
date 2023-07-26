@@ -24,15 +24,17 @@
 
 package com.bernardomg.security.password.recovery.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
-import com.bernardomg.security.password.recovery.model.request.DtoPasswordRecoveryRequest;
 import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryChangeRequest;
+import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryRequest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.model.DtoToken;
 
@@ -75,8 +77,9 @@ public class PasswordRecoveryController {
      * @return password recovery status
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus startRecovery(@Valid @RequestBody final DtoPasswordRecoveryRequest request) {
-        return service.startPasswordRecovery(request.getEmail());
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void startRecovery(@Valid @RequestBody final PasswordRecoveryRequest request) {
+        service.startPasswordRecovery(request.getEmail());
     }
 
     /**
