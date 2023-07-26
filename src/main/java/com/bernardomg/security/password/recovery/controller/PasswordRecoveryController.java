@@ -74,7 +74,6 @@ public class PasswordRecoveryController {
      *
      * @param request
      *            password recovery request
-     * @return password recovery status
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
