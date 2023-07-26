@@ -47,28 +47,19 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String currentPassword, final String password) {
-        final Optional<PersistentUser> userEntityOptional;
-        final PersistentUser           userEntity;
-        final String                   encodedPassword;
-        final String                   username;
+        final PersistentUser userEntity;
+        final String         encodedPassword;
+        final String         username;
 
         username = getCurrentUsername();
 
         log.debug("Changing password for user {}", username);
 
-        userEntityOptional = repository.findOneByUsername(username);
-
-        // Validate the user exists
-        if (!userEntityOptional.isPresent()) {
-            log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new UsernameNotFoundException(
-                String.format("Couldn't change password for user %s, as it doesn't exist", username));
-        }
+        userEntity = getUser(username);
 
         // Make sure the user can change the password
         authorizePasswordChange(username, currentPassword);
 
-        userEntity = userEntityOptional.get();
         encodedPassword = passwordEncoder.encode(password);
         userEntity.setPassword(encodedPassword);
 
@@ -116,6 +107,21 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         }
 
         return auth.getName();
+    }
+
+    private final PersistentUser getUser(final String username) {
+        final Optional<PersistentUser> user;
+
+        user = repository.findOneByUsername(username);
+
+        // Validate the user exists
+        if (!user.isPresent()) {
+            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            throw new UsernameNotFoundException(
+                String.format("Couldn't change password for user %s, as it doesn't exist", username));
+        }
+
+        return user.get();
     }
 
     /**

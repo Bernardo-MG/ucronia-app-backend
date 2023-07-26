@@ -161,31 +161,22 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
     @Override
     public final PasswordRecoveryStatus startPasswordRecovery(final String email) {
-        final Optional<PersistentUser> user;
-        final String                   token;
+        final PersistentUser user;
+        final String         token;
 
         log.debug("Requested password recovery for {}", email);
 
-        user = repository.findOneByEmail(email);
-
-        if (!user.isPresent()) {
-            log.error("Couldn't change password for email {}, as no user exists for it", email);
-            throw new UsernameNotFoundException(
-                String.format("Couldn't change password for email %s, as no user exists for it", email));
-        }
+        user = getUser(email);
 
         // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
 
         // Make sure the user can change the password
-        authorizePasswordChange(user.get()
-            .getUsername());
+        authorizePasswordChange(user.getUsername());
 
-        token = tokenProcessor.generateToken(user.get()
-            .getUsername());
+        token = tokenProcessor.generateToken(user.getUsername());
 
         // TODO: Handle through events
-        messageSender.sendPasswordRecoveryEmail(user.get()
-            .getEmail(), token);
+        messageSender.sendPasswordRecoveryEmail(user.getEmail(), token);
 
         return new ImmutablePasswordRecoveryStatus(true);
     }
@@ -216,6 +207,21 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             log.warn("User {} is not enabled", userDetails.getUsername());
             throw new UsernameNotFoundException(String.format("User %s is not enabled", userDetails.getUsername()));
         }
+    }
+
+    private final PersistentUser getUser(final String email) {
+        final Optional<PersistentUser> user;
+
+        user = repository.findOneByEmail(email);
+
+        // Validate the user exists
+        if (!user.isPresent()) {
+            log.error("Couldn't change password for email {}, as no user exists for it", email);
+            throw new UsernameNotFoundException(
+                String.format("Couldn't change password for email %s, as no user exists for it", email));
+        }
+
+        return user.get();
     }
 
     /**
