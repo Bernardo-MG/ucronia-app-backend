@@ -162,8 +162,6 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     @Override
     public final PasswordRecoveryStatus startPasswordRecovery(final String email) {
         final Optional<PersistentUser> user;
-        final UserDetails              details;
-        final Boolean                  valid;
         final String                   token;
 
         log.debug("Requested password recovery for {}", email);
@@ -178,21 +176,18 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
         // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
 
-        // TODO: Avoid this second query
-        details = userDetailsService.loadUserByUsername(user.get()
+        // Make sure the user can change the password
+        authorizePasswordChange(user.get()
             .getUsername());
 
-        valid = isValid(details);
-        if (valid) {
-            token = tokenProcessor.generateToken(user.get()
-                .getUsername());
+        token = tokenProcessor.generateToken(user.get()
+            .getUsername());
 
-            // TODO: Handle through events
-            messageSender.sendPasswordRecoveryEmail(user.get()
-                .getEmail(), token);
-        }
+        // TODO: Handle through events
+        messageSender.sendPasswordRecoveryEmail(user.get()
+            .getEmail(), token);
 
-        return new ImmutablePasswordRecoveryStatus(valid);
+        return new ImmutablePasswordRecoveryStatus(true);
     }
 
     @Override
@@ -202,6 +197,25 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         valid = !tokenProcessor.hasExpired(token);
 
         return new ImmutablePasswordRecoveryStatus(valid);
+    }
+
+    /**
+     * Authenticates the password change attempt. If the user is not authenticated, then an exception is thrown.
+     *
+     * @param username
+     *            username for which the password is changed
+     */
+    private final void authorizePasswordChange(final String username) {
+        final UserDetails userDetails;
+
+        // TODO: Avoid this second query
+        userDetails = userDetailsService.loadUserByUsername(username);
+
+        // Verify the user is enabled
+        if (!isValid(userDetails)) {
+            log.warn("User {} is not enabled", userDetails.getUsername());
+            throw new UsernameNotFoundException(String.format("User %s is not enabled", userDetails.getUsername()));
+        }
     }
 
     /**

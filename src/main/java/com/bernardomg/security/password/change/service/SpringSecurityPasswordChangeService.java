@@ -47,7 +47,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String currentPassword, final String password) {
-        final UserDetails              userDetails;
         final Optional<PersistentUser> userEntityOptional;
         final PersistentUser           userEntity;
         final String                   encodedPassword;
@@ -66,11 +65,8 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
                 String.format("Couldn't change password for user %s, as it doesn't exist", username));
         }
 
-        // TODO: Avoid this second query
-        userDetails = userDetailsService.loadUserByUsername(username);
-
         // Make sure the user can change the password
-        authenticatePasswordChange(userDetails, currentPassword);
+        authorizePasswordChange(username, currentPassword);
 
         userEntity = userEntityOptional.get();
         encodedPassword = passwordEncoder.encode(password);
@@ -84,25 +80,29 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     /**
      * Authenticates the password change attempt. If the user is not authenticated, then an exception is thrown.
      *
-     * @param user
-     *            user for which the password is changed, or empty if no user was found
      * @param username
-     *            user's username
+     *            username for which the password is changed
      * @param currentPassword
      *            current user's password
      */
-    private final void authenticatePasswordChange(final UserDetails user, final String currentPassword) {
+    private final void authorizePasswordChange(final String username, final String currentPassword) {
+        final UserDetails userDetails;
+
+        // TODO: Avoid this second query
+        userDetails = userDetailsService.loadUserByUsername(username);
+
         // Verify the current password matches the original one
-        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            log.warn("Received a password which doesn't match the one stored for username {}", user.getUsername());
-            throw new BadCredentialsException(
-                String.format("Received a password which doesn't match the one stored for %s", user.getUsername()));
+        if (!passwordEncoder.matches(currentPassword, userDetails.getPassword())) {
+            log.warn("Received a password which doesn't match the one stored for username {}",
+                userDetails.getUsername());
+            throw new BadCredentialsException(String
+                .format("Received a password which doesn't match the one stored for %s", userDetails.getUsername()));
         }
 
         // Verify the user is enabled
-        if (!isValid(user)) {
-            log.warn("User {} is not enabled", user.getUsername());
-            throw new UsernameNotFoundException(String.format("User %s is not enabled", user.getUsername()));
+        if (!isValid(userDetails)) {
+            log.warn("User {} is not enabled", userDetails.getUsername());
+            throw new UsernameNotFoundException(String.format("User %s is not enabled", userDetails.getUsername()));
         }
     }
 
