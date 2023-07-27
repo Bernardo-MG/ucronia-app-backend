@@ -112,7 +112,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final String                   encodedPassword;
         final UserDetails              details;
         final boolean                  valid;
-        final Optional<Token>          tokenOpt;
+        final Token                    issuedToken;
 
         if (!tokenProcessor.exists(token)) {
             log.error("Token missing: {}", token);
@@ -124,42 +124,35 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
             throw new ExpiredTokenException(token);
         }
 
-        tokenOpt = tokenProcessor.decode(token);
-        if (tokenOpt.isEmpty()) {
-            log.error("Failed decoding token");
+        issuedToken = tokenProcessor.decode(token);
+        username = issuedToken.getExtendedInformation();
+
+        log.debug("Applying requested password change for {}", username);
+
+        user = repository.findOneByUsername(username);
+
+        if (user.isPresent()) {
+            // TODO: Avoid this second query
+            details = userDetailsService.loadUserByUsername(user.get()
+                .getUsername());
+
+            valid = isValid(details);
+        } else {
+            valid = false;
+        }
+
+        if (valid) {
+            successful = true;
+            entity = user.get();
+
+            encodedPassword = passwordEncoder.encode(password);
+            entity.setPassword(encodedPassword);
+
+            repository.save(entity);
+            tokenProcessor.closeToken(token);
+        } else {
             // TODO: Return failure cause somehow
             successful = false;
-        } else {
-            username = tokenOpt.get()
-                .getExtendedInformation();
-
-            log.debug("Applying requested password change for {}", username);
-
-            user = repository.findOneByUsername(username);
-
-            if (user.isPresent()) {
-                // TODO: Avoid this second query
-                details = userDetailsService.loadUserByUsername(user.get()
-                    .getUsername());
-
-                valid = isValid(details);
-            } else {
-                valid = false;
-            }
-
-            if (valid) {
-                successful = true;
-                entity = user.get();
-
-                encodedPassword = passwordEncoder.encode(password);
-                entity.setPassword(encodedPassword);
-
-                repository.save(entity);
-                tokenProcessor.closeToken(token);
-            } else {
-                // TODO: Return failure cause somehow
-                successful = false;
-            }
         }
 
         return new ImmutablePasswordRecoveryStatus(successful);

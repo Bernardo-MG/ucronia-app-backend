@@ -14,7 +14,7 @@ import com.bernardomg.security.token.persistence.provider.PersistentTokenProcess
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - has expired")
+@DisplayName("PersistentTokenProcessor - exists")
 class ITPersistentTokenProcessorExists {
 
     private final PersistentTokenProcessor validator;

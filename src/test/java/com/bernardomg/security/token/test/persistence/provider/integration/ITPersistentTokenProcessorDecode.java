@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.token.TokenService;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.test.constant.TokenConstants;
@@ -14,7 +13,7 @@ import com.bernardomg.security.token.persistence.provider.PersistentTokenProcess
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - has expired")
+@DisplayName("PersistentTokenProcessor - decode")
 class ITPersistentTokenProcessorDecode {
 
     private final PersistentTokenProcessor validator;
@@ -28,7 +27,6 @@ class ITPersistentTokenProcessorDecode {
 
     @Test
     @DisplayName("Decodes a token")
-    @Sql({ "/db/queries/security/token/valid.sql" })
     void testDecode() {
         final String token;
         final String subject;
@@ -36,24 +34,6 @@ class ITPersistentTokenProcessorDecode {
         token = TokenConstants.TOKEN;
 
         subject = validator.decode(token)
-            .get()
-            .getExtendedInformation();
-
-        Assertions.assertThat(subject)
-            .isEqualTo("admin");
-    }
-
-    @Test
-    @DisplayName("Decodes an expired token")
-    @Sql({ "/db/queries/security/token/expired.sql" })
-    void testDecode_Expired() {
-        final String token;
-        final String subject;
-
-        token = TokenConstants.TOKEN;
-
-        subject = validator.decode(token)
-            .get()
             .getExtendedInformation();
 
         Assertions.assertThat(subject)
