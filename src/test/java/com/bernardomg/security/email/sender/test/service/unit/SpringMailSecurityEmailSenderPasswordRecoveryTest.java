@@ -31,7 +31,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     }
 
     private final SecurityMessageSender getSender() {
-        return new SpringMailSecurityEmailSender("sender@host.com", "", javaMailSender);
+        return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", javaMailSender);
     }
 
     @Test
@@ -56,6 +56,18 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
         Assertions.assertThat(emailMessageCaptor.getValue()
             .getSubject())
             .isEqualTo("Password recovery");
+    }
+
+    @Test
+    @DisplayName("The message text is built correctly")
+    void testSendEmail_Text() {
+        getSender().sendPasswordRecoveryEmail("email@somewhere.com", "token");
+
+        verify(javaMailSender).send(emailMessageCaptor.capture());
+
+        Assertions.assertThat(emailMessageCaptor.getValue()
+            .getText())
+            .contains("Visit http://somewhere.com/token to reset password");
     }
 
     @Test
