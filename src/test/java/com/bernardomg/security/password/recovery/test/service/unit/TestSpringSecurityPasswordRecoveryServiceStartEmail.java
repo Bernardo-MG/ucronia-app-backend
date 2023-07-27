@@ -2,6 +2,7 @@
 package com.bernardomg.security.password.recovery.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -93,8 +94,7 @@ class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
         service.startPasswordRecovery("email@somewhere.com");
 
-        Mockito.verify(mailSender)
-            .sendPasswordRecoveryEmail(emailCaptor.capture(), ArgumentMatchers.any());
+        verify(mailSender).sendPasswordRecoveryEmail(emailCaptor.capture(), ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
             .isEqualTo("email@somewhere.com");
@@ -105,8 +105,7 @@ class TestSpringSecurityPasswordRecoveryServiceStartEmail {
     void testStartPasswordRecovery_User_EmailCall() {
         service.startPasswordRecovery("email@somewhere.com");
 
-        Mockito.verify(mailSender, Mockito.times(1))
-            .sendPasswordRecoveryEmail(ArgumentMatchers.any(), ArgumentMatchers.any());
+        verify(mailSender, Mockito.times(1)).sendPasswordRecoveryEmail(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
 
 }

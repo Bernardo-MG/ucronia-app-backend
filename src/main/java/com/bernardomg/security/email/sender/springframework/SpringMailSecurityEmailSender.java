@@ -43,32 +43,40 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final JavaMailSender mailSender;
 
-    private final String         passwordRecoverySubject = "";
+    private final String         passwordRecoverySubject = "Password recovery";
 
-    private final String         passwordRecoveryText    = "";
+    private final String         passwordRecoveryText    = "Visit %s to reset password";
+
+    private final String         passwordRecoveryUrl;
 
     private final String         signUpSubject           = "";
 
     private final String         signUpText              = "";
 
-    public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final JavaMailSender mSender) {
+    public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
+            @NonNull final JavaMailSender mSender) {
         super();
 
         fromEmail = from;
         mailSender = mSender;
+        passwordRecoveryUrl = passRecoveryUrl;
     }
 
     @Override
     public final void sendPasswordRecoveryEmail(final String email, final String token) {
         final SimpleMailMessage message;
+        final String            recoveryUrl;
+        final String            passwordRecoveryEmailText;
 
         // TODO: Use token
+        recoveryUrl = String.format("%s/%s", passwordRecoveryUrl, token);
+        passwordRecoveryEmailText = String.format(passwordRecoveryText, recoveryUrl);
 
         message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(email);
         message.setSubject(passwordRecoverySubject);
-        message.setText(passwordRecoveryText);
+        message.setText(passwordRecoveryEmailText);
         mailSender.send(message);
     }
 

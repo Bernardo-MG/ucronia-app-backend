@@ -56,7 +56,7 @@ public class SecurityEmailConfig {
     @Bean("securityEmailSender")
     @ConditionalOnBean(JavaMailSender.class)
     public SecurityMessageSender getSecurityEmailSender(final JavaMailSender mailSender) {
-        return new SpringMailSecurityEmailSender("", mailSender);
+        return new SpringMailSecurityEmailSender("", "", mailSender);
     }
 
 }
