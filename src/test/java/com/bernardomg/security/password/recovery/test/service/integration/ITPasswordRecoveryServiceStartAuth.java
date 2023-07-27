@@ -14,7 +14,7 @@ import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - recovery start")
+@DisplayName("PasswordRecoveryService - recovery start - authentication")
 class ITPasswordRecoveryServiceStartAuth {
 
     @Autowired
@@ -98,6 +98,21 @@ class ITPasswordRecoveryServiceStartAuth {
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Starting password recovery for a locked user gives an OK")
+    void testStartPasswordRecovery_NotExisting_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("Couldn't change password for email email@somewhere.com, as no user exists for it");
     }
 
 }

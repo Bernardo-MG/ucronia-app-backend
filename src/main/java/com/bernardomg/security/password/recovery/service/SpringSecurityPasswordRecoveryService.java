@@ -105,14 +105,10 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
     @Override
     public final PasswordRecoveryStatus changePassword(final String token, final String password) {
-        final Boolean                  successful;
-        final String                   username;
-        final Optional<PersistentUser> user;
-        final PersistentUser           entity;
-        final String                   encodedPassword;
-        final UserDetails              details;
-        final boolean                  valid;
-        final Token                    issuedToken;
+        final String         username;
+        final PersistentUser user;
+        final String         encodedPassword;
+        final Token          issuedToken;
 
         if (!tokenProcessor.exists(token)) {
             log.error("Token missing: {}", token);
@@ -129,33 +125,17 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
         log.debug("Applying requested password change for {}", username);
 
-        user = repository.findOneByUsername(username);
+        user = getUser(username);
 
-        if (user.isPresent()) {
-            // TODO: Avoid this second query
-            details = userDetailsService.loadUserByUsername(user.get()
-                .getUsername());
+        authorizePasswordChange(user.getUsername());
 
-            valid = isValid(details);
-        } else {
-            valid = false;
-        }
+        encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
 
-        if (valid) {
-            successful = true;
-            entity = user.get();
+        repository.save(user);
+        tokenProcessor.closeToken(token);
 
-            encodedPassword = passwordEncoder.encode(password);
-            entity.setPassword(encodedPassword);
-
-            repository.save(entity);
-            tokenProcessor.closeToken(token);
-        } else {
-            // TODO: Return failure cause somehow
-            successful = false;
-        }
-
-        return new ImmutablePasswordRecoveryStatus(successful);
+        return new ImmutablePasswordRecoveryStatus(true);
     }
 
     @Override
@@ -165,7 +145,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
         log.debug("Requested password recovery for {}", email);
 
-        user = getUser(email);
+        user = getUserByEmail(email);
 
         // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
 
@@ -206,7 +186,22 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         }
     }
 
-    private final PersistentUser getUser(final String email) {
+    private final PersistentUser getUser(final String username) {
+        final Optional<PersistentUser> user;
+
+        user = repository.findOneByUsername(username);
+
+        // Validate the user exists
+        if (!user.isPresent()) {
+            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            throw new UsernameNotFoundException(
+                String.format("Couldn't change password for user %s, as it doesn't exist", username));
+        }
+
+        return user.get();
+    }
+
+    private final PersistentUser getUserByEmail(final String email) {
         final Optional<PersistentUser> user;
 
         user = repository.findOneByEmail(email);

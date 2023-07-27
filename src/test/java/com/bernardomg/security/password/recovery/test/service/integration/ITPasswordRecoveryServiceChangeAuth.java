@@ -2,25 +2,26 @@
 package com.bernardomg.security.password.recovery.test.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.test.constant.TokenConstants;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - change password - user status")
-class ITPasswordRecoveryServiceChangeUserStatus {
+@DisplayName("PasswordRecoveryService - change password - authentication")
+class ITPasswordRecoveryServiceChangeAuth {
 
     @Autowired
     private PasswordRecoveryService service;
 
-    public ITPasswordRecoveryServiceChangeUserStatus() {
+    public ITPasswordRecoveryServiceChangeAuth() {
         super();
     }
 
@@ -32,13 +33,16 @@ class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_CredentialsExpired_Status() {
-        final PasswordRecoveryStatus status;
+    void testChangePassword_CredentialsExpired_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User admin is not enabled");
     }
 
     @Test
@@ -49,30 +53,16 @@ class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_Disabled_Status() {
-        final PasswordRecoveryStatus status;
+    void testChangePassword_Disabled_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
-    }
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
-    @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Changing password with an enabled user gives a success")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_Enabled_Status() {
-        final PasswordRecoveryStatus status;
-
-        status = service.changePassword(TokenConstants.TOKEN, "abc");
-
-        Assertions.assertThat(status.getSuccessful())
-            .isTrue();
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User admin is not enabled");
     }
 
     @Test
@@ -83,13 +73,16 @@ class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_Expired_Status() {
-        final PasswordRecoveryStatus status;
+    void testChangePassword_Expired_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User admin is not enabled");
     }
 
     @Test
@@ -100,26 +93,32 @@ class ITPasswordRecoveryServiceChangeUserStatus {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_Locked_Status() {
-        final PasswordRecoveryStatus status;
+    void testChangePassword_Locked_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User admin is not enabled");
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing user gives a failure")
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_NotExistingUser_Status() {
-        final PasswordRecoveryStatus status;
+    void testChangePassword_NotExistingUser_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
 
-        status = service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.assertThat(status.getSuccessful())
-            .isFalse();
+        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("Couldn't change password for user admin, as it doesn't exist");
     }
 
 }
