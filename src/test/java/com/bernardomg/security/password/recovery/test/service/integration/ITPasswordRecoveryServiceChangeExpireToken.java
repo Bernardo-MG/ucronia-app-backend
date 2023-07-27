@@ -2,9 +2,11 @@
 package com.bernardomg.security.password.recovery.test.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -64,8 +66,9 @@ class ITPasswordRecoveryServiceChangeExpireToken {
     @DisplayName("Changing password with an incorrect password doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testChangePassword_IncorrectPassword_NotExpireToken() {
-        final Boolean expiredBefore;
-        final Boolean expiredAfter;
+        final Boolean          expiredBefore;
+        final Boolean          expiredAfter;
+        final ThrowingCallable executable;
 
         expiredBefore = tokenRepository.findAll()
             .stream()
@@ -73,7 +76,9 @@ class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+
+        Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         expiredAfter = tokenRepository.findAll()
             .stream()
@@ -92,8 +97,9 @@ class ITPasswordRecoveryServiceChangeExpireToken {
     @DisplayName("Changing password with a not existing user doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testChangePassword_NotExistingUser_NotExpireToken() {
-        final Boolean expiredBefore;
-        final Boolean expiredAfter;
+        final Boolean          expiredBefore;
+        final Boolean          expiredAfter;
+        final ThrowingCallable executable;
 
         expiredBefore = tokenRepository.findAll()
             .stream()
@@ -101,7 +107,9 @@ class ITPasswordRecoveryServiceChangeExpireToken {
             .get()
             .getExpired();
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+
+        Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         expiredAfter = tokenRepository.findAll()
             .stream()
