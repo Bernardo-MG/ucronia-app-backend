@@ -60,7 +60,6 @@ public class PasswordChangeController {
      *
      * @param request
      *            password change request
-     * @return password change status
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)

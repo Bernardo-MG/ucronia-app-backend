@@ -15,12 +15,12 @@ import com.bernardomg.security.password.recovery.service.PasswordRecoveryService
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - recovery start")
-class ITPasswordRecoveryServiceStart {
+class ITPasswordRecoveryServiceStartAuth {
 
     @Autowired
     private PasswordRecoveryService service;
 
-    public ITPasswordRecoveryServiceStart() {
+    public ITPasswordRecoveryServiceStartAuth() {
         super();
     }
 
