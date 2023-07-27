@@ -28,7 +28,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 /**
- * DTO implementation of {@link PasswordRecovery}.
+ * Password change request.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

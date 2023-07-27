@@ -29,7 +29,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * DTO implementation of {@link PasswordRecovery}.
+ * Password recovery request.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

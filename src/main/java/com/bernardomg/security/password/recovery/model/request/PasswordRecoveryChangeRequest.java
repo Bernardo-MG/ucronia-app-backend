@@ -4,7 +4,7 @@ package com.bernardomg.security.password.recovery.model.request;
 import lombok.Data;
 
 /**
- * DTO implementation of {@link PasswordRecoveryChange}.
+ * Password change during password recovery request.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
