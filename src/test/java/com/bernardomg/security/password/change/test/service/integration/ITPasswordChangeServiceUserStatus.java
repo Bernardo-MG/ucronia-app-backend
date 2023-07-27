@@ -6,7 +6,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -37,7 +37,7 @@ class ITPasswordChangeServiceUserStatus {
 
         executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -56,7 +56,7 @@ class ITPasswordChangeServiceUserStatus {
 
         executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -75,7 +75,7 @@ class ITPasswordChangeServiceUserStatus {
 
         executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -94,7 +94,7 @@ class ITPasswordChangeServiceUserStatus {
 
         executable = () -> service.changePasswordForUserInSession("1234", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");

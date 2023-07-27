@@ -26,6 +26,7 @@ package com.bernardomg.security.password.recovery.service;
 
 import java.util.Optional;
 
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.token.Token;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -178,7 +179,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         // Verify the user is enabled
         if (!isValid(userDetails)) {
             log.warn("User {} is not enabled", userDetails.getUsername());
-            throw new UsernameNotFoundException(String.format("User %s is not enabled", userDetails.getUsername()));
+            // TODO: Use more concrete exception for the exact status
+            throw new DisabledException(String.format("User %s is not enabled", userDetails.getUsername()));
         }
     }
 
@@ -190,7 +192,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new UsernameNotFoundException(
+            // TODO: Use more concrete exception for the exact status
+            throw new DisabledException(
                 String.format("Couldn't change password for user %s, as it doesn't exist", username));
         }
 

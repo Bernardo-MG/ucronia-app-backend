@@ -4,6 +4,7 @@ package com.bernardomg.security.password.change.service;
 import java.util.Optional;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -93,7 +94,8 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Verify the user is enabled
         if (!isValid(userDetails)) {
             log.warn("User {} is not enabled", userDetails.getUsername());
-            throw new UsernameNotFoundException(String.format("User %s is not enabled", userDetails.getUsername()));
+            // TODO: Use more concrete exception for the exact status
+            throw new DisabledException(String.format("User %s is not enabled", userDetails.getUsername()));
         }
     }
 

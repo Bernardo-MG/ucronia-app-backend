@@ -6,7 +6,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -78,7 +78,7 @@ class ITPasswordRecoveryServiceChangeExpireToken {
 
         executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         expiredAfter = tokenRepository.findAll()
             .stream()
@@ -109,7 +109,7 @@ class ITPasswordRecoveryServiceChangeExpireToken {
 
         executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         expiredAfter = tokenRepository.findAll()
             .stream()

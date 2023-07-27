@@ -6,6 +6,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,7 +27,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a user with expired credentials gives an OK")
+    @DisplayName("Starting password recovery for a user with expired credentials throws an exception")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
@@ -37,7 +38,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -45,7 +46,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a disabled user gives an OK")
+    @DisplayName("Starting password recovery for a disabled user throws an exception")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
             "/db/queries/security/relationship/role_permission.sql",
@@ -56,7 +57,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -64,7 +65,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for an expired user gives an OK")
+    @DisplayName("Starting password recovery for an expired user throws an exception")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
@@ -75,7 +76,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -83,7 +84,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a locked user gives an OK")
+    @DisplayName("Starting password recovery for a locked user throws an exception")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
             "/db/queries/security/relationship/role_permission.sql",
@@ -94,7 +95,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -102,7 +103,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a locked user gives an OK")
+    @DisplayName("Starting password recovery for a locked user throws an exception")
     void testStartPasswordRecovery_NotExisting_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
