@@ -49,8 +49,8 @@ public interface PasswordRecoveryService {
      *
      * @param token
      *            token to validate
-     * @return the status indicating if the token is valid or not
+     * @return {@code true} if the token is valid, {@code false} otherwise
      */
-    public PasswordRecoveryStatus validateToken(final String token);
+    public boolean validateToken(final String token);
 
 }

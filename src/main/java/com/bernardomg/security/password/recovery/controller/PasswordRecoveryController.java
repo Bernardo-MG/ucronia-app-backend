@@ -86,10 +86,10 @@ public class PasswordRecoveryController {
      *
      * @param request
      *            token validation request
-     * @return token validation status
+     * @return {@code true} if the token is valid, {@code false} otherwise
      */
     @PostMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus validateToken(@Valid @RequestBody final DtoToken request) {
+    public boolean validateToken(@Valid @RequestBody final DtoToken request) {
         return service.validateToken(request.getToken());
     }
 

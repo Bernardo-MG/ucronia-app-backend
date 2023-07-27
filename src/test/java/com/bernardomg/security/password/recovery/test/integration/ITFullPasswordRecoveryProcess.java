@@ -41,7 +41,7 @@ class ITFullPasswordRecoveryProcess {
             "/db/queries/security/relationship/user_role.sql" })
     void testRecoverPassword_Valid() {
         final PasswordRecoveryStatus changeStatus;
-        final PasswordRecoveryStatus validTokenStatus;
+        final boolean                validTokenStatus;
         final String                 token;
         final PersistentUser         user;
 
@@ -55,7 +55,7 @@ class ITFullPasswordRecoveryProcess {
 
         validTokenStatus = passwordRecoveryService.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus.getSuccessful())
+        Assertions.assertThat(validTokenStatus)
             .isTrue();
 
         changeStatus = passwordRecoveryService.changePassword(token, "abc");

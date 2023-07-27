@@ -9,7 +9,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.test.constant.TokenConstants;
 
@@ -29,11 +28,11 @@ class ITPasswordRecoveryServiceToken {
     @DisplayName("An expired token is not verifiable")
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testValidateToken_Expired() {
-        final PasswordRecoveryStatus status;
+        final boolean status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getSuccessful())
+        Assertions.assertThat(status)
             .isFalse();
     }
 
@@ -42,11 +41,11 @@ class ITPasswordRecoveryServiceToken {
     @DisplayName("A not expired token but after expiration date is not verifiable")
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
     void testValidateToken_NotExpiredAfterExpiration() {
-        final PasswordRecoveryStatus status;
+        final boolean status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getSuccessful())
+        Assertions.assertThat(status)
             .isFalse();
     }
 
@@ -55,11 +54,11 @@ class ITPasswordRecoveryServiceToken {
     @DisplayName("A valid token is verifiable")
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testValidateToken_Valid() {
-        final PasswordRecoveryStatus status;
+        final boolean status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getSuccessful())
+        Assertions.assertThat(status)
             .isTrue();
     }
 

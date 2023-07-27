@@ -159,12 +159,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     }
 
     @Override
-    public final PasswordRecoveryStatus validateToken(final String token) {
-        final Boolean valid;
-
-        valid = !tokenProcessor.hasExpired(token);
-
-        return new ImmutablePasswordRecoveryStatus(valid);
+    public final boolean validateToken(final String token) {
+        return !tokenProcessor.hasExpired(token);
     }
 
     /**
