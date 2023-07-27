@@ -6,12 +6,12 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.exception.UserDisabledException;
+import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 @IntegrationTest
@@ -38,7 +38,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -57,7 +57,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -76,7 +76,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -95,7 +95,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, DisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is not enabled");
@@ -110,7 +110,7 @@ class ITPasswordRecoveryServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Couldn't change password for email email@somewhere.com, as no user exists for it");

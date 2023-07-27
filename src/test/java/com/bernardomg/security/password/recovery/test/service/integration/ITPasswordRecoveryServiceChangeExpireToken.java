@@ -6,11 +6,11 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.exception.UserDisabledException;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
@@ -78,7 +78,7 @@ class ITPasswordRecoveryServiceChangeExpireToken {
 
         executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.catchThrowableOfType(executable, DisabledException.class);
+        Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         expiredAfter = tokenRepository.findAll()
             .stream()
@@ -109,7 +109,7 @@ class ITPasswordRecoveryServiceChangeExpireToken {
 
         executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
 
-        Assertions.catchThrowableOfType(executable, DisabledException.class);
+        Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         expiredAfter = tokenRepository.findAll()
             .stream()
