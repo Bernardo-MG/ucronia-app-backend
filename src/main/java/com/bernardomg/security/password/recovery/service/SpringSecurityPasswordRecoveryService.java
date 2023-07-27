@@ -36,6 +36,7 @@ import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.token.exception.ExpiredTokenException;
+import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -113,11 +114,16 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         final boolean                  valid;
         final Optional<Token>          tokenOpt;
 
+        if (!tokenProcessor.exists(token)) {
+            log.error("Token missing: {}", token);
+            throw new MissingTokenException(token);
+        }
+
         if (tokenProcessor.hasExpired(token)) {
-            log.warn("Token {} has expired", token);
+            log.error("Token expired: {}", token);
             throw new ExpiredTokenException(token);
         }
-        
+
         tokenOpt = tokenProcessor.decode(token);
         if (tokenOpt.isEmpty()) {
             log.error("Failed decoding token");

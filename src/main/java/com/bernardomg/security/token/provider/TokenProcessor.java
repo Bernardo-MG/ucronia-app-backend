@@ -10,4 +10,6 @@ import com.bernardomg.security.token.TokenValidator;
 
 public interface TokenProcessor extends TokenProvider, TokenValidator, TokenDecoder<Optional<Token>> {
 
+    public boolean exists(final String token);
+
 }

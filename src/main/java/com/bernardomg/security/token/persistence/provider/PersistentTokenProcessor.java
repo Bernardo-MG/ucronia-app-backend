@@ -64,6 +64,11 @@ public final class PersistentTokenProcessor implements TokenProcessor {
     }
 
     @Override
+    public final boolean exists(final String token) {
+        return tokenRepository.existsByToken(token);
+    }
+
+    @Override
     public final String generateToken(final String subject) {
         final PersistentToken token;
         final Calendar        expiration;
