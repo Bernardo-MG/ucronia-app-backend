@@ -22,26 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.model.request;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+package com.bernardomg.security.password.reset.service;
 
 /**
- * Password recovery request.
+ * Password recovery service. Handles the steps requires to change a password.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-public final class PasswordRecoveryRequest {
+public interface PasswordResetService {
+
+    public void changePassword(final String token, final String newPassword);
 
     /**
-     * User email.
+     * Starts the password recovery for a user, identified by the mail.
+     *
+     * @param email
+     *            email for recovering the user
      */
-    @NotNull
-    @Email
-    private String email;
+    public void startPasswordRecovery(final String email);
+
+    /**
+     * Validate a password recovery token.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token is valid, {@code false} otherwise
+     */
+    public boolean validateToken(final String token);
 
 }

@@ -43,8 +43,8 @@ import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.security.password.recovery.service.SpringSecurityPasswordRecoveryService;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.TokenEncoder;
@@ -86,7 +86,7 @@ public class SecurityServiceConfig {
     }
 
     @Bean("passwordRecoveryService")
-    public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
+    public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
             final TokenService tokenService) {
@@ -94,7 +94,7 @@ public class SecurityServiceConfig {
 
         tokenProcessor = new PersistentTokenProcessor(tokenRepository, tokenService);
 
-        return new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
+        return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);
     }
 

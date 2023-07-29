@@ -34,13 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.password.change.model.request.PasswordChangeRequest;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Handles password recovery requests. All the logic is delegated to a {@link PasswordRecoveryService}.
+ * Handles password recovery requests. All the logic is delegated to a {@link PasswordChangeService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

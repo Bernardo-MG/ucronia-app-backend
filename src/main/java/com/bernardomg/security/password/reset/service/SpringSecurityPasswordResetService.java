@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.service;
+package com.bernardomg.security.password.reset.service;
 
 import java.util.Optional;
 
@@ -63,7 +63,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class SpringSecurityPasswordRecoveryService implements PasswordRecoveryService {
+public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
@@ -90,7 +90,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
      */
     private final UserDetailsService    userDetailsService;
 
-    public SpringSecurityPasswordRecoveryService(@NonNull final UserRepository repo,
+    public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
             @NonNull final TokenProcessor tProcessor, @NonNull final PasswordEncoder passEncoder) {
         super();

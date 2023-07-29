@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.model.unit;
+package com.bernardomg.security.password.reset.test.model.unit;
 
 import java.util.Set;
 
@@ -7,14 +7,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryRequest;
+import com.bernardomg.security.password.reset.model.request.PasswordResetRequest;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
 @DisplayName("DtoPasswordRecovery validation")
-class TestDtoPasswordRecoveryValidation {
+class TestPasswordResetRequestValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
@@ -22,11 +22,11 @@ class TestDtoPasswordRecoveryValidation {
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
     void validate_invalidEmail() {
-        final PasswordRecoveryRequest                           passwordRecovery;
-        final Set<ConstraintViolation<PasswordRecoveryRequest>> errors;
-        final ConstraintViolation<PasswordRecoveryRequest>      error;
+        final PasswordResetRequest                           passwordRecovery;
+        final Set<ConstraintViolation<PasswordResetRequest>> errors;
+        final ConstraintViolation<PasswordResetRequest>      error;
 
-        passwordRecovery = new PasswordRecoveryRequest();
+        passwordRecovery = new PasswordResetRequest();
         passwordRecovery.setEmail("abc");
 
         errors = validator.validate(passwordRecovery);
@@ -46,11 +46,11 @@ class TestDtoPasswordRecoveryValidation {
     @Test
     @DisplayName("A DTO missing the email is invalid")
     void validate_noEmail() {
-        final PasswordRecoveryRequest                           passwordRecovery;
-        final Set<ConstraintViolation<PasswordRecoveryRequest>> errors;
-        final ConstraintViolation<PasswordRecoveryRequest>      error;
+        final PasswordResetRequest                           passwordRecovery;
+        final Set<ConstraintViolation<PasswordResetRequest>> errors;
+        final ConstraintViolation<PasswordResetRequest>      error;
 
-        passwordRecovery = new PasswordRecoveryRequest();
+        passwordRecovery = new PasswordResetRequest();
         passwordRecovery.setEmail(null);
 
         errors = validator.validate(passwordRecovery);
@@ -70,10 +70,10 @@ class TestDtoPasswordRecoveryValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final PasswordRecoveryRequest                           passwordRecovery;
-        final Set<ConstraintViolation<PasswordRecoveryRequest>> errors;
+        final PasswordResetRequest                           passwordRecovery;
+        final Set<ConstraintViolation<PasswordResetRequest>> errors;
 
-        passwordRecovery = new PasswordRecoveryRequest();
+        passwordRecovery = new PasswordResetRequest();
         passwordRecovery.setEmail("email@somewhere.com");
 
         errors = validator.validate(passwordRecovery);

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.integration;
+package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,54 +9,37 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("Full password recovery process")
-class ITFullPasswordRecoveryProcess {
+@DisplayName("PasswordRecoveryService - change password")
+class ITPasswordResetServiceChange {
 
     @Autowired
-    private PasswordRecoveryService passwordRecoveryService;
+    private PasswordResetService service;
 
     @Autowired
-    private TokenRepository         tokenRepository;
+    private UserRepository       userRepository;
 
-    @Autowired
-    private UserRepository          userRepository;
-
-    public ITFullPasswordRecoveryProcess() {
+    public ITPasswordResetServiceChange() {
         super();
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Can follow the password recovery from start to end")
+    @DisplayName("Changing password with a valid user changes the password")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testRecoverPassword_Valid() {
-        final boolean        validTokenStatus;
-        final String         token;
+    @Sql({ "/db/queries/security/token/valid.sql" })
+    void testChangePassword_Changed() {
         final PersistentUser user;
 
-        passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
-
-        token = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getToken();
-
-        validTokenStatus = passwordRecoveryService.validateToken(token);
-
-        Assertions.assertThat(validTokenStatus)
-            .isTrue();
-
-        passwordRecoveryService.changePassword(token, "abc");
+        service.changePassword(TokenConstants.TOKEN, "abc");
 
         user = userRepository.findAll()
             .stream()

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.recovery.controller;
+package com.bernardomg.security.password.reset.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,16 +32,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryChangeRequest;
-import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryRequest;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
+import com.bernardomg.security.password.reset.model.request.PasswordResetRequest;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.model.DtoToken;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Handles password recovery requests. All the logic is delegated to a {@link PasswordRecoveryService}.
+ * Handles password recovery requests. All the logic is delegated to a {@link PasswordResetService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -49,12 +49,12 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/password/reset")
 @AllArgsConstructor
-public class PasswordRecoveryController {
+public class PasswordResetController {
 
     /**
      * Password recovery service.
      */
-    private final PasswordRecoveryService service;
+    private final PasswordResetService service;
 
     /**
      * Change password at the end of a password recovery.
@@ -64,7 +64,7 @@ public class PasswordRecoveryController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
+    public void changePassword(@Valid @RequestBody final PasswordResetChangeRequest request) {
         // TODO: Hide exceptions
         service.changePassword(request.getToken(), request.getPassword());
     }
@@ -77,7 +77,7 @@ public class PasswordRecoveryController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public void startRecovery(@Valid @RequestBody final PasswordRecoveryRequest request) {
+    public void startRecovery(@Valid @RequestBody final PasswordResetRequest request) {
         // TODO: Hide exceptions
         service.startPasswordRecovery(request.getEmail());
     }

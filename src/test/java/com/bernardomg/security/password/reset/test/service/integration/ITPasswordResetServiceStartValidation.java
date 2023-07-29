@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.integration;
+package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -11,16 +11,16 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.exception.UserNotFoundException;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - recovery start - validation")
-class ITPasswordRecoveryServiceStartValidation {
+class ITPasswordResetServiceStartValidation {
 
     @Autowired
-    private PasswordRecoveryService service;
+    private PasswordResetService service;
 
-    public ITPasswordRecoveryServiceStartValidation() {
+    public ITPasswordResetServiceStartValidation() {
         super();
     }
 

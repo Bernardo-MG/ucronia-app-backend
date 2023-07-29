@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.integration;
+package com.bernardomg.security.password.reset.test.service.integration;
 
 import java.util.Optional;
 
@@ -11,7 +11,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
@@ -20,15 +20,15 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
-class ITPasswordRecoveryServiceStartToken {
+class ITPasswordResetServiceStartToken {
 
     @Autowired
-    private PasswordRecoveryService service;
+    private PasswordResetService service;
 
     @Autowired
-    private TokenRepository         tokenRepository;
+    private TokenRepository      tokenRepository;
 
-    public ITPasswordRecoveryServiceStartToken() {
+    public ITPasswordResetServiceStartToken() {
         super();
     }
 

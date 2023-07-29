@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.integration;
+package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,17 +9,17 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.test.constant.TokenConstants;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - Token verification")
-class ITPasswordRecoveryServiceToken {
+class ITPasswordResetServiceToken {
 
     @Autowired
-    private PasswordRecoveryService service;
+    private PasswordResetService service;
 
-    public ITPasswordRecoveryServiceToken() {
+    public ITPasswordResetServiceToken() {
         super();
     }
 

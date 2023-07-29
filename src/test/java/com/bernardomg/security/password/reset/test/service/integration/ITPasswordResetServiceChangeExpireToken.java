@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.integration;
+package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -11,21 +11,21 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.exception.UserDisabledException;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - token expiration")
-class ITPasswordRecoveryServiceChangeExpireToken {
+class ITPasswordResetServiceChangeExpireToken {
 
     @Autowired
-    private PasswordRecoveryService service;
+    private PasswordResetService service;
 
     @Autowired
-    private TokenRepository         tokenRepository;
+    private TokenRepository      tokenRepository;
 
-    public ITPasswordRecoveryServiceChangeExpireToken() {
+    public ITPasswordResetServiceChangeExpireToken() {
         super();
     }
 

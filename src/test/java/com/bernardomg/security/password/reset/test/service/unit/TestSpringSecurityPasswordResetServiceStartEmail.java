@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.recovery.test.service.unit;
+package com.bernardomg.security.password.reset.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -25,37 +25,37 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.security.password.recovery.service.SpringSecurityPasswordRecoveryService;
+import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
-class TestSpringSecurityPasswordRecoveryServiceStartEmail {
+class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @Mock
-    private Authentication          authentication;
+    private Authentication        authentication;
 
     @Mock
-    private SecurityMessageSender   mailSender;
+    private SecurityMessageSender mailSender;
 
     @Mock
-    private PasswordEncoder         passwordEncoder;
+    private PasswordEncoder       passwordEncoder;
 
     @Mock
-    private UserRepository          repository;
+    private UserRepository        repository;
 
-    private PasswordRecoveryService service;
-
-    @Mock
-    private TokenProcessor          tokenProcessor;
+    private PasswordResetService  service;
 
     @Mock
-    private UserDetailsService      userDetailsService;
+    private TokenProcessor        tokenProcessor;
 
-    public TestSpringSecurityPasswordRecoveryServiceStartEmail() {
+    @Mock
+    private UserDetailsService    userDetailsService;
+
+    public TestSpringSecurityPasswordResetServiceStartEmail() {
         super();
     }
 
@@ -81,7 +81,7 @@ class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
         given(repository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
 
-        service = new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
+        service = new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);
     }
 
