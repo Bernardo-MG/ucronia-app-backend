@@ -64,6 +64,7 @@ public class PasswordRecoveryController {
      * @return password change status
      */
     @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
         // TODO: Hide exceptions
         service.changePassword(request.getToken(), request.getPassword());
