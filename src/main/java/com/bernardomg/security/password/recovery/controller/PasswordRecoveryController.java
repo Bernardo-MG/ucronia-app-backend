@@ -66,6 +66,7 @@ public class PasswordRecoveryController {
      */
     @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
     public PasswordRecoveryStatus changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
+        // TODO: Hide exceptions
         return service.changePassword(request.getToken(), request.getPassword());
     }
 
@@ -78,6 +79,7 @@ public class PasswordRecoveryController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void startRecovery(@Valid @RequestBody final PasswordRecoveryRequest request) {
+        // TODO: Hide exceptions
         service.startPasswordRecovery(request.getEmail());
     }
 
@@ -90,6 +92,7 @@ public class PasswordRecoveryController {
      */
     @PostMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean validateToken(@Valid @RequestBody final DtoToken request) {
+        // TODO: Hide exceptions
         return service.validateToken(request.getToken());
     }
 
