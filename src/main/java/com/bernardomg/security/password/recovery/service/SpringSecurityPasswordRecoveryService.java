@@ -156,7 +156,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         token = tokenProcessor.generateToken(user.getUsername());
 
         // TODO: Handle through events
-        messageSender.sendPasswordRecoveryEmail(user.getEmail(), token);
+        messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
     }
 
     @Override

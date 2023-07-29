@@ -22,12 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.email.sender.springframework;
+package com.bernardomg.security.email.sender;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 import lombok.NonNull;
 
@@ -63,7 +61,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
     }
 
     @Override
-    public final void sendPasswordRecoveryEmail(final String email, final String token) {
+    public final void sendPasswordRecoveryMessage(final String email, final String token) {
         final SimpleMailMessage message;
         final String            recoveryUrl;
         final String            passwordRecoveryEmailText;
@@ -81,7 +79,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
     }
 
     @Override
-    public final void sendSignUpEmail(final String username, final String email) {
+    public final void sendSignUpMessage(final String username, final String email) {
         final SimpleMailMessage message;
 
         message = new SimpleMailMessage();

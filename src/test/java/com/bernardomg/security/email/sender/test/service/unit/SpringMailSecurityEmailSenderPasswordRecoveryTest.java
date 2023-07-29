@@ -14,7 +14,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.email.sender.springframework.SpringMailSecurityEmailSender;
+import com.bernardomg.security.email.sender.SpringMailSecurityEmailSender;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailSecurityEmailSender - Password recovery")
@@ -37,7 +37,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @Test
     @DisplayName("The message is sent from the sender email")
     void testSendEmail_From() {
-        getSender().sendPasswordRecoveryEmail("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
@@ -49,7 +49,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @Test
     @DisplayName("The message subject is the default one")
     void testSendEmail_Subject() {
-        getSender().sendPasswordRecoveryEmail("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
@@ -61,7 +61,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @Test
     @DisplayName("The message text is built correctly")
     void testSendEmail_Text() {
-        getSender().sendPasswordRecoveryEmail("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
@@ -73,7 +73,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @Test
     @DisplayName("The message subject is sent to the target email")
     void testSendEmail_To() {
-        getSender().sendPasswordRecoveryEmail("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 

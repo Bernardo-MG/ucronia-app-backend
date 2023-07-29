@@ -94,7 +94,7 @@ class TestSpringSecurityPasswordRecoveryServiceStartEmail {
 
         service.startPasswordRecovery("email@somewhere.com");
 
-        verify(mailSender).sendPasswordRecoveryEmail(emailCaptor.capture(), ArgumentMatchers.any());
+        verify(mailSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
             .isEqualTo("email@somewhere.com");
@@ -105,7 +105,8 @@ class TestSpringSecurityPasswordRecoveryServiceStartEmail {
     void testStartPasswordRecovery_User_EmailCall() {
         service.startPasswordRecovery("email@somewhere.com");
 
-        verify(mailSender, Mockito.times(1)).sendPasswordRecoveryEmail(ArgumentMatchers.any(), ArgumentMatchers.any());
+        verify(mailSender, Mockito.times(1)).sendPasswordRecoveryMessage(ArgumentMatchers.any(),
+            ArgumentMatchers.any());
     }
 
 }
