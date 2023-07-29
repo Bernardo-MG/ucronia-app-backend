@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.password.recovery.service;
 
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
-
 /**
  * Password recovery service. Handles the steps requires to change a password.
  *
@@ -34,7 +32,7 @@ import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
  */
 public interface PasswordRecoveryService {
 
-    public PasswordRecoveryStatus changePassword(final String token, final String newPassword);
+    public void changePassword(final String token, final String newPassword);
 
     /**
      * Starts the password recovery for a user, identified by the mail.

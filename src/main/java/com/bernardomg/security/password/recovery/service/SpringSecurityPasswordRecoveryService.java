@@ -34,8 +34,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.exception.UserDisabledException;
 import com.bernardomg.security.exception.UserNotFoundException;
-import com.bernardomg.security.password.recovery.model.ImmutablePasswordRecoveryStatus;
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.provider.TokenProcessor;
@@ -105,7 +103,7 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
     }
 
     @Override
-    public final PasswordRecoveryStatus changePassword(final String token, final String password) {
+    public final void changePassword(final String token, final String password) {
         final String         username;
         final PersistentUser user;
         final String         encodedPassword;
@@ -137,8 +135,6 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         tokenProcessor.closeToken(token);
 
         log.debug("Finished password change for {}", username);
-
-        return new ImmutablePasswordRecoveryStatus(true);
     }
 
     @Override

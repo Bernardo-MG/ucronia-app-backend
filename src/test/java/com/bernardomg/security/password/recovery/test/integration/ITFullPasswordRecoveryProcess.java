@@ -9,7 +9,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
@@ -40,10 +39,9 @@ class ITFullPasswordRecoveryProcess {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testRecoverPassword_Valid() {
-        final PasswordRecoveryStatus changeStatus;
-        final boolean                validTokenStatus;
-        final String                 token;
-        final PersistentUser         user;
+        final boolean        validTokenStatus;
+        final String         token;
+        final PersistentUser user;
 
         passwordRecoveryService.startPasswordRecovery("email@somewhere.com");
 
@@ -58,10 +56,7 @@ class ITFullPasswordRecoveryProcess {
         Assertions.assertThat(validTokenStatus)
             .isTrue();
 
-        changeStatus = passwordRecoveryService.changePassword(token, "abc");
-
-        Assertions.assertThat(changeStatus.getSuccessful())
-            .isTrue();
+        passwordRecoveryService.changePassword(token, "abc");
 
         user = userRepository.findAll()
             .stream()

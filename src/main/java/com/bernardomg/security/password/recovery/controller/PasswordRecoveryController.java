@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.recovery.model.PasswordRecoveryStatus;
 import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryChangeRequest;
 import com.bernardomg.security.password.recovery.model.request.PasswordRecoveryRequest;
 import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
@@ -65,9 +64,9 @@ public class PasswordRecoveryController {
      * @return password change status
      */
     @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordRecoveryStatus changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
+    public void changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
         // TODO: Hide exceptions
-        return service.changePassword(request.getToken(), request.getPassword());
+        service.changePassword(request.getToken(), request.getPassword());
     }
 
     /**
