@@ -61,10 +61,9 @@ public class PasswordRecoveryController {
      *
      * @param request
      *            password change request
-     * @return password change status
      */
-    @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
     public void changePassword(@Valid @RequestBody final PasswordRecoveryChangeRequest request) {
         // TODO: Hide exceptions
         service.changePassword(request.getToken(), request.getPassword());
@@ -76,8 +75,8 @@ public class PasswordRecoveryController {
      * @param request
      *            password recovery request
      */
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void startRecovery(@Valid @RequestBody final PasswordRecoveryRequest request) {
         // TODO: Hide exceptions
         service.startPasswordRecovery(request.getEmail());
