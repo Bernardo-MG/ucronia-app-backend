@@ -136,6 +136,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
         repository.save(user);
         tokenProcessor.closeToken(token);
 
+        log.debug("Finished password change for {}", username);
+
         return new ImmutablePasswordRecoveryStatus(true);
     }
 
@@ -157,6 +159,8 @@ public final class SpringSecurityPasswordRecoveryService implements PasswordReco
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
+
+        log.debug("Started password recovery procedure for {}", email);
     }
 
     @Override
