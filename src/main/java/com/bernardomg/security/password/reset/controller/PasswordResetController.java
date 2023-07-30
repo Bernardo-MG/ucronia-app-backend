@@ -26,6 +26,8 @@ package com.bernardomg.security.password.reset.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
 import com.bernardomg.security.password.reset.model.request.PasswordResetRequest;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.model.DtoToken;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -89,10 +90,10 @@ public class PasswordResetController {
      *            token validation request
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
-    @PostMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean validateToken(@Valid @RequestBody final DtoToken request) {
+    @GetMapping(path = "/token/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean validateToken(@PathVariable("id") final String token) {
         // TODO: Hide exceptions
-        return service.validateToken(request.getToken());
+        return service.validateToken(token);
     }
 
 }
