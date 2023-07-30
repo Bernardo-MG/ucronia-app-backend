@@ -28,6 +28,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Email sender for security operations which integrates with Spring Mail.
@@ -35,6 +36,7 @@ import lombok.NonNull;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Slf4j
 public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
     private final String         fromEmail;
@@ -76,6 +78,8 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         message.setSubject(passwordRecoverySubject);
         message.setText(passwordRecoveryEmailText);
         mailSender.send(message);
+
+        log.debug("Sent password recovery email to {}", email);
     }
 
     @Override

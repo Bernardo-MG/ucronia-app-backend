@@ -156,7 +156,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
 
-        log.debug("Started password recovery procedure for {}", email);
+        log.debug("Finished password recovery request for {}", email);
     }
 
     @Override
