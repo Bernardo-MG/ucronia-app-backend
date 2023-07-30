@@ -52,6 +52,9 @@ local.properties
 .vscode/
 .factorypath
 
+# Docker
+.env
+
 # Windows files #
 Thumbs.db
 Desktop.ini
