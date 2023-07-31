@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.password.reset.model.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -15,11 +16,7 @@ public class PasswordResetChangeRequest {
     /**
      * The new password.
      */
+    @NotNull
     private String password;
-
-    /**
-     * The password change token. Used to authenticate change.
-     */
-    private String token;
 
 }

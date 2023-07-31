@@ -64,9 +64,10 @@ public class PasswordResetController {
      *            password change request
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void changePassword(@Valid @RequestBody final PasswordResetChangeRequest request) {
-        service.changePassword(request.getToken(), request.getPassword());
+    @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void changePassword(@PathVariable("token") final String token,
+            @Valid @RequestBody final PasswordResetChangeRequest request) {
+        service.changePassword(token, request.getPassword());
     }
 
     /**
@@ -89,7 +90,7 @@ public class PasswordResetController {
      *            token to validate
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
-    @GetMapping(path = "/token/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean validateToken(@PathVariable("token") final String token) {
         return service.validateToken(token);
     }
