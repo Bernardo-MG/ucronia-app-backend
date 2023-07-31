@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.token.test.persistence.provider.integration;
 
+import java.util.Calendar;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +55,7 @@ class ITPersistentTokenProcessorGenerateToken {
         Assertions.assertThat(token.getToken())
             .isNotNull();
         Assertions.assertThat(token.getExpirationDate())
-            .isNotNull();
+        .isGreaterThan(Calendar.getInstance());
         Assertions.assertThat(token.getConsumed())
             .isFalse();
         Assertions.assertThat(token.getExpired())
