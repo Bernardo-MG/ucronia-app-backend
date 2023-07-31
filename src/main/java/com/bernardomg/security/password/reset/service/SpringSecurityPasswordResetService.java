@@ -161,6 +161,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final boolean validateToken(final String token) {
+        // TODO: Differentiate between expired and not existing
         return !tokenProcessor.hasExpired(token);
     }
 
