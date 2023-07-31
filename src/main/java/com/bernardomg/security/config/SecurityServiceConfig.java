@@ -48,9 +48,9 @@ import com.bernardomg.security.password.reset.service.SpringSecurityPasswordRese
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
 import com.bernardomg.security.token.TokenEncoder;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenStore;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.provider.TokenStore;
+import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**

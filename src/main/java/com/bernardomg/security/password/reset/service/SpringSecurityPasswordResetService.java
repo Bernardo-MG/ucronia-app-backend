@@ -36,7 +36,7 @@ import com.bernardomg.security.exception.UserDisabledException;
 import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.provider.TokenStore;
+import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 

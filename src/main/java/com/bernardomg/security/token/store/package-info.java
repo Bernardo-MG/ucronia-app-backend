@@ -26,4 +26,4 @@
  * Token components.
  */
 
-package com.bernardomg.security.token.provider;
+package com.bernardomg.security.token.store;

@@ -10,8 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.test.constant.TokenConstants;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenStore;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.store.PersistentTokenStore;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - has expired")

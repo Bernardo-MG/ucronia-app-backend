@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.persistence.provider;
+package com.bernardomg.security.token.store;
 
 import java.util.Calendar;
 import java.util.Optional;
@@ -9,7 +9,6 @@ import org.springframework.security.core.token.TokenService;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.provider.TokenStore;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
