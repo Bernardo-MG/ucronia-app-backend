@@ -94,6 +94,12 @@ public final class PersistentTokenProcessor implements TokenProcessor {
                 // Expired
                 // It isn't a valid token
                 expired = true;
+                log.debug("Expired token: {}", token);
+            } else if (entity.getConsumed()) {
+                // Consumed
+                // It isn't a valid token
+                expired = true;
+                log.debug("Consumed token: {}", token);
             } else {
                 // Not expired
                 // Verifies the expiration date is after the current date

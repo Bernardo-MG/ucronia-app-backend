@@ -193,16 +193,22 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
+                  name: expiration_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
                   name: expired
                   type: boolean
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
               - column:
-                  name: expiration_date
-                  type: datetime
+                  name: consumed
+                  type: boolean
                   constraints:
                     nullable: false
+                  defaultValueBoolean: false
   - changeSet:
       id: security_views
       author: Bernardo

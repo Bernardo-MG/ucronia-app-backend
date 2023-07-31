@@ -102,7 +102,7 @@ public class PersistentUser implements Serializable {
     /**
      * User name.
      */
-    @Column(name = "name", nullable = false, unique = true, length = 60)
+    @Column(name = "name", nullable = false, length = 60)
     private String            name;
 
     /**

@@ -42,7 +42,22 @@ class ITPersistentTokenProcessorExists {
     }
 
     @Test
-    @DisplayName("A expired token has expired")
+    @DisplayName("A consumed token has expired")
+    @Sql({ "/db/queries/security/token/expired.sql" })
+    void testHasExpired_Consumed() {
+        final String  token;
+        final Boolean expired;
+
+        token = TokenConstants.TOKEN;
+
+        expired = validator.hasExpired(token);
+
+        Assertions.assertThat(expired)
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("An expired token has expired")
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testHasExpired_Expired() {
         final String  token;

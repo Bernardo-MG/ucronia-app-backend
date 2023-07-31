@@ -22,10 +22,13 @@ public class PersistentToken implements Serializable {
 
     private static final long serialVersionUID = -216369933325209746L;
 
+    @Column(name = "consumed", nullable = false)
+    private Boolean           consumed;
+
     @Column(name = "expiration_date", nullable = false)
     private Calendar          expirationDate;
 
-    @Column(name = "expired", nullable = false, unique = true)
+    @Column(name = "expired", nullable = false)
     private Boolean           expired;
 
     /**

@@ -25,7 +25,20 @@ class ITPasswordResetServiceToken {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("An expired token is not verifiable")
+    @DisplayName("A consumed token is not valid")
+    @Sql({ "/db/queries/security/token/consumed.sql" })
+    void testValidateToken_Consumed() {
+        final boolean status;
+
+        status = service.validateToken(TokenConstants.TOKEN);
+
+        Assertions.assertThat(status)
+            .isFalse();
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("An expired token is not valid")
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testValidateToken_Expired() {
         final boolean status;
@@ -38,7 +51,7 @@ class ITPasswordResetServiceToken {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("A not expired token but after expiration date is not verifiable")
+    @DisplayName("A not expired token but after expiration date is not valid")
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
     void testValidateToken_NotExpiredAfterExpiration() {
         final boolean status;
@@ -51,7 +64,7 @@ class ITPasswordResetServiceToken {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("A valid token is verifiable")
+    @DisplayName("A valid token is valid")
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testValidateToken_Valid() {
         final boolean status;
