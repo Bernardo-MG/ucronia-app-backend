@@ -36,7 +36,7 @@ import com.bernardomg.security.exception.UserDisabledException;
 import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.provider.TokenProcessor;
+import com.bernardomg.security.token.provider.TokenStore;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -83,7 +83,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     /**
      * Token processor.
      */
-    private final TokenProcessor        tokenProcessor;
+    private final TokenStore<Token>     tokenStore;
 
     /**
      * User details service, to find and validate users.
@@ -92,13 +92,13 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenProcessor tProcessor, @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final TokenStore<Token> tProcessor, @NonNull final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
         userDetailsService = userDetsService;
         messageSender = mSender;
-        tokenProcessor = tProcessor;
+        tokenStore = tProcessor;
         passwordEncoder = passEncoder;
     }
 
@@ -109,17 +109,17 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final String         encodedPassword;
         final Token          issuedToken;
 
-        if (!tokenProcessor.exists(token)) {
+        if (!tokenStore.exists(token)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
-        if (tokenProcessor.hasExpired(token)) {
+        if (!tokenStore.isValid(token)) {
             log.error("Token expired: {}", token);
             throw new ExpiredTokenException(token);
         }
 
-        issuedToken = tokenProcessor.decode(token);
+        issuedToken = tokenStore.decode(token);
         username = issuedToken.getExtendedInformation();
 
         log.debug("Applying requested password change for {}", username);
@@ -132,7 +132,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         user.setPassword(encodedPassword);
 
         repository.save(user);
-        tokenProcessor.closeToken(token);
+        tokenStore.closeToken(token);
 
         log.debug("Finished password change for {}", username);
     }
@@ -151,7 +151,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Make sure the user can change the password
         authorizePasswordChange(user.getUsername());
 
-        token = tokenProcessor.generateToken(user.getUsername());
+        token = tokenStore.generateToken(user.getUsername());
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
@@ -161,8 +161,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final boolean validateToken(final String token) {
-        // TODO: Differentiate between expired and not existing
-        return !tokenProcessor.hasExpired(token);
+        return tokenStore.isValid(token);
     }
 
     /**

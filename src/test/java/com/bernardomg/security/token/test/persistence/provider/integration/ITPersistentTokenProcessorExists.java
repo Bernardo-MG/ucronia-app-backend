@@ -10,80 +10,80 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.test.constant.TokenConstants;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
+import com.bernardomg.security.token.persistence.provider.PersistentTokenStore;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - exists")
+@DisplayName("PersistentTokenProcessor - is valid")
 class ITPersistentTokenProcessorExists {
 
-    private final PersistentTokenProcessor validator;
+    private final PersistentTokenStore validator;
 
     @Autowired
     public ITPersistentTokenProcessorExists(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
-        validator = new PersistentTokenProcessor(tokenRepository, tokenService);
+        validator = new PersistentTokenStore(tokenRepository, tokenService);
     }
 
     @Test
-    @DisplayName("A token after the expiration date has expired")
+    @DisplayName("A token after the expiration date is invalid")
     @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    void testHasExpired_AfterExpirationDate() {
+    void testIsValid_AfterExpirationDate() {
         final String  token;
-        final Boolean expired;
+        final Boolean valid;
 
         token = TokenConstants.TOKEN;
 
-        expired = validator.hasExpired(token);
+        valid = validator.isValid(token);
 
-        Assertions.assertThat(expired)
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("A consumed token has expired")
-    @Sql({ "/db/queries/security/token/expired.sql" })
-    void testHasExpired_Consumed() {
-        final String  token;
-        final Boolean expired;
-
-        token = TokenConstants.TOKEN;
-
-        expired = validator.hasExpired(token);
-
-        Assertions.assertThat(expired)
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("An expired token has expired")
-    @Sql({ "/db/queries/security/token/expired.sql" })
-    void testHasExpired_Expired() {
-        final String  token;
-        final Boolean expired;
-
-        token = TokenConstants.TOKEN;
-
-        expired = validator.hasExpired(token);
-
-        Assertions.assertThat(expired)
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("A valid token has not expired")
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    void testHasExpired_Valid() {
-        final String  token;
-        final Boolean expired;
-
-        token = TokenConstants.TOKEN;
-
-        expired = validator.hasExpired(token);
-
-        Assertions.assertThat(expired)
+        Assertions.assertThat(valid)
             .isFalse();
+    }
+
+    @Test
+    @DisplayName("A consumed token is invalid")
+    @Sql({ "/db/queries/security/token/expired.sql" })
+    void testIsValid_Consumed() {
+        final String  token;
+        final Boolean valid;
+
+        token = TokenConstants.TOKEN;
+
+        valid = validator.isValid(token);
+
+        Assertions.assertThat(valid)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("An expired token is invalid")
+    @Sql({ "/db/queries/security/token/expired.sql" })
+    void testIsValid_Expired() {
+        final String  token;
+        final Boolean valid;
+
+        token = TokenConstants.TOKEN;
+
+        valid = validator.isValid(token);
+
+        Assertions.assertThat(valid)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("A valid token is valid")
+    @Sql({ "/db/queries/security/token/valid.sql" })
+    void testIsValid_Valid() {
+        final String  token;
+        final Boolean valid;
+
+        token = TokenConstants.TOKEN;
+
+        valid = validator.isValid(token);
+
+        Assertions.assertThat(valid)
+            .isTrue();
     }
 
 }

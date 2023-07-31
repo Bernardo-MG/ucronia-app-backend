@@ -9,19 +9,19 @@ import org.springframework.security.core.token.TokenService;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.provider.TokenProcessor;
+import com.bernardomg.security.token.provider.TokenStore;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class PersistentTokenProcessor implements TokenProcessor {
+public final class PersistentTokenStore implements TokenStore<Token> {
 
     private final TokenRepository tokenRepository;
 
     private final TokenService    tokenService;
 
-    public PersistentTokenProcessor(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
+    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
         super();
 
         tokenRepository = tRepository;
@@ -82,10 +82,10 @@ public final class PersistentTokenProcessor implements TokenProcessor {
     }
 
     @Override
-    public final Boolean hasExpired(final String token) {
+    public final Boolean isValid(final String token) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
-        final Boolean                   expired;
+        final Boolean                   valid;
 
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
@@ -93,25 +93,25 @@ public final class PersistentTokenProcessor implements TokenProcessor {
             if (entity.getExpired()) {
                 // Expired
                 // It isn't a valid token
-                expired = true;
+                valid = false;
                 log.debug("Expired token: {}", token);
             } else if (entity.getConsumed()) {
                 // Consumed
                 // It isn't a valid token
-                expired = true;
+                valid = false;
                 log.debug("Consumed token: {}", token);
             } else {
                 // Not expired
                 // Verifies the expiration date is after the current date
-                expired = Calendar.getInstance()
-                    .after(entity.getExpirationDate());
+                valid = entity.getExpirationDate()
+                    .after(Calendar.getInstance());
             }
         } else {
             log.warn("Token not registered: {}", token);
-            expired = true;
+            valid = false;
         }
 
-        return expired;
+        return valid;
     }
 
 }
