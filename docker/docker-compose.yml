@@ -56,7 +56,7 @@ services:
             - spring.mail.properties.mail.smtp.auth=true
             - spring.mail.properties.mail.smtp.starttls.enable=true
             - security.email.from=${SECURITY_EMAIL_FROM}
-            - security.email.passwordRecoveryUrl=http://localhost:4200/change
+            - security.email.passwordRecoveryUrl=http://localhost:4200/password_reset/
         volumes:
             - association-logs:/logs
 volumes:

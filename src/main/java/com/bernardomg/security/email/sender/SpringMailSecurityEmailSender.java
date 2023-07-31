@@ -68,8 +68,8 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         final String            recoveryUrl;
         final String            passwordRecoveryEmailText;
 
-        // TODO: Use token
-        recoveryUrl = String.format("%s/%s", passwordRecoveryUrl, token);
+        // TODO: Verify the URL contains a /
+        recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
         passwordRecoveryEmailText = String.format(passwordRecoveryText, recoveryUrl);
 
         message = new SimpleMailMessage();
