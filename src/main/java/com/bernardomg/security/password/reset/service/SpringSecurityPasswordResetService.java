@@ -107,7 +107,6 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final String         username;
         final PersistentUser user;
         final String         encodedPassword;
-        final Token          issuedToken;
 
         if (!tokenStore.exists(token)) {
             log.error("Token missing: {}", token);
@@ -119,8 +118,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             throw new ExpiredTokenException(token);
         }
 
-        issuedToken = tokenStore.decode(token);
-        username = issuedToken.getExtendedInformation();
+        username = tokenStore.decode(token).getExtendedInformation();
 
         log.debug("Applying requested password change for {}", username);
 

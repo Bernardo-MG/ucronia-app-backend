@@ -74,6 +74,7 @@ public final class PersistentTokenStore implements TokenStore<Token> {
         token = new PersistentToken();
         token.setToken(uniqueID);
         token.setExpired(false);
+        token.setConsumed(false);
         token.setExpirationDate(expiration);
 
         tokenRepository.save(token);
