@@ -25,6 +25,7 @@
 package com.bernardomg.security.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,9 +63,10 @@ public class SecurityEmailConfig {
     @Bean("securityEmailSender")
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public SecurityMessageSender getSecurityEmailSender(final SecurityEmailProperties properties,
-            final JavaMailSender mailSender) {
+            final MailProperties mailProperties, final JavaMailSender mailSender) {
         log.debug("Using email for security messages");
-        return new SpringMailSecurityEmailSender(properties.getFrom(), properties.getPasswordRecoveryUrl(), mailSender);
+        return new SpringMailSecurityEmailSender(mailProperties.getUsername(), properties.getPasswordRecoveryUrl(),
+            mailSender);
     }
 
 }
