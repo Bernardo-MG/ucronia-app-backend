@@ -91,6 +91,7 @@ public final class PersistentTokenStore implements TokenStore<Token> {
         if (read.isPresent()) {
             entity = read.get();
             if (entity.getExpired()) {
+                // TODO: Should expire automatically
                 // Expired
                 // It isn't a valid token
                 valid = false;
