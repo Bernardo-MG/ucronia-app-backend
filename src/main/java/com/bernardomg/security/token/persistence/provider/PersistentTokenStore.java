@@ -29,7 +29,7 @@ public final class PersistentTokenStore implements TokenStore<Token> {
     }
 
     @Override
-    public final void closeToken(final String token) {
+    public final void consumeToken(final String token) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
 
@@ -37,11 +37,11 @@ public final class PersistentTokenStore implements TokenStore<Token> {
 
         if (read.isPresent()) {
             if (read.get()
-                .getExpired()) {
-                log.warn("Token already expired: {}", token);
+                .getConsumed()) {
+                log.warn("Token already consumed: {}", token);
             } else {
                 entity = read.get();
-                entity.setExpired(true);
+                entity.setConsumed(true);
                 tokenRepository.save(entity);
             }
         } else {

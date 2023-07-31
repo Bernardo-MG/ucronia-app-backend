@@ -3,7 +3,7 @@ package com.bernardomg.security.token.provider;
 
 public interface TokenStore<T> {
 
-    public void closeToken(final String token);
+    public void consumeToken(final String token);
 
     /**
      * Returns an object decoded from the token.

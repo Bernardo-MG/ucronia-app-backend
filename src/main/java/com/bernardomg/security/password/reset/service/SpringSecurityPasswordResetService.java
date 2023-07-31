@@ -130,7 +130,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         user.setPassword(encodedPassword);
 
         repository.save(user);
-        tokenStore.closeToken(token);
+        tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);
     }
