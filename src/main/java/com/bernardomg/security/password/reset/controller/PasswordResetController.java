@@ -66,7 +66,6 @@ public class PasswordResetController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/change", produces = MediaType.APPLICATION_JSON_VALUE)
     public void changePassword(@Valid @RequestBody final PasswordResetChangeRequest request) {
-        // TODO: Hide exceptions
         service.changePassword(request.getToken(), request.getPassword());
     }
 
@@ -79,7 +78,7 @@ public class PasswordResetController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void startRecovery(@Valid @RequestBody final PasswordResetRequest request) {
-        // TODO: Hide exceptions
+        // TODO: Hide exceptions for invalid user
         service.startPasswordRecovery(request.getEmail());
     }
 
@@ -92,7 +91,6 @@ public class PasswordResetController {
      */
     @GetMapping(path = "/token/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean validateToken(@PathVariable("token") final String token) {
-        // TODO: Hide exceptions
         return service.validateToken(token);
     }
 
