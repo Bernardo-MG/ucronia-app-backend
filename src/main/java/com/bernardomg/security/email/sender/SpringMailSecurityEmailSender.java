@@ -69,7 +69,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         final String            passwordRecoveryEmailText;
 
         // TODO: Verify the URL contains a /
-        if(passwordRecoveryUrl.endsWith("/")) {
+        if (passwordRecoveryUrl.endsWith("/")) {
             recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
         } else {
             recoveryUrl = String.format("%s/%s", passwordRecoveryUrl, token);

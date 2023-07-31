@@ -118,7 +118,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             throw new ExpiredTokenException(token);
         }
 
-        username = tokenStore.decode(token).getExtendedInformation();
+        username = tokenStore.decode(token)
+            .getExtendedInformation();
 
         log.debug("Applying requested password change for {}", username);
 
