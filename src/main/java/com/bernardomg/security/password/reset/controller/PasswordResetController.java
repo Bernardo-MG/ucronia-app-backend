@@ -86,12 +86,12 @@ public class PasswordResetController {
     /**
      * Validates a token.
      *
-     * @param request
-     *            token validation request
+     * @param token
+     *            token to validate
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
     @GetMapping(path = "/token/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean validateToken(@PathVariable("id") final String token) {
+    public boolean validateToken(@PathVariable("token") final String token) {
         // TODO: Hide exceptions
         return service.validateToken(token);
     }
