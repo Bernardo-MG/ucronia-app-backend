@@ -34,6 +34,10 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
         return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", javaMailSender);
     }
 
+    private final SecurityMessageSender getSenderWithBarOnUrl() {
+        return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", javaMailSender);
+    }
+
     @Test
     @DisplayName("The message is sent from the sender email")
     void testSendEmail_From() {
@@ -62,6 +66,18 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @DisplayName("The message text is built correctly")
     void testSendEmail_Text() {
         getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
+
+        verify(javaMailSender).send(emailMessageCaptor.capture());
+
+        Assertions.assertThat(emailMessageCaptor.getValue()
+            .getText())
+            .contains("Visit http://somewhere.com/token to reset password");
+    }
+
+    @Test
+    @DisplayName("The message text is built correctly when the URL ends with a bar")
+    void testSendEmail_Text_Bar() {
+        getSenderWithBarOnUrl().sendPasswordRecoveryMessage("email@somewhere.com", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
