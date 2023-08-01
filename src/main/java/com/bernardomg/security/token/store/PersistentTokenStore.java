@@ -59,25 +59,27 @@ public final class PersistentTokenStore implements TokenStore<Token> {
     }
 
     @Override
-    public final String generateToken(final String subject) {
-        final PersistentToken token;
+    public final String generateToken(final Long userId, final String username) {
+        final PersistentToken persistentToken;
         final Calendar        expiration;
-        final String          uniqueID;
+        final String          tokenCode;
 
+        // TODO: This should be configurable
         expiration = Calendar.getInstance();
         expiration.add(Calendar.DATE, 1);
 
-        uniqueID = tokenService.allocateToken(subject)
+        tokenCode = tokenService.allocateToken(username)
             .getKey();
 
-        token = new PersistentToken();
-        token.setToken(uniqueID);
-        token.setConsumed(false);
-        token.setExpirationDate(expiration);
+        persistentToken = new PersistentToken();
+        persistentToken.setUserId(userId);
+        persistentToken.setToken(tokenCode);
+        persistentToken.setConsumed(false);
+        persistentToken.setExpirationDate(expiration);
 
-        tokenRepository.save(token);
+        tokenRepository.save(persistentToken);
 
-        return uniqueID;
+        return tokenCode;
     }
 
     @Override
