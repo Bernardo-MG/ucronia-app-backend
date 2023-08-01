@@ -26,7 +26,6 @@ package com.bernardomg.security.password.reset.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.token.Token;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,7 +82,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     /**
      * Token processor.
      */
-    private final TokenStore<Token>     tokenStore;
+    private final TokenStore<String>    tokenStore;
 
     /**
      * User details service, to find and validate users.
@@ -92,7 +91,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore<Token> tProcessor, @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final TokenStore<String> tProcessor, @NonNull final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
@@ -118,8 +117,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             throw new ExpiredTokenException(token);
         }
 
-        username = tokenStore.decode(token)
-            .getExtendedInformation();
+        username = tokenStore.decode(token);
 
         log.debug("Applying requested password change for {}", username);
 

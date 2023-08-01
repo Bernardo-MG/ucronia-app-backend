@@ -4,7 +4,6 @@ package com.bernardomg.security.token.store;
 import java.util.Calendar;
 import java.util.Optional;
 
-import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
@@ -14,7 +13,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class PersistentTokenStore implements TokenStore<Token> {
+public final class PersistentTokenStore implements TokenStore<String> {
 
     private final TokenRepository tokenRepository;
 
@@ -49,8 +48,9 @@ public final class PersistentTokenStore implements TokenStore<Token> {
     }
 
     @Override
-    public final Token decode(final String token) {
-        return tokenService.verifyToken(token);
+    public final String decode(final String token) {
+        return tokenService.verifyToken(token)
+            .getExtendedInformation();
     }
 
     @Override

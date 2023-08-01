@@ -33,8 +33,7 @@ class ITPersistentTokenProcessorDecode {
 
         token = TokenConstants.TOKEN;
 
-        subject = store.decode(token)
-            .getExtendedInformation();
+        subject = store.decode(token);
 
         Assertions.assertThat(subject)
             .isEqualTo("admin");

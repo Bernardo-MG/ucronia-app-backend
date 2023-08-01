@@ -30,7 +30,6 @@ import java.util.function.Predicate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
-import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -91,7 +90,7 @@ public class SecurityServiceConfig {
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
             final TokenService tokenService) {
-        final TokenStore<Token> tokenProcessor;
+        final TokenStore<String> tokenProcessor;
 
         tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService);
 
