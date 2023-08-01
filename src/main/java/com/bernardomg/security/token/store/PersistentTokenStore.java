@@ -31,8 +31,6 @@ public final class PersistentTokenStore implements TokenStore<Token> {
     public final void consumeToken(final String token) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
-        
-        // TODO: Test this
 
         read = tokenRepository.findOneByToken(token);
 
