@@ -95,8 +95,8 @@ public final class PersistentTokenStore implements TokenStore<Token> {
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
-            if (entity.getExpirationDate()
-                .after(Calendar.getInstance())) {
+            if (Calendar.getInstance()
+                .after(entity.getExpirationDate())) {
                 // Expired
                 // It isn't a valid token
                 valid = false;
