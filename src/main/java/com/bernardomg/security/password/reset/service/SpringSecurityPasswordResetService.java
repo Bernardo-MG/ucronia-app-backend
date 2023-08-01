@@ -82,7 +82,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     /**
      * Token processor.
      */
-    private final TokenStore<String>    tokenStore;
+    private final TokenStore            tokenStore;
 
     /**
      * User details service, to find and validate users.
@@ -91,7 +91,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore<String> tProcessor, @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final TokenStore tProcessor, @NonNull final PasswordEncoder passEncoder) {
         super();
 
         repository = repo;
@@ -117,7 +117,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             throw new ExpiredTokenException(token);
         }
 
-        username = tokenStore.decode(token);
+        username = tokenStore.getUsername(token);
 
         log.debug("Applying requested password change for {}", username);
 

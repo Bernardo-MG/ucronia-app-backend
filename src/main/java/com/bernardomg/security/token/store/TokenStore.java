@@ -1,18 +1,9 @@
 
 package com.bernardomg.security.token.store;
 
-public interface TokenStore<T> {
+public interface TokenStore {
 
     public void consumeToken(final String token);
-
-    /**
-     * Returns an object decoded from the token.
-     *
-     * @param token
-     *            token to decode as the object
-     * @return object from the token
-     */
-    public T decode(final String token);
 
     public boolean exists(final String token);
 
@@ -26,6 +17,15 @@ public interface TokenStore<T> {
      * @return token for the subject
      */
     public String generateToken(final Long userId, final String username);
+
+    /**
+     * Returns the username for the token.
+     *
+     * @param token
+     *            token to decode as the object
+     * @return username for the token
+     */
+    public String getUsername(final String token);
 
     /**
      * Check if the token has expired.

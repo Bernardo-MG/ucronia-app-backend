@@ -13,7 +13,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class PersistentTokenStore implements TokenStore<String> {
+public final class PersistentTokenStore implements TokenStore {
 
     private final TokenRepository tokenRepository;
 
@@ -45,12 +45,6 @@ public final class PersistentTokenStore implements TokenStore<String> {
         } else {
             log.warn("Token not registered: {}", token);
         }
-    }
-
-    @Override
-    public final String decode(final String token) {
-        return tokenService.verifyToken(token)
-            .getExtendedInformation();
     }
 
     @Override
@@ -87,10 +81,18 @@ public final class PersistentTokenStore implements TokenStore<String> {
     }
 
     @Override
+    public final String getUsername(final String token) {
+        return tokenService.verifyToken(token)
+            .getExtendedInformation();
+    }
+
+    @Override
     public final Boolean isValid(final String token) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   valid;
+        
+        // TODO: Use the token service to verify it
 
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {

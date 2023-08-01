@@ -90,7 +90,7 @@ public class SecurityServiceConfig {
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
             final TokenService tokenService) {
-        final TokenStore<String> tokenProcessor;
+        final TokenStore tokenProcessor;
 
         tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService);
 
