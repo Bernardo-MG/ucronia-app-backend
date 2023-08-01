@@ -58,8 +58,6 @@ class ITPersistentTokenProcessorGenerateToken {
             .isGreaterThan(Calendar.getInstance());
         Assertions.assertThat(token.getConsumed())
             .isFalse();
-        Assertions.assertThat(token.getExpired())
-            .isFalse();
     }
 
     @Test

@@ -187,11 +187,23 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_token_tables_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
                   name: token
-                  type: varchar(500)
+                  type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
+              - column:
+                  name: creation_date
+                  type: datetime
+                  constraints:
+                    nullable: false
               - column:
                   name: expiration_date
                   type: datetime
@@ -199,12 +211,6 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: expired
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValueBoolean: false
-              - column:
-                  name: consumed
                   type: boolean
                   constraints:
                     nullable: false

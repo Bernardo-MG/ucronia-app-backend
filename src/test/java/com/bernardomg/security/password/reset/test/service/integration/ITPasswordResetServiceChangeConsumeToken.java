@@ -38,16 +38,9 @@ class ITPasswordResetServiceChangeConsumeToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testChangePassword_Existing_ConsumeToken() {
-        final Boolean expiredBefore;
-        final Boolean expiredAfter;
         final Boolean consumedBefore;
         final Boolean consumedAfter;
 
-        expiredBefore = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getExpired();
         consumedBefore = tokenRepository.findAll()
             .stream()
             .findFirst()
@@ -56,24 +49,15 @@ class ITPasswordResetServiceChangeConsumeToken {
 
         service.changePassword(TokenConstants.TOKEN, "abc");
 
-        expiredAfter = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getExpired();
         consumedAfter = tokenRepository.findAll()
             .stream()
             .findFirst()
             .get()
             .getConsumed();
 
-        Assertions.assertThat(expiredBefore)
-            .isFalse();
         Assertions.assertThat(consumedBefore)
             .isFalse();
 
-        Assertions.assertThat(expiredAfter)
-            .isFalse();
         Assertions.assertThat(consumedAfter)
             .isTrue();
     }
@@ -83,17 +67,10 @@ class ITPasswordResetServiceChangeConsumeToken {
     @DisplayName("Changing password with a not existing user doesn't mark the token as expired")
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testChangePassword_NotExistingUser_NotConsumeToken() {
-        final Boolean          expiredBefore;
-        final Boolean          expiredAfter;
         final Boolean          consumedBefore;
         final Boolean          consumedAfter;
         final ThrowingCallable executable;
 
-        expiredBefore = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getExpired();
         consumedBefore = tokenRepository.findAll()
             .stream()
             .findFirst()
@@ -104,24 +81,15 @@ class ITPasswordResetServiceChangeConsumeToken {
 
         Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
-        expiredAfter = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getExpired();
         consumedAfter = tokenRepository.findAll()
             .stream()
             .findFirst()
             .get()
             .getConsumed();
 
-        Assertions.assertThat(expiredBefore)
-            .isFalse();
         Assertions.assertThat(consumedBefore)
             .isFalse();
 
-        Assertions.assertThat(expiredAfter)
-            .isFalse();
         Assertions.assertThat(consumedAfter)
             .isFalse();
     }

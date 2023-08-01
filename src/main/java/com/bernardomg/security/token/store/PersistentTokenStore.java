@@ -72,7 +72,6 @@ public final class PersistentTokenStore implements TokenStore<Token> {
 
         token = new PersistentToken();
         token.setToken(uniqueID);
-        token.setExpired(false);
         token.setConsumed(false);
         token.setExpirationDate(expiration);
 
@@ -90,8 +89,8 @@ public final class PersistentTokenStore implements TokenStore<Token> {
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
-            if (entity.getExpired()) {
-                // TODO: Should expire automatically
+            if (entity.getExpirationDate()
+                .after(Calendar.getInstance())) {
                 // Expired
                 // It isn't a valid token
                 valid = false;

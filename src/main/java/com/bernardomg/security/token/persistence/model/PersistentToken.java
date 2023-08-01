@@ -25,11 +25,11 @@ public class PersistentToken implements Serializable {
     @Column(name = "consumed", nullable = false)
     private Boolean           consumed;
 
+    @Column(name = "creation_date", nullable = false)
+    private Calendar          creationDate;
+
     @Column(name = "expiration_date", nullable = false)
     private Calendar          expirationDate;
-
-    @Column(name = "expired", nullable = false)
-    private Boolean           expired;
 
     /**
      * Entity id.
@@ -44,5 +44,8 @@ public class PersistentToken implements Serializable {
      */
     @Column(name = "token", nullable = false, unique = true, length = 60)
     private String            token;
+
+    @Column(name = "user_id", nullable = false)
+    private Long              userId;
 
 }

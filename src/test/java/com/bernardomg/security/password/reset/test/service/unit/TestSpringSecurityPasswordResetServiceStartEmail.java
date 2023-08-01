@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.token.Token;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,7 +51,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     private PasswordResetService  service;
 
     @Mock
-    private TokenStore            tokenProcessor;
+    private TokenStore<Token>     tokenProcessor;
 
     @Mock
     private UserDetailsService    userDetailsService;
