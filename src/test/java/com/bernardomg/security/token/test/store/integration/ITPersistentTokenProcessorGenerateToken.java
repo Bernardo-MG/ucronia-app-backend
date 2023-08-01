@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.test.persistence.provider.integration;
+package com.bernardomg.security.token.test.store.integration;
 
 import java.util.Calendar;
 
