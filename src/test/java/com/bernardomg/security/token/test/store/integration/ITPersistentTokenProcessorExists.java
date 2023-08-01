@@ -17,13 +17,13 @@ import com.bernardomg.security.token.store.PersistentTokenStore;
 @DisplayName("PersistentTokenProcessor - is valid")
 class ITPersistentTokenProcessorExists {
 
-    private final PersistentTokenStore validator;
+    private final PersistentTokenStore store;
 
     @Autowired
     public ITPersistentTokenProcessorExists(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
-        validator = new PersistentTokenStore(tokenRepository, tokenService);
+        store = new PersistentTokenStore(tokenRepository, tokenService);
     }
 
     @Test
@@ -35,7 +35,7 @@ class ITPersistentTokenProcessorExists {
 
         token = TokenConstants.TOKEN;
 
-        valid = validator.isValid(token);
+        valid = store.isValid(token);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -50,7 +50,7 @@ class ITPersistentTokenProcessorExists {
 
         token = TokenConstants.TOKEN;
 
-        valid = validator.isValid(token);
+        valid = store.isValid(token);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -65,7 +65,7 @@ class ITPersistentTokenProcessorExists {
 
         token = TokenConstants.TOKEN;
 
-        valid = validator.isValid(token);
+        valid = store.isValid(token);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -80,7 +80,7 @@ class ITPersistentTokenProcessorExists {
 
         token = TokenConstants.TOKEN;
 
-        valid = validator.isValid(token);
+        valid = store.isValid(token);
 
         Assertions.assertThat(valid)
             .isTrue();

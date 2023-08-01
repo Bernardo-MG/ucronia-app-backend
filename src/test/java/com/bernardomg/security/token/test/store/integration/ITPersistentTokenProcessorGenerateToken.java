@@ -18,7 +18,7 @@ import com.bernardomg.security.token.store.PersistentTokenStore;
 @DisplayName("PersistentTokenProcessor - generate token")
 class ITPersistentTokenProcessorGenerateToken {
 
-    private final PersistentTokenStore provider;
+    private final PersistentTokenStore store;
 
     private final TokenRepository      tokenRepository;
 
@@ -26,7 +26,7 @@ class ITPersistentTokenProcessorGenerateToken {
     public ITPersistentTokenProcessorGenerateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
         super();
 
-        provider = new PersistentTokenStore(tokenRepo, tokenService);
+        store = new PersistentTokenStore(tokenRepo, tokenService);
         tokenRepository = tokenRepo;
     }
 
@@ -35,7 +35,7 @@ class ITPersistentTokenProcessorGenerateToken {
     void testGenerateToken_Persisted() {
         final long count;
 
-        provider.generateToken("admin");
+        store.generateToken("admin");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -47,7 +47,7 @@ class ITPersistentTokenProcessorGenerateToken {
     void testGenerateToken_PersistedData() {
         final PersistentToken token;
 
-        provider.generateToken("admin");
+        store.generateToken("admin");
 
         token = tokenRepository.findAll()
             .iterator()
@@ -67,7 +67,7 @@ class ITPersistentTokenProcessorGenerateToken {
     void testGenerateToken_Return() {
         final String token;
 
-        token = provider.generateToken("admin");
+        token = store.generateToken("admin");
 
         Assertions.assertThat(token)
             .isNotNull();

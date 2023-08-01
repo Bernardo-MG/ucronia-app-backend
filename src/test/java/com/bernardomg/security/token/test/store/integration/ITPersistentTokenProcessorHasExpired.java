@@ -17,14 +17,14 @@ import com.bernardomg.security.token.store.PersistentTokenStore;
 @DisplayName("PersistentTokenProcessor - has expired")
 class ITPersistentTokenProcessorHasExpired {
 
-    private final PersistentTokenStore validator;
+    private final PersistentTokenStore store;
 
     @Autowired
     public ITPersistentTokenProcessorHasExpired(final TokenRepository tokenRepository,
             final TokenService tokenService) {
         super();
 
-        validator = new PersistentTokenStore(tokenRepository, tokenService);
+        store = new PersistentTokenStore(tokenRepository, tokenService);
     }
 
     @Test
@@ -36,7 +36,7 @@ class ITPersistentTokenProcessorHasExpired {
 
         token = TokenConstants.TOKEN;
 
-        exists = validator.exists(token);
+        exists = store.exists(token);
 
         Assertions.assertThat(exists)
             .isTrue();
@@ -50,7 +50,7 @@ class ITPersistentTokenProcessorHasExpired {
 
         token = TokenConstants.TOKEN;
 
-        exists = validator.exists(token);
+        exists = store.exists(token);
 
         Assertions.assertThat(exists)
             .isFalse();

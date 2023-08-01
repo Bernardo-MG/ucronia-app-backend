@@ -16,13 +16,13 @@ import com.bernardomg.security.token.store.PersistentTokenStore;
 @DisplayName("PersistentTokenProcessor - decode")
 class ITPersistentTokenProcessorDecode {
 
-    private final PersistentTokenStore validator;
+    private final PersistentTokenStore store;
 
     @Autowired
     public ITPersistentTokenProcessorDecode(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
-        validator = new PersistentTokenStore(tokenRepository, tokenService);
+        store = new PersistentTokenStore(tokenRepository, tokenService);
     }
 
     @Test
@@ -33,7 +33,7 @@ class ITPersistentTokenProcessorDecode {
 
         token = TokenConstants.TOKEN;
 
-        subject = validator.decode(token)
+        subject = store.decode(token)
             .getExtendedInformation();
 
         Assertions.assertThat(subject)
