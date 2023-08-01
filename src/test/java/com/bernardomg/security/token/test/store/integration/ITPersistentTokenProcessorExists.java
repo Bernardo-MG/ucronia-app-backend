@@ -27,22 +27,8 @@ class ITPersistentTokenProcessorExists {
     }
 
     @Test
-    @DisplayName("A token after the expiration date is invalid")
-    @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    void testIsValid_AfterExpirationDate() {
-        final String  token;
-        final Boolean valid;
-
-        token = TokenConstants.TOKEN;
-
-        valid = store.isValid(token);
-
-        Assertions.assertThat(valid)
-            .isFalse();
-    }
-
-    @Test
     @DisplayName("A consumed token is invalid")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testIsValid_Consumed() {
         final String  token;
@@ -58,6 +44,7 @@ class ITPersistentTokenProcessorExists {
 
     @Test
     @DisplayName("An expired token is invalid")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testIsValid_Expired() {
         final String  token;
@@ -73,6 +60,7 @@ class ITPersistentTokenProcessorExists {
 
     @Test
     @DisplayName("A valid token is valid")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testIsValid_Valid() {
         final String  token;

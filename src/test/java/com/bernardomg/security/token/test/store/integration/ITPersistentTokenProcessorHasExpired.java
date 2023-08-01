@@ -29,6 +29,7 @@ class ITPersistentTokenProcessorHasExpired {
 
     @Test
     @DisplayName("A valid token exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testExists_existing() {
         final String  token;

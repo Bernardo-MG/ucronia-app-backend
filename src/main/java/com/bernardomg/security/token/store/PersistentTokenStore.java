@@ -61,6 +61,7 @@ public final class PersistentTokenStore implements TokenStore<Token> {
     @Override
     public final String generateToken(final Long userId, final String username) {
         final PersistentToken persistentToken;
+        final Calendar        creation;
         final Calendar        expiration;
         final String          tokenCode;
 
@@ -68,11 +69,14 @@ public final class PersistentTokenStore implements TokenStore<Token> {
         expiration = Calendar.getInstance();
         expiration.add(Calendar.DATE, 1);
 
+        creation = Calendar.getInstance();
+
         tokenCode = tokenService.allocateToken(username)
             .getKey();
 
         persistentToken = new PersistentToken();
         persistentToken.setUserId(userId);
+        persistentToken.setCreationDate(creation);
         persistentToken.setToken(tokenCode);
         persistentToken.setConsumed(false);
         persistentToken.setExpirationDate(expiration);

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.token.TokenService;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
@@ -32,10 +33,11 @@ class ITPersistentTokenProcessorGenerateToken {
 
     @Test
     @DisplayName("After generating a token a new token is persisted")
+    @Sql({ "/db/queries/security/user/single.sql" })
     void testGenerateToken_Persisted() {
         final long count;
 
-        store.generateToken("admin");
+        store.generateToken(1l, "admin");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -44,10 +46,11 @@ class ITPersistentTokenProcessorGenerateToken {
 
     @Test
     @DisplayName("After generating a token said token data is persisted")
+    @Sql({ "/db/queries/security/user/single.sql" })
     void testGenerateToken_PersistedData() {
         final PersistentToken token;
 
-        store.generateToken("admin");
+        store.generateToken(1l, "admin");
 
         token = tokenRepository.findAll()
             .iterator()
@@ -62,10 +65,11 @@ class ITPersistentTokenProcessorGenerateToken {
 
     @Test
     @DisplayName("After generating a token it returns said token")
+    @Sql({ "/db/queries/security/user/single.sql" })
     void testGenerateToken_Return() {
         final String token;
 
-        token = store.generateToken("admin");
+        token = store.generateToken(1l, "admin");
 
         Assertions.assertThat(token)
             .isNotNull();

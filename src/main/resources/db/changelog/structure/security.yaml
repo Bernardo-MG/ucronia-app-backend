@@ -195,7 +195,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: token
-                  type: varchar(255)
+                  type: varchar(300)
                   constraints:
                     nullable: false
                     unique: true
@@ -210,7 +210,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: expired
+                  name: consumed
                   type: boolean
                   constraints:
                     nullable: false

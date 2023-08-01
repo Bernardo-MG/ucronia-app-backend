@@ -33,6 +33,7 @@ class ITPersistentTokenProcessorConsume {
 
     @Test
     @DisplayName("Consuming a token which is already consumed keeps the status as consumed")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/consumed.sql" })
     void testConsume_AlreadyConsumed_Consumed() {
         final String          token;
@@ -52,6 +53,7 @@ class ITPersistentTokenProcessorConsume {
 
     @Test
     @DisplayName("Consuming a token changes the status to consumed")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testConsume_Consumes() {
         final String          token;
@@ -71,6 +73,7 @@ class ITPersistentTokenProcessorConsume {
 
     @Test
     @DisplayName("Consuming a token doesn't create any new token")
+    @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testConsume_NotCreate() {
         final String token;
