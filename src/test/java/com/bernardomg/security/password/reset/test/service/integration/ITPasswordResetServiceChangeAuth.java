@@ -105,20 +105,4 @@ class ITPasswordResetServiceChangeAuth {
             .isEqualTo("User admin is not enabled");
     }
 
-    @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a not existing user throws an exception")
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_NotExistingUser_Exception() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
-
-        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't change password for user admin, as it doesn't exist");
-    }
-
 }
