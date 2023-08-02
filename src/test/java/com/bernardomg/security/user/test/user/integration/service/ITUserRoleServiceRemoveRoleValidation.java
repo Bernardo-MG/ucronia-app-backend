@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.service.UserRoleService;
 import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest

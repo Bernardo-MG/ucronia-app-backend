@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - recovery start - validation")

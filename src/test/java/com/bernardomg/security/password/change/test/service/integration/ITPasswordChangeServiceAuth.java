@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PasswordChangeService - change password")

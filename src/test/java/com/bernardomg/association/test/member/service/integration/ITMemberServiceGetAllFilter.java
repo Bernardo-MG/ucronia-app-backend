@@ -35,9 +35,9 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.request.MemberQuery;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.member.util.model.MembersQuery;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser

@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.service.RolePermissionService;
 import com.bernardomg.security.user.test.util.assertion.RolePermissionAssertions;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser

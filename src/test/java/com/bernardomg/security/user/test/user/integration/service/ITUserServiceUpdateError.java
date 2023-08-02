@@ -31,12 +31,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser

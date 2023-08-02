@@ -32,12 +32,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.transaction.util.model.TransactionsCreate;
 import com.bernardomg.association.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser

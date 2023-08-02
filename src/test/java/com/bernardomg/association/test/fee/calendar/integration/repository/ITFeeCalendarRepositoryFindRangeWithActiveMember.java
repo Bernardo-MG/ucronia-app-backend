@@ -32,7 +32,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find range with active member")

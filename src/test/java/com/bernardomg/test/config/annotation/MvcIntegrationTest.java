@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.config.annotation;
+package com.bernardomg.test.config.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

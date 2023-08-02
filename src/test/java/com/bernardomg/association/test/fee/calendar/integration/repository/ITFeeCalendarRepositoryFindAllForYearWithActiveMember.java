@@ -38,8 +38,8 @@ import com.bernardomg.association.fee.calendar.model.FeeMonth;
 import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee calendar repository - find all for year with active member")
