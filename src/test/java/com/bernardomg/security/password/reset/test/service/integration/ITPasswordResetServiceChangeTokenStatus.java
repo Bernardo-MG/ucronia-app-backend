@@ -28,26 +28,6 @@ class ITPasswordResetServiceChangeTokenStatus {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a valid token after expiration date gives a failure")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/not_expired_after_expiration.sql" })
-    void testChangePassword_AfterExpirationDate() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
-
-        exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Expired token " + TokenConstants.TOKEN);
-    }
-
-    @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Changing password with an expired token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",

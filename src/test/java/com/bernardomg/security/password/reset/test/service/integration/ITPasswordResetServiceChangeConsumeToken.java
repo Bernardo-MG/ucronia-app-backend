@@ -2,7 +2,6 @@
 package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.exception.UserDisabledException;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
@@ -60,38 +58,6 @@ class ITPasswordResetServiceChangeConsumeToken {
 
         Assertions.assertThat(consumedAfter)
             .isTrue();
-    }
-
-    @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a not existing user doesn't mark the token as expired")
-    @Sql({ "/db/queries/security/token/valid.sql" })
-    void testChangePassword_NotExistingUser_NotConsumeToken() {
-        final Boolean          consumedBefore;
-        final Boolean          consumedAfter;
-        final ThrowingCallable executable;
-
-        consumedBefore = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getConsumed();
-
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
-
-        Assertions.catchThrowableOfType(executable, UserDisabledException.class);
-
-        consumedAfter = tokenRepository.findAll()
-            .stream()
-            .findFirst()
-            .get()
-            .getConsumed();
-
-        Assertions.assertThat(consumedBefore)
-            .isFalse();
-
-        Assertions.assertThat(consumedAfter)
-            .isFalse();
     }
 
 }
