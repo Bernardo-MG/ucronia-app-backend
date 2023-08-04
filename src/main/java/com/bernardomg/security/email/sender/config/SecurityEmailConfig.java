@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.email.sender.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -31,10 +31,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.bernardomg.security.config.property.SecurityEmailProperties;
 import com.bernardomg.security.email.sender.DisabledSecurityMessageSender;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.email.sender.SpringMailSecurityEmailSender;
+import com.bernardomg.security.email.sender.config.property.SecurityEmailProperties;
 
 import lombok.extern.slf4j.Slf4j;
 

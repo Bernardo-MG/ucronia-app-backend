@@ -228,19 +228,19 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: This should be contained in a common class
 
         if (!userDetails.isAccountNonExpired()) {
-            log.error("Can't reset password. User {} is expired",userDetails.getUsername());
+            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
             throw new UserExpiredException(userDetails.getUsername());
         }
         if (!userDetails.isAccountNonLocked()) {
-            log.error("Can't reset password. User {} is locked",userDetails.getUsername());
+            log.error("Can't reset password. User {} is locked", userDetails.getUsername());
             throw new UserLockedException(userDetails.getUsername());
         }
         if (!userDetails.isCredentialsNonExpired()) {
-            log.error("Can't reset password. User {} is expired",userDetails.getUsername());
+            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
             throw new UserExpiredException(userDetails.getUsername());
         }
         if (!userDetails.isEnabled()) {
-            log.error("Can't reset password. User {} is disabled",userDetails.getUsername());
+            log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
             throw new UserDisabledException(userDetails.getUsername());
         }
 

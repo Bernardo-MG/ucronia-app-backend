@@ -24,31 +24,12 @@
 
 package com.bernardomg.security.config;
 
-import java.util.function.Predicate;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.token.TokenService;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.login.model.request.LoginRequest;
-import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.TokenLoginStatusProvider;
-import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
-import com.bernardomg.security.password.change.service.PasswordChangeService;
-import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
-import com.bernardomg.security.token.TokenEncoder;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.store.PersistentTokenStore;
-import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
@@ -62,38 +43,6 @@ public class SecurityServiceConfig {
 
     public SecurityServiceConfig() {
         super();
-    }
-
-    @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService, final TokenEncoder<String> tokenEncoder) {
-        final LoginStatusProvider     statusProvider;
-        final Predicate<LoginRequest> valid;
-
-        statusProvider = new TokenLoginStatusProvider(tokenEncoder);
-        valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
-
-        return new DefaultLoginService(statusProvider, valid);
-    }
-
-    @Bean("passwordChangeService")
-    public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
-        return new SpringSecurityPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
-    }
-
-    @Bean("passwordRecoveryService")
-    public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
-            final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
-            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService) {
-        final TokenStore tokenProcessor;
-
-        tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService);
-
-        return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
-            passwordEncoder);
     }
 
     @Bean("userRegistrationService")
