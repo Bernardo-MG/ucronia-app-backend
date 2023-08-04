@@ -28,7 +28,7 @@ class ITPersistentTokenProcessorGenerateToken {
     public ITPersistentTokenProcessorGenerateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
         super();
 
-        store = new PersistentTokenStore(tokenRepo, tokenService, 1800);
+        store = new PersistentTokenStore(tokenRepo, tokenService, 1000);
         tokenRepository = tokenRepo;
     }
 
@@ -50,6 +50,10 @@ class ITPersistentTokenProcessorGenerateToken {
     @Sql({ "/db/queries/security/user/single.sql" })
     void testGenerateToken_PersistedData() {
         final PersistentToken token;
+        final Calendar        lower;
+        final Calendar        upper;
+
+        lower = Calendar.getInstance();
 
         store.generateToken(1l, "admin", "purpose");
 
@@ -57,12 +61,16 @@ class ITPersistentTokenProcessorGenerateToken {
             .iterator()
             .next();
 
+        upper = Calendar.getInstance();
+        upper.add(Calendar.SECOND, 1);
+
         Assertions.assertThat(token.getToken())
             .isNotNull();
         Assertions.assertThat(token.getPurpose())
             .isEqualTo("purpose");
         Assertions.assertThat(token.getExpirationDate())
-            .isGreaterThan(Calendar.getInstance());
+            .isGreaterThan(lower)
+            .isLessThanOrEqualTo(upper);
         Assertions.assertThat(token.getConsumed())
             .isFalse();
     }

@@ -22,7 +22,7 @@ class ITPersistentTokenProcessorDecode {
     public ITPersistentTokenProcessorDecode(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
-        store = new PersistentTokenStore(tokenRepository, tokenService, 1800);
+        store = new PersistentTokenStore(tokenRepository, tokenService, 1000);
     }
 
     @Test
