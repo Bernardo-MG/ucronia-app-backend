@@ -210,8 +210,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for email {}, as no user exists for it", email);
-            throw new UserNotFoundException(
-                String.format("Couldn't change password for email %s, as no user exists for it", email));
+            throw new UserNotFoundException(email);
         }
 
         return user.get();

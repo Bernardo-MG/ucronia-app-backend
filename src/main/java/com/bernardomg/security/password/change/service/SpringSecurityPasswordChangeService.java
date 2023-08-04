@@ -121,8 +121,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new UserNotFoundException(
-                String.format("Couldn't change password for user %s, as it doesn't exist", username));
+            throw new UserNotFoundException(username);
         }
 
         return user.get();
