@@ -4,6 +4,7 @@ package com.bernardomg.security.token.test.store.integration;
 import java.util.Calendar;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,36 @@ class ITPersistentTokenProcessorGenerateToken {
 
         Assertions.assertThat(token)
             .isNotNull();
+    }
+
+    @Test
+    @DisplayName("Can generate tokens when the username doesn't match the user's")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    void testGenerateToken_UserNameNotExisting() {
+        final long count;
+
+        // TODO: then, just take the username from the user id
+        store.generateToken(1l, "abc", "purpose");
+
+        count = tokenRepository.count();
+        Assertions.assertThat(count)
+            .isOne();
+    }
+
+    @Test
+    @DisplayName("When generating a token for and invalid user id, then an exception is thrown")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    void testGenerateToken_UserNotExisting() {
+        final ThrowingCallable executable;
+
+        executable = () -> {
+            store.generateToken(2l, "admin", "purpose");
+            tokenRepository.flush();
+        };
+
+        // TODO: Does this make sense? Throw a custom exception
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(Exception.class);
     }
 
 }
