@@ -5,7 +5,7 @@ public interface TokenStore {
 
     public void consumeToken(final String token);
 
-    public boolean exists(final String token);
+    public boolean exists(final String token, final String purpose);
 
     /**
      * Returns a token for a user.
@@ -15,7 +15,7 @@ public interface TokenStore {
      * @param username
      *            username for the user who generates the token
      * @param purpose
-     *            purpose for the token
+     *            token purpose
      * @return token for the subject
      */
     public String generateToken(final Long userId, final String username, final String purpose);
@@ -34,8 +34,10 @@ public interface TokenStore {
      *
      * @param token
      *            token to validate
+     * @param purpose
+     *            token purpose
      * @return {@code true} if the token has expired, {@code false} otherwise
      */
-    public Boolean isValid(final String token);
+    public Boolean isValid(final String token, final String purpose);
 
 }

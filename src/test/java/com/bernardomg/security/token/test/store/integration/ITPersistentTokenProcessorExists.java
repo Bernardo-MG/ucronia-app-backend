@@ -31,12 +31,9 @@ class ITPersistentTokenProcessorExists {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testIsValid_Consumed() {
-        final String  token;
         final Boolean valid;
 
-        token = TokenConstants.TOKEN;
-
-        valid = store.isValid(token);
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.PURPOSE);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -47,12 +44,9 @@ class ITPersistentTokenProcessorExists {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testIsValid_Expired() {
-        final String  token;
         final Boolean valid;
 
-        token = TokenConstants.TOKEN;
-
-        valid = store.isValid(token);
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.PURPOSE);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -63,15 +57,25 @@ class ITPersistentTokenProcessorExists {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testIsValid_Valid() {
-        final String  token;
         final Boolean valid;
 
-        token = TokenConstants.TOKEN;
-
-        valid = store.isValid(token);
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.PURPOSE);
 
         Assertions.assertThat(valid)
             .isTrue();
+    }
+
+    @Test
+    @DisplayName("A token for the wrong purpose is invalid")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/valid.sql" })
+    void testIsValid_WrongPurpose() {
+        final Boolean valid;
+
+        valid = store.isValid(TokenConstants.TOKEN, "abc");
+
+        Assertions.assertThat(valid)
+            .isFalse();
     }
 
 }

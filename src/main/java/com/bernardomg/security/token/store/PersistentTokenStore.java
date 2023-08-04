@@ -48,8 +48,8 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final boolean exists(final String token) {
-        return tokenRepository.existsByToken(token);
+    public final boolean exists(final String token, final String purpose) {
+        return tokenRepository.existsByTokenAndPurpose(token, purpose);
     }
 
     @Override
@@ -89,7 +89,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final Boolean isValid(final String token) {
+    public final Boolean isValid(final String token, final String purpose) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   valid;
@@ -99,17 +99,21 @@ public final class PersistentTokenStore implements TokenStore {
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
-            if (Calendar.getInstance()
+            if (!purpose.equals(entity.getPurpose())) {
+                // Purpose mismatch
+                valid = false;
+                log.warn("Expected purpose {}, but the token is for {}", purpose, entity.getPurpose());
+            } else if (Calendar.getInstance()
                 .after(entity.getExpirationDate())) {
                 // Expired
                 // It isn't a valid token
                 valid = false;
-                log.debug("Expired token: {}", token);
+                log.warn("Expired token: {}", token);
             } else if (entity.getConsumed()) {
                 // Consumed
                 // It isn't a valid token
                 valid = false;
-                log.debug("Consumed token: {}", token);
+                log.warn("Consumed token: {}", token);
             } else {
                 // Not expired
                 // Verifies the expiration date is after the current date

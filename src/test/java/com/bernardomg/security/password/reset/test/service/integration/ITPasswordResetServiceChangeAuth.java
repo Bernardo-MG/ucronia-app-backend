@@ -34,7 +34,7 @@ class ITPasswordResetServiceChangeAuth {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testChangePassword_CredentialsExpired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -54,7 +54,7 @@ class ITPasswordResetServiceChangeAuth {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testChangePassword_Disabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -74,7 +74,7 @@ class ITPasswordResetServiceChangeAuth {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testChangePassword_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -94,7 +94,7 @@ class ITPasswordResetServiceChangeAuth {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testChangePassword_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;

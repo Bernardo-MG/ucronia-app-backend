@@ -32,12 +32,9 @@ class ITPersistentTokenProcessorHasExpired {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testExists_existing() {
-        final String  token;
         final Boolean exists;
 
-        token = TokenConstants.TOKEN;
-
-        exists = store.exists(token);
+        exists = store.exists(TokenConstants.TOKEN, TokenConstants.PURPOSE);
 
         Assertions.assertThat(exists)
             .isTrue();
@@ -46,12 +43,22 @@ class ITPersistentTokenProcessorHasExpired {
     @Test
     @DisplayName("A not existing token doesn't exist")
     void testExists_notExisting() {
-        final String  token;
         final Boolean exists;
 
-        token = TokenConstants.TOKEN;
+        exists = store.exists(TokenConstants.TOKEN, TokenConstants.PURPOSE);
 
-        exists = store.exists(token);
+        Assertions.assertThat(exists)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("A token for the wrong purpose doesn't exist")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/valid.sql" })
+    void testExists_WrongPurpose() {
+        final Boolean exists;
+
+        exists = store.exists(TokenConstants.TOKEN, "abc");
 
         Assertions.assertThat(exists)
             .isFalse();

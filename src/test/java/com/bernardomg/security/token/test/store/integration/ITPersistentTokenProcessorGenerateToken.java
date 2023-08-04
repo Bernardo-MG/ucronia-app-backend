@@ -56,7 +56,7 @@ class ITPersistentTokenProcessorGenerateToken {
         token = tokenRepository.findAll()
             .iterator()
             .next();
-        
+
         Assertions.assertThat(token.getToken())
             .isNotNull();
         Assertions.assertThat(token.getPurpose())
