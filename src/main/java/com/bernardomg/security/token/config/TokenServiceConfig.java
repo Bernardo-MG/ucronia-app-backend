@@ -22,26 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.model.request;
+package com.bernardomg.security.token.config;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
+import java.security.SecureRandom;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
+import org.springframework.security.core.token.TokenService;
+
+import com.bernardomg.security.token.config.property.TokenProperties;
 
 /**
- * Password recovery request.
+ * Security configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-public final class PasswordResetRequest {
+@Configuration
+public class TokenServiceConfig {
 
-    /**
-     * User email.
-     */
-    @NotEmpty
-    @Email
-    private String email;
+    public TokenServiceConfig() {
+        super();
+    }
+
+    @Bean("springTokenService")
+    public TokenService getTokenService(final TokenProperties properties) {
+        final KeyBasedPersistenceTokenService tokenService;
+
+        tokenService = new KeyBasedPersistenceTokenService();
+        tokenService.setServerSecret(properties.getSecret());
+        tokenService.setServerInteger(properties.getValidity());
+        tokenService.setSecureRandom(new SecureRandom());
+
+        return tokenService;
+    }
 
 }

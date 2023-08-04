@@ -22,26 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.model.request;
+package com.bernardomg.security.token.config.property;
 
-import jakarta.validation.constraints.Email;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * Password recovery request.
+ * Security token configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Validated
 @Data
-public final class PasswordResetRequest {
+@ConfigurationProperties(prefix = "security.token")
+public final class TokenProperties {
 
     /**
-     * User email.
+     * Secret seed for generating JWT tokens.
      */
     @NotEmpty
-    @Email
-    private String email;
+    private String  secret;
+
+    /**
+     * Validity length, in seconds, for JWT tokens.
+     */
+    @NotNull
+    private Integer validity;
 
 }

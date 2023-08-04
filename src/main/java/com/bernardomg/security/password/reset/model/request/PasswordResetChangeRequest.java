@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.reset.model.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 /**
@@ -16,7 +16,7 @@ public class PasswordResetChangeRequest {
     /**
      * The new password.
      */
-    @NotNull
+    @NotEmpty
     private String password;
 
 }

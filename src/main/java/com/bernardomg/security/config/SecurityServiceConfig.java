@@ -24,12 +24,10 @@
 
 package com.bernardomg.security.config;
 
-import java.security.SecureRandom;
 import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -96,19 +94,6 @@ public class SecurityServiceConfig {
 
         return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);
-    }
-
-    @Bean("springTokenService")
-    public TokenService getTokenService() {
-        final KeyBasedPersistenceTokenService tokenService;
-
-        tokenService = new KeyBasedPersistenceTokenService();
-        // TODO: add to config
-        tokenService.setServerInteger(123);
-        tokenService.setServerSecret("abc");
-        tokenService.setSecureRandom(new SecureRandom());
-
-        return tokenService;
     }
 
     @Bean("userRegistrationService")

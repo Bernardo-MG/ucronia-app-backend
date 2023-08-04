@@ -45,6 +45,10 @@ services:
             - spring.datasource.password=password
             # CORS
             - cors.origins=http://localhost:4200
+            # JWT
+            - security.jwt.secret=1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+            # Token
+            - security.token.secret=1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
             # Email
             - spring.mail.host=${MAIL_HOST}
             - spring.mail.port=${MAIL_PORT}

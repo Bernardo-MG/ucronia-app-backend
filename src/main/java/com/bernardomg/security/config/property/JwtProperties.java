@@ -27,6 +27,7 @@ package com.bernardomg.security.config.property;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -44,12 +45,13 @@ public final class JwtProperties {
     /**
      * Secret seed for generating JWT tokens.
      */
-    @NotNull
+    @NotEmpty
     private String  secret;
 
     /**
      * Validity length, in seconds, for JWT tokens.
      */
+    @NotNull
     private Integer validity;
 
 }
