@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.password.reset.test.service.integration;
 
+import java.util.Calendar;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,8 +35,30 @@ class ITPasswordResetServiceStartToken {
 
     @Test
     @WithMockUser(username = "admin")
+    @DisplayName("Starting password recovery with an existing user populates the created token")
+    void testStartPasswordRecovery_Exists_TokenData() {
+        final PersistentToken token;
+
+        service.startPasswordRecovery("email@somewhere.com");
+
+        token = tokenRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(token.getToken())
+            .isNotNull();
+        Assertions.assertThat(token.getPurpose())
+            .isEqualTo("password_reset");
+        Assertions.assertThat(token.getExpirationDate())
+            .isGreaterThan(Calendar.getInstance());
+        Assertions.assertThat(token.getConsumed())
+            .isFalse();
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing user generates a token")
-    void testStartPasswordRecovery_Exists_Token() {
+    void testStartPasswordRecovery_Exists_TokenExists() {
         final boolean exists;
 
         service.startPasswordRecovery("email@somewhere.com");
