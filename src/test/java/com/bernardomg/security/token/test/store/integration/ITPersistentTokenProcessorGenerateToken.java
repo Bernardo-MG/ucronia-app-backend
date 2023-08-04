@@ -37,7 +37,7 @@ class ITPersistentTokenProcessorGenerateToken {
     void testGenerateToken_Persisted() {
         final long count;
 
-        store.generateToken(1l, "admin");
+        store.generateToken(1l, "admin", "purpose");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -50,13 +50,15 @@ class ITPersistentTokenProcessorGenerateToken {
     void testGenerateToken_PersistedData() {
         final PersistentToken token;
 
-        store.generateToken(1l, "admin");
+        store.generateToken(1l, "admin", "purpose");
 
         token = tokenRepository.findAll()
             .iterator()
             .next();
         Assertions.assertThat(token.getToken())
             .isNotNull();
+        Assertions.assertThat(token.getPurpose())
+            .isEqualTo("purpose");
         Assertions.assertThat(token.getExpirationDate())
             .isGreaterThan(Calendar.getInstance());
         Assertions.assertThat(token.getConsumed())
@@ -69,7 +71,7 @@ class ITPersistentTokenProcessorGenerateToken {
     void testGenerateToken_Return() {
         final String token;
 
-        token = store.generateToken(1l, "admin");
+        token = store.generateToken(1l, "admin", "purpose");
 
         Assertions.assertThat(token)
             .isNotNull();

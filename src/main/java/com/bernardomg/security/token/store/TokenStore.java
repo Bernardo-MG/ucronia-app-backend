@@ -14,9 +14,11 @@ public interface TokenStore {
      *            id for the user who generates the token
      * @param username
      *            username for the user who generates the token
+     * @param purpose
+     *            purpose for the token
      * @return token for the subject
      */
-    public String generateToken(final Long userId, final String username);
+    public String generateToken(final Long userId, final String username, final String purpose);
 
     /**
      * Returns the username for the token.

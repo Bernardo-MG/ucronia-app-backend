@@ -66,6 +66,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
+    private static final String         TOKEN_PURPOSE = "email_reset";
+
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
      */
@@ -152,7 +154,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Make sure the user can change the password
         authorizePasswordChange(user.getUsername());
 
-        token = tokenStore.generateToken(user.getId(), user.getUsername());
+        token = tokenStore.generateToken(user.getId(), user.getUsername(), TOKEN_PURPOSE);
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
@@ -226,13 +228,19 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: This should be contained in a common class
 
         if (!userDetails.isAccountNonExpired()) {
+            log.error("Can't reset password. User {} is expired",userDetails.getUsername());
             throw new UserExpiredException(userDetails.getUsername());
         }
         if (!userDetails.isAccountNonLocked()) {
+            log.error("Can't reset password. User {} is locked",userDetails.getUsername());
             throw new UserLockedException(userDetails.getUsername());
-        } else if (!userDetails.isCredentialsNonExpired()) {
+        }
+        if (!userDetails.isCredentialsNonExpired()) {
+            log.error("Can't reset password. User {} is expired",userDetails.getUsername());
             throw new UserExpiredException(userDetails.getUsername());
-        } else if (!userDetails.isEnabled()) {
+        }
+        if (!userDetails.isEnabled()) {
+            log.error("Can't reset password. User {} is disabled",userDetails.getUsername());
             throw new UserDisabledException(userDetails.getUsername());
         }
 

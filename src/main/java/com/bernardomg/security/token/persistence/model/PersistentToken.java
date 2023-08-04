@@ -39,10 +39,10 @@ public class PersistentToken implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    /**
-     * Action name.
-     */
-    @Column(name = "token", nullable = false, unique = true, length = 60)
+    @Column(name = "purpose", nullable = false, unique = true, length = 20)
+    private String            purpose;
+
+    @Column(name = "token", nullable = false, unique = true, length = 300)
     private String            token;
 
     @Column(name = "user_id", nullable = false)

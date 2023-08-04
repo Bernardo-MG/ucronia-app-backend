@@ -194,6 +194,11 @@ databaseChangeLog:
                     references: users(id)
                     nullable: false
               - column:
+                  name: purpose
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
                   name: token
                   type: varchar(300)
                   constraints:

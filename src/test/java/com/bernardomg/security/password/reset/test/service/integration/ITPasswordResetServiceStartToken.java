@@ -1,12 +1,11 @@
 
 package com.bernardomg.security.password.reset.test.service.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -36,23 +35,21 @@ class ITPasswordResetServiceStartToken {
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing user generates a token")
     void testStartPasswordRecovery_Exists_Token() {
-        final Optional<PersistentToken> token;
+        final boolean exists;
 
         service.startPasswordRecovery("email@somewhere.com");
 
-        token = tokenRepository.findAll()
-            .stream()
-            .findFirst();
+        exists = tokenRepository.exists(Example.of(new PersistentToken()));
 
-        Assertions.assertThat(token)
-            .isPresent();
+        Assertions.assertThat(exists)
+            .isTrue();
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
     void testStartPasswordRecovery_NotExists_NoToken() {
-        final Optional<PersistentToken> token;
+        final boolean exists;
 
         try {
             service.startPasswordRecovery("email2@somewhere.com");
@@ -60,12 +57,10 @@ class ITPasswordResetServiceStartToken {
 
         }
 
-        token = tokenRepository.findAll()
-            .stream()
-            .findFirst();
+        exists = tokenRepository.exists(Example.of(new PersistentToken()));
 
-        Assertions.assertThat(token)
-            .isNotPresent();
+        Assertions.assertThat(exists)
+            .isFalse();
     }
 
 }
