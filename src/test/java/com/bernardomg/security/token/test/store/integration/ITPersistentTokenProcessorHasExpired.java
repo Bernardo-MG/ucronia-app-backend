@@ -24,7 +24,7 @@ class ITPersistentTokenProcessorHasExpired {
             final TokenService tokenService) {
         super();
 
-        store = new PersistentTokenStore(tokenRepository, tokenService);
+        store = new PersistentTokenStore(tokenRepository, tokenService, 1800);
     }
 
     @Test

@@ -19,11 +19,15 @@ public final class PersistentTokenStore implements TokenStore {
 
     private final TokenService    tokenService;
 
-    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService) {
+    private final Integer         validity;
+
+    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService,
+            @NonNull final Integer valid) {
         super();
 
         tokenRepository = tRepository;
         tokenService = tService;
+        validity = valid;
     }
 
     @Override
@@ -61,7 +65,7 @@ public final class PersistentTokenStore implements TokenStore {
 
         // TODO: This should be configurable
         expiration = Calendar.getInstance();
-        expiration.add(Calendar.DATE, 1);
+        expiration.add(Calendar.MILLISECOND, validity);
 
         creation = Calendar.getInstance();
 

@@ -26,7 +26,7 @@ class ITPersistentTokenProcessorConsume {
     public ITPersistentTokenProcessorConsume(final TokenRepository tokenRepo, final TokenService tokenService) {
         super();
 
-        store = new PersistentTokenStore(tokenRepo, tokenService);
+        store = new PersistentTokenStore(tokenRepo, tokenService, 1800);
 
         tokenRepository = tokenRepo;
     }
