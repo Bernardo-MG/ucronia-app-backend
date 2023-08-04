@@ -32,6 +32,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.exception.UserDisabledException;
+import com.bernardomg.security.exception.UserExpiredException;
+import com.bernardomg.security.exception.UserLockedException;
 import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
@@ -179,7 +181,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         if (!isValid(userDetails)) {
             log.warn("User {} is not enabled", userDetails.getUsername());
             // TODO: Use more concrete exception for the exact status
-            throw new UserDisabledException(String.format("User %s is not enabled", userDetails.getUsername()));
+            throw new UserDisabledException(userDetails.getUsername());
         }
     }
 
@@ -192,8 +194,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         if (!user.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
             // TODO: Use more concrete exception for the exact status
-            throw new UserDisabledException(
-                String.format("Couldn't change password for user %s, as it doesn't exist", username));
+            throw new UserDisabledException(username);
         }
 
         return user.get();
@@ -223,8 +224,19 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final boolean isValid(final UserDetails userDetails) {
         // TODO: This should be contained in a common class
-        return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
-                && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
+
+        if (!userDetails.isAccountNonExpired()) {
+            throw new UserExpiredException(userDetails.getUsername());
+        }
+        if (!userDetails.isAccountNonLocked()) {
+            throw new UserLockedException(userDetails.getUsername());
+        } else if (!userDetails.isCredentialsNonExpired()) {
+            throw new UserExpiredException(userDetails.getUsername());
+        } else if (!userDetails.isEnabled()) {
+            throw new UserDisabledException(userDetails.getUsername());
+        }
+
+        return true;
     }
 
 }

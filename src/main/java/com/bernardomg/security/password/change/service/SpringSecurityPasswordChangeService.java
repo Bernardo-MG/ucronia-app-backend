@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.exception.UserDisabledException;
+import com.bernardomg.security.exception.UserExpiredException;
+import com.bernardomg.security.exception.UserLockedException;
 import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
@@ -95,7 +97,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         if (!isValid(userDetails)) {
             log.warn("User {} is not enabled", userDetails.getUsername());
             // TODO: Use more concrete exception for the exact status
-            throw new UserDisabledException(String.format("User %s is not enabled", userDetails.getUsername()));
+            throw new UserDisabledException(userDetails.getUsername());
         }
     }
 
@@ -135,8 +137,19 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
      */
     private final boolean isValid(final UserDetails userDetails) {
         // TODO: This should be contained in a common class
-        return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
-                && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
+
+        if (!userDetails.isAccountNonExpired()) {
+            throw new UserExpiredException(userDetails.getUsername());
+        }
+        if (!userDetails.isAccountNonLocked()) {
+            throw new UserLockedException(userDetails.getUsername());
+        } else if (!userDetails.isCredentialsNonExpired()) {
+            throw new UserExpiredException(userDetails.getUsername());
+        } else if (!userDetails.isEnabled()) {
+            throw new UserDisabledException(userDetails.getUsername());
+        }
+
+        return true;
     }
 
 }

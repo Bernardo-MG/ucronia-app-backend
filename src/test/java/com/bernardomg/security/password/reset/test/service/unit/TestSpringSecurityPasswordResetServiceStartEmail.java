@@ -50,7 +50,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     private PasswordResetService  service;
 
     @Mock
-    private TokenStore    tokenProcessor;
+    private TokenStore            tokenProcessor;
 
     @Mock
     private UserDetailsService    userDetailsService;

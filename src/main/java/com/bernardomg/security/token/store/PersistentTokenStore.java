@@ -91,7 +91,7 @@ public final class PersistentTokenStore implements TokenStore {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   valid;
-        
+
         // TODO: Use the token service to verify it
 
         read = tokenRepository.findOneByToken(token);

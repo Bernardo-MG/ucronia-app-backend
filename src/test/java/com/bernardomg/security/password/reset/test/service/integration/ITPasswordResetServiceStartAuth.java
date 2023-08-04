@@ -10,6 +10,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.exception.UserDisabledException;
+import com.bernardomg.security.exception.UserExpiredException;
+import com.bernardomg.security.exception.UserLockedException;
 import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -38,10 +40,10 @@ class ITPasswordResetServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is not enabled");
+            .isEqualTo("User admin is expired");
     }
 
     @Test
@@ -60,7 +62,7 @@ class ITPasswordResetServiceStartAuth {
         exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is not enabled");
+            .isEqualTo("User admin is disabled");
     }
 
     @Test
@@ -76,10 +78,10 @@ class ITPasswordResetServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is not enabled");
+            .isEqualTo("User admin is expired");
     }
 
     @Test
@@ -95,10 +97,10 @@ class ITPasswordResetServiceStartAuth {
 
         executable = () -> service.startPasswordRecovery("email@somewhere.com");
 
-        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is not enabled");
+            .isEqualTo("User admin is locked");
     }
 
     @Test
