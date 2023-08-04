@@ -14,9 +14,9 @@ public interface PasswordChangeService {
      *
      * @param currentPassword
      *            current password for the user
-     * @param password
+     * @param newPassword
      *            new password for the user
      */
-    public void changePasswordForUserInSession(final String currentPassword, final String password);
+    public void changePasswordForUserInSession(final String currentPassword, final String newPassword);
 
 }

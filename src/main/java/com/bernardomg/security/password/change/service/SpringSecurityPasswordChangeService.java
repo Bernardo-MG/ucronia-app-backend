@@ -47,7 +47,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     }
 
     @Override
-    public final void changePasswordForUserInSession(final String currentPassword, final String password) {
+    public final void changePasswordForUserInSession(final String currentPassword, final String newPassword) {
         final PersistentUser userEntity;
         final String         encodedPassword;
         final String         username;
@@ -61,7 +61,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         authorizePasswordChange(username, currentPassword);
 
-        encodedPassword = passwordEncoder.encode(password);
+        encodedPassword = passwordEncoder.encode(newPassword);
         userEntity.setPassword(encodedPassword);
 
         repository.save(userEntity);
