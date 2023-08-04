@@ -181,10 +181,21 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
 
-        // Verify the user is enabled
-        if (!isValid(userDetails)) {
-            log.warn("User {} is not enabled", userDetails.getUsername());
-            // TODO: Use more concrete exception for the exact status
+        // TODO: This should be contained in a common class
+        if (!userDetails.isAccountNonExpired()) {
+            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
+            throw new UserExpiredException(userDetails.getUsername());
+        }
+        if (!userDetails.isAccountNonLocked()) {
+            log.error("Can't reset password. User {} is locked", userDetails.getUsername());
+            throw new UserLockedException(userDetails.getUsername());
+        }
+        if (!userDetails.isCredentialsNonExpired()) {
+            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
+            throw new UserExpiredException(userDetails.getUsername());
+        }
+        if (!userDetails.isEnabled()) {
+            log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
             throw new UserDisabledException(userDetails.getUsername());
         }
     }
@@ -216,36 +227,6 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         }
 
         return user.get();
-    }
-
-    /**
-     * Checks if the user is valid. This means it has no flag marking it as not usable.
-     *
-     * @param userDetails
-     *            user the check
-     * @return {@code true} if the user is valid, {@code false} otherwise
-     */
-    private final boolean isValid(final UserDetails userDetails) {
-        // TODO: This should be contained in a common class
-
-        if (!userDetails.isAccountNonExpired()) {
-            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
-            throw new UserExpiredException(userDetails.getUsername());
-        }
-        if (!userDetails.isAccountNonLocked()) {
-            log.error("Can't reset password. User {} is locked", userDetails.getUsername());
-            throw new UserLockedException(userDetails.getUsername());
-        }
-        if (!userDetails.isCredentialsNonExpired()) {
-            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
-            throw new UserExpiredException(userDetails.getUsername());
-        }
-        if (!userDetails.isEnabled()) {
-            log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
-            throw new UserDisabledException(userDetails.getUsername());
-        }
-
-        return true;
     }
 
 }
