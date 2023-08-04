@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.test.constant;
+package com.bernardomg.security.token.test.constant;
 
 import java.nio.charset.Charset;
 
@@ -13,7 +13,7 @@ public final class TokenConstants {
         "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
             .getBytes(Charset.forName("UTF-8")));
 
-    public static final String    TOKEN = "MTY2ODM4NTE2MTEyNzowODkxOWEyNzNjNGM4OGYwYzliMWEzOTg3MTU2MmNmODgxYzM3OTc1YzA1ZjhhOTI5YjE4YmI3Y2MwYzNkZDFmOmFkbWluOjcyMTVkZjhkNmVkMTE2OWRmNmNjZTk3M2I4YjQxNmE0NjI2NmFmMjIyMmQ0OGFiYzhlZjc1ZDQ4YTc5ZTI5MGQ1N2VkYzZlMTUzOTQxODZiZWNiYWQ5Njg5N2UxNTA0ZjZlYzFiMTQzOGRmMmM0ZDE5ZmNjYzQ4NDMyODE0Nzc5";
+    public static final String    TOKEN = "MTY5MTE1MDA1MDkwMDo3NmVlNTJhY2JkNzgwZDRkMzE4YWFhMGU2MGJkNzhmNGZhMDlkM2U0MzBiNmEyMWY2NWUzZTQ5MTQwYTU3MmE1OmFkbWluOjA1MDE1ODE5MzQ0MjEyOTAyZTI4YTBmNDkyMzdkM2FiNzEyNGM0OGU3MTM0YmI4MjViN2Q3Y2FlNzI1YjkyZjAwM2QxMDJkZWM3NDI1NmZmMzJlNjkyMzBhMmFkZjdlMTA5OGE2MjVkZmIwMGM1OTU1NzU0ZDFmMjdlZDM5NzI5";
 
     private TokenConstants() {
         super();

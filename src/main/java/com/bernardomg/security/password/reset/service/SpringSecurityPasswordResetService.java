@@ -66,7 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
-    private static final String         TOKEN_PURPOSE = "email_reset";
+    private static final String         TOKEN_PURPOSE = "password_reset";
 
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
@@ -117,6 +117,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             throw new MissingTokenException(token);
         }
 
+        // TODO: Validate purpose
         if (!tokenStore.isValid(token)) {
             // TODO: Throw an exception for each possible case
             log.error("Token expired: {}", token);
@@ -164,6 +165,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final boolean validateToken(final String token) {
+        // TODO: Validate purpose
         return tokenStore.isValid(token);
     }
 

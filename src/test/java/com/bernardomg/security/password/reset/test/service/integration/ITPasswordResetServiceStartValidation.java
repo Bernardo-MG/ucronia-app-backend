@@ -40,7 +40,7 @@ class ITPasswordResetServiceStartValidation {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't change password for email email2@somewhere.com, as no user exists for it");
+            .isEqualTo("Couldn't find user email2@somewhere.com");
     }
 
     @Test
@@ -55,7 +55,7 @@ class ITPasswordResetServiceStartValidation {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't change password for email email@somewhere.com, as no user exists for it");
+            .isEqualTo("Couldn't find user email@somewhere.com");
     }
 
 }

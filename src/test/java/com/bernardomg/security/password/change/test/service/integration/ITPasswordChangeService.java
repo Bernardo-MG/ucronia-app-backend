@@ -104,7 +104,7 @@ class ITPasswordChangeService {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't change password for user admin, as it doesn't exist");
+            .isEqualTo("Couldn't find user admin");
     }
 
 }
