@@ -52,6 +52,6 @@ public final class TokenProperties {
      * Validity length, in seconds, for JWT tokens.
      */
     @NotNull
-    private Integer validity;
+    private Integer validity = 18000;
 
 }
