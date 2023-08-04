@@ -14,12 +14,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - decode")
-class ITPersistentTokenProcessorDecode {
+class ITPersistentTokenStoreDecode {
 
     private final PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenProcessorDecode(final TokenRepository tokenRepository, final TokenService tokenService) {
+    public ITPersistentTokenStoreDecode(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
         store = new PersistentTokenStore(tokenRepository, tokenService, 1000);

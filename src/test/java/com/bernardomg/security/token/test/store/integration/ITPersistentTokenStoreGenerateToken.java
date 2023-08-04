@@ -18,14 +18,14 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - generate token")
-class ITPersistentTokenProcessorGenerateToken {
+class ITPersistentTokenStoreGenerateToken {
 
     private final PersistentTokenStore store;
 
     private final TokenRepository      tokenRepository;
 
     @Autowired
-    public ITPersistentTokenProcessorGenerateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
+    public ITPersistentTokenStoreGenerateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
         super();
 
         store = new PersistentTokenStore(tokenRepo, tokenService, 1000);

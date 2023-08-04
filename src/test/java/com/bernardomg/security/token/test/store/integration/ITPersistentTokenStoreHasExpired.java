@@ -15,12 +15,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PersistentTokenProcessor - has expired")
-class ITPersistentTokenProcessorHasExpired {
+class ITPersistentTokenStoreHasExpired {
 
     private final PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenProcessorHasExpired(final TokenRepository tokenRepository,
+    public ITPersistentTokenStoreHasExpired(final TokenRepository tokenRepository,
             final TokenService tokenService) {
         super();
 
