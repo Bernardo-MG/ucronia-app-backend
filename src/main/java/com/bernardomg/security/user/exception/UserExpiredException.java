@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.exception;
+package com.bernardomg.security.user.exception;
 
 public final class UserExpiredException extends RuntimeException {
 

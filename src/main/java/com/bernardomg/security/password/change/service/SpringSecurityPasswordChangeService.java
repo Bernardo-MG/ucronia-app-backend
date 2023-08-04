@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.exception.UserDisabledException;
-import com.bernardomg.security.exception.UserExpiredException;
-import com.bernardomg.security.exception.UserLockedException;
-import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
+import com.bernardomg.security.user.exception.UserDisabledException;
+import com.bernardomg.security.user.exception.UserExpiredException;
+import com.bernardomg.security.user.exception.UserLockedException;
+import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 

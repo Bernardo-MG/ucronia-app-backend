@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.exception.UserDisabledException;
-import com.bernardomg.security.exception.UserExpiredException;
-import com.bernardomg.security.exception.UserLockedException;
-import com.bernardomg.security.exception.UserNotFoundException;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.user.exception.UserDisabledException;
+import com.bernardomg.security.user.exception.UserExpiredException;
+import com.bernardomg.security.user.exception.UserLockedException;
+import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
