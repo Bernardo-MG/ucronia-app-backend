@@ -13,13 +13,13 @@ import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - decode")
-class ITPersistentTokenStoreDecode {
+@DisplayName("PersistentTokenProcessor - get username")
+class ITPersistentTokenStoreGetUsername {
 
     private final PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreDecode(final TokenRepository tokenRepository, final TokenService tokenService) {
+    public ITPersistentTokenStoreGetUsername(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
         store = new PersistentTokenStore(tokenRepository, tokenService, 1000);

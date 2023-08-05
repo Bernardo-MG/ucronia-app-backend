@@ -14,13 +14,13 @@ import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - has expired")
-class ITPersistentTokenStoreHasExpired {
+@DisplayName("PersistentTokenProcessor - exists")
+class ITPersistentTokenStoreExists {
 
     private final PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreHasExpired(final TokenRepository tokenRepository, final TokenService tokenService) {
+    public ITPersistentTokenStoreExists(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
         store = new PersistentTokenStore(tokenRepository, tokenService, 1000);
