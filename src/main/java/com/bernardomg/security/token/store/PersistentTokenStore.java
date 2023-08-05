@@ -104,7 +104,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final Boolean isValid(final String token, final String scope) {
+    public final boolean isValid(final String token, final String scope) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   valid;

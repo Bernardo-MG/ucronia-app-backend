@@ -38,6 +38,6 @@ public interface TokenStore {
      *            token scope
      * @return {@code true} if the token has expired, {@code false} otherwise
      */
-    public Boolean isValid(final String token, final String scope);
+    public boolean isValid(final String token, final String scope);
 
 }
