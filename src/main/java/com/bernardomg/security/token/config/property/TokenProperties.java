@@ -48,6 +48,9 @@ public final class TokenProperties {
     @NotEmpty
     private String  secret;
 
+    @NotNull
+    private Integer seed;
+
     /**
      * Validity length, in seconds, for JWT tokens.
      */

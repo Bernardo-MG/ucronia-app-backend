@@ -54,7 +54,7 @@ public class TokenServiceConfig {
 
         tokenService = new KeyBasedPersistenceTokenService();
         tokenService.setServerSecret(properties.getSecret());
-        tokenService.setServerInteger(properties.getValidity());
+        tokenService.setServerInteger(properties.getSeed());
         tokenService.setSecureRandom(new SecureRandom());
 
         return tokenService;
