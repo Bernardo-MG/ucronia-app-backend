@@ -5,10 +5,8 @@ public interface TokenStore {
 
     public void consumeToken(final String token);
 
-    public boolean exists(final String token, final String purpose);
-
     /**
-     * Returns a token for a user.
+     * Returns a new token for a user.
      *
      * @param userId
      *            id for the user who generates the token
@@ -18,7 +16,9 @@ public interface TokenStore {
      *            token purpose
      * @return token for the subject
      */
-    public String generateToken(final Long userId, final String username, final String purpose);
+    public String createToken(final Long userId, final String username, final String purpose);
+
+    public boolean exists(final String token, final String purpose);
 
     /**
      * Returns the username for the token.

@@ -17,15 +17,15 @@ import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - generate token")
-class ITPersistentTokenStoreGenerateToken {
+@DisplayName("PersistentTokenProcessor - create token")
+class ITPersistentTokenStoreCreateToken {
 
     private final PersistentTokenStore store;
 
     private final TokenRepository      tokenRepository;
 
     @Autowired
-    public ITPersistentTokenStoreGenerateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
+    public ITPersistentTokenStoreCreateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
         super();
 
         store = new PersistentTokenStore(tokenRepo, tokenService, 1000);
@@ -35,10 +35,10 @@ class ITPersistentTokenStoreGenerateToken {
     @Test
     @DisplayName("After generating a token a new token is persisted")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testGenerateToken_Persisted() {
+    void testCreateToken_Persisted() {
         final long count;
 
-        store.generateToken(1l, "admin", "purpose");
+        store.createToken(1l, "admin", "purpose");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -48,14 +48,14 @@ class ITPersistentTokenStoreGenerateToken {
     @Test
     @DisplayName("After generating a token said token data is persisted")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testGenerateToken_PersistedData() {
+    void testCreateToken_PersistedData() {
         final PersistentToken token;
         final Calendar        lower;
         final Calendar        upper;
 
         lower = Calendar.getInstance();
 
-        store.generateToken(1l, "admin", "purpose");
+        store.createToken(1l, "admin", "purpose");
 
         token = tokenRepository.findAll()
             .iterator()
@@ -80,10 +80,10 @@ class ITPersistentTokenStoreGenerateToken {
     @Test
     @DisplayName("After generating a token it returns said token")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testGenerateToken_Return() {
+    void testCreateToken_Return() {
         final String token;
 
-        token = store.generateToken(1l, "admin", "purpose");
+        token = store.createToken(1l, "admin", "purpose");
 
         Assertions.assertThat(token)
             .isNotNull();
@@ -92,11 +92,11 @@ class ITPersistentTokenStoreGenerateToken {
     @Test
     @DisplayName("Can generate tokens when the username doesn't match the user's")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testGenerateToken_UserNameNotExisting() {
+    void testCreateToken_UserNameNotExisting() {
         final long count;
 
         // TODO: then, just take the username from the user id
-        store.generateToken(1l, "abc", "purpose");
+        store.createToken(1l, "abc", "purpose");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -106,11 +106,11 @@ class ITPersistentTokenStoreGenerateToken {
     @Test
     @DisplayName("When generating a token for and invalid user id, then an exception is thrown")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testGenerateToken_UserNotExisting() {
+    void testCreateToken_UserNotExisting() {
         final ThrowingCallable executable;
 
         executable = () -> {
-            store.generateToken(2l, "admin", "purpose");
+            store.createToken(2l, "admin", "purpose");
             tokenRepository.flush();
         };
 

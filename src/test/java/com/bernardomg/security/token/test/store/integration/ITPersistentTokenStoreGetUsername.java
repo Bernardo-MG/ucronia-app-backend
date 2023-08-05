@@ -2,11 +2,13 @@
 package com.bernardomg.security.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.token.TokenService;
 
+import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.constant.TokenConstants;
@@ -26,17 +28,28 @@ class ITPersistentTokenStoreGetUsername {
     }
 
     @Test
-    @DisplayName("Decodes a token")
-    void testDecode() {
-        final String token;
+    @DisplayName("Extracts the username from a token")
+    void testGetUsername() {
         final String subject;
 
-        token = TokenConstants.TOKEN;
-
-        subject = store.getUsername(token);
+        subject = store.getUsername(TokenConstants.TOKEN);
 
         Assertions.assertThat(subject)
             .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Extracts no username from an invalid token")
+    void testGetUsername_InvalidToken() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        executable = () -> store.getUsername("abc");
+
+        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("Invalid token abc");
     }
 
 }

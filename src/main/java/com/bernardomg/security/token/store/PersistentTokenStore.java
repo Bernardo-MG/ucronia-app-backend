@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.security.core.token.TokenService;
 
+import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
@@ -53,12 +54,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final boolean exists(final String token, final String purpose) {
-        return tokenRepository.existsByTokenAndScope(token, purpose);
-    }
-
-    @Override
-    public final String generateToken(final Long userId, final String username, final String purpose) {
+    public final String createToken(final Long userId, final String username, final String purpose) {
         final PersistentToken persistentToken;
         final Calendar        creation;
         final Calendar        expiration;
@@ -89,9 +85,22 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
+    public final boolean exists(final String token, final String purpose) {
+        return tokenRepository.existsByTokenAndScope(token, purpose);
+    }
+
+    @Override
     public final String getUsername(final String token) {
-        return tokenService.verifyToken(token)
-            .getExtendedInformation();
+        final String username;
+
+        try {
+            username = tokenService.verifyToken(token)
+                .getExtendedInformation();
+        } catch (final Exception e) {
+            throw new InvalidTokenException(token);
+        }
+
+        return username;
     }
 
     @Override
