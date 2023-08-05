@@ -194,7 +194,7 @@ databaseChangeLog:
                     references: users(id)
                     nullable: false
               - column:
-                  name: purpose
+                  name: scope
                   type: varchar(20)
                   constraints:
                     nullable: false
@@ -216,6 +216,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: consumed
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: revoked
                   type: boolean
                   constraints:
                     nullable: false

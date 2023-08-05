@@ -47,11 +47,13 @@ class ITPasswordResetServiceStartToken {
 
         Assertions.assertThat(token.getToken())
             .isNotNull();
-        Assertions.assertThat(token.getPurpose())
+        Assertions.assertThat(token.getScope())
             .isEqualTo("password_reset");
         Assertions.assertThat(token.getExpirationDate())
             .isGreaterThan(Calendar.getInstance());
         Assertions.assertThat(token.getConsumed())
+            .isFalse();
+        Assertions.assertThat(token.getRevoked())
             .isFalse();
     }
 

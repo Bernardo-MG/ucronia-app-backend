@@ -20,8 +20,7 @@ class ITPersistentTokenStoreHasExpired {
     private final PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreHasExpired(final TokenRepository tokenRepository,
-            final TokenService tokenService) {
+    public ITPersistentTokenStoreHasExpired(final TokenRepository tokenRepository, final TokenService tokenService) {
         super();
 
         store = new PersistentTokenStore(tokenRepository, tokenService, 1000);
@@ -34,7 +33,7 @@ class ITPersistentTokenStoreHasExpired {
     void testExists_existing() {
         final Boolean exists;
 
-        exists = store.exists(TokenConstants.TOKEN, TokenConstants.PURPOSE);
+        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
 
         Assertions.assertThat(exists)
             .isTrue();
@@ -45,7 +44,7 @@ class ITPersistentTokenStoreHasExpired {
     void testExists_notExisting() {
         final Boolean exists;
 
-        exists = store.exists(TokenConstants.TOKEN, TokenConstants.PURPOSE);
+        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
 
         Assertions.assertThat(exists)
             .isFalse();

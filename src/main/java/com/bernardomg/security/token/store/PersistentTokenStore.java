@@ -53,7 +53,7 @@ public final class PersistentTokenStore implements TokenStore {
 
     @Override
     public final boolean exists(final String token, final String purpose) {
-        return tokenRepository.existsByTokenAndPurpose(token, purpose);
+        return tokenRepository.existsByTokenAndScope(token, purpose);
     }
 
     @Override
@@ -75,10 +75,11 @@ public final class PersistentTokenStore implements TokenStore {
 
         persistentToken = new PersistentToken();
         persistentToken.setUserId(userId);
-        persistentToken.setPurpose(purpose);
+        persistentToken.setScope(purpose);
         persistentToken.setCreationDate(creation);
         persistentToken.setToken(tokenCode);
         persistentToken.setConsumed(false);
+        persistentToken.setRevoked(false);
         persistentToken.setExpirationDate(expiration);
 
         tokenRepository.save(persistentToken);
@@ -103,10 +104,10 @@ public final class PersistentTokenStore implements TokenStore {
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
-            if (!purpose.equals(entity.getPurpose())) {
+            if (!purpose.equals(entity.getScope())) {
                 // Purpose mismatch
                 valid = false;
-                log.warn("Expected purpose {}, but the token is for {}", purpose, entity.getPurpose());
+                log.warn("Expected purpose {}, but the token is for {}", purpose, entity.getScope());
             } else if (Calendar.getInstance()
                 .after(entity.getExpirationDate())) {
                 // Expired

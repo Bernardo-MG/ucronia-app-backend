@@ -64,11 +64,10 @@ public class PasswordConfig {
     public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService,
-            final TokenProperties tokenProperties) {
+            final TokenService tokenService, final TokenProperties tokenProperties) {
         final TokenStore tokenProcessor;
 
-        tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService,tokenProperties.getValidity());
+        tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService, tokenProperties.getValidity());
 
         return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder);

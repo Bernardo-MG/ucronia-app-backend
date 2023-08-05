@@ -39,8 +39,11 @@ public class PersistentToken implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "purpose", nullable = false, unique = true, length = 20)
-    private String            purpose;
+    @Column(name = "revoked", nullable = false)
+    private Boolean           revoked;
+
+    @Column(name = "scope", nullable = false, unique = true, length = 20)
+    private String            scope;
 
     @Column(name = "token", nullable = false, unique = true, length = 300)
     private String            token;

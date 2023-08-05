@@ -66,12 +66,14 @@ class ITPersistentTokenStoreGenerateToken {
 
         Assertions.assertThat(token.getToken())
             .isNotNull();
-        Assertions.assertThat(token.getPurpose())
+        Assertions.assertThat(token.getScope())
             .isEqualTo("purpose");
         Assertions.assertThat(token.getExpirationDate())
             .isGreaterThan(lower)
             .isLessThanOrEqualTo(upper);
         Assertions.assertThat(token.getConsumed())
+            .isFalse();
+        Assertions.assertThat(token.getRevoked())
             .isFalse();
     }
 

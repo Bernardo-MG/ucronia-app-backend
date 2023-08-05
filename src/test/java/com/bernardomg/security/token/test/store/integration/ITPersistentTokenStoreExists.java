@@ -33,7 +33,7 @@ class ITPersistentTokenStoreExists {
     void testIsValid_Consumed() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.PURPOSE);
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -46,7 +46,7 @@ class ITPersistentTokenStoreExists {
     void testIsValid_Expired() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.PURPOSE);
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -59,7 +59,7 @@ class ITPersistentTokenStoreExists {
     void testIsValid_Valid() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.PURPOSE);
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
 
         Assertions.assertThat(valid)
             .isTrue();
