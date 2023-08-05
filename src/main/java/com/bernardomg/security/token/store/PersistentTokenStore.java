@@ -54,7 +54,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final String createToken(final Long userId, final String username, final String purpose) {
+    public final String createToken(final Long userId, final String username, final String scope) {
         final PersistentToken persistentToken;
         final Calendar        creation;
         final Calendar        expiration;
@@ -66,13 +66,13 @@ public final class PersistentTokenStore implements TokenStore {
 
         creation = Calendar.getInstance();
 
-        // TODO: Shouldn't this include the purpose?
+        // TODO: Shouldn't this include the scope?
         tokenCode = tokenService.allocateToken(username)
             .getKey();
 
         persistentToken = new PersistentToken();
         persistentToken.setUserId(userId);
-        persistentToken.setScope(purpose);
+        persistentToken.setScope(scope);
         persistentToken.setCreationDate(creation);
         persistentToken.setToken(tokenCode);
         persistentToken.setConsumed(false);
@@ -85,8 +85,8 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final boolean exists(final String token, final String purpose) {
-        return tokenRepository.existsByTokenAndScope(token, purpose);
+    public final boolean exists(final String token, final String scope) {
+        return tokenRepository.existsByTokenAndScope(token, scope);
     }
 
     @Override
@@ -104,7 +104,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final Boolean isValid(final String token, final String purpose) {
+    public final Boolean isValid(final String token, final String scope) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   valid;
@@ -114,10 +114,10 @@ public final class PersistentTokenStore implements TokenStore {
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
-            if (!purpose.equals(entity.getScope())) {
-                // Purpose mismatch
+            if (!scope.equals(entity.getScope())) {
+                // scope mismatch
                 valid = false;
-                log.warn("Expected purpose {}, but the token is for {}", purpose, entity.getScope());
+                log.warn("Expected scope {}, but the token is for {}", scope, entity.getScope());
             } else if (entity.getConsumed()) {
                 // Consumed
                 // It isn't a valid token

@@ -79,10 +79,10 @@ class ITPersistentTokenStoreIsValid {
     }
 
     @Test
-    @DisplayName("A token for the wrong purpose is invalid")
+    @DisplayName("A token for the wrong scope is invalid")
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testIsValid_WrongPurpose() {
+    void testIsValid_WrongScope() {
         final Boolean valid;
 
         valid = store.isValid(TokenConstants.TOKEN, "abc");

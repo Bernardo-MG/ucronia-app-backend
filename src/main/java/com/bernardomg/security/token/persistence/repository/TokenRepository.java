@@ -38,7 +38,7 @@ import com.bernardomg.security.token.persistence.model.PersistentToken;
  */
 public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
 
-    public Boolean existsByTokenAndScope(final String token, final String purpose);
+    public Boolean existsByTokenAndScope(final String token, final String scope);
 
     public Optional<PersistentToken> findOneByToken(final String token);
 

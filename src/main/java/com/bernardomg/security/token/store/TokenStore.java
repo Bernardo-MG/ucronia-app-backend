@@ -12,13 +12,13 @@ public interface TokenStore {
      *            id for the user who generates the token
      * @param username
      *            username for the user who generates the token
-     * @param purpose
-     *            token purpose
+     * @param scope
+     *            token scope
      * @return token for the subject
      */
-    public String createToken(final Long userId, final String username, final String purpose);
+    public String createToken(final Long userId, final String username, final String scope);
 
-    public boolean exists(final String token, final String purpose);
+    public boolean exists(final String token, final String scope);
 
     /**
      * Returns the username for the token.
@@ -34,10 +34,10 @@ public interface TokenStore {
      *
      * @param token
      *            token to validate
-     * @param purpose
-     *            token purpose
+     * @param scope
+     *            token scope
      * @return {@code true} if the token has expired, {@code false} otherwise
      */
-    public Boolean isValid(final String token, final String purpose);
+    public Boolean isValid(final String token, final String scope);
 
 }

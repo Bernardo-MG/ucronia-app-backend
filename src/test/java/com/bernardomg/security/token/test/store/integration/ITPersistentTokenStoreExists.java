@@ -77,10 +77,10 @@ class ITPersistentTokenStoreExists {
     }
 
     @Test
-    @DisplayName("A token for the wrong purpose doesn't exist")
+    @DisplayName("A token for the wrong scope doesn't exist")
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
-    void testExists_WrongPurpose() {
+    void testExists_WrongScope() {
         final Boolean exists;
 
         exists = store.exists(TokenConstants.TOKEN, "abc");

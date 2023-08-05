@@ -66,7 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
-    private static final String         TOKEN_PURPOSE = "password_reset";
+    private static final String         TOKEN_SCOPE = "password_reset";
 
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
@@ -112,13 +112,13 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final String         encodedPassword;
 
         // TODO: User a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token, TOKEN_PURPOSE)) {
+        if (!tokenStore.exists(token, TOKEN_SCOPE)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
-        // TODO: Validate purpose
-        if (!tokenStore.isValid(token, TOKEN_PURPOSE)) {
+        // TODO: Validate scope
+        if (!tokenStore.isValid(token, TOKEN_SCOPE)) {
             // TODO: Throw an exception for each possible case
             log.error("Token expired: {}", token);
             throw new InvalidTokenException(token);
@@ -155,7 +155,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Make sure the user can change the password
         authorizePasswordChange(user.getUsername());
 
-        token = tokenStore.createToken(user.getId(), user.getUsername(), TOKEN_PURPOSE);
+        token = tokenStore.createToken(user.getId(), user.getUsername(), TOKEN_SCOPE);
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
@@ -165,8 +165,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final boolean validateToken(final String token) {
-        // TODO: Validate purpose
-        return tokenStore.isValid(token, TOKEN_PURPOSE);
+        // TODO: Validate scope
+        return tokenStore.isValid(token, TOKEN_SCOPE);
     }
 
     /**

@@ -38,7 +38,7 @@ class ITPersistentTokenStoreCreateToken {
     void testCreateToken_Persisted() {
         final long count;
 
-        store.createToken(1l, "admin", "purpose");
+        store.createToken(1l, "admin", "scope");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -55,7 +55,7 @@ class ITPersistentTokenStoreCreateToken {
 
         lower = Calendar.getInstance();
 
-        store.createToken(1l, "admin", "purpose");
+        store.createToken(1l, "admin", "scope");
 
         token = tokenRepository.findAll()
             .iterator()
@@ -67,7 +67,7 @@ class ITPersistentTokenStoreCreateToken {
         Assertions.assertThat(token.getToken())
             .isNotNull();
         Assertions.assertThat(token.getScope())
-            .isEqualTo("purpose");
+            .isEqualTo("scope");
         Assertions.assertThat(token.getExpirationDate())
             .isGreaterThan(lower)
             .isLessThanOrEqualTo(upper);
@@ -83,7 +83,7 @@ class ITPersistentTokenStoreCreateToken {
     void testCreateToken_Return() {
         final String token;
 
-        token = store.createToken(1l, "admin", "purpose");
+        token = store.createToken(1l, "admin", "scope");
 
         Assertions.assertThat(token)
             .isNotNull();
@@ -96,7 +96,7 @@ class ITPersistentTokenStoreCreateToken {
         final long count;
 
         // TODO: then, just take the username from the user id
-        store.createToken(1l, "abc", "purpose");
+        store.createToken(1l, "abc", "scope");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -110,7 +110,7 @@ class ITPersistentTokenStoreCreateToken {
         final ThrowingCallable executable;
 
         executable = () -> {
-            store.createToken(2l, "admin", "purpose");
+            store.createToken(2l, "admin", "scope");
             tokenRepository.flush();
         };
 
