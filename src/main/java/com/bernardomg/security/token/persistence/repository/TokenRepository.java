@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.token.persistence.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,6 +38,8 @@ import com.bernardomg.security.token.persistence.model.PersistentToken;
  *
  */
 public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
+    
+    public List<PersistentToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
     public Boolean existsByTokenAndScope(final String token, final String scope);
 

@@ -2,6 +2,7 @@
 package com.bernardomg.security.token.store;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.security.core.token.TokenService;
@@ -146,6 +147,16 @@ public final class PersistentTokenStore implements TokenStore {
         }
 
         return valid;
+    }
+
+    @Override
+    public final void revokeExistingTokens(final Long userId, final String scope) {
+        final Collection<PersistentToken> notRevoked;
+
+        notRevoked = tokenRepository.findAllNotRevokedByUserIdAndScope(userId, scope);
+        notRevoked.forEach(t -> t.setRevoked(true));
+
+        tokenRepository.saveAll(notRevoked);
     }
 
 }

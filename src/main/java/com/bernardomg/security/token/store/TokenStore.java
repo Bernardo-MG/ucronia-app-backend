@@ -40,4 +40,6 @@ public interface TokenStore {
      */
     public boolean isValid(final String token, final String scope);
 
+    public void revokeExistingTokens(final Long userId, final String scope);
+
 }
