@@ -45,6 +45,7 @@ public final class PersistentTokenStore implements TokenStore {
                 entity = read.get();
                 entity.setConsumed(true);
                 tokenRepository.save(entity);
+                log.debug("Consumed token {}", token);
             }
         } else {
             log.warn("Token not registered: {}", token);
