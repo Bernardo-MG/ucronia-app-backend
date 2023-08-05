@@ -53,6 +53,19 @@ class ITPersistentTokenStoreIsValid {
     }
 
     @Test
+    @DisplayName("An expired token is invalid")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/revoked.sql" })
+    void testIsValid_Revoked() {
+        final Boolean valid;
+
+        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
+
+        Assertions.assertThat(valid)
+            .isFalse();
+    }
+
+    @Test
     @DisplayName("A valid token is valid")
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
