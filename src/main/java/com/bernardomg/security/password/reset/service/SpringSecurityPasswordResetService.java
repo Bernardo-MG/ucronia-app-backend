@@ -66,8 +66,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
-    private static final String         TOKEN_SCOPE = "password_reset";
-
     /**
      * Message sender. Recovery steps may require emails, or other kind of messaging.
      */
@@ -84,6 +82,11 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final UserRepository        repository;
 
     /**
+     * Token scope for reseting passwords.
+     */
+    private final String                tokenScope;
+
+    /**
      * Token processor.
      */
     private final TokenStore            tokenStore;
@@ -95,7 +98,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore tProcessor, @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final TokenStore tProcessor, @NonNull final PasswordEncoder passEncoder, final String scope) {
         super();
 
         repository = repo;
@@ -103,6 +106,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         messageSender = mSender;
         tokenStore = tProcessor;
         passwordEncoder = passEncoder;
+        tokenScope = scope;
     }
 
     @Override
@@ -112,13 +116,13 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final String         encodedPassword;
 
         // TODO: User a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token, TOKEN_SCOPE)) {
+        if (!tokenStore.exists(token, tokenScope)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
         // TODO: Validate scope
-        if (!tokenStore.isValid(token, TOKEN_SCOPE)) {
+        if (!tokenStore.isValid(token, tokenScope)) {
             // TODO: Throw an exception for each possible case
             log.error("Token expired: {}", token);
             throw new InvalidTokenException(token);
@@ -128,7 +132,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         log.debug("Applying requested password change for {}", username);
 
-        user = getUser(username);
+        user = getUserByUsername(username);
 
         authorizePasswordChange(user.getUsername());
 
@@ -156,9 +160,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         authorizePasswordChange(user.getUsername());
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(user.getId(), TOKEN_SCOPE);
+        tokenStore.revokeExistingTokens(user.getId(), tokenScope);
 
-        token = tokenStore.createToken(user.getId(), user.getUsername(), TOKEN_SCOPE);
+        token = tokenStore.createToken(user.getId(), user.getUsername(), tokenScope);
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
@@ -169,7 +173,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     @Override
     public final boolean validateToken(final String token) {
         // TODO: Validate scope
-        return tokenStore.isValid(token, TOKEN_SCOPE);
+        return tokenStore.isValid(token, tokenScope);
     }
 
     /**
@@ -194,27 +198,13 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             throw new UserLockedException(userDetails.getUsername());
         }
         if (!userDetails.isCredentialsNonExpired()) {
-            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
+            log.error("Can't reset password. User {} credentials are expired", userDetails.getUsername());
             throw new UserExpiredException(userDetails.getUsername());
         }
         if (!userDetails.isEnabled()) {
             log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
             throw new UserDisabledException(userDetails.getUsername());
         }
-    }
-
-    private final PersistentUser getUser(final String username) {
-        final Optional<PersistentUser> user;
-
-        user = repository.findOneByUsername(username);
-
-        // Validate the user exists
-        if (!user.isPresent()) {
-            log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new UserNotFoundException(username);
-        }
-
-        return user.get();
     }
 
     private final PersistentUser getUserByEmail(final String email) {
@@ -226,6 +216,20 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         if (!user.isPresent()) {
             log.error("Couldn't change password for email {}, as no user exists for it", email);
             throw new UserNotFoundException(email);
+        }
+
+        return user.get();
+    }
+
+    private final PersistentUser getUserByUsername(final String username) {
+        final Optional<PersistentUser> user;
+
+        user = repository.findOneByUsername(username);
+
+        // Validate the user exists
+        if (!user.isPresent()) {
+            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            throw new UserNotFoundException(username);
         }
 
         return user.get();

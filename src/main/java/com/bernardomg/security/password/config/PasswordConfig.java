@@ -70,7 +70,7 @@ public class PasswordConfig {
         tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService, tokenProperties.getValidity());
 
         return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
-            passwordEncoder);
+            passwordEncoder, "password_reset");
     }
 
 }
