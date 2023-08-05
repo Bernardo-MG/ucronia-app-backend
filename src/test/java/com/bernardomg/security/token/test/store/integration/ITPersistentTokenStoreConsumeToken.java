@@ -70,7 +70,7 @@ class ITPersistentTokenStoreConsumeToken {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testConsume_NotCreate() {
-        final long   count;
+        final long count;
 
         store.consumeToken(TokenConstants.TOKEN);
 
@@ -82,7 +82,7 @@ class ITPersistentTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token that doesn't exist doesn't create a new token")
     void testConsume_NotExists_NotCreate() {
-        final long   count;
+        final long count;
 
         store.consumeToken(TokenConstants.TOKEN);
 

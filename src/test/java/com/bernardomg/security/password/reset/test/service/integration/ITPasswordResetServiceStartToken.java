@@ -14,13 +14,11 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - token generation on recovery start")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
 class ITPasswordResetServiceStartToken {
 
     @Autowired
@@ -35,8 +33,30 @@ class ITPasswordResetServiceStartToken {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery with an existing user populates the created token")
-    void testStartPasswordRecovery_Exists_TokenData() {
+    @DisplayName("Starting password recovery generates a token")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testStartPasswordRecovery_CreatedToken() {
+        final long count;
+
+        service.startPasswordRecovery("email@somewhere.com");
+
+        count = tokenRepository.count();
+
+        Assertions.assertThat(count)
+            .isOne();
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Starting password recovery populates the created token")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testStartPasswordRecovery_TokenData() {
         final PersistentToken token;
 
         service.startPasswordRecovery("email@somewhere.com");
@@ -59,22 +79,54 @@ class ITPasswordResetServiceStartToken {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery with an existing user generates a token")
-    void testStartPasswordRecovery_Exists_TokenExists() {
-        final boolean exists;
+    @DisplayName("Starting password recovery with an existing token for the user generates a new token")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    void testStartPasswordRecovery_TokenExists_CreatedToken() {
+        final long count;
 
         service.startPasswordRecovery("email@somewhere.com");
 
-        exists = tokenRepository.exists(Example.of(new PersistentToken()));
+        count = tokenRepository.count();
 
-        Assertions.assertThat(exists)
+        Assertions.assertThat(count)
+            .isEqualTo(2);
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Starting password recovery with an existing token for the user revokes the older one")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    void testStartPasswordRecovery_TokenExists_ExpiresToken() {
+        final PersistentToken sample;
+        final PersistentToken token;
+
+        service.startPasswordRecovery("email@somewhere.com");
+
+        sample = new PersistentToken();
+        sample.setToken(TokenConstants.TOKEN);
+        token = tokenRepository.findOne(Example.of(sample))
+            .get();
+
+        Assertions.assertThat(token.getRevoked())
             .isTrue();
     }
 
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
-    void testStartPasswordRecovery_NotExists_NoToken() {
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testStartPasswordRecovery_UserNotExists_NoToken() {
         final boolean exists;
 
         try {
