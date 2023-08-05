@@ -36,12 +36,9 @@ class ITPersistentTokenStoreConsumeToken {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/consumed.sql" })
     void testConsume_AlreadyConsumed_Consumed() {
-        final String          token;
         final PersistentToken persistedToken;
 
-        token = TokenConstants.TOKEN;
-
-        store.consumeToken(token);
+        store.consumeToken(TokenConstants.TOKEN);
 
         persistedToken = tokenRepository.findAll()
             .iterator()
@@ -56,12 +53,9 @@ class ITPersistentTokenStoreConsumeToken {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testConsume_Consumes() {
-        final String          token;
         final PersistentToken persistedToken;
 
-        token = TokenConstants.TOKEN;
-
-        store.consumeToken(token);
+        store.consumeToken(TokenConstants.TOKEN);
 
         persistedToken = tokenRepository.findAll()
             .iterator()
@@ -76,12 +70,9 @@ class ITPersistentTokenStoreConsumeToken {
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testConsume_NotCreate() {
-        final String token;
         final long   count;
 
-        token = TokenConstants.TOKEN;
-
-        store.consumeToken(token);
+        store.consumeToken(TokenConstants.TOKEN);
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -91,12 +82,9 @@ class ITPersistentTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token that doesn't exist doesn't create a new token")
     void testConsume_NotExists_NotCreate() {
-        final String token;
         final long   count;
 
-        token = TokenConstants.TOKEN;
-
-        store.consumeToken(token);
+        store.consumeToken(TokenConstants.TOKEN);
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
