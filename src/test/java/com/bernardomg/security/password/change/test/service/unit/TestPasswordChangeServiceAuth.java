@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.reset.test.service.unit;
+package com.bernardomg.security.password.change.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -14,14 +14,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
@@ -30,33 +31,43 @@ import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordRecoveryService - recovery start - authentication")
-class TestPasswordResetServiceStartAuth {
+@DisplayName("PasswordChangeService - change password")
+class TestPasswordChangeServiceAuth {
 
-    private static final String                EMAIL    = "email@somewhere.com";
+    private static final String                 PASSWORD = "1234";
 
-    private static final String                USERNAME = "username";
-
-    @Mock
-    private SecurityMessageSender              messageSender;
+    private static final String                 USERNAME = "username";
 
     @Mock
-    private PasswordEncoder                    passwordEncoder;
+    private Authentication                      authentication;
 
     @Mock
-    private UserRepository                     repository;
+    private PasswordEncoder                     passwordEncoder;
+
+    @Mock
+    private UserRepository                      repository;
 
     @InjectMocks
-    private SpringSecurityPasswordResetService service;
+    private SpringSecurityPasswordChangeService service;
 
     @Mock
-    private TokenStore                         tokenStore;
+    private UserDetailsService                  userDetailsService;
 
-    @Mock
-    private UserDetailsService                 userDetailsService;
-
-    public TestPasswordResetServiceStartAuth() {
+    public TestPasswordChangeServiceAuth() {
         super();
+    }
+
+    private final void initializeAuthentication() {
+        given(authentication.isAuthenticated()).willReturn(true);
+        given(authentication.getName()).willReturn(USERNAME);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
+    }
+
+    private final void initializeEmptyAuthentication() {
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
     }
 
     private final void loadCredentialsExpiredUser() {
@@ -66,6 +77,7 @@ class TestPasswordResetServiceStartAuth {
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(USERNAME);
+        given(user.getPassword()).willReturn(PASSWORD);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
         given(user.isCredentialsNonExpired()).willReturn(false);
@@ -79,6 +91,7 @@ class TestPasswordResetServiceStartAuth {
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(USERNAME);
+        given(user.getPassword()).willReturn(PASSWORD);
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
@@ -93,6 +106,7 @@ class TestPasswordResetServiceStartAuth {
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(USERNAME);
+        given(user.getPassword()).willReturn(PASSWORD);
         given(user.isAccountNonExpired()).willReturn(false);
         given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
@@ -104,31 +118,39 @@ class TestPasswordResetServiceStartAuth {
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(USERNAME);
+        given(user.getPassword()).willReturn(PASSWORD);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(false);
         given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
 
-    private void loadPersistentUser() {
+    private final void loadPersistentUser() {
         final PersistentUser user;
 
         user = new PersistentUser();
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
+        user.setPassword(PASSWORD);
 
-        given(repository.findOneByEmail(EMAIL)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+    }
+
+    void initializeValidation() {
+        given(passwordEncoder.matches(PASSWORD, PASSWORD)).willReturn(true);
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a user with expired credentials throws an exception")
-    void testStartPasswordRecovery_CredentialsExpired_Exception() {
+    @DisplayName("Changing password with a user with expired credentials gives a failure")
+    void testChangePassword_CredentialsExpired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        initializeValidation();
+        initializeAuthentication();
         loadCredentialsExpiredUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -138,14 +160,16 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a disabled user throws an exception")
-    void testStartPasswordRecovery_Disabled_Exception() {
+    @DisplayName("Changing password with a disabled user gives a failure")
+    void testChangePassword_Disabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        initializeValidation();
+        initializeAuthentication();
         loadDisabledUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
@@ -155,14 +179,16 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for an expired user throws an exception")
-    void testStartPasswordRecovery_Expired_Exception() {
+    @DisplayName("Changing password with a expired user gives a failure")
+    void testChangePassword_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        initializeValidation();
+        initializeAuthentication();
         loadExpiredUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -172,14 +198,16 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a locked user throws an exception")
-    void testStartPasswordRecovery_Locked_Exception() {
+    @DisplayName("Changing password with a locked user gives a failure")
+    void testChangePassword_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        initializeValidation();
+        initializeAuthentication();
         loadLockedUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
 
@@ -188,18 +216,36 @@ class TestPasswordResetServiceStartAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Starting password recovery for a not existing user throws an exception")
-    void testStartPasswordRecovery_NotExisting_Exception() {
+    @DisplayName("Throws an exception when the user is not authenticated")
+    void testChangePassword_NotAuthenticated_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        initializeEmptyAuthentication();
+
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
+
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("No user authenticated");
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Changing password with a not existing user gives a failure")
+    void testChangePassword_NotExistingUser_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        initializeAuthentication();
+
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user email@somewhere.com");
+            .isEqualTo("Couldn't find user username");
     }
 
 }

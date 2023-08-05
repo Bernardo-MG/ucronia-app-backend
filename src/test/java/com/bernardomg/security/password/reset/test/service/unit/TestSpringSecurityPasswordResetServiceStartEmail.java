@@ -14,18 +14,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
@@ -36,37 +34,29 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @Mock
-    private Authentication        authentication;
+    private SecurityMessageSender              mailSender;
 
     @Mock
-    private SecurityMessageSender mailSender;
+    private PasswordEncoder                    passwordEncoder;
 
     @Mock
-    private PasswordEncoder       passwordEncoder;
+    private UserRepository                     repository;
+
+    @InjectMocks
+    private SpringSecurityPasswordResetService service;
 
     @Mock
-    private UserRepository        repository;
-
-    private PasswordResetService  service;
+    private TokenStore                         tokenProcessor;
 
     @Mock
-    private TokenStore            tokenProcessor;
-
-    @Mock
-    private UserDetailsService    userDetailsService;
+    private UserDetailsService                 userDetailsService;
 
     public TestSpringSecurityPasswordResetServiceStartEmail() {
         super();
     }
 
     @BeforeEach
-    void initializeAuthentication() {
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    @BeforeEach
-    void initializeService() {
+    void initializeUser() {
         final PersistentUser user;
         final UserDetails    details;
 
@@ -80,9 +70,6 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 
         given(repository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
-
-        service = new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
-            passwordEncoder);
     }
 
     @Test
