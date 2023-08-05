@@ -70,6 +70,13 @@ class TestPasswordChangeServiceAuth {
             .setAuthentication(null);
     }
 
+    private final void initializeNotAuthentication() {
+        given(authentication.isAuthenticated()).willReturn(false);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
+    }
+
     private final void loadCredentialsExpiredUser() {
         final UserDetails user;
 
@@ -216,12 +223,28 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
+    @DisplayName("Throws an exception when there is no authentication data")
+    void testChangePassword_MissingAuthentication_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        initializeEmptyAuthentication();
+
+        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
+
+        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("No user authenticated");
+    }
+
+    @Test
     @DisplayName("Throws an exception when the user is not authenticated")
     void testChangePassword_NotAuthenticated_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        initializeEmptyAuthentication();
+        initializeNotAuthentication();
 
         executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
