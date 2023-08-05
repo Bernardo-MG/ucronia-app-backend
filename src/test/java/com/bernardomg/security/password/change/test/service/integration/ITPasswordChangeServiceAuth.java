@@ -110,7 +110,7 @@ class ITPasswordChangeServiceAuth {
 
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
-    void testChangePassword_NotAuthenticated() {
+    void testChangePassword_NotAuthenticated_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 

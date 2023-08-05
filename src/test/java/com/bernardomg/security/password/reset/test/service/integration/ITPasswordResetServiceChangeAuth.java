@@ -3,6 +3,7 @@ package com.bernardomg.security.password.reset.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,23 @@ class ITPasswordResetServiceChangeAuth {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testChangePassword_Locked_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+
+        exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User admin is locked");
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Changing password for a not existing user throws an exception")
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    @Disabled("Can't initialize data")
+    void testChangePassword_NotExistingUser_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
