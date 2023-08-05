@@ -40,6 +40,19 @@ class ITPersistentTokenStoreExists {
     }
 
     @Test
+    @DisplayName("An expired token exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/expired.sql" })
+    void testExists_expired() {
+        final Boolean exists;
+
+        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
+
+        Assertions.assertThat(exists)
+            .isTrue();
+    }
+
+    @Test
     @DisplayName("A not existing token doesn't exist")
     void testExists_notExisting() {
         final Boolean exists;
@@ -48,6 +61,19 @@ class ITPersistentTokenStoreExists {
 
         Assertions.assertThat(exists)
             .isFalse();
+    }
+
+    @Test
+    @DisplayName("A revoked token exists")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/revoked.sql" })
+    void testExists_revoked() {
+        final Boolean exists;
+
+        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
+
+        Assertions.assertThat(exists)
+            .isTrue();
     }
 
     @Test
