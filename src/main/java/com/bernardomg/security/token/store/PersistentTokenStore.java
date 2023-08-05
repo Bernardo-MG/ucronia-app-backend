@@ -108,17 +108,22 @@ public final class PersistentTokenStore implements TokenStore {
                 // Purpose mismatch
                 valid = false;
                 log.warn("Expected purpose {}, but the token is for {}", purpose, entity.getScope());
+            } else if (entity.getConsumed()) {
+                // Consumed
+                // It isn't a valid token
+                valid = false;
+                log.warn("Consumed token: {}", token);
+            } else if (entity.getRevoked()) {
+                // Revoked
+                // It isn't a valid token
+                valid = false;
+                log.warn("Revoked token: {}", token);
             } else if (Calendar.getInstance()
                 .after(entity.getExpirationDate())) {
                 // Expired
                 // It isn't a valid token
                 valid = false;
                 log.warn("Expired token: {}", token);
-            } else if (entity.getConsumed()) {
-                // Consumed
-                // It isn't a valid token
-                valid = false;
-                log.warn("Consumed token: {}", token);
             } else {
                 // Not expired
                 // Verifies the expiration date is after the current date
