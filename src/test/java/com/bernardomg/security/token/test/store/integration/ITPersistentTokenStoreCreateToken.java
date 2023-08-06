@@ -71,9 +71,9 @@ class ITPersistentTokenStoreCreateToken {
         Assertions.assertThat(token.getExpirationDate())
             .isGreaterThan(lower)
             .isLessThanOrEqualTo(upper);
-        Assertions.assertThat(token.getConsumed())
+        Assertions.assertThat(token.isConsumed())
             .isFalse();
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isFalse();
     }
 

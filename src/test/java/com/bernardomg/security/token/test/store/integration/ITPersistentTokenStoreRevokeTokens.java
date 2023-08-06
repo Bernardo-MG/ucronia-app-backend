@@ -41,7 +41,7 @@ class ITPersistentTokenStoreRevokeTokens {
         token = tokenRepository.findAll()
             .iterator()
             .next();
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isTrue();
     }
 
@@ -57,7 +57,7 @@ class ITPersistentTokenStoreRevokeTokens {
         token = tokenRepository.findAll()
             .iterator()
             .next();
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isFalse();
     }
 
@@ -73,7 +73,7 @@ class ITPersistentTokenStoreRevokeTokens {
         token = tokenRepository.findAll()
             .iterator()
             .next();
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isFalse();
     }
 
@@ -89,7 +89,7 @@ class ITPersistentTokenStoreRevokeTokens {
         token = tokenRepository.findAll()
             .iterator()
             .next();
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isTrue();
     }
 

@@ -43,7 +43,7 @@ class ITPasswordResetServiceChangeConsumeToken {
             .stream()
             .findFirst()
             .get()
-            .getConsumed();
+            .isConsumed();
 
         service.changePassword(TokenConstants.TOKEN, "abc");
 
@@ -51,7 +51,7 @@ class ITPasswordResetServiceChangeConsumeToken {
             .stream()
             .findFirst()
             .get()
-            .getConsumed();
+            .isConsumed();
 
         Assertions.assertThat(consumedBefore)
             .isFalse();

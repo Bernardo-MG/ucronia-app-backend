@@ -44,7 +44,7 @@ class ITPersistentTokenStoreConsumeToken {
             .iterator()
             .next();
 
-        Assertions.assertThat(persistedToken.getConsumed())
+        Assertions.assertThat(persistedToken.isConsumed())
             .isTrue();
     }
 
@@ -61,7 +61,7 @@ class ITPersistentTokenStoreConsumeToken {
             .iterator()
             .next();
 
-        Assertions.assertThat(persistedToken.getConsumed())
+        Assertions.assertThat(persistedToken.isConsumed())
             .isTrue();
     }
 

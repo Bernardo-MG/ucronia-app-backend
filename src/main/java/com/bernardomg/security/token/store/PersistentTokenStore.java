@@ -41,7 +41,7 @@ public final class PersistentTokenStore implements TokenStore {
 
         if (read.isPresent()) {
             if (read.get()
-                .getConsumed()) {
+                .isConsumed()) {
                 log.warn("Token already consumed: {}", token);
             } else {
                 entity = read.get();
@@ -118,12 +118,12 @@ public final class PersistentTokenStore implements TokenStore {
                 // scope mismatch
                 valid = false;
                 log.warn("Expected scope {}, but the token is for {}", scope, entity.getScope());
-            } else if (entity.getConsumed()) {
+            } else if (entity.isConsumed()) {
                 // Consumed
                 // It isn't a valid token
                 valid = false;
                 log.warn("Consumed token: {}", token);
-            } else if (entity.getRevoked()) {
+            } else if (entity.isRevoked()) {
                 // Revoked
                 // It isn't a valid token
                 valid = false;

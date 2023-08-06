@@ -71,9 +71,9 @@ class ITPasswordResetServiceStartToken {
             .isEqualTo("password_reset");
         Assertions.assertThat(token.getExpirationDate())
             .isGreaterThan(Calendar.getInstance());
-        Assertions.assertThat(token.getConsumed())
+        Assertions.assertThat(token.isConsumed())
             .isFalse();
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isFalse();
     }
 
@@ -115,7 +115,7 @@ class ITPasswordResetServiceStartToken {
         token = tokenRepository.findOne(Example.of(sample))
             .get();
 
-        Assertions.assertThat(token.getRevoked())
+        Assertions.assertThat(token.isRevoked())
             .isTrue();
     }
 

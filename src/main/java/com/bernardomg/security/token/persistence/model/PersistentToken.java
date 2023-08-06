@@ -23,7 +23,7 @@ public class PersistentToken implements Serializable {
     private static final long serialVersionUID = -216369933325209746L;
 
     @Column(name = "consumed", nullable = false)
-    private Boolean           consumed;
+    private boolean           consumed;
 
     @Column(name = "creation_date", nullable = false)
     private Calendar          creationDate;
@@ -40,7 +40,7 @@ public class PersistentToken implements Serializable {
     private Long              id;
 
     @Column(name = "revoked", nullable = false)
-    private Boolean           revoked;
+    private boolean           revoked;
 
     @Column(name = "scope", nullable = false, unique = true, length = 20)
     private String            scope;
