@@ -22,11 +22,14 @@ public class PersistentToken implements Serializable {
 
     private static final long serialVersionUID = -216369933325209746L;
 
+    @Column(name = "consumed", nullable = false)
+    private boolean           consumed;
+
+    @Column(name = "creation_date", nullable = false)
+    private Calendar          creationDate;
+
     @Column(name = "expiration_date", nullable = false)
     private Calendar          expirationDate;
-
-    @Column(name = "expired", nullable = false, unique = true)
-    private Boolean           expired;
 
     /**
      * Entity id.
@@ -36,10 +39,16 @@ public class PersistentToken implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    /**
-     * Action name.
-     */
-    @Column(name = "token", nullable = false, unique = true, length = 60)
+    @Column(name = "revoked", nullable = false)
+    private boolean           revoked;
+
+    @Column(name = "scope", nullable = false, unique = true, length = 20)
+    private String            scope;
+
+    @Column(name = "token", nullable = false, unique = true, length = 300)
     private String            token;
+
+    @Column(name = "user_id", nullable = false)
+    private Long              userId;
 
 }

@@ -38,11 +38,13 @@ import com.bernardomg.association.fee.model.request.FeeCreate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - create")
 @Sql({ "/db/queries/member/single.sql" })
 class ITFeeServiceCreate {

@@ -30,13 +30,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.security.user.test.util.model.RolesUpdate;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Role service - update validation")
 class ITRoleServiceUpdateValidation {
 

@@ -35,11 +35,13 @@ import com.bernardomg.association.member.model.request.MemberCreate;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.test.member.util.model.MembersCreate;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Member service - create")
 class ITMemberServiceCreate {
 

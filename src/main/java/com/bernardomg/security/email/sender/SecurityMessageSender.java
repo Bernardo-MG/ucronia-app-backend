@@ -33,7 +33,7 @@ package com.bernardomg.security.email.sender;
  */
 public interface SecurityMessageSender {
 
-    public void sendPasswordRecoveryEmail(final String email, final String token);
+    public void sendPasswordRecoveryMessage(final String email, final String token);
 
     /**
      * Sends the email after signing up as a new user.
@@ -43,6 +43,6 @@ public interface SecurityMessageSender {
      * @param email
      *            email to send the email to
      */
-    public void sendSignUpEmail(final String username, final String email);
+    public void sendSignUpMessage(final String username, final String email);
 
 }

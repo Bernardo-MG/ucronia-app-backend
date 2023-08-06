@@ -74,7 +74,7 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
             valid = passwordEncoder.matches(login.getPassword(), details.get()
                 .getPassword());
             if (!valid) {
-                log.debug("Received password doesn't match the one stored for username {}. Failed login",
+                log.debug("Received a password which doesn't match the one stored for username {}. Failed login",
                     login.getUsername());
             }
         } else {

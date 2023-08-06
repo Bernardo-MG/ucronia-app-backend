@@ -24,33 +24,12 @@
 
 package com.bernardomg.security.config;
 
-import java.security.SecureRandom;
-import java.util.function.Predicate;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
-import org.springframework.security.core.token.TokenService;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.login.model.request.LoginRequest;
-import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.TokenLoginStatusProvider;
-import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
-import com.bernardomg.security.password.change.service.DefaultPasswordChangeService;
-import com.bernardomg.security.password.change.service.PasswordChangeService;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
-import com.bernardomg.security.password.recovery.service.springframework.SpringSecurityPasswordRecoveryService;
 import com.bernardomg.security.signup.service.MailSignUpService;
 import com.bernardomg.security.signup.service.SignUpService;
-import com.bernardomg.security.token.TokenEncoder;
-import com.bernardomg.security.token.persistence.provider.PersistentTokenProcessor;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.provider.TokenProcessor;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
@@ -64,51 +43,6 @@ public class SecurityServiceConfig {
 
     public SecurityServiceConfig() {
         super();
-    }
-
-    @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService, final TokenEncoder<String> tokenEncoder) {
-        final LoginStatusProvider     statusProvider;
-        final Predicate<LoginRequest> valid;
-
-        statusProvider = new TokenLoginStatusProvider(tokenEncoder);
-        valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
-
-        return new DefaultLoginService(statusProvider, valid);
-    }
-
-    @Bean("passwordChangeService")
-    public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
-        return new DefaultPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
-    }
-
-    @Bean("passwordRecoveryService")
-    public PasswordRecoveryService getPasswordRecoveryService(final UserRepository repository,
-            final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
-            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService) {
-        final TokenProcessor tokenProcessor;
-
-        tokenProcessor = new PersistentTokenProcessor(tokenRepository, tokenService);
-
-        return new SpringSecurityPasswordRecoveryService(repository, userDetailsService, mailSender, tokenProcessor,
-            passwordEncoder);
-    }
-
-    @Bean("springTokenService")
-    public TokenService getTokenService() {
-        final KeyBasedPersistenceTokenService tokenService;
-
-        tokenService = new KeyBasedPersistenceTokenService();
-        // TODO: add to config
-        tokenService.setServerInteger(123);
-        tokenService.setServerSecret("abc");
-        tokenService.setSecureRandom(new SecureRandom());
-
-        return tokenService;
     }
 
     @Bean("userRegistrationService")
