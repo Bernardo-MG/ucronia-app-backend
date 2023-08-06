@@ -81,6 +81,8 @@ public final class PersistentTokenStore implements TokenStore {
 
         tokenRepository.save(persistentToken);
 
+        log.debug("Created token for {} with scope {}", username, scope);
+
         return tokenCode;
     }
 
@@ -156,6 +158,8 @@ public final class PersistentTokenStore implements TokenStore {
         notRevoked.forEach(t -> t.setRevoked(true));
 
         tokenRepository.saveAll(notRevoked);
+
+        log.debug("Revoked all existing tokens with scope {} for {}", scope, userId);
     }
 
 }
