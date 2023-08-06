@@ -27,7 +27,6 @@ package com.bernardomg.security.token.config.property;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -43,16 +42,7 @@ import lombok.Data;
 public final class TokenProperties {
 
     /**
-     * Secret seed for generating JWT tokens.
-     */
-    @NotEmpty
-    private String  secret;
-
-    @NotNull
-    private Integer seed;
-
-    /**
-     * Validity length, in seconds, for JWT tokens.
+     * Validity length, in seconds, for tokens.
      */
     @NotNull
     private Integer validity = 18000;
