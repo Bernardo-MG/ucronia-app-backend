@@ -26,7 +26,6 @@ package com.bernardomg.association.test.fee.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,61 +81,6 @@ class ITFeeServiceCreateError {
         final ThrowingCallable executable;
 
         feeRequest = FeesCreate.valid();
-
-        executable = () -> {
-            service.create(feeRequest);
-            repository.flush();
-        };
-
-        // TODO: Shouldn't this be a validation error?
-        Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(DataIntegrityViolationException.class);
-    }
-
-    @Test
-    @DisplayName("With a missing date it throws an exception")
-    @Disabled("The model rejects this case")
-    void testCreate_MissingDate() {
-        final FeeCreate        feeRequest;
-        final ThrowingCallable executable;
-
-        feeRequest = FeesCreate.missingPaymentDate();
-
-        executable = () -> {
-            service.create(feeRequest);
-            repository.flush();
-        };
-
-        // TODO: Shouldn't this be a validation error?
-        Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(DataIntegrityViolationException.class);
-    }
-
-    @Test
-    @DisplayName("With a missing description it throws an exception")
-    void testCreate_MissingDescription() {
-        final FeeCreate        feeRequest;
-        final ThrowingCallable executable;
-
-        feeRequest = FeesCreate.missingDescription();
-
-        executable = () -> {
-            service.create(feeRequest);
-            repository.flush();
-        };
-
-        // TODO: Shouldn't this be a validation error?
-        Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(DataIntegrityViolationException.class);
-    }
-
-    @Test
-    @DisplayName("With missing fee dates it throws an exception")
-    void testCreate_MissingFeeDates() {
-        final FeeCreate        feeRequest;
-        final ThrowingCallable executable;
-
-        feeRequest = FeesCreate.missingFeeDates();
 
         executable = () -> {
             service.create(feeRequest);

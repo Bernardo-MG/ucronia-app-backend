@@ -111,6 +111,7 @@ class ITFeeServiceCreate {
             .id(1L)
             .date(new GregorianCalendar(2020, 0, 1))
             .description("Fee paid")
+            .amount(1F)
             .build());
     }
 

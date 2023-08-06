@@ -21,13 +21,13 @@ class TestValidatedFeeCreateValidation {
         .getValidator();
 
     @Test
-    @DisplayName("A DTO missing the date is invalid")
-    void validate_missingDate() {
+    @DisplayName("A DTO missing the description is invalid")
+    void validate_missingDescription() {
         final FeeCreate                           request;
         final Set<ConstraintViolation<FeeCreate>> errors;
         final ConstraintViolation<FeeCreate>      error;
 
-        request = FeesCreate.missingPaymentDate();
+        request = FeesCreate.missingDescription();
 
         errors = validator.validate(request);
 
@@ -38,7 +38,30 @@ class TestValidatedFeeCreateValidation {
             .next();
 
         Assertions.assertThat(error.getPropertyPath())
-            .hasToString("date");
+            .hasToString("description");
+        Assertions.assertThat(error.getInvalidValue())
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("A DTO missing the fee dates is invalid")
+    void validate_missingFeeDates() {
+        final FeeCreate                           request;
+        final Set<ConstraintViolation<FeeCreate>> errors;
+        final ConstraintViolation<FeeCreate>      error;
+
+        request = FeesCreate.missingFeeDates();
+
+        errors = validator.validate(request);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("feeDates");
         Assertions.assertThat(error.getInvalidValue())
             .isNull();
     }
@@ -62,6 +85,29 @@ class TestValidatedFeeCreateValidation {
 
         Assertions.assertThat(error.getPropertyPath())
             .hasToString("memberId");
+        Assertions.assertThat(error.getInvalidValue())
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("A DTO missing the payment date is invalid")
+    void validate_missingPaymentDate() {
+        final FeeCreate                           request;
+        final Set<ConstraintViolation<FeeCreate>> errors;
+        final ConstraintViolation<FeeCreate>      error;
+
+        request = FeesCreate.missingPaymentDate();
+
+        errors = validator.validate(request);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("paymentDate");
         Assertions.assertThat(error.getInvalidValue())
             .isNull();
     }
