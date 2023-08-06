@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public interface FeeService {
      *            fee to persist
      * @return the persisted fee
      */
-    public MemberFee create(final FeeCreate fee);
+    public Collection<? extends MemberFee> create(final FeeCreate fee);
 
     /**
      * Deletes the fee with the received id.

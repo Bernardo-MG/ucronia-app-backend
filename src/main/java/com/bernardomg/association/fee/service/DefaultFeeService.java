@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.mapper.FeeMapper;
@@ -26,6 +28,8 @@ import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecificat
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.validation.Validator;
 
@@ -38,29 +42,32 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultFeeService implements FeeService {
 
-    private static final String        CACHE_CALENDAR = "fee_calendar";
+    private static final String         CACHE_CALENDAR = "fee_calendar";
 
-    private static final String        CACHE_MULTIPLE = "fees";
+    private static final String         CACHE_MULTIPLE = "fees";
 
-    private static final String        CACHE_SINGLE   = "fee";
+    private static final String         CACHE_SINGLE   = "fee";
 
-    private final FeeRepository        feeRepository;
+    private final FeeRepository         feeRepository;
 
-    private final FeeMapper            mapper;
+    private final FeeMapper             mapper;
 
-    private final MemberFeeRepository  memberFeeRepository;
+    private final MemberFeeRepository   memberFeeRepository;
 
-    private final MemberRepository     memberRepository;
+    private final MemberRepository      memberRepository;
 
-    private final Validator<FeeCreate> validatorCreate;
+    private final TransactionRepository transactionRepository;
 
-    private final Validator<FeeUpdate> validatorUpdate;
+    private final Validator<FeeCreate>  validatorCreate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberFeeRepository memberFeeRepo,
-            final MemberRepository memberRepo, final FeeMapper mpper) {
+    private final Validator<FeeUpdate>  validatorUpdate;
+
+    public DefaultFeeService(final FeeRepository feeRepo, final TransactionRepository transactionRepo,
+            final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper) {
         super();
 
         feeRepository = feeRepo;
+        transactionRepository = transactionRepo;
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
         mapper = mpper;
@@ -74,18 +81,42 @@ public final class DefaultFeeService implements FeeService {
     @PreAuthorize("hasAuthority('FEE:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
-    public final MemberFee create(final FeeCreate request) {
-        final PersistentFee entity;
-        final PersistentFee created;
+    @Transactional
+    public final Collection<? extends MemberFee> create(final FeeCreate request) {
+        final PersistentTransaction     transaction;
+        final Collection<PersistentFee> fees;
 
         validatorCreate.validate(request);
 
-        entity = mapper.toEntity(request);
+        // Register transaction
+        transaction = new PersistentTransaction();
+        transaction.setAmount(request.getAmount());
+        transaction.setDate(request.getPaymentDate());
+        transaction.setDescription(request.getDescription());
 
-        created = feeRepository.save(entity);
+        // Register fees
+        transactionRepository.save(transaction);
+
+        fees = request.getFeeDates()
+            .stream()
+            .map(date -> {
+                final PersistentFee fee;
+
+                fee = new PersistentFee();
+                fee.setMemberId(request.getMemberId());
+                fee.setDate(date);
+                fee.setPaid(true);
+
+                return fee;
+            })
+            .toList();
+
+        feeRepository.saveAll(fees);
 
         // TODO: Doesn't return names
-        return mapper.toDto(created);
+        return fees.stream()
+            .map(mapper::toDto)
+            .toList();
     }
 
     @Override

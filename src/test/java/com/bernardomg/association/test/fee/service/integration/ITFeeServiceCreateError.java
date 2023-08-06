@@ -39,7 +39,6 @@ import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
@@ -63,7 +62,7 @@ class ITFeeServiceCreateError {
         final FeeCreate        feeRequest;
         final ThrowingCallable execution;
 
-        feeRequest = FeesCreate.paid();
+        feeRequest = FeesCreate.valid();
 
         execution = () -> {
             service.create(feeRequest);
@@ -82,7 +81,7 @@ class ITFeeServiceCreateError {
         final FeeCreate        feeRequest;
         final ThrowingCallable executable;
 
-        feeRequest = FeesCreate.paid();
+        feeRequest = FeesCreate.valid();
 
         executable = () -> {
             service.create(feeRequest);
@@ -101,7 +100,7 @@ class ITFeeServiceCreateError {
         final FeeCreate        feeRequest;
         final ThrowingCallable executable;
 
-        feeRequest = FeesCreate.missingDate();
+        feeRequest = FeesCreate.missingPaymentDate();
 
         executable = () -> {
             service.create(feeRequest);
@@ -114,20 +113,39 @@ class ITFeeServiceCreateError {
     }
 
     @Test
-    @DisplayName("With a missing paid flag it throws an exception")
-    void testCreate_MissingPaid() {
+    @DisplayName("With a missing description it throws an exception")
+    void testCreate_MissingDescription() {
         final FeeCreate        feeRequest;
         final ThrowingCallable executable;
 
-        feeRequest = FeesCreate.missingPaid();
+        feeRequest = FeesCreate.missingDescription();
 
         executable = () -> {
             service.create(feeRequest);
             repository.flush();
         };
 
+        // TODO: Shouldn't this be a validation error?
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(FieldFailureException.class);
+            .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    @DisplayName("With missing fee dates it throws an exception")
+    void testCreate_MissingFeeDates() {
+        final FeeCreate        feeRequest;
+        final ThrowingCallable executable;
+
+        feeRequest = FeesCreate.missingFeeDates();
+
+        executable = () -> {
+            service.create(feeRequest);
+            repository.flush();
+        };
+
+        // TODO: Shouldn't this be a validation error?
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(DataIntegrityViolationException.class);
     }
 
 }

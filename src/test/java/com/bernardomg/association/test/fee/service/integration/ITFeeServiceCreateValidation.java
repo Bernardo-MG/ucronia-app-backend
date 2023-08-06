@@ -24,16 +24,15 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
-import java.util.GregorianCalendar;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
+import com.bernardomg.association.fee.model.request.FeeCreate;
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.test.fee.util.model.FeesCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -52,22 +51,14 @@ class ITFeeServiceCreateValidation {
         super();
     }
 
-    private final ValidatedFeeCreate getInvalidIdFeeCreate() {
-        return ValidatedFeeCreate.builder()
-            .memberId(-1L)
-            .date(new GregorianCalendar(2020, 1, 2))
-            .paid(true)
-            .build();
-    }
-
     @Test
-    @DisplayName("With a missing id it throws an exception")
+    @DisplayName("With an invalid member id it throws an exception")
     void testCreate_InvalidMember() {
-        final ValidatedFeeCreate feeRequest;
-        final ThrowingCallable   execution;
-        final FieldFailure       failure;
+        final FeeCreate        feeRequest;
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
 
-        feeRequest = getInvalidIdFeeCreate();
+        feeRequest = FeesCreate.invalidId();
 
         execution = () -> service.create(feeRequest);
 

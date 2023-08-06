@@ -27,7 +27,7 @@ class TestValidatedFeeCreateValidation {
         final Set<ConstraintViolation<FeeCreate>> errors;
         final ConstraintViolation<FeeCreate>      error;
 
-        request = FeesCreate.missingDate();
+        request = FeesCreate.missingPaymentDate();
 
         errors = validator.validate(request);
 
@@ -67,35 +67,12 @@ class TestValidatedFeeCreateValidation {
     }
 
     @Test
-    @DisplayName("A DTO missing the paid flag is invalid")
-    void validate_missingPaidFlag() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
-
-        request = FeesCreate.missingPaid();
-
-        errors = validator.validate(request);
-
-        Assertions.assertThat(errors)
-            .hasSize(1);
-
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("paid");
-        Assertions.assertThat(error.getInvalidValue())
-            .isNull();
-    }
-
-    @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
         final FeeCreate                           request;
         final Set<ConstraintViolation<FeeCreate>> errors;
 
-        request = FeesCreate.paid();
+        request = FeesCreate.valid();
 
         errors = validator.validate(request);
 

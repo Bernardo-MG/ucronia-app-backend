@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
+import java.util.Collection;
 import java.util.GregorianCalendar;
 
 import org.assertj.core.api.Assertions;
@@ -40,6 +41,9 @@ import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
+import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -50,22 +54,26 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeServiceCreate {
 
     @Autowired
-    private FeeRepository repository;
+    private FeeRepository         repository;
 
     @Autowired
-    private FeeService    service;
+    private FeeService            service;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     public ITFeeServiceCreate() {
         super();
+        // TODO: Test with multiple dates
     }
 
     @Test
-    @DisplayName("Persists the data with a day which is not the first of the month")
-    void testCreate_AnotherDay_PersistedData() {
+    @DisplayName("When a fee is created the data is persisted")
+    void testCreate_PersistedData() {
         final FeeCreate     feeRequest;
         final PersistentFee entity;
 
-        feeRequest = FeesCreate.paid();
+        feeRequest = FeesCreate.valid();
 
         service.create(feeRequest);
 
@@ -84,47 +92,51 @@ class ITFeeServiceCreate {
     }
 
     @Test
-    @DisplayName("With new data it adds the entity data to the persistence layer")
-    void testCreate_PersistedData() {
-        final FeeCreate     feeRequest;
-        final PersistentFee entity;
+    @DisplayName("When a fee is created a transaction is persisted")
+    void testCreate_PersistedTransaction() {
+        final FeeCreate             feeRequest;
+        final PersistentTransaction entity;
 
-        feeRequest = FeesCreate.paid();
+        feeRequest = FeesCreate.valid();
 
         service.create(feeRequest);
 
-        entity = repository.findAll()
+        entity = transactionRepository.findAll()
             .iterator()
             .next();
 
-        Assertions.assertThat(repository.count())
+        Assertions.assertThat(transactionRepository.count())
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
-            .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 1))
-            .paid(true)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Fee paid")
             .build());
     }
 
     @Test
     @DisplayName("With new data it returns the created data")
     void testCreate_ReturnedData() {
-        final FeeCreate feeRequest;
-        final MemberFee fee;
+        final FeeCreate                       feeRequest;
+        final Collection<? extends MemberFee> fee;
 
-        feeRequest = FeesCreate.paid();
+        feeRequest = FeesCreate.valid();
 
         fee = service.create(feeRequest);
 
-        FeeAssertions.isEqualTo(fee, DtoMemberFee.builder()
-            .id(1L)
-            .memberId(1L)
-            .name(null)
-            .surname(null)
-            .date(new GregorianCalendar(2020, 1, 1))
-            .paid(true)
-            .build());
+        Assertions.assertThat(fee)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fee.iterator()
+            .next(),
+            DtoMemberFee.builder()
+                .id(1L)
+                .memberId(1L)
+                .name(null)
+                .surname(null)
+                .date(new GregorianCalendar(2020, 1, 1))
+                .paid(true)
+                .build());
     }
 
 }
