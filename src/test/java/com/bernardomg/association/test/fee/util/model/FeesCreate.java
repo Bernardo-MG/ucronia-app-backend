@@ -65,4 +65,24 @@ public final class FeesCreate {
             .build();
     }
 
+    public static final FeeCreate duplicatedDates() {
+        return FeeCreateRequest.builder()
+            .memberId(1L)
+            .feeDates(List.of(new GregorianCalendar(2020, 1, 1),new GregorianCalendar(2020, 1, 1)))
+            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .description("Fee paid")
+            .amount(1F)
+            .build();
+    }
+
+    public static final FeeCreate multipleDates() {
+        return FeeCreateRequest.builder()
+            .memberId(1L)
+            .feeDates(List.of(new GregorianCalendar(2020, 1, 1),new GregorianCalendar(2020, 2, 1)))
+            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .description("Fee paid")
+            .amount(1F)
+            .build();
+    }
+
 }

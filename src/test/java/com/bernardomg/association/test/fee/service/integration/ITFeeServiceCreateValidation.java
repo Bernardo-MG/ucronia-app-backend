@@ -52,6 +52,22 @@ class ITFeeServiceCreateValidation {
     }
 
     @Test
+    @DisplayName("With duplicated dates it throws an exception")
+    void testCreate_DuplicatedDates() {
+        final FeeCreate        feeRequest;
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        feeRequest = FeesCreate.multipleDates();
+
+        execution = () -> service.create(feeRequest);
+
+        failure = FieldFailure.of("memberId.duplicated", "feeDates", "duplicated", 2);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("With an invalid member id it throws an exception")
     void testCreate_InvalidMember() {
         final FeeCreate        feeRequest;

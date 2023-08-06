@@ -68,6 +68,19 @@ class ITFeeServiceCreate {
     }
 
     @Test
+    @DisplayName("When a fee is created with multiple dates the data is persisted")
+    void testCreate_MultipleDates_PersistedData() {
+        final FeeCreate feeRequest;
+
+        feeRequest = FeesCreate.multipleDates();
+
+        service.create(feeRequest);
+
+        Assertions.assertThat(repository.count())
+            .isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("When a fee is created the data is persisted")
     void testCreate_PersistedData() {
         final FeeCreate     feeRequest;
