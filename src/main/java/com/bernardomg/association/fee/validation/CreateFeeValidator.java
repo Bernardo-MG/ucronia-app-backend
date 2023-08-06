@@ -23,12 +23,29 @@ public final class CreateFeeValidator extends AbstractValidator<FeeCreate> {
 
     @Override
     protected final void checkRules(final FeeCreate fee, final Collection<FieldFailure> failures) {
+        final Long   uniqueDates;
+        final Long   duplicates;
         FieldFailure failure;
 
         // Verify the member exists
         if (!memberRepository.existsById(fee.getMemberId())) {
             log.error("Found no member with id {}", fee.getMemberId());
             failure = FieldFailure.of("memberId", "notExists", fee.getMemberId());
+            failures.add(failure);
+        }
+
+        // Verify the dates have no duplicates
+        uniqueDates = fee.getFeeDates()
+            .stream()
+            .distinct()
+            .count();
+        if (uniqueDates < fee.getFeeDates()
+            .size()) {
+            duplicates = (fee.getFeeDates()
+                .size() - uniqueDates) + 1;
+            log.error("Received {} fees, but {} are duplicates", fee.getFeeDates()
+                .size(), duplicates);
+            failure = FieldFailure.of("feeDates", "duplicated", duplicates);
             failures.add(failure);
         }
     }

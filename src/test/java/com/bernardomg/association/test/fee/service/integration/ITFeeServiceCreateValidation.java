@@ -58,11 +58,11 @@ class ITFeeServiceCreateValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
-        feeRequest = FeesCreate.multipleDates();
+        feeRequest = FeesCreate.duplicatedDates();
 
         execution = () -> service.create(feeRequest);
 
-        failure = FieldFailure.of("memberId.duplicated", "feeDates", "duplicated", 2);
+        failure = FieldFailure.of("feeDates.duplicated", "feeDates", "duplicated", 2L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
