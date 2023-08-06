@@ -61,7 +61,6 @@ public final class PersistentTokenStore implements TokenStore {
         final Calendar        expiration;
         final String          tokenCode;
 
-        // TODO: This should be configurable
         expiration = Calendar.getInstance();
         expiration.add(Calendar.MILLISECOND, validity);
 
