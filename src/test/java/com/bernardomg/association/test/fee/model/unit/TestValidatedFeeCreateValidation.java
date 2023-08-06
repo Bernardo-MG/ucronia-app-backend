@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.fee.model.request.FeeCreate;
+import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
 
 import jakarta.validation.ConstraintViolation;
@@ -23,9 +23,9 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A DTO missing the description is invalid")
     void validate_missingDescription() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+        final FeePayment                           request;
+        final Set<ConstraintViolation<FeePayment>> errors;
+        final ConstraintViolation<FeePayment>      error;
 
         request = FeesCreate.missingDescription();
 
@@ -46,9 +46,9 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A DTO missing the fee dates is invalid")
     void validate_missingFeeDates() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+        final FeePayment                           request;
+        final Set<ConstraintViolation<FeePayment>> errors;
+        final ConstraintViolation<FeePayment>      error;
 
         request = FeesCreate.missingFeeDates();
 
@@ -69,9 +69,9 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A DTO missing the member id is invalid")
     void validate_missingMemberId() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+        final FeePayment                           request;
+        final Set<ConstraintViolation<FeePayment>> errors;
+        final ConstraintViolation<FeePayment>      error;
 
         request = FeesCreate.missingMemberId();
 
@@ -92,9 +92,9 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A DTO missing the payment date is invalid")
     void validate_missingPaymentDate() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+        final FeePayment                           request;
+        final Set<ConstraintViolation<FeePayment>> errors;
+        final ConstraintViolation<FeePayment>      error;
 
         request = FeesCreate.missingPaymentDate();
 
@@ -115,8 +115,8 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
+        final FeePayment                           request;
+        final Set<ConstraintViolation<FeePayment>> errors;
 
         request = FeesCreate.valid();
 

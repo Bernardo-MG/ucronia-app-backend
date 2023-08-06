@@ -35,7 +35,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeeCreate;
+import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
@@ -70,7 +70,7 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("When a fee is created with multiple dates the data is persisted")
     void testCreate_MultipleDates_PersistedData() {
-        final FeeCreate feeRequest;
+        final FeePayment feeRequest;
 
         feeRequest = FeesCreate.multipleDates();
 
@@ -83,7 +83,7 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("When a fee is created the data is persisted")
     void testCreate_PersistedData() {
-        final FeeCreate     feeRequest;
+        final FeePayment    feeRequest;
         final PersistentFee entity;
 
         feeRequest = FeesCreate.valid();
@@ -107,7 +107,7 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("When a fee is created a transaction is persisted")
     void testCreate_PersistedTransaction() {
-        final FeeCreate             feeRequest;
+        final FeePayment            feeRequest;
         final PersistentTransaction entity;
 
         feeRequest = FeesCreate.valid();
@@ -131,7 +131,7 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it returns the created data")
     void testCreate_ReturnedData() {
-        final FeeCreate                       feeRequest;
+        final FeePayment                      feeRequest;
         final Collection<? extends MemberFee> fee;
 
         feeRequest = FeesCreate.valid();

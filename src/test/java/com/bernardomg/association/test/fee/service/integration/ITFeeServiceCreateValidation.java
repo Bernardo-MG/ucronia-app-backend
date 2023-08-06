@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.FeeCreate;
+import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -54,7 +54,7 @@ class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("With duplicated dates it throws an exception")
     void testCreate_DuplicatedDates() {
-        final FeeCreate        feeRequest;
+        final FeePayment       feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
@@ -70,7 +70,7 @@ class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("With an invalid member id it throws an exception")
     void testCreate_InvalidMember() {
-        final FeeCreate        feeRequest;
+        final FeePayment       feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 

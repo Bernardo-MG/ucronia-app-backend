@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.FeeCreate;
+import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
@@ -58,7 +58,7 @@ class ITFeeServiceCreateError {
     @DisplayName("With a repeated member and month it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     void testCreate_ExistingDateAndMember() {
-        final FeeCreate        feeRequest;
+        final FeePayment       feeRequest;
         final ThrowingCallable execution;
 
         feeRequest = FeesCreate.valid();
@@ -77,7 +77,7 @@ class ITFeeServiceCreateError {
     @DisplayName("With a repeated member and month, but with another day, it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     void testCreate_ExistingDateAndMember_ChangesDay() {
-        final FeeCreate        feeRequest;
+        final FeePayment       feeRequest;
         final ThrowingCallable executable;
 
         feeRequest = FeesCreate.valid();

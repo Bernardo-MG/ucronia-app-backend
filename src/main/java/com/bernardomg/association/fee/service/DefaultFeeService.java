@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.mapper.FeeMapper;
-import com.bernardomg.association.fee.model.request.FeeCreate;
+import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.model.request.FeeUpdate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
@@ -58,7 +58,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final TransactionRepository transactionRepository;
 
-    private final Validator<FeeCreate>  validatorCreate;
+    private final Validator<FeePayment> validatorCreate;
 
     private final Validator<FeeUpdate>  validatorUpdate;
 
@@ -81,7 +81,7 @@ public final class DefaultFeeService implements FeeService {
     @PreAuthorize("hasAuthority('FEE:CREATE')")
     @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
     @Transactional
-    public final Collection<? extends MemberFee> create(final FeeCreate request) {
+    public final Collection<? extends MemberFee> create(final FeePayment request) {
         final PersistentTransaction     transaction;
         final Collection<PersistentFee> fees;
 

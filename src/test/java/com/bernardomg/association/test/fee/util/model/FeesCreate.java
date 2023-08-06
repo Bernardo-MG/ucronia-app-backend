@@ -4,13 +4,13 @@ package com.bernardomg.association.test.fee.util.model;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.bernardomg.association.fee.model.request.FeeCreate;
-import com.bernardomg.association.fee.model.request.FeeCreateRequest;
+import com.bernardomg.association.fee.model.request.FeePayment;
+import com.bernardomg.association.fee.model.request.FeePaymentRequest;
 
 public final class FeesCreate {
 
-    public static final FeeCreate duplicatedDates() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment duplicatedDates() {
+        return FeePaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1), new GregorianCalendar(2020, 1, 1)))
             .paymentDate(new GregorianCalendar(2020, 0, 1))
@@ -19,8 +19,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate invalidId() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment invalidId() {
+        return FeePaymentRequest.builder()
             .memberId(-1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
             .paymentDate(new GregorianCalendar(2020, 0, 1))
@@ -29,8 +29,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate missingDescription() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment missingDescription() {
+        return FeePaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
             .paymentDate(new GregorianCalendar(2020, 0, 1))
@@ -38,8 +38,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate missingFeeDates() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment missingFeeDates() {
+        return FeePaymentRequest.builder()
             .memberId(1L)
             .paymentDate(new GregorianCalendar(2020, 0, 1))
             .description("Fee paid")
@@ -47,8 +47,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate missingMemberId() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment missingMemberId() {
+        return FeePaymentRequest.builder()
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
             .paymentDate(new GregorianCalendar(2020, 0, 1))
             .description("Fee paid")
@@ -56,8 +56,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate missingPaymentDate() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment missingPaymentDate() {
+        return FeePaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
             .description("Fee paid")
@@ -65,8 +65,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate multipleDates() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment multipleDates() {
+        return FeePaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1), new GregorianCalendar(2020, 2, 1)))
             .paymentDate(new GregorianCalendar(2020, 0, 1))
@@ -75,8 +75,8 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeeCreate valid() {
-        return FeeCreateRequest.builder()
+    public static final FeePayment valid() {
+        return FeePaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
             .paymentDate(new GregorianCalendar(2020, 0, 1))
