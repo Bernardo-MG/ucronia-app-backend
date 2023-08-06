@@ -93,16 +93,15 @@ public final class PersistentTokenStore implements TokenStore {
 
     @Override
     public final String getUsername(final String token) {
-        final String username;
+        final Optional<String> username;
 
-        try {
-            username = tokenService.verifyToken(token)
-                .getExtendedInformation();
-        } catch (final Exception e) {
+        username = tokenRepository.findUsernameByToken(token);
+
+        if (username.isEmpty()) {
             throw new InvalidTokenException(token);
         }
 
-        return username;
+        return username.get();
     }
 
     @Override
@@ -112,6 +111,7 @@ public final class PersistentTokenStore implements TokenStore {
         final Boolean                   valid;
 
         // TODO: Use the token service to verify it
+        // TODO: Check scope
 
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {

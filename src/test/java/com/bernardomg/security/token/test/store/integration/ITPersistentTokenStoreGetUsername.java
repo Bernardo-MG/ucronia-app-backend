@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.token.TokenService;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
@@ -29,6 +30,8 @@ class ITPersistentTokenStoreGetUsername {
 
     @Test
     @DisplayName("Extracts the username from a token")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/valid.sql" })
     void testGetUsername() {
         final String subject;
 
@@ -40,6 +43,8 @@ class ITPersistentTokenStoreGetUsername {
 
     @Test
     @DisplayName("Extracts no username from an invalid token")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/valid.sql" })
     void testGetUsername_InvalidToken() {
         final ThrowingCallable executable;
         final Exception        exception;
