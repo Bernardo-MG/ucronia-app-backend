@@ -105,14 +105,11 @@ class ITPasswordResetServiceStartToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testStartPasswordRecovery_TokenExists_ExpiresToken() {
-        final PersistentToken sample;
         final PersistentToken token;
 
         service.startPasswordRecovery("email@somewhere.com");
 
-        sample = new PersistentToken();
-        sample.setToken(TokenConstants.TOKEN);
-        token = tokenRepository.findOne(Example.of(sample))
+        token = tokenRepository.findOneByToken(TokenConstants.TOKEN)
             .get();
 
         Assertions.assertThat(token.isRevoked())
