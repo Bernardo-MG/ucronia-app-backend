@@ -24,13 +24,8 @@
 
 package com.bernardomg.security.token.config;
 
-import java.security.SecureRandom;
-
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
-import org.springframework.security.core.token.TokenService;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
 
@@ -42,22 +37,10 @@ import com.bernardomg.security.token.config.property.TokenProperties;
  */
 @Configuration
 @EnableConfigurationProperties(TokenProperties.class)
-public class TokenServiceConfig {
+public class TokenConfig {
 
-    public TokenServiceConfig() {
+    public TokenConfig() {
         super();
-    }
-
-    @Bean("springTokenService")
-    public TokenService getTokenService(final TokenProperties properties) {
-        final KeyBasedPersistenceTokenService tokenService;
-
-        tokenService = new KeyBasedPersistenceTokenService();
-        tokenService.setServerSecret(properties.getSecret());
-        tokenService.setServerInteger(properties.getSeed());
-        tokenService.setSecureRandom(new SecureRandom());
-
-        return tokenService;
     }
 
 }

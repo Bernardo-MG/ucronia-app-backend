@@ -28,7 +28,6 @@ import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -39,7 +38,6 @@ import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.token.TokenEncoder;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
 /**
  * Login configuration.
@@ -56,8 +54,7 @@ public class LoginConfig {
 
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService, final TokenEncoder<String> tokenEncoder) {
+            final PasswordEncoder passwordEncoder, final TokenEncoder<String> tokenEncoder) {
         final LoginStatusProvider     statusProvider;
         final Predicate<LoginRequest> valid;
 

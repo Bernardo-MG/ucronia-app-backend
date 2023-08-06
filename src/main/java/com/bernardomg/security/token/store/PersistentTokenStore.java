@@ -4,8 +4,7 @@ package com.bernardomg.security.token.store;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
-
-import org.springframework.security.core.token.TokenService;
+import java.util.UUID;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
@@ -19,16 +18,12 @@ public final class PersistentTokenStore implements TokenStore {
 
     private final TokenRepository tokenRepository;
 
-    private final TokenService    tokenService;
-
     private final Integer         validity;
 
-    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final TokenService tService,
-            @NonNull final Integer valid) {
+    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Integer valid) {
         super();
 
         tokenRepository = tRepository;
-        tokenService = tService;
         validity = valid;
     }
 
@@ -66,9 +61,8 @@ public final class PersistentTokenStore implements TokenStore {
 
         creation = Calendar.getInstance();
 
-        // TODO: Shouldn't this include the scope?
-        tokenCode = tokenService.allocateToken(username)
-            .getKey();
+        tokenCode = UUID.randomUUID()
+            .toString();
 
         persistentToken = new PersistentToken();
         persistentToken.setUserId(userId);

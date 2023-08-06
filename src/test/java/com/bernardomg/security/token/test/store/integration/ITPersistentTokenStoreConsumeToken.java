@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
@@ -23,10 +22,10 @@ class ITPersistentTokenStoreConsumeToken {
     private final TokenRepository      tokenRepository;
 
     @Autowired
-    public ITPersistentTokenStoreConsumeToken(final TokenRepository tokenRepo, final TokenService tokenService) {
+    public ITPersistentTokenStoreConsumeToken(final TokenRepository tokenRepo) {
         super();
 
-        store = new PersistentTokenStore(tokenRepo, tokenService, 1000);
+        store = new PersistentTokenStore(tokenRepo, 1000);
 
         tokenRepository = tokenRepo;
     }

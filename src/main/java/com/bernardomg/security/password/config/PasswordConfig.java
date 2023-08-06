@@ -26,7 +26,6 @@ package com.bernardomg.security.password.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -64,10 +63,10 @@ public class PasswordConfig {
     public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenService tokenService, final TokenProperties tokenProperties) {
+            final TokenProperties tokenProperties) {
         final TokenStore tokenProcessor;
 
-        tokenProcessor = new PersistentTokenStore(tokenRepository, tokenService, tokenProperties.getValidity());
+        tokenProcessor = new PersistentTokenStore(tokenRepository, tokenProperties.getValidity());
 
         return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder, "password_reset");

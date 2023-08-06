@@ -8,7 +8,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
@@ -25,10 +24,10 @@ class ITPersistentTokenStoreCreateToken {
     private final TokenRepository      tokenRepository;
 
     @Autowired
-    public ITPersistentTokenStoreCreateToken(final TokenRepository tokenRepo, final TokenService tokenService) {
+    public ITPersistentTokenStoreCreateToken(final TokenRepository tokenRepo) {
         super();
 
-        store = new PersistentTokenStore(tokenRepo, tokenService, 1000);
+        store = new PersistentTokenStore(tokenRepo, 1000);
         tokenRepository = tokenRepo;
     }
 
