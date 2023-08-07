@@ -53,7 +53,7 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
 
     @Override
     public final boolean test(final LoginRequest login) {
-        final Boolean         valid;
+        final boolean         valid;
         Optional<UserDetails> details;
 
         // Find the user

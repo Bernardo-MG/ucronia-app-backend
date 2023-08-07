@@ -28,8 +28,8 @@ import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringSecurityLoginService - login with various user status")
-class TestDefaultLoginServiceWithSpringUserStatus {
+@DisplayName("DefaultLoginService - login with various user status")
+class TestDefaultLoginServiceAuth {
 
     @Mock
     private PasswordEncoder    passEncoder;
@@ -37,7 +37,7 @@ class TestDefaultLoginServiceWithSpringUserStatus {
     @Mock
     private UserDetailsService userDetService;
 
-    public TestDefaultLoginServiceWithSpringUserStatus() {
+    public TestDefaultLoginServiceAuth() {
         super();
     }
 

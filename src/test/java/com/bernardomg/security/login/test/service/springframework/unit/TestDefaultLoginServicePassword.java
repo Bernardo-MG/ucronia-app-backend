@@ -27,8 +27,8 @@ import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringSecurityLoginService - password validation")
-class TestDefaultLoginServiceWithSpringUserPassword {
+@DisplayName("DefaultLoginService - password validation")
+class TestDefaultLoginServicePassword {
 
     @Mock
     private PasswordEncoder    passEncoder;
@@ -36,7 +36,7 @@ class TestDefaultLoginServiceWithSpringUserPassword {
     @Mock
     private UserDetailsService userDetService;
 
-    public TestDefaultLoginServiceWithSpringUserPassword() {
+    public TestDefaultLoginServicePassword() {
         super();
     }
 
