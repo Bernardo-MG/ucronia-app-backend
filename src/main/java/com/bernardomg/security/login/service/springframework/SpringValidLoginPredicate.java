@@ -55,6 +55,8 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
     public final boolean test(final LoginRequest login) {
         final boolean         valid;
         Optional<UserDetails> details;
+        
+        // TODO: Throw exceptions
 
         // Find the user
         try {
