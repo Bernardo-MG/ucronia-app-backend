@@ -190,6 +190,7 @@ class ITMemberServiceGetAllSort {
 
         memberQuery = MembersQuery.empty();
 
+        // FIXME: names should be sorted ignoring case
         members = service.getAll(memberQuery, pageable)
             .iterator();
 
