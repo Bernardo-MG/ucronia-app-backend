@@ -27,8 +27,8 @@ class TestJwtSubjectTokenEncoderGenerateToken {
 
         token = encoder.encode("subject");
 
-        Assertions.assertThat(token.isEmpty())
-            .isFalse();
+        Assertions.assertThat(token)
+            .isNotEmpty();
     }
 
 }

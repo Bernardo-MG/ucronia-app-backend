@@ -22,7 +22,7 @@ public final class TokenLoginStatusProvider implements LoginStatusProvider {
     }
 
     @Override
-    public final LoginStatus getStatus(final String username, final Boolean logged) {
+    public final LoginStatus getStatus(final String username, final boolean logged) {
         final LoginStatus status;
         final String      token;
 

@@ -5,6 +5,6 @@ import com.bernardomg.security.login.model.LoginStatus;
 
 public interface LoginStatusProvider {
 
-    public LoginStatus getStatus(final String username, final Boolean logged);
+    public LoginStatus getStatus(final String username, final boolean logged);
 
 }
