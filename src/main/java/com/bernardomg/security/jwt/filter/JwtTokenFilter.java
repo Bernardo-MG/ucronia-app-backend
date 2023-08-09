@@ -170,7 +170,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            user the check
      * @return {@code true} if the user is valid, {@code false} otherwise
      */
-    private final Boolean isValid(final UserDetails userDetails) {
+    private final boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }

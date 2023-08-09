@@ -39,6 +39,6 @@ public interface TokenValidator {
      *            token to validate
      * @return {@code true} if the token has expired, {@code false} otherwise
      */
-    public Boolean hasExpired(final String token);
+    public boolean hasExpired(final String token);
 
 }
