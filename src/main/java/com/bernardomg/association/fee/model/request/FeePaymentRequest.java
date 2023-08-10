@@ -27,8 +27,9 @@ public final class FeePaymentRequest implements FeePayment {
     @NotEmpty
     private String               description;
 
+    @NotNull
     @NotEmpty
-    private Collection<Calendar> feeDates;
+    private Collection<@NotNull Calendar> feeDates;
 
     @NotNull
     private Long                 memberId;
