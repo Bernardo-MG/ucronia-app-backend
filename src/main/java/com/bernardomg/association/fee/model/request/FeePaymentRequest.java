@@ -22,10 +22,10 @@ import lombok.NoArgsConstructor;
 public final class FeePaymentRequest implements FeePayment {
 
     @NotNull
-    private Float                amount;
+    private Float                         amount;
 
     @NotEmpty
-    private String               description;
+    private String                        description;
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
@@ -33,11 +33,11 @@ public final class FeePaymentRequest implements FeePayment {
     private Collection<@NotNull Calendar> feeDates;
 
     @NotNull
-    private Long                 memberId;
+    private Long                          memberId;
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
-    private Calendar             paymentDate;
+    private Calendar                      paymentDate;
 
 }
