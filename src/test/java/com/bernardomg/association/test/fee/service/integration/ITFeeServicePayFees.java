@@ -78,6 +78,11 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
+
+        Assertions.assertThat(repository.findAll())
+            .extracting(PersistentFee::getDate)
+            .contains(new GregorianCalendar(2020, 1, 1))
+            .contains(new GregorianCalendar(2020, 2, 1));
     }
 
     @Test
