@@ -81,6 +81,30 @@ class ITFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("When a fee is created with multiple dates a single transaction is persisted")
+    void testCreate_MultipleDates_PersistedData_PersistedTransaction() {
+        final FeesPayment           feeRequest;
+        final PersistentTransaction entity;
+
+        feeRequest = FeesCreate.multipleDates();
+
+        service.payFees(feeRequest);
+
+        entity = transactionRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(transactionRepository.count())
+            .isEqualTo(1);
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
+            .id(1L)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Fee paid")
+            .amount(1F)
+            .build());
+    }
+
+    @Test
     @DisplayName("When a fee is created the data is persisted")
     void testCreate_PersistedData() {
         final FeesPayment   feeRequest;
@@ -105,7 +129,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created a transaction is persisted")
+    @DisplayName("When a fee is created a single transaction is persisted")
     void testCreate_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
