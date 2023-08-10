@@ -33,6 +33,8 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.validation.Validator;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Default implementation of the fee service.
  *
@@ -40,6 +42,7 @@ import com.bernardomg.validation.Validator;
  *
  */
 @Service
+@Slf4j
 public final class DefaultFeeService implements FeeService {
 
     private static final String          CACHE_CALENDAR = "fee_calendar";
@@ -136,6 +139,8 @@ public final class DefaultFeeService implements FeeService {
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
         final PersistentTransaction     transaction;
         final Collection<PersistentFee> fees;
+
+        log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
         validatorCreate.validate(payment);
 
