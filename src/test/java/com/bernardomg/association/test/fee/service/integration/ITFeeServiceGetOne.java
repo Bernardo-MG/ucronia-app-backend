@@ -65,7 +65,7 @@ class ITFeeServiceGetOne {
 
         FeeAssertions.isEqualTo(fee.get(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -84,7 +84,7 @@ class ITFeeServiceGetOne {
 
         FeeAssertions.isEqualTo(fee.get(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());

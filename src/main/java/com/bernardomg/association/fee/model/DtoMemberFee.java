@@ -19,7 +19,7 @@ public final class DtoMemberFee implements MemberFee {
 
     private final Long     memberId;
 
-    private final String   name;
+    private final String   memberName;
 
     private final Boolean  paid;
 

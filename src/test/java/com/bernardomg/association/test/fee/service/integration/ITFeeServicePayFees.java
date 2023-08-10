@@ -174,7 +174,7 @@ class ITFeeServicePayFees {
             DtoMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
-                .name(null)
+                .memberName(null)
                 .date(new GregorianCalendar(2020, 1, 1))
                 .paid(true)
                 .build());

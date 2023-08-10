@@ -73,7 +73,7 @@ class ITFeeServiceGetAllFilter {
             .isEqualTo(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -115,7 +115,7 @@ class ITFeeServiceGetAllFilter {
             .isEqualTo(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2 Surname 2")
+            .memberName("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
@@ -139,7 +139,7 @@ class ITFeeServiceGetAllFilter {
             .isEqualTo(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 0, 1))
             .paid(true)
             .build());
@@ -163,7 +163,7 @@ class ITFeeServiceGetAllFilter {
             .isEqualTo(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 11, 1))
             .paid(true)
             .build());
@@ -205,7 +205,7 @@ class ITFeeServiceGetAllFilter {
             .isEqualTo(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5 Surname 5")
+            .memberName("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());
