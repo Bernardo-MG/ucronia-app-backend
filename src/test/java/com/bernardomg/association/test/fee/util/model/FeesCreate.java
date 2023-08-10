@@ -1,6 +1,9 @@
 
 package com.bernardomg.association.test.fee.util.model;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -69,6 +72,21 @@ public final class FeesCreate {
         return FeePaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1), new GregorianCalendar(2020, 2, 1)))
+            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .description("Fee paid")
+            .amount(1F)
+            .build();
+    }
+
+    public static final FeePayment nullFeeDate() {
+        final Collection<Calendar> feeDates;
+
+        feeDates = new ArrayList<>();
+        feeDates.add(null);
+
+        return FeePaymentRequest.builder()
+            .memberId(1L)
+            .feeDates(feeDates)
             .paymentDate(new GregorianCalendar(2020, 0, 1))
             .description("Fee paid")
             .amount(1F)

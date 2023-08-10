@@ -113,6 +113,29 @@ class TestValidatedFeeCreateValidation {
     }
 
     @Test
+    @DisplayName("A DTO with a null fee date is invalid")
+    void validate_nullFeeDate() {
+        final FeePayment                           request;
+        final Set<ConstraintViolation<FeePayment>> errors;
+        final ConstraintViolation<FeePayment>      error;
+
+        request = FeesCreate.nullFeeDate();
+
+        errors = validator.validate(request);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("feeDates[].<iterable element>");
+        Assertions.assertThat(error.getInvalidValue())
+            .isNull();
+    }
+
+    @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
         final FeePayment                           request;
