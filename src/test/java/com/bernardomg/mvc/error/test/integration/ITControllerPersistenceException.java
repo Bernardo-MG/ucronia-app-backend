@@ -78,8 +78,8 @@ class ITControllerPersistenceException {
             .isInternalServerError());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Invalid query")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Internal error")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Internal error")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
@@ -102,8 +102,8 @@ class ITControllerPersistenceException {
             .isInternalServerError());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Invalid query")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Internal error")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Internal error")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
@@ -126,8 +126,8 @@ class ITControllerPersistenceException {
             .isInternalServerError());
 
         // The response contains the expected attributes
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Invalid query")));
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Invalid query")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.code", Matchers.equalTo("Internal error")));
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo("Internal error")));
 
         // The response contains no content field
         result.andExpect(MockMvcResultMatchers.jsonPath("$.content")
