@@ -12,7 +12,7 @@ import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 @Mapper(componentModel = "spring")
 public interface FeeMapper {
 
-    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "memberName", ignore = true)
     public DtoMemberFee toDto(final PersistentFee entity);
 
     public DtoMemberFee toDto(final PersistentMemberFee entity);
