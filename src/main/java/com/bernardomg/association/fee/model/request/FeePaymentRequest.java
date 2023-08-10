@@ -29,7 +29,6 @@ public final class FeePaymentRequest implements FeePayment {
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
-    @NotNull
     @NotEmpty
     private Collection<@NotNull Calendar> feeDates;
 
