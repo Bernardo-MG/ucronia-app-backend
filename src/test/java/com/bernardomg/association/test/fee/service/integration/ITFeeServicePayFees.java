@@ -64,7 +64,6 @@ class ITFeeServicePayFees {
 
     public ITFeeServicePayFees() {
         super();
-        // TODO: Test with multiple dates
     }
 
     @Test
