@@ -38,7 +38,4 @@ public class PersistentMemberFee implements Serializable {
     @Column(name = "paid")
     private Boolean           paid;
 
-    @Column(name = "surname")
-    private String            surname;
-
 }
