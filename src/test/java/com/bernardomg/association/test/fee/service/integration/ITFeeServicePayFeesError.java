@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.FeePayment;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
@@ -41,8 +41,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee service - create errors")
-class ITFeeServiceCreateError {
+@DisplayName("Fee service - pay fees - errors")
+class ITFeeServicePayFeesError {
 
     @Autowired
     private FeeRepository repository;
@@ -50,7 +50,7 @@ class ITFeeServiceCreateError {
     @Autowired
     private FeeService    service;
 
-    public ITFeeServiceCreateError() {
+    public ITFeeServicePayFeesError() {
         super();
     }
 
@@ -58,13 +58,13 @@ class ITFeeServiceCreateError {
     @DisplayName("With a repeated member and month it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     void testCreate_ExistingDateAndMember() {
-        final FeePayment       feeRequest;
+        final FeesPayment      feeRequest;
         final ThrowingCallable execution;
 
         feeRequest = FeesCreate.valid();
 
         execution = () -> {
-            service.create(feeRequest);
+            service.payFees(feeRequest);
             repository.flush();
         };
 
@@ -77,13 +77,13 @@ class ITFeeServiceCreateError {
     @DisplayName("With a repeated member and month, but with another day, it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     void testCreate_ExistingDateAndMember_ChangesDay() {
-        final FeePayment       feeRequest;
+        final FeesPayment      feeRequest;
         final ThrowingCallable executable;
 
         feeRequest = FeesCreate.valid();
 
         executable = () -> {
-            service.create(feeRequest);
+            service.payFees(feeRequest);
             repository.flush();
         };
 

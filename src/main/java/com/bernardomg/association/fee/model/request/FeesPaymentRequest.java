@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeePaymentRequest implements FeePayment {
+public final class FeesPaymentRequest implements FeesPayment {
 
     @NotNull
     private Float                         amount;

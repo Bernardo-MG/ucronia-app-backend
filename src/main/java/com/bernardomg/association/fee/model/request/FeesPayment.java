@@ -4,7 +4,7 @@ package com.bernardomg.association.fee.model.request;
 import java.util.Calendar;
 import java.util.Collection;
 
-public interface FeePayment {
+public interface FeesPayment {
 
     public Float getAmount();
 

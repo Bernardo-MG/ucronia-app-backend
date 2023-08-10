@@ -35,7 +35,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeePayment;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
@@ -49,9 +49,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee service - create")
+@DisplayName("Fee service - pay fees")
 @Sql({ "/db/queries/member/single.sql" })
-class ITFeeServiceCreate {
+class ITFeeServicePayFees {
 
     @Autowired
     private FeeRepository         repository;
@@ -62,7 +62,7 @@ class ITFeeServiceCreate {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public ITFeeServiceCreate() {
+    public ITFeeServicePayFees() {
         super();
         // TODO: Test with multiple dates
     }
@@ -70,11 +70,11 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("When a fee is created with multiple dates the data is persisted")
     void testCreate_MultipleDates_PersistedData() {
-        final FeePayment feeRequest;
+        final FeesPayment feeRequest;
 
         feeRequest = FeesCreate.multipleDates();
 
-        service.create(feeRequest);
+        service.payFees(feeRequest);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
@@ -83,12 +83,12 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("When a fee is created the data is persisted")
     void testCreate_PersistedData() {
-        final FeePayment    feeRequest;
+        final FeesPayment   feeRequest;
         final PersistentFee entity;
 
         feeRequest = FeesCreate.valid();
 
-        service.create(feeRequest);
+        service.payFees(feeRequest);
 
         entity = repository.findAll()
             .iterator()
@@ -107,12 +107,12 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("When a fee is created a transaction is persisted")
     void testCreate_PersistedTransaction() {
-        final FeePayment            feeRequest;
+        final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
         feeRequest = FeesCreate.valid();
 
-        service.create(feeRequest);
+        service.payFees(feeRequest);
 
         entity = transactionRepository.findAll()
             .iterator()
@@ -131,12 +131,12 @@ class ITFeeServiceCreate {
     @Test
     @DisplayName("With new data it returns the created data")
     void testCreate_ReturnedData() {
-        final FeePayment                      feeRequest;
+        final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
 
         feeRequest = FeesCreate.valid();
 
-        fee = service.create(feeRequest);
+        fee = service.payFees(feeRequest);
 
         Assertions.assertThat(fee)
             .hasSize(1);

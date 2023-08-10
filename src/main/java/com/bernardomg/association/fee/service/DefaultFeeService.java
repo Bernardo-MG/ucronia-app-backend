@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.mapper.FeeMapper;
-import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.model.request.FeeUpdate;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
@@ -42,25 +42,25 @@ import com.bernardomg.validation.Validator;
 @Service
 public final class DefaultFeeService implements FeeService {
 
-    private static final String         CACHE_CALENDAR = "fee_calendar";
+    private static final String          CACHE_CALENDAR = "fee_calendar";
 
-    private static final String         CACHE_MULTIPLE = "fees";
+    private static final String          CACHE_MULTIPLE = "fees";
 
-    private static final String         CACHE_SINGLE   = "fee";
+    private static final String          CACHE_SINGLE   = "fee";
 
-    private final FeeRepository         feeRepository;
+    private final FeeRepository          feeRepository;
 
-    private final FeeMapper             mapper;
+    private final FeeMapper              mapper;
 
-    private final MemberFeeRepository   memberFeeRepository;
+    private final MemberFeeRepository    memberFeeRepository;
 
-    private final MemberRepository      memberRepository;
+    private final MemberRepository       memberRepository;
 
-    private final TransactionRepository transactionRepository;
+    private final TransactionRepository  transactionRepository;
 
-    private final Validator<FeePayment> validatorCreate;
+    private final Validator<FeesPayment> validatorCreate;
 
-    private final Validator<FeeUpdate>  validatorUpdate;
+    private final Validator<FeeUpdate>   validatorUpdate;
 
     public DefaultFeeService(final FeeRepository feeRepo, final TransactionRepository transactionRepo,
             final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper) {
@@ -75,47 +75,6 @@ public final class DefaultFeeService implements FeeService {
         // TODO: Test validation
         validatorCreate = new CreateFeeValidator(memberRepository);
         validatorUpdate = new UpdateFeeValidator(memberRepository);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('FEE:CREATE')")
-    @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
-    @Transactional
-    public final Collection<? extends MemberFee> create(final FeePayment request) {
-        final PersistentTransaction     transaction;
-        final Collection<PersistentFee> fees;
-
-        validatorCreate.validate(request);
-
-        // Register transaction
-        transaction = new PersistentTransaction();
-        transaction.setAmount(request.getAmount());
-        transaction.setDate(request.getPaymentDate());
-        transaction.setDescription(request.getDescription());
-
-        // Register fees
-        transactionRepository.save(transaction);
-
-        fees = request.getFeeDates()
-            .stream()
-            .map(date -> {
-                final PersistentFee fee;
-
-                fee = new PersistentFee();
-                fee.setMemberId(request.getMemberId());
-                fee.setDate(date);
-                fee.setPaid(true);
-
-                return fee;
-            })
-            .toList();
-
-        feeRepository.saveAll(fees);
-
-        // TODO: Doesn't return names
-        return fees.stream()
-            .map(mapper::toDto)
-            .toList();
     }
 
     @Override
@@ -168,6 +127,47 @@ public final class DefaultFeeService implements FeeService {
         }
 
         return result;
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FEE:CREATE')")
+    @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
+    @Transactional
+    public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
+        final PersistentTransaction     transaction;
+        final Collection<PersistentFee> fees;
+
+        validatorCreate.validate(payment);
+
+        // Register transaction
+        transaction = new PersistentTransaction();
+        transaction.setAmount(payment.getAmount());
+        transaction.setDate(payment.getPaymentDate());
+        transaction.setDescription(payment.getDescription());
+
+        // Register fees
+        transactionRepository.save(transaction);
+
+        fees = payment.getFeeDates()
+            .stream()
+            .map(date -> {
+                final PersistentFee fee;
+
+                fee = new PersistentFee();
+                fee.setMemberId(payment.getMemberId());
+                fee.setDate(date);
+                fee.setPaid(true);
+
+                return fee;
+            })
+            .toList();
+
+        feeRepository.saveAll(fees);
+
+        // TODO: Doesn't return names
+        return fees.stream()
+            .map(mapper::toDto)
+            .toList();
     }
 
     @Override

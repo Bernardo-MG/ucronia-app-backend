@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeePayment;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.model.request.FeeUpdate;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -18,15 +18,6 @@ import com.bernardomg.association.fee.model.request.FeeUpdate;
  *
  */
 public interface FeeService {
-
-    /**
-     * Persists the received fee.
-     *
-     * @param fee
-     *            fee to persist
-     * @return the persisted fee
-     */
-    public Collection<? extends MemberFee> create(final FeePayment fee);
 
     /**
      * Deletes the fee with the received id.
@@ -55,6 +46,8 @@ public interface FeeService {
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<MemberFee> getOne(final long id);
+
+    public Collection<? extends MemberFee> payFees(final FeesPayment fee);
 
     /**
      * Updates the fee for the received id with the received data.

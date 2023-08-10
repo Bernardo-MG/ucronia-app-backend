@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.FeePayment;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -40,27 +40,27 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee service - create validation")
+@DisplayName("Fee service - pay fees - validation")
 @Sql({ "/db/queries/member/single.sql" })
-class ITFeeServiceCreateValidation {
+class ITFeeServicePayFeesValidation {
 
     @Autowired
     private FeeService service;
 
-    public ITFeeServiceCreateValidation() {
+    public ITFeeServicePayFeesValidation() {
         super();
     }
 
     @Test
     @DisplayName("With duplicated dates it throws an exception")
     void testCreate_DuplicatedDates() {
-        final FeePayment       feeRequest;
+        final FeesPayment      feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
         feeRequest = FeesCreate.duplicatedDates();
 
-        execution = () -> service.create(feeRequest);
+        execution = () -> service.payFees(feeRequest);
 
         failure = FieldFailure.of("feeDates.duplicated", "feeDates", "duplicated", 2L);
 
@@ -70,13 +70,13 @@ class ITFeeServiceCreateValidation {
     @Test
     @DisplayName("With an invalid member id it throws an exception")
     void testCreate_InvalidMember() {
-        final FeePayment       feeRequest;
+        final FeesPayment      feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
         feeRequest = FeesCreate.invalidId();
 
-        execution = () -> service.create(feeRequest);
+        execution = () -> service.payFees(feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
 

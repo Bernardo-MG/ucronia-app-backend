@@ -3,7 +3,7 @@ package com.bernardomg.association.fee.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.association.fee.model.request.FeePayment;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -11,7 +11,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
+public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
 
     private final MemberRepository memberRepository;
 
@@ -22,7 +22,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
     }
 
     @Override
-    protected final void checkRules(final FeePayment fee, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final FeesPayment fee, final Collection<FieldFailure> failures) {
         final Long   uniqueDates;
         final Long   duplicates;
         FieldFailure failure;
