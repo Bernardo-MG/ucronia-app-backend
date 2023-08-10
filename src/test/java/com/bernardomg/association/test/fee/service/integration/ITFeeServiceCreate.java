@@ -147,7 +147,6 @@ class ITFeeServiceCreate {
                 .id(1L)
                 .memberId(1L)
                 .name(null)
-                .surname(null)
                 .date(new GregorianCalendar(2020, 1, 1))
                 .paid(true)
                 .build());

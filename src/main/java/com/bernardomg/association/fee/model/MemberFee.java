@@ -15,6 +15,4 @@ public interface MemberFee {
 
     public Boolean getPaid();
 
-    public String getSurname();
-
 }

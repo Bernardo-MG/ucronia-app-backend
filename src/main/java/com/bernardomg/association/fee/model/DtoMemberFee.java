@@ -23,6 +23,4 @@ public final class DtoMemberFee implements MemberFee {
 
     private final Boolean  paid;
 
-    private final String   surname;
-
 }

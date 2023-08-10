@@ -128,7 +128,6 @@ class ITFeeServiceUpdate {
         FeeAssertions.isEqualTo(fee, DtoMemberFee.builder()
             .memberId(1L)
             .name(null)
-            .surname(null)
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(false)
             .build());

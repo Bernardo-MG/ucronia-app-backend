@@ -97,8 +97,7 @@ class ITFeeServiceGetAllPagination {
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -125,8 +124,7 @@ class ITFeeServiceGetAllPagination {
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());

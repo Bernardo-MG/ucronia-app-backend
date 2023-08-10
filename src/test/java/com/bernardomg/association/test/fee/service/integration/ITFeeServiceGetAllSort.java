@@ -77,40 +77,35 @@ class ITFeeServiceGetAllSort {
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
-            .name("Member 3")
-            .surname("Surname 3")
+            .name("Member 3 Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
-            .name("Member 4")
-            .surname("Surname 4")
+            .name("Member 4 Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5")
-            .surname("Surname 5")
+            .name("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());
@@ -132,40 +127,35 @@ class ITFeeServiceGetAllSort {
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5")
-            .surname("Surname 5")
+            .name("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
-            .name("Member 4")
-            .surname("Surname 4")
+            .name("Member 4 Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
-            .name("Member 3")
-            .surname("Surname 3")
+            .name("Member 3 Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -187,40 +177,35 @@ class ITFeeServiceGetAllSort {
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
-            .name("Member 3")
-            .surname("Surname 3")
+            .name("Member 3 Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
-            .name("Member 4")
-            .surname("Surname 4")
+            .name("Member 4 Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5")
-            .surname("Surname 5")
+            .name("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());
@@ -242,40 +227,35 @@ class ITFeeServiceGetAllSort {
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5")
-            .surname("Surname 5")
+            .name("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
-            .name("Member 4")
-            .surname("Surname 4")
+            .name("Member 4 Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
-            .name("Member 3")
-            .surname("Surname 3")
+            .name("Member 3 Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -316,40 +296,35 @@ class ITFeeServiceGetAllSort {
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5")
-            .surname("Surname 5")
+            .name("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
-            .name("Member 3")
-            .surname("Surname 3")
+            .name("Member 3 Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
-            .name("Member 4")
-            .surname("Surname 4")
+            .name("Member 4 Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
             .paid(true)
             .build());
@@ -371,40 +346,35 @@ class ITFeeServiceGetAllSort {
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(3L)
-            .name("Member 3")
-            .surname("Surname 3")
+            .name("Member 3 Surname 3")
             .date(new GregorianCalendar(2020, 3, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(4L)
-            .name("Member 4")
-            .surname("Surname 4")
+            .name("Member 4 Surname 4")
             .date(new GregorianCalendar(2020, 4, 1))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(fees.next(), DtoMemberFee.builder()
             .memberId(5L)
-            .name("Member 5")
-            .surname("Surname 5")
+            .name("Member 5 Surname 5")
             .date(new GregorianCalendar(2020, 5, 1))
             .paid(false)
             .build());

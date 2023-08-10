@@ -13,9 +13,9 @@ import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 public interface FeeMapper {
 
     @Mapping(target = "name", ignore = true)
-    @Mapping(target = "surname", ignore = true)
     public DtoMemberFee toDto(final PersistentFee entity);
 
+    @Mapping( target = "name", expression = "java(entity.getName() + \" \" + entity.getSurname())")
     public DtoMemberFee toDto(final PersistentMemberFee entity);
 
     @Mapping(target = "id", ignore = true)
