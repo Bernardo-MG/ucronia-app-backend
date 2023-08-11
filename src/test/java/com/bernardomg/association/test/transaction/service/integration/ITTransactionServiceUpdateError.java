@@ -57,7 +57,7 @@ class ITTransactionServiceUpdateError {
 
         transactionRequest = TransactionsUpdate.descriptionChange();
 
-        execution = () -> service.update(10L, transactionRequest);
+        execution = () -> service.update(1L, transactionRequest);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

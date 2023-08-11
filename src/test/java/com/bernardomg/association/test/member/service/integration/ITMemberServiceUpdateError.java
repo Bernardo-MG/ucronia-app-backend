@@ -41,7 +41,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Member service - update")
-@Sql({ "/db/queries/member/single.sql" })
 class ITMemberServiceUpdateError {
 
     @Autowired
@@ -53,13 +52,14 @@ class ITMemberServiceUpdateError {
 
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
+    @Sql({ "/db/queries/member/single.sql" })
     void testUpdate_NotExisting_Exception() {
         final MemberUpdate     memberRequest;
         final ThrowingCallable execution;
 
         memberRequest = MembersUpdate.nameChange();
 
-        execution = () -> service.update(10L, memberRequest);
+        execution = () -> service.update(1L, memberRequest);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

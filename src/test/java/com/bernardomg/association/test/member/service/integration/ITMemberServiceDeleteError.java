@@ -39,7 +39,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Member service - delete")
-@Sql({ "/db/queries/member/single.sql" })
 class ITMemberServiceDeleteError {
 
     @Autowired
@@ -51,10 +50,11 @@ class ITMemberServiceDeleteError {
 
     @Test
     @DisplayName("With an invalid id, an exception is thrown")
+    @Sql({ "/db/queries/member/single.sql" })
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(-1L);
+        execution = () -> service.delete(1L);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);
