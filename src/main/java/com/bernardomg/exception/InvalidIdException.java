@@ -8,7 +8,7 @@ public final class InvalidIdException extends RuntimeException {
     private final Object      id;
 
     public InvalidIdException(final String entity, final Object id) {
-        super(String.format("No entity of type %s with id %s", id));
+        super(String.format("No entity of type %s with id %s", entity, id));
 
         this.id = id;
     }
