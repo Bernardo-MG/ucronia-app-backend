@@ -168,7 +168,7 @@ class ITFeeServiceGetAllSort {
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.ASC, "name");
+        pageable = PageRequest.of(0, 10, Direction.ASC, "memberName");
 
         feeQuery = FeesQuery.empty();
 
@@ -218,7 +218,7 @@ class ITFeeServiceGetAllSort {
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
-        pageable = PageRequest.of(0, 10, Direction.DESC, "name");
+        pageable = PageRequest.of(0, 10, Direction.DESC, "memberName");
 
         feeQuery = FeesQuery.empty();
 
