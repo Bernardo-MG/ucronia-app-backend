@@ -96,6 +96,10 @@ public final class DefaultMemberService implements MemberService {
         final Optional<Member>           result;
         final Member                     data;
 
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException("member", id);
+        }
+
         found = repository.findById(id);
 
         if (found.isPresent()) {

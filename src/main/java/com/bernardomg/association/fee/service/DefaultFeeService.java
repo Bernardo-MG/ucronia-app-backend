@@ -119,6 +119,10 @@ public final class DefaultFeeService implements FeeService {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
 
+        if (!feeRepository.existsById(id)) {
+            throw new InvalidIdException("fee", id);
+        }
+
         // TODO: Test repository
         // TODO: Test reading with no name or surname
         found = memberFeeRepository.findById(id);

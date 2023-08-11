@@ -100,6 +100,10 @@ public final class DefaultTransactionService implements TransactionService {
         final Optional<Transaction>           result;
         final Transaction                     data;
 
+        if (!repository.existsById(id)) {
+            throw new InvalidIdException("transaction", id);
+        }
+
         found = repository.findById(id);
 
         if (found.isPresent()) {

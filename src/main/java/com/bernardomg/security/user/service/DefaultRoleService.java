@@ -106,6 +106,11 @@ public final class DefaultRoleService implements RoleService {
     @PreAuthorize("hasAuthority('ROLE:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Role> getOne(final long id) {
+
+        if (!roleRepository.existsById(id)) {
+            throw new InvalidIdException("role", id);
+        }
+
         return roleRepository.findById(id)
             .map(mapper::toDto);
     }

@@ -125,6 +125,11 @@ public final class DefaultUserService implements UserService {
     @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<User> getOne(final long id) {
+
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException("user", id);
+        }
+
         return userRepository.findById(id)
             .map(mapper::toDto);
     }
