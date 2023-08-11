@@ -94,7 +94,7 @@ public final class DefaultUserService implements UserService {
     public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed delete. No user with id %s", id));
+            throw new InvalidIdException("user", id);
         }
 
         validatorDeleteUser.validate(id);
@@ -139,7 +139,7 @@ public final class DefaultUserService implements UserService {
         final Optional<PersistentUser> old;
 
         if (!userRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed update. No user with id %s", id));
+            throw new InvalidIdException("user", id);
         }
 
         validatorUpdateUser.validate(user);

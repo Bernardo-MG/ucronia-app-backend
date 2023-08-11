@@ -68,7 +68,7 @@ public final class DefaultTransactionService implements TransactionService {
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
         if (!repository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed delete. No transaction with id %s", id));
+            throw new InvalidIdException("transaction", id);
         }
 
         repository.deleteById(id);
@@ -158,7 +158,7 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction updated;
 
         if (!repository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed update. No transaction with id %s", id));
+            throw new InvalidIdException("transaction", id);
         }
 
         entity = mapper.toEntity(transaction);

@@ -86,7 +86,7 @@ public final class DefaultFeeService implements FeeService {
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
         if (!feeRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed delete. No fee with id %s", id), id);
+            throw new InvalidIdException("fee", id);
         }
 
         feeRepository.deleteById(id);
@@ -184,7 +184,7 @@ public final class DefaultFeeService implements FeeService {
         final PersistentFee created;
 
         if (!feeRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed update. No fee with id %s", id));
+            throw new InvalidIdException("fee", id);
         }
 
         validatorUpdate.validate(form);

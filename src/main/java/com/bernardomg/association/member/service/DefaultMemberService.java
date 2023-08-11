@@ -68,7 +68,7 @@ public final class DefaultMemberService implements MemberService {
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
         if (!repository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed delete. No member with id %s", id));
+            throw new InvalidIdException("member", id);
         }
 
         // TODO: Forbid deleting when there are relationships
@@ -117,7 +117,7 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember updated;
 
         if (!repository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed update. No member with id %s", id));
+            throw new InvalidIdException("member", id);
         }
 
         entity = mapper.toEntity(member);

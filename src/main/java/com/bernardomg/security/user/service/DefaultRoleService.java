@@ -119,7 +119,7 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRole created;
 
         if (!roleRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed update. No role with id %s", id));
+            throw new InvalidIdException("role", id);
         }
 
         validatorUpdateRole.validate(role);
