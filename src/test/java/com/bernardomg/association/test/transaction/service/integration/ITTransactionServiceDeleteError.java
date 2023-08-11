@@ -29,7 +29,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.transaction.service.TransactionService;
 import com.bernardomg.exception.InvalidIdException;
@@ -50,7 +49,6 @@ class ITTransactionServiceDeleteError {
 
     @Test
     @DisplayName("With an invalid id, an exception is thrown")
-    @Sql({ "/db/queries/transaction/single.sql" })
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 

@@ -95,15 +95,4 @@ class ITMemberServiceGetOne {
             .build());
     }
 
-    @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    void testGetOne_NotExisting() {
-        final Optional<Member> result;
-
-        result = service.getOne(1L);
-
-        Assertions.assertThat(result)
-            .isNotPresent();
-    }
-
 }

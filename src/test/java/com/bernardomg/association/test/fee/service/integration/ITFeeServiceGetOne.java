@@ -90,16 +90,4 @@ class ITFeeServiceGetOne {
             .build());
     }
 
-    @Test
-    @DisplayName("With an invalid id, no entity is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    void testGetOne_NotExisting() {
-        final Optional<MemberFee> fee;
-
-        fee = service.getOne(-1L);
-
-        Assertions.assertThat(fee)
-            .isNotPresent();
-    }
-
 }

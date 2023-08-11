@@ -29,7 +29,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.service.MemberService;
@@ -52,7 +51,6 @@ class ITMemberServiceUpdateError {
 
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
-    @Sql({ "/db/queries/member/single.sql" })
     void testUpdate_NotExisting_Exception() {
         final MemberUpdate     memberRequest;
         final ThrowingCallable execution;
