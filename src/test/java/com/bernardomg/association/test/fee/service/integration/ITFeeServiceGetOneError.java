@@ -38,23 +38,23 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee service - delete")
-class ITFeeServiceDeleteError {
+@DisplayName("Fee service - get one - errors")
+class ITFeeServiceGetOneError {
 
     @Autowired
     private FeeService service;
 
-    public ITFeeServiceDeleteError() {
+    public ITFeeServiceGetOneError() {
         super();
     }
 
     @Test
-    @DisplayName("With an invalid id it removes no entity")
+    @DisplayName("With a not existing entity, an exception is thrown")
     @Sql({ "/db/queries/member/single.sql" })
-    void testDelete_NotExisting_NotRemovesEntity() {
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(1L);
+        execution = () -> service.getOne(1L);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

@@ -22,39 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.service.integration;
+package com.bernardomg.association.test.member.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee service - delete")
-class ITFeeServiceDeleteError {
+@DisplayName("Member service - get one")
+class ITMemberServiceGetOneError {
 
     @Autowired
-    private FeeService service;
+    private MemberService service;
 
-    public ITFeeServiceDeleteError() {
+    public ITMemberServiceGetOneError() {
         super();
     }
 
     @Test
-    @DisplayName("With an invalid id it removes no entity")
-    @Sql({ "/db/queries/member/single.sql" })
-    void testDelete_NotExisting_NotRemovesEntity() {
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(1L);
+        execution = () -> service.getOne(1L);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

@@ -16,7 +16,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - get one - no action")
+@DisplayName("Role service - get one")
 @Sql({ "/db/queries/security/role/single.sql" })
 class ITRoleServiceGetOne {
 
