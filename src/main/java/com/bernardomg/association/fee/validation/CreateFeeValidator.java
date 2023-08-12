@@ -51,7 +51,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
             duplicates = (totalDates - uniqueDates) + 1;
             log.error("Received {} fees, but {} are duplicates", fee.getFeeDates()
                 .size(), duplicates);
-            failure = FieldFailure.of("feeDates", "duplicated", duplicates);
+            failure = FieldFailure.of("feeDates[]", "duplicated", duplicates);
             failures.add(failure);
         }
 
@@ -61,7 +61,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
             .filter(date -> feeRepository.existsByMemberIdAndDate(fee.getMemberId(), date))
             .count();
         if (existing > 0) {
-            failure = FieldFailure.of("feeDates", "existing", existing);
+            failure = FieldFailure.of("feeDates[]", "existing", existing);
             failures.add(failure);
         }
     }

@@ -62,7 +62,7 @@ class ITFeeServicePayFeesValidation {
 
         execution = () -> service.payFees(feeRequest);
 
-        failure = FieldFailure.of("feeDates.duplicated", "feeDates", "duplicated", 2L);
+        failure = FieldFailure.of("feeDates.duplicated", "feeDates[]", "duplicated", 2L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -79,7 +79,7 @@ class ITFeeServicePayFeesValidation {
 
         execution = () -> service.payFees(feeRequest);
 
-        failure = FieldFailure.of("feeDates.existing", "feeDates", "existing", 1L);
+        failure = FieldFailure.of("feeDates.existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
