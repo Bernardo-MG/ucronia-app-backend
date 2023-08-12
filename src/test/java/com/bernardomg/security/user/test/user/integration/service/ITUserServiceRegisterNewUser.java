@@ -64,7 +64,7 @@ class ITUserServiceRegisterNewUser {
             .email("email@somewhere.com")
             .password("")
             .credentialsExpired(false)
-            .enabled(true)
+            .enabled(false)
             .expired(false)
             .locked(false)
             .build());
@@ -104,7 +104,7 @@ class ITUserServiceRegisterNewUser {
             .name("Admin")
             .email("email@somewhere.com")
             .credentialsExpired(false)
-            .enabled(true)
+            .enabled(false)
             .expired(false)
             .locked(false)
             .build());
