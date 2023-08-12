@@ -68,6 +68,23 @@ class ITFeeServicePayFeesValidation {
     }
 
     @Test
+    @DisplayName("With a repeated member and month it throws an exception")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    void testCreate_ExistingDateAndMember() {
+        final FeesPayment      feeRequest;
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        feeRequest = FeesCreate.valid();
+
+        execution = () -> service.payFees(feeRequest);
+
+        failure = FieldFailure.of("feeDates.existing", "feeDates", "existing", 1L);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("With an invalid member id it throws an exception")
     void testCreate_InvalidMember() {
         final FeesPayment      feeRequest;

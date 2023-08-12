@@ -76,7 +76,7 @@ public final class DefaultFeeService implements FeeService {
         mapper = mpper;
 
         // TODO: Test validation
-        validatorCreate = new CreateFeeValidator(memberRepository);
+        validatorCreate = new CreateFeeValidator(memberRepository, feeRepository);
         validatorUpdate = new UpdateFeeValidator(memberRepository);
     }
 
