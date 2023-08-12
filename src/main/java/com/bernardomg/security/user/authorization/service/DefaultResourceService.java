@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.authorization.persistence.model.PersistentResource;
 import com.bernardomg.security.user.authorization.persistence.repository.ResourceRepository;
@@ -15,10 +14,6 @@ import com.bernardomg.security.user.model.Resource;
 import com.bernardomg.security.user.model.mapper.ResourceMapper;
 import com.bernardomg.security.user.model.request.ResourceQuery;
 
-import lombok.AllArgsConstructor;
-
-@Service
-@AllArgsConstructor
 public final class DefaultResourceService implements ResourceService {
 
     private static final String      CACHE_MULTIPLE = "security_resources";
@@ -28,6 +23,13 @@ public final class DefaultResourceService implements ResourceService {
     private final ResourceMapper     mapper;
 
     private final ResourceRepository repository;
+
+    public DefaultResourceService(final ResourceMapper mapper, final ResourceRepository repository) {
+        super();
+
+        this.mapper = mapper;
+        this.repository = repository;
+    }
 
     @Override
     @PreAuthorize("hasAuthority('RESOURCE:READ')")

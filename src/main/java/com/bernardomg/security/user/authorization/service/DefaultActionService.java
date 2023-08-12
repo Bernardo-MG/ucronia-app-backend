@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.authorization.persistence.model.PersistentAction;
 import com.bernardomg.security.user.authorization.persistence.repository.ActionRepository;
@@ -15,10 +14,6 @@ import com.bernardomg.security.user.model.Action;
 import com.bernardomg.security.user.model.mapper.ActionMapper;
 import com.bernardomg.security.user.model.request.ActionQuery;
 
-import lombok.AllArgsConstructor;
-
-@Service
-@AllArgsConstructor
 public final class DefaultActionService implements ActionService {
 
     private static final String    CACHE_MULTIPLE = "security_actions";
@@ -28,6 +23,13 @@ public final class DefaultActionService implements ActionService {
     private final ActionMapper     mapper;
 
     private final ActionRepository repository;
+
+    public DefaultActionService(final ActionRepository repository, final ActionMapper mapper) {
+        super();
+
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     @Override
     @PreAuthorize("hasAuthority('ACTION:READ')")

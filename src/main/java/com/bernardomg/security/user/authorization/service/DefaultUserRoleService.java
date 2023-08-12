@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.authorization.persistence.model.PersistentUserRole;
 import com.bernardomg.security.user.authorization.persistence.repository.RoleRepository;
@@ -20,7 +19,6 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.validation.AddUserRoleValidator;
 import com.bernardomg.validation.Validator;
 
-@Service
 public final class DefaultUserRoleService implements UserRoleService {
 
     private static final String       PERMISSION_SET_CACHE_NAME = "security_permission_set";

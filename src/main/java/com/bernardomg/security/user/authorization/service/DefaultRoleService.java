@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.authorization.persistence.model.PersistentRole;
@@ -28,7 +27,6 @@ import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.validation.Validator;
 
-@Service
 public final class DefaultRoleService implements RoleService {
 
     private static final String            CACHE_MULTIPLE = "security_roles";

@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
@@ -23,7 +22,6 @@ import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.mapper.RolePermissionMapper;
 import com.bernardomg.validation.Validator;
 
-@Service
 public final class DefaultRolePermissionService implements RolePermissionService {
 
     private static final String                   PERMISSION_CACHE_NAME     = "security_role_permission";
