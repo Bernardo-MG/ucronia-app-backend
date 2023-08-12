@@ -59,30 +59,26 @@ public final class DefaultUserService implements UserService {
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User create(final UserCreate user) {
-        final PersistentUser entity;
+        final PersistentUser userEntity;
         final PersistentUser created;
 
         validatorCreateUser.validate(user);
 
-        entity = mapper.toEntity(user);
-        if (entity.getUsername() != null) {
-            entity.setUsername(entity.getUsername()
-                .toLowerCase());
-        }
-        if (entity.getEmail() != null) {
-            entity.setEmail(entity.getEmail()
-                .toLowerCase());
-        }
+        userEntity = mapper.toEntity(user);
+
+        handleCase(userEntity);
 
         // TODO: Handle this better, disable until it has a password
         // TODO: Should be the DB default value
-        entity.setPassword("");
+        userEntity.setPassword("");
 
-        entity.setExpired(false);
-        entity.setLocked(false);
-        entity.setCredentialsExpired(false);
+        // Disabled by default
+        userEntity.setEnabled(false);
+        userEntity.setExpired(false);
+        userEntity.setLocked(false);
+        userEntity.setCredentialsExpired(false);
 
-        created = userRepository.save(entity);
+        created = userRepository.save(userEntity);
 
         return mapper.toDto(created);
     }
@@ -139,9 +135,10 @@ public final class DefaultUserService implements UserService {
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User update(final long id, final UserUpdate user) {
-        final PersistentUser           entity;
+        final PersistentUser           userEntity;
         final PersistentUser           created;
-        final Optional<PersistentUser> old;
+        final Optional<PersistentUser> oldRead;
+        final PersistentUser           old;
 
         if (!userRepository.existsById(id)) {
             throw new InvalidIdException("user", id);
@@ -149,31 +146,39 @@ public final class DefaultUserService implements UserService {
 
         validatorUpdateUser.validate(user);
 
-        entity = mapper.toEntity(user);
-        entity.setId(id);
-        if (entity.getUsername() != null) {
-            entity.setUsername(entity.getUsername()
-                .toLowerCase());
-        }
-        if (entity.getEmail() != null) {
-            entity.setEmail(entity.getEmail()
-                .toLowerCase());
+        userEntity = mapper.toEntity(user);
+
+        handleCase(userEntity);
+
+        // Can't change password by updating
+        oldRead = userRepository.findById(user.getId());
+        if (oldRead.isPresent()) {
+            old = oldRead.get();
+            userEntity.setPassword(old.getPassword());
+
+            // Can't change status by updating
+            userEntity.setEnabled(old.getEnabled());
+            userEntity.setExpired(old.getExpired());
+            userEntity.setLocked(old.getLocked());
+            userEntity.setCredentialsExpired(old.getCredentialsExpired());
         }
 
-        old = userRepository.findById(user.getId());
-        if (old.isPresent()) {
-            entity.setPassword(old.get()
-                .getPassword());
-        }
-
-        // TODO: Should initialize the values in the database
-        entity.setExpired(false);
-        entity.setLocked(false);
-        entity.setCredentialsExpired(false);
-
-        created = userRepository.save(entity);
+        created = userRepository.save(userEntity);
 
         return mapper.toDto(created);
+    }
+
+    private final void handleCase(final PersistentUser user) {
+        // Name and email should be case insensitive
+        // For this reason they are always stored in lower case
+        if (user.getUsername() != null) {
+            user.setUsername(user.getUsername()
+                .toLowerCase());
+        }
+        if (user.getEmail() != null) {
+            user.setEmail(user.getEmail()
+                .toLowerCase());
+        }
     }
 
 }
