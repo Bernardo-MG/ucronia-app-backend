@@ -11,10 +11,8 @@ public interface MemberFee {
 
     public Long getMemberId();
 
-    public String getName();
+    public String getMemberName();
 
     public Boolean getPaid();
-
-    public String getSurname();
 
 }

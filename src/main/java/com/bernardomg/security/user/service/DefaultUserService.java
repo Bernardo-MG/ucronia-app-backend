@@ -94,7 +94,7 @@ public final class DefaultUserService implements UserService {
     public final void delete(final long id) {
 
         if (!userRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed delete. No user with id %s", id));
+            throw new InvalidIdException("user", id);
         }
 
         validatorDeleteUser.validate(id);
@@ -125,6 +125,11 @@ public final class DefaultUserService implements UserService {
     @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<User> getOne(final long id) {
+
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException("user", id);
+        }
+
         return userRepository.findById(id)
             .map(mapper::toDto);
     }
@@ -139,7 +144,7 @@ public final class DefaultUserService implements UserService {
         final Optional<PersistentUser> old;
 
         if (!userRepository.existsById(id)) {
-            throw new InvalidIdException(String.format("Failed update. No user with id %s", id));
+            throw new InvalidIdException("user", id);
         }
 
         validatorUpdateUser.validate(user);

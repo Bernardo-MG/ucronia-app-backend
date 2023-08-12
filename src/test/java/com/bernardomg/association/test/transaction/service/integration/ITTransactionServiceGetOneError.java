@@ -22,58 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.service.integration;
+package com.bernardomg.association.test.transaction.service.integration;
 
-import java.util.GregorianCalendar;
-
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
-import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee service - create validation")
-@Sql({ "/db/queries/member/single.sql" })
-class ITFeeServiceCreateValidation {
+@DisplayName("Transaction service - get one - errors")
+class ITTransactionServiceGetOneError {
 
     @Autowired
-    private FeeService service;
+    private TransactionService service;
 
-    public ITFeeServiceCreateValidation() {
+    public ITTransactionServiceGetOneError() {
         super();
     }
 
-    private final ValidatedFeeCreate getInvalidIdFeeCreate() {
-        return ValidatedFeeCreate.builder()
-            .memberId(-1L)
-            .date(new GregorianCalendar(2020, 1, 2))
-            .paid(true)
-            .build();
-    }
-
     @Test
-    @DisplayName("With a missing id it throws an exception")
-    void testCreate_InvalidMember() {
-        final ValidatedFeeCreate feeRequest;
-        final ThrowingCallable   execution;
-        final FieldFailure       failure;
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testGetOne_NotExisting() {
+        final ThrowingCallable execution;
 
-        feeRequest = getInvalidIdFeeCreate();
+        execution = () -> service.getOne(1L);
 
-        execution = () -> service.create(feeRequest);
-
-        failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

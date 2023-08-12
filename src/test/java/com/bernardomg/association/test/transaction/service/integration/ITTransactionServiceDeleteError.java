@@ -29,7 +29,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.transaction.service.TransactionService;
 import com.bernardomg.exception.InvalidIdException;
@@ -39,7 +38,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Transaction service - delete")
-@Sql({ "/db/queries/transaction/single.sql" })
 class ITTransactionServiceDeleteError {
 
     @Autowired
@@ -54,7 +52,7 @@ class ITTransactionServiceDeleteError {
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(-1L);
+        execution = () -> service.delete(1L);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

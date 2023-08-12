@@ -77,7 +77,7 @@ databaseChangeLog:
       changes:
         -  createView:  
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, m.name AS name, m.surname AS surname, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id
+            selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id
             viewName: member_fees
         -  createView:  
             remarks: Monthly balance

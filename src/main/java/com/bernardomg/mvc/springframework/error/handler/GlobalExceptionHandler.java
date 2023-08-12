@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -96,18 +94,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn(ex.getMessage(), ex);
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler({ DataAccessException.class, PropertyReferenceException.class })
-    public final ResponseEntity<Object> handlePersistenceException(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
-
-        log.warn(ex.getMessage(), ex);
-
-        response = Response.error("Invalid query");
-
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })

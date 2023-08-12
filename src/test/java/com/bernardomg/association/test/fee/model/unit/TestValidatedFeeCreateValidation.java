@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.fee.model.request.FeeCreate;
+import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
 
 import jakarta.validation.ConstraintViolation;
@@ -21,13 +21,13 @@ class TestValidatedFeeCreateValidation {
         .getValidator();
 
     @Test
-    @DisplayName("A DTO missing the date is invalid")
-    void validate_missingDate() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+    @DisplayName("A DTO missing the description is invalid")
+    void validate_missingDescription() {
+        final FeesPayment                           request;
+        final Set<ConstraintViolation<FeesPayment>> errors;
+        final ConstraintViolation<FeesPayment>      error;
 
-        request = FeesCreate.missingDate();
+        request = FeesCreate.missingDescription();
 
         errors = validator.validate(request);
 
@@ -38,7 +38,30 @@ class TestValidatedFeeCreateValidation {
             .next();
 
         Assertions.assertThat(error.getPropertyPath())
-            .hasToString("date");
+            .hasToString("description");
+        Assertions.assertThat(error.getInvalidValue())
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("A DTO missing the fee dates is invalid")
+    void validate_missingFeeDates() {
+        final FeesPayment                           request;
+        final Set<ConstraintViolation<FeesPayment>> errors;
+        final ConstraintViolation<FeesPayment>      error;
+
+        request = FeesCreate.missingFeeDates();
+
+        errors = validator.validate(request);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("feeDates");
         Assertions.assertThat(error.getInvalidValue())
             .isNull();
     }
@@ -46,9 +69,9 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A DTO missing the member id is invalid")
     void validate_missingMemberId() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+        final FeesPayment                           request;
+        final Set<ConstraintViolation<FeesPayment>> errors;
+        final ConstraintViolation<FeesPayment>      error;
 
         request = FeesCreate.missingMemberId();
 
@@ -67,13 +90,13 @@ class TestValidatedFeeCreateValidation {
     }
 
     @Test
-    @DisplayName("A DTO missing the paid flag is invalid")
-    void validate_missingPaidFlag() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
-        final ConstraintViolation<FeeCreate>      error;
+    @DisplayName("A DTO missing the payment date is invalid")
+    void validate_missingPaymentDate() {
+        final FeesPayment                           request;
+        final Set<ConstraintViolation<FeesPayment>> errors;
+        final ConstraintViolation<FeesPayment>      error;
 
-        request = FeesCreate.missingPaid();
+        request = FeesCreate.missingPaymentDate();
 
         errors = validator.validate(request);
 
@@ -84,7 +107,30 @@ class TestValidatedFeeCreateValidation {
             .next();
 
         Assertions.assertThat(error.getPropertyPath())
-            .hasToString("paid");
+            .hasToString("paymentDate");
+        Assertions.assertThat(error.getInvalidValue())
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("A DTO with a null fee date is invalid")
+    void validate_nullFeeDate() {
+        final FeesPayment                           request;
+        final Set<ConstraintViolation<FeesPayment>> errors;
+        final ConstraintViolation<FeesPayment>      error;
+
+        request = FeesCreate.nullFeeDate();
+
+        errors = validator.validate(request);
+
+        Assertions.assertThat(errors)
+            .hasSize(1);
+
+        error = errors.iterator()
+            .next();
+
+        Assertions.assertThat(error.getPropertyPath())
+            .hasToString("feeDates[].<iterable element>");
         Assertions.assertThat(error.getInvalidValue())
             .isNull();
     }
@@ -92,10 +138,10 @@ class TestValidatedFeeCreateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final FeeCreate                           request;
-        final Set<ConstraintViolation<FeeCreate>> errors;
+        final FeesPayment                           request;
+        final Set<ConstraintViolation<FeesPayment>> errors;
 
-        request = FeesCreate.paid();
+        request = FeesCreate.valid();
 
         errors = validator.validate(request);
 

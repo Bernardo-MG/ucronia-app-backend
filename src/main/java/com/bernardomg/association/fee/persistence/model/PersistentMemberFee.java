@@ -29,16 +29,13 @@ public class PersistentMemberFee implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "memberId", nullable = false)
+    @Column(name = "member_id", nullable = false)
     private Long              memberId;
 
-    @Column(name = "name")
-    private String            name;
+    @Column(name = "member_name")
+    private String            memberName;
 
     @Column(name = "paid")
     private Boolean           paid;
-
-    @Column(name = "surname")
-    private String            surname;
 
 }

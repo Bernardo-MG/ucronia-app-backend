@@ -22,42 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.service.integration;
+package com.bernardomg.association.test.fee.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.transaction.util.model.TransactionsUpdate;
-import com.bernardomg.association.transaction.model.request.TransactionUpdate;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Transaction service - update errors")
-class ITTransactionServiceUpdateError {
+@DisplayName("Fee service - get one - errors")
+class ITFeeServiceGetOneError {
 
     @Autowired
-    private TransactionService service;
+    private FeeService service;
 
-    public ITTransactionServiceUpdateError() {
+    public ITFeeServiceGetOneError() {
         super();
     }
 
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
-    void testUpdate_NotExisting_Exception() {
-        final TransactionUpdate transactionRequest;
-        final ThrowingCallable  execution;
+    @Sql({ "/db/queries/member/single.sql" })
+    void testGetOne_NotExisting() {
+        final ThrowingCallable execution;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
-
-        execution = () -> service.update(1L, transactionRequest);
+        execution = () -> service.getOne(1L);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

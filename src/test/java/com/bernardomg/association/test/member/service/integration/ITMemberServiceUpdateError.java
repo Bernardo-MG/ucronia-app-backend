@@ -29,7 +29,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.member.model.request.MemberUpdate;
 import com.bernardomg.association.member.service.MemberService;
@@ -41,7 +40,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Member service - update")
-@Sql({ "/db/queries/member/single.sql" })
 class ITMemberServiceUpdateError {
 
     @Autowired
@@ -59,7 +57,7 @@ class ITMemberServiceUpdateError {
 
         memberRequest = MembersUpdate.nameChange();
 
-        execution = () -> service.update(10L, memberRequest);
+        execution = () -> service.update(1L, memberRequest);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

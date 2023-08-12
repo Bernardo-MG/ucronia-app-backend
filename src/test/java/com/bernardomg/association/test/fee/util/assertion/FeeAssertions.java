@@ -15,12 +15,9 @@ public final class FeeAssertions {
         Assertions.assertThat(received.getMemberId())
             .withFailMessage("Expected member id '%s' but got '%s'", expected.getMemberId(), received.getMemberId())
             .isEqualTo(expected.getMemberId());
-        Assertions.assertThat(received.getName())
-            .withFailMessage("Expected name '%s' but got '%s'", expected.getName(), received.getName())
-            .isEqualTo(expected.getName());
-        Assertions.assertThat(received.getSurname())
-            .withFailMessage("Expected surname '%s' but got '%s'", expected.getSurname(), received.getSurname())
-            .isEqualTo(expected.getSurname());
+        Assertions.assertThat(received.getMemberName())
+            .withFailMessage("Expected name '%s' but got '%s'", expected.getMemberName(), received.getMemberName())
+            .isEqualTo(expected.getMemberName());
         Assertions.assertThat(received.getDate()
             .getTime())
             .withFailMessage("Expected date '%s' but got '%s'", received.getDate()

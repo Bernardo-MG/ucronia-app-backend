@@ -18,7 +18,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - get one - with role and no action")
+@DisplayName("User service - get one")
 @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
         "/db/queries/security/relationship/user_role.sql" })
 class ITUserServiceGetOne {
@@ -58,17 +58,6 @@ class ITUserServiceGetOne {
             .expired(false)
             .locked(false)
             .build());
-    }
-
-    @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    void testGetOne_NotExisting() {
-        final Optional<User> result;
-
-        result = service.getOne(-1L);
-
-        Assertions.assertThat(result)
-            .isNotPresent();
     }
 
 }

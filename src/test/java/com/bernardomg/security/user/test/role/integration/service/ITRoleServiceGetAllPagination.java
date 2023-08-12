@@ -22,7 +22,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - get all")
+@DisplayName("Role service - get all - pagination")
 @Sql({ "/db/queries/security/role/single.sql" })
 class ITRoleServiceGetAllPagination {
 
