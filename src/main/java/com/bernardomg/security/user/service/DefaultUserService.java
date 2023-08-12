@@ -14,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
+import com.bernardomg.security.token.exception.InvalidTokenException;
+import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.mapper.UserMapper;
@@ -27,6 +29,9 @@ import com.bernardomg.security.user.validation.DeleteUserValidator;
 import com.bernardomg.security.user.validation.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultUserService implements UserService {
 
     private static final String         CACHE_MULTIPLE = "security_users";
@@ -90,6 +95,35 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    public final void enableNewUser(final String token, final String username) {
+        final String tokenUsername;
+
+        // TODO: User a token validator which takes care of the exceptions
+        if (!tokenStore.exists(token, tokenScope)) {
+            log.error("Token missing: {}", token);
+            throw new MissingTokenException(token);
+        }
+
+        // TODO: Validate scope
+        if (!tokenStore.isValid(token, tokenScope)) {
+            // TODO: Throw an exception for each possible case
+            log.error("Token expired: {}", token);
+            throw new InvalidTokenException(token);
+        }
+
+        tokenUsername = tokenStore.getUsername(token);
+        if (!Objects.equals(username, tokenUsername)) {
+            log.error("The token is registered for {} but {} attempted to use it", username, tokenUsername);
+            // TODO: User a better exception
+            throw new InvalidTokenException(token);
+        }
+
+        log.debug("Enabling new user {}", username);
+
+        log.debug("Enabled new user {}", username);
+    }
+
+    @Override
     @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
@@ -131,6 +165,8 @@ public final class DefaultUserService implements UserService {
         final PersistentUser created;
         final String         token;
 
+        log.debug("Registering new user {} with email {}", user.getUsername(), user.getEmail());
+
         validatorCreateUser.validate(user);
 
         userEntity = mapper.toEntity(user);
@@ -149,9 +185,16 @@ public final class DefaultUserService implements UserService {
 
         created = userRepository.save(userEntity);
 
+        // Revoke previous tokens
+        tokenStore.revokeExistingTokens(created.getId(), tokenScope);
+
+        // Register new token
         token = tokenStore.createToken(created.getId(), created.getUsername(), tokenScope);
 
+        // TODO: Handle through events
         messageSender.sendUserRegisteredMessage(created.getEmail(), token);
+
+        log.debug("Registered new user {} with email {}", user.getUsername(), user.getEmail());
 
         return mapper.toDto(created);
     }
@@ -193,6 +236,11 @@ public final class DefaultUserService implements UserService {
         created = userRepository.save(userEntity);
 
         return mapper.toDto(created);
+    }
+
+    @Override
+    public final boolean validateToken(final String token) {
+        return tokenStore.isValid(token, tokenScope);
     }
 
     private final void handleCase(final PersistentUser user) {

@@ -60,4 +60,16 @@ public interface UserService {
      */
     public User update(final long id, final UserUpdate user);
 
+    /**
+     * Validate a user registration token.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token is valid, {@code false} otherwise
+     */
+    public boolean validateToken(final String token);
+
+    public void enableNewUser(final String token, final String username);
+
+    
 }

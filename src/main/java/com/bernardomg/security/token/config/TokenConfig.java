@@ -33,6 +33,8 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.store.TokenStore;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Security configuration.
  *
@@ -41,6 +43,7 @@ import com.bernardomg.security.token.store.TokenStore;
  */
 @Configuration
 @EnableConfigurationProperties(TokenProperties.class)
+@Slf4j
 public class TokenConfig {
 
     public TokenConfig() {
@@ -49,6 +52,7 @@ public class TokenConfig {
 
     @Bean("tokenStore")
     public TokenStore getTokenStore(final TokenRepository tRepository, final TokenProperties tokenProperties) {
+        log.debug("Setting {}ms validity length for tokens", tokenProperties.getValidity());
         return new PersistentTokenStore(tRepository, tokenProperties.getValidity());
     }
 

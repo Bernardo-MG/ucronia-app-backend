@@ -19,7 +19,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - create")
+@DisplayName("User service - register new user")
 class ITUserServiceRegisterNewUser {
 
     @Autowired
@@ -34,7 +34,7 @@ class ITUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Adds an entity when creating")
-    void testCreate_AddsEntity() {
+    void testRegisterNewUser_AddsEntity() {
         final UserCreate user;
 
         user = UsersCreate.enabled();
@@ -47,7 +47,7 @@ class ITUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Persists the data")
-    void testCreate_PersistedData() {
+    void testRegisterNewUser_PersistedData() {
         final UserCreate     user;
         final PersistentUser entity;
 
@@ -72,7 +72,7 @@ class ITUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Persists the data, ignoring case")
-    void testCreate_PersistedData_Case() {
+    void testRegisterNewUser_PersistedData_Case() {
         final UserCreate     user;
         final PersistentUser entity;
 
@@ -91,7 +91,7 @@ class ITUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Returns the created data")
-    void testCreate_ReturnedData() {
+    void testRegisterNewUser_ReturnedData() {
         final UserCreate user;
         final User       result;
 
@@ -112,7 +112,7 @@ class ITUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Returns the created data, ignoring case")
-    void testCreate_ReturnedData_Case() {
+    void testRegisterNewUser_ReturnedData_Case() {
         final UserCreate user;
         final User       result;
 

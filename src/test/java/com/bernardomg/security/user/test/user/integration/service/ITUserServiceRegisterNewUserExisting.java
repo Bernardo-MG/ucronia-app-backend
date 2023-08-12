@@ -17,8 +17,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - create - existing")
-@Sql({ "/db/queries/security/user/single.sql" })
+@DisplayName("User service - register new user - existing")
 class ITUserServiceRegisterNewUserExisting {
 
     @Autowired
@@ -33,7 +32,8 @@ class ITUserServiceRegisterNewUserExisting {
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    void testCreate() {
+    @Sql({ "/db/queries/security/user/single.sql" })
+    void testRegisterNewUser() {
         final User       result;
         final UserCreate user;
 
@@ -48,7 +48,8 @@ class ITUserServiceRegisterNewUserExisting {
 
     @Test
     @DisplayName("Adds an entity when creating with an existing id")
-    void testCreate_AddsEntity() {
+    @Sql({ "/db/queries/security/user/single.sql" })
+    void testRegisterNewUser_AddsEntity() {
         final UserCreate user;
 
         user = UsersCreate.alternative();

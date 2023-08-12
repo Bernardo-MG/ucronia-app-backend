@@ -17,7 +17,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - create validation")
+@DisplayName("User service - register new user - validation")
 class ITUserServiceRegisterNewUserValidation {
 
     @Autowired
@@ -30,7 +30,7 @@ class ITUserServiceRegisterNewUserValidation {
     @Test
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testCreate_ExistingEmail() {
+    void testRegisterNewUser_ExistingEmail() {
         final UserCreate       data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -47,7 +47,7 @@ class ITUserServiceRegisterNewUserValidation {
     @Test
     @DisplayName("Throws an exception when the username already exists")
     @Sql({ "/db/queries/security/user/single.sql" })
-    void testCreate_ExistingUsername() {
+    void testRegisterNewUser_ExistingUsername() {
         final UserCreate       data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
