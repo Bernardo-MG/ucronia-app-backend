@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
@@ -28,7 +27,6 @@ import com.bernardomg.security.user.validation.DeleteUserValidator;
 import com.bernardomg.security.user.validation.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
 
-@Service
 public final class DefaultUserService implements UserService {
 
     private static final String         CACHE_MULTIPLE = "security_users";

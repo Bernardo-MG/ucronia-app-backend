@@ -25,9 +25,13 @@
 package com.bernardomg.security.token.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.store.TokenStore;
 
 /**
  * Security configuration.
@@ -41,6 +45,11 @@ public class TokenConfig {
 
     public TokenConfig() {
         super();
+    }
+
+    @Bean("tokenStore")
+    public TokenStore getTokenStore(final TokenRepository tRepository, final TokenProperties tokenProperties) {
+        return new PersistentTokenStore(tRepository, tokenProperties.getValidity());
     }
 
 }
