@@ -20,7 +20,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - create")
-class ITUserServiceCreate {
+class ITUserServiceRegisterNewUser {
 
     @Autowired
     private UserRepository repository;
@@ -28,7 +28,7 @@ class ITUserServiceCreate {
     @Autowired
     private UserService    service;
 
-    public ITUserServiceCreate() {
+    public ITUserServiceRegisterNewUser() {
         super();
     }
 
@@ -39,7 +39,7 @@ class ITUserServiceCreate {
 
         user = UsersCreate.enabled();
 
-        service.create(user);
+        service.registerNewUser(user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -53,7 +53,7 @@ class ITUserServiceCreate {
 
         user = UsersCreate.enabled();
 
-        service.create(user);
+        service.registerNewUser(user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -78,7 +78,7 @@ class ITUserServiceCreate {
 
         user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
-        service.create(user);
+        service.registerNewUser(user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -97,7 +97,7 @@ class ITUserServiceCreate {
 
         user = UsersCreate.enabled();
 
-        result = service.create(user);
+        result = service.registerNewUser(user);
 
         UserAssertions.isEqualTo(result, DtoUser.builder()
             .username("admin")
@@ -118,7 +118,7 @@ class ITUserServiceCreate {
 
         user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
 
-        result = service.create(user);
+        result = service.registerNewUser(user);
 
         Assertions.assertThat(result.getUsername())
             .isEqualTo("admin");

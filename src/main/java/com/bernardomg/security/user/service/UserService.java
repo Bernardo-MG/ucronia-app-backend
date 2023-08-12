@@ -13,15 +13,6 @@ import com.bernardomg.security.user.model.request.UserUpdate;
 public interface UserService {
 
     /**
-     * Persists the received user.
-     *
-     * @param user
-     *            user to persist
-     * @return the persisted user
-     */
-    public User create(final UserCreate user);
-
-    /**
      * Deletes the user with the received id.
      *
      * @param id
@@ -48,6 +39,15 @@ public interface UserService {
      * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<User> getOne(final long id);
+
+    /**
+     * Persists the received user.
+     *
+     * @param user
+     *            user to persist
+     * @return the persisted user
+     */
+    public User registerNewUser(final UserCreate user);
 
     /**
      * Updates the user for the received id with the received data.

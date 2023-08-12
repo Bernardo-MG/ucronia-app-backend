@@ -18,12 +18,12 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - create validation")
-class ITUserServiceCreateValidation {
+class ITUserServiceRegisterNewUserValidation {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceCreateValidation() {
+    public ITUserServiceRegisterNewUserValidation() {
         super();
     }
 
@@ -37,7 +37,7 @@ class ITUserServiceCreateValidation {
 
         data = UsersCreate.enabled("abc", "email@somewhere.com");
 
-        executable = () -> service.create(data);
+        executable = () -> service.registerNewUser(data);
 
         failure = FieldFailure.of("email.existing", "email", "existing", "email@somewhere.com");
 
@@ -54,7 +54,7 @@ class ITUserServiceCreateValidation {
 
         data = UsersCreate.enabled("admin", "email2@somewhere.com");
 
-        executable = () -> service.create(data);
+        executable = () -> service.registerNewUser(data);
 
         failure = FieldFailure.of("username.existing", "username", "existing", "admin");
 

@@ -13,4 +13,7 @@ public final class DisabledSecurityMessageSender implements SecurityMessageSende
     @Override
     public final void sendSignUpMessage(final String username, final String email) {}
 
+    @Override
+    public final void sendUserRegisteredMessage(final String email, final String token) {}
+
 }

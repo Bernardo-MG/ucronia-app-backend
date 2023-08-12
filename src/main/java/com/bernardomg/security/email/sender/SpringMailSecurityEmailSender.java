@@ -97,4 +97,10 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         mailSender.send(message);
     }
 
+    @Override
+    public final void sendUserRegisteredMessage(final String email, final String token) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

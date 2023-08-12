@@ -14,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.security.email.sender.SecurityMessageSender;
+import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.mapper.UserMapper;
 import com.bernardomg.security.user.model.request.UserCreate;
@@ -35,6 +37,21 @@ public final class DefaultUserService implements UserService {
 
     private final UserMapper            mapper;
 
+    /**
+     * Message sender. Registering new users may require emails, or other kind of messaging.
+     */
+    private final SecurityMessageSender messageSender;
+
+    /**
+     * Token scope for reseting passwords.
+     */
+    private final String                tokenScope;
+
+    /**
+     * Token processor.
+     */
+    private final TokenStore            tokenStore;
+
     private final UserRepository        userRepository;
 
     private final Validator<UserCreate> validatorCreateUser;
@@ -43,44 +60,21 @@ public final class DefaultUserService implements UserService {
 
     private final Validator<UserUpdate> validatorUpdateUser;
 
-    public DefaultUserService(final UserRepository userRepo, final UserMapper userMapper) {
+    public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
+            final TokenStore tStore, final UserMapper userMapper, final String scope) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         mapper = Objects.requireNonNull(userMapper);
 
+        tokenStore = Objects.requireNonNull(tStore);
+        tokenScope = Objects.requireNonNull(scope);
+
+        messageSender = Objects.requireNonNull(mSender);
+
         validatorCreateUser = new CreateUserValidator(userRepo);
         validatorUpdateUser = new UpdateUserValidator(userRepo);
         validatorDeleteUser = new DeleteUserValidator();
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('USER:CREATE')")
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
-    public final User create(final UserCreate user) {
-        final PersistentUser userEntity;
-        final PersistentUser created;
-
-        validatorCreateUser.validate(user);
-
-        userEntity = mapper.toEntity(user);
-
-        handleCase(userEntity);
-
-        // TODO: Handle this better, disable until it has a password
-        // TODO: Should be the DB default value
-        userEntity.setPassword("");
-
-        // Disabled by default
-        userEntity.setEnabled(false);
-        userEntity.setExpired(false);
-        userEntity.setLocked(false);
-        userEntity.setCredentialsExpired(false);
-
-        created = userRepository.save(userEntity);
-
-        return mapper.toDto(created);
     }
 
     @Override
@@ -128,6 +122,40 @@ public final class DefaultUserService implements UserService {
 
         return userRepository.findById(id)
             .map(mapper::toDto);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('USER:CREATE')")
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+    public final User registerNewUser(final UserCreate user) {
+        final PersistentUser userEntity;
+        final PersistentUser created;
+        final String         token;
+
+        validatorCreateUser.validate(user);
+
+        userEntity = mapper.toEntity(user);
+
+        handleCase(userEntity);
+
+        // TODO: Handle this better, disable until it has a password
+        // TODO: Should be the DB default value
+        userEntity.setPassword("");
+
+        // Disabled by default
+        userEntity.setEnabled(false);
+        userEntity.setExpired(false);
+        userEntity.setLocked(false);
+        userEntity.setCredentialsExpired(false);
+
+        created = userRepository.save(userEntity);
+
+        token = tokenStore.createToken(created.getId(), created.getUsername(), tokenScope);
+
+        messageSender.sendUserRegisteredMessage(created.getEmail(), token);
+
+        return mapper.toDto(created);
     }
 
     @Override

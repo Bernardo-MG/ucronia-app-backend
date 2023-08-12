@@ -22,29 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.email.sender;
+package com.bernardomg.security.user.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.bernardomg.security.email.sender.SecurityMessageSender;
+import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.user.model.mapper.UserMapper;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.service.DefaultUserService;
+import com.bernardomg.security.user.service.UserService;
 
 /**
- * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
- * user.
+ * Password handling configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface SecurityMessageSender {
+@Configuration
+public class UserConfig {
 
-    public void sendPasswordRecoveryMessage(final String email, final String token);
+    public UserConfig() {
+        super();
+    }
 
-    /**
-     * Sends the email after signing up as a new user.
-     *
-     * @param username
-     *            username for the user who signed up
-     * @param email
-     *            email to send the email to
-     */
-    public void sendSignUpMessage(final String username, final String email);
-
-    public void sendUserRegisteredMessage(final String email, final String token);
+    @Bean("userService")
+    public UserService getUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
+            final TokenStore tStore, final UserMapper userMapper) {
+        return new DefaultUserService(userRepo, mSender, tStore, userMapper, "user_registered");
+    }
 
 }

@@ -19,7 +19,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - create - existing")
 @Sql({ "/db/queries/security/user/single.sql" })
-class ITUserServiceCreateExisting {
+class ITUserServiceRegisterNewUserExisting {
 
     @Autowired
     private UserRepository repository;
@@ -27,7 +27,7 @@ class ITUserServiceCreateExisting {
     @Autowired
     private UserService    service;
 
-    public ITUserServiceCreateExisting() {
+    public ITUserServiceRegisterNewUserExisting() {
         super();
     }
 
@@ -39,7 +39,7 @@ class ITUserServiceCreateExisting {
 
         user = UsersCreate.alternative();
 
-        result = service.create(user);
+        result = service.registerNewUser(user);
 
         // TODO: What is this tests for?
         Assertions.assertThat(result.getId())
@@ -53,7 +53,7 @@ class ITUserServiceCreateExisting {
 
         user = UsersCreate.alternative();
 
-        service.create(user);
+        service.registerNewUser(user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);

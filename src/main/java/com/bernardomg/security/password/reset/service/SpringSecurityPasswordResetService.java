@@ -98,13 +98,13 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore tProcessor, @NonNull final PasswordEncoder passEncoder, final String scope) {
+            @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder, final String scope) {
         super();
 
         repository = repo;
         userDetailsService = userDetsService;
         messageSender = mSender;
-        tokenStore = tProcessor;
+        tokenStore = tStore;
         passwordEncoder = passEncoder;
         tokenScope = scope;
     }
