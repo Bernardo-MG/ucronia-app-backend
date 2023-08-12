@@ -33,7 +33,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.test.transaction.util.model.TransactionsCreate;
@@ -43,8 +42,11 @@ import com.bernardomg.association.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Transaction service - create")
 class ITTransactionServiceCreate {
 

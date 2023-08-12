@@ -53,8 +53,10 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
 
     @Override
     public final boolean test(final LoginRequest login) {
-        final Boolean         valid;
+        final boolean         valid;
         Optional<UserDetails> details;
+
+        // TODO: Throw exceptions
 
         // Find the user
         try {
@@ -74,7 +76,7 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
             valid = passwordEncoder.matches(login.getPassword(), details.get()
                 .getPassword());
             if (!valid) {
-                log.debug("Received password doesn't match the one stored for username {}. Failed login",
+                log.debug("Received a password which doesn't match the one stored for username {}. Failed login",
                     login.getUsername());
             }
         } else {
@@ -109,7 +111,7 @@ public final class SpringValidLoginPredicate implements Predicate<LoginRequest> 
      *            user the check
      * @return {@code true} if the user is valid, {@code false} otherwise
      */
-    private final Boolean isValid(final UserDetails userDetails) {
+    private final boolean isValid(final UserDetails userDetails) {
         return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                 && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
     }

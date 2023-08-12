@@ -45,11 +45,11 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      *            email to search for
      * @return {@code true} if the user exists, {@code false} otherwise
      */
-    public Boolean existsByEmail(final String email);
+    public boolean existsByEmail(final String email);
 
-    public Boolean existsByIdAndUsername(final Long id, final String username);
+    public boolean existsByIdAndUsername(final Long id, final String username);
 
-    public Boolean existsByIdNotAndEmail(final Long Id, final String email);
+    public boolean existsByIdNotAndEmail(final Long Id, final String email);
 
     /**
      * Returns whether an user with the given username exists.
@@ -58,7 +58,7 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      *            username to search for
      * @return {@code true} if the user exists, {@code false} otherwise
      */
-    public Boolean existsByUsername(final String username);
+    public boolean existsByUsername(final String username);
 
     /**
      * Returns the user for the received email.

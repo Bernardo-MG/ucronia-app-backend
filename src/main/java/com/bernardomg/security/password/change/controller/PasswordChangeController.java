@@ -24,22 +24,22 @@
 
 package com.bernardomg.security.password.change.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.change.model.DtoPasswordChange;
-import com.bernardomg.security.password.change.model.PasswordChangeStatus;
+import com.bernardomg.security.password.change.model.request.PasswordChangeRequest;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
-import com.bernardomg.security.password.recovery.service.PasswordRecoveryService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Handles password recovery requests. All the logic is delegated to a {@link PasswordRecoveryService}.
+ * Handles password recovery requests. All the logic is delegated to a {@link PasswordChangeService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -59,11 +59,11 @@ public class PasswordChangeController {
      *
      * @param request
      *            password change request
-     * @return password change status
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PasswordChangeStatus changePassword(@Valid @RequestBody final DtoPasswordChange request) {
-        return service.changePassword(request.getOldPassword(), request.getNewPassword());
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changePassword(@Valid @RequestBody final PasswordChangeRequest request) {
+        service.changePasswordForUserInSession(request.getOldPassword(), request.getNewPassword());
     }
 
 }

@@ -35,10 +35,12 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.member.model.DtoMember;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Member service - get one")
 class ITMemberServiceGetOne {
 
@@ -91,17 +93,6 @@ class ITMemberServiceGetOne {
             .identifier("6789")
             .active(false)
             .build());
-    }
-
-    @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    void testGetOne_NotExisting() {
-        final Optional<Member> result;
-
-        result = service.getOne(1L);
-
-        Assertions.assertThat(result)
-            .isNotPresent();
     }
 
 }

@@ -55,7 +55,7 @@ public final class MailSignUpService implements SignUpService {
             // Sends success email
             // TODO: Test this
             // TODO: Can be chained after the sign up call. Maybe use an aspect
-            mailSender.sendSignUpEmail(signUp.getUsername(), signUp.getEmail());
+            mailSender.sendSignUpMessage(signUp.getUsername(), signUp.getEmail());
         }
 
         return status;

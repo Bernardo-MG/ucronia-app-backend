@@ -33,11 +33,13 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.request.FeeUpdate;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.model.FeesUpdate;
 import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - update errors")
 class ITFeeServiceUpdateError {
 
@@ -57,7 +59,7 @@ class ITFeeServiceUpdateError {
 
         feeRequest = FeesUpdate.paid();
 
-        execution = () -> service.update(10L, feeRequest);
+        execution = () -> service.update(1L, feeRequest);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

@@ -32,9 +32,11 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee calendar service - get all")
 class ITFeeCalendarServiceGetRange {
 

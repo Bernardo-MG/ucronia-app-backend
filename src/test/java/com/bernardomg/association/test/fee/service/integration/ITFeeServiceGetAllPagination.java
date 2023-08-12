@@ -41,11 +41,13 @@ import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.test.fee.util.model.FeesQuery;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - get all - pagination")
 @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
 class ITFeeServiceGetAllPagination {
@@ -95,8 +97,7 @@ class ITFeeServiceGetAllPagination {
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -123,8 +124,7 @@ class ITFeeServiceGetAllPagination {
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .memberName("Member 2 Surname 2")
             .date(new GregorianCalendar(2020, 2, 1))
             .paid(true)
             .build());

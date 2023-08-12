@@ -7,14 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("User service - create validation")
 class ITUserServiceCreateValidation {
 

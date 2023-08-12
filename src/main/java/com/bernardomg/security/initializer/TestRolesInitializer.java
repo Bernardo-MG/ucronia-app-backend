@@ -46,7 +46,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
         runIfNotExists(this::initializeAdminRole, "ADMIN");
         runIfNotExists(this::initializeReadRole, "READ");
 
-        log.debug("Initialed test roles");
+        log.debug("Initialized test roles");
     }
 
     private final PersistentRole getReadRole() {

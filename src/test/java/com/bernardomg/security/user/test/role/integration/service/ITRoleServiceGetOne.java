@@ -9,12 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role service - get one - no action")
+@AllAuthoritiesMockUser
+@DisplayName("Role service - get one")
 @Sql({ "/db/queries/security/role/single.sql" })
 class ITRoleServiceGetOne {
 
@@ -48,17 +50,6 @@ class ITRoleServiceGetOne {
             .isNotNull();
         Assertions.assertThat(result.getName())
             .isEqualTo("ADMIN");
-    }
-
-    @Test
-    @DisplayName("When reading a single entity with an invalid id, no entity is returned")
-    void testGetOne_NotExisting() {
-        final Optional<Role> result;
-
-        result = service.getOne(-1L);
-
-        Assertions.assertThat(result)
-            .isNotPresent();
     }
 
 }

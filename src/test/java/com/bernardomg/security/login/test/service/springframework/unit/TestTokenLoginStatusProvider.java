@@ -15,8 +15,8 @@ import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.TokenLoginStatusProvider;
-import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenEncoder;
+import com.bernardomg.security.token.test.constant.TokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginStatusProvider - get status")

@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
-import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;
+import com.bernardomg.security.token.test.constant.TokenConstants;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

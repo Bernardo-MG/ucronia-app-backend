@@ -60,7 +60,7 @@ public final class JwtTokenValidator implements TokenValidator {
     }
 
     @Override
-    public final Boolean hasExpired(final String token) {
+    public final boolean hasExpired(final String token) {
         final Date expiration;
         final Date current;
         Boolean    expired;

@@ -36,10 +36,12 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.fee.model.DtoMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - get one")
 class ITFeeServiceGetOne {
 
@@ -63,8 +65,7 @@ class ITFeeServiceGetOne {
 
         FeeAssertions.isEqualTo(fee.get(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
@@ -83,23 +84,10 @@ class ITFeeServiceGetOne {
 
         FeeAssertions.isEqualTo(fee.get(), DtoMemberFee.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .memberName("Member 1 Surname 1")
             .date(new GregorianCalendar(2020, 1, 1))
             .paid(true)
             .build());
-    }
-
-    @Test
-    @DisplayName("With an invalid id, no entity is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    void testGetOne_NotExisting() {
-        final Optional<MemberFee> fee;
-
-        fee = service.getOne(-1L);
-
-        Assertions.assertThat(fee)
-            .isNotPresent();
     }
 
 }

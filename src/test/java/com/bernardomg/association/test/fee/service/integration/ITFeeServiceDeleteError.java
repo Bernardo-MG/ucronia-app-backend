@@ -32,12 +32,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.test.config.annotation.IntegrationTest;
 import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
+@AllAuthoritiesMockUser
 @DisplayName("Fee service - delete")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
 class ITFeeServiceDeleteError {
 
     @Autowired
@@ -49,10 +50,11 @@ class ITFeeServiceDeleteError {
 
     @Test
     @DisplayName("With an invalid id it removes no entity")
+    @Sql({ "/db/queries/member/single.sql" })
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(-1L);
+        execution = () -> service.delete(1L);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);

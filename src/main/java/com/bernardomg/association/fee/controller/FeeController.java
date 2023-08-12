@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.controller;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,7 +40,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.ValidatedFeeCreate;
+import com.bernardomg.association.fee.model.request.FeesPaymentRequest;
 import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.fee.model.request.ValidatedFeeUpdate;
 import com.bernardomg.association.fee.service.FeeService;
@@ -64,8 +66,8 @@ public class FeeController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberFee create(@Valid @RequestBody final ValidatedFeeCreate fee) {
-        return service.create(fee);
+    public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
+        return service.payFees(fee);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

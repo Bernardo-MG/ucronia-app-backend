@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
-import com.bernardomg.security.test.constant.TokenConstants;
 import com.bernardomg.security.token.TokenEncoder;
+import com.bernardomg.security.token.test.constant.TokenConstants;
 
 @DisplayName("JwtSubjectTokenEncoder - generate token")
 class TestJwtSubjectTokenEncoderGenerateToken {
@@ -27,8 +27,8 @@ class TestJwtSubjectTokenEncoderGenerateToken {
 
         token = encoder.encode("subject");
 
-        Assertions.assertThat(token.isEmpty())
-            .isFalse();
+        Assertions.assertThat(token)
+            .isNotEmpty();
     }
 
 }
