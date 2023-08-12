@@ -7,14 +7,14 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.user.persistence.model.PersistentAction;
-import com.bernardomg.security.user.persistence.model.PersistentResource;
-import com.bernardomg.security.user.persistence.model.PersistentRole;
-import com.bernardomg.security.user.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.user.persistence.repository.ActionRepository;
-import com.bernardomg.security.user.persistence.repository.ResourceRepository;
-import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.user.persistence.repository.RoleRepository;
+import com.bernardomg.security.user.authorization.persistence.model.PersistentAction;
+import com.bernardomg.security.user.authorization.persistence.model.PersistentResource;
+import com.bernardomg.security.user.authorization.persistence.model.PersistentRole;
+import com.bernardomg.security.user.authorization.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.user.authorization.persistence.repository.ActionRepository;
+import com.bernardomg.security.user.authorization.persistence.repository.ResourceRepository;
+import com.bernardomg.security.user.authorization.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.user.authorization.persistence.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

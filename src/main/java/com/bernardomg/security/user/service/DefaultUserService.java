@@ -21,9 +21,9 @@ import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.validation.user.CreateUserValidator;
-import com.bernardomg.security.user.validation.user.DeleteUserValidator;
-import com.bernardomg.security.user.validation.user.UpdateUserValidator;
+import com.bernardomg.security.user.validation.CreateUserValidator;
+import com.bernardomg.security.user.validation.DeleteUserValidator;
+import com.bernardomg.security.user.validation.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
 
 @Service
