@@ -150,10 +150,11 @@ public final class DefaultUserService implements UserService {
 
         handleCase(userEntity);
 
-        // Can't change password by updating
         oldRead = userRepository.findById(user.getId());
         if (oldRead.isPresent()) {
             old = oldRead.get();
+
+            // Can't change password by updating
             userEntity.setPassword(old.getPassword());
 
             // Can't change status by updating
