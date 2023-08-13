@@ -100,6 +100,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     @Transactional
+    @CacheEvict(cacheNames = { CACHE_SINGLE, CACHE_MULTIPLE }, allEntries = true)
     public final void enableNewUser(final String token, final String username) {
         final String         tokenUsername;
         final PersistentUser user;
