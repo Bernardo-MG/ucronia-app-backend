@@ -128,7 +128,7 @@ class TestPasswordResetServiceStartAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.startPasswordReset("email@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -145,7 +145,7 @@ class TestPasswordResetServiceStartAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.startPasswordReset("email@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
@@ -162,7 +162,7 @@ class TestPasswordResetServiceStartAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.startPasswordReset("email@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -179,7 +179,7 @@ class TestPasswordResetServiceStartAuth {
 
         loadLockedUser();
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.startPasswordReset("email@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
 
@@ -194,7 +194,7 @@ class TestPasswordResetServiceStartAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.startPasswordReset("email@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 

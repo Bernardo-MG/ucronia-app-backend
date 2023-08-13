@@ -80,7 +80,7 @@ public class PasswordResetController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void startRecovery(@Valid @RequestBody final PasswordResetRequest request) {
         // TODO: Hide exceptions for invalid user
-        service.startPasswordRecovery(request.getEmail());
+        service.startPasswordReset(request.getEmail());
     }
 
     /**

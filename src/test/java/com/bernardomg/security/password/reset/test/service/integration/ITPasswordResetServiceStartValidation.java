@@ -29,11 +29,11 @@ class ITPasswordResetServiceStartValidation {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testStartPasswordRecovery_InvalidEmail() {
+    void testStartPasswordReset_InvalidEmail() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.startPasswordRecovery("email2@somewhere.com");
+        executable = () -> service.startPasswordReset("email2@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
@@ -43,11 +43,11 @@ class ITPasswordResetServiceStartValidation {
 
     @Test
     @DisplayName("Throws a validation exception with the correct info when there is no user")
-    void testStartPasswordRecovery_NoUser() {
+    void testStartPasswordReset_NoUser() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.startPasswordRecovery("email@somewhere.com");
+        executable = () -> service.startPasswordReset("email@somewhere.com");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 

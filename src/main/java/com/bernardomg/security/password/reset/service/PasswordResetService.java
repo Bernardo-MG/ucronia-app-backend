@@ -40,7 +40,7 @@ public interface PasswordResetService {
      * @param email
      *            email for recovering the user
      */
-    public void startPasswordRecovery(final String email);
+    public void startPasswordReset(final String email);
 
     /**
      * Validate a password recovery token.

@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -15,8 +16,11 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Full password recovery process")
+@DisplayName("Full password reset process")
 class ITFullPasswordResetProcess {
+
+    @Autowired
+    private PasswordEncoder      passwordEncoder;
 
     @Autowired
     private PasswordResetService service;
@@ -38,13 +42,15 @@ class ITFullPasswordResetProcess {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testRecoverPassword_Valid() {
+    void testResetPassword_Valid() {
         final boolean        validTokenStatus;
         final String         token;
         final PersistentUser user;
 
-        service.startPasswordRecovery("email@somewhere.com");
+        // Start password reset
+        service.startPasswordReset("email@somewhere.com");
 
+        // Validate new token
         token = tokenRepository.findAll()
             .stream()
             .findFirst()
@@ -56,6 +62,7 @@ class ITFullPasswordResetProcess {
         Assertions.assertThat(validTokenStatus)
             .isTrue();
 
+        // Change password
         service.changePassword(token, "abc");
 
         user = userRepository.findAll()
@@ -63,8 +70,8 @@ class ITFullPasswordResetProcess {
             .findFirst()
             .get();
 
-        Assertions.assertThat(user.getPassword())
-            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
+        Assertions.assertThat(passwordEncoder.matches("abc", user.getPassword()))
+            .isTrue();
     }
 
 }

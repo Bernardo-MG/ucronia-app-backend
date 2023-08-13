@@ -36,10 +36,10 @@ class ITPasswordResetServiceStartToken {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testStartPasswordRecovery_CreatedToken() {
+    void testStartPasswordReset_CreatedToken() {
         final long count;
 
-        service.startPasswordRecovery("email@somewhere.com");
+        service.startPasswordReset("email@somewhere.com");
 
         count = tokenRepository.count();
 
@@ -53,10 +53,10 @@ class ITPasswordResetServiceStartToken {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testStartPasswordRecovery_TokenData() {
+    void testStartPasswordReset_TokenData() {
         final PersistentToken token;
 
-        service.startPasswordRecovery("email@somewhere.com");
+        service.startPasswordReset("email@somewhere.com");
 
         token = tokenRepository.findAll()
             .iterator()
@@ -81,10 +81,10 @@ class ITPasswordResetServiceStartToken {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
-    void testStartPasswordRecovery_TokenExists_CreatedToken() {
+    void testStartPasswordReset_TokenExists_CreatedToken() {
         final long count;
 
-        service.startPasswordRecovery("email@somewhere.com");
+        service.startPasswordReset("email@somewhere.com");
 
         count = tokenRepository.count();
 
@@ -99,10 +99,10 @@ class ITPasswordResetServiceStartToken {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
-    void testStartPasswordRecovery_TokenExists_ExpiresToken() {
+    void testStartPasswordReset_TokenExists_ExpiresToken() {
         final PersistentToken token;
 
-        service.startPasswordRecovery("email@somewhere.com");
+        service.startPasswordReset("email@somewhere.com");
 
         token = tokenRepository.findOneByToken(TokenConstants.TOKEN)
             .get();
@@ -117,11 +117,11 @@ class ITPasswordResetServiceStartToken {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testStartPasswordRecovery_UserNotExists_NoToken() {
+    void testStartPasswordReset_UserNotExists_NoToken() {
         final boolean exists;
 
         try {
-            service.startPasswordRecovery("email2@somewhere.com");
+            service.startPasswordReset("email2@somewhere.com");
         } catch (final Exception e) {
 
         }

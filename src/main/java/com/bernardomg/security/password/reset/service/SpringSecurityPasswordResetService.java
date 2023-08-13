@@ -147,7 +147,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     }
 
     @Override
-    public final void startPasswordRecovery(final String email) {
+    public final void startPasswordReset(final String email) {
         final PersistentUser user;
         final String         token;
 

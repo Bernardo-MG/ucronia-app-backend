@@ -79,7 +79,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
 
-        service.startPasswordRecovery("email@somewhere.com");
+        service.startPasswordReset("email@somewhere.com");
 
         verify(mailSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any());
 
@@ -90,7 +90,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     @Test
     @DisplayName("When recovering the password an email is sent")
     void testStartPasswordRecovery_User_EmailCall() {
-        service.startPasswordRecovery("email@somewhere.com");
+        service.startPasswordReset("email@somewhere.com");
 
         verify(mailSender, Mockito.times(1)).sendPasswordRecoveryMessage(ArgumentMatchers.any(),
             ArgumentMatchers.any());
