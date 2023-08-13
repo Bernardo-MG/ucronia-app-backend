@@ -29,6 +29,7 @@ import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
@@ -77,11 +78,6 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PasswordEncoder       passwordEncoder;
 
     /**
-     * User repository.
-     */
-    private final UserRepository        repository;
-
-    /**
      * Token scope for reseting passwords.
      */
     private final String                tokenScope;
@@ -96,12 +92,17 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final UserDetailsService    userDetailsService;
 
+    /**
+     * User repository.
+     */
+    private final UserRepository        userRepository;
+
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
             @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder, final String scope) {
         super();
 
-        repository = repo;
+        userRepository = repo;
         userDetailsService = userDetsService;
         messageSender = mSender;
         tokenStore = tStore;
@@ -110,6 +111,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     }
 
     @Override
+    @Transactional
     public final void changePassword(final String token, final String password) {
         final String         username;
         final PersistentUser user;
@@ -138,7 +140,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
 
-        repository.save(user);
+        userRepository.save(user);
         tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);
@@ -209,7 +211,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PersistentUser getUserByEmail(final String email) {
         final Optional<PersistentUser> user;
 
-        user = repository.findOneByEmail(email);
+        user = userRepository.findOneByEmail(email);
 
         // Validate the user exists
         if (!user.isPresent()) {
@@ -223,7 +225,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PersistentUser getUserByUsername(final String username) {
         final Optional<PersistentUser> user;
 
-        user = repository.findOneByUsername(username);
+        user = userRepository.findOneByUsername(username);
 
         // Validate the user exists
         if (!user.isPresent()) {

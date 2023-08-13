@@ -11,12 +11,16 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.user.exception.UserEnabledException;
+import com.bernardomg.security.user.exception.UserLockedException;
+import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.mapper.UserMapper;
 import com.bernardomg.security.user.model.request.UserCreate;
@@ -95,8 +99,10 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
+    @Transactional
     public final void enableNewUser(final String token, final String username) {
-        final String tokenUsername;
+        final String         tokenUsername;
+        final PersistentUser user;
 
         // TODO: Use a token validator which takes care of the exceptions
         if (!tokenStore.exists(token, tokenScope)) {
@@ -119,6 +125,15 @@ public final class DefaultUserService implements UserService {
         }
 
         log.debug("Enabling new user {}", username);
+
+        user = getUserByUsername(username);
+
+        authorizeEnableUser(user);
+
+        user.setEnabled(true);
+
+        userRepository.save(user);
+        tokenStore.consumeToken(token);
 
         log.debug("Enabled new user {}", username);
     }
@@ -241,6 +256,41 @@ public final class DefaultUserService implements UserService {
     @Override
     public final boolean validateToken(final String token) {
         return tokenStore.isValid(token, tokenScope);
+    }
+
+    /**
+     * Authenticates the new user enabling attempt. If the user is not authenticated, then an exception is thrown.
+     *
+     * @param user
+     *            user for which the password is changed
+     */
+    private final void authorizeEnableUser(final PersistentUser user) {
+        if (user.getExpired()) {
+            log.error("Can't enable new user. User {} is expired", user.getUsername());
+            throw new UserLockedException(user.getUsername());
+        }
+        if (user.getLocked()) {
+            log.error("Can't enable new user. User {} is locked", user.getUsername());
+            throw new UserLockedException(user.getUsername());
+        }
+        if (user.getEnabled()) {
+            log.error("Can't enable new user. User {} is already enabled", user.getUsername());
+            throw new UserEnabledException(user.getUsername());
+        }
+    }
+
+    private final PersistentUser getUserByUsername(final String username) {
+        final Optional<PersistentUser> user;
+
+        user = userRepository.findOneByUsername(username);
+
+        // Validate the user exists
+        if (!user.isPresent()) {
+            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            throw new UserNotFoundException(username);
+        }
+
+        return user.get();
     }
 
     private final void handleCase(final PersistentUser user) {
