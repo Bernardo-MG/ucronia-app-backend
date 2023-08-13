@@ -100,8 +100,9 @@ public final class DefaultUserService implements UserService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = { CACHE_SINGLE, CACHE_MULTIPLE }, allEntries = true)
-    public final void enableNewUser(final String token, final String username) {
+    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+    public final User enableNewUser(final String token, final String username) {
         final String         tokenUsername;
         final PersistentUser user;
 
@@ -137,6 +138,8 @@ public final class DefaultUserService implements UserService {
         tokenStore.consumeToken(token);
 
         log.debug("Enabled new user {}", username);
+
+        return mapper.toDto(user);
     }
 
     @Override
