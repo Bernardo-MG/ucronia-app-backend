@@ -37,7 +37,7 @@ class ITUserServiceRegisterNewUser {
     void testRegisterNewUser_AddsEntity() {
         final UserCreate user;
 
-        user = UsersCreate.enabled();
+        user = UsersCreate.valid();
 
         service.registerNewUser(user);
 
@@ -51,7 +51,7 @@ class ITUserServiceRegisterNewUser {
         final UserCreate     user;
         final PersistentUser entity;
 
-        user = UsersCreate.enabled();
+        user = UsersCreate.valid();
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -76,7 +76,7 @@ class ITUserServiceRegisterNewUser {
         final UserCreate     user;
         final PersistentUser entity;
 
-        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -95,7 +95,7 @@ class ITUserServiceRegisterNewUser {
         final UserCreate user;
         final User       result;
 
-        user = UsersCreate.enabled();
+        user = UsersCreate.valid();
 
         result = service.registerNewUser(user);
 
@@ -116,7 +116,7 @@ class ITUserServiceRegisterNewUser {
         final UserCreate user;
         final User       result;
 
-        user = UsersCreate.enabled("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UsersCreate.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         result = service.registerNewUser(user);
 

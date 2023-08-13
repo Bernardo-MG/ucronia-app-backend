@@ -11,25 +11,6 @@ public final class UsersCreate {
             .username("user")
             .name("User")
             .email("email2@somewhere.com")
-            .enabled(true)
-            .build();
-    }
-
-    public static final UserCreate enabled() {
-        return ValidatedUserCreate.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .enabled(true)
-            .build();
-    }
-
-    public static final UserCreate enabled(final String username, final String email) {
-        return ValidatedUserCreate.builder()
-            .username(username)
-            .name("Admin")
-            .email(email)
-            .enabled(true)
             .build();
     }
 
@@ -38,7 +19,6 @@ public final class UsersCreate {
             .username("admin")
             .name("Admin")
             .email("abc")
-            .enabled(true)
             .build();
     }
 
@@ -46,15 +26,22 @@ public final class UsersCreate {
         return ValidatedUserCreate.builder()
             .username("admin")
             .name("Admin")
-            .enabled(true)
             .build();
     }
 
-    public static final UserCreate missingEnabled() {
+    public static final UserCreate valid() {
         return ValidatedUserCreate.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
+            .build();
+    }
+
+    public static final UserCreate valid(final String username, final String email) {
+        return ValidatedUserCreate.builder()
+            .username(username)
+            .name("Admin")
+            .email(email)
             .build();
     }
 

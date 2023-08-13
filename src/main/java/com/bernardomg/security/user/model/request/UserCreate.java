@@ -11,13 +11,6 @@ public interface UserCreate {
     public String getEmail();
 
     /**
-     * Returns the user enabled flag.
-     *
-     * @return the user enabled flag
-     */
-    public Boolean getEnabled();
-
-    /**
      * Returns the user name.
      *
      * @return the user name

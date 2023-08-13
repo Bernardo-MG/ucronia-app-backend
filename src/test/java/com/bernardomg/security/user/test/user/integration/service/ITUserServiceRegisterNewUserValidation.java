@@ -35,7 +35,7 @@ class ITUserServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UsersCreate.enabled("abc", "email@somewhere.com");
+        data = UsersCreate.valid("abc", "email@somewhere.com");
 
         executable = () -> service.registerNewUser(data);
 
@@ -52,7 +52,7 @@ class ITUserServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UsersCreate.enabled("admin", "email2@somewhere.com");
+        data = UsersCreate.valid("admin", "email2@somewhere.com");
 
         executable = () -> service.registerNewUser(data);
 
