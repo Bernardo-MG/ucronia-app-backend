@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
@@ -24,7 +23,6 @@ class ITPasswordResetServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("A consumed token is not valid")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -41,7 +39,6 @@ class ITPasswordResetServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("An expired token is not valid")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -58,7 +55,6 @@ class ITPasswordResetServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("A valid token is valid")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",

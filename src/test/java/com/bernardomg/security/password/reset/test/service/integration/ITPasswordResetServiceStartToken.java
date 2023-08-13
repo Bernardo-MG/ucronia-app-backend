@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
@@ -32,7 +31,6 @@ class ITPasswordResetServiceStartToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery generates a token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -50,7 +48,6 @@ class ITPasswordResetServiceStartToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery populates the created token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -78,7 +75,6 @@ class ITPasswordResetServiceStartToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing token for the user generates a new token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -97,7 +93,6 @@ class ITPasswordResetServiceStartToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with an existing token for the user revokes the older one")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -117,7 +112,6 @@ class ITPasswordResetServiceStartToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
