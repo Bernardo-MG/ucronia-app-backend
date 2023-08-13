@@ -98,23 +98,23 @@ public final class DefaultUserService implements UserService {
     public final void enableNewUser(final String token, final String username) {
         final String tokenUsername;
 
-        // TODO: User a token validator which takes care of the exceptions
+        // TODO: Use a token validator which takes care of the exceptions
         if (!tokenStore.exists(token, tokenScope)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
-        // TODO: Validate scope
         if (!tokenStore.isValid(token, tokenScope)) {
-            // TODO: Throw an exception for each possible case
             log.error("Token expired: {}", token);
+            // TODO: Throw an exception for each possible case
             throw new InvalidTokenException(token);
         }
 
         tokenUsername = tokenStore.getUsername(token);
         if (!Objects.equals(username, tokenUsername)) {
-            log.error("The token is registered for {} but {} attempted to use it", username, tokenUsername);
-            // TODO: User a better exception
+            log.error("The token is registered for {} but {} attempted to use it. Token {}", username, tokenUsername,
+                token);
+            // TODO: Use a more concrete exception
             throw new InvalidTokenException(token);
         }
 

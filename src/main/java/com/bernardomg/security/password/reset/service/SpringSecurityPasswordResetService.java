@@ -115,13 +115,12 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final PersistentUser user;
         final String         encodedPassword;
 
-        // TODO: User a token validator which takes care of the exceptions
+        // TODO: Use a token validator which takes care of the exceptions
         if (!tokenStore.exists(token, tokenScope)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
-        // TODO: Validate scope
         if (!tokenStore.isValid(token, tokenScope)) {
             // TODO: Throw an exception for each possible case
             log.error("Token expired: {}", token);
