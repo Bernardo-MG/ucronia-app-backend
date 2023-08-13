@@ -47,18 +47,24 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final String         passwordRecoveryText    = "Visit %s to reset password";
 
+    private final String         userRegisteredText    = "Visit %s to activate user";
+    private final String         userRegisteredSubject    = "User registered";
+
     private final String         passwordRecoveryUrl;
+    private final String         userRegisteredUrl;
 
     private final String         signUpSubject           = "";
 
     private final String         signUpText              = "";
 
     public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
+            @NonNull final String userRegUrl,
             @NonNull final JavaMailSender mSender) {
         super();
 
         fromEmail = from;
         mailSender = mSender;
+        userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
     }
 
@@ -101,8 +107,25 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     @Override
     public final void sendUserRegisteredMessage(final String email, final String token) {
+        final SimpleMailMessage message;
+        final String            recoveryUrl;
+        final String            passwordRecoveryEmailText;
         // TODO Auto-generated method stub
         log.debug("Sending user registered email to {}", email);
+
+        if (userRegisteredUrl.endsWith("/")) {
+            recoveryUrl = String.format("%s%s", userRegisteredUrl, token);
+        } else {
+            recoveryUrl = String.format("%s/%s", userRegisteredUrl, token);
+        }
+        passwordRecoveryEmailText = String.format(userRegisteredText, recoveryUrl);
+
+        message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(userRegisteredSubject);
+        message.setText(passwordRecoveryEmailText);
+        mailSender.send(message);
 
         log.debug("Sent user registered email to {}", email);
     }
