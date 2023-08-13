@@ -11,6 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,7 +36,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "admin");
+        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
@@ -51,7 +52,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "admin");
+        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
@@ -66,7 +67,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "admin");
+        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
@@ -75,19 +76,19 @@ class ITUserServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with the wrong username throws an exception")
+    @DisplayName("Enabling a new user with a user already enabled throws an exception")
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/user_registered.sql" })
-    void testEnableNewUser_WrongUsername() {
+    void testEnableNewUser_AlreadyEnabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "abc");
+        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("User admin is enabled");
     }
 
 }
