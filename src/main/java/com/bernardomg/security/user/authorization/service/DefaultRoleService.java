@@ -27,6 +27,9 @@ import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
 import com.bernardomg.validation.Validator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultRoleService implements RoleService {
 
     private static final String            CACHE_MULTIPLE = "security_roles";
@@ -66,6 +69,8 @@ public final class DefaultRoleService implements RoleService {
         final PersistentRole entity;
         final PersistentRole created;
 
+        log.debug("Creating role {}", role);
+
         validatorCreateRole.validate(role);
 
         entity = mapper.toEntity(role);
@@ -80,6 +85,9 @@ public final class DefaultRoleService implements RoleService {
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final Boolean delete(final long id) {
+
+        log.debug("Deleting role {}", id);
+
         validatorDeleteRole.validate(id);
 
         rolePermissionRepository.deleteAllByRoleId(id);
@@ -94,6 +102,8 @@ public final class DefaultRoleService implements RoleService {
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
 
+        log.debug("Reading roles with sample {} and pagination {}", sample, pageable);
+
         entitySample = mapper.toEntity(sample);
 
         return roleRepository.findAll(Example.of(entitySample), pageable)
@@ -104,6 +114,8 @@ public final class DefaultRoleService implements RoleService {
     @PreAuthorize("hasAuthority('ROLE:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Role> getOne(final long id) {
+
+        log.debug("Reading role with id {}", id);
 
         if (!roleRepository.existsById(id)) {
             throw new InvalidIdException("role", id);
@@ -120,6 +132,8 @@ public final class DefaultRoleService implements RoleService {
     public final Role update(final long id, final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;
+
+        log.debug("Updating role with id {} using data {}", id, role);
 
         if (!roleRepository.existsById(id)) {
             throw new InvalidIdException("role", id);

@@ -14,6 +14,9 @@ import com.bernardomg.security.user.model.Action;
 import com.bernardomg.security.user.model.mapper.ActionMapper;
 import com.bernardomg.security.user.model.request.ActionQuery;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultActionService implements ActionService {
 
     private static final String    CACHE_MULTIPLE = "security_actions";
@@ -37,6 +40,8 @@ public final class DefaultActionService implements ActionService {
     public final Iterable<Action> getAll(final ActionQuery sample, final Pageable pageable) {
         final PersistentAction entitySample;
 
+        log.debug("Reading actions with sample {} and pagination {}", sample, pageable);
+
         entitySample = mapper.toEntity(sample);
 
         return repository.findAll(Example.of(entitySample), pageable)
@@ -47,6 +52,9 @@ public final class DefaultActionService implements ActionService {
     @PreAuthorize("hasAuthority('ACTION:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Action> getOne(final long id) {
+
+        log.debug("Reading action with id {}", id);
+
         return repository.findById(id)
             .map(mapper::toDto);
     }

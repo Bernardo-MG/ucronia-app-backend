@@ -27,6 +27,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 import com.bernardomg.exception.InvalidIdException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the transaction service.
@@ -36,6 +37,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
     private static final String         CACHE_MULTIPLE = "fees";
@@ -54,6 +56,8 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
+        log.debug("Creating transaction {}", transaction);
+
         entity = mapper.toEntity(transaction);
         entity.setId(null);
 
@@ -67,6 +71,9 @@ public final class DefaultTransactionService implements TransactionService {
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
+
+        log.debug("Deleting transaction {}", id);
+
         if (!repository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
         }
@@ -80,6 +87,8 @@ public final class DefaultTransactionService implements TransactionService {
     public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
+
+        log.debug("Reading members with sample {} and pagination {}", request, pageable);
 
         spec = TransactionSpecifications.fromRequest(request);
 
@@ -99,6 +108,8 @@ public final class DefaultTransactionService implements TransactionService {
         final Optional<PersistentTransaction> found;
         final Optional<Transaction>           result;
         final Transaction                     data;
+
+        log.debug("Reading member with id {}", id);
 
         if (!repository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
@@ -125,6 +136,8 @@ public final class DefaultTransactionService implements TransactionService {
         final Integer  startYear;
         final Integer  endMonth;
         final Integer  endYear;
+
+        log.debug("Reading the transactions range");
 
         min = repository.findMinDate();
         max = repository.findMaxDate();
@@ -160,6 +173,8 @@ public final class DefaultTransactionService implements TransactionService {
     public final Transaction update(final long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
+
+        log.debug("Updating transactin with id {} using data {}", id, transaction);
 
         if (!repository.existsById(id)) {
             throw new InvalidIdException("transaction", id);

@@ -11,38 +11,38 @@ public interface RolePermissionService {
     /**
      * Adds a action to a role.
      *
-     * @param id
+     * @param roleId
      *            role id
-     * @param resource
+     * @param resourceId
      *            resource id to add
-     * @param action
+     * @param actionId
      *            action id to add
      * @return the added permission
      */
-    public RolePermission addPermission(final long id, final long resource, final long action);
+    public RolePermission addPermission(final long roleId, final long resourceId, final long actionId);
 
     /**
      * Returns all action for a role.
      *
-     * @param id
+     * @param roleId
      *            role id
      * @param pageable
      *            pagination to apply
      * @return action for the role
      */
-    public Iterable<Permission> getPermissions(final long id, final Pageable pageable);
+    public Iterable<Permission> getPermissions(final long roleId, final Pageable pageable);
 
     /**
      * Removes a action from a role.
      *
-     * @param id
+     * @param roleId
      *            role id
-     * @param resource
+     * @param resourceId
      *            resource id to add
-     * @param action
+     * @param actionId
      *            action id to remove
      * @return the removed permission
      */
-    public RolePermission removePermission(final long id, final long resource, final long action);
+    public RolePermission removePermission(final long roleId, final long resourceId, final long actionId);
 
 }

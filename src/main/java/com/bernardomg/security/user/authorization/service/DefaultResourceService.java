@@ -14,6 +14,9 @@ import com.bernardomg.security.user.model.Resource;
 import com.bernardomg.security.user.model.mapper.ResourceMapper;
 import com.bernardomg.security.user.model.request.ResourceQuery;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultResourceService implements ResourceService {
 
     private static final String      CACHE_MULTIPLE = "security_resources";
@@ -37,6 +40,8 @@ public final class DefaultResourceService implements ResourceService {
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entitySample;
 
+        log.debug("Reading resources with sample {} and pagination {}", sample, pageable);
+
         entitySample = mapper.toEntity(sample);
 
         return repository.findAll(Example.of(entitySample), pageable)
@@ -47,6 +52,9 @@ public final class DefaultResourceService implements ResourceService {
     @PreAuthorize("hasAuthority('RESOURCE:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Resource> getOne(final long id) {
+
+        log.debug("Reading resource with id {}", id);
+
         return repository.findById(id)
             .map(mapper::toDto);
     }

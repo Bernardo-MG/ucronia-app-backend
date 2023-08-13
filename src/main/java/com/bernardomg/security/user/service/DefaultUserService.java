@@ -99,6 +99,8 @@ public final class DefaultUserService implements UserService {
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
 
+        log.debug("Deleting user {}", id);
+
         if (!userRepository.existsById(id)) {
             throw new InvalidIdException("user", id);
         }
@@ -154,6 +156,8 @@ public final class DefaultUserService implements UserService {
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
+        log.debug("Reading users with sample {} and pagination {}", sample, pageable);
+
         entity = mapper.toEntity(sample);
         if (entity.getUsername() != null) {
             entity.setUsername(entity.getUsername()
@@ -172,6 +176,8 @@ public final class DefaultUserService implements UserService {
     @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<User> getOne(final long id) {
+
+        log.debug("Reading member with id {}", id);
 
         if (!userRepository.existsById(id)) {
             throw new InvalidIdException("user", id);
@@ -233,6 +239,8 @@ public final class DefaultUserService implements UserService {
         final PersistentUser           created;
         final Optional<PersistentUser> oldRead;
         final PersistentUser           old;
+
+        log.debug("Updating user with id {} using data {}", id, user);
 
         if (!userRepository.existsById(id)) {
             throw new InvalidIdException("user", id);
