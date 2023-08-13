@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
@@ -19,6 +20,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - enable new user - token status")
 class ITUserServiceEnableNewUser {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService     service;
@@ -40,7 +44,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.enableNewUser(TokenConstants.TOKEN, "admin");
+        service.enableNewUser(TokenConstants.TOKEN, "1234");
 
         consumed = tokenRepository.findById(1L)
             .get()
@@ -57,12 +61,28 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
 
-        service.enableNewUser(TokenConstants.TOKEN, "admin");
+        service.enableNewUser(TokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
 
         Assertions.assertThat(user.getEnabled())
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("Enabling a new user sets it's password")
+    @Sql({ "/db/queries/security/user/disabled.sql" })
+    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    void testEnableNewUser_Password() {
+        final PersistentUser user;
+
+        service.enableNewUser(TokenConstants.TOKEN, "1234");
+
+        user = userRepository.findById(1L)
+            .get();
+
+        Assertions.assertThat(passwordEncoder.matches("1234", user.getPassword()))
             .isTrue();
     }
 

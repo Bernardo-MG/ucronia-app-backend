@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.model.request.UserCreate;
@@ -26,6 +27,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Full new user register process")
 class ITFullNewUserRegisterProcess {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService     service;
@@ -68,7 +72,7 @@ class ITFullNewUserRegisterProcess {
 
     @Test
     @DisplayName("Can follow the new user process from start to end")
-    void testResetPassword_Valid() {
+    void testNewUser_Valid() {
         final boolean        validTokenStatus;
         final String         token;
         final PersistentUser user;
@@ -101,7 +105,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        service.enableNewUser(token, "username");
+        service.enableNewUser(token, "1234");
 
         user = userRepository.findAll()
             .stream()
@@ -115,6 +119,8 @@ class ITFullNewUserRegisterProcess {
         Assertions.assertThat(user.getName())
             .isEqualTo("user");
         Assertions.assertThat(user.getEnabled())
+            .isTrue();
+        Assertions.assertThat(passwordEncoder.matches("1234", user.getPassword()))
             .isTrue();
     }
 

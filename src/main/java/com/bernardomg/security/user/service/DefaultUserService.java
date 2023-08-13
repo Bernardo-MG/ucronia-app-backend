@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.exception.InvalidIdException;
@@ -50,6 +51,11 @@ public final class DefaultUserService implements UserService {
     private final SecurityMessageSender messageSender;
 
     /**
+     * Password encoder, for validating passwords.
+     */
+    private final PasswordEncoder       passwordEncoder;
+
+    /**
      * Token scope for reseting passwords.
      */
     private final String                tokenScope;
@@ -68,7 +74,8 @@ public final class DefaultUserService implements UserService {
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final TokenStore tStore, final UserMapper userMapper, final String scope) {
+            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper,
+            final String scope) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
@@ -76,6 +83,8 @@ public final class DefaultUserService implements UserService {
 
         tokenStore = Objects.requireNonNull(tStore);
         tokenScope = Objects.requireNonNull(scope);
+
+        passwordEncoder = Objects.requireNonNull(passEncoder);
 
         messageSender = Objects.requireNonNull(mSender);
 
@@ -102,9 +111,10 @@ public final class DefaultUserService implements UserService {
     @Transactional
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
-    public final User enableNewUser(final String token, final String username) {
+    public final User enableNewUser(final String token, final String password) {
         final String         tokenUsername;
         final PersistentUser user;
+        final String         encodedPassword;
 
         // TODO: Use a token validator which takes care of the exceptions
         if (!tokenStore.exists(token, tokenScope)) {
@@ -119,25 +129,21 @@ public final class DefaultUserService implements UserService {
         }
 
         tokenUsername = tokenStore.getUsername(token);
-        if (!Objects.equals(username, tokenUsername)) {
-            log.error("The token is registered for {} but {} attempted to use it. Token {}", username, tokenUsername,
-                token);
-            // TODO: Use a more concrete exception
-            throw new InvalidTokenException(token);
-        }
 
-        log.debug("Enabling new user {}", username);
+        log.debug("Enabling new user {}", tokenUsername);
 
-        user = getUserByUsername(username);
+        user = getUserByUsername(tokenUsername);
 
         authorizeEnableUser(user);
 
         user.setEnabled(true);
+        encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
 
         userRepository.save(user);
         tokenStore.consumeToken(token);
 
-        log.debug("Enabled new user {}", username);
+        log.debug("Enabled new user {}", tokenUsername);
 
         return mapper.toDto(user);
     }

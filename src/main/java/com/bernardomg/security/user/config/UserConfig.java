@@ -26,6 +26,7 @@ package com.bernardomg.security.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.store.TokenStore;
@@ -49,8 +50,8 @@ public class UserConfig {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final TokenStore tStore, final UserMapper userMapper) {
-        return new DefaultUserService(userRepo, mSender, tStore, userMapper, "user_registered");
+            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper) {
+        return new DefaultUserService(userRepo, mSender, tStore, passEncoder, userMapper, "user_registered");
     }
 
 }
