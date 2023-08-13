@@ -68,6 +68,8 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         final String            recoveryUrl;
         final String            passwordRecoveryEmailText;
 
+        log.debug("Sending password recovery email to {}", email);
+
         if (passwordRecoveryUrl.endsWith("/")) {
             recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
         } else {
@@ -100,7 +102,9 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
     @Override
     public final void sendUserRegisteredMessage(final String email, final String token) {
         // TODO Auto-generated method stub
+        log.debug("Sending user registered email to {}", email);
 
+        log.debug("Sent user registered email to {}", email);
     }
 
 }
