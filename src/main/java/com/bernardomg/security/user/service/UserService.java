@@ -20,6 +20,13 @@ public interface UserService {
      */
     public void delete(final long id);
 
+    /**
+     * TODO: Change this to receive token and password
+     *
+     * @param token
+     * @param username
+     * @return
+     */
     public User enableNewUser(final String token, final String username);
 
     /**
