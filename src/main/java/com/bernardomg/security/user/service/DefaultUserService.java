@@ -305,7 +305,7 @@ public final class DefaultUserService implements UserService {
 
         // Validate the user exists
         if (!user.isPresent()) {
-            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            log.error("Couldn't enable new user {}, as it doesn't exist", username);
             throw new UserNotFoundException(username);
         }
 
