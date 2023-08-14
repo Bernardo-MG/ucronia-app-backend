@@ -114,7 +114,7 @@ public final class DefaultUserService implements UserService {
     @Transactional
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
-    public final User enableNewUser(final String token, final String password) {
+    public final User activateNewUser(final String token, final String password) {
         final String         tokenUsername;
         final PersistentUser user;
         final String         encodedPassword;

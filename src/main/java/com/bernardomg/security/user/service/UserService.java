@@ -20,7 +20,7 @@ public interface UserService {
      */
     public void delete(final long id);
 
-    public User enableNewUser(final String token, final String password);
+    public User activateNewUser(final String token, final String password);
 
     /**
      * Returns all the users matching the sample. If the sample fields are empty, then all the users are returned.

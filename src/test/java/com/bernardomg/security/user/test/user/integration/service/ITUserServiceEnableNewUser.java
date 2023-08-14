@@ -44,7 +44,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.enableNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         consumed = tokenRepository.findById(1L)
             .get()
@@ -61,7 +61,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
 
-        service.enableNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -77,7 +77,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_Password() {
         final PersistentUser user;
 
-        service.enableNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();

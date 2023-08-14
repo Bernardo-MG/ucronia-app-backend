@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.model.request.ValidatedUserQuery;
@@ -58,6 +59,13 @@ import lombok.AllArgsConstructor;
 public class UserController {
 
     private final UserService service;
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void activateNewUser(@PathVariable("token") final String token,
+            @Valid @RequestBody final PasswordResetChangeRequest request) {
+        service.activateNewUser(token, request.getPassword());
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -84,6 +92,12 @@ public class UserController {
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate form) {
         return service.update(id, form);
+    }
+
+    @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean validateToken(@PathVariable("token") final String token) {
+        // TODO: Use a generic controller for tokens
+        return service.validateToken(token);
     }
 
 }

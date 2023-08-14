@@ -36,7 +36,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
 
@@ -52,7 +52,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
@@ -68,7 +68,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
@@ -83,7 +83,7 @@ class ITUserServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 

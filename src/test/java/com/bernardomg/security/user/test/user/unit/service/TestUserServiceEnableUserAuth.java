@@ -158,7 +158,7 @@ class TestUserServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -176,7 +176,7 @@ class TestUserServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
@@ -193,7 +193,7 @@ class TestUserServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
 
@@ -210,7 +210,7 @@ class TestUserServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -227,7 +227,7 @@ class TestUserServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
 
@@ -242,7 +242,7 @@ class TestUserServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
