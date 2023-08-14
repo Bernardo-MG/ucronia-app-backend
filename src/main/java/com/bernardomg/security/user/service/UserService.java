@@ -12,6 +12,8 @@ import com.bernardomg.security.user.model.request.UserUpdate;
 
 public interface UserService {
 
+    public User activateNewUser(final String token, final String password);
+
     /**
      * Deletes the user with the received id.
      *
@@ -19,8 +21,6 @@ public interface UserService {
      *            id of the user to delete
      */
     public void delete(final long id);
-
-    public User activateNewUser(final String token, final String password);
 
     /**
      * Returns all the users matching the sample. If the sample fields are empty, then all the users are returned.

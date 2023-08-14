@@ -95,22 +95,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:DELETE')")
-    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
-            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
-    public final void delete(final long id) {
-
-        log.debug("Deleting user {}", id);
-
-        if (!userRepository.existsById(id)) {
-            throw new InvalidIdException("user", id);
-        }
-
-        validatorDeleteUser.validate(id);
-        userRepository.deleteById(id);
-    }
-
-    @Override
     @Transactional
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
@@ -149,6 +133,22 @@ public final class DefaultUserService implements UserService {
         log.debug("Enabled new user {}", tokenUsername);
 
         return mapper.toDto(user);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('USER:DELETE')")
+    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
+            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
+    public final void delete(final long id) {
+
+        log.debug("Deleting user {}", id);
+
+        if (!userRepository.existsById(id)) {
+            throw new InvalidIdException("user", id);
+        }
+
+        validatorDeleteUser.validate(id);
+        userRepository.deleteById(id);
     }
 
     @Override
