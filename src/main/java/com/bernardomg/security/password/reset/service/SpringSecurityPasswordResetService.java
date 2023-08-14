@@ -99,7 +99,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder, final String scope) {
+            @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder, @NonNull final String scope) {
         super();
 
         userRepository = repo;

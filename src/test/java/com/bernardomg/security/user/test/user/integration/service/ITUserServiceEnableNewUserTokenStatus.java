@@ -29,6 +29,22 @@ class ITUserServiceEnableNewUserTokenStatus {
     }
 
     @Test
+    @DisplayName("Enabling a new user with a user already enabled throws an exception")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    void testEnableNewUser_AlreadyEnabled() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
+
+        exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("User admin is enabled");
+    }
+
+    @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
     @Sql({ "/db/queries/security/user/single.sql" })
     @Sql({ "/db/queries/security/token/user_registered_consumed.sql" })
@@ -73,22 +89,6 @@ class ITUserServiceEnableNewUserTokenStatus {
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing token " + TokenConstants.TOKEN);
-    }
-
-    @Test
-    @DisplayName("Enabling a new user with a user already enabled throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
-    void testEnableNewUser_AlreadyEnabled() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        executable = () -> service.enableNewUser(TokenConstants.TOKEN, "1234");
-
-        exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is enabled");
     }
 
 }

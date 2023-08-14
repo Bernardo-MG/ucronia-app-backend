@@ -20,6 +20,7 @@ import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.exception.UserEnabledException;
+import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.model.User;
@@ -285,7 +286,7 @@ public final class DefaultUserService implements UserService {
     private final void authorizeEnableUser(final PersistentUser user) {
         if (user.getExpired()) {
             log.error("Can't enable new user. User {} is expired", user.getUsername());
-            throw new UserLockedException(user.getUsername());
+            throw new UserExpiredException(user.getUsername());
         }
         if (user.getLocked()) {
             log.error("Can't enable new user. User {} is locked", user.getUsername());
