@@ -47,19 +47,20 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final String         passwordRecoveryText    = "Visit %s to reset password";
 
-    private final String         userRegisteredText    = "Visit %s to activate user";
-    private final String         userRegisteredSubject    = "User registered";
-
     private final String         passwordRecoveryUrl;
-    private final String         userRegisteredUrl;
 
     private final String         signUpSubject           = "";
 
     private final String         signUpText              = "";
 
+    private final String         userRegisteredSubject   = "User registered";
+
+    private final String         userRegisteredText      = "Visit %s to activate user";
+
+    private final String         userRegisteredUrl;
+
     public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
-            @NonNull final String userRegUrl,
-            @NonNull final JavaMailSender mSender) {
+            @NonNull final String userRegUrl, @NonNull final JavaMailSender mSender) {
         super();
 
         fromEmail = from;
@@ -91,18 +92,6 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         mailSender.send(message);
 
         log.debug("Sent password recovery email to {}", email);
-    }
-
-    @Override
-    public final void sendSignUpMessage(final String username, final String email) {
-        final SimpleMailMessage message;
-
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(signUpSubject);
-        message.setText(signUpText);
-        mailSender.send(message);
     }
 
     @Override

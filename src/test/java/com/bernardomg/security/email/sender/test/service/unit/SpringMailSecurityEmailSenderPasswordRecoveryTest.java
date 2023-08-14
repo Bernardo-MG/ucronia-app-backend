@@ -31,11 +31,11 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     }
 
     private final SecurityMessageSender getSender() {
-        return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", javaMailSender);
+        return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", "http://somewhere.com", javaMailSender);
     }
 
     private final SecurityMessageSender getSenderWithBarOnUrl() {
-        return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", javaMailSender);
+        return new SpringMailSecurityEmailSender("sender@host.com", "http://somewhere.com", "http://somewhere.com", javaMailSender);
     }
 
     @Test
