@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -34,7 +33,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @Mock
-    private SecurityMessageSender              mailSender;
+    private SecurityMessageSender              messageSender;
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -42,17 +41,25 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     @Mock
     private UserRepository                     repository;
 
-    @InjectMocks
     private SpringSecurityPasswordResetService service;
 
     @Mock
     private TokenStore                         tokenProcessor;
 
     @Mock
+    private TokenStore                         tokenStore;
+
+    @Mock
     private UserDetailsService                 userDetailsService;
 
     public TestSpringSecurityPasswordResetServiceStartEmail() {
         super();
+    }
+
+    @BeforeEach
+    public void initializeService() {
+        service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
+            passwordEncoder, "password_reset");
     }
 
     @BeforeEach
@@ -81,7 +88,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         service.startPasswordReset("email@somewhere.com");
 
-        verify(mailSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any());
+        verify(messageSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
             .isEqualTo("email@somewhere.com");
@@ -92,7 +99,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     void testStartPasswordRecovery_User_EmailCall() {
         service.startPasswordReset("email@somewhere.com");
 
-        verify(mailSender, Mockito.times(1)).sendPasswordRecoveryMessage(ArgumentMatchers.any(),
+        verify(messageSender, Mockito.times(1)).sendPasswordRecoveryMessage(ArgumentMatchers.any(),
             ArgumentMatchers.any());
     }
 

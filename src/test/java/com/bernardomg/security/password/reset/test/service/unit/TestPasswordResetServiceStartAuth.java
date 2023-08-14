@@ -62,7 +62,7 @@ class TestPasswordResetServiceStartAuth {
     @BeforeEach
     public void initializeService() {
         service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder, "");
+            passwordEncoder, "password_reset");
     }
 
     private final void loadCredentialsExpiredUser() {
