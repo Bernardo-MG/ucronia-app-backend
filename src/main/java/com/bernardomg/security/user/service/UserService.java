@@ -17,10 +17,10 @@ public interface UserService {
     /**
      * Deletes the user with the received id.
      *
-     * @param id
+     * @param userId
      *            id of the user to delete
      */
-    public void delete(final long id);
+    public void delete(final long userId);
 
     /**
      * Returns all the users matching the sample. If the sample fields are empty, then all the users are returned.

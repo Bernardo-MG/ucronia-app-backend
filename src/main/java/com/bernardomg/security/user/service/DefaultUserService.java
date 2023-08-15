@@ -19,6 +19,7 @@ import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.user.authorization.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
@@ -68,18 +69,21 @@ public final class DefaultUserService implements UserService {
 
     private final UserRepository        userRepository;
 
+    private final UserRoleRepository    userRoleRepository;
+
     private final Validator<UserCreate> validatorCreateUser;
 
     private final Validator<Long>       validatorDeleteUser;
 
     private final Validator<UserUpdate> validatorUpdateUser;
 
-    public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper,
-            final String scope) {
+    public DefaultUserService(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
+            final SecurityMessageSender mSender, final TokenStore tStore, final PasswordEncoder passEncoder,
+            final UserMapper userMapper, final String scope) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
+        userRoleRepository = Objects.requireNonNull(userRoleRepo);
         mapper = Objects.requireNonNull(userMapper);
 
         tokenStore = Objects.requireNonNull(tStore);
@@ -139,16 +143,18 @@ public final class DefaultUserService implements UserService {
     @PreAuthorize("hasAuthority('USER:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
-    public final void delete(final long id) {
+    public final void delete(final long userId) {
 
-        log.debug("Deleting user {}", id);
+        log.debug("Deleting user {}", userId);
 
-        if (!userRepository.existsById(id)) {
-            throw new InvalidIdException("user", id);
+        if (!userRepository.existsById(userId)) {
+            throw new InvalidIdException("user", userId);
         }
 
-        validatorDeleteUser.validate(id);
-        userRepository.deleteById(id);
+        validatorDeleteUser.validate(userId);
+
+        userRoleRepository.deleteAllByUserId(userId);
+        userRepository.deleteById(userId);
     }
 
     @Override
