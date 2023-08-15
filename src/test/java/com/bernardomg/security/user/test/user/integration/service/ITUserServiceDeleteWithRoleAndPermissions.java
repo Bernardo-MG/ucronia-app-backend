@@ -32,7 +32,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.authorization.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.authorization.persistence.repository.RoleRepository;
-import com.bernardomg.security.user.authorization.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -44,19 +43,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserServiceDeleteWithRoleAndPermissions {
 
     @Autowired
-    private ActionRepository   actionRepository;
+    private ActionRepository actionRepository;
 
     @Autowired
-    private UserRepository     repository;
+    private UserRepository   repository;
 
     @Autowired
-    private RoleRepository     roleRepository;
+    private RoleRepository   roleRepository;
 
     @Autowired
-    private UserService        service;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
+    private UserService      service;
 
     public ITUserServiceDeleteWithRoleAndPermissions() {
         super();
@@ -91,19 +87,6 @@ class ITUserServiceDeleteWithRoleAndPermissions {
         Assertions.assertThat(roleRepository.count())
             .isEqualTo(1);
         Assertions.assertThat(actionRepository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("Removes role relationship when deleting")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    void testDelete_RemovesRelationships() {
-        service.delete(1L);
-
-        Assertions.assertThat(userRoleRepository.count())
             .isZero();
     }
 

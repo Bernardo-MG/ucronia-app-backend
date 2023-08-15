@@ -21,7 +21,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.token.test.constant.TokenConstants;
-import com.bernardomg.security.user.authorization.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -58,17 +57,13 @@ class TestUserServiceEnableUserAuth {
     @Mock
     private UserMapper            userMapper;
 
-    @Mock
-    private UserRoleRepository    userRoleRepository;
-
     public TestUserServiceEnableUserAuth() {
         super();
     }
 
     @BeforeEach
     public void initializeService() {
-        service = new DefaultUserService(repository, userRoleRepository, messageSender, tokenStore, passwordEncoder,
-            userMapper, "");
+        service = new DefaultUserService(repository, messageSender, tokenStore, passwordEncoder, userMapper, "");
     }
 
     @BeforeEach
