@@ -24,23 +24,17 @@
 
 package com.bernardomg.security.user.controller;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.ValidatedUserCreate;
-import com.bernardomg.security.user.model.request.ValidatedUserQuery;
-import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
+import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
 import com.bernardomg.security.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -53,37 +47,23 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user")
+@RequestMapping("/security/user/activate")
 @AllArgsConstructor
-public class UserController {
+public class UserActivationController {
 
     private final UserService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public User create(@Valid @RequestBody final ValidatedUserCreate user) {
-        return service.registerNewUser(user);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void activateNewUser(@PathVariable("token") final String token,
+            @Valid @RequestBody final PasswordResetChangeRequest request) {
+        service.activateNewUser(token, request.getPassword());
     }
 
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable pageable) {
-        return service.getAll(user, pageable);
-    }
-
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate form) {
-        return service.update(id, form);
+    @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean validateToken(@PathVariable("token") final String token) {
+        // TODO: Use a generic controller for tokens
+        return service.validateToken(token);
     }
 
 }
