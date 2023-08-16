@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -58,12 +59,14 @@ class ITUserServiceToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/consumed.sql" })
     void testValidateToken_Consumed() {
-        final boolean status;
+        final TokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status)
+        Assertions.assertThat(status.getValid())
             .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -75,12 +78,14 @@ class ITUserServiceToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testValidateToken_Expired() {
-        final boolean status;
+        final TokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status)
+        Assertions.assertThat(status.getValid())
             .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -92,12 +97,14 @@ class ITUserServiceToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/user_registered.sql" })
     void testValidateToken_Valid() {
-        final boolean status;
+        final TokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status)
+        Assertions.assertThat(status.getValid())
             .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
 }

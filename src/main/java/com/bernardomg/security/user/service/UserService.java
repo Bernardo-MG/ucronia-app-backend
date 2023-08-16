@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
@@ -67,8 +68,8 @@ public interface UserService {
      *
      * @param token
      *            token to validate
-     * @return {@code true} if the token is valid, {@code false} otherwise
+     * @return token status
      */
-    public boolean validateToken(final String token);
+    public TokenStatus validateToken(final String token);
 
 }

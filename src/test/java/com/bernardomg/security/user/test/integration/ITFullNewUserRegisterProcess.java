@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.ValidatedUserCreate;
@@ -73,7 +74,7 @@ class ITFullNewUserRegisterProcess {
     @Test
     @DisplayName("Can follow the new user process from start to end")
     void testNewUser_Valid() {
-        final boolean        validTokenStatus;
+        final TokenStatus    validTokenStatus;
         final String         token;
         final PersistentUser user;
         final UserCreate     newUser;
@@ -98,8 +99,10 @@ class ITFullNewUserRegisterProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus)
+        Assertions.assertThat(validTokenStatus.getValid())
             .isTrue();
+        Assertions.assertThat(validTokenStatus.getUsername())
+            .isEqualTo("username");
 
         // TODO: Set authentication to anonymous user
         changeToAnonymous();

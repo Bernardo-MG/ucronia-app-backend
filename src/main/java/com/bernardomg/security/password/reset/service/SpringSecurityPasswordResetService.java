@@ -34,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
+import com.bernardomg.security.token.model.ImmutableTokenStatus;
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -173,8 +175,17 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     }
 
     @Override
-    public final boolean validateToken(final String token) {
-        return tokenStore.isValid(token, tokenScope);
+    public final TokenStatus validateToken(final String token) {
+        final boolean valid;
+        final String  username;
+
+        valid = tokenStore.isValid(token, tokenScope);
+        username = tokenStore.getUsername(token);
+
+        return ImmutableTokenStatus.builder()
+            .valid(valid)
+            .username(username)
+            .build();
     }
 
     /**

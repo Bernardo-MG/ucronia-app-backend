@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -30,12 +31,14 @@ class ITPasswordResetServiceToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/consumed.sql" })
     void testValidateToken_Consumed() {
-        final boolean status;
+        final TokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status)
+        Assertions.assertThat(status.getValid())
             .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -46,12 +49,14 @@ class ITPasswordResetServiceToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testValidateToken_Expired() {
-        final boolean status;
+        final TokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status)
+        Assertions.assertThat(status.getValid())
             .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
     @Test
@@ -62,12 +67,14 @@ class ITPasswordResetServiceToken {
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testValidateToken_Valid() {
-        final boolean status;
+        final TokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status)
+        Assertions.assertThat(status.getValid())
             .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
     }
 
 }

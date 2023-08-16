@@ -10,6 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -43,7 +44,7 @@ class ITFullPasswordResetProcess {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testResetPassword_Valid() {
-        final boolean        validTokenStatus;
+        final TokenStatus        validTokenStatus;
         final String         token;
         final PersistentUser user;
 
@@ -59,8 +60,10 @@ class ITFullPasswordResetProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus)
+        Assertions.assertThat(validTokenStatus.getValid())
             .isTrue();
+        Assertions.assertThat(validTokenStatus.getUsername())
+            .isEqualTo("admin");
 
         // Change password
         service.changePassword(token, "abc");

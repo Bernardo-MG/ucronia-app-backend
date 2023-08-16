@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -61,7 +62,7 @@ public class UserActivationController {
     }
 
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean validateToken(@PathVariable("token") final String token) {
+    public TokenStatus validateToken(@PathVariable("token") final String token) {
         // TODO: Use a generic controller for tokens
         return service.validateToken(token);
     }
