@@ -44,7 +44,7 @@ class ITFullPasswordResetProcess {
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testResetPassword_Valid() {
-        final TokenStatus        validTokenStatus;
+        final TokenStatus    validTokenStatus;
         final String         token;
         final PersistentUser user;
 
