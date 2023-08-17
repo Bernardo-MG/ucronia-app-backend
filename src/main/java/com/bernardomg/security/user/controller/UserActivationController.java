@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
 import com.bernardomg.security.token.model.TokenStatus;
+import com.bernardomg.security.user.model.request.UserActivationRequest;
 import com.bernardomg.security.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -57,7 +57,7 @@ public class UserActivationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void activateNewUser(@PathVariable("token") final String token,
-            @Valid @RequestBody final PasswordResetChangeRequest request) {
+            @Valid @RequestBody final UserActivationRequest request) {
         service.activateNewUser(token, request.getPassword());
     }
 
