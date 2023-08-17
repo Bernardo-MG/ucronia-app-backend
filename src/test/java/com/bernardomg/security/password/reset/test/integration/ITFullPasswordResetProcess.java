@@ -5,18 +5,23 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Full password recovery process")
+@DisplayName("Full password reset process")
 class ITFullPasswordResetProcess {
+
+    @Autowired
+    private PasswordEncoder      passwordEncoder;
 
     @Autowired
     private PasswordResetService service;
@@ -38,13 +43,15 @@ class ITFullPasswordResetProcess {
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
-    void testRecoverPassword_Valid() {
-        final boolean        validTokenStatus;
+    void testResetPassword_Valid() {
+        final TokenStatus    validTokenStatus;
         final String         token;
         final PersistentUser user;
 
-        service.startPasswordRecovery("email@somewhere.com");
+        // Start password reset
+        service.startPasswordReset("email@somewhere.com");
 
+        // Validate new token
         token = tokenRepository.findAll()
             .stream()
             .findFirst()
@@ -53,9 +60,12 @@ class ITFullPasswordResetProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus)
+        Assertions.assertThat(validTokenStatus.getValid())
             .isTrue();
+        Assertions.assertThat(validTokenStatus.getUsername())
+            .isEqualTo("admin");
 
+        // Change password
         service.changePassword(token, "abc");
 
         user = userRepository.findAll()
@@ -63,8 +73,8 @@ class ITFullPasswordResetProcess {
             .findFirst()
             .get();
 
-        Assertions.assertThat(user.getPassword())
-            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
+        Assertions.assertThat(passwordEncoder.matches("abc", user.getPassword()))
+            .isTrue();
     }
 
 }

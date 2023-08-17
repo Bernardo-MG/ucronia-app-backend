@@ -67,35 +67,12 @@ class TestValidatedUserCreateValidation {
     }
 
     @Test
-    @DisplayName("A DTO missing the enabled flag is invalid")
-    void validate_noEnabled() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
-        final ConstraintViolation<UserCreate>      error;
-
-        userCreate = UsersCreate.missingEnabled();
-
-        errors = validator.validate(userCreate);
-
-        Assertions.assertThat(errors)
-            .hasSize(1);
-
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("enabled");
-        Assertions.assertThat(error.getInvalidValue())
-            .isNull();
-    }
-
-    @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
         final UserCreate                           userCreate;
         final Set<ConstraintViolation<UserCreate>> errors;
 
-        userCreate = UsersCreate.enabled();
+        userCreate = UsersCreate.valid();
 
         errors = validator.validate(userCreate);
 

@@ -22,6 +22,7 @@ import com.bernardomg.association.member.persistence.repository.MemberRepository
 import com.bernardomg.exception.InvalidIdException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the member service.
@@ -31,6 +32,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public final class DefaultMemberService implements MemberService {
 
     private static final String    CACHE_MULTIPLE = "members";
@@ -52,6 +54,8 @@ public final class DefaultMemberService implements MemberService {
         final PersistentMember entity;
         final PersistentMember created;
 
+        log.debug("Creating member {}", member);
+
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
@@ -67,6 +71,9 @@ public final class DefaultMemberService implements MemberService {
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
+
+        log.debug("Deleting member {}", id);
+
         if (!repository.existsById(id)) {
             throw new InvalidIdException("member", id);
         }
@@ -82,6 +89,8 @@ public final class DefaultMemberService implements MemberService {
     public final Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable) {
         final PersistentMember entity;
 
+        log.debug("Reading members with sample {} and pagination {}", sample, pageable);
+
         entity = mapper.toEntity(sample);
 
         return repository.findAll(Example.of(entity), pageable)
@@ -95,6 +104,8 @@ public final class DefaultMemberService implements MemberService {
         final Optional<PersistentMember> found;
         final Optional<Member>           result;
         final Member                     data;
+
+        log.debug("Reading member with id {}", id);
 
         if (!repository.existsById(id)) {
             throw new InvalidIdException("member", id);
@@ -119,6 +130,8 @@ public final class DefaultMemberService implements MemberService {
     public final Member update(final long id, final MemberUpdate member) {
         final PersistentMember entity;
         final PersistentMember updated;
+
+        log.debug("Updating member with id {} using data {}", id, member);
 
         if (!repository.existsById(id)) {
             throw new InvalidIdException("member", id);

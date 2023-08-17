@@ -122,12 +122,10 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         details = toUserDetails(user.get(), authorities);
 
-        log.debug("User {} exists", username);
+        log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}", username,
+            details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
+            details.isCredentialsNonExpired());
         log.debug("Authorities for {}: {}", username, details.getAuthorities());
-        log.debug("User {} enabled: {}", username, details.isEnabled());
-        log.debug("User {} non expired: {}", username, details.isAccountNonExpired());
-        log.debug("User {} non locked: {}", username, details.isAccountNonLocked());
-        log.debug("User {} credentials non expired: {}", username, details.isCredentialsNonExpired());
 
         return details;
     }

@@ -39,6 +39,10 @@ services:
             # Logs
             - logging.file.path=./logs
             - logging.level.com.bernardomg=DEBUG
+            - logging.level.com.bernardomg.security=INFO
+            - logging.level.com.bernardomg.security.email=DEBUG
+            - logging.level.com.bernardomg.security.token=DEBUG
+            - logging.level.com.bernardomg.security.user=DEBUG
             # JDBC
             - spring.datasource.url=jdbc:postgresql://association-db:5432/postgres
             - spring.datasource.username=postgres
@@ -49,13 +53,6 @@ services:
             - security.jwt.secret=1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
             # Token
             - security.token.validity=86400000
-            # Email
-            - spring.mail.host=${MAIL_HOST}
-            - spring.mail.port=${MAIL_PORT}
-            - spring.mail.username=${MAIL_USERNAME}
-            - spring.mail.password=${MAIL_PASSWORD}
-            - security.email.from=${SECURITY_EMAIL_FROM}
-            - security.email.passwordRecoveryUrl=http://localhost:4200/password_reset/
         volumes:
             - association-logs:/logs
 volumes:

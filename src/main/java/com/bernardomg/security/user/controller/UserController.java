@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@Valid @RequestBody final ValidatedUserCreate user) {
-        return service.create(user);
+        return service.registerNewUser(user);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

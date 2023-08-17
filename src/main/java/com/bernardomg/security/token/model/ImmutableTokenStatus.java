@@ -1,18 +1,17 @@
 
 package com.bernardomg.security.token.model;
 
-import lombok.Data;
+import lombok.Builder;
 import lombok.NonNull;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public final class ImmutableTokenStatus implements TokenStatus {
 
+    private final String  username;
+
+    @NonNull
     private final Boolean valid;
-
-    public ImmutableTokenStatus(@NonNull final Boolean flag) {
-        super();
-
-        valid = flag;
-    }
 
 }

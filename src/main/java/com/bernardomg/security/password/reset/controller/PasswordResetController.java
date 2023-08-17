@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
 import com.bernardomg.security.password.reset.model.request.PasswordResetRequest;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.token.model.TokenStatus;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -80,7 +81,7 @@ public class PasswordResetController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void startRecovery(@Valid @RequestBody final PasswordResetRequest request) {
         // TODO: Hide exceptions for invalid user
-        service.startPasswordRecovery(request.getEmail());
+        service.startPasswordReset(request.getEmail());
     }
 
     /**
@@ -91,7 +92,7 @@ public class PasswordResetController {
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean validateToken(@PathVariable("token") final String token) {
+    public TokenStatus validateToken(@PathVariable("token") final String token) {
         return service.validateToken(token);
     }
 

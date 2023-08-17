@@ -53,12 +53,19 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final String         signUpText              = "";
 
+    private final String         userRegisteredSubject   = "User registered";
+
+    private final String         userRegisteredText      = "Visit %s to activate user";
+
+    private final String         userRegisteredUrl;
+
     public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
-            @NonNull final JavaMailSender mSender) {
+            @NonNull final String userRegUrl, @NonNull final JavaMailSender mSender) {
         super();
 
         fromEmail = from;
         mailSender = mSender;
+        userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
     }
 
@@ -67,6 +74,8 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         final SimpleMailMessage message;
         final String            recoveryUrl;
         final String            passwordRecoveryEmailText;
+
+        log.debug("Sending password recovery email to {}", email);
 
         if (passwordRecoveryUrl.endsWith("/")) {
             recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
@@ -86,15 +95,28 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
     }
 
     @Override
-    public final void sendSignUpMessage(final String username, final String email) {
+    public final void sendUserRegisteredMessage(final String email, final String token) {
         final SimpleMailMessage message;
+        final String            recoveryUrl;
+        final String            passwordRecoveryEmailText;
+        // TODO Auto-generated method stub
+        log.debug("Sending user registered email to {}", email);
+
+        if (userRegisteredUrl.endsWith("/")) {
+            recoveryUrl = String.format("%s%s", userRegisteredUrl, token);
+        } else {
+            recoveryUrl = String.format("%s/%s", userRegisteredUrl, token);
+        }
+        passwordRecoveryEmailText = String.format(userRegisteredText, recoveryUrl);
 
         message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(email);
-        message.setSubject(signUpSubject);
-        message.setText(signUpText);
+        message.setSubject(userRegisteredSubject);
+        message.setText(passwordRecoveryEmailText);
         mailSender.send(message);
+
+        log.debug("Sent user registered email to {}", email);
     }
 
 }

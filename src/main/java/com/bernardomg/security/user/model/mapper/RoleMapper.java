@@ -4,11 +4,11 @@ package com.bernardomg.security.user.model.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.bernardomg.security.user.authorization.persistence.model.PersistentRole;
 import com.bernardomg.security.user.model.DtoRole;
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.model.request.RoleQuery;
 import com.bernardomg.security.user.model.request.RoleUpdate;
-import com.bernardomg.security.user.persistence.model.PersistentRole;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {

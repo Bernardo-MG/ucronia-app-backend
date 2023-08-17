@@ -25,9 +25,15 @@
 package com.bernardomg.security.token.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.store.TokenStore;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Security configuration.
@@ -37,10 +43,17 @@ import com.bernardomg.security.token.config.property.TokenProperties;
  */
 @Configuration
 @EnableConfigurationProperties(TokenProperties.class)
+@Slf4j
 public class TokenConfig {
 
     public TokenConfig() {
         super();
+    }
+
+    @Bean("tokenStore")
+    public TokenStore getTokenStore(final TokenRepository tRepository, final TokenProperties tokenProperties) {
+        log.debug("Setting {}ms validity length for tokens", tokenProperties.getValidity());
+        return new PersistentTokenStore(tRepository, tokenProperties.getValidity());
     }
 
 }

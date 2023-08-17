@@ -66,7 +66,7 @@ public class SecurityEmailConfig {
             final MailProperties mailProperties, final JavaMailSender mailSender) {
         log.debug("Using email for security messages");
         return new SpringMailSecurityEmailSender(mailProperties.getUsername(), properties.getPasswordRecoveryUrl(),
-            mailSender);
+            properties.getActivateUserUrl(), mailSender);
     }
 
 }

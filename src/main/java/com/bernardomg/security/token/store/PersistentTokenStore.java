@@ -89,6 +89,7 @@ public final class PersistentTokenStore implements TokenStore {
     public final String getUsername(final String token) {
         final Optional<String> username;
 
+        // TODO: Shouldn't this receive the scope?
         username = tokenRepository.findUsernameByToken(token);
 
         if (username.isEmpty()) {

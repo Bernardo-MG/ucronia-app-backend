@@ -80,8 +80,8 @@ public class WebSecurityConfig {
 
         http
             // Whitelist access
-            .authorizeHttpRequests(
-                new WhitelistRequestCustomizer(Arrays.asList("/actuator/**", "/login/**", "/password/reset/**")))
+            .authorizeHttpRequests(new WhitelistRequestCustomizer(
+                Arrays.asList("/actuator/**", "/login/**", "/password/reset/**", "/security/user/activate/**")))
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {})
             // Authentication error handling

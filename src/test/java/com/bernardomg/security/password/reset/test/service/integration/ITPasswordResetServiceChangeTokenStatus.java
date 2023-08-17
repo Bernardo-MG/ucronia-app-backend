@@ -6,7 +6,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
@@ -27,7 +26,6 @@ class ITPasswordResetServiceChangeTokenStatus {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Changing password with a consumed token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -38,7 +36,7 @@ class ITPasswordResetServiceChangeTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
@@ -47,7 +45,6 @@ class ITPasswordResetServiceChangeTokenStatus {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Changing password with an expired token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -58,7 +55,7 @@ class ITPasswordResetServiceChangeTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
@@ -67,7 +64,6 @@ class ITPasswordResetServiceChangeTokenStatus {
     }
 
     @Test
-    @WithMockUser(username = "admin")
     @DisplayName("Changing password with a not existing token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
@@ -77,7 +73,7 @@ class ITPasswordResetServiceChangeTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 

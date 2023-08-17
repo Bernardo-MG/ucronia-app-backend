@@ -193,6 +193,7 @@ databaseChangeLog:
                     foreignKeyName: fk_token_tables_user_id
                     references: users(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: scope
                   type: varchar(20)

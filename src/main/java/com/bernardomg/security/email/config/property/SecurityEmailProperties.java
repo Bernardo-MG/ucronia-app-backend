@@ -32,6 +32,8 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "security.email")
 public final class SecurityEmailProperties {
 
+    private String activateUserUrl;
+
     private String passwordRecoveryUrl;
 
 }
