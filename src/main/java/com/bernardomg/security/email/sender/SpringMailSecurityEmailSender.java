@@ -49,10 +49,6 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final String         passwordRecoveryUrl;
 
-    private final String         signUpSubject           = "";
-
-    private final String         signUpText              = "";
-
     private final String         userRegisteredSubject   = "User registered";
 
     private final String         userRegisteredText      = "Visit %s to activate user";
