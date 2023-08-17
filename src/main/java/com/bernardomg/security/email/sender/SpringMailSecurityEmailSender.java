@@ -27,6 +27,7 @@ package com.bernardomg.security.email.sender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -61,8 +62,6 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
             @NonNull final JavaMailSender mSender) {
         super();
 
-        // TODO: Make this service asynchronous
-
         templateEngine = templateEng;
         fromEmail = from;
         mailSender = mSender;
@@ -70,6 +69,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         passwordRecoveryUrl = passRecoveryUrl;
     }
 
+    @Async
     @Override
     public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
@@ -85,6 +85,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         log.debug("Sent password recovery email to {}", email);
     }
 
+    @Async
     @Override
     public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
