@@ -30,6 +30,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.email.config.property.SecurityEmailProperties;
 import com.bernardomg.security.email.sender.DisabledSecurityMessageSender;
@@ -62,11 +63,12 @@ public class SecurityEmailConfig {
 
     @Bean("securityEmailSender")
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public SecurityMessageSender getSecurityEmailSender(final SecurityEmailProperties properties,
-            final MailProperties mailProperties, final JavaMailSender mailSender) {
+    public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
+            final SecurityEmailProperties properties, final MailProperties mailProperties,
+            final JavaMailSender mailSender) {
         log.debug("Using email for security messages");
-        return new SpringMailSecurityEmailSender(mailProperties.getUsername(), properties.getPasswordRecoveryUrl(),
-            properties.getActivateUserUrl(), mailSender);
+        return new SpringMailSecurityEmailSender(templateEng, mailProperties.getUsername(),
+            properties.getPasswordRecoveryUrl(), properties.getActivateUserUrl(), mailSender);
     }
 
 }

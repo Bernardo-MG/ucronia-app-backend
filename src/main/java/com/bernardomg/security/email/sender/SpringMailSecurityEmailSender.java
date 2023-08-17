@@ -24,8 +24,11 @@
 
 package com.bernardomg.security.email.sender;
 
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -39,26 +42,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
-    private final String         fromEmail;
+    private final String               fromEmail;
 
-    private final JavaMailSender mailSender;
+    private final JavaMailSender       mailSender;
 
-    private final String         passwordRecoverySubject = "Password recovery";
+    private final String               passwordRecoverySubject = "Password recovery";
 
-    private final String         passwordRecoveryText    = "Visit %s to reset password";
+    private final String               passwordRecoveryUrl;
 
-    private final String         passwordRecoveryUrl;
+    private final SpringTemplateEngine templateEngine;
 
-    private final String         userRegisteredSubject   = "User registered";
+    private final String               userRegisteredSubject   = "User registered";
 
-    private final String         userRegisteredText      = "Visit %s to activate user";
+    private final String               userRegisteredUrl;
 
-    private final String         userRegisteredUrl;
-
-    public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
-            @NonNull final String userRegUrl, @NonNull final JavaMailSender mSender) {
+    public SpringMailSecurityEmailSender(@NonNull final SpringTemplateEngine templateEng, @NonNull final String from,
+            @NonNull final String passRecoveryUrl, @NonNull final String userRegUrl,
+            @NonNull final JavaMailSender mSender) {
         super();
 
+        // TODO: Make this service asynchronous
+
+        templateEngine = templateEng;
         fromEmail = from;
         mailSender = mSender;
         userRegisteredUrl = userRegUrl;
@@ -67,52 +72,71 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     @Override
     public final void sendPasswordRecoveryMessage(final String email, final String token) {
-        final SimpleMailMessage message;
-        final String            recoveryUrl;
-        final String            passwordRecoveryEmailText;
+        final String recoveryUrl;
+        final String passwordRecoveryEmailText;
 
         log.debug("Sending password recovery email to {}", email);
 
-        if (passwordRecoveryUrl.endsWith("/")) {
-            recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
-        } else {
-            recoveryUrl = String.format("%s/%s", passwordRecoveryUrl, token);
-        }
-        passwordRecoveryEmailText = String.format(passwordRecoveryText, recoveryUrl);
+        recoveryUrl = generateRecoveryUrl(passwordRecoveryUrl, token);
+        passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl);
 
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(passwordRecoverySubject);
-        message.setText(passwordRecoveryEmailText);
-        mailSender.send(message);
+        sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
         log.debug("Sent password recovery email to {}", email);
     }
 
     @Override
     public final void sendUserRegisteredMessage(final String email, final String token) {
-        final SimpleMailMessage message;
-        final String            recoveryUrl;
-        final String            passwordRecoveryEmailText;
-        // TODO Auto-generated method stub
+        final String recoveryUrl;
+        final String userRegisteredEmailText;
+
         log.debug("Sending user registered email to {}", email);
 
-        if (userRegisteredUrl.endsWith("/")) {
-            recoveryUrl = String.format("%s%s", userRegisteredUrl, token);
-        } else {
-            recoveryUrl = String.format("%s/%s", userRegisteredUrl, token);
-        }
-        passwordRecoveryEmailText = String.format(userRegisteredText, recoveryUrl);
+        recoveryUrl = generateRecoveryUrl(userRegisteredUrl, token);
+        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl);
 
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(userRegisteredSubject);
-        message.setText(passwordRecoveryEmailText);
-        mailSender.send(message);
+        sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
 
         log.debug("Sent user registered email to {}", email);
     }
 
+    private final String generateEmailContent(final String templateName, final String url) {
+        final Context context;
+
+        context = new Context();
+        context.setVariable("url", url);
+        return templateEngine.process(templateName, context);
+    }
+
+    private final String generateRecoveryUrl(final String baseUrl, final String token) {
+        final String url;
+
+        if (baseUrl.endsWith("/")) {
+            url = baseUrl + token;
+        } else {
+            url = baseUrl + "/" + token;
+        }
+
+        return url;
+    }
+
+    private final void sendEmail(final String email, final String subject, final String emailText) {
+        final MimeMessagePreparator messagePreparator;
+
+        messagePreparator = mimeMessage -> {
+            final MimeMessageHelper messageHelper;
+
+            messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            messageHelper.setFrom(fromEmail);
+            messageHelper.setTo(email);
+            messageHelper.setSubject(subject);
+            messageHelper.setText(emailText, true); // 'true' indicates HTML content
+        };
+
+        try {
+            mailSender.send(messagePreparator);
+        } catch (final Exception e) {
+            log.error("Error sending email", e);
+        }
+    }
 }
