@@ -71,14 +71,14 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String token) {
+    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
         final String passwordRecoveryEmailText;
 
         log.debug("Sending password recovery email to {}", email);
 
         recoveryUrl = generateRecoveryUrl(passwordRecoveryUrl, token);
-        passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl);
+        passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
 
         sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
@@ -86,25 +86,26 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
     }
 
     @Override
-    public final void sendUserRegisteredMessage(final String email, final String token) {
+    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
         final String userRegisteredEmailText;
 
         log.debug("Sending user registered email to {}", email);
 
         recoveryUrl = generateRecoveryUrl(userRegisteredUrl, token);
-        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl);
+        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
 
         sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
 
         log.debug("Sent user registered email to {}", email);
     }
 
-    private final String generateEmailContent(final String templateName, final String url) {
+    private final String generateEmailContent(final String templateName, final String url, final String username) {
         final Context context;
 
         context = new Context();
         context.setVariable("url", url);
+        context.setVariable("username", username);
         return templateEngine.process(templateName, context);
     }
 

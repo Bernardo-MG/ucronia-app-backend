@@ -169,7 +169,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         token = tokenStore.createToken(user.getId(), user.getUsername(), tokenScope);
 
         // TODO: Handle through events
-        messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
+        messageSender.sendPasswordRecoveryMessage(user.getEmail(), user.getUsername(), token);
 
         log.debug("Finished password recovery request for {}", email);
     }

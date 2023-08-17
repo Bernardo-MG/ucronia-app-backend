@@ -67,7 +67,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     void testSendEmail_From() throws Exception {
         final MimeMessage mimeMessage;
 
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
@@ -86,7 +86,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     void testSendEmail_Subject() throws Exception {
         final MimeMessage mimeMessage;
 
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
@@ -103,7 +103,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     void testSendEmail_To() throws Exception {
         final MimeMessage mimeMessage;
 
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "token");
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
 
         verify(javaMailSender).send(emailMessageCaptor.capture());
 
