@@ -24,12 +24,10 @@
 
 package com.bernardomg.security.email.sender;
 
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.scheduling.annotation.Async;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import com.bernardomg.email.EmailSender;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
-    private final String               fromEmail;
-
-    private final JavaMailSender       mailSender;
+    private final EmailSender          emailService;
 
     private final String               passwordRecoverySubject = "Password recovery";
 
@@ -57,19 +53,16 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final String               userRegisteredUrl;
 
-    public SpringMailSecurityEmailSender(@NonNull final SpringTemplateEngine templateEng, @NonNull final String from,
-            @NonNull final String passRecoveryUrl, @NonNull final String userRegUrl,
-            @NonNull final JavaMailSender mSender) {
+    public SpringMailSecurityEmailSender(@NonNull final SpringTemplateEngine templateEng,
+            @NonNull final String passRecoveryUrl, @NonNull final String userRegUrl, final EmailSender emailServ) {
         super();
 
         templateEngine = templateEng;
-        fromEmail = from;
-        mailSender = mSender;
         userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
+        emailService = emailServ;
     }
 
-    @Async
     @Override
     public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
@@ -77,15 +70,14 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
         log.debug("Sending password recovery email to {}", email);
 
-        recoveryUrl = generateRecoveryUrl(passwordRecoveryUrl, token);
+        recoveryUrl = generateUrl(passwordRecoveryUrl, token);
         passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
 
-        sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
+        emailService.sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
         log.debug("Sent password recovery email to {}", email);
     }
 
-    @Async
     @Override
     public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
@@ -93,10 +85,11 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
         log.debug("Sending user registered email to {}", email);
 
-        recoveryUrl = generateRecoveryUrl(userRegisteredUrl, token);
+        recoveryUrl = generateUrl(userRegisteredUrl, token);
         userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
 
-        sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
+        // TODO: Send template name and parameters
+        emailService.sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
 
         log.debug("Sent user registered email to {}", email);
     }
@@ -110,7 +103,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         return templateEngine.process(templateName, context);
     }
 
-    private final String generateRecoveryUrl(final String baseUrl, final String token) {
+    private final String generateUrl(final String baseUrl, final String token) {
         final String url;
 
         if (baseUrl.endsWith("/")) {
@@ -122,23 +115,4 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         return url;
     }
 
-    private final void sendEmail(final String email, final String subject, final String emailText) {
-        final MimeMessagePreparator messagePreparator;
-
-        messagePreparator = mimeMessage -> {
-            final MimeMessageHelper messageHelper;
-
-            messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            messageHelper.setFrom(fromEmail);
-            messageHelper.setTo(email);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(emailText, true); // 'true' indicates HTML content
-        };
-
-        try {
-            mailSender.send(messagePreparator);
-        } catch (final Exception e) {
-            log.error("Error sending email", e);
-        }
-    }
 }
