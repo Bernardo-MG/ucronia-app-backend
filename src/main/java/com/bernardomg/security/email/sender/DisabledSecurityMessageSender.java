@@ -8,9 +8,9 @@ public final class DisabledSecurityMessageSender implements SecurityMessageSende
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String token) {}
+    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {}
 
     @Override
-    public final void sendUserRegisteredMessage(final String email, final String token) {}
+    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {}
 
 }

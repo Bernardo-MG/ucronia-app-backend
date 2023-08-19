@@ -227,7 +227,7 @@ public final class DefaultUserService implements UserService {
         token = tokenStore.createToken(created.getId(), created.getUsername(), tokenScope);
 
         // TODO: Handle through events
-        messageSender.sendUserRegisteredMessage(created.getEmail(), token);
+        messageSender.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
 
         log.debug("Registered new user {} with email {}", user.getUsername(), user.getEmail());
 

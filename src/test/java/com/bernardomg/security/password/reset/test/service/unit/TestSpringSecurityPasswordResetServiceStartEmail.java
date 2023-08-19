@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,26 +80,34 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @Test
     @DisplayName("When recovering the password the email is sent to the user email")
-    void testStartPasswordRecovery_User_Email() {
+    void testStartPasswordRecovery_Email() {
         final ArgumentCaptor<String> emailCaptor;
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
 
         service.startPasswordReset("email@somewhere.com");
 
-        verify(messageSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any());
+        verify(messageSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
+            ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
             .isEqualTo("email@somewhere.com");
     }
 
     @Test
-    @DisplayName("When recovering the password an email is sent")
-    void testStartPasswordRecovery_User_EmailCall() {
+    @DisplayName("When recovering the password the email is sent to the user email")
+    void testStartPasswordRecovery_Username() {
+        final ArgumentCaptor<String> usernameCaptor;
+
+        usernameCaptor = ArgumentCaptor.forClass(String.class);
+
         service.startPasswordReset("email@somewhere.com");
 
-        verify(messageSender, Mockito.times(1)).sendPasswordRecoveryMessage(ArgumentMatchers.any(),
+        verify(messageSender).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
             ArgumentMatchers.any());
+
+        Assertions.assertThat(usernameCaptor.getValue())
+            .isEqualTo("admin");
     }
 
 }

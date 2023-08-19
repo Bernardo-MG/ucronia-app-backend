@@ -22,30 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.email.config.property;
+package com.bernardomg.email.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import lombok.Data;
+import com.bernardomg.email.EmailSender;
+import com.bernardomg.email.SpringEmailSender;
+import com.bernardomg.email.config.property.EmailProperties;
 
-@Data
-@ConfigurationProperties(prefix = "email.security")
-public final class SecurityEmailProperties {
+import lombok.extern.slf4j.Slf4j;
 
-    @Data
-    public final class ActivateUserProperties {
+/**
+ * Security configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration
+@EnableConfigurationProperties(EmailProperties.class)
+@Slf4j
+public class EmailConfig {
 
-        private String url;
+    public EmailConfig() {
+        super();
     }
 
-    @Data
-    public final class PasswordRecoveryProperties {
-
-        private String url;
+    @Bean("emailSender")
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    public EmailSender getEmailSender(final JavaMailSender mailSender, final EmailProperties emailProperties) {
+        log.info("Setting email sender to {}", emailProperties.getFrom());
+        return new SpringEmailSender(emailProperties.getFrom(), mailSender);
     }
-
-    private ActivateUserProperties     activateUser     = new ActivateUserProperties();
-
-    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
 
 }

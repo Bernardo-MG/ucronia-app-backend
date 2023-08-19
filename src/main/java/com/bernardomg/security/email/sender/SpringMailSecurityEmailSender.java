@@ -24,8 +24,10 @@
 
 package com.bernardomg.security.email.sender;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import com.bernardomg.email.EmailSender;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -39,84 +41,78 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
-    private final String         fromEmail;
+    private final EmailSender          emailService;
 
-    private final JavaMailSender mailSender;
+    private final String               passwordRecoverySubject = "Password recovery";
 
-    private final String         passwordRecoverySubject = "Password recovery";
+    private final String               passwordRecoveryUrl;
 
-    private final String         passwordRecoveryText    = "Visit %s to reset password";
+    private final SpringTemplateEngine templateEngine;
 
-    private final String         passwordRecoveryUrl;
+    private final String               userRegisteredSubject   = "User registered";
 
-    private final String         signUpSubject           = "";
+    private final String               userRegisteredUrl;
 
-    private final String         signUpText              = "";
-
-    private final String         userRegisteredSubject   = "User registered";
-
-    private final String         userRegisteredText      = "Visit %s to activate user";
-
-    private final String         userRegisteredUrl;
-
-    public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
-            @NonNull final String userRegUrl, @NonNull final JavaMailSender mSender) {
+    public SpringMailSecurityEmailSender(@NonNull final SpringTemplateEngine templateEng,
+            @NonNull final String passRecoveryUrl, @NonNull final String userRegUrl, final EmailSender emailServ) {
         super();
 
-        fromEmail = from;
-        mailSender = mSender;
+        templateEngine = templateEng;
         userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
+        emailService = emailServ;
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String token) {
-        final SimpleMailMessage message;
-        final String            recoveryUrl;
-        final String            passwordRecoveryEmailText;
+    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
+        final String recoveryUrl;
+        final String passwordRecoveryEmailText;
 
-        log.debug("Sending password recovery email to {}", email);
+        log.debug("Sending password recovery email to {} for {}", email, username);
 
-        if (passwordRecoveryUrl.endsWith("/")) {
-            recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
-        } else {
-            recoveryUrl = String.format("%s/%s", passwordRecoveryUrl, token);
-        }
-        passwordRecoveryEmailText = String.format(passwordRecoveryText, recoveryUrl);
+        recoveryUrl = generateUrl(passwordRecoveryUrl, token);
+        passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
 
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(passwordRecoverySubject);
-        message.setText(passwordRecoveryEmailText);
-        mailSender.send(message);
+        emailService.sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
-        log.debug("Sent password recovery email to {}", email);
+        log.debug("Sent password recovery email to {} for {}", email, username);
     }
 
     @Override
-    public final void sendUserRegisteredMessage(final String email, final String token) {
-        final SimpleMailMessage message;
-        final String            recoveryUrl;
-        final String            passwordRecoveryEmailText;
-        // TODO Auto-generated method stub
-        log.debug("Sending user registered email to {}", email);
+    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
+        final String recoveryUrl;
+        final String userRegisteredEmailText;
 
-        if (userRegisteredUrl.endsWith("/")) {
-            recoveryUrl = String.format("%s%s", userRegisteredUrl, token);
+        log.debug("Sending user registered email to {} for {}", email, username);
+
+        recoveryUrl = generateUrl(userRegisteredUrl, token);
+        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
+
+        // TODO: Send template name and parameters
+        emailService.sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
+
+        log.debug("Sent user registered email to {} for {}", email, username);
+    }
+
+    private final String generateEmailContent(final String templateName, final String url, final String username) {
+        final Context context;
+
+        context = new Context();
+        context.setVariable("url", url);
+        context.setVariable("username", username);
+        return templateEngine.process(templateName, context);
+    }
+
+    private final String generateUrl(final String baseUrl, final String token) {
+        final String url;
+
+        if (baseUrl.endsWith("/")) {
+            url = baseUrl + token;
         } else {
-            recoveryUrl = String.format("%s/%s", userRegisteredUrl, token);
+            url = baseUrl + "/" + token;
         }
-        passwordRecoveryEmailText = String.format(userRegisteredText, recoveryUrl);
 
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(userRegisteredSubject);
-        message.setText(passwordRecoveryEmailText);
-        mailSender.send(message);
-
-        log.debug("Sent user registered email to {}", email);
+        return url;
     }
 
 }
