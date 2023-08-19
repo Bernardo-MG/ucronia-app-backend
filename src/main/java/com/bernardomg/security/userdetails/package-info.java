@@ -26,4 +26,4 @@
  * User details components.
  */
 
-package com.bernardomg.security.springframework.userdetails;
+package com.bernardomg.security.userdetails;

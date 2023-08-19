@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.userdetails;
+package com.bernardomg.security.userdetails;
 
 import java.util.Collection;
 import java.util.List;
