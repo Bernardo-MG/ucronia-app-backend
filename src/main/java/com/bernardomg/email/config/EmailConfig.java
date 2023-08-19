@@ -24,6 +24,7 @@
 
 package com.bernardomg.email.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +53,7 @@ public class EmailConfig {
     }
 
     @Bean("emailSender")
+    @ConditionalOnBean(JavaMailSender.class)
     public EmailSender getEmailSender(final JavaMailSender mailSender, final EmailProperties emailProperties) {
         log.info("Setting email sender using email {}", emailProperties.getFrom());
         return new SpringEmailSender(emailProperties.getFrom(), mailSender);

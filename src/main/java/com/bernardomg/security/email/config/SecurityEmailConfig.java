@@ -24,7 +24,8 @@
 
 package com.bernardomg.security.email.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,14 +55,14 @@ public class SecurityEmailConfig {
     }
 
     @Bean("securityEmailSender")
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnMissingBean(EmailSender.class)
     public SecurityMessageSender getDefaultSecurityEmailSender() {
         log.debug("Disabled security messages");
         return new DisabledSecurityMessageSender();
     }
 
     @Bean("securityEmailSender")
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    @ConditionalOnBean(EmailSender.class)
     public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
             final SecurityEmailProperties properties, final EmailSender emailServ) {
         log.debug("Using email for security messages");
