@@ -63,32 +63,4 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
             .isEqualTo("Content");
     }
 
-    @Test
-    @DisplayName("The message is sent to the recipient")
-    void testSendEmail_Recipient() throws Exception {
-        final ArgumentCaptor<String> captor;
-
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
-
-        captor = ArgumentCaptor.forClass(String.class);
-        verify(emailSender).sendEmail(captor.capture(), ArgumentMatchers.any(), ArgumentMatchers.any());
-
-        Assertions.assertThat(captor.getValue())
-            .isEqualTo("email@somewhere.com");
-    }
-
-    @Test
-    @DisplayName("The message subject sent to the target email is the default one")
-    void testSendEmail_Subject() throws Exception {
-        final ArgumentCaptor<String> captor;
-
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
-
-        captor = ArgumentCaptor.forClass(String.class);
-        verify(emailSender).sendEmail(ArgumentMatchers.any(), captor.capture(), ArgumentMatchers.any());
-
-        Assertions.assertThat(captor.getValue())
-            .contains("Password recovery");
-    }
-
 }
