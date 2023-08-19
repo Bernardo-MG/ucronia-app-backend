@@ -68,14 +68,14 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         final String recoveryUrl;
         final String passwordRecoveryEmailText;
 
-        log.debug("Sending password recovery email to {}", email);
+        log.debug("Sending password recovery email to {} for {}", email, username);
 
         recoveryUrl = generateUrl(passwordRecoveryUrl, token);
         passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
 
         emailService.sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
-        log.debug("Sent password recovery email to {}", email);
+        log.debug("Sent password recovery email to {} for {}", email, username);
     }
 
     @Override
@@ -83,7 +83,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         final String recoveryUrl;
         final String userRegisteredEmailText;
 
-        log.debug("Sending user registered email to {}", email);
+        log.debug("Sending user registered email to {} for {}", email, username);
 
         recoveryUrl = generateUrl(userRegisteredUrl, token);
         userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
@@ -91,7 +91,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         // TODO: Send template name and parameters
         emailService.sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
 
-        log.debug("Sent user registered email to {}", email);
+        log.debug("Sent user registered email to {} for {}", email, username);
     }
 
     private final String generateEmailContent(final String templateName, final String url, final String username) {
