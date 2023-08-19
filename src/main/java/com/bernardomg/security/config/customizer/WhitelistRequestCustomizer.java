@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.configuration;
+package com.bernardomg.security.config.customizer;
 
 import java.util.Collection;
 import java.util.Objects;
