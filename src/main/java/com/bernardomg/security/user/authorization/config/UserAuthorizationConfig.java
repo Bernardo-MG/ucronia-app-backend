@@ -29,6 +29,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
 import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
+import com.bernardomg.security.permission.service.DefaultRolePermissionService;
+import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.user.authorization.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.authorization.persistence.repository.ResourceRepository;
 import com.bernardomg.security.user.authorization.persistence.repository.RolePermissionRepository;
@@ -37,11 +39,9 @@ import com.bernardomg.security.user.authorization.persistence.repository.UserRol
 import com.bernardomg.security.user.authorization.service.ActionService;
 import com.bernardomg.security.user.authorization.service.DefaultActionService;
 import com.bernardomg.security.user.authorization.service.DefaultResourceService;
-import com.bernardomg.security.user.authorization.service.DefaultRolePermissionService;
 import com.bernardomg.security.user.authorization.service.DefaultRoleService;
 import com.bernardomg.security.user.authorization.service.DefaultUserRoleService;
 import com.bernardomg.security.user.authorization.service.ResourceService;
-import com.bernardomg.security.user.authorization.service.RolePermissionService;
 import com.bernardomg.security.user.authorization.service.RoleService;
 import com.bernardomg.security.user.authorization.service.UserRoleService;
 import com.bernardomg.security.user.model.mapper.ActionMapper;

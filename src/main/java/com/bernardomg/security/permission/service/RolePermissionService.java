@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.authorization.service;
+package com.bernardomg.security.permission.service;
 
 import org.springframework.data.domain.Pageable;
 

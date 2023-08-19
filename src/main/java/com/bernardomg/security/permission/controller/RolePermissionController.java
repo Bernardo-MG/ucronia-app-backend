@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.authorization.controller;
+package com.bernardomg.security.permission.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.permission.model.Permission;
-import com.bernardomg.security.user.authorization.service.RolePermissionService;
+import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.model.request.ValidatedPermissionCreate;
 
