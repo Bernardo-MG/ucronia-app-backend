@@ -5,11 +5,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
 public final class SpringEmailSender implements EmailSender {
 
@@ -20,8 +18,6 @@ public final class SpringEmailSender implements EmailSender {
     public SpringEmailSender(final String from, final JavaMailSender mailSender) {
         super();
 
-        // TODO: Don't use username as send from
-        // mailProperties.getUsername()
         fromEmail = from;
         this.mailSender = mailSender;
     }
