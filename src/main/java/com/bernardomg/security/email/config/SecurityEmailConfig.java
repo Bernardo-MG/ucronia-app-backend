@@ -66,6 +66,10 @@ public class SecurityEmailConfig {
     public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
             final SecurityEmailProperties properties, final EmailSender emailServ) {
         log.debug("Using email for security messages");
+        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
+            .getUrl());
+        log.debug("Activate user URL: {}", properties.getActivateUser()
+            .getUrl());
         return new SpringMailSecurityEmailSender(templateEng, properties.getPasswordRecovery()
             .getUrl(),
             properties.getActivateUser()

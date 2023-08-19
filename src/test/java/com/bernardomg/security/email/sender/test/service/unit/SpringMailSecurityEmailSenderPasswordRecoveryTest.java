@@ -40,12 +40,27 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
 
     @BeforeEach
     public void initializeMailSender() {
-        given(templateEng.process(ArgumentMatchers.anyString(), ArgumentMatchers.any(Context.class))).willReturn("Content");
+        given(templateEng.process(ArgumentMatchers.anyString(), ArgumentMatchers.any(Context.class)))
+            .willReturn("Content");
     }
 
     private final SecurityMessageSender getSender() {
         return new SpringMailSecurityEmailSender(templateEng, "http://somewhere.com", "http://somewhere.com",
             emailSender);
+    }
+
+    @Test
+    @DisplayName("The message content is sent to the target email")
+    void testSendEmail_Content() throws Exception {
+        final ArgumentCaptor<String> captor;
+
+        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
+
+        captor = ArgumentCaptor.forClass(String.class);
+        verify(emailSender).sendEmail(ArgumentMatchers.any(), ArgumentMatchers.any(), captor.capture());
+
+        Assertions.assertThat(captor.getValue())
+            .isEqualTo("Content");
     }
 
     @Test
@@ -74,20 +89,6 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
 
         Assertions.assertThat(captor.getValue())
             .contains("Password recovery");
-    }
-
-    @Test
-    @DisplayName("The message content is sent to the target email")
-    void testSendEmail_Content() throws Exception {
-        final ArgumentCaptor<String> captor;
-
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
-
-        captor = ArgumentCaptor.forClass(String.class);
-        verify(emailSender).sendEmail(ArgumentMatchers.any(), ArgumentMatchers.any(), captor.capture());
-
-        Assertions.assertThat(captor.getValue())
-            .isEqualTo("Content");
     }
 
 }

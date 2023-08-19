@@ -44,8 +44,8 @@ public final class SecurityEmailProperties {
         private String url;
     }
 
-    private ActivateUserProperties     activateUser;
+    private ActivateUserProperties     activateUser     = new ActivateUserProperties();
 
-    private PasswordRecoveryProperties passwordRecovery;
+    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
 
 }
