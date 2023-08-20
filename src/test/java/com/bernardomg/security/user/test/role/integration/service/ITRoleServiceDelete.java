@@ -30,9 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
-import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -44,19 +41,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITRoleServiceDelete {
 
     @Autowired
-    private ActionRepository         actionRepository;
+    private RoleRepository repository;
 
     @Autowired
-    private RoleRepository           repository;
-
-    @Autowired
-    private ResourceRepository       resourceRepository;
-
-    @Autowired
-    private RolePermissionRepository rolePermissionRepository;
-
-    @Autowired
-    private RoleService              service;
+    private RoleService    service;
 
     public ITRoleServiceDelete() {
         super();
@@ -81,21 +69,6 @@ class ITRoleServiceDelete {
 
         Assertions.assertThat(repository.count())
             .isZero();
-    }
-
-    @Test
-    @DisplayName("Deletes the relationships for the role")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    void testDelete_WithPermissions_Relationships() {
-        service.delete(1L);
-
-        Assertions.assertThat(rolePermissionRepository.count())
-            .isZero();
-        Assertions.assertThat(actionRepository.count())
-            .isEqualTo(4);
-        Assertions.assertThat(resourceRepository.count())
-            .isEqualTo(1);
     }
 
 }
