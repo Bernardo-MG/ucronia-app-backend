@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.model.request.ValidatedUserQuery;
@@ -61,27 +63,32 @@ public class UserController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @AuthorizedResource(resource = "USER", action = Actions.CREATE)
     public User create(@Valid @RequestBody final ValidatedUserCreate user) {
         return service.registerNewUser(user);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "USER", action = Actions.DELETE)
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "USER", action = Actions.READ)
     public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "USER", action = Actions.READ)
     public User readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
     public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate form) {
         return service.update(id, form);
     }

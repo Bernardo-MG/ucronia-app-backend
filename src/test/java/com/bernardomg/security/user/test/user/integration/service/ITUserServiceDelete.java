@@ -30,6 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.security.permission.persistence.repository.ActionRepository;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -42,13 +44,36 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserServiceDelete {
 
     @Autowired
-    private UserRepository repository;
+    private ActionRepository actionRepository;
 
     @Autowired
-    private UserService    service;
+    private UserRepository   repository;
+
+    @Autowired
+    private RoleRepository   roleRepository;
+
+    @Autowired
+    private UserService      service;
 
     public ITUserServiceDelete() {
         super();
+    }
+
+    @Test
+    @DisplayName("Does not remove roles or action when deleting")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testDelete_DoesNotRemoveRelations() {
+        service.delete(1L);
+
+        Assertions.assertThat(repository.count())
+            .isZero();
+        Assertions.assertThat(roleRepository.count())
+            .isEqualTo(1);
+        Assertions.assertThat(actionRepository.count())
+            .isEqualTo(4);
     }
 
     @Test

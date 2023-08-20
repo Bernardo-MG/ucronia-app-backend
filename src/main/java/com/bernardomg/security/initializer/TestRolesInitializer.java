@@ -7,14 +7,15 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.user.authorization.persistence.model.PersistentAction;
-import com.bernardomg.security.user.authorization.persistence.model.PersistentResource;
-import com.bernardomg.security.user.authorization.persistence.model.PersistentRole;
-import com.bernardomg.security.user.authorization.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.user.authorization.persistence.repository.ActionRepository;
-import com.bernardomg.security.user.authorization.persistence.repository.ResourceRepository;
-import com.bernardomg.security.user.authorization.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.user.authorization.persistence.repository.RoleRepository;
+import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.permission.persistence.model.PersistentAction;
+import com.bernardomg.security.permission.persistence.model.PersistentResource;
+import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.permission.persistence.repository.ActionRepository;
+import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.user.persistence.model.PersistentRole;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,34 +90,15 @@ public final class TestRolesInitializer implements ApplicationRunner {
     }
 
     private final void initializeReadRole() {
-        final PersistentRole           readRole;
-        final PersistentRole           savedReadRole;
-        final PersistentAction         example;
-        final List<PersistentAction>   actions;
-        final List<PersistentResource> resources;
-        PersistentRolePermission       permission;
+        final PersistentRole readRole;
+        final PersistentRole savedReadRole;
 
         // Add read user
         readRole = getReadRole();
         savedReadRole = roleRepository.save(readRole);
 
-        example = PersistentAction.builder()
-            .name("READ")
-            .build();
-        actions = actionRepository.findAll(Example.of(example));
-        resources = resourceRepository.findAll();
-
-        for (final PersistentResource resource : resources) {
-            for (final PersistentAction action : actions) {
-                permission = PersistentRolePermission.builder()
-                    .roleId(savedReadRole.getId())
-                    .actionId(action.getId())
-                    .resourceId(resource.getId())
-                    .granted(true)
-                    .build();
-                rolePermissionRepository.save(permission);
-            }
-        }
+        setPermissions(savedReadRole, Actions.READ);
+        setPermissions(savedReadRole, Actions.VIEW);
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {
@@ -125,6 +107,31 @@ public final class TestRolesInitializer implements ApplicationRunner {
             log.debug("Initialized {} role", name);
         } else {
             log.debug("Role {} already exists. Skipped initialization.", name);
+        }
+    }
+
+    private final void setPermissions(final PersistentRole role, final String actionName) {
+        final PersistentAction         example;
+        final List<PersistentAction>   actions;
+        final List<PersistentResource> resources;
+        PersistentRolePermission       permission;
+
+        example = PersistentAction.builder()
+            .name(actionName)
+            .build();
+        actions = actionRepository.findAll(Example.of(example));
+        resources = resourceRepository.findAll();
+
+        for (final PersistentResource resource : resources) {
+            for (final PersistentAction action : actions) {
+                permission = PersistentRolePermission.builder()
+                    .roleId(role.getId())
+                    .actionId(action.getId())
+                    .resourceId(resource.getId())
+                    .granted(true)
+                    .build();
+                rolePermissionRepository.save(permission);
+            }
         }
     }
 

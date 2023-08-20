@@ -36,7 +36,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.permission.userdetails.PersistentUserDetailsService;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**

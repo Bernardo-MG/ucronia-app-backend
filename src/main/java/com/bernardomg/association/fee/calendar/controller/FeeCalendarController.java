@@ -35,6 +35,8 @@ import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.fee.calendar.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
+import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
@@ -54,6 +56,7 @@ public class FeeCalendarController {
     private final FeeCalendarService service;
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "FEE", action = Actions.READ)
     public Iterable<UserFeeCalendar> readAll(@PathVariable("year") final Integer year,
             final DtoFeeCalendarQueryRequest request, final Pageable pageable) {
         // TODO: Support full pagination
@@ -61,6 +64,7 @@ public class FeeCalendarController {
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "FEE", action = Actions.READ)
     public FeeCalendarRange readRange(final DtoFeeCalendarQueryRequest request) {
         return service.getRange(request.getOnlyActive());
     }

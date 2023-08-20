@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
@@ -49,7 +48,6 @@ public final class DefaultTransactionService implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Transaction create(final TransactionCreate transaction) {
@@ -67,7 +65,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
@@ -82,7 +79,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
@@ -102,7 +98,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Transaction> getOne(final long id) {
         final Optional<PersistentTransaction> found;
@@ -128,7 +123,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     public final TransactionRange getRange() {
         final Calendar min;
         final Calendar max;
@@ -167,7 +161,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Transaction update(final long id, final TransactionUpdate transaction) {

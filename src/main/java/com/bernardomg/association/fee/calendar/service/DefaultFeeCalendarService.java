@@ -3,7 +3,6 @@ package com.bernardomg.association.fee.calendar.service;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
@@ -21,7 +20,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     private final FeeCalendarRepository repository;
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:READ')")
     @Cacheable(cacheNames = CACHE)
     public final Iterable<UserFeeCalendar> getAll(final int year, final boolean onlyActive, final Sort sort) {
         final Iterable<UserFeeCalendar> result;
@@ -39,7 +37,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:READ')")
     public final FeeCalendarRange getRange(final boolean onlyActive) {
         final FeeCalendarRange range;
 

@@ -4,8 +4,8 @@ package com.bernardomg.security.user.validation;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bernardomg.security.user.authorization.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.model.UserRole;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;

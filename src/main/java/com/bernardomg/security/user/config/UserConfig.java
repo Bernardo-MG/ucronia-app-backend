@@ -30,9 +30,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.user.model.mapper.RoleMapper;
 import com.bernardomg.security.user.model.mapper.UserMapper;
+import com.bernardomg.security.user.model.mapper.UserRoleMapper;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
+import com.bernardomg.security.user.service.DefaultRoleService;
+import com.bernardomg.security.user.service.DefaultUserRoleService;
 import com.bernardomg.security.user.service.DefaultUserService;
+import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.service.UserRoleService;
 import com.bernardomg.security.user.service.UserService;
 
 /**
@@ -46,6 +54,18 @@ public class UserConfig {
 
     public UserConfig() {
         super();
+    }
+
+    @Bean("roleService")
+    public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo,
+            final RoleMapper roleMapper) {
+        return new DefaultRoleService(roleRepo, userRoleRepo, roleMapper);
+    }
+
+    @Bean("userRoleService")
+    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserRoleRepository userRoleRepo, final UserRoleMapper roleMapper) {
+        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo, roleMapper);
     }
 
     @Bean("userService")

@@ -30,10 +30,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.bernardomg.security.permission.model.mapper.ActionMapper;
+import com.bernardomg.security.permission.model.mapper.PermissionMapper;
+import com.bernardomg.security.permission.model.mapper.ResourceMapper;
+import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
+import com.bernardomg.security.permission.persistence.repository.ActionRepository;
+import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
+import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.permission.service.ActionService;
+import com.bernardomg.security.permission.service.DefaultActionService;
+import com.bernardomg.security.permission.service.DefaultResourceService;
+import com.bernardomg.security.permission.service.DefaultRolePermissionService;
 import com.bernardomg.security.permission.service.PermissionService;
+import com.bernardomg.security.permission.service.ResourceService;
+import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.permission.service.UserGrantedPermissionService;
 import com.bernardomg.security.permission.validation.UserDetailsServiceUserValidPredicate;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 
 /**
  * Security configuration.
@@ -48,6 +63,11 @@ public class PermissionConfig {
         super();
     }
 
+    @Bean("actionService")
+    public ActionService getActionService(final ActionRepository repository, final ActionMapper mapper) {
+        return new DefaultActionService(repository, mapper);
+    }
+
     @Bean("permissionService")
     public PermissionService getPermissionService(final UserGrantedPermissionRepository userPermsRepo,
             final UserDetailsService userDetService) {
@@ -55,6 +75,21 @@ public class PermissionConfig {
 
         usernameValid = new UserDetailsServiceUserValidPredicate(userDetService);
         return new UserGrantedPermissionService(userPermsRepo, usernameValid);
+    }
+
+    @Bean("resourceService")
+    public ResourceService getResourceService(final ResourceRepository repository, final ResourceMapper mapper) {
+        return new DefaultResourceService(repository, mapper);
+    }
+
+    @Bean("rolePermissionService")
+    public RolePermissionService getRolePermissionService(final RoleRepository roleRepo,
+            final ResourceRepository resourceRepo, final ActionRepository actionRepo,
+            final RolePermissionRepository roleActionsRepo,
+            final RoleGrantedPermissionRepository roleGrantedPermissionRepo, final RolePermissionMapper rolePermMapper,
+            final PermissionMapper permMapper) {
+        return new DefaultRolePermissionService(roleRepo, resourceRepo, actionRepo, roleActionsRepo,
+            roleGrantedPermissionRepo, rolePermMapper, permMapper);
     }
 
 }

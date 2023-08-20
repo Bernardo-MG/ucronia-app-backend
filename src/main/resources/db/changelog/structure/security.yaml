@@ -133,6 +133,7 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_resource_id
                     references: resources(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: action_id
                   type: bigint
@@ -140,6 +141,7 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_action_id
                     references: actions(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: granted
                   type: boolean
@@ -164,6 +166,7 @@ databaseChangeLog:
                     foreignKeyName: fk_user_roles_role_id
                     references: roles(id)
                     nullable: false
+                    deleteCascade: true
         - addUniqueConstraint:
             constraintName: role_permissions_unique
             tableName: role_permissions

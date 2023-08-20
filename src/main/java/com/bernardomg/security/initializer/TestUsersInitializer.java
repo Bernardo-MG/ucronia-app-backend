@@ -5,12 +5,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.user.authorization.persistence.model.PersistentRole;
-import com.bernardomg.security.user.authorization.persistence.model.PersistentUserRole;
-import com.bernardomg.security.user.authorization.persistence.repository.RoleRepository;
-import com.bernardomg.security.user.authorization.persistence.repository.UserRoleRepository;
+import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.model.PersistentUserRole;
+import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

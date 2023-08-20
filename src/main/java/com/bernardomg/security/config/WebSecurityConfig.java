@@ -34,7 +34,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.bernardomg.security.configuration.WhitelistRequestCustomizer;
+import com.bernardomg.security.config.customizer.WhitelistRequestCustomizer;
 import com.bernardomg.security.jwt.configuration.JwtSecurityConfigurer;
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.jwt.token.JwtTokenData;

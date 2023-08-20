@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,7 +137,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#userId") })
     public final void delete(final long userId) {
@@ -155,7 +153,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
@@ -177,7 +174,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<User> getOne(final long id) {
 
@@ -192,7 +188,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User registerNewUser(final UserCreate user) {
@@ -235,7 +230,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User update(final long id, final UserUpdate user) {
