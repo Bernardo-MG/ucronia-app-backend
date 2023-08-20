@@ -37,7 +37,8 @@ public final class AuthorizedResourceAspect {
         authorized = authValidator.isAuthorized(annotation.resource(), annotation.action());
 
         if (!authorized) {
-            log.debug("User is not authorized with action {} for resource {}", annotation.action(), annotation.resource());
+            log.debug("User is not authorized with action {} for resource {}", annotation.action(),
+                annotation.resource());
             // TODO: Use a better exception
             throw new AccessDeniedException("Missing authentication");
         }

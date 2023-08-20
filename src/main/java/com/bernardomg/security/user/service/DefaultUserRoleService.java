@@ -6,7 +6,6 @@ import java.util.Objects;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bernardomg.security.user.model.DtoUserRole;
 import com.bernardomg.security.user.model.Role;
@@ -51,7 +50,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
     public final UserRole addRole(final long userId, final long roleId) {
         final PersistentUserRole userRoleSample;
@@ -75,7 +73,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = ROLE_CACHE_NAME)
     public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
 
@@ -85,7 +82,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
     public final UserRole removeRole(final long userId, final long roleId) {
         final PersistentUserRole userRoleSample;

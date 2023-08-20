@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.Role;
@@ -58,7 +57,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Role create(final RoleCreate role) {
@@ -77,7 +75,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final Boolean delete(final long id) {
@@ -92,7 +89,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
@@ -106,7 +102,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Role> getOne(final long id) {
 
@@ -121,7 +116,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Role update(final long id, final RoleUpdate role) {

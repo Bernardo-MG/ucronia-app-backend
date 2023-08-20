@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.service.ActionService;
 import com.bernardomg.security.user.model.Action;
 import com.bernardomg.security.user.model.request.ValidatedActionQuery;
@@ -52,11 +53,13 @@ public class ActionController {
     private final ActionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ACTION", action = "READ")
     public Iterable<Action> readAll(@Valid final ValidatedActionQuery action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ACTION", action = "READ")
     public Action readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);

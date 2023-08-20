@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.user.model.RolePermission;
@@ -56,17 +57,20 @@ public class RolePermissionController {
     private final RolePermissionService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ROLE", action = "UPDATE")
     public RolePermission add(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedPermissionCreate permission) {
         return service.addPermission(id, permission.getResourceId(), permission.getActionId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ROLE", action = "READ")
     public Iterable<Permission> readAll(@PathVariable("id") final long id, final Pageable pageable) {
         return service.getPermissions(id, pageable);
     }
 
     @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ROLE", action = "UPDATE")
     public RolePermission remove(@PathVariable("id") final long id, @PathVariable("resource") final Long resource,
             @PathVariable("action") final Long action) {
         return service.removePermission(id, resource, action);

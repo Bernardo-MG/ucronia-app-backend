@@ -6,7 +6,6 @@ import java.util.Objects;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
@@ -60,7 +59,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final RolePermission addPermission(final long roleId, final long resourceId, final long actionId) {
         final PersistentRolePermission rolePermissionSample;
@@ -87,7 +85,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:READ')")
     @Cacheable(cacheNames = PERMISSION_CACHE_NAME)
     public final Iterable<Permission> getPermissions(final long roleId, final Pageable pageable) {
 
@@ -99,7 +96,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ROLE:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final RolePermission removePermission(final long roleId, final long resourceId, final long actionId) {
         final PersistentRolePermission rolePermissionSample;
