@@ -31,7 +31,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -140,9 +139,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
         return userPermsRepo.findAllByUserId(id)
             .stream()
-            .map(p -> p.getResource() + ":" + p.getAction())
+            .map(p -> new ResourceActionGrantedAuthority(p.getResource(), p.getAction()))
             .distinct()
-            .map(SimpleGrantedAuthority::new)
             .toList();
     }
 
