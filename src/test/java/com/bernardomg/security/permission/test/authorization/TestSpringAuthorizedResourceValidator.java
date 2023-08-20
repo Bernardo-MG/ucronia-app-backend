@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.permission.authorization.AuthorizedResourceValidator;
 import com.bernardomg.security.permission.authorization.SpringAuthorizedResourceValidator;
+import com.bernardomg.security.permission.userdetails.ResourceActionGrantedAuthority;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringAuthorizedResourceValidator")
@@ -34,6 +35,14 @@ class TestSpringAuthorizedResourceValidator {
 
     @SuppressWarnings("rawtypes")
     private final Collection getAuthorities() {
+        final ResourceActionGrantedAuthority authority;
+
+        authority = new ResourceActionGrantedAuthority("resource", "action");
+        return List.of(authority);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private final Collection getSimpleAuthorities() {
         final SimpleGrantedAuthority authority;
 
         authority = new SimpleGrantedAuthority("resource:action");
@@ -63,6 +72,15 @@ class TestSpringAuthorizedResourceValidator {
 
     private final void initializeNotAuthenticated() {
         given(authentication.isAuthenticated()).willReturn(false);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
+    }
+
+    @SuppressWarnings("unchecked")
+    private final void initializeSimpleAuthenticated() {
+        given(authentication.isAuthenticated()).willReturn(true);
+        given(authentication.getAuthorities()).willReturn(getSimpleAuthorities());
 
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
@@ -113,6 +131,19 @@ class TestSpringAuthorizedResourceValidator {
         final Boolean authorized;
 
         initializeNotAuthenticated();
+
+        authorized = validator.isAuthorized("resource", "action");
+
+        Assertions.assertThat(authorized)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("When using simple authorities the user is not authorized")
+    void testIsAuthorized_SimpleAuthorities() {
+        final Boolean authorized;
+
+        initializeSimpleAuthenticated();
 
         authorized = validator.isAuthorized("resource", "action");
 
