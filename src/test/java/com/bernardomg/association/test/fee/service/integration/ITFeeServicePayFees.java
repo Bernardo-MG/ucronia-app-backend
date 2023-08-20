@@ -50,7 +50,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Fee service - pay fees")
-@Sql({ "/db/queries/member/single.sql" })
 class ITFeeServicePayFees {
 
     @Autowired
@@ -67,8 +66,84 @@ class ITFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("When the user is inactive and a fee is created the fee is persisted")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    void testCreate_Inactive_PersistedFee() {
+        final FeesPayment   feeRequest;
+        final PersistentFee entity;
+
+        feeRequest = FeesCreate.valid();
+
+        service.payFees(feeRequest);
+
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
+        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(new GregorianCalendar(2020, 1, 1))
+            .paid(true)
+            .build());
+    }
+
+    @Test
+    @DisplayName("When the user is inactive and a fee is created a single transaction is persisted")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    void testCreate_Inactive_PersistedTransaction() {
+        final FeesPayment           feeRequest;
+        final PersistentTransaction entity;
+
+        feeRequest = FeesCreate.valid();
+
+        service.payFees(feeRequest);
+
+        entity = transactionRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(transactionRepository.count())
+            .isEqualTo(1);
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
+            .id(1L)
+            .date(new GregorianCalendar(2020, 0, 1))
+            .description("Fee paid")
+            .amount(1F)
+            .build());
+    }
+
+    @Test
+    @DisplayName("When the user is inactive and a a fee is created it returns the created data")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    void testCreate_Inactive_ReturnedData() {
+        final FeesPayment                     feeRequest;
+        final Collection<? extends MemberFee> fee;
+
+        feeRequest = FeesCreate.valid();
+
+        fee = service.payFees(feeRequest);
+
+        Assertions.assertThat(fee)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fee.iterator()
+            .next(),
+            DtoMemberFee.builder()
+                .id(1L)
+                .memberId(1L)
+                .memberName(null)
+                .date(new GregorianCalendar(2020, 1, 1))
+                .paid(true)
+                .build());
+    }
+
+    @Test
     @DisplayName("When a fee is created with multiple dates the data is persisted")
-    void testCreate_MultipleDates_PersistedData() {
+    @Sql({ "/db/queries/member/single.sql" })
+    void testCreate_MultipleDates_PersistedFee() {
         final FeesPayment feeRequest;
 
         feeRequest = FeesCreate.multipleDates();
@@ -86,7 +161,8 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is created with multiple dates a single transaction is persisted")
-    void testCreate_MultipleDates_PersistedData_PersistedTransaction() {
+    @Sql({ "/db/queries/member/single.sql" })
+    void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
@@ -109,8 +185,9 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created the data is persisted")
-    void testCreate_PersistedData() {
+    @DisplayName("When a fee is created the fee is persisted")
+    @Sql({ "/db/queries/member/single.sql" })
+    void testCreate_PersistedFee() {
         final FeesPayment   feeRequest;
         final PersistentFee entity;
 
@@ -134,6 +211,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is created a single transaction is persisted")
+    @Sql({ "/db/queries/member/single.sql" })
     void testCreate_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -157,7 +235,8 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("With new data it returns the created data")
+    @DisplayName("When a fee is created it returns the created data")
+    @Sql({ "/db/queries/member/single.sql" })
     void testCreate_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
