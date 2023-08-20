@@ -27,17 +27,17 @@ public final class AuthorizedResourceAspect {
     public final void before(final JoinPoint call) {
         final MethodSignature    signature;
         final Method             method;
-        final AuthorizedResource myAnnotation;
+        final AuthorizedResource annotation;
         final boolean            authorized;
 
         signature = (MethodSignature) call.getSignature();
         method = signature.getMethod();
 
-        myAnnotation = method.getAnnotation(AuthorizedResource.class);
-        authorized = authValidator.isAuthorized(myAnnotation.resource(), myAnnotation.action());
+        annotation = method.getAnnotation(AuthorizedResource.class);
+        authorized = authValidator.isAuthorized(annotation.resource(), annotation.action());
 
         if (!authorized) {
-            log.debug("User is not authorized with action {} for resource {}", myAnnotation.action(), myAnnotation.resource());
+            log.debug("User is not authorized with action {} for resource {}", annotation.action(), annotation.resource());
             // TODO: Use a better exception
             throw new AccessDeniedException("Missing authentication");
         }

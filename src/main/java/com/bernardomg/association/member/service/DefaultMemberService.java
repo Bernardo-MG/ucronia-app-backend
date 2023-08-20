@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.member.model.Member;
@@ -47,7 +46,6 @@ public final class DefaultMemberService implements MemberService {
     private final MemberRepository repository;
 
     @Override
-    @PreAuthorize("hasAuthority('MEMBER:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Member create(final MemberCreate member) {
@@ -67,7 +65,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MEMBER:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
@@ -84,7 +81,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MEMBER:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable) {
         final PersistentMember entity;
@@ -98,7 +94,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MEMBER:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Member> getOne(final long id) {
         final Optional<PersistentMember> found;
@@ -124,7 +119,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MEMBER:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Member update(final long id, final MemberUpdate member) {
