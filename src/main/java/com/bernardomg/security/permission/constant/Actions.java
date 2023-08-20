@@ -10,6 +10,8 @@ public final class Actions {
     public static final String READ   = "READ";
 
     public static final String UPDATE = "UPDATE";
+    
+    public static final String VIEW = "VIEW";
 
     private Actions() {
         super();
