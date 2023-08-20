@@ -26,4 +26,4 @@
  * User details components.
  */
 
-package com.bernardomg.security.userdetails;
+package com.bernardomg.security.permission.userdetails;

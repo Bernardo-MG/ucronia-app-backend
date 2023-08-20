@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.userdetails;
+package com.bernardomg.security.permission.userdetails;
 
 import java.util.Collection;
 import java.util.List;
