@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.permission.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -45,6 +46,7 @@ public class PermissionAspectConfig {
     }
 
     @Bean("authorizedResourceAspect")
+    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
     public AuthorizedResourceAspect getAuthorizedResourceAspect() {
         final AuthorizedResourceValidator validator;
 
