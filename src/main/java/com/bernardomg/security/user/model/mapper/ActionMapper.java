@@ -4,7 +4,7 @@ package com.bernardomg.security.user.model.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.bernardomg.security.user.authorization.persistence.model.PersistentAction;
+import com.bernardomg.security.permission.persistence.model.PersistentAction;
 import com.bernardomg.security.user.model.DtoAction;
 import com.bernardomg.security.user.model.request.ActionQuery;
 
