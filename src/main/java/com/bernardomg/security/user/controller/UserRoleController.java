@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.request.ValidatedUserRoleAdd;
@@ -57,19 +58,19 @@ public class UserRoleController {
     private final UserRoleService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = "UPDATE")
+    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
     public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
         return service.addRole(id, role.getId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = "READ")
+    @AuthorizedResource(resource = "USER", action = Actions.READ)
     public Iterable<Role> readAll(@PathVariable("id") final long id, final Pageable pageable) {
         return service.getRoles(id, pageable);
     }
 
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = "UPDATE")
+    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
     public UserRole remove(@PathVariable("id") final long id, @PathVariable("role") final Long role) {
         return service.removeRole(id, role);
     }

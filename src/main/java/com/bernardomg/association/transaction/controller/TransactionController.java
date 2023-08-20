@@ -44,6 +44,7 @@ import com.bernardomg.association.transaction.model.request.ValidatedTransaction
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionUpdate;
 import com.bernardomg.association.transaction.service.TransactionService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -66,38 +67,38 @@ public class TransactionController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "TRANSACTION", action = "CREATE")
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.CREATE)
     public Transaction create(@Valid @RequestBody final ValidatedTransactionCreate transaction) {
         return service.create(transaction);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = "DELETE")
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.DELETE)
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = "READ")
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
     public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = "READ")
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
     public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = "READ")
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
     public TransactionRange readRange() {
         return service.getRange();
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = "UPDATE")
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.UPDATE)
     public Transaction update(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedTransactionUpdate transaction) {
         return service.update(id, transaction);

@@ -21,19 +21,17 @@ public final class ResourceActionGrantedAuthority implements GrantedAuthority {
         this.action = action;
     }
 
-    
-    public  final String getAction() {
+    public final String getAction() {
         return action;
-    }
-
-    
-    public  final String getResource() {
-        return resource;
     }
 
     @Override
     public final String getAuthority() {
         return toString();
+    }
+
+    public final String getResource() {
+        return resource;
     }
 
     @Override

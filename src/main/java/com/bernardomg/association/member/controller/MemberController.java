@@ -43,6 +43,7 @@ import com.bernardomg.association.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.member.model.request.ValidatedMemberUpdate;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -65,32 +66,32 @@ public class MemberController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "MEMBER", action = "CREATE")
+    @AuthorizedResource(resource = "MEMBER", action = Actions.CREATE)
     public Member create(@Valid @RequestBody final ValidatedMemberCreate member) {
         return service.create(member);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "MEMBER", action = "DELETE")
+    @AuthorizedResource(resource = "MEMBER", action = Actions.DELETE)
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "MEMBER", action = "READ")
+    @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
     public Iterable<Member> readAll(@Valid final ValidatedMemberQuery member, final Pageable pageable) {
         return service.getAll(member, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "MEMBER", action = "READ")
+    @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
     public Member readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "MEMBER", action = "UPDATE")
+    @AuthorizedResource(resource = "MEMBER", action = Actions.UPDATE)
     public Member update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedMemberUpdate member) {
         return service.update(id, member);
     }

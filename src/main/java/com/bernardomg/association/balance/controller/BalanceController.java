@@ -35,6 +35,7 @@ import com.bernardomg.association.balance.model.Balance;
 import com.bernardomg.association.balance.model.MonthlyBalance;
 import com.bernardomg.association.balance.service.BalanceService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
@@ -52,7 +53,7 @@ public class BalanceController {
     private final BalanceService service;
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "BALANCE", action = "READ")
+    @AuthorizedResource(resource = "BALANCE", action = Actions.READ)
     public Collection<? extends MonthlyBalance> readMonthlyBalance() {
         return service.getMonthlyBalance();
     }
