@@ -90,6 +90,7 @@ public final class DefaultRoleService implements RoleService {
 
         validatorDeleteRole.validate(id);
 
+        // TODO: use delete in cascade
         rolePermissionRepository.deleteAllByRoleId(id);
         roleRepository.deleteById(id);
 

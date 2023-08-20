@@ -30,7 +30,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.bernardomg.security.permission.model.mapper.ActionMapper;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
+import com.bernardomg.security.permission.model.mapper.ResourceMapper;
+import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
 import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
@@ -45,9 +48,6 @@ import com.bernardomg.security.permission.service.ResourceService;
 import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.permission.service.UserGrantedPermissionService;
 import com.bernardomg.security.permission.validation.UserDetailsServiceUserValidPredicate;
-import com.bernardomg.security.user.model.mapper.ActionMapper;
-import com.bernardomg.security.user.model.mapper.ResourceMapper;
-import com.bernardomg.security.user.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 
 /**

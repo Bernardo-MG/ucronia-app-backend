@@ -58,9 +58,9 @@ public class UserConfig {
     }
 
     @Bean("roleService")
-    public RoleService getRoleService(final RoleRepository roleRepo, final RolePermissionRepository roleActionsRepo,
+    public RoleService getRoleService(final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo,
             final UserRoleRepository userRoleRepo, final RoleMapper roleMapper) {
-        return new DefaultRoleService(roleRepo, roleActionsRepo, userRoleRepo, roleMapper);
+        return new DefaultRoleService(roleRepo, rolePermissionRepo, userRoleRepo, roleMapper);
     }
 
     @Bean("userRoleService")

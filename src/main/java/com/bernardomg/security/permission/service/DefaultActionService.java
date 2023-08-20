@@ -8,10 +8,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.bernardomg.security.permission.model.mapper.ActionMapper;
 import com.bernardomg.security.permission.persistence.model.PersistentAction;
 import com.bernardomg.security.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.model.Action;
-import com.bernardomg.security.user.model.mapper.ActionMapper;
 import com.bernardomg.security.user.model.request.ActionQuery;
 
 import lombok.extern.slf4j.Slf4j;

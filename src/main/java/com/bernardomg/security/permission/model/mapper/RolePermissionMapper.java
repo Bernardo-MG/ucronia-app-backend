@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.model.mapper;
+package com.bernardomg.security.permission.model.mapper;
 
 import org.mapstruct.Mapper;
 

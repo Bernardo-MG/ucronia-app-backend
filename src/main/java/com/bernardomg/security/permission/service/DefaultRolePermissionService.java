@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
+import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
@@ -18,7 +19,6 @@ import com.bernardomg.security.permission.persistence.repository.RolePermissionR
 import com.bernardomg.security.permission.validation.AddRolePermissionValidator;
 import com.bernardomg.security.user.model.DtoRolePermission;
 import com.bernardomg.security.user.model.RolePermission;
-import com.bernardomg.security.user.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 
