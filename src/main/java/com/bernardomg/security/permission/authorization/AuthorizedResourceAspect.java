@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.security.access.AccessDeniedException;
 
 @Aspect
 public final class AuthorizedResourceAspect {
@@ -34,7 +35,7 @@ public final class AuthorizedResourceAspect {
 
         if (!authorized) {
             // TODO: Use a better exception
-            throw new RuntimeException();
+            throw new AccessDeniedException("Missing authentication");
         }
     }
 
