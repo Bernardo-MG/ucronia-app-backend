@@ -50,8 +50,7 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
                     && resourceAuthority.getAction()
                         .equals(action);
         } else {
-            valid = String.format("%s:%s", resource, action)
-                .equals(authority.getAuthority());
+            valid = false;
         }
 
         return valid;
