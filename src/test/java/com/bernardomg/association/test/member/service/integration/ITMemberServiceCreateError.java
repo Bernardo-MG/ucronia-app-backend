@@ -56,24 +56,6 @@ class ITMemberServiceCreateError {
     }
 
     @Test
-    @DisplayName("With a missing active flag it throws an exception")
-    void testCreate_MissingActive() {
-        final MemberCreate     memberRequest;
-        final ThrowingCallable execution;
-
-        memberRequest = MembersCreate.missingActive();
-
-        execution = () -> {
-            service.create(memberRequest);
-            repository.flush();
-        };
-
-        // TODO: Shouldn't this be a validation error?
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(DataIntegrityViolationException.class);
-    }
-
-    @Test
     @DisplayName("With a missing identifier it throws an exception")
     void testCreate_MissingIdentifier() {
         final MemberCreate     memberRequest;

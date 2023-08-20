@@ -58,6 +58,8 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Phone and identifier should be unique or empty
 
         entity = mapper.toEntity(member);
+        // Active by default
+        entity.setActive(true);
 
         created = repository.save(entity);
 

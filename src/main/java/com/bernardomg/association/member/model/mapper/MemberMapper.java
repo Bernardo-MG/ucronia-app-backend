@@ -16,6 +16,7 @@ public interface MemberMapper {
     public DtoMember toDto(final PersistentMember entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "active", ignore = true)
     public PersistentMember toEntity(final MemberCreate data);
 
     @Mapping(target = "id", ignore = true)
