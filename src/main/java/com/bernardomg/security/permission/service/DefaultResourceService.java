@@ -27,11 +27,11 @@ public final class DefaultResourceService implements ResourceService {
 
     private final ResourceRepository repository;
 
-    public DefaultResourceService(final ResourceMapper mapper, final ResourceRepository repository) {
+    public DefaultResourceService(final ResourceRepository repository, final ResourceMapper mapper) {
         super();
 
-        this.mapper = mapper;
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override

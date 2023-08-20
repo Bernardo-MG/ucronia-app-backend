@@ -78,8 +78,8 @@ public class PermissionConfig {
     }
 
     @Bean("resourceService")
-    public ResourceService getResourceService(final ResourceMapper mapper, final ResourceRepository repository) {
-        return new DefaultResourceService(mapper, repository);
+    public ResourceService getResourceService(final ResourceRepository repository, final ResourceMapper mapper) {
+        return new DefaultResourceService(repository, mapper);
     }
 
     @Bean("rolePermissionService")
