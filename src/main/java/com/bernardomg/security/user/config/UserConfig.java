@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.model.mapper.RoleMapper;
 import com.bernardomg.security.user.model.mapper.UserMapper;
@@ -58,9 +57,9 @@ public class UserConfig {
     }
 
     @Bean("roleService")
-    public RoleService getRoleService(final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo,
-            final UserRoleRepository userRoleRepo, final RoleMapper roleMapper) {
-        return new DefaultRoleService(roleRepo, rolePermissionRepo, userRoleRepo, roleMapper);
+    public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo,
+            final RoleMapper roleMapper) {
+        return new DefaultRoleService(roleRepo, userRoleRepo, roleMapper);
     }
 
     @Bean("userRoleService")

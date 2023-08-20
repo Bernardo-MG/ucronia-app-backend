@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.mapper.RoleMapper;
 import com.bernardomg.security.user.model.request.RoleCreate;
@@ -32,28 +31,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultRoleService implements RoleService {
 
-    private static final String            CACHE_MULTIPLE = "security_roles";
+    private static final String         CACHE_MULTIPLE = "security_roles";
 
-    private static final String            CACHE_SINGLE   = "security_role";
+    private static final String         CACHE_SINGLE   = "security_role";
 
-    private final RoleMapper               mapper;
+    private final RoleMapper            mapper;
 
-    private final RolePermissionRepository rolePermissionRepository;
+    private final RoleRepository        roleRepository;
 
-    private final RoleRepository           roleRepository;
+    private final Validator<RoleCreate> validatorCreateRole;
 
-    private final Validator<RoleCreate>    validatorCreateRole;
+    private final Validator<Long>       validatorDeleteRole;
 
-    private final Validator<Long>          validatorDeleteRole;
+    private final Validator<RoleUpdate> validatorUpdateRole;
 
-    private final Validator<RoleUpdate>    validatorUpdateRole;
-
-    public DefaultRoleService(final RoleRepository roleRepo, final RolePermissionRepository roleActionsRepo,
-            final UserRoleRepository userRoleRepo, final RoleMapper roleMapper) {
+    public DefaultRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo,
+            final RoleMapper roleMapper) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
-        rolePermissionRepository = Objects.requireNonNull(roleActionsRepo);
         mapper = Objects.requireNonNull(roleMapper);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
@@ -90,8 +86,6 @@ public final class DefaultRoleService implements RoleService {
 
         validatorDeleteRole.validate(id);
 
-        // TODO: use delete in cascade
-        rolePermissionRepository.deleteAllByRoleId(id);
         roleRepository.deleteById(id);
 
         return true;
