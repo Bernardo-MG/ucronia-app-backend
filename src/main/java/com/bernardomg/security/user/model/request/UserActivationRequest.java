@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.user.model.request;
 
+import com.bernardomg.validation.constraint.StrongPassword;
+
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -17,6 +19,7 @@ public class UserActivationRequest {
      * The new password.
      */
     @NotEmpty
+    @StrongPassword
     private String password;
 
 }
