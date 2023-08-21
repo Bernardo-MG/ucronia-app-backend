@@ -1,3 +1,4 @@
+
 package com.bernardomg.validation.constraint;
 
 import java.lang.annotation.Documented;
@@ -15,9 +16,9 @@ import jakarta.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StrongPassword {
 
-    String message() default "Invalid Password";
-
     Class<?>[] groups() default {};
+
+    String message() default "Invalid Password";
 
     Class<? extends Payload>[] payload() default {};
 

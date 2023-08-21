@@ -1,9 +1,9 @@
 
 package com.bernardomg.security.password.change.service;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +17,8 @@ import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +51,11 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     }
 
     @Override
-    public final void changePasswordForUserInSession(final String currentPassword, final String newPassword) {
+    public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
         final PersistentUser userEntity;
         final String         encodedPassword;
         final String         username;
+        final UserDetails    userDetails;
 
         username = getCurrentUsername();
 
@@ -60,8 +63,13 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         userEntity = getUser(username);
 
+        // TODO: Avoid this second query
+        userDetails = userDetailsService.loadUserByUsername(username);
+
+        validatePassword(userDetails, oldPassword);
+
         // Make sure the user can change the password
-        authorizePasswordChange(username, currentPassword);
+        authorizePasswordChange(userDetails);
 
         encodedPassword = passwordEncoder.encode(newPassword);
         userEntity.setPassword(encodedPassword);
@@ -74,41 +82,26 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     /**
      * Authenticates the password change attempt. If the user is not authenticated, then an exception is thrown.
      *
-     * @param username
-     *            username for which the password is changed
-     * @param currentPassword
-     *            current user's password
+     * @param user
+     *            user for which the password is changed
      */
-    private final void authorizePasswordChange(final String username, final String currentPassword) {
-        final UserDetails userDetails;
-
-        // TODO: Avoid this second query
-        userDetails = userDetailsService.loadUserByUsername(username);
-
-        // Verify the current password matches the original one
-        if (!passwordEncoder.matches(currentPassword, userDetails.getPassword())) {
-            log.warn("Received a password which doesn't match the one stored for username {}",
-                userDetails.getUsername());
-            throw new BadCredentialsException(String
-                .format("Received a password which doesn't match the one stored for %s", userDetails.getUsername()));
-        }
-
+    private final void authorizePasswordChange(final UserDetails user) {
         // TODO: This should be contained in a common class
-        if (!userDetails.isAccountNonExpired()) {
-            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
-            throw new UserExpiredException(userDetails.getUsername());
+        if (!user.isAccountNonExpired()) {
+            log.error("Can't reset password. User {} is expired", user.getUsername());
+            throw new UserExpiredException(user.getUsername());
         }
-        if (!userDetails.isAccountNonLocked()) {
-            log.error("Can't reset password. User {} is locked", userDetails.getUsername());
-            throw new UserLockedException(userDetails.getUsername());
+        if (!user.isAccountNonLocked()) {
+            log.error("Can't reset password. User {} is locked", user.getUsername());
+            throw new UserLockedException(user.getUsername());
         }
-        if (!userDetails.isCredentialsNonExpired()) {
-            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
-            throw new UserExpiredException(userDetails.getUsername());
+        if (!user.isCredentialsNonExpired()) {
+            log.error("Can't reset password. User {} is expired", user.getUsername());
+            throw new UserExpiredException(user.getUsername());
         }
-        if (!userDetails.isEnabled()) {
-            log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
-            throw new UserDisabledException(userDetails.getUsername());
+        if (!user.isEnabled()) {
+            log.error("Can't reset password. User {} is disabled", user.getUsername());
+            throw new UserDisabledException(user.getUsername());
         }
     }
 
@@ -136,6 +129,18 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         }
 
         return user.get();
+    }
+
+    private final void validatePassword(final UserDetails userDetails, final String oldPassword) {
+        final FieldFailure failure;
+
+        // Verify the current password matches the original one
+        if (!passwordEncoder.matches(oldPassword, userDetails.getPassword())) {
+            log.warn("Received a password which doesn't match the one stored for username {}",
+                userDetails.getUsername());
+            failure = FieldFailure.of("oldPassword", "notMatch", oldPassword);
+            throw new FieldFailureException(List.of(failure));
+        }
     }
 
 }
