@@ -24,8 +24,10 @@
 
 package com.bernardomg.security.email.sender;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import com.bernardomg.email.EmailSender;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -39,62 +41,78 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
-    private final String         fromEmail;
+    private final EmailSender          emailService;
 
-    private final JavaMailSender mailSender;
+    private final String               passwordRecoverySubject = "Password recovery";
 
-    private final String         passwordRecoverySubject = "Password recovery";
+    private final String               passwordRecoveryUrl;
 
-    private final String         passwordRecoveryText    = "Visit %s to reset password";
+    private final SpringTemplateEngine templateEngine;
 
-    private final String         passwordRecoveryUrl;
+    private final String               userRegisteredSubject   = "User registered";
 
-    private final String         signUpSubject           = "";
+    private final String               userRegisteredUrl;
 
-    private final String         signUpText              = "";
-
-    public SpringMailSecurityEmailSender(@NonNull final String from, @NonNull final String passRecoveryUrl,
-            @NonNull final JavaMailSender mSender) {
+    public SpringMailSecurityEmailSender(@NonNull final SpringTemplateEngine templateEng,
+            @NonNull final String passRecoveryUrl, @NonNull final String userRegUrl, final EmailSender emailServ) {
         super();
 
-        fromEmail = from;
-        mailSender = mSender;
+        templateEngine = templateEng;
+        userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
+        emailService = emailServ;
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String token) {
-        final SimpleMailMessage message;
-        final String            recoveryUrl;
-        final String            passwordRecoveryEmailText;
+    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
+        final String recoveryUrl;
+        final String passwordRecoveryEmailText;
 
-        if (passwordRecoveryUrl.endsWith("/")) {
-            recoveryUrl = String.format("%s%s", passwordRecoveryUrl, token);
+        log.debug("Sending password recovery email to {} for {}", email, username);
+
+        recoveryUrl = generateUrl(passwordRecoveryUrl, token);
+        passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
+
+        emailService.sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
+
+        log.debug("Sent password recovery email to {} for {}", email, username);
+    }
+
+    @Override
+    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
+        final String recoveryUrl;
+        final String userRegisteredEmailText;
+
+        log.debug("Sending user registered email to {} for {}", email, username);
+
+        recoveryUrl = generateUrl(userRegisteredUrl, token);
+        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
+
+        // TODO: Send template name and parameters
+        emailService.sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
+
+        log.debug("Sent user registered email to {} for {}", email, username);
+    }
+
+    private final String generateEmailContent(final String templateName, final String url, final String username) {
+        final Context context;
+
+        context = new Context();
+        context.setVariable("url", url);
+        context.setVariable("username", username);
+        return templateEngine.process(templateName, context);
+    }
+
+    private final String generateUrl(final String baseUrl, final String token) {
+        final String url;
+
+        if (baseUrl.endsWith("/")) {
+            url = baseUrl + token;
         } else {
-            recoveryUrl = String.format("%s/%s", passwordRecoveryUrl, token);
+            url = baseUrl + "/" + token;
         }
-        passwordRecoveryEmailText = String.format(passwordRecoveryText, recoveryUrl);
 
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(passwordRecoverySubject);
-        message.setText(passwordRecoveryEmailText);
-        mailSender.send(message);
-
-        log.debug("Sent password recovery email to {}", email);
-    }
-
-    @Override
-    public final void sendSignUpMessage(final String username, final String email) {
-        final SimpleMailMessage message;
-
-        message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject(signUpSubject);
-        message.setText(signUpText);
-        mailSender.send(message);
+        return url;
     }
 
 }

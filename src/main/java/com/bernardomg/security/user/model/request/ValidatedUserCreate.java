@@ -19,22 +19,16 @@ public final class ValidatedUserCreate implements UserCreate {
      */
     @NotNull
     @Email
-    private String  email;
-
-    /**
-     * User enabled flag.
-     */
-    @NotNull
-    private Boolean enabled;
+    private String email;
 
     /**
      * User name.
      */
-    private String  name;
+    private String name;
 
     /**
      * User username.
      */
-    private String  username;
+    private String username;
 
 }

@@ -29,10 +29,13 @@ import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
+import com.bernardomg.security.token.model.ImmutableTokenStatus;
+import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -77,11 +80,6 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PasswordEncoder       passwordEncoder;
 
     /**
-     * User repository.
-     */
-    private final UserRepository        repository;
-
-    /**
      * Token scope for reseting passwords.
      */
     private final String                tokenScope;
@@ -96,32 +94,37 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final UserDetailsService    userDetailsService;
 
+    /**
+     * User repository.
+     */
+    private final UserRepository        userRepository;
+
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore tProcessor, @NonNull final PasswordEncoder passEncoder, final String scope) {
+            @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder, @NonNull final String scope) {
         super();
 
-        repository = repo;
+        userRepository = repo;
         userDetailsService = userDetsService;
         messageSender = mSender;
-        tokenStore = tProcessor;
+        tokenStore = tStore;
         passwordEncoder = passEncoder;
         tokenScope = scope;
     }
 
     @Override
+    @Transactional
     public final void changePassword(final String token, final String password) {
         final String         username;
         final PersistentUser user;
         final String         encodedPassword;
 
-        // TODO: User a token validator which takes care of the exceptions
+        // TODO: Use a token validator which takes care of the exceptions
         if (!tokenStore.exists(token, tokenScope)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
-        // TODO: Validate scope
         if (!tokenStore.isValid(token, tokenScope)) {
             // TODO: Throw an exception for each possible case
             log.error("Token expired: {}", token);
@@ -139,14 +142,14 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
 
-        repository.save(user);
+        userRepository.save(user);
         tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);
     }
 
     @Override
-    public final void startPasswordRecovery(final String email) {
+    public final void startPasswordReset(final String email) {
         final PersistentUser user;
         final String         token;
 
@@ -162,18 +165,27 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Revoke previous tokens
         tokenStore.revokeExistingTokens(user.getId(), tokenScope);
 
+        // Register new token
         token = tokenStore.createToken(user.getId(), user.getUsername(), tokenScope);
 
         // TODO: Handle through events
-        messageSender.sendPasswordRecoveryMessage(user.getEmail(), token);
+        messageSender.sendPasswordRecoveryMessage(user.getEmail(), user.getUsername(), token);
 
         log.debug("Finished password recovery request for {}", email);
     }
 
     @Override
-    public final boolean validateToken(final String token) {
-        // TODO: Validate scope
-        return tokenStore.isValid(token, tokenScope);
+    public final TokenStatus validateToken(final String token) {
+        final boolean valid;
+        final String  username;
+
+        valid = tokenStore.isValid(token, tokenScope);
+        username = tokenStore.getUsername(token);
+
+        return ImmutableTokenStatus.builder()
+            .valid(valid)
+            .username(username)
+            .build();
     }
 
     /**
@@ -210,7 +222,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PersistentUser getUserByEmail(final String email) {
         final Optional<PersistentUser> user;
 
-        user = repository.findOneByEmail(email);
+        user = userRepository.findOneByEmail(email);
 
         // Validate the user exists
         if (!user.isPresent()) {
@@ -224,7 +236,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PersistentUser getUserByUsername(final String username) {
         final Optional<PersistentUser> user;
 
-        user = repository.findOneByUsername(username);
+        user = userRepository.findOneByUsername(username);
 
         // Validate the user exists
         if (!user.isPresent()) {

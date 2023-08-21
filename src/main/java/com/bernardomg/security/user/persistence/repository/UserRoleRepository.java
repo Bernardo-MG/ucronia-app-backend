@@ -37,4 +37,6 @@ import com.bernardomg.security.user.persistence.model.UserRoleKey;
  */
 public interface UserRoleRepository extends JpaRepository<PersistentUserRole, UserRoleKey> {
 
+    public void deleteAllByUserId(final Long userId);
+
 }

@@ -12,7 +12,6 @@ public final class MembersCreate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build();
     }
 
@@ -22,16 +21,6 @@ public final class MembersCreate {
             .surname("Surname 2")
             .phone("12345 2")
             .identifier("6789 2")
-            .active(true)
-            .build();
-    }
-
-    public static final MemberCreate missingActive() {
-        return ValidatedMemberCreate.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
             .build();
     }
 
@@ -40,7 +29,6 @@ public final class MembersCreate {
             .name("Member")
             .surname("Surname")
             .phone("12345")
-            .active(true)
             .build();
     }
 
@@ -49,7 +37,6 @@ public final class MembersCreate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build();
     }
 
@@ -58,7 +45,6 @@ public final class MembersCreate {
             .name("Member")
             .surname("Surname")
             .identifier("6789")
-            .active(true)
             .build();
     }
 
@@ -67,7 +53,6 @@ public final class MembersCreate {
             .name("Member")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build();
     }
 

@@ -70,7 +70,7 @@ class TestPasswordChangeServiceAuth {
             .setAuthentication(null);
     }
 
-    private final void initializeNotAuthentication() {
+    private final void initializeNotAuthenticated() {
         given(authentication.isAuthenticated()).willReturn(false);
 
         SecurityContextHolder.getContext()
@@ -244,7 +244,7 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        initializeNotAuthentication();
+        initializeNotAuthenticated();
 
         executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 

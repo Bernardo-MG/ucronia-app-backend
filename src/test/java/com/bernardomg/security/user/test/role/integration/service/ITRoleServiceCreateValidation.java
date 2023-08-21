@@ -9,7 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.request.RoleCreate;
 import com.bernardomg.security.user.service.RoleService;
-import com.bernardomg.security.user.test.util.model.RolesCreate;
+import com.bernardomg.security.user.test.role.util.model.RolesCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;

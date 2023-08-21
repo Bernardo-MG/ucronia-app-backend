@@ -29,9 +29,23 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties(prefix = "security.email")
+@ConfigurationProperties(prefix = "email.security")
 public final class SecurityEmailProperties {
 
-    private String passwordRecoveryUrl;
+    @Data
+    public final class ActivateUserProperties {
+
+        private String url;
+    }
+
+    @Data
+    public final class PasswordRecoveryProperties {
+
+        private String url;
+    }
+
+    private ActivateUserProperties     activateUser     = new ActivateUserProperties();
+
+    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
 
 }

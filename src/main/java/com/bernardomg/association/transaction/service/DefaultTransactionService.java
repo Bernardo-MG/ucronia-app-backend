@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
@@ -27,6 +26,7 @@ import com.bernardomg.association.transaction.persistence.repository.Transaction
 import com.bernardomg.exception.InvalidIdException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default implementation of the transaction service.
@@ -36,6 +36,7 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
     private static final String         CACHE_MULTIPLE = "fees";
@@ -47,12 +48,13 @@ public final class DefaultTransactionService implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:CREATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Transaction create(final TransactionCreate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
+
+        log.debug("Creating transaction {}", transaction);
 
         entity = mapper.toEntity(transaction);
         entity.setId(null);
@@ -63,10 +65,12 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
+
+        log.debug("Deleting transaction {}", id);
+
         if (!repository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
         }
@@ -75,11 +79,12 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
+
+        log.debug("Reading members with sample {} and pagination {}", request, pageable);
 
         spec = TransactionSpecifications.fromRequest(request);
 
@@ -93,12 +98,13 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Transaction> getOne(final long id) {
         final Optional<PersistentTransaction> found;
         final Optional<Transaction>           result;
         final Transaction                     data;
+
+        log.debug("Reading member with id {}", id);
 
         if (!repository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
@@ -117,7 +123,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:READ')")
     public final TransactionRange getRange() {
         final Calendar min;
         final Calendar max;
@@ -125,6 +130,8 @@ public final class DefaultTransactionService implements TransactionService {
         final Integer  startYear;
         final Integer  endMonth;
         final Integer  endYear;
+
+        log.debug("Reading the transactions range");
 
         min = repository.findMinDate();
         max = repository.findMaxDate();
@@ -154,12 +161,13 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('TRANSACTION:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Transaction update(final long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
+
+        log.debug("Updating transactin with id {} using data {}", id, transaction);
 
         if (!repository.existsById(id)) {
             throw new InvalidIdException("transaction", id);

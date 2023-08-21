@@ -6,8 +6,6 @@ import java.util.Objects;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.security.user.model.DtoUserRole;
 import com.bernardomg.security.user.model.Role;
@@ -17,10 +15,12 @@ import com.bernardomg.security.user.persistence.model.PersistentUserRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.user.validation.user.AddUserRoleValidator;
+import com.bernardomg.security.user.validation.AddUserRoleValidator;
 import com.bernardomg.validation.Validator;
 
-@Service
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
     private static final String       PERMISSION_SET_CACHE_NAME = "security_permission_set";
@@ -50,20 +50,21 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
-    public final UserRole addRole(final long id, final long role) {
+    public final UserRole addRole(final long userId, final long roleId) {
         final PersistentUserRole userRoleSample;
         final UserRole           userRole;
         final PersistentUserRole created;
 
+        log.debug("Adding role {} to user {}", roleId, userId);
+
         userRole = DtoUserRole.builder()
-            .userId(id)
-            .roleId(role)
+            .userId(userId)
+            .roleId(roleId)
             .build();
         validatorAddUserRole.validate(userRole);
 
-        userRoleSample = getUserRoleSample(id, role);
+        userRoleSample = getUserRoleSample(userId, roleId);
 
         // Persist relationship
         created = userRoleRepository.save(userRoleSample);
@@ -72,26 +73,29 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:READ')")
     @Cacheable(cacheNames = ROLE_CACHE_NAME)
-    public final Iterable<Role> getRoles(final long id, final Pageable pageable) {
-        return roleRepository.findForUser(id, pageable);
+    public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
+
+        log.debug("Getting roles for user {} and pagination {}", userId, pageable);
+
+        return roleRepository.findForUser(userId, pageable);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:UPDATE')")
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
-    public final UserRole removeRole(final long id, final long role) {
+    public final UserRole removeRole(final long userId, final long roleId) {
         final PersistentUserRole userRoleSample;
         final UserRole           userRole;
 
+        log.debug("Removing role {} from user {}", roleId, userId);
+
         userRole = DtoUserRole.builder()
-            .userId(id)
-            .roleId(role)
+            .userId(userId)
+            .roleId(roleId)
             .build();
         validatorRemoveUserRole.validate(userRole);
 
-        userRoleSample = getUserRoleSample(id, role);
+        userRoleSample = getUserRoleSample(userId, roleId);
 
         // Persist relationship
         userRoleRepository.delete(userRoleSample);

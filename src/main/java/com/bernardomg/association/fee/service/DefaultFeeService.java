@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,10 +80,12 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:DELETE')")
     @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true),
             @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
+
+        log.debug("Deleting fee {}", id);
+
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException("fee", id);
         }
@@ -93,13 +94,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:READ')")
     @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<MemberFee> getAll(final FeeQuery request, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
         // TODO: Test repository
         // TODO: Test reading with no name or surname
+
+        log.debug("Reading fees with sample {} and pagination {}", request, pageable);
 
         spec = MemberFeeSpecifications.fromRequest(request);
 
@@ -113,11 +115,12 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:READ')")
     @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
+
+        log.debug("Reading fee with id {}", id);
 
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException("fee", id);
@@ -137,7 +140,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:CREATE')")
     @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
     @Transactional
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
@@ -180,20 +182,21 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('FEE:UPDATE')")
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
-    public final MemberFee update(final long id, final FeeUpdate form) {
+    public final MemberFee update(final long id, final FeeUpdate fee) {
         final PersistentFee entity;
         final PersistentFee created;
+
+        log.debug("Updating fee with id {} using data {}", id, fee);
 
         if (!feeRepository.existsById(id)) {
             throw new InvalidIdException("fee", id);
         }
 
-        validatorUpdate.validate(form);
+        validatorUpdate.validate(fee);
 
-        entity = mapper.toEntity(form);
+        entity = mapper.toEntity(fee);
         entity.setId(id);
 
         created = feeRepository.save(entity);

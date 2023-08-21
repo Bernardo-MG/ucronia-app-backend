@@ -15,7 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.permission.persistence.model.PersistentRoleGrantedPermission;
 import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
-import com.bernardomg.security.user.test.util.assertion.RoleGrantedPermissionAssertions;
+import com.bernardomg.security.permission.test.util.assertion.RoleGrantedPermissionAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -30,13 +30,13 @@ public final class UserGrantedPermissionService implements PermissionService {
 
     private final Predicate<String>               isValid;
 
-    private final UserGrantedPermissionRepository userPermsRepository;
+    private final UserGrantedPermissionRepository repository;
 
     public UserGrantedPermissionService(final UserGrantedPermissionRepository userPermsRepo,
             final Predicate<String> usernameValid) {
         super();
 
-        userPermsRepository = userPermsRepo;
+        repository = userPermsRepo;
         isValid = usernameValid;
     }
 
@@ -70,7 +70,7 @@ public final class UserGrantedPermissionService implements PermissionService {
         actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value
-        return userPermsRepository.findAllByUsername(username)
+        return repository.findAllByUsername(username)
             .stream()
             .collect(Collectors.groupingBy(resourceMapper, Collectors.mapping(actionMapper, Collectors.toList())));
     }

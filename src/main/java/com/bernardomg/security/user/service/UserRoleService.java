@@ -11,34 +11,34 @@ public interface UserRoleService {
     /**
      * Adds a role to a user.
      *
-     * @param id
+     * @param userId
      *            user id
-     * @param role
+     * @param roleId
      *            role id to add
      * @return the added role
      */
-    public UserRole addRole(final long id, final long role);
+    public UserRole addRole(final long userId, final long roleId);
 
     /**
      * Returns all the roles for the user.
      *
-     * @param id
+     * @param userId
      *            user id
      * @param pageable
      *            pagination to apply
      * @return roles for the rules
      */
-    public Iterable<Role> getRoles(final long id, final Pageable pageable);
+    public Iterable<Role> getRoles(final long userId, final Pageable pageable);
 
     /**
      * Removes a role from a user.
      *
-     * @param id
+     * @param userId
      *            user id
-     * @param role
+     * @param roleId
      *            role id to remove
      * @return the removed role
      */
-    public UserRole removeRole(final long id, final long role);
+    public UserRole removeRole(final long userId, final long roleId);
 
 }

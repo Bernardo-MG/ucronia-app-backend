@@ -16,6 +16,7 @@ public interface UserMapper {
     public DtoUser toDto(final PersistentUser entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "enabled", ignore = true)
     @Mapping(target = "credentialsExpired", ignore = true)
     @Mapping(target = "expired", ignore = true)
     @Mapping(target = "locked", ignore = true)

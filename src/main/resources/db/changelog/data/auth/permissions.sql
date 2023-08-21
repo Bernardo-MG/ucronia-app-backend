@@ -31,14 +31,16 @@ INSERT INTO actions (id, name) VALUES
    (1, 'CREATE'),
    (2, 'READ'),
    (3, 'UPDATE'),
-   (4, 'DELETE');
+   (4, 'DELETE'),
+   (5, 'VIEW');
 
 INSERT INTO resources (id, name) VALUES
-   (1, 'MEMBER'),
-   (2, 'FEE'),
-   (3, 'TRANSACTION'),
-   (4, 'BALANCE'),
-   (5, 'USER'),
-   (6, 'ROLE'),
-   (7, 'ACTION'),
-   (8, 'RESOURCE');
+   (1, 'USER'),
+   (2, 'ROLE'),
+   (3, 'ACTION'),
+   (4, 'RESOURCE'),
+   (10, 'MEMBER'),
+   (12, 'FEE'),
+   (13, 'TRANSACTION'),
+   (14, 'BALANCE'),
+   (15, 'STATS');

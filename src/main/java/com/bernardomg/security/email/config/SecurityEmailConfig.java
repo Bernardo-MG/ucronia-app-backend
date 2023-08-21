@@ -24,13 +24,14 @@
 
 package com.bernardomg.security.email.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.email.EmailSender;
 import com.bernardomg.security.email.config.property.SecurityEmailProperties;
 import com.bernardomg.security.email.sender.DisabledSecurityMessageSender;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
@@ -54,19 +55,26 @@ public class SecurityEmailConfig {
     }
 
     @Bean("securityEmailSender")
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnMissingBean(EmailSender.class)
     public SecurityMessageSender getDefaultSecurityEmailSender() {
         log.debug("Disabled security messages");
         return new DisabledSecurityMessageSender();
     }
 
     @Bean("securityEmailSender")
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public SecurityMessageSender getSecurityEmailSender(final SecurityEmailProperties properties,
-            final MailProperties mailProperties, final JavaMailSender mailSender) {
+    @ConditionalOnBean(EmailSender.class)
+    public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
+            final SecurityEmailProperties properties, final EmailSender emailServ) {
         log.debug("Using email for security messages");
-        return new SpringMailSecurityEmailSender(mailProperties.getUsername(), properties.getPasswordRecoveryUrl(),
-            mailSender);
+        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
+            .getUrl());
+        log.debug("Activate user URL: {}", properties.getActivateUser()
+            .getUrl());
+        return new SpringMailSecurityEmailSender(templateEng, properties.getPasswordRecovery()
+            .getUrl(),
+            properties.getActivateUser()
+                .getUrl(),
+            emailServ);
     }
 
 }

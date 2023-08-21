@@ -31,9 +31,9 @@ import org.springframework.context.annotation.DependsOn;
 
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.security.initializer.TestUsersInitializer;
-import com.bernardomg.security.user.persistence.repository.ActionRepository;
-import com.bernardomg.security.user.persistence.repository.ResourceRepository;
-import com.bernardomg.security.user.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.permission.persistence.repository.ActionRepository;
+import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.persistence.repository.UserRoleRepository;

@@ -34,9 +34,7 @@ import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -63,11 +61,7 @@ public class PasswordConfig {
     public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenProperties tokenProperties) {
-        final TokenStore tokenProcessor;
-
-        tokenProcessor = new PersistentTokenStore(tokenRepository, tokenProperties.getValidity());
-
+            final TokenStore tokenProcessor) {
         return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
             passwordEncoder, "password_reset");
     }

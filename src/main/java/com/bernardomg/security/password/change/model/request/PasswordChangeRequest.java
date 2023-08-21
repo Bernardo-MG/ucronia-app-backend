@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.password.change.model.request;
 
+import com.bernardomg.validation.constraint.StrongPassword;
+
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -37,6 +39,7 @@ import lombok.Data;
 public final class PasswordChangeRequest {
 
     @NotEmpty
+    @StrongPassword
     private String newPassword;
 
     @NotEmpty
