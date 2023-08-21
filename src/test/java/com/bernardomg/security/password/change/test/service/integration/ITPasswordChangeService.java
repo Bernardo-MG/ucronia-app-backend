@@ -6,14 +6,15 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("PasswordChangeService - change password")
@@ -59,14 +60,13 @@ class ITPasswordChangeService {
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_IncorrectPassword_Exception() {
         final ThrowingCallable executable;
-        final Exception        exception;
+        final FieldFailure     failure;
 
         executable = () -> service.changePasswordForUserInSession("def", "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, BadCredentialsException.class);
+        failure = FieldFailure.of("oldPassword.notMatch", "oldPassword", "notMatch", "def");
 
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Received a password which doesn't match the one stored for admin");
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
