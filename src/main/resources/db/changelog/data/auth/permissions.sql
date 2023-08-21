@@ -40,7 +40,7 @@ INSERT INTO resources (id, name) VALUES
    (3, 'ACTION'),
    (4, 'RESOURCE'),
    (10, 'MEMBER'),
-   (12, 'FEE'),
-   (13, 'TRANSACTION'),
-   (14, 'BALANCE'),
+   (11, 'FEE'),
+   (12, 'TRANSACTION'),
+   (13, 'BALANCE'),
    (14, 'STATS');
