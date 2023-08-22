@@ -31,11 +31,4 @@ public interface UserUpdate {
      */
     public String getName();
 
-    /**
-     * Returns the user username.
-     *
-     * @return the user username
-     */
-    public String getUsername();
-
 }

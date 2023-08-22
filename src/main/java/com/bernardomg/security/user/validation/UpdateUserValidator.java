@@ -27,18 +27,12 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 
         // Verify the email is not registered
         if (userRepository.existsByIdNotAndEmail(user.getId(), user.getEmail())) {
-            log.error("A user already exists with the username {}", user.getUsername());
+            log.error("A user already exists with the email {}", user.getEmail());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());
             failures.add(failure);
         }
 
-        // Verify the name is not changed
-        if (!userRepository.existsByIdAndUsername(user.getId(), user.getUsername())) {
-            log.error("Tried to change username for {} with id {}", user.getUsername(), user.getId());
-            failure = FieldFailure.of("username", "immutable", user.getId());
-            failures.add(failure);
-        }
     }
 
 }

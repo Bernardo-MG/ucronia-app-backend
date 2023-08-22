@@ -28,26 +28,6 @@ class ITUserServiceUpdateValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when changing the username")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
-    void testUpdate_ChangeUsername() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-        final UserUpdate       data;
-
-        data = UsersUpdate.usernameChange();
-
-        executable = () -> service.update(1L, data);
-
-        // TODO: Is this value really the correct one?
-        failure = FieldFailure.of("username.immutable", "username", "immutable", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
