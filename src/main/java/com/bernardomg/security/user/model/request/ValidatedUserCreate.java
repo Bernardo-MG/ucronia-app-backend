@@ -24,11 +24,13 @@ public final class ValidatedUserCreate implements UserCreate {
     /**
      * User name.
      */
+    @NotNull
     private String name;
 
     /**
      * User username.
      */
+    @NotNull
     private String username;
 
 }

@@ -31,6 +31,7 @@ public interface UserMapper {
     @Mapping(target = "expired", ignore = true)
     @Mapping(target = "locked", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "username", ignore = true)
     public PersistentUser toEntity(final UserUpdate data);
 
 }

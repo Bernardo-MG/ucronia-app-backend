@@ -254,6 +254,9 @@ public final class DefaultUserService implements UserService {
         if (oldRead.isPresent()) {
             old = oldRead.get();
 
+            // Can't change username by updating
+            userEntity.setUsername(old.getUsername());
+
             // Can't change password by updating
             userEntity.setPassword(old.getPassword());
 

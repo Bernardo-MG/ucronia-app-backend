@@ -36,11 +36,7 @@ public final class ValidatedUserUpdate implements UserUpdate {
     /**
      * User name.
      */
+    @NotNull
     private String  name;
-
-    /**
-     * User username.
-     */
-    private String  username;
 
 }

@@ -90,7 +90,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         log.debug("Getting roles for role {} and pagination {}", roleId, pageable);
 
-        // TODO: Maybe this should be extracted
         return roleGrantedPermissionRepository.findAllByRoleId(roleId, pageable)
             .map(permissionMapper::toDto);
     }
