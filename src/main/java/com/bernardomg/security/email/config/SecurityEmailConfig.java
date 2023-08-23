@@ -24,8 +24,7 @@
 
 package com.bernardomg.security.email.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,16 +54,20 @@ public class SecurityEmailConfig {
     }
 
     @Bean("securityEmailSender")
-    @ConditionalOnMissingBean(EmailSender.class)
+    // @ConditionalOnMissingBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
     public SecurityMessageSender getDefaultSecurityEmailSender() {
+        // FIXME: This is not handling correctly the missing bean condition
         log.debug("Disabled security messages");
         return new DisabledSecurityMessageSender();
     }
 
     @Bean("securityEmailSender")
-    @ConditionalOnBean(EmailSender.class)
+    // @ConditionalOnBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
             final SecurityEmailProperties properties, final EmailSender emailServ) {
+        // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
         log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
             .getUrl());
