@@ -52,7 +52,8 @@ public class TokenConfig {
 
     @Bean("tokenStore")
     public TokenStore getTokenStore(final TokenRepository tRepository, final TokenProperties tokenProperties) {
-        log.debug("Setting {}ms validity length for tokens", tokenProperties.getValidity());
+        // FIXME: Don't use milliseconds, use hours
+        log.debug("Setting {} validity length for tokens", tokenProperties.getValidity());
         return new PersistentTokenStore(tRepository, tokenProperties.getValidity());
     }
 

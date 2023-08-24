@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.token.store;
 
+import java.time.Duration;
+import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
@@ -18,9 +20,9 @@ public final class PersistentTokenStore implements TokenStore {
 
     private final TokenRepository tokenRepository;
 
-    private final Integer         validity;
+    private final Duration        validity;
 
-    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Integer valid) {
+    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Duration valid) {
         super();
 
         tokenRepository = tRepository;
@@ -57,7 +59,8 @@ public final class PersistentTokenStore implements TokenStore {
         final String          tokenCode;
 
         expiration = Calendar.getInstance();
-        expiration.add(Calendar.MILLISECOND, validity);
+        expiration.add(Calendar.SECOND, Long.valueOf(validity.getSeconds())
+            .intValue());
 
         creation = Calendar.getInstance();
 
