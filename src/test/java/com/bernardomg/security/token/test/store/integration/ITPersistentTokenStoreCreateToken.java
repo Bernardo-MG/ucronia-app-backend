@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
+import java.time.Duration;
 import java.util.Calendar;
 
 import org.assertj.core.api.Assertions;
@@ -27,7 +28,7 @@ class ITPersistentTokenStoreCreateToken {
     public ITPersistentTokenStoreCreateToken(final TokenRepository tokenRepo) {
         super();
 
-        store = new PersistentTokenStore(tokenRepo, 1000);
+        store = new PersistentTokenStore(tokenRepo, Duration.ofHours(1));
         tokenRepository = tokenRepo;
     }
 

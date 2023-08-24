@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
+import java.time.Duration;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,7 @@ class ITPersistentTokenStoreExists {
     public ITPersistentTokenStoreExists(final TokenRepository tokenRepository) {
         super();
 
-        store = new PersistentTokenStore(tokenRepository, 1000);
+        store = new PersistentTokenStore(tokenRepository, Duration.ofHours(1));
     }
 
     @Test
