@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.model.request;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collection;
 
@@ -14,6 +15,6 @@ public interface FeesPayment {
 
     public Long getMemberId();
 
-    public Calendar getPaymentDate();
+    public LocalDateTime getPaymentDate();
 
 }

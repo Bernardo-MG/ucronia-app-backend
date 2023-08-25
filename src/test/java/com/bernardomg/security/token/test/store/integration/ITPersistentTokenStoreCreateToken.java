@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
-import java.time.Duration;
 import java.util.Calendar;
 
 import org.assertj.core.api.Assertions;
@@ -20,17 +19,11 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - create token")
 class ITPersistentTokenStoreCreateToken {
 
-    private final PersistentTokenStore store;
-
-    private final TokenRepository      tokenRepository;
+    @Autowired
+    private PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreCreateToken(final TokenRepository tokenRepo) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepo, Duration.ofHours(1));
-        tokenRepository = tokenRepo;
-    }
+    private TokenRepository      tokenRepository;
 
     @Test
     @DisplayName("After generating a token a new token is persisted")

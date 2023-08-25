@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -60,7 +62,7 @@ class ITBalanceServiceGetMonthlyBalance {
         final PersistentTransaction entity;
 
         entity = PersistentTransaction.builder()
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Description")
             .amount(amount)
             .build();

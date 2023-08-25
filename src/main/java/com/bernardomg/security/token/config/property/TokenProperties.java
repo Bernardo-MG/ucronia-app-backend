@@ -47,6 +47,6 @@ public final class TokenProperties {
      * Validity length, in seconds, for tokens.
      */
     @NotNull
-    private Duration  validity = Duration.ofHours(1);
+    private Duration validity = Duration.ofHours(1);
 
 }

@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.test.fee.util.model;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -16,7 +18,7 @@ public final class FeesCreate {
         return FeesPaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1), new GregorianCalendar(2020, 1, 1)))
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();
@@ -26,7 +28,7 @@ public final class FeesCreate {
         return FeesPaymentRequest.builder()
             .memberId(-1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();
@@ -36,7 +38,7 @@ public final class FeesCreate {
         return FeesPaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .amount(1F)
             .build();
     }
@@ -44,7 +46,7 @@ public final class FeesCreate {
     public static final FeesPayment missingFeeDates() {
         return FeesPaymentRequest.builder()
             .memberId(1L)
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();
@@ -53,7 +55,7 @@ public final class FeesCreate {
     public static final FeesPayment missingMemberId() {
         return FeesPaymentRequest.builder()
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();
@@ -72,7 +74,7 @@ public final class FeesCreate {
         return FeesPaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1), new GregorianCalendar(2020, 2, 1)))
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();
@@ -87,7 +89,7 @@ public final class FeesCreate {
         return FeesPaymentRequest.builder()
             .memberId(1L)
             .feeDates(feeDates)
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();
@@ -97,7 +99,7 @@ public final class FeesCreate {
         return FeesPaymentRequest.builder()
             .memberId(1L)
             .feeDates(List.of(new GregorianCalendar(2020, 1, 1)))
-            .paymentDate(new GregorianCalendar(2020, 0, 1))
+            .paymentDate(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .description("Fee paid")
             .amount(1F)
             .build();

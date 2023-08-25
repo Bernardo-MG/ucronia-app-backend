@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.test.transaction.repository.integration;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -51,18 +51,18 @@ class ITTransactionRepositoryFindMinDate {
     @DisplayName("With multiple transactions, it returns the min date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     void testFindSumAll_Multiple() {
-        final Calendar calendar;
+        final LocalDateTime calendar;
 
         calendar = repository.findMinDate();
 
-        Assertions.assertThat(calendar.getTime())
-            .isEqualTo(new GregorianCalendar(2020, 0, 1).getTime());
+        Assertions.assertThat(calendar)
+            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
     }
 
     @Test
     @DisplayName("Withno transactions, no min date is returned")
     void testFindSumAll_NoData() {
-        final Calendar calendar;
+        final LocalDateTime calendar;
 
         calendar = repository.findMinDate();
 

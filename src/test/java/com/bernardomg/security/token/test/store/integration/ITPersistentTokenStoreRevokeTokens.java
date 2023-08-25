@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
-import java.time.Duration;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,17 +16,11 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - revoke existing tokens")
 class ITPersistentTokenStoreRevokeTokens {
 
-    private final PersistentTokenStore store;
-
-    private final TokenRepository      tokenRepository;
+    @Autowired
+    private PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreRevokeTokens(final TokenRepository tokenRepo) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepo, Duration.ofHours(1));
-        tokenRepository = tokenRepo;
-    }
+    private TokenRepository      tokenRepository;
 
     @Test
     @DisplayName("Revokes an already revoked token")

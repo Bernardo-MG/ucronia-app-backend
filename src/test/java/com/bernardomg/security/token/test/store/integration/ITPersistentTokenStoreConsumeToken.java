@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
-import java.time.Duration;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,18 +17,11 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - decode")
 class ITPersistentTokenStoreConsumeToken {
 
-    private final PersistentTokenStore store;
-
-    private final TokenRepository      tokenRepository;
+    @Autowired
+    private PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreConsumeToken(final TokenRepository tokenRepo) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepo, Duration.ofHours(1));
-
-        tokenRepository = tokenRepo;
-    }
+    private TokenRepository      tokenRepository;
 
     @Test
     @DisplayName("Consuming a token which is already consumed keeps the status as consumed")

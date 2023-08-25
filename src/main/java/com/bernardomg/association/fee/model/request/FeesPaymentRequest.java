@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.fee.model.request;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collection;
 
@@ -38,6 +39,6 @@ public final class FeesPaymentRequest implements FeesPayment {
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
-    private Calendar                      paymentDate;
+    private LocalDateTime                 paymentDate;
 
 }

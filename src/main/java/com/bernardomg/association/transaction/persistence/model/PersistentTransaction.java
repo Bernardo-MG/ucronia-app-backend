@@ -2,7 +2,7 @@
 package com.bernardomg.association.transaction.persistence.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class PersistentTransaction implements Serializable {
     private Float             amount;
 
     @Column(name = "date", nullable = false)
-    private Calendar          date;
+    private LocalDateTime     date;
 
     @Column(name = "description", length = 200)
     private String            description;

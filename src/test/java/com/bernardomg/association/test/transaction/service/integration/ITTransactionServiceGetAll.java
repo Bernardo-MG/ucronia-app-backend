@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -86,7 +87,7 @@ class ITTransactionServiceGetAll {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(amount)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .build());
     }
 
@@ -112,7 +113,7 @@ class ITTransactionServiceGetAll {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(amount)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .build());
     }
 
@@ -141,84 +142,84 @@ class ITTransactionServiceGetAll {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 2, 1))
+            .date(LocalDateTime.of(2020, Month.MARCH, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 3, 1))
+            .date(LocalDateTime.of(2020, Month.APRIL, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 4, 1))
+            .date(LocalDateTime.of(2020, Month.MAY, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 6")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 5, 1))
+            .date(LocalDateTime.of(2020, Month.JUNE, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 7")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 6, 1))
+            .date(LocalDateTime.of(2020, Month.JULY, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 8")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 7, 1))
+            .date(LocalDateTime.of(2020, Month.AUGUST, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 9")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 8, 1))
+            .date(LocalDateTime.of(2020, Month.SEPTEMBER, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 10")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 9, 1))
+            .date(LocalDateTime.of(2020, Month.OCTOBER, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 11")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 10, 1))
+            .date(LocalDateTime.of(2020, Month.NOVEMBER, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 12")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 11, 1))
+            .date(LocalDateTime.of(2020, Month.DECEMBER, 1, 0, 0))
             .build());
     }
 
@@ -247,35 +248,35 @@ class ITTransactionServiceGetAll {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 2))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 3))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 4))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0))
             .build());
 
         transaction = transactionsItr.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 5))
+            .date(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0))
             .build());
     }
 

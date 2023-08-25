@@ -2,7 +2,6 @@
 package com.bernardomg.security.token.store;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;

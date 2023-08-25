@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
-import java.time.Duration;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -20,14 +17,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - get username")
 class ITPersistentTokenStoreGetUsername {
 
-    private final PersistentTokenStore store;
-
     @Autowired
-    public ITPersistentTokenStoreGetUsername(final TokenRepository tokenRepository) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepository, Duration.ofHours(1));
-    }
+    private PersistentTokenStore store;
 
     @Test
     @DisplayName("Extracts the username from a token")
