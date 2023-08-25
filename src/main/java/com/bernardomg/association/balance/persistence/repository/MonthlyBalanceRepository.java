@@ -24,12 +24,12 @@
 
 package com.bernardomg.association.balance.persistence.repository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.balance.persistence.model.PersistentMonthlyBalance;
 
-public interface MonthlyBalanceRepository extends JpaRepository<PersistentMonthlyBalance, Date> {
+public interface MonthlyBalanceRepository extends JpaRepository<PersistentMonthlyBalance, LocalDateTime> {
 
 }
