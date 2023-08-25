@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.jwt.token;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 import javax.crypto.SecretKey;
@@ -54,19 +56,35 @@ public final class JwtTokenDataDecoder implements TokenDecoder<JwtTokenData> {
 
     @Override
     public final JwtTokenData decode(final String token) {
-        final Claims claims;
+        final Claims        claims;
+        final LocalDateTime issuedAt;
+        final LocalDateTime expiration;
+        final LocalDateTime notBefore;
 
         claims = parser.parseClaimsJws(token)
             .getBody();
+
+        issuedAt = claims.getIssuedAt()
+            .toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
+        expiration = claims.getExpiration()
+            .toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
+        notBefore = claims.getNotBefore()
+            .toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
 
         return ImmutableJwtTokenData.builder()
             .withId(claims.getId())
             .withSubject(claims.getSubject())
             .withAudience(claims.getAudience())
             .withIssuer(claims.getIssuer())
-            .withIssuedAt(claims.getIssuedAt())
-            .withExpiration(claims.getExpiration())
-            .withNotBefore(claims.getNotBefore())
+            .withIssuedAt(issuedAt)
+            .withExpiration(expiration)
+            .withNotBefore(notBefore)
             .build();
     }
 

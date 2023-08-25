@@ -25,6 +25,7 @@
 package com.bernardomg.security.config;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 import javax.crypto.SecretKey;
 
@@ -86,19 +87,14 @@ public class JwtConfig {
      */
     @Bean("tokenEncoder")
     public TokenEncoder<String> getTokenEncoder(final JwtProperties properties) {
-        final Integer   validity;
+        final Duration  validity;
         final SecretKey key;
 
         key = Keys.hmacShaKeyFor(properties.getSecret()
             .getBytes(StandardCharsets.UTF_8));
 
-        if (properties.getValidity() != null) {
-            validity = properties.getValidity();
-            log.info("Tokens will have {} seconds of validity", validity);
-        } else {
-            validity = 3600;
-            log.info("No validity defined for tokens. Using default of {} seconds of validity", validity);
-        }
+        validity = properties.getValidity();
+        log.info("Tokens will have {} seconds of validity", validity);
 
         return new JwtSubjectTokenEncoder(key, validity);
     }

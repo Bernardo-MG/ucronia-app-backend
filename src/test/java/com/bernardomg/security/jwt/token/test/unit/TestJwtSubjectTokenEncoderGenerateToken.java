@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
+import java.time.Duration;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ class TestJwtSubjectTokenEncoderGenerateToken {
     public TestJwtSubjectTokenEncoderGenerateToken() {
         super();
 
-        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, 1);
+        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, Duration.ofSeconds(1));
     }
 
     @Test
