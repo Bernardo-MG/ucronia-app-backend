@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.calendar.model;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Value;
@@ -33,18 +33,18 @@ import lombok.Value;
 @Builder
 public final class ImmutableFeeCalendarRow implements FeeCalendarRow {
 
-    private final Boolean  active;
+    private final Boolean       active;
 
-    private final Calendar date;
+    private final LocalDateTime date;
 
-    private final Long     id;
+    private final Long          id;
 
-    private final Long     memberId;
+    private final Long          memberId;
 
-    private final String   name;
+    private final String        name;
 
-    private final Boolean  paid;
+    private final Boolean       paid;
 
-    private final String   surname;
+    private final String        surname;
 
 }

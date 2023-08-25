@@ -3,7 +3,6 @@ package com.bernardomg.security.token.store;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -127,8 +126,8 @@ public final class PersistentTokenStore implements TokenStore {
                 // It isn't a valid token
                 valid = false;
                 log.warn("Revoked token: {}", token);
-            } else if (Calendar.getInstance()
-                .after(entity.getExpirationDate())) {
+            } else if (LocalDateTime.now()
+                .isAfter(entity.getExpirationDate())) {
                 // Expired
                 // It isn't a valid token
                 valid = false;
