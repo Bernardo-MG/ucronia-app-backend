@@ -1,11 +1,11 @@
 
 package com.bernardomg.association.fee.model;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 public interface MemberFee {
 
-    public Calendar getDate();
+    public LocalDateTime getDate();
 
     public Long getId();
 

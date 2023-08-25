@@ -27,7 +27,6 @@ package com.bernardomg.association.test.fee.service.integration;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -87,7 +86,7 @@ class ITFeeServicePayFees {
         FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .paid(true)
             .build());
     }
@@ -137,7 +136,7 @@ class ITFeeServicePayFees {
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)
-                .date(new GregorianCalendar(2020, 1, 1))
+                .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
                 .paid(true)
                 .build());
     }
@@ -157,8 +156,8 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(repository.findAll())
             .extracting(PersistentFee::getDate)
-            .contains(new GregorianCalendar(2020, 1, 1))
-            .contains(new GregorianCalendar(2020, 2, 1));
+            .contains(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .contains(LocalDateTime.of(2020, Month.MARCH, 1, 0, 0));
     }
 
     @Test
@@ -206,7 +205,7 @@ class ITFeeServicePayFees {
         FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .paid(true)
             .build());
     }
@@ -256,7 +255,7 @@ class ITFeeServicePayFees {
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)
-                .date(new GregorianCalendar(2020, 1, 1))
+                .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
                 .paid(true)
                 .build());
     }

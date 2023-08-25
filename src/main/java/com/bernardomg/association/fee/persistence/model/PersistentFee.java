@@ -2,7 +2,7 @@
 package com.bernardomg.association.fee.persistence.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ public class PersistentFee implements Serializable {
     private static final long serialVersionUID = 1328776989450853491L;
 
     @Column(name = "date", nullable = false)
-    private Calendar          date;
+    private LocalDateTime     date;
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_fees_id")

@@ -18,14 +18,9 @@ public final class FeeAssertions {
         Assertions.assertThat(received.getMemberName())
             .withFailMessage("Expected name '%s' but got '%s'", expected.getMemberName(), received.getMemberName())
             .isEqualTo(expected.getMemberName());
-        Assertions.assertThat(received.getDate()
-            .getTime())
-            .withFailMessage("Expected date '%s' but got '%s'", received.getDate()
-                .getTime(),
-                expected.getDate()
-                    .getTime())
-            .isEqualTo(expected.getDate()
-                .getTime());
+        Assertions.assertThat(received.getDate())
+            .withFailMessage("Expected date '%s' but got '%s'", received.getDate(), expected.getDate())
+            .isEqualTo(expected.getDate());
         Assertions.assertThat(received.getPaid())
             .withFailMessage("Expected paid flag '%s' but got '%s'", expected.getPaid(), received.getPaid())
             .isEqualTo(expected.getPaid());
@@ -38,14 +33,9 @@ public final class FeeAssertions {
         Assertions.assertThat(received.getMemberId())
             .withFailMessage("Expected member id '%s' but got '%s'", expected.getMemberId(), received.getMemberId())
             .isEqualTo(expected.getMemberId());
-        Assertions.assertThat(received.getDate()
-            .getTime())
-            .withFailMessage("Expected date '%s' but got '%s'", received.getDate()
-                .getTime(),
-                expected.getDate()
-                    .getTime())
-            .isEqualTo(expected.getDate()
-                .getTime());
+        Assertions.assertThat(received.getDate())
+            .withFailMessage("Expected date '%s' but got '%s'", received.getDate(), expected.getDate())
+            .isEqualTo(expected.getDate());
         Assertions.assertThat(received.getPaid())
             .withFailMessage("Expected paid flag '%s' but got '%s'", expected.getPaid(), received.getPaid())
             .isEqualTo(expected.getPaid());

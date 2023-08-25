@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -98,7 +99,7 @@ class ITFeeServiceGetAllPagination {
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .paid(true)
             .build());
     }
@@ -125,7 +126,7 @@ class ITFeeServiceGetAllPagination {
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
-            .date(new GregorianCalendar(2020, 2, 1))
+            .date(LocalDateTime.of(2020, Month.MARCH, 1, 0, 0))
             .paid(true)
             .build());
     }
