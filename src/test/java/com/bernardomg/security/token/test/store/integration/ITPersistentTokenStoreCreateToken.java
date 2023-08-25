@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.token.test.store.integration;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -43,10 +43,10 @@ class ITPersistentTokenStoreCreateToken {
     @Sql({ "/db/queries/security/user/single.sql" })
     void testCreateToken_PersistedData() {
         final PersistentToken token;
-        final Calendar        lower;
-        final Calendar        upper;
+        final LocalDateTime   lower;
+        final LocalDateTime   upper;
 
-        lower = Calendar.getInstance();
+        lower = LocalDateTime.now();
 
         store.createToken(1l, "admin", "scope");
 
@@ -54,16 +54,16 @@ class ITPersistentTokenStoreCreateToken {
             .iterator()
             .next();
 
-        upper = Calendar.getInstance();
-        upper.add(Calendar.SECOND, 1);
+        upper = LocalDateTime.now()
+            .plusSeconds(1);
 
         Assertions.assertThat(token.getToken())
             .isNotNull();
         Assertions.assertThat(token.getScope())
             .isEqualTo("scope");
         Assertions.assertThat(token.getExpirationDate())
-            .isGreaterThan(lower)
-            .isLessThanOrEqualTo(upper);
+            .isAfter(lower)
+            .isBefore(upper);
         Assertions.assertThat(token.isConsumed())
             .isFalse();
         Assertions.assertThat(token.isRevoked())

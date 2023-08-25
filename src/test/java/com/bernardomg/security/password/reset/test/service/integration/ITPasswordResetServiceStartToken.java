@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.password.reset.test.service.integration;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -67,7 +67,7 @@ class ITPasswordResetServiceStartToken {
         Assertions.assertThat(token.getScope())
             .isEqualTo("password_reset");
         Assertions.assertThat(token.getExpirationDate())
-            .isGreaterThan(Calendar.getInstance());
+            .isAfter(LocalDateTime.now());
         Assertions.assertThat(token.isConsumed())
             .isFalse();
         Assertions.assertThat(token.isRevoked())

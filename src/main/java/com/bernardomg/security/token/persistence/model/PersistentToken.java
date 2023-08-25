@@ -2,7 +2,7 @@
 package com.bernardomg.security.token.persistence.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,10 +26,10 @@ public class PersistentToken implements Serializable {
     private boolean           consumed;
 
     @Column(name = "creation_date", nullable = false)
-    private Calendar          creationDate;
+    private LocalDateTime     creationDate;
 
     @Column(name = "expiration_date", nullable = false)
-    private Calendar          expirationDate;
+    private LocalDateTime     expirationDate;
 
     /**
      * Entity id.

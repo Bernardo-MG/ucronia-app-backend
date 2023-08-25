@@ -2,6 +2,7 @@
 package com.bernardomg.security.token.store;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
@@ -53,15 +54,14 @@ public final class PersistentTokenStore implements TokenStore {
     @Override
     public final String createToken(final Long userId, final String username, final String scope) {
         final PersistentToken persistentToken;
-        final Calendar        creation;
-        final Calendar        expiration;
+        final LocalDateTime   creation;
+        final LocalDateTime   expiration;
         final String          tokenCode;
 
-        expiration = Calendar.getInstance();
-        expiration.add(Calendar.SECOND, Long.valueOf(validity.getSeconds())
-            .intValue());
+        expiration = LocalDateTime.now()
+            .plus(validity);
 
-        creation = Calendar.getInstance();
+        creation = LocalDateTime.now();
 
         tokenCode = UUID.randomUUID()
             .toString();
@@ -137,7 +137,7 @@ public final class PersistentTokenStore implements TokenStore {
                 // Not expired
                 // Verifies the expiration date is after the current date
                 valid = entity.getExpirationDate()
-                    .after(Calendar.getInstance());
+                    .isAfter(LocalDateTime.now());
             }
         } else {
             log.warn("Token not registered: {}", token);
