@@ -7,8 +7,6 @@ import java.util.Collection;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -28,7 +26,6 @@ public final class FeesPaymentRequest implements FeesPayment {
     @NotEmpty
     private String                         description;
 
-    @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotEmpty
     private Collection<@NotNull YearMonth> feeDates;
@@ -36,8 +33,7 @@ public final class FeesPaymentRequest implements FeesPayment {
     @NotNull
     private Long                           memberId;
 
-    @JsonFormat(pattern = "yyyy-MM")
-    @DateTimeFormat(pattern = "yyyy-MM")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate                      paymentDate;
 
