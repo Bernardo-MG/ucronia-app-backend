@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -124,12 +124,12 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final TransactionRange getRange() {
-        final LocalDateTime min;
-        final LocalDateTime max;
-        final Integer       startMonth;
-        final Integer       startYear;
-        final Integer       endMonth;
-        final Integer       endYear;
+        final LocalDate min;
+        final LocalDate max;
+        final Integer   startMonth;
+        final Integer   startYear;
+        final Integer   endMonth;
+        final Integer   endYear;
 
         log.debug("Reading the transactions range");
 

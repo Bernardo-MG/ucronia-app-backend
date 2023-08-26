@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.transaction.persistence.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -36,10 +36,10 @@ public interface TransactionRepository
         extends JpaRepository<PersistentTransaction, Long>, JpaSpecificationExecutor<PersistentTransaction> {
 
     @Query("SELECT MAX(date) FROM Transaction t")
-    public LocalDateTime findMaxDate();
+    public LocalDate findMaxDate();
 
     @Query("SELECT MIN(date) FROM Transaction t")
-    public LocalDateTime findMinDate();
+    public LocalDate findMinDate();
 
     @Query("SELECT SUM(t.amount) AS balance FROM Transaction t")
     public Float sumAll();

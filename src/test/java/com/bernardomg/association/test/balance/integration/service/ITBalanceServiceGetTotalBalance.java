@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
@@ -59,7 +59,7 @@ class ITBalanceServiceGetTotalBalance {
         final PersistentTransaction entity;
 
         entity = PersistentTransaction.builder()
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Description")
             .amount(amount)
             .build();

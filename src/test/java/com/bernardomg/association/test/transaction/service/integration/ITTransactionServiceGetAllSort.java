@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Iterator;
 
@@ -77,35 +77,35 @@ class ITTransactionServiceGetAllSort {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 2))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 3))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 4))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 5))
             .build());
     }
 
@@ -128,35 +128,35 @@ class ITTransactionServiceGetAllSort {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 5))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 4))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 3))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 2))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
     }
 
@@ -179,35 +179,35 @@ class ITTransactionServiceGetAllSort {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 2))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 3))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 4))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 5))
             .build());
     }
 
@@ -230,35 +230,35 @@ class ITTransactionServiceGetAllSort {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 5")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 5))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 4")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 4))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 3")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 3))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 2))
             .build());
 
         transaction = transactions.next();
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
     }
 

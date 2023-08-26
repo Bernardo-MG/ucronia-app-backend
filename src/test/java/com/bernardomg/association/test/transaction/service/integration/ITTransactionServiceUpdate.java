@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
@@ -90,7 +90,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
             .description("Transaction")
             .amount(1.2f)
-            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -108,7 +108,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(1.2f)
-            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -129,7 +129,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
             .description("Transaction 123")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -147,7 +147,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 123")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 

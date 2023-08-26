@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,13 +12,13 @@ import lombok.Data;
 @Builder
 public final class ImmutableTransaction implements Transaction {
 
-    private final Float         amount;
+    private final Float     amount;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final LocalDateTime date;
+    private final LocalDate date;
 
-    private final String        description;
+    private final String    description;
 
-    private final Long          id;
+    private final Long      id;
 
 }

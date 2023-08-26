@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.repository.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
@@ -51,18 +51,18 @@ class ITTransactionRepositoryFindMaxDate {
     @DisplayName("With multiple transactions, it returns the max date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     void testFindSumAll_Multiple() {
-        final LocalDateTime calendar;
+        final LocalDate calendar;
 
         calendar = repository.findMaxDate();
 
         Assertions.assertThat(calendar)
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 5));
     }
 
     @Test
     @DisplayName("Withno transactions, no max date is returned")
     void testFindSumAll_NoData() {
-        final LocalDateTime calendar;
+        final LocalDate calendar;
 
         calendar = repository.findMaxDate();
 

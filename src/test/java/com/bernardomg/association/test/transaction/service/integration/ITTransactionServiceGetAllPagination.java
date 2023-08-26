@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -98,7 +98,7 @@ class ITTransactionServiceGetAllPagination {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
     }
 
@@ -124,7 +124,7 @@ class ITTransactionServiceGetAllPagination {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 2))
             .build());
     }
 

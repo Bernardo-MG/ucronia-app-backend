@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Iterator;
 
@@ -67,7 +67,7 @@ class ITTransactionServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.startDate(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0));
+        transactionQuery = TransactionsQuery.startDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -82,7 +82,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 2");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 2));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
 
@@ -92,7 +92,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 3");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 3));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
 
@@ -102,7 +102,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 4");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 4));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
 
@@ -112,7 +112,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 5");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 5, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 5));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
     }
@@ -129,7 +129,7 @@ class ITTransactionServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.endDate(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0));
+        transactionQuery = TransactionsQuery.endDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -144,7 +144,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 1");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 1));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
 
@@ -154,7 +154,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 2");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 2));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
     }
@@ -171,7 +171,7 @@ class ITTransactionServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.date(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0));
+        transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.JANUARY, 2));
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -186,7 +186,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 2");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 2));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
     }
@@ -203,7 +203,7 @@ class ITTransactionServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
+        transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.JANUARY, 1));
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -218,7 +218,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 1");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 1));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
     }
@@ -236,7 +236,7 @@ class ITTransactionServiceGetAllFilter {
         pageable = Pageable.unpaged();
 
         // TODO: This is not the last day of the year
-        transactionQuery = TransactionsQuery.date(LocalDateTime.of(2020, Month.DECEMBER, 1, 0, 0));
+        transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.DECEMBER, 1));
 
         transactions = service.getAll(transactionQuery, pageable);
 
@@ -251,7 +251,7 @@ class ITTransactionServiceGetAllFilter {
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 12");
         Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.DECEMBER, 1, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.DECEMBER, 1));
         Assertions.assertThat(transaction.getAmount())
             .isEqualTo(1f);
     }

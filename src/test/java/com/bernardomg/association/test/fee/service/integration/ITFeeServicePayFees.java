@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
@@ -111,7 +111,7 @@ class ITFeeServicePayFees {
             .isEqualTo(1);
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
             .amount(1F)
             .build());
@@ -180,7 +180,7 @@ class ITFeeServicePayFees {
             .isEqualTo(1);
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
             .amount(1F)
             .build());
@@ -230,7 +230,7 @@ class ITFeeServicePayFees {
             .isEqualTo(1);
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
-            .date(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
             .amount(1F)
             .build());

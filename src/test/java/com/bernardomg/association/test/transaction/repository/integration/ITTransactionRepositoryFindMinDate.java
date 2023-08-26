@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.test.transaction.repository.integration;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
@@ -51,18 +51,18 @@ class ITTransactionRepositoryFindMinDate {
     @DisplayName("With multiple transactions, it returns the min date")
     @Sql({ "/db/queries/transaction/multiple.sql" })
     void testFindSumAll_Multiple() {
-        final LocalDateTime calendar;
+        final LocalDate calendar;
 
         calendar = repository.findMinDate();
 
         Assertions.assertThat(calendar)
-            .isEqualTo(LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0));
+            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 1));
     }
 
     @Test
     @DisplayName("Withno transactions, no min date is returned")
     void testFindSumAll_NoData() {
-        final LocalDateTime calendar;
+        final LocalDate calendar;
 
         calendar = repository.findMinDate();
 

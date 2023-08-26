@@ -3,8 +3,7 @@ package com.bernardomg.association.fee.calendar.persistence.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.LocalDate;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -20,12 +19,11 @@ public final class FeeCalendarRowRowMapper implements RowMapper<FeeCalendarRow> 
     @Override
     public final FeeCalendarRow mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final ImmutableFeeCalendarRow fee;
-        final LocalDateTime           date;
+        final LocalDate               date;
 
         try {
             date = rs.getDate("date")
-                .toLocalDate()
-                .atTime(LocalTime.now());
+                .toLocalDate();
 
             fee = ImmutableFeeCalendarRow.builder()
                 .id(rs.getLong("id"))
