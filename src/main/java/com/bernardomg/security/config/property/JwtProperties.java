@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.config.property;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -46,12 +48,12 @@ public final class JwtProperties {
      * Secret seed for generating JWT tokens.
      */
     @NotEmpty
-    private String  secret;
+    private String   secret;
 
     /**
      * Validity length, in seconds, for JWT tokens.
      */
     @NotNull
-    private Integer validity = 18000;
+    private Duration validity = Duration.ofHours(1);
 
 }

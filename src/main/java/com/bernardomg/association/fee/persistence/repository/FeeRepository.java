@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.persistence.repository;
 
-import java.util.Calendar;
+import java.time.YearMonth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -32,6 +32,6 @@ import com.bernardomg.association.fee.persistence.model.PersistentFee;
 
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
-    public boolean existsByMemberIdAndDate(final Long memberId, final Calendar date);
+    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
 
 }

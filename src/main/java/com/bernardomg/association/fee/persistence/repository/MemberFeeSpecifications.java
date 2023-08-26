@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.persistence.repository;
 
-import java.util.Calendar;
+import java.time.YearMonth;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -11,15 +11,15 @@ import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 
 public final class MemberFeeSpecifications {
 
-    public static Specification<PersistentMemberFee> after(final Calendar date) {
+    public static Specification<PersistentMemberFee> after(final YearMonth date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentMemberFee> before(final Calendar date) {
+    public static Specification<PersistentMemberFee> before(final YearMonth date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentMemberFee> between(final Calendar start, final Calendar end) {
+    public static Specification<PersistentMemberFee> between(final YearMonth start, final YearMonth end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
@@ -41,7 +41,7 @@ public final class MemberFeeSpecifications {
         return spec;
     }
 
-    public static Specification<PersistentMemberFee> on(final Calendar date) {
+    public static Specification<PersistentMemberFee> on(final YearMonth date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 

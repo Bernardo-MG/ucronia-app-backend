@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.Assertions;
@@ -27,7 +28,7 @@ class TestJwtSubjectTokenEncoderHasExpired {
 
         final TokenDecoder<JwtTokenData> decoder;
 
-        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, 5);
+        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, Duration.ofSeconds(5));
         decoder = new JwtTokenDataDecoder(TokenConstants.KEY);
         validator = new JwtTokenValidator(decoder);
     }

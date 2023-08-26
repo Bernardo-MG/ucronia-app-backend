@@ -24,7 +24,8 @@
 
 package com.bernardomg.security.jwt.token;
 
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.crypto.SecretKey;
@@ -76,34 +77,35 @@ public final class JwtSubjectTokenEncoder implements TokenEncoder<String> {
     /**
      * Token validity time in seconds.
      */
-    private final Integer             validity;
+    private final Duration            validity;
 
     /**
      * Constructs a provider with the received arguments.
      *
      * @param secretKey
      *            key used when generating tokens
-     * @param validityTime
-     *            token validity time in seconds
+     * @param duration
+     *            token validity duration
      */
-    public JwtSubjectTokenEncoder(final SecretKey secretKey, final Integer validityTime) {
+    public JwtSubjectTokenEncoder(final SecretKey secretKey, final Duration duration) {
         super();
 
         tokenDataEncoder = new JwtTokenDataEncoder(secretKey);
-        validity = Objects.requireNonNull(validityTime);
+        validity = Objects.requireNonNull(duration);
     }
 
     @Override
     public final String encode(final String subject) {
-        final Date         expiration;
-        final Date         issuedAt;
-        final String       token;
-        final JwtTokenData data;
+        final LocalDateTime expiration;
+        final LocalDateTime issuedAt;
+        final String        token;
+        final JwtTokenData  data;
 
         // Issued right now
-        issuedAt = new Date();
+        issuedAt = LocalDateTime.now();
         // Expires in a number of seconds equal to validity
-        expiration = new Date(System.currentTimeMillis() + (validity * 1000L));
+        expiration = LocalDateTime.now()
+            .plus(validity);
 
         // Build token data for the wrapped encoder
         data = ImmutableJwtTokenData.builder()

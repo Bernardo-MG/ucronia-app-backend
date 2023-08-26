@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -18,14 +17,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - get username")
 class ITPersistentTokenStoreGetUsername {
 
-    private final PersistentTokenStore store;
-
     @Autowired
-    public ITPersistentTokenStoreGetUsername(final TokenRepository tokenRepository) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepository, 1000);
-    }
+    private PersistentTokenStore store;
 
     @Test
     @DisplayName("Extracts the username from a token")

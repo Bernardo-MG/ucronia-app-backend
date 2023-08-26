@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.Iterator;
 
 import org.apache.commons.collections4.IterableUtils;
@@ -79,84 +80,84 @@ class ITFeeServiceGetAll {
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(YearMonth.of(2020, Month.JANUARY))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 2, 1))
+            .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 3, 1))
+            .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 4, 1))
+            .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 5, 1))
+            .date(YearMonth.of(2020, Month.JUNE))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 6, 1))
+            .date(YearMonth.of(2020, Month.JULY))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 7, 1))
+            .date(YearMonth.of(2020, Month.AUGUST))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 8, 1))
+            .date(YearMonth.of(2020, Month.SEPTEMBER))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 9, 1))
+            .date(YearMonth.of(2020, Month.OCTOBER))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 10, 1))
+            .date(YearMonth.of(2020, Month.NOVEMBER))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 11, 1))
+            .date(YearMonth.of(2020, Month.DECEMBER))
             .paid(true)
             .build());
     }
@@ -183,7 +184,7 @@ class ITFeeServiceGetAll {
             DtoMemberFee.builder()
                 .memberId(1L)
                 .memberName("Member 1 Surname 1")
-                .date(new GregorianCalendar(2020, 1, 1))
+                .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());
     }
@@ -211,35 +212,35 @@ class ITFeeServiceGetAll {
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
-            .date(new GregorianCalendar(2020, 2, 1))
+            .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
-            .date(new GregorianCalendar(2020, 3, 1))
+            .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
-            .date(new GregorianCalendar(2020, 4, 1))
+            .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
         FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
-            .date(new GregorianCalendar(2020, 5, 1))
+            .date(YearMonth.of(2020, Month.JUNE))
             .paid(false)
             .build());
     }

@@ -16,17 +16,11 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - revoke existing tokens")
 class ITPersistentTokenStoreRevokeTokens {
 
-    private final PersistentTokenStore store;
-
-    private final TokenRepository      tokenRepository;
+    @Autowired
+    private PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreRevokeTokens(final TokenRepository tokenRepo) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepo, 1000);
-        tokenRepository = tokenRepo;
-    }
+    private TokenRepository      tokenRepository;
 
     @Test
     @DisplayName("Revokes an already revoked token")

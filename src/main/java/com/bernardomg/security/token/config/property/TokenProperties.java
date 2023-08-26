@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.token.config.property;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -45,6 +47,6 @@ public final class TokenProperties {
      * Validity length, in seconds, for tokens.
      */
     @NotNull
-    private Integer validity = 18000;
+    private Duration validity = Duration.ofHours(1);
 
 }

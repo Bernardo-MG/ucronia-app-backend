@@ -17,18 +17,11 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenProcessor - decode")
 class ITPersistentTokenStoreConsumeToken {
 
-    private final PersistentTokenStore store;
-
-    private final TokenRepository      tokenRepository;
+    @Autowired
+    private PersistentTokenStore store;
 
     @Autowired
-    public ITPersistentTokenStoreConsumeToken(final TokenRepository tokenRepo) {
-        super();
-
-        store = new PersistentTokenStore(tokenRepo, 1000);
-
-        tokenRepository = tokenRepo;
-    }
+    private TokenRepository      tokenRepository;
 
     @Test
     @DisplayName("Consuming a token which is already consumed keeps the status as consumed")

@@ -1,13 +1,13 @@
 
 package com.bernardomg.association.transaction.model.request;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public interface TransactionUpdate {
 
     public Float getAmount();
 
-    public Calendar getDate();
+    public LocalDate getDate();
 
     public String getDescription();
 

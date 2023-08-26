@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.balance.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +10,10 @@ import lombok.Data;
 @Builder
 public final class DtoMonthlyBalance implements MonthlyBalance {
 
-    private Float    cumulative;
+    private Float     cumulative;
 
-    private Calendar date;
+    private LocalDate date;
 
-    private Float    total;
+    private Float     total;
 
 }

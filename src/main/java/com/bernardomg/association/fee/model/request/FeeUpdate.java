@@ -1,11 +1,11 @@
 
 package com.bernardomg.association.fee.model.request;
 
-import java.util.Calendar;
+import java.time.YearMonth;
 
 public interface FeeUpdate {
 
-    public Calendar getDate();
+    public YearMonth getDate();
 
     public Long getMemberId();
 

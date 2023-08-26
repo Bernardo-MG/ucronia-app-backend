@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -66,7 +67,7 @@ class ITFeeServiceGetOne {
         FeeAssertions.isEqualTo(fee.get(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
     }
@@ -85,7 +86,7 @@ class ITFeeServiceGetOne {
         FeeAssertions.isEqualTo(fee.get(), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
     }

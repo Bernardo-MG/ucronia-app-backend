@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -113,7 +114,7 @@ class ITTransactionServiceCreate {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .description("Transaction")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
     }
 
@@ -130,7 +131,7 @@ class ITTransactionServiceCreate {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
     }
 
@@ -154,7 +155,7 @@ class ITTransactionServiceCreate {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .description("Transaction")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -171,7 +172,7 @@ class ITTransactionServiceCreate {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 

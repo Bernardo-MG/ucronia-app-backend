@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.jwt.token;
 
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.crypto.SecretKey;
@@ -63,14 +65,27 @@ public final class JwtTokenDataEncoder implements TokenEncoder<JwtTokenData> {
     @Override
     public final String encode(final JwtTokenData data) {
         final String token;
+        final Date   issuedAt;
+        final Date   expiration;
+        final Date   notBefore;
+
+        issuedAt = java.util.Date.from(data.getIssuedAt()
+            .atZone(ZoneId.systemDefault())
+            .toInstant());
+        expiration = java.util.Date.from(data.getExpiration()
+            .atZone(ZoneId.systemDefault())
+            .toInstant());
+        notBefore = java.util.Date.from(data.getNotBefore()
+            .atZone(ZoneId.systemDefault())
+            .toInstant());
 
         token = Jwts.builder()
             .setId(data.getId())
             .setIssuer(data.getIssuer())
             .setSubject(data.getSubject())
-            .setIssuedAt(data.getIssuedAt())
-            .setExpiration(data.getExpiration())
-            .setNotBefore(data.getNotBefore())
+            .setIssuedAt(issuedAt)
+            .setExpiration(expiration)
+            .setNotBefore(notBefore)
             .setAudience(data.getAudience())
             .signWith(key, SignatureAlgorithm.HS512)
             .compact();
