@@ -10,7 +10,7 @@ import jakarta.persistence.AttributeConverter;
 public class YearMonthDateAttributeConverter implements AttributeConverter<YearMonth, java.sql.Date> {
 
     @Override
-    public java.sql.Date convertToDatabaseColumn(YearMonth attribute) {
+    public java.sql.Date convertToDatabaseColumn(final YearMonth attribute) {
         if (attribute != null) {
             return java.sql.Date.valueOf(attribute.atDay(1));
         }
@@ -18,7 +18,7 @@ public class YearMonthDateAttributeConverter implements AttributeConverter<YearM
     }
 
     @Override
-    public YearMonth convertToEntityAttribute(java.sql.Date dbData) {
+    public YearMonth convertToEntityAttribute(final java.sql.Date dbData) {
         if (dbData != null) {
             return YearMonth.from(Instant.ofEpochMilli(dbData.getTime())
                 .atZone(ZoneId.systemDefault())
@@ -26,5 +26,5 @@ public class YearMonthDateAttributeConverter implements AttributeConverter<YearM
         }
         return null;
     }
-    
+
 }
