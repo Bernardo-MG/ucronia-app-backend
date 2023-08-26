@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.model.request;
 
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Collection;
 
 public interface FeesPayment {
@@ -10,7 +11,7 @@ public interface FeesPayment {
 
     public String getDescription();
 
-    public Collection<LocalDateTime> getFeeDates();
+    public Collection<YearMonth> getFeeDates();
 
     public Long getMemberId();
 

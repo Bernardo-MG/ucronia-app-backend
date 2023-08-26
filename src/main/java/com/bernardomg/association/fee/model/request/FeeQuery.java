@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.fee.model.request;
 
-import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 public interface FeeQuery {
 
-    public LocalDateTime getDate();
+    public YearMonth getDate();
 
-    public LocalDateTime getEndDate();
+    public YearMonth getEndDate();
 
-    public LocalDateTime getStartDate();
+    public YearMonth getStartDate();
 
 }

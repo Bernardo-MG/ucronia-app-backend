@@ -26,6 +26,7 @@ package com.bernardomg.association.test.fee.service.integration;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.YearMonth;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -86,7 +87,7 @@ class ITFeeServicePayFees {
         FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
     }
@@ -136,7 +137,7 @@ class ITFeeServicePayFees {
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)
-                .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+                .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());
     }
@@ -156,8 +157,8 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(repository.findAll())
             .extracting(PersistentFee::getDate)
-            .contains(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
-            .contains(LocalDateTime.of(2020, Month.MARCH, 1, 0, 0));
+            .contains(YearMonth.of(2020, Month.FEBRUARY))
+            .contains(YearMonth.of(2020, Month.MARCH));
     }
 
     @Test
@@ -205,7 +206,7 @@ class ITFeeServicePayFees {
         FeeAssertions.isEqualTo(entity, PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
     }
@@ -255,7 +256,7 @@ class ITFeeServicePayFees {
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)
-                .date(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
+                .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());
     }

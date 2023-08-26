@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.model.request;
 
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Collection;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,22 +23,22 @@ import lombok.NoArgsConstructor;
 public final class FeesPaymentRequest implements FeesPayment {
 
     @NotNull
-    private Float                              amount;
+    private Float                          amount;
 
     @NotEmpty
-    private String                             description;
+    private String                         description;
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotEmpty
-    private Collection<@NotNull LocalDateTime> feeDates;
+    private Collection<@NotNull YearMonth> feeDates;
 
     @NotNull
-    private Long                               memberId;
+    private Long                           memberId;
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
-    private LocalDateTime                      paymentDate;
+    private LocalDateTime                  paymentDate;
 
 }
