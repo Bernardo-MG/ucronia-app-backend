@@ -29,6 +29,14 @@ public final class UsersCreate {
             .build();
     }
 
+    public static final UserCreate paddedWithWhitespaces() {
+        return ValidatedUserCreate.builder()
+            .username(" admin ")
+            .name(" Admin ")
+            .email(" email@somewhere.com ")
+            .build();
+    }
+
     public static final UserCreate valid() {
         return ValidatedUserCreate.builder()
             .username("admin")

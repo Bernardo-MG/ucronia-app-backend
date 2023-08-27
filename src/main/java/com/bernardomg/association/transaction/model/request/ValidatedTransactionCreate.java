@@ -28,6 +28,4 @@ public final class ValidatedTransactionCreate implements TransactionCreate {
     @NotEmpty
     private String    description;
 
-    private Long      id;
-
 }

@@ -113,6 +113,27 @@ class ITTransactionServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
+    @Sql({ "/db/queries/transaction/single.sql" })
+    void testUpdate_Padded_PersistedData() {
+        final TransactionUpdate     transactionRequest;
+        final PersistentTransaction transaction;
+
+        transactionRequest = TransactionsUpdate.paddedWithWhitespaces();
+
+        service.update(1L, transactionRequest);
+        transaction = repository.findAll()
+            .iterator()
+            .next();
+
+        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
+            .description("Transaction 123")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .build());
+    }
+
+    @Test
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/transaction/single.sql" })
     void testUpdate_PersistedData() {

@@ -57,7 +57,10 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Creating transaction {}", transaction);
 
         entity = mapper.toEntity(transaction);
-        entity.setId(null);
+
+        // Trim strings
+        entity.setDescription(entity.getDescription()
+            .trim());
 
         created = repository.save(entity);
 
@@ -176,7 +179,13 @@ public final class DefaultTransactionService implements TransactionService {
         }
 
         entity = mapper.toEntity(transaction);
+
+        // Set id
         entity.setId(id);
+
+        // Trim strings
+        entity.setDescription(entity.getDescription()
+            .trim());
 
         updated = repository.save(entity);
         return mapper.toDto(updated);

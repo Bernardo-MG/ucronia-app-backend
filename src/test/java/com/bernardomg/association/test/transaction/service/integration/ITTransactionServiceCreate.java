@@ -95,7 +95,7 @@ class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a transaction for the first day of the year, the member is persisted")
+    @DisplayName("With a transaction for the first day of the year, the transaction is persisted")
     void testCreate_FirstDay_AddsEntity() {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
@@ -136,7 +136,7 @@ class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a transaction for the a day during year, the member is persisted")
+    @DisplayName("With a transaction for the a day during year, the transaction is persisted")
     void testCreate_InYear_AddsEntity() {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
@@ -160,7 +160,7 @@ class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a transaction for the a day during year, the persisted member is created")
+    @DisplayName("With a transaction for the a day during year, the persisted transaction is created")
     void testCreate_InYear_ReturnedData() {
         final TransactionCreate transactionRequest;
         final Transaction       transaction;
@@ -177,7 +177,31 @@ class ITTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a repeated creation, two members are persisted")
+    @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
+    void testCreate_Padded_AddsEntity() {
+        final TransactionCreate     transactionRequest;
+        final PersistentTransaction entity;
+
+        transactionRequest = TransactionsCreate.paddedWithWhitespaces();
+
+        service.create(transactionRequest);
+
+        Assertions.assertThat(repository.count())
+            .isOne();
+
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
+            .description("Transaction")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .build());
+    }
+
+    @Test
+    @DisplayName("With a repeated creation, two transactions are persisted")
     void testCreate_Repeat_AddsEntity() {
         final TransactionCreate transactionRequest;
 

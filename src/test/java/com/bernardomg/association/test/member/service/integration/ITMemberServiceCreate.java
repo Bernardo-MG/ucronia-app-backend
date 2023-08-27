@@ -73,6 +73,32 @@ class ITMemberServiceCreate {
     }
 
     @Test
+    @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
+    void testCreate_Padded_PersistedData() {
+        final MemberCreate     memberRequest;
+        final PersistentMember entity;
+
+        memberRequest = MembersCreate.paddedWithWhitespaces();
+
+        service.create(memberRequest);
+
+        Assertions.assertThat(repository.count())
+            .isOne();
+
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
+            .name("Member")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
+    }
+
+    @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
         final MemberCreate     memberRequest;

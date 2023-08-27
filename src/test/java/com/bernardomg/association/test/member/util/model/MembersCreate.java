@@ -56,4 +56,13 @@ public final class MembersCreate {
             .build();
     }
 
+    public static final MemberCreate paddedWithWhitespaces() {
+        return ValidatedMemberCreate.builder()
+            .name(" Member ")
+            .surname(" Surname ")
+            .phone("12345")
+            .identifier("6789")
+            .build();
+    }
+
 }

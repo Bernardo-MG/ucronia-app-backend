@@ -62,4 +62,12 @@ public final class TransactionsCreate {
             .build();
     }
 
+    public static final TransactionCreate paddedWithWhitespaces() {
+        return ValidatedTransactionCreate.builder()
+            .description(" Transaction ")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .build();
+    }
+
 }
