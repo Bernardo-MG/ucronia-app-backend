@@ -2,9 +2,12 @@
 package com.bernardomg.association.fee.persistence.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.YearMonth;
+
+import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +37,8 @@ public class PersistentFee implements Serializable {
     private static final long serialVersionUID = 1328776989450853491L;
 
     @Column(name = "date", nullable = false)
-    private Calendar          date;
+    @Convert(converter = YearMonthDateAttributeConverter.class)
+    private YearMonth         date;
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_fees_id")

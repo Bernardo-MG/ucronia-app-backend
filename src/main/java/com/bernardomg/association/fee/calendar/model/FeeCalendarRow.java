@@ -24,13 +24,13 @@
 
 package com.bernardomg.association.fee.calendar.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public interface FeeCalendarRow {
 
     public Boolean getActive();
 
-    public Calendar getDate();
+    public LocalDate getDate();
 
     public Long getId();
 

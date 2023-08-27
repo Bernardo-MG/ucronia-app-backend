@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.jwt.token;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Represents the commons JWT token claims.
@@ -46,7 +46,7 @@ public interface JwtTokenData {
      *
      * @return the expiration date
      */
-    public Date getExpiration();
+    public LocalDateTime getExpiration();
 
     /**
      * Returns the id.
@@ -60,7 +60,7 @@ public interface JwtTokenData {
      *
      * @return the issued at date
      */
-    public Date getIssuedAt();
+    public LocalDateTime getIssuedAt();
 
     /**
      * Returns the issuer.
@@ -74,7 +74,7 @@ public interface JwtTokenData {
      *
      * @return the not before date
      */
-    public Date getNotBefore();
+    public LocalDateTime getNotBefore();
 
     /**
      * Returns the subject.

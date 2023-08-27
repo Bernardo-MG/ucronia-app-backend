@@ -56,12 +56,12 @@ class ITTransactionServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getStartMonth())
-            .isZero();
+            .isEqualTo(1);
         Assertions.assertThat(range.getStartYear())
             .isEqualTo(2020);
 
         Assertions.assertThat(range.getEndMonth())
-            .isEqualTo(11);
+            .isEqualTo(12);
         Assertions.assertThat(range.getEndYear())
             .isEqualTo(2020);
     }

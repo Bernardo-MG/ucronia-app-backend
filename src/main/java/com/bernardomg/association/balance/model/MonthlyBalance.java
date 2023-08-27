@@ -1,13 +1,13 @@
 
 package com.bernardomg.association.balance.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public interface MonthlyBalance {
 
     public Float getCumulative();
 
-    public Calendar getDate();
+    public LocalDate getDate();
 
     public Float getTotal();
 

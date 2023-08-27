@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.model.request;
 
-import java.util.Calendar;
+import java.time.YearMonth;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 public final class ValidatedFeeQuery implements FeeQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM")
-    private Calendar date;
+    private YearMonth date;
 
     @DateTimeFormat(pattern = "yyyy-MM")
-    private Calendar endDate;
+    private YearMonth endDate;
 
     @DateTimeFormat(pattern = "yyyy-MM")
-    private Calendar startDate;
+    private YearMonth startDate;
 
 }

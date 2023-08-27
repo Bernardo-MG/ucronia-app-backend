@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.balance.integration.service;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -58,7 +59,7 @@ class ITBalanceServiceGetTotalBalance {
         final PersistentTransaction entity;
 
         entity = PersistentTransaction.builder()
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Description")
             .amount(amount)
             .build();

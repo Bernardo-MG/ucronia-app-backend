@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.model.request;
 
-import java.util.Calendar;
+import java.time.YearMonth;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,16 +22,16 @@ public final class ValidatedFeeUpdate implements FeeUpdate {
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotNull
-    private Calendar date;
+    private YearMonth date;
 
     @NotNull
-    private Long     memberId;
+    private Long      memberId;
 
-    private String   name;
+    private String    name;
 
     @NotNull
-    private Boolean  paid;
+    private Boolean   paid;
 
-    private String   surname;
+    private String    surname;
 
 }

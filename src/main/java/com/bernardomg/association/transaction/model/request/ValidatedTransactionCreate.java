@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.model.request;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,15 +19,13 @@ import lombok.NoArgsConstructor;
 public final class ValidatedTransactionCreate implements TransactionCreate {
 
     @NotNull
-    private Float    amount;
+    private Float     amount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private Calendar date;
+    private LocalDate date;
 
     @NotEmpty
-    private String   description;
-
-    private Long     id;
+    private String    description;
 
 }

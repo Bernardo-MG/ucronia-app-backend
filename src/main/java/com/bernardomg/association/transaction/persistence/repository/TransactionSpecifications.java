@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.persistence.repository;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -11,15 +11,15 @@ import com.bernardomg.association.transaction.persistence.model.PersistentTransa
 
 public final class TransactionSpecifications {
 
-    public static Specification<PersistentTransaction> after(final Calendar date) {
+    public static Specification<PersistentTransaction> after(final LocalDate date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentTransaction> before(final Calendar date) {
+    public static Specification<PersistentTransaction> before(final LocalDate date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentTransaction> between(final Calendar start, final Calendar end) {
+    public static Specification<PersistentTransaction> between(final LocalDate start, final LocalDate end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
@@ -41,7 +41,7 @@ public final class TransactionSpecifications {
         return spec;
     }
 
-    public static Specification<PersistentTransaction> on(final Calendar date) {
+    public static Specification<PersistentTransaction> on(final LocalDate date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 

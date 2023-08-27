@@ -13,10 +13,8 @@ public final class TransactionAssertions {
             .isNotNull();
         Assertions.assertThat(received.getDescription())
             .isEqualTo(expected.getDescription());
-        Assertions.assertThat(received.getDate()
-            .getTime())
-            .isEqualTo(expected.getDate()
-                .getTime());
+        Assertions.assertThat(received.getDate())
+            .isEqualTo(expected.getDate());
         Assertions.assertThat(received.getAmount())
             .isEqualTo(expected.getAmount());
     }
@@ -26,10 +24,8 @@ public final class TransactionAssertions {
             .isNotNull();
         Assertions.assertThat(received.getDescription())
             .isEqualTo(expected.getDescription());
-        Assertions.assertThat(received.getDate()
-            .getTime())
-            .isEqualTo(expected.getDate()
-                .getTime());
+        Assertions.assertThat(received.getDate())
+            .isEqualTo(expected.getDate());
         Assertions.assertThat(received.getAmount())
             .isEqualTo(expected.getAmount());
     }

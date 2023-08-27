@@ -1,7 +1,8 @@
 
 package com.bernardomg.association.test.transaction.util.model;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 import com.bernardomg.association.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionCreate;
@@ -12,7 +13,7 @@ public final class TransactionsCreate {
         return ValidatedTransactionCreate.builder()
             .description("Transaction")
             .amount(amount)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 
@@ -20,7 +21,7 @@ public final class TransactionsCreate {
         return ValidatedTransactionCreate.builder()
             .description("")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 
@@ -28,7 +29,7 @@ public final class TransactionsCreate {
         return ValidatedTransactionCreate.builder()
             .description("Transaction")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build();
     }
 
@@ -36,14 +37,14 @@ public final class TransactionsCreate {
         return ValidatedTransactionCreate.builder()
             .description("Transaction")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 
     public static final TransactionCreate missingAmount() {
         return ValidatedTransactionCreate.builder()
             .description("Transaction")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 
@@ -57,7 +58,15 @@ public final class TransactionsCreate {
     public static final TransactionCreate missingDescription() {
         return ValidatedTransactionCreate.builder()
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .build();
+    }
+
+    public static final TransactionCreate paddedWithWhitespaces() {
+        return ValidatedTransactionCreate.builder()
+            .description(" Transaction ")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build();
     }
 

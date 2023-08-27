@@ -44,4 +44,14 @@ public final class MembersUpdate {
             .build();
     }
 
+    public static final MemberUpdate paddedWithWhitespaces() {
+        return ValidatedMemberUpdate.builder()
+            .name(" Member 123 ")
+            .surname(" Surname ")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build();
+    }
+
 }

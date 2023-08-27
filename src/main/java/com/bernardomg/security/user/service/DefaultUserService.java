@@ -201,7 +201,19 @@ public final class DefaultUserService implements UserService {
 
         userEntity = mapper.toEntity(user);
 
-        handleCase(userEntity);
+        // Trim strings
+        userEntity.setName(userEntity.getName()
+            .trim());
+        userEntity.setUsername(userEntity.getUsername()
+            .trim());
+        userEntity.setEmail(userEntity.getEmail()
+            .trim());
+
+        // Remove case
+        userEntity.setUsername(userEntity.getUsername()
+            .toLowerCase());
+        userEntity.setEmail(userEntity.getEmail()
+            .toLowerCase());
 
         // TODO: Handle this better, disable until it has a password
         // TODO: Should be the DB default value
@@ -248,7 +260,15 @@ public final class DefaultUserService implements UserService {
 
         userEntity = mapper.toEntity(user);
 
-        handleCase(userEntity);
+        // Trim strings
+        userEntity.setName(userEntity.getName()
+            .trim());
+        userEntity.setEmail(userEntity.getEmail()
+            .trim());
+
+        // Remove case
+        userEntity.setEmail(userEntity.getEmail()
+            .toLowerCase());
 
         oldRead = userRepository.findById(user.getId());
         if (oldRead.isPresent()) {
@@ -319,19 +339,6 @@ public final class DefaultUserService implements UserService {
         }
 
         return user.get();
-    }
-
-    private final void handleCase(final PersistentUser user) {
-        // Name and email should be case insensitive
-        // For this reason they are always stored in lower case
-        if (user.getUsername() != null) {
-            user.setUsername(user.getUsername()
-                .toLowerCase());
-        }
-        if (user.getEmail() != null) {
-            user.setEmail(user.getEmail()
-                .toLowerCase());
-        }
     }
 
 }

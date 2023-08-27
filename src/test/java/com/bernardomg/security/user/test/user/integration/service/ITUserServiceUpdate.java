@@ -73,6 +73,54 @@ class ITUserServiceUpdate {
     }
 
     @Test
+    @DisplayName("Updates persisted data, ignoring case")
+    void testUpdate_Case_PersistedData() {
+        final UserUpdate     user;
+        final PersistentUser entity;
+
+        user = UsersUpdate.emailChangeUpperCase();
+
+        service.update(1L, user);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email2@somewhere.com");
+    }
+
+    @Test
+    @DisplayName("Returns the updated data, ignoring case")
+    void testUpdate_Case_ReturnedData() {
+        final UserUpdate user;
+        final User       result;
+
+        user = UsersUpdate.emailChangeUpperCase();
+
+        result = service.update(1L, user);
+
+        Assertions.assertThat(result.getEmail())
+            .isEqualTo("email2@somewhere.com");
+    }
+
+    @Test
+    @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
+    void testUpdate_Padded_PersistedData() {
+        final UserUpdate     user;
+        final PersistentUser entity;
+
+        user = UsersUpdate.paddedWithWhitespaces();
+
+        service.update(1L, user);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(entity.getEmail())
+            .isEqualTo("email2@somewhere.com");
+    }
+
+    @Test
     @DisplayName("Updates persisted data")
     void testUpdate_PersistedData() {
         final UserUpdate     user;
@@ -98,23 +146,6 @@ class ITUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Updates persisted data, ignoring case")
-    void testUpdate_PersistedData_Case() {
-        final UserUpdate     user;
-        final PersistentUser entity;
-
-        user = UsersUpdate.emailChangeUpperCase();
-
-        service.update(1L, user);
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertThat(entity.getEmail())
-            .isEqualTo("email2@somewhere.com");
-    }
-
-    @Test
     @DisplayName("Returns the updated data")
     void testUpdate_ReturnedData() {
         final UserUpdate user;
@@ -133,20 +164,6 @@ class ITUserServiceUpdate {
             .expired(false)
             .locked(false)
             .build());
-    }
-
-    @Test
-    @DisplayName("Returns the updated data, ignoring case")
-    void testUpdate_ReturnedData_Case() {
-        final UserUpdate user;
-        final User       result;
-
-        user = UsersUpdate.emailChangeUpperCase();
-
-        result = service.update(1L, user);
-
-        Assertions.assertThat(result.getEmail())
-            .isEqualTo("email2@somewhere.com");
     }
 
 }

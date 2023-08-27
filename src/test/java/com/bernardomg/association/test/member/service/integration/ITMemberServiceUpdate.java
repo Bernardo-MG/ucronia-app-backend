@@ -71,6 +71,27 @@ class ITMemberServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
+    void testUpdate_Padded_PersistedData() {
+        final MemberUpdate     memberRequest;
+        final PersistentMember entity;
+
+        memberRequest = MembersUpdate.paddedWithWhitespaces();
+
+        service.update(1L, memberRequest);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
+            .name("Member 123")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
+    }
+
+    @Test
     @DisplayName("With a changed entity, the change is persisted")
     void testUpdate_PersistedData() {
         final MemberUpdate     memberRequest;

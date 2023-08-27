@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
@@ -97,7 +98,7 @@ class ITTransactionServiceGetAllPagination {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 1")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build());
     }
 
@@ -123,7 +124,7 @@ class ITTransactionServiceGetAllPagination {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 2")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 0, 2))
+            .date(LocalDate.of(2020, Month.JANUARY, 2))
             .build());
     }
 

@@ -2,7 +2,6 @@
 package com.bernardomg.association.fee.calendar.persistence.repository;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -129,7 +128,8 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
         // Calendar months start at index 0, this has to be corrected
         month = fee.getDate()
-            .get(Calendar.MONTH) + 1;
+            .getMonth()
+            .getValue();
 
         return ImmutableFeeMonth.builder()
             .month(month)

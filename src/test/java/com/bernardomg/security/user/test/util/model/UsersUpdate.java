@@ -75,4 +75,13 @@ public final class UsersUpdate {
             .build();
     }
 
+    public static final UserUpdate paddedWithWhitespaces() {
+        return ValidatedUserUpdate.builder()
+            .id(1L)
+            .name(" Admin ")
+            .email(" email2@somewhere.com ")
+            .enabled(true)
+            .build();
+    }
+
 }

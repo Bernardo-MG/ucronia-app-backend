@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.transaction.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -89,7 +90,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
             .description("Transaction")
             .amount(1.2f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -107,7 +108,28 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction")
             .amount(1.2f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .build());
+    }
+
+    @Test
+    @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
+    @Sql({ "/db/queries/transaction/single.sql" })
+    void testUpdate_Padded_PersistedData() {
+        final TransactionUpdate     transactionRequest;
+        final PersistentTransaction transaction;
+
+        transactionRequest = TransactionsUpdate.paddedWithWhitespaces();
+
+        service.update(1L, transactionRequest);
+        transaction = repository.findAll()
+            .iterator()
+            .next();
+
+        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
+            .description("Transaction 123")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -128,7 +150,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
             .description("Transaction 123")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 
@@ -146,7 +168,7 @@ class ITTransactionServiceUpdate {
         TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
             .description("Transaction 123")
             .amount(1f)
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build());
     }
 

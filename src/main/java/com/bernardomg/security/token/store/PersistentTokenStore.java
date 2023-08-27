@@ -1,7 +1,8 @@
 
 package com.bernardomg.security.token.store;
 
-import java.util.Calendar;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,9 +19,9 @@ public final class PersistentTokenStore implements TokenStore {
 
     private final TokenRepository tokenRepository;
 
-    private final Integer         validity;
+    private final Duration        validity;
 
-    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Integer valid) {
+    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Duration valid) {
         super();
 
         tokenRepository = tRepository;
@@ -52,14 +53,14 @@ public final class PersistentTokenStore implements TokenStore {
     @Override
     public final String createToken(final Long userId, final String username, final String scope) {
         final PersistentToken persistentToken;
-        final Calendar        creation;
-        final Calendar        expiration;
+        final LocalDateTime   creation;
+        final LocalDateTime   expiration;
         final String          tokenCode;
 
-        expiration = Calendar.getInstance();
-        expiration.add(Calendar.MILLISECOND, validity);
+        expiration = LocalDateTime.now()
+            .plus(validity);
 
-        creation = Calendar.getInstance();
+        creation = LocalDateTime.now();
 
         tokenCode = UUID.randomUUID()
             .toString();
@@ -125,8 +126,8 @@ public final class PersistentTokenStore implements TokenStore {
                 // It isn't a valid token
                 valid = false;
                 log.warn("Revoked token: {}", token);
-            } else if (Calendar.getInstance()
-                .after(entity.getExpirationDate())) {
+            } else if (LocalDateTime.now()
+                .isAfter(entity.getExpirationDate())) {
                 // Expired
                 // It isn't a valid token
                 valid = false;
@@ -135,7 +136,7 @@ public final class PersistentTokenStore implements TokenStore {
                 // Not expired
                 // Verifies the expiration date is after the current date
                 valid = entity.getExpirationDate()
-                    .after(Calendar.getInstance());
+                    .isAfter(LocalDateTime.now());
             }
         } else {
             log.warn("Token not registered: {}", token);

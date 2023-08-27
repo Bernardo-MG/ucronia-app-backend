@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.model.request;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 public final class ValidatedTransactionQuery implements TransactionQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar date;
+    private LocalDate date;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar endDate;
+    private LocalDate endDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar startDate;
+    private LocalDate startDate;
 
 }

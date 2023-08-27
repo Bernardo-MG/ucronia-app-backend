@@ -58,8 +58,15 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Phone and identifier should be unique or empty
 
         entity = mapper.toEntity(member);
+
         // Active by default
         entity.setActive(true);
+
+        // Trim strings
+        entity.setName(entity.getName()
+            .trim());
+        entity.setSurname(entity.getSurname()
+            .trim());
 
         created = repository.save(entity);
 
@@ -134,7 +141,15 @@ public final class DefaultMemberService implements MemberService {
         }
 
         entity = mapper.toEntity(member);
+
+        // Set id
         entity.setId(id);
+
+        // Trim strings
+        entity.setName(entity.getName()
+            .trim());
+        entity.setSurname(entity.getSurname()
+            .trim());
 
         updated = repository.save(entity);
         return mapper.toDto(updated);

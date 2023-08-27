@@ -51,8 +51,9 @@ services:
             - cors.origins=http://localhost:4200
             # JWT
             - security.jwt.secret=1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+            - security.jwt.validity=5d
             # Token
-            - security.token.validity=86400000
+            - security.token.validity=15d
         volumes:
             - association-logs:/logs
 volumes:

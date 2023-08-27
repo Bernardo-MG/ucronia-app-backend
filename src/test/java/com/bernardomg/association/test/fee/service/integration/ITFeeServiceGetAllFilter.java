@@ -24,7 +24,8 @@
 
 package com.bernardomg.association.test.fee.service.integration;
 
-import java.util.GregorianCalendar;
+import java.time.Month;
+import java.time.YearMonth;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
@@ -65,7 +66,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.endDate(new GregorianCalendar(2020, 1, 1));
+        feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.FEBRUARY));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -74,7 +75,7 @@ class ITFeeServiceGetAllFilter {
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 1, 1))
+            .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
     }
@@ -89,7 +90,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.endDate(new GregorianCalendar(2020, 0, 1));
+        feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -107,7 +108,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.inDate(new GregorianCalendar(2020, 2, 1));
+        feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.MARCH));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -116,7 +117,7 @@ class ITFeeServiceGetAllFilter {
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
-            .date(new GregorianCalendar(2020, 2, 1))
+            .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
     }
@@ -131,7 +132,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.endDate(new GregorianCalendar(2020, 0, 1));
+        feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -140,7 +141,7 @@ class ITFeeServiceGetAllFilter {
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 0, 1))
+            .date(YearMonth.of(2020, Month.JANUARY))
             .paid(true)
             .build());
     }
@@ -155,7 +156,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.inDate(new GregorianCalendar(2020, 11, 1));
+        feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.DECEMBER));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -164,7 +165,7 @@ class ITFeeServiceGetAllFilter {
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
-            .date(new GregorianCalendar(2020, 11, 1))
+            .date(YearMonth.of(2020, Month.DECEMBER))
             .paid(true)
             .build());
     }
@@ -179,7 +180,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.inDate(new GregorianCalendar(2020, 10, 1));
+        feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.NOVEMBER));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -197,7 +198,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.startDate(new GregorianCalendar(2020, 5, 1));
+        feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JUNE));
 
         fees = service.getAll(feeQuery, pageable);
 
@@ -206,7 +207,7 @@ class ITFeeServiceGetAllFilter {
         FeeAssertions.isEqualTo(IterableUtils.first(fees), DtoMemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
-            .date(new GregorianCalendar(2020, 5, 1))
+            .date(YearMonth.of(2020, Month.JUNE))
             .paid(false)
             .build());
     }
@@ -221,7 +222,7 @@ class ITFeeServiceGetAllFilter {
 
         pageable = Pageable.unpaged();
 
-        feeQuery = FeesQuery.startDate(new GregorianCalendar(2020, 6, 1));
+        feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JULY));
 
         fees = service.getAll(feeQuery, pageable);
 

@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.jwt.token;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.bernardomg.security.token.TokenDecoder;
@@ -61,9 +61,9 @@ public final class JwtTokenValidator implements TokenValidator {
 
     @Override
     public final boolean hasExpired(final String token) {
-        final Date expiration;
-        final Date current;
-        Boolean    expired;
+        final LocalDateTime expiration;
+        final LocalDateTime current;
+        Boolean             expired;
 
         try {
             // Acquire expiration date claim
@@ -71,8 +71,8 @@ public final class JwtTokenValidator implements TokenValidator {
                 .getExpiration();
 
             // Compare expiration to current date
-            current = new Date();
-            expired = expiration.before(current);
+            current = LocalDateTime.now();
+            expired = expiration.isBefore(current);
 
             log.debug("Expired '{}' as token expires on {}, and the current date is {}.", expired, expiration, current);
         } catch (final ExpiredJwtException e) {

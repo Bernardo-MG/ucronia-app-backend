@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.transaction.model.request;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public interface TransactionQuery {
 
-    public Calendar getDate();
+    public LocalDate getDate();
 
-    public Calendar getEndDate();
+    public LocalDate getEndDate();
 
-    public Calendar getStartDate();
+    public LocalDate getStartDate();
 
 }
