@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.schedule.service;
+package com.bernardomg.security.token.service;
 
 public interface TokenCleanUpService {
 

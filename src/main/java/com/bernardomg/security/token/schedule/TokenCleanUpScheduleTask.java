@@ -1,12 +1,12 @@
 
-package com.bernardomg.security.token.schedule.task;
+package com.bernardomg.security.token.schedule;
 
 import java.util.Objects;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.bernardomg.security.token.schedule.service.TokenCleanUpService;
+import com.bernardomg.security.token.service.TokenCleanUpService;
 
 import lombok.extern.slf4j.Slf4j;
 

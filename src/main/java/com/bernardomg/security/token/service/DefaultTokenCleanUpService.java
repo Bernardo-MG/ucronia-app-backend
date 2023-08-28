@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.schedule.service;
+package com.bernardomg.security.token.service;
 
 import java.util.Collection;
 import java.util.Objects;
