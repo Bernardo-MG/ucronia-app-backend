@@ -30,4 +30,6 @@ import com.bernardomg.association.member.persistence.model.PersistentMember;
 
 public interface MemberRepository extends JpaRepository<PersistentMember, Long> {
 
+    public boolean existsByIdAndActive(final Long id, final boolean active);
+
 }
