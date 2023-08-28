@@ -125,6 +125,21 @@ public class ITFeeMaintenanceService {
     }
 
     @Test
+    @DisplayName("With an inactive memeber and a paid fee in the previous month, no new fee is registered")
+    @Sql({ "/db/queries/member/inactive.sql" })
+    void testRegisterMonthFees_PaidPreviousMonth_Inactive() {
+        final Long count;
+
+        registerFeePreviousMonth(true);
+
+        service.registerMonthFees();
+
+        count = feeRepository.count();
+        Assertions.assertThat(count)
+            .isOne();
+    }
+
+    @Test
     @DisplayName("With a paid fee two months back, no fee is registered")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_PaidTwoMonthsBack() {

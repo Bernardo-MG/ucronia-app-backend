@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
 /**
  * Security configuration.
@@ -45,8 +46,9 @@ public class FeeConfig {
     }
 
     @Bean("feeMaintenanceService")
-    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo) {
-        return new DefaultFeeMaintenanceService(feeRepo);
+    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
+            final MemberRepository memberRepo) {
+        return new DefaultFeeMaintenanceService(feeRepo, memberRepo);
     }
 
 }

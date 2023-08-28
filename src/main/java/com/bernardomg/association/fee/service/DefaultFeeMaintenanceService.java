@@ -7,15 +7,19 @@ import java.util.Objects;
 
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
 
-    private final FeeRepository feeRepository;
+    private final FeeRepository    feeRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo) {
+    private final MemberRepository memberRepository;
+
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
@@ -33,6 +37,8 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         feesToCreate = feesToExtend.stream()
             // Prepare for the current month
             .map(this::toCurrentMonth)
+            // Make sure the user is active
+            .filter(this::notInactive)
             // Make sure it doesn't exist
             .filter(this::notExists)
             .toList();
@@ -41,6 +47,10 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final boolean notExists(final PersistentFee fee) {
         return !feeRepository.existsByMemberIdAndDate(fee.getMemberId(), fee.getDate());
+    }
+
+    private final boolean notInactive(final PersistentFee fee) {
+        return memberRepository.existsByIdAndActive(fee.getMemberId(), true);
     }
 
     private final PersistentFee toCurrentMonth(final PersistentFee fee) {
