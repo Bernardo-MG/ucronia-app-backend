@@ -11,7 +11,7 @@ import com.bernardomg.security.token.service.TokenCleanUpService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class TokenCleanUpScheduleTask {
+public class TokenCleanUpScheduleTask {
 
     private final TokenCleanUpService service;
 
@@ -23,7 +23,7 @@ public final class TokenCleanUpScheduleTask {
 
     @Async
     @Scheduled(cron = "0 0 0 1 1/1 *")
-    public final void cleanUpTokens() {
+    public void cleanUpTokens() {
         log.info("Starting token cleanup task");
         service.cleanUpTokens();
         log.info("Finished token cleanup task");
