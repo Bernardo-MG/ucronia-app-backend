@@ -9,6 +9,9 @@ import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
 
     private final FeeRepository    feeRepository;
@@ -42,6 +45,8 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             // Make sure it doesn't exist
             .filter(this::notExists)
             .toList();
+
+        log.debug("Registering {} fees for this month", feesToCreate.size());
         feeRepository.saveAll(feesToCreate);
     }
 
