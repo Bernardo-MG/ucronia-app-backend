@@ -72,9 +72,7 @@ class ITFeeCalendarServiceGetAllSort {
         Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
         Assertions.assertThat(calendar.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(calendar.getSurname())
-            .isEqualTo("Surname 1");
+            .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(calendar.getActive())
@@ -99,9 +97,7 @@ class ITFeeCalendarServiceGetAllSort {
         Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
         Assertions.assertThat(calendar.getName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(calendar.getSurname())
-            .isEqualTo("Surname 1");
+            .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(calendar.getActive())

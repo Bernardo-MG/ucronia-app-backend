@@ -142,7 +142,6 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         final Collection<FeeMonth> months;
         final FeeCalendarRow       row;
         final String               name;
-        final String               surname;
         FeeMonth                   feeMonth;
 
         if (fees.isEmpty()) {
@@ -150,7 +149,6 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             // TODO: Move out of the method and make sure this can't happen
             log.warn("No data found for member {}", member);
             name = "";
-            surname = "";
             months = Collections.emptyList();
         } else {
             // TODO: Months are not being sorted
@@ -162,14 +160,14 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
             row = fees.iterator()
                 .next();
-            name = row.getName();
-            surname = row.getSurname();
+            name = List.of(row.getName(), row.getSurname())
+                .stream()
+                .collect(Collectors.joining(" "));
         }
 
         return ImmutableUserFeeCalendar.builder()
             .memberId(member)
             .name(name)
-            .surname(surname)
             .active(active)
             .months(months)
             .year(year)

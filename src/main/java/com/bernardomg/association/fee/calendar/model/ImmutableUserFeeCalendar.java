@@ -41,8 +41,6 @@ public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
 
     private final String               name;
 
-    private final String               surname;
-
     private final Integer              year;
 
 }
