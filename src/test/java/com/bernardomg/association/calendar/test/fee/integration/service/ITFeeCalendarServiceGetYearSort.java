@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.calendar.integration.service;
+package com.bernardomg.association.calendar.test.fee.integration.service;
 
 import java.util.Iterator;
 
@@ -39,7 +39,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
-import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.calendar.test.fee.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -47,25 +47,25 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("Fee calendar service - get all - sorted")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-class ITFeeCalendarServiceGetAllSort {
+class ITFeeCalendarServiceGetYearSort {
 
     @Autowired
     private FeeCalendarService service;
 
-    public ITFeeCalendarServiceGetAllSort() {
+    public ITFeeCalendarServiceGetYearSort() {
         super();
     }
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    void testGetAll_Name_Asc() {
+    void testGetYear_Name_Asc() {
         final Sort                      sort;
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
 
         sort = Sort.by(Order.asc("name"));
 
-        calendars = service.getAll(2020, false, sort)
+        calendars = service.getYear(2020, false, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -83,14 +83,14 @@ class ITFeeCalendarServiceGetAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    void testGetAll_Name_Desc() {
+    void testGetYear_Name_Desc() {
         final Sort                      sort;
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
 
         sort = Sort.by(Order.asc("name"));
 
-        calendars = service.getAll(2020, false, sort)
+        calendars = service.getYear(2020, false, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -108,13 +108,13 @@ class ITFeeCalendarServiceGetAllSort {
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
-    void testGetAll_NotExisting() {
+    void testGetYear_NotExisting() {
         final Sort             sort;
         final ThrowingCallable execution;
 
         sort = Sort.by(Direction.ASC, "abc");
 
-        execution = () -> service.getAll(2020, false, sort)
+        execution = () -> service.getYear(2020, false, sort)
             .iterator();
 
         Assertions.assertThatThrownBy(execution)

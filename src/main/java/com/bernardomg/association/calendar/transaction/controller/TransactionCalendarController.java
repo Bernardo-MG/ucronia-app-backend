@@ -22,51 +22,54 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.fee.controller;
+package com.bernardomg.association.calendar.transaction.controller;
 
-import org.springframework.data.domain.Pageable;
+import java.time.YearMonth;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
-import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
-import com.bernardomg.association.calendar.fee.model.request.DtoFeeCalendarQueryRequest;
-import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
+import com.bernardomg.association.calendar.transaction.service.TransactionCalendarService;
+import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
 /**
- * Fee year REST controller.
- *
- * TODO: rework this model
+ * Transaction REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/fee/calendar")
+@RequestMapping("/transaction")
 @AllArgsConstructor
-public class FeeCalendarController {
+public class TransactionCalendarController {
 
-    private final FeeCalendarService service;
+    /**
+     * Transaction service.
+     */
+    private final TransactionCalendarService service;
 
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public FeeCalendarRange readRange(final DtoFeeCalendarQueryRequest request) {
-        return service.getRange(request.getOnlyActive());
+    public Iterable<? extends Transaction> readAll(@PathVariable("year") final Integer year,
+            @PathVariable("year") final Integer month) {
+        final YearMonth date;
+
+        date = YearMonth.of(year, month);
+        return service.getYearMonth(date);
     }
 
-    @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public Iterable<UserFeeCalendar> readYear(@PathVariable("year") final Integer year,
-            final DtoFeeCalendarQueryRequest request, final Pageable pageable) {
-        // TODO: receive just the sort object
-        return service.getYear(year, request.getOnlyActive(), pageable.getSort());
+    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    public TransactionRange readRange() {
+        return service.getRange();
     }
 
 }

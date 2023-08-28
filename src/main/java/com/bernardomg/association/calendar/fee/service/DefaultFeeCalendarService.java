@@ -20,23 +20,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     private final FeeCalendarRepository repository;
 
     @Override
-    @Cacheable(cacheNames = CACHE)
-    public final Iterable<UserFeeCalendar> getAll(final int year, final boolean onlyActive, final Sort sort) {
-        final Iterable<UserFeeCalendar> result;
-
-        // TODO: It seems the sort is applied to the months, not the calendar itself
-        // TODO: Make sure the months are being sorted
-
-        if (onlyActive) {
-            result = repository.findAllForYearWithActiveMember(year, sort);
-        } else {
-            result = repository.findAllForYear(year, sort);
-        }
-
-        return result;
-    }
-
-    @Override
     public final FeeCalendarRange getRange(final boolean onlyActive) {
         final FeeCalendarRange range;
 
@@ -49,6 +32,23 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         }
 
         return range;
+    }
+
+    @Override
+    @Cacheable(cacheNames = CACHE)
+    public final Iterable<UserFeeCalendar> getYear(final int year, final boolean onlyActive, final Sort sort) {
+        final Iterable<UserFeeCalendar> result;
+
+        // TODO: It seems the sort is applied to the months, not the calendar itself
+        // TODO: Make sure the months are being sorted
+
+        if (onlyActive) {
+            result = repository.findAllForYearWithActiveMember(year, sort);
+        } else {
+            result = repository.findAllForYear(year, sort);
+        }
+
+        return result;
     }
 
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.calendar.integration.service;
+package com.bernardomg.association.calendar.test.fee.integration.repository;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,33 +31,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
-import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.calendar.fee.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all")
-class ITFeeCalendarServiceGetRange {
+@DisplayName("Fee calendar repository - find range with active member")
+class ITFeeCalendarRepositoryFindRangeWithActiveMember {
 
     @Autowired
-    private FeeCalendarService service;
+    private FeeCalendarRepository repository;
 
-    public ITFeeCalendarServiceGetRange() {
+    public ITFeeCalendarRepositoryFindRangeWithActiveMember() {
         super();
     }
 
     @Test
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetRange_FullYear() {
-        final FeeCalendarRange range;
+    void testFindRangeWithActiveMember_FullYear() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
+        Assertions.assertThat(calendar.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
+        Assertions.assertThat(calendar.getEnd())
             .isEqualTo(2020);
     }
 
@@ -65,83 +63,83 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a full year and two members the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
-    void testGetRange_FullYear_TwoMembers() {
-        final FeeCalendarRange range;
+    void testFindRangeWithActiveMember_FullYear_TwoMembers() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
+        Assertions.assertThat(calendar.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
+        Assertions.assertThat(calendar.getEnd())
             .isEqualTo(2020);
     }
 
     @Test
-    @DisplayName("With an inactive member it returns the range")
+    @DisplayName("With an inactive member it returns no range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    void testGetRange_Inactive() {
-        final FeeCalendarRange range;
+    void testFindRangeWithActiveMember_Inactive_FullYear() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(calendar.getStart())
+            .isZero();
+        Assertions.assertThat(calendar.getEnd())
+            .isZero();
     }
 
     @Test
-    @DisplayName("With no data the range is empty")
-    void testGetRange_NoData() {
-        final FeeCalendarRange range;
+    @DisplayName("With no data it returns no dates")
+    void testFindRangeWithActiveMember_NoData() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
+        Assertions.assertThat(calendar.getStart())
             .isZero();
-        Assertions.assertThat(range.getEnd())
+        Assertions.assertThat(calendar.getEnd())
             .isZero();
     }
 
     @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    void testGetRange_Single() {
-        final FeeCalendarRange range;
+    void testFindRangeWithActiveMember_Single() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
+        Assertions.assertThat(calendar.getStart())
             .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
+        Assertions.assertThat(calendar.getEnd())
             .isEqualTo(2020);
     }
 
     @Test
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetRange_TwoConnectedYears() {
-        final FeeCalendarRange range;
+    void testFindRangeWithActiveMember_TwoConnectedYears() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
+        Assertions.assertThat(calendar.getStart())
             .isEqualTo(2019);
-        Assertions.assertThat(range.getEnd())
+        Assertions.assertThat(calendar.getEnd())
             .isEqualTo(2020);
     }
 
     @Test
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
-    void testGetRange_TwoYearsWithGap() {
-        final FeeCalendarRange range;
+    void testFindRangeWithActiveMember_TwoYearsWithGap() {
+        final FeeCalendarRange calendar;
 
-        range = service.getRange(false);
+        calendar = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(range.getStart())
+        Assertions.assertThat(calendar.getStart())
             .isEqualTo(2018);
-        Assertions.assertThat(range.getEnd())
+        Assertions.assertThat(calendar.getEnd())
             .isEqualTo(2020);
     }
 

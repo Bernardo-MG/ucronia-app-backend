@@ -80,7 +80,8 @@ public class TransactionController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
-    public Iterable<Transaction> readAll(@Valid @RequestParam final ValidatedTransactionQuery request, final Pageable pageable) {
+    public Iterable<Transaction> readAll(@Valid @RequestParam final ValidatedTransactionQuery request,
+            final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 

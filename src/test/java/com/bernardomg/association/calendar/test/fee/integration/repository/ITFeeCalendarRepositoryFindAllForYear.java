@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.calendar.integration.repository;
+package com.bernardomg.association.calendar.test.fee.integration.repository;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -39,7 +39,7 @@ import com.bernardomg.association.calendar.fee.model.FeeMonth;
 import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 import com.bernardomg.association.calendar.fee.persistence.repository.FeeCalendarRepository;
-import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.calendar.test.fee.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

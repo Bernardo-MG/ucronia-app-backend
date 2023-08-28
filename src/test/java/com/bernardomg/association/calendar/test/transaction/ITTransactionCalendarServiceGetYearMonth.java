@@ -22,7 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.transaction.service.integration;
+package com.bernardomg.association.calendar.test.transaction;
+
+import java.time.Month;
+import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,58 +33,35 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.transaction.model.TransactionRange;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.calendar.transaction.service.TransactionCalendarService;
+import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Transaction service - get range")
-class ITTransactionServiceGetRange {
+@DisplayName("Transaction calendar service - get range")
+class ITTransactionCalendarServiceGetYearMonth {
 
     @Autowired
-    private TransactionService service;
+    private TransactionCalendarService service;
 
-    public ITTransactionServiceGetRange() {
+    public ITTransactionCalendarServiceGetYearMonth() {
         super();
     }
 
     @Test
-    @DisplayName("With a full year, a range for the full year is returned")
+    @DisplayName("Only the data for the month is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetRange_FullYear() {
-        final TransactionRange range;
+        final YearMonth                       date;
+        final Iterable<? extends Transaction> data;
 
-        range = service.getRange();
+        date = YearMonth.of(2020, Month.FEBRUARY);
+        data = service.getYearMonth(date);
 
-        Assertions.assertThat(range.getStartMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(range.getStartYear())
-            .isEqualTo(2020);
-
-        Assertions.assertThat(range.getEndMonth())
-            .isEqualTo(12);
-        Assertions.assertThat(range.getEndYear())
-            .isEqualTo(2020);
-    }
-
-    @Test
-    @DisplayName("With no data, an empty range is returned")
-    void testGetRange_NoData() {
-        final TransactionRange range;
-
-        range = service.getRange();
-
-        Assertions.assertThat(range.getStartMonth())
-            .isZero();
-        Assertions.assertThat(range.getStartYear())
-            .isZero();
-
-        Assertions.assertThat(range.getEndMonth())
-            .isZero();
-        Assertions.assertThat(range.getEndYear())
-            .isZero();
+        Assertions.assertThat(data)
+            .hasSize(1);
     }
 
 }

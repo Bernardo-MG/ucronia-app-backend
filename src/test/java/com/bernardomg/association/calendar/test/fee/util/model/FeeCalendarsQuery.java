@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.fee.calendar.util.model;
+package com.bernardomg.association.calendar.test.fee.util.model;
 
 import com.bernardomg.association.calendar.fee.model.request.DtoFeeCalendarQueryRequest;
 

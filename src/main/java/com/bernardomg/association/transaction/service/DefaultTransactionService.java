@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.transaction.service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,9 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.association.transaction.model.ImmutableTransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.transaction.model.request.TransactionQuery;
@@ -39,9 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
-    private static final String         CACHE_MULTIPLE = "fees";
+    private static final String         CACHE_MULTIPLE = "transactions";
 
-    private static final String         CACHE_SINGLE   = "fee";
+    private static final String         CACHE_SINGLE   = "transaction";
 
     private final TransactionMapper     mapper;
 
@@ -123,46 +120,6 @@ public final class DefaultTransactionService implements TransactionService {
         }
 
         return result;
-    }
-
-    @Override
-    public final TransactionRange getRange() {
-        final LocalDate min;
-        final LocalDate max;
-        final Integer   startMonth;
-        final Integer   startYear;
-        final Integer   endMonth;
-        final Integer   endYear;
-
-        log.debug("Reading the transactions range");
-
-        min = repository.findMinDate();
-        max = repository.findMaxDate();
-
-        if (min != null) {
-            startMonth = min.getMonth()
-                .getValue();
-            startYear = min.getYear();
-        } else {
-            startMonth = 0;
-            startYear = 0;
-        }
-
-        if (max != null) {
-            endMonth = max.getMonth()
-                .getValue();
-            endYear = max.getYear();
-        } else {
-            endMonth = 0;
-            endYear = 0;
-        }
-
-        return ImmutableTransactionRange.builder()
-            .startMonth(startMonth)
-            .endMonth(endMonth)
-            .startYear(startYear)
-            .endYear(endYear)
-            .build();
     }
 
     @Override

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.test.fee.calendar.integration.service;
+package com.bernardomg.association.calendar.test.fee.integration.service;
 
 import java.util.Iterator;
 
@@ -37,32 +37,32 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.calendar.fee.model.FeeMonth;
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
-import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.calendar.test.fee.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Fee calendar service - get all - filter by only active status")
-class ITFeeCalendarServiceGetAllFilterOnlyActive {
+class ITFeeCalendarServiceGetYearFilterOnlyActive {
 
     @Autowired
     private FeeCalendarService service;
 
-    public ITFeeCalendarServiceGetAllFilterOnlyActive() {
+    public ITFeeCalendarServiceGetYearFilterOnlyActive() {
         super();
     }
 
     @Test
     @DisplayName("With an active user it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetAll_Active_Count() {
+    void testGetYear_Active_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -75,13 +75,13 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Test
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetAll_FullYear_Count() {
+    void testGetYear_FullYear_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -94,14 +94,14 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Test
     @DisplayName("With a full year it returns all data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetAll_FullYear_Data() {
+    void testGetYear_FullYear_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -120,13 +120,13 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Test
     @DisplayName("With an inactive member it returns nothing")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    void testGetAll_Inactive_Count() {
+    void testGetYear_Inactive_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
@@ -135,13 +135,13 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Test
     @DisplayName("With no data it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
-    void testGetAll_NoData_Count() {
+    void testGetYear_NoData_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
@@ -150,13 +150,13 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Test
     @DisplayName("With two connected years it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetAll_TwoConnectedYears_Count() {
+    void testGetYear_TwoConnectedYears_Count() {
         final Iterable<UserFeeCalendar> calendars;
         final Sort                      sort;
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -169,7 +169,7 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
     @Test
     @DisplayName("With two connected years it returns all data for the queried year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetAll_TwoConnectedYears_Data() {
+    void testGetYear_TwoConnectedYears_Data() {
         final Iterator<UserFeeCalendar> calendars;
         final Sort                      sort;
         UserFeeCalendar                 calendar;
@@ -178,7 +178,7 @@ class ITFeeCalendarServiceGetAllFilterOnlyActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getAll(2020, true, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();

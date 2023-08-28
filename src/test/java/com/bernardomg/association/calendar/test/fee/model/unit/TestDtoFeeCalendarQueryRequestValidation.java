@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.fee.calendar.model.unit;
+package com.bernardomg.association.calendar.test.fee.model.unit;
 
 import java.util.Set;
 
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.calendar.fee.model.request.DtoFeeCalendarQueryRequest;
-import com.bernardomg.association.test.fee.calendar.util.model.FeeCalendarsQuery;
+import com.bernardomg.association.calendar.test.fee.util.model.FeeCalendarsQuery;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
