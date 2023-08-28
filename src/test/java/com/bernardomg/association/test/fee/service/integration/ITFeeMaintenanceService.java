@@ -11,15 +11,18 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
+@IntegrationTest
+@DisplayName("DefaultFeeMaintenanceService")
 public class ITFeeMaintenanceService {
 
     @Autowired
-    private FeeRepository         feeRepository;
+    private FeeRepository                feeRepository;
 
     @Autowired
-    private FeeMaintenanceService service;
+    private DefaultFeeMaintenanceService service;
 
     private final void registerFeeCurrentMonth() {
         final PersistentFee fee;
@@ -29,8 +32,7 @@ public class ITFeeMaintenanceService {
         fee.setMemberId(1l);
         fee.setPaid(false);
 
-        date = YearMonth.now()
-            .minusMonths(1);
+        date = YearMonth.now();
         fee.setDate(date);
 
         feeRepository.save(fee);

@@ -22,19 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.persistence.repository;
+package com.bernardomg.association.fee.config;
 
-import java.time.YearMonth;
-import java.util.List;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.service.FeeMaintenanceService;
 
-import com.bernardomg.association.fee.persistence.model.PersistentFee;
+/**
+ * Security configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration
+public class FeeConfig {
 
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+    public FeeConfig() {
+        super();
+    }
 
-    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
-
-    public List<PersistentFee> findAllByDate(final YearMonth date);
+    @Bean("feeMaintenanceService")
+    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo) {
+        return new DefaultFeeMaintenanceService(feeRepo);
+    }
 
 }
