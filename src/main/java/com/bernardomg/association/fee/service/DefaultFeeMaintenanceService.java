@@ -31,9 +31,16 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         feesToExtend = feeRepository.findAllByDate(previousMonth);
 
         feesToCreate = feesToExtend.stream()
+            // Prepare for the current month
             .map(this::toCurrentMonth)
+            // Make sure it doesn't exist
+            .filter(this::notExists)
             .toList();
         feeRepository.saveAll(feesToCreate);
+    }
+
+    private final boolean notExists(final PersistentFee fee) {
+        return !feeRepository.existsByMemberIdAndDate(fee.getMemberId(), fee.getDate());
     }
 
     private final PersistentFee toCurrentMonth(final PersistentFee fee) {
