@@ -30,6 +30,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.schedule.DefaultTokenCleanUpService;
+import com.bernardomg.security.token.schedule.TokenCleanUpScheduleTask;
+import com.bernardomg.security.token.schedule.TokenCleanUpService;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.store.TokenStore;
 
@@ -50,10 +53,20 @@ public class TokenConfig {
         super();
     }
 
+    @Bean("tokenCleanUpScheduleTask")
+    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+        return new TokenCleanUpScheduleTask(tokenCleanUpService);
+    }
+
+    @Bean("tokenCleanUpService")
+    public TokenCleanUpService getTokenCleanUpService(final TokenRepository tokenRepository) {
+        return new DefaultTokenCleanUpService(tokenRepository);
+    }
+
     @Bean("tokenStore")
-    public TokenStore getTokenStore(final TokenRepository tRepository, final TokenProperties tokenProperties) {
+    public TokenStore getTokenStore(final TokenRepository tokenRepository, final TokenProperties tokenProperties) {
         log.info("Persistent tokens will have a validity of {}", tokenProperties.getValidity());
-        return new PersistentTokenStore(tRepository, tokenProperties.getValidity());
+        return new PersistentTokenStore(tokenRepository, tokenProperties.getValidity());
     }
 
 }

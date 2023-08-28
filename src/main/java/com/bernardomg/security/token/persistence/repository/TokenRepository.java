@@ -43,6 +43,9 @@ public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
 
     public Boolean existsByTokenAndScope(final String token, final String scope);
 
+    @Query("SELECT t FROM Token t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
+    public List<PersistentToken> findAllFinished();
+
     public List<PersistentToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
     public Optional<PersistentToken> findOneByToken(final String token);
