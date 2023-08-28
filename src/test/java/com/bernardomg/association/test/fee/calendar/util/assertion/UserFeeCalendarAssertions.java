@@ -95,8 +95,6 @@ public final class UserFeeCalendarAssertions {
             .isEqualTo(expected.getMemberId());
         Assertions.assertThat(received.getName())
             .isEqualTo(expected.getName());
-        Assertions.assertThat(received.getSurname())
-            .isEqualTo(expected.getSurname());
         Assertions.assertThat(received.getYear())
             .isEqualTo(expected.getYear());
         Assertions.assertThat(received.getActive())

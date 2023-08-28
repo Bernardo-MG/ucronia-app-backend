@@ -36,8 +36,6 @@ public interface UserFeeCalendar {
 
     public String getName();
 
-    public String getSurname();
-
     public Integer getYear();
 
 }

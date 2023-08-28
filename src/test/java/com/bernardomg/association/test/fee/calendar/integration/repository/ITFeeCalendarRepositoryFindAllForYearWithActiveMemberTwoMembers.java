@@ -92,8 +92,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .name("Member 1 Surname 1")
             .year(2020)
             .active(true)
             .build());
@@ -104,8 +103,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
-            .name("Member 2")
-            .surname("Surname 2")
+            .name("Member 2 Surname 2")
             .year(2020)
             .active(true)
             .build());
