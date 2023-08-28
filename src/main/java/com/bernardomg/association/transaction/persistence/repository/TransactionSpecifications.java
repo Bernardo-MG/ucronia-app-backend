@@ -29,7 +29,8 @@ public final class TransactionSpecifications {
         final LocalDate endDate;
 
         startDate = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
-        endDate = LocalDate.of(date.getYear(), date.getMonthValue(), 31);
+        endDate = LocalDate.of(date.getYear(), date.getMonthValue(), date.getMonth()
+            .length(date.isLeapYear()));
 
         return between(startDate, endDate);
     }
