@@ -59,7 +59,7 @@ public class TransactionCalendarController {
     @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
     public Iterable<? extends Transaction> readAll(@PathVariable("year") final Integer year,
-            @PathVariable("year") final Integer month) {
+            @PathVariable("month") final Integer month) {
         final YearMonth date;
 
         date = YearMonth.of(year, month);
