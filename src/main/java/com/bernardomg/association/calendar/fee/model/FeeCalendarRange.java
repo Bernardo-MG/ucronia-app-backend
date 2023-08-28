@@ -22,19 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.persistence.repository;
+package com.bernardomg.association.calendar.fee.model;
 
-import java.time.YearMonth;
-import java.util.List;
+public interface FeeCalendarRange {
 
-import org.springframework.data.jpa.repository.JpaRepository;
+    public Integer getEnd();
 
-import com.bernardomg.association.fee.persistence.model.PersistentFee;
-
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
-
-    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
-
-    public List<PersistentFee> findAllByDate(final YearMonth date);
+    public Integer getStart();
 
 }

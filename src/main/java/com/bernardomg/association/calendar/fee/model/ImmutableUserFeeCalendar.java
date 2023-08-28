@@ -22,19 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.persistence.repository;
+package com.bernardomg.association.calendar.fee.model;
 
-import java.time.YearMonth;
-import java.util.List;
+import java.util.Collection;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import lombok.Builder;
+import lombok.Value;
 
-import com.bernardomg.association.fee.persistence.model.PersistentFee;
+@Value
+@Builder
+public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
 
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+    private final Boolean              active;
 
-    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
+    private final Long                 memberId;
 
-    public List<PersistentFee> findAllByDate(final YearMonth date);
+    private final Collection<FeeMonth> months;
+
+    private final String               name;
+
+    private final Integer              year;
 
 }

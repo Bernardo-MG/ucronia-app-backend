@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionCreate;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionUpdate;
@@ -89,12 +88,6 @@ public class TransactionController {
     public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
-    }
-
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
-    public TransactionRange readRange() {
-        return service.getRange();
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

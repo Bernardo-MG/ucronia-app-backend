@@ -22,35 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.token.persistence.repository;
+package com.bernardomg.association.fee.config;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import com.bernardomg.security.token.persistence.model.PersistentToken;
+import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
+import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
 /**
- * Repository for tokens.
+ * Security configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
+@Configuration
+public class FeeConfig {
 
-    public Boolean existsByTokenAndScope(final String token, final String scope);
+    public FeeConfig() {
+        super();
+    }
 
-    @Query("SELECT t FROM Token t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
-    public List<PersistentToken> findAllFinished();
+    @Bean("feeMaintenanceScheduleTask")
+    public FeeMaintenanceScheduleTask getFeeMaintenanceScheduleTask(final FeeMaintenanceService feeMaintenanceService) {
+        return new FeeMaintenanceScheduleTask(feeMaintenanceService);
+    }
 
-    public List<PersistentToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
-
-    public Optional<PersistentToken> findOneByToken(final String token);
-
-    @Query("SELECT u.username FROM User u JOIN Token t ON u.id = t.userId WHERE t.token = :token")
-    public Optional<String> findUsernameByToken(@Param("token") final String token);
+    @Bean("feeMaintenanceService")
+    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
+            final MemberRepository memberRepo) {
+        return new DefaultFeeMaintenanceService(feeRepo, memberRepo);
+    }
 
 }
