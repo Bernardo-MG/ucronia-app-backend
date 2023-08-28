@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.token.test.service.integration;
+package com.bernardomg.security.token.test.schedule.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.schedule.DefaultTokenCleanUpService;
+import com.bernardomg.security.token.schedule.service.DefaultTokenCleanUpService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

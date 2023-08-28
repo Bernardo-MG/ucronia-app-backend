@@ -30,9 +30,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.schedule.DefaultTokenCleanUpService;
-import com.bernardomg.security.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.token.schedule.TokenCleanUpService;
+import com.bernardomg.security.token.schedule.service.DefaultTokenCleanUpService;
+import com.bernardomg.security.token.schedule.service.TokenCleanUpService;
+import com.bernardomg.security.token.schedule.task.TokenCleanUpScheduleTask;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.store.TokenStore;
 
