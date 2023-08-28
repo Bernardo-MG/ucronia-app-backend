@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.calendar.persistence.repository;
+package com.bernardomg.association.calendar.fee.persistence.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,12 +16,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRow;
-import com.bernardomg.association.fee.calendar.model.FeeMonth;
-import com.bernardomg.association.fee.calendar.model.ImmutableFeeMonth;
-import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
-import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRow;
+import com.bernardomg.association.calendar.fee.model.FeeMonth;
+import com.bernardomg.association.calendar.fee.model.ImmutableFeeMonth;
+import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
+import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

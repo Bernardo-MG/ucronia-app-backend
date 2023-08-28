@@ -22,24 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.calendar.model;
+package com.bernardomg.association.calendar.fee.model;
 
-import java.time.LocalDate;
+import lombok.Builder;
+import lombok.Value;
 
-public interface FeeCalendarRow {
+@Value
+@Builder
+public final class ImmutableFeeMonth implements FeeMonth {
 
-    public Boolean getActive();
+    private final Integer month;
 
-    public LocalDate getDate();
-
-    public Long getId();
-
-    public Long getMemberId();
-
-    public String getName();
-
-    public Boolean getPaid();
-
-    public String getSurname();
+    private final Boolean paid;
 
 }

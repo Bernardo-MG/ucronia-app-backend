@@ -35,10 +35,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeMonth;
-import com.bernardomg.association.fee.calendar.model.ImmutableUserFeeCalendar;
-import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.persistence.repository.FeeCalendarRepository;
+import com.bernardomg.association.calendar.fee.model.FeeMonth;
+import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
+import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
+import com.bernardomg.association.calendar.fee.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.test.fee.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

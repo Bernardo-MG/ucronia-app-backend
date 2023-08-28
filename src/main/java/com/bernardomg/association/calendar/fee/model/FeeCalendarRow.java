@@ -22,12 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.calendar.model;
+package com.bernardomg.association.calendar.fee.model;
 
-public interface FeeCalendarRange {
+import java.time.LocalDate;
 
-    public Integer getEnd();
+public interface FeeCalendarRow {
 
-    public Integer getStart();
+    public Boolean getActive();
+
+    public LocalDate getDate();
+
+    public Long getId();
+
+    public Long getMemberId();
+
+    public String getName();
+
+    public Boolean getPaid();
+
+    public String getSurname();
 
 }

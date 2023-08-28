@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.calendar.controller;
+package com.bernardomg.association.calendar.fee.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -31,10 +31,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.fee.calendar.model.request.DtoFeeCalendarQueryRequest;
-import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
+import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
+import com.bernardomg.association.calendar.fee.model.request.DtoFeeCalendarQueryRequest;
+import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 

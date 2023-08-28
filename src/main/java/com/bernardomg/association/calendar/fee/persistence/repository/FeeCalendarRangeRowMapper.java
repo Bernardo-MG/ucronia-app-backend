@@ -1,13 +1,13 @@
 
-package com.bernardomg.association.fee.calendar.persistence.repository;
+package com.bernardomg.association.calendar.fee.persistence.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.model.ImmutableFeeCalendarRange;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
+import com.bernardomg.association.calendar.fee.model.ImmutableFeeCalendarRange;
 
 public final class FeeCalendarRangeRowMapper implements RowMapper<FeeCalendarRange> {
 

@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.fee.calendar.model.request.DtoFeeCalendarQueryRequest;
+import com.bernardomg.association.calendar.fee.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.test.fee.calendar.util.model.FeeCalendarsQuery;
 
 import jakarta.validation.ConstraintViolation;

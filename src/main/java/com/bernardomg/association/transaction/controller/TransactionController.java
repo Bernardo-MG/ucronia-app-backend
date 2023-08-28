@@ -34,11 +34,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionCreate;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.transaction.model.request.ValidatedTransactionUpdate;
@@ -80,7 +80,7 @@ public class TransactionController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
-    public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
+    public Iterable<Transaction> readAll(@Valid @RequestParam final ValidatedTransactionQuery request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 
@@ -89,12 +89,6 @@ public class TransactionController {
     public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
-    }
-
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
-    public TransactionRange readRange() {
-        return service.getRange();
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

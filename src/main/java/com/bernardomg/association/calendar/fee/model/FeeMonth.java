@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.calendar.model;
+package com.bernardomg.association.calendar.fee.model;
 
 public interface FeeMonth {
 

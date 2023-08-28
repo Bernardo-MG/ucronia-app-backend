@@ -22,25 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.calendar.model;
-
-import java.util.Collection;
+package com.bernardomg.association.calendar.fee.model;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
-public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
+public final class ImmutableFeeCalendarRange implements FeeCalendarRange {
 
-    private final Boolean              active;
+    private final Integer end;
 
-    private final Long                 memberId;
-
-    private final Collection<FeeMonth> months;
-
-    private final String               name;
-
-    private final Integer              year;
+    private final Integer start;
 
 }

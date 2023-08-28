@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.service.FeeCalendarService;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
+import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

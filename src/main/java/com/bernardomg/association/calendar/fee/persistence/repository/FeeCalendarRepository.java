@@ -1,12 +1,12 @@
 
-package com.bernardomg.association.fee.calendar.persistence.repository;
+package com.bernardomg.association.calendar.fee.persistence.repository;
 
 import java.util.Collection;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
+import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 
 public interface FeeCalendarRepository {
 

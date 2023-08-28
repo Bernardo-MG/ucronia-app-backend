@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.calendar.model.request;
+package com.bernardomg.association.calendar.fee.model.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

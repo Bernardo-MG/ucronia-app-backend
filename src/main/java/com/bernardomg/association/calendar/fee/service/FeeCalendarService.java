@@ -1,10 +1,10 @@
 
-package com.bernardomg.association.fee.calendar.service;
+package com.bernardomg.association.calendar.fee.service;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.fee.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
+import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 
 /**
  * Fee service. Supports all the CRUD operations.
