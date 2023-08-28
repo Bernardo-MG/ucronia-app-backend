@@ -28,11 +28,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.token.service.TokenCleanUpService;
 
 /**
  * Security configuration.
@@ -47,15 +46,15 @@ public class FeeConfig {
         super();
     }
 
+    @Bean("feeMaintenanceScheduleTask")
+    public FeeMaintenanceScheduleTask getFeeMaintenanceScheduleTask(final FeeMaintenanceService feeMaintenanceService) {
+        return new FeeMaintenanceScheduleTask(feeMaintenanceService);
+    }
+
     @Bean("feeMaintenanceService")
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
             final MemberRepository memberRepo) {
         return new DefaultFeeMaintenanceService(feeRepo, memberRepo);
-    }
-
-    @Bean("tokenCleanUpScheduleTask")
-    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
-        return new TokenCleanUpScheduleTask(tokenCleanUpService);
     }
 
 }
