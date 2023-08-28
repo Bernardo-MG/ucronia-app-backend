@@ -47,7 +47,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transaction/calendar")
 @AllArgsConstructor
 public class TransactionCalendarController {
 
