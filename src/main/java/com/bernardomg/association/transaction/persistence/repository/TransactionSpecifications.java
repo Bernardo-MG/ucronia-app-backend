@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.persistence.repository;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -11,19 +12,30 @@ import com.bernardomg.association.transaction.persistence.model.PersistentTransa
 
 public final class TransactionSpecifications {
 
-    public static Specification<PersistentTransaction> after(final LocalDate date) {
+    public static final Specification<PersistentTransaction> after(final LocalDate date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentTransaction> before(final LocalDate date) {
+    public static final Specification<PersistentTransaction> before(final LocalDate date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentTransaction> between(final LocalDate start, final LocalDate end) {
+    public static final Specification<PersistentTransaction> between(final LocalDate start, final LocalDate end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<PersistentTransaction>> fromRequest(final TransactionQuery request) {
+    public static final Specification<PersistentTransaction> fromDate(final YearMonth date) {
+        final LocalDate startDate;
+        final LocalDate endDate;
+
+        startDate = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
+        endDate = LocalDate.of(date.getYear(), date.getMonthValue(), date.getMonth()
+            .length(date.isLeapYear()));
+
+        return between(startDate, endDate);
+    }
+
+    public static final Optional<Specification<PersistentTransaction>> fromRequest(final TransactionQuery request) {
         final Optional<Specification<PersistentTransaction>> spec;
 
         if (request.getDate() != null) {
@@ -41,7 +53,7 @@ public final class TransactionSpecifications {
         return spec;
     }
 
-    public static Specification<PersistentTransaction> on(final LocalDate date) {
+    public static final Specification<PersistentTransaction> on(final LocalDate date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 

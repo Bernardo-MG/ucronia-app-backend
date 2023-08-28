@@ -41,6 +41,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.bernardomg.exception.InvalidIdException;
@@ -86,6 +87,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         response = Response.error("Internal error");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+    public final ResponseEntity<Object> handleMethodArgumentException(final MethodArgumentTypeMismatchException ex,
+            final WebRequest request) throws Exception {
+        log.warn(ex.getMessage(), ex);
+
+        // TODO: add response model for these cases
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({ InvalidIdException.class })
