@@ -170,13 +170,7 @@ public final class DefaultFeeService implements FeeService {
 
         // Update fees on fees to update
         fees.stream()
-            .filter(fee -> feeRepository.existsByMemberIdAndDateAndPaid(fee.getMemberId(), fee.getDate(), false))
-            .forEach(fee -> {
-                final Long id = feeRepository.findOneByMemberIdAndDate(fee.getMemberId(), fee.getDate())
-                    .get()
-                    .getId();
-                fee.setId(id);
-            });
+            .forEach(this::loadId);
 
         feeRepository.saveAll(fees);
 
@@ -208,6 +202,18 @@ public final class DefaultFeeService implements FeeService {
 
         // TODO: Doesn't return names
         return mapper.toDto(updated);
+    }
+
+    private final void loadId(final PersistentFee fee) {
+        final Long                    id;
+        final Optional<PersistentFee> read;
+
+        read = feeRepository.findOneByMemberIdAndDate(fee.getMemberId(), fee.getDate());
+        if (read.isPresent()) {
+            id = read.get()
+                .getId();
+            fee.setId(id);
+        }
     }
 
     private final PersistentFee toPersistentFee(final Long memberId, final YearMonth date) {
