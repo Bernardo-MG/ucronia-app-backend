@@ -48,7 +48,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
         totalDates = fee.getFeeDates()
             .size();
         if (uniqueDates < totalDates) {
-            duplicates = (totalDates - uniqueDates) + 1;
+            duplicates = (totalDates - uniqueDates);
             log.error("Received {} fees, but {} are duplicates", fee.getFeeDates()
                 .size(), duplicates);
             failure = FieldFailure.of("feeDates[]", "duplicated", duplicates);

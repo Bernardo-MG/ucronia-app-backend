@@ -60,7 +60,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final TransactionRepository  transactionRepository;
 
-    private final Validator<FeesPayment> validatorCreate;
+    private final Validator<FeesPayment> validatorPay;
 
     private final Validator<FeeUpdate>   validatorUpdate;
 
@@ -75,7 +75,7 @@ public final class DefaultFeeService implements FeeService {
         mapper = mpper;
 
         // TODO: Test validation
-        validatorCreate = new CreateFeeValidator(memberRepository, feeRepository);
+        validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
         validatorUpdate = new UpdateFeeValidator(memberRepository);
     }
 
@@ -148,7 +148,7 @@ public final class DefaultFeeService implements FeeService {
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
-        validatorCreate.validate(payment);
+        validatorPay.validate(payment);
 
         // Register transaction
         transaction = new PersistentTransaction();
