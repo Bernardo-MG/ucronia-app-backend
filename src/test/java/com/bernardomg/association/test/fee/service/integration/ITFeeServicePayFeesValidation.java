@@ -62,7 +62,7 @@ class ITFeeServicePayFeesValidation {
 
         execution = () -> service.payFees(feeRequest);
 
-        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 2L);
+        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -70,24 +70,7 @@ class ITFeeServicePayFeesValidation {
     @Test
     @DisplayName("With a repeated member and month it throws an exception")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
-    void testCreate_ExistingDateAndMember() {
-        final FeesPayment      feeRequest;
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        feeRequest = FeesCreate.valid();
-
-        execution = () -> service.payFees(feeRequest);
-
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
-    @DisplayName("With a repeated member and month, with the fee unpaid, it throws an exception")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
-    void testCreate_ExistingDateAndMember_Unpaid() {
+    void testCreate_Existing_Paid() {
         final FeesPayment      feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;

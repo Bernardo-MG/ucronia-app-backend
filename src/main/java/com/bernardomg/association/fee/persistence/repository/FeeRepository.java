@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.persistence.repository;
 
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -34,6 +35,8 @@ import com.bernardomg.association.fee.persistence.model.PersistentFee;
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
     public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
+    public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
+    public Optional<PersistentFee> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
 
     public List<PersistentFee> findAllByDate(final YearMonth date);
 
