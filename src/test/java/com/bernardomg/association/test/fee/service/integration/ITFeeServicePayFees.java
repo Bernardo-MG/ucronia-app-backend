@@ -68,6 +68,81 @@ class ITFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("When a fee is paid and the fee exists but is unpaid, it is set to paid")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    void testCreate_ExistingUnpaid_PersistedFee() {
+        final FeesPayment   feeRequest;
+        final PersistentFee entity;
+
+        feeRequest = FeesCreate.valid();
+
+        service.payFees(feeRequest);
+
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
+        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(YearMonth.of(2020, Month.FEBRUARY))
+            .paid(true)
+            .build());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid and the fee exists but is unpaid, a single transaction is persisted")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    void testCreate_ExistingUnpaid_PersistedTransaction() {
+        final FeesPayment           feeRequest;
+        final PersistentTransaction entity;
+
+        feeRequest = FeesCreate.valid();
+
+        service.payFees(feeRequest);
+
+        entity = transactionRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(transactionRepository.count())
+            .isEqualTo(1);
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
+            .id(1L)
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .description("Fee paid")
+            .amount(1F)
+            .build());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid and the fee exists but is unpaid, it returns the created data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    void testCreate_ExistingUnpaid_ReturnedData() {
+        final FeesPayment                     feeRequest;
+        final Collection<? extends MemberFee> fee;
+
+        feeRequest = FeesCreate.valid();
+
+        fee = service.payFees(feeRequest);
+
+        Assertions.assertThat(fee)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fee.iterator()
+            .next(),
+            DtoMemberFee.builder()
+                .id(1L)
+                .memberId(1L)
+                .memberName(null)
+                .date(YearMonth.of(2020, Month.FEBRUARY))
+                .paid(true)
+                .build());
+    }
+
+    @Test
     @DisplayName("When the user is inactive and a fee is created the fee is persisted")
     @Sql({ "/db/queries/member/inactive.sql" })
     void testCreate_Inactive_PersistedFee() {
@@ -143,7 +218,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created with multiple dates the data is persisted")
+    @DisplayName("When a fee is paid with multiple dates multiple fees are persisted")
     @Sql({ "/db/queries/member/single.sql" })
     void testCreate_MultipleDates_PersistedFee() {
         final FeesPayment feeRequest;
@@ -162,7 +237,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created with multiple dates a single transaction is persisted")
+    @DisplayName("When a fee is paid with multiple dates a single transaction is persisted")
     @Sql({ "/db/queries/member/single.sql" })
     void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
         final FeesPayment           feeRequest;
@@ -187,7 +262,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created the fee is persisted")
+    @DisplayName("When a fee is paid the fee is persisted")
     @Sql({ "/db/queries/member/single.sql" })
     void testCreate_PersistedFee() {
         final FeesPayment   feeRequest;
@@ -212,7 +287,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created a single transaction is persisted")
+    @DisplayName("When a fee is paid a single transaction is persisted")
     @Sql({ "/db/queries/member/single.sql" })
     void testCreate_PersistedTransaction() {
         final FeesPayment           feeRequest;
@@ -237,7 +312,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is created it returns the created data")
+    @DisplayName("When a fee is paid it returns the created data")
     @Sql({ "/db/queries/member/single.sql" })
     void testCreate_ReturnedData() {
         final FeesPayment                     feeRequest;
