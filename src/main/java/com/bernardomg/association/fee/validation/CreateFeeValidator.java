@@ -55,10 +55,10 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
             failures.add(failure);
         }
 
-        // Verify no date is already registered
+        // Verify no date is already registered, unless it is not paid
         existing = fee.getFeeDates()
             .stream()
-            .filter(date -> feeRepository.existsByMemberIdAndDate(fee.getMemberId(), date))
+            .filter(date -> feeRepository.existsByMemberIdAndDateAndPaid(fee.getMemberId(), date, true))
             .count();
         if (existing > 0) {
             failure = FieldFailure.of("feeDates[]", "existing", existing);

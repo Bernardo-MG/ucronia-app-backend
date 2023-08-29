@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.fee.service;
 
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -143,8 +145,9 @@ public final class DefaultFeeService implements FeeService {
     @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
     @Transactional
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
-        final PersistentTransaction     transaction;
-        final Collection<PersistentFee> fees;
+        final PersistentTransaction              transaction;
+        final Collection<PersistentFee>          fees;
+        final Function<YearMonth, PersistentFee> toPersistentFee;
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
@@ -156,22 +159,24 @@ public final class DefaultFeeService implements FeeService {
         transaction.setDate(payment.getPaymentDate());
         transaction.setDescription(payment.getDescription());
 
-        // Register fees
         transactionRepository.save(transaction);
 
+        // Register fees
+        toPersistentFee = (date) -> toPersistentFee(payment.getMemberId(), date);
         fees = payment.getFeeDates()
             .stream()
-            .map(date -> {
-                final PersistentFee fee;
-
-                fee = new PersistentFee();
-                fee.setMemberId(payment.getMemberId());
-                fee.setDate(date);
-                fee.setPaid(true);
-
-                return fee;
-            })
+            .map(toPersistentFee)
             .toList();
+
+        // Update fees on fees to update
+        fees.stream()
+            .filter(fee -> feeRepository.existsByMemberIdAndDateAndPaid(fee.getMemberId(), fee.getDate(), false))
+            .forEach(fee -> {
+                final Long id = feeRepository.findOneByMemberIdAndDate(fee.getMemberId(), fee.getDate())
+                    .get()
+                    .getId();
+                fee.setId(id);
+            });
 
         feeRepository.saveAll(fees);
 
@@ -186,7 +191,7 @@ public final class DefaultFeeService implements FeeService {
             evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
     public final MemberFee update(final long id, final FeeUpdate fee) {
         final PersistentFee entity;
-        final PersistentFee created;
+        final PersistentFee updated;
 
         log.debug("Updating fee with id {} using data {}", id, fee);
 
@@ -199,10 +204,21 @@ public final class DefaultFeeService implements FeeService {
         entity = mapper.toEntity(fee);
         entity.setId(id);
 
-        created = feeRepository.save(entity);
+        updated = feeRepository.save(entity);
 
         // TODO: Doesn't return names
-        return mapper.toDto(created);
+        return mapper.toDto(updated);
+    }
+
+    private final PersistentFee toPersistentFee(final Long memberId, final YearMonth date) {
+        final PersistentFee fee;
+
+        fee = new PersistentFee();
+        fee.setMemberId(memberId);
+        fee.setDate(date);
+        fee.setPaid(true);
+
+        return fee;
     }
 
 }
