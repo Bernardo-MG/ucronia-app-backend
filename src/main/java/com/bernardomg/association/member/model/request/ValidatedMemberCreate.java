@@ -13,16 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class ValidatedMemberCreate implements MemberCreate {
 
-    @NotEmpty
     private String identifier;
 
     @NotEmpty
     private String name;
 
-    @NotEmpty
     private String phone;
 
-    @NotEmpty
     private String surname;
 
 }

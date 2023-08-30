@@ -48,17 +48,17 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
         totalDates = fee.getFeeDates()
             .size();
         if (uniqueDates < totalDates) {
-            duplicates = (totalDates - uniqueDates) + 1;
+            duplicates = (totalDates - uniqueDates);
             log.error("Received {} fees, but {} are duplicates", fee.getFeeDates()
                 .size(), duplicates);
             failure = FieldFailure.of("feeDates[]", "duplicated", duplicates);
             failures.add(failure);
         }
 
-        // Verify no date is already registered
+        // Verify no date is already registered, unless it is not paid
         existing = fee.getFeeDates()
             .stream()
-            .filter(date -> feeRepository.existsByMemberIdAndDate(fee.getMemberId(), date))
+            .filter(date -> feeRepository.existsByMemberIdAndDateAndPaid(fee.getMemberId(), date, true))
             .count();
         if (existing > 0) {
             failure = FieldFailure.of("feeDates[]", "existing", existing);
