@@ -52,10 +52,10 @@ public final class UserAssertions {
         Assertions.assertThat(received.getEmail())
             .withFailMessage("Expected email '%s' but got '%s'", expected.getEmail(), received.getEmail())
             .isEqualTo(expected.getEmail());
-        Assertions.assertThat(received.getCredentialsExpired())
-            .withFailMessage("Expected credentials expired flag '%s' but got '%s'", expected.getCredentialsExpired(),
-                received.getCredentialsExpired())
-            .isEqualTo(expected.getCredentialsExpired());
+        Assertions.assertThat(received.getPasswordExpired())
+            .withFailMessage("Expected credentials expired flag '%s' but got '%s'", expected.getPasswordExpired(),
+                received.getPasswordExpired())
+            .isEqualTo(expected.getPasswordExpired());
         Assertions.assertThat(received.getEnabled())
             .withFailMessage("Expected enabled flag '%s' but got '%s'", expected.getEnabled(), received.getEnabled())
             .isEqualTo(expected.getEnabled());

@@ -159,7 +159,7 @@ class ITUserServiceUpdate {
             .username("admin")
             .name("Admin")
             .email("email2@somewhere.com")
-            .credentialsExpired(false)
+            .passwordExpired(false)
             .enabled(true)
             .expired(false)
             .locked(false)

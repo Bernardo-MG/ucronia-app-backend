@@ -9,11 +9,6 @@ import lombok.Data;
 public final class DtoUser implements User {
 
     /**
-     * User expired flag.
-     */
-    private final Boolean credentialsExpired;
-
-    /**
      * User email.
      */
     private final String  email;
@@ -42,6 +37,11 @@ public final class DtoUser implements User {
      * User name.
      */
     private final String  name;
+
+    /**
+     * Password expired flag.
+     */
+    private final Boolean passwordExpired;
 
     /**
      * User username.
