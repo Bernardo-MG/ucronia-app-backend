@@ -80,7 +80,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(true);
+        user.setPasswordExpired(true);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
@@ -95,7 +95,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
@@ -110,7 +110,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(false);
@@ -125,7 +125,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(true);
         user.setLocked(false);
@@ -140,7 +140,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(true);

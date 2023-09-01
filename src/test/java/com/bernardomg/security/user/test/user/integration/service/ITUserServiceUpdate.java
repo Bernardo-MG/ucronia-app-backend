@@ -138,7 +138,7 @@ class ITUserServiceUpdate {
             .name("Admin")
             .email("email2@somewhere.com")
             .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
-            .credentialsExpired(false)
+            .passwordExpired(false)
             .enabled(true)
             .expired(false)
             .locked(false)

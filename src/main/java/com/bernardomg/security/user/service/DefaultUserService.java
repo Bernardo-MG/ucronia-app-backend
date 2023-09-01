@@ -223,7 +223,7 @@ public final class DefaultUserService implements UserService {
         userEntity.setEnabled(false);
         userEntity.setExpired(false);
         userEntity.setLocked(false);
-        userEntity.setCredentialsExpired(false);
+        userEntity.setPasswordExpired(false);
 
         created = userRepository.save(userEntity);
 
@@ -284,7 +284,7 @@ public final class DefaultUserService implements UserService {
             userEntity.setEnabled(old.getEnabled());
             userEntity.setExpired(old.getExpired());
             userEntity.setLocked(old.getLocked());
-            userEntity.setCredentialsExpired(old.getCredentialsExpired());
+            userEntity.setPasswordExpired(old.getPasswordExpired());
         }
 
         created = userRepository.save(userEntity);

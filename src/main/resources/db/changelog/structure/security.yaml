@@ -39,7 +39,7 @@ databaseChangeLog:
                     unique: true
                   defaultValue: ''
               - column:
-                  name: credentials_expired
+                  name: password_expired
                   type: boolean
                   constraints:
                     nullable: false

@@ -35,9 +35,11 @@ import com.bernardomg.association.fee.persistence.model.PersistentFee;
 public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
     public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
+
     public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
-    public Optional<PersistentFee> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
 
     public List<PersistentFee> findAllByDate(final YearMonth date);
+
+    public Optional<PersistentFee> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
 
 }

@@ -32,7 +32,7 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("Doesn't log in a user with expired credentials")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/credentials_expired.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_CredentialsExpired() {
