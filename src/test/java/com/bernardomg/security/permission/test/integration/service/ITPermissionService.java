@@ -55,7 +55,7 @@ class ITPermissionService {
     }
 
     @Test
-    @DisplayName("Returns no permissions when the user credentials are expired")
+    @DisplayName("Returns no permissions when the user password is expired")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
             "/db/queries/security/relationship/role_permission.sql",

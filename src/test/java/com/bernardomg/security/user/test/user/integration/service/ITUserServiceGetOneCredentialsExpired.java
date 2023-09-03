@@ -18,7 +18,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - get one - credentials expired")
+@DisplayName("User service - get one - password expired")
 @Sql({ "/db/queries/security/user/password_expired.sql" })
 class ITUserServiceGetOnepasswordExpired {
 
