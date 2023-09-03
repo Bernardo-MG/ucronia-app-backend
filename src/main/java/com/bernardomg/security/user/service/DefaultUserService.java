@@ -125,6 +125,7 @@ public final class DefaultUserService implements UserService {
         authorizeEnableUser(user);
 
         user.setEnabled(true);
+        user.setPasswordExpired(false);
         encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
 
@@ -223,7 +224,7 @@ public final class DefaultUserService implements UserService {
         userEntity.setEnabled(false);
         userEntity.setExpired(false);
         userEntity.setLocked(false);
-        userEntity.setPasswordExpired(false);
+        userEntity.setPasswordExpired(true);
 
         created = userRepository.save(userEntity);
 
