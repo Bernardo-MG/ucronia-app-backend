@@ -141,6 +141,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
+        user.setPasswordExpired(false);
 
         userRepository.save(user);
         tokenStore.consumeToken(token);
@@ -208,10 +209,6 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         if (!userDetails.isAccountNonLocked()) {
             log.error("Can't reset password. User {} is locked", userDetails.getUsername());
             throw new UserLockedException(userDetails.getUsername());
-        }
-        if (!userDetails.isCredentialsNonExpired()) {
-            log.error("Can't reset password. User {} credentials are expired", userDetails.getUsername());
-            throw new UserExpiredException(userDetails.getUsername());
         }
         if (!userDetails.isEnabled()) {
             log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
