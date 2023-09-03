@@ -72,4 +72,25 @@ class ITPasswordResetServiceChange {
             .isTrue();
     }
 
+    @Test
+    @DisplayName("Changing password with expired password resets the flag")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    void testChangePassword_ExpiredPassword() {
+        final PersistentUser user;
+
+        service.changePassword(TokenConstants.TOKEN, "abc");
+
+        user = userRepository.findAll()
+            .stream()
+            .findFirst()
+            .get();
+
+        Assertions.assertThat(user.getPasswordExpired())
+            .isFalse();
+    }
+
 }
