@@ -39,4 +39,10 @@ public final class ValidatedUserUpdate implements UserUpdate {
     @NotNull
     private String  name;
 
+    /**
+     * Password expired flag.
+     */
+    @NotNull
+    private Boolean passwordExpired;
+
 }

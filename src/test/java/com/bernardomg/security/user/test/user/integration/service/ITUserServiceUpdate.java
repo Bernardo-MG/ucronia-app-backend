@@ -104,6 +104,56 @@ class ITUserServiceUpdate {
     }
 
     @Test
+    @DisplayName("Can disable a user when updating")
+    void testUpdate_Disable_PersistedData() {
+        final UserUpdate     user;
+        final PersistentUser entity;
+
+        user = UsersUpdate.disabled();
+
+        service.update(1L, user);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .passwordExpired(false)
+            .enabled(false)
+            .expired(false)
+            .locked(false)
+            .build());
+    }
+
+    @Test
+    @DisplayName("Can expire a user's password when updating")
+    void testUpdate_ExpiredPassword_PersistedData() {
+        final UserUpdate     user;
+        final PersistentUser entity;
+
+        user = UsersUpdate.passwordExpired();
+
+        service.update(1L, user);
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+            .username("admin")
+            .name("Admin")
+            .email("email@somewhere.com")
+            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .passwordExpired(true)
+            .enabled(true)
+            .expired(false)
+            .locked(false)
+            .build());
+    }
+
+    @Test
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
         final UserUpdate     user;

@@ -6,12 +6,23 @@ import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
 
 public final class UsersUpdate {
 
+    public static final UserUpdate disabled() {
+        return ValidatedUserUpdate.builder()
+            .id(1L)
+            .name("Admin")
+            .email("email@somewhere.com")
+            .enabled(false)
+            .passwordExpired(false)
+            .build();
+    }
+
     public static final UserUpdate emailChange() {
         return ValidatedUserUpdate.builder()
             .id(1L)
             .name("Admin")
             .email("email2@somewhere.com")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -21,6 +32,7 @@ public final class UsersUpdate {
             .name("Admin")
             .email("EMAIL2@SOMEWHERE.COM")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -30,6 +42,7 @@ public final class UsersUpdate {
             .name("Admin")
             .email("email@somewhere.com")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -39,6 +52,7 @@ public final class UsersUpdate {
             .name("Admin")
             .email("abc")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -48,6 +62,7 @@ public final class UsersUpdate {
             .name("Admin2")
             .email("email@somewhere.com")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -56,6 +71,7 @@ public final class UsersUpdate {
             .id(1L)
             .name("Admin")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -64,6 +80,7 @@ public final class UsersUpdate {
             .id(1L)
             .name("Admin")
             .email("email@somewhere.com")
+            .passwordExpired(false)
             .build();
     }
 
@@ -72,6 +89,7 @@ public final class UsersUpdate {
             .name("Admin")
             .email("email@somewhere.com")
             .enabled(true)
+            .passwordExpired(false)
             .build();
     }
 
@@ -81,6 +99,17 @@ public final class UsersUpdate {
             .name(" Admin ")
             .email(" email2@somewhere.com ")
             .enabled(true)
+            .passwordExpired(false)
+            .build();
+    }
+
+    public static final UserUpdate passwordExpired() {
+        return ValidatedUserUpdate.builder()
+            .id(1L)
+            .name("Admin")
+            .email("email@somewhere.com")
+            .enabled(true)
+            .passwordExpired(true)
             .build();
     }
 
