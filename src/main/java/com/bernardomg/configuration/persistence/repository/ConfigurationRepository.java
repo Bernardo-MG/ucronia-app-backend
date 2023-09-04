@@ -24,10 +24,14 @@
 
 package com.bernardomg.configuration.persistence.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 
 public interface ConfigurationRepository extends JpaRepository<PersistentConfiguration, Long> {
+
+    public Optional<PersistentConfiguration> findOneByKey(final String key);
 
 }

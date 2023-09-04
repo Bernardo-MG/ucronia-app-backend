@@ -4,6 +4,7 @@ package com.bernardomg.configuration.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
 import com.bernardomg.configuration.source.ConfigurationSource;
 import com.bernardomg.configuration.source.PersistentConfigurationSource;
 
@@ -11,8 +12,8 @@ import com.bernardomg.configuration.source.PersistentConfigurationSource;
 public class ConfigurationConfig {
 
     @Bean("ConfigurationSource")
-    public ConfigurationSource configurationSource() {
-        return new PersistentConfigurationSource();
+    public ConfigurationSource configurationSource(final ConfigurationRepository configurationRepository) {
+        return new PersistentConfigurationSource(configurationRepository);
     }
 
 }
