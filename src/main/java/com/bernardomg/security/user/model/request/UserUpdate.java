@@ -16,6 +16,12 @@ public interface UserUpdate {
      * @return the user enabled flag
      */
     public Boolean getEnabled();
+    /**
+     * Returns the password expired flag.
+     *
+     * @return the password expired flag
+     */
+    public Boolean getPasswordExpired();
 
     /**
      * Returns the user id.

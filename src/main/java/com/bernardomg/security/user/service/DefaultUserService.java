@@ -282,10 +282,8 @@ public final class DefaultUserService implements UserService {
             userEntity.setPassword(old.getPassword());
 
             // Can't change status by updating
-            userEntity.setEnabled(old.getEnabled());
             userEntity.setExpired(old.getExpired());
             userEntity.setLocked(old.getLocked());
-            userEntity.setPasswordExpired(old.getPasswordExpired());
         }
 
         created = userRepository.save(userEntity);
