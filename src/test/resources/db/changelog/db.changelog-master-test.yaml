@@ -11,6 +11,9 @@ databaseChangeLog:
   - include:
       file: structure/security.yaml
       relativeToChangelogFile: true
+  - include:
+      file: structure/configuration.yaml
+      relativeToChangelogFile: true
   - changeSet:
       id: initial_sequences
       author: Bernardo
