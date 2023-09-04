@@ -65,19 +65,6 @@ class TestPasswordResetServiceChangeAuth {
             passwordEncoder, "password_reset");
     }
 
-    private final void loadCredentialsExpiredUser() {
-        final UserDetails user;
-
-        loadPersistentUser();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(USERNAME);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(true);
-        given(user.isCredentialsNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
-    }
-
     private final void loadDisabledUser() {
         final UserDetails user;
 
@@ -88,7 +75,6 @@ class TestPasswordResetServiceChangeAuth {
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
-        given(user.isCredentialsNonExpired()).willReturn(true);
         given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
 
@@ -130,23 +116,6 @@ class TestPasswordResetServiceChangeAuth {
         given(tokenStore.exists(TokenConstants.TOKEN, TOKEN_SCOPE)).willReturn(true);
         given(tokenStore.isValid(TokenConstants.TOKEN, TOKEN_SCOPE)).willReturn(true);
         given(tokenStore.getUsername(TokenConstants.TOKEN)).willReturn(USERNAME);
-    }
-
-    @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a user with expired credentials throws an exception")
-    void testChangePassword_CredentialsExpired_Exception() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        loadCredentialsExpiredUser();
-
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
-
-        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is expired");
     }
 
     @Test

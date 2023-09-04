@@ -77,20 +77,6 @@ class TestPasswordChangeServiceAuth {
             .setAuthentication(authentication);
     }
 
-    private final void loadCredentialsExpiredUser() {
-        final UserDetails user;
-
-        loadPersistentUser();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(USERNAME);
-        given(user.getPassword()).willReturn(PASSWORD);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(true);
-        given(user.isCredentialsNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
-    }
-
     private final void loadDisabledUser() {
         final UserDetails user;
 
@@ -102,7 +88,6 @@ class TestPasswordChangeServiceAuth {
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
-        given(user.isCredentialsNonExpired()).willReturn(true);
         given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
 
@@ -144,25 +129,6 @@ class TestPasswordChangeServiceAuth {
 
     void initializeValidation() {
         given(passwordEncoder.matches(PASSWORD, PASSWORD)).willReturn(true);
-    }
-
-    @Test
-    @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a user with expired credentials gives a failure")
-    void testChangePassword_CredentialsExpired_Exception() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        initializeValidation();
-        initializeAuthentication();
-        loadCredentialsExpiredUser();
-
-        executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
-
-        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is expired");
     }
 
     @Test

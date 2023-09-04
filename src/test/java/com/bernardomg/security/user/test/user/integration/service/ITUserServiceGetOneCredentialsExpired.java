@@ -18,14 +18,14 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - get one - credentials expired")
-@Sql({ "/db/queries/security/user/credentials_expired.sql" })
-class ITUserServiceGetOneCredentialsExpired {
+@DisplayName("User service - get one - password expired")
+@Sql({ "/db/queries/security/user/password_expired.sql" })
+class ITUserServiceGetOnepasswordExpired {
 
     @Autowired
     private UserService service;
 
-    public ITUserServiceGetOneCredentialsExpired() {
+    public ITUserServiceGetOnepasswordExpired() {
         super();
     }
 
@@ -52,7 +52,7 @@ class ITUserServiceGetOneCredentialsExpired {
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
-            .credentialsExpired(true)
+            .passwordExpired(true)
             .enabled(true)
             .expired(false)
             .locked(false)

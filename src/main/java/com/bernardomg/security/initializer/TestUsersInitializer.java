@@ -51,7 +51,7 @@ public final class TestUsersInitializer implements ApplicationRunner {
             .enabled(true)
             .locked(false)
             .expired(false)
-            .credentialsExpired(false)
+            .passwordExpired(false)
             .build();
     }
 
@@ -64,7 +64,7 @@ public final class TestUsersInitializer implements ApplicationRunner {
             .enabled(true)
             .locked(false)
             .expired(false)
-            .credentialsExpired(false)
+            .passwordExpired(false)
             .build();
     }
 
