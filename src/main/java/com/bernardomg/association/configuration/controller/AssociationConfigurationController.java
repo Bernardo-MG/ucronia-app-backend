@@ -24,26 +24,14 @@
 
 package com.bernardomg.association.configuration.controller;
 
-import java.util.Collection;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeesPaymentRequest;
-import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
-import com.bernardomg.association.fee.model.request.ValidatedFeeUpdate;
-import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
+import com.bernardomg.association.configuration.service.AssociationConfigurationService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
@@ -57,45 +45,16 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/fee")
+@RequestMapping("/configuration/association")
 @AllArgsConstructor
 public class AssociationConfigurationController {
 
-    /**
-     * Fee service.
-     */
-    private final FeeService service;
+    private final AssociationConfigurationService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "FEE", action = Actions.CREATE)
-    public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(fee);
-    }
-
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.DELETE)
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery request, final Pageable pageable) {
-        return service.getAll(request, pageable);
-    }
-
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public MemberFee readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
-            .orElse(null);
-    }
-
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
-    public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedFeeUpdate fee) {
-        return service.update(id, fee);
+    public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
+        service.update(config);
     }
 
 }
