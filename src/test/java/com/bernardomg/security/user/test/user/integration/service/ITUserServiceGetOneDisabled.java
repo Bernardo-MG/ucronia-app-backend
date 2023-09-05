@@ -52,7 +52,7 @@ class ITUserServiceGetOneDisabled {
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
-            .credentialsExpired(false)
+            .passwordExpired(false)
             .enabled(false)
             .expired(false)
             .locked(false)

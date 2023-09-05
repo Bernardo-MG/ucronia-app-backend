@@ -53,6 +53,27 @@ class ITPasswordChangeService {
 
     @Test
     @WithMockUser(username = "admin")
+    @DisplayName("Changing password with a user with expired password resets the flag")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testChangePassword_ExpiredPassword() {
+        final PersistentUser user;
+
+        service.changePasswordForUserInSession("1234", "abc");
+
+        user = userRepository.findAll()
+            .stream()
+            .findFirst()
+            .get();
+
+        Assertions.assertThat(user.getPasswordExpired())
+            .isFalse();
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Changing password with an incorrect password gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",

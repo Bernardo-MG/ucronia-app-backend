@@ -52,7 +52,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final PersistentUser userEntity;
+        final PersistentUser user;
         final String         encodedPassword;
         final String         username;
         final UserDetails    userDetails;
@@ -61,7 +61,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         log.debug("Changing password for user {}", username);
 
-        userEntity = getUser(username);
+        user = getUser(username);
 
         // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
@@ -72,9 +72,10 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         authorizePasswordChange(userDetails);
 
         encodedPassword = passwordEncoder.encode(newPassword);
-        userEntity.setPassword(encodedPassword);
+        user.setPassword(encodedPassword);
+        user.setPasswordExpired(false);
 
-        repository.save(userEntity);
+        repository.save(user);
 
         log.debug("Changed password for user {}", username);
     }
@@ -94,10 +95,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         if (!user.isAccountNonLocked()) {
             log.error("Can't reset password. User {} is locked", user.getUsername());
             throw new UserLockedException(user.getUsername());
-        }
-        if (!user.isCredentialsNonExpired()) {
-            log.error("Can't reset password. User {} is expired", user.getUsername());
-            throw new UserExpiredException(user.getUsername());
         }
         if (!user.isEnabled()) {
             log.error("Can't reset password. User {} is disabled", user.getUsername());

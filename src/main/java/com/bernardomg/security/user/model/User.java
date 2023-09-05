@@ -4,15 +4,6 @@ package com.bernardomg.security.user.model;
 public interface User {
 
     /**
-     * Returns the credentials expired flag.
-     * <p>
-     * This usually means that the password is no longer valid.
-     *
-     * @return the credentials expired flag
-     */
-    public Boolean getCredentialsExpired();
-
-    /**
      * Returns the user email.
      *
      * @return the user email
@@ -55,6 +46,13 @@ public interface User {
      * @return the user name
      */
     public String getName();
+
+    /**
+     * Returns the password expired flag.
+     *
+     * @return the password expired flag
+     */
+    public Boolean getPasswordExpired();
 
     /**
      * Returns the user username.

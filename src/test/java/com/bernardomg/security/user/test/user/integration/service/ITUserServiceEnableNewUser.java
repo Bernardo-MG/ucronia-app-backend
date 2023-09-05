@@ -39,7 +39,7 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user consumes the token")
-    @Sql({ "/db/queries/security/user/disabled.sql" })
+    @Sql({ "/db/queries/security/user/newly_created.sql" })
     @Sql({ "/db/queries/security/token/user_registered.sql" })
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
@@ -56,7 +56,7 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user sets it as enabled")
-    @Sql({ "/db/queries/security/user/disabled.sql" })
+    @Sql({ "/db/queries/security/user/newly_created.sql" })
     @Sql({ "/db/queries/security/token/user_registered.sql" })
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
@@ -72,7 +72,7 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user sets it's password")
-    @Sql({ "/db/queries/security/user/disabled.sql" })
+    @Sql({ "/db/queries/security/user/newly_created.sql" })
     @Sql({ "/db/queries/security/token/user_registered.sql" })
     void testEnableNewUser_Password() {
         final PersistentUser user;
@@ -84,6 +84,22 @@ class ITUserServiceEnableNewUser {
 
         Assertions.assertThat(passwordEncoder.matches("1234", user.getPassword()))
             .isTrue();
+    }
+
+    @Test
+    @DisplayName("Enabling a new user sets password expired flag ot false")
+    @Sql({ "/db/queries/security/user/newly_created.sql" })
+    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    void testEnableNewUser_PasswordReset() {
+        final PersistentUser user;
+
+        service.activateNewUser(TokenConstants.TOKEN, "1234");
+
+        user = userRepository.findById(1L)
+            .get();
+
+        Assertions.assertThat(user.getPasswordExpired())
+            .isFalse();
     }
 
 }

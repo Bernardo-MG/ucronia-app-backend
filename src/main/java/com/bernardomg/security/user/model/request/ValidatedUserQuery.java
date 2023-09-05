@@ -13,11 +13,6 @@ import lombok.NoArgsConstructor;
 public final class ValidatedUserQuery implements UserQuery {
 
     /**
-     * User expired flag.
-     */
-    private Boolean credentialsExpired;
-
-    /**
      * User email.
      */
     private String  email;
@@ -41,6 +36,11 @@ public final class ValidatedUserQuery implements UserQuery {
      * User name.
      */
     private String  name;
+
+    /**
+     * Password expired flag.
+     */
+    private Boolean passwordExpired;
 
     /**
      * User username.

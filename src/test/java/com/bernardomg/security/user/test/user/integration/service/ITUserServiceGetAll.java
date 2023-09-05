@@ -69,7 +69,7 @@ class ITUserServiceGetAll {
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
-            .credentialsExpired(false)
+            .passwordExpired(false)
             .enabled(true)
             .expired(false)
             .locked(false)

@@ -80,7 +80,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(true);
+        user.setPasswordExpired(true);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
@@ -95,7 +95,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
@@ -110,7 +110,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(false);
@@ -125,7 +125,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(true);
         user.setLocked(false);
@@ -140,7 +140,7 @@ class TestUserServiceEnableUserAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
-        user.setCredentialsExpired(false);
+        user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(true);
@@ -150,7 +150,7 @@ class TestUserServiceEnableUserAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a user with expired credentials gives a failure")
+    @DisplayName("Activating a user with expired credentials gives a failure")
     @Disabled
     void testEnableNewUser_CredentialsExpired_Exception() {
         final ThrowingCallable executable;
@@ -168,7 +168,7 @@ class TestUserServiceEnableUserAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a disabled user gives a failure")
+    @DisplayName("Activating a disabled user gives a failure")
     @Disabled
     void testEnableNewUser_Disabled_Exception() {
         final ThrowingCallable executable;
@@ -186,7 +186,7 @@ class TestUserServiceEnableUserAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with an enabled user gives a failure")
+    @DisplayName("Activating an enabled user gives a failure")
     void testEnableNewUser_Enabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -203,7 +203,7 @@ class TestUserServiceEnableUserAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a expired user gives a failure")
+    @DisplayName("Activating a expired user gives a failure")
     void testEnableNewUser_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -220,7 +220,7 @@ class TestUserServiceEnableUserAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a locked user gives a failure")
+    @DisplayName("Activating a locked user gives a failure")
     void testEnableNewUser_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -237,7 +237,7 @@ class TestUserServiceEnableUserAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Changing password with a not existing user gives a failure")
+    @DisplayName("Activating a not existing user gives a failure")
     void testEnableNewUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;

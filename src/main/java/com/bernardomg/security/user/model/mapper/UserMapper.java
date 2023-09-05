@@ -16,18 +16,17 @@ public interface UserMapper {
     public DtoUser toDto(final PersistentUser entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "passwordExpired", ignore = true)
     @Mapping(target = "enabled", ignore = true)
-    @Mapping(target = "credentialsExpired", ignore = true)
     @Mapping(target = "expired", ignore = true)
     @Mapping(target = "locked", ignore = true)
-    @Mapping(target = "password", ignore = true)
     public PersistentUser toEntity(final UserCreate data);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     public PersistentUser toEntity(final UserQuery data);
 
-    @Mapping(target = "credentialsExpired", ignore = true)
     @Mapping(target = "expired", ignore = true)
     @Mapping(target = "locked", ignore = true)
     @Mapping(target = "password", ignore = true)
