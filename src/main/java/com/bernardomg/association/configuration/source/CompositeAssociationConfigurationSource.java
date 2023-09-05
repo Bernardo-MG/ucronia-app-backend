@@ -3,11 +3,10 @@ package com.bernardomg.association.configuration.source;
 
 import java.util.Objects;
 
+import com.bernardomg.association.configuration.AssociationConfigurationKey;
 import com.bernardomg.configuration.source.ConfigurationSource;
 
 public final class CompositeAssociationConfigurationSource implements AssociationConfigurationSource {
-
-    private static String             FEE_AMOUNT = "fee.amount";
 
     private final ConfigurationSource configurationSource;
 
@@ -19,7 +18,7 @@ public final class CompositeAssociationConfigurationSource implements Associatio
 
     @Override
     public final Float getFeeAmount() {
-        return configurationSource.getFloat(FEE_AMOUNT);
+        return configurationSource.getFloat(AssociationConfigurationKey.FEE_AMOUNT);
     }
 
 }
