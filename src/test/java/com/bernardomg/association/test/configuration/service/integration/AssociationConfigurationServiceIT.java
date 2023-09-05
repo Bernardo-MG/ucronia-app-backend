@@ -50,7 +50,7 @@ public class AssociationConfigurationServiceIT {
         Assertions.assertThat(configuration.getKey())
             .isEqualTo(AssociationConfigurationKey.FEE_AMOUNT);
         Assertions.assertThat(configuration.getValue())
-            .isEqualTo("2");
+            .isEqualTo("2.0");
     }
 
     @Test
@@ -75,7 +75,7 @@ public class AssociationConfigurationServiceIT {
         Assertions.assertThat(configuration.getKey())
             .isEqualTo(AssociationConfigurationKey.FEE_AMOUNT);
         Assertions.assertThat(configuration.getValue())
-            .isEqualTo("2");
+            .isEqualTo("2.0");
     }
 
 }
