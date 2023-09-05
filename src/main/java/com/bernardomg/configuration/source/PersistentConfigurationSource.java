@@ -18,7 +18,25 @@ public final class PersistentConfigurationSource implements ConfigurationSource 
     }
 
     @Override
-    public final String getConfiguration(final String key) {
+    public final Float getFloat(final String key) {
+        final Optional<PersistentConfiguration> read;
+        final String                            text;
+        final Float                             value;
+
+        read = configurationRepository.findOneByKey(key);
+        if (read.isPresent()) {
+            text = read.get()
+                .getValue();
+            value = Float.valueOf(text);
+        } else {
+            value = 0f;
+        }
+
+        return value;
+    }
+
+    @Override
+    public final String getString(final String key) {
         final Optional<PersistentConfiguration> read;
         final String                            value;
 

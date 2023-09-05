@@ -20,27 +20,65 @@ public class PersistentConfigurationSourceIT {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Reading the value for an existing key returns its value")
-    @Sql({ "/db/queries/configuration/single.sql" })
-    void testGetConfiguration_Existing() {
-        final String property;
+    @DisplayName("Getting the float for an existing integer returns its value as text")
+    @Sql({ "/db/queries/configuration/integer.sql" })
+    void testGetFloat_Integer() {
+        final Float value;
 
-        property = source.getConfiguration("key");
+        value = source.getFloat("key");
 
-        Assertions.assertThat(property)
-            .isEqualTo("value");
+        Assertions.assertThat(value)
+            .isEqualTo(10F);
     }
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Reading the value for a not existing key returns nothing")
-    void testGetConfiguration_NotExisting() {
-        final String property;
+    @DisplayName("Getting the float for a not existing value returns zero")
+    void testGetFloat_NotExisting() {
+        final Float value;
 
-        property = source.getConfiguration("key");
+        value = source.getFloat("key");
 
-        Assertions.assertThat(property)
+        Assertions.assertThat(value)
+            .isEqualTo(0F);
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Getting the string for an existing integer returns its value as text")
+    @Sql({ "/db/queries/configuration/integer.sql" })
+    void testGetString_Integer() {
+        final String value;
+
+        value = source.getString("key");
+
+        Assertions.assertThat(value)
+            .isEqualTo("10");
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Getting the string for a not existing text returns an empty string")
+    void testGetString_NotExisting() {
+        final String value;
+
+        value = source.getString("key");
+
+        Assertions.assertThat(value)
             .isEmpty();
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("Getting the string for an existing text returns its value")
+    @Sql({ "/db/queries/configuration/string.sql" })
+    void testGetString_String() {
+        final String value;
+
+        value = source.getString("key");
+
+        Assertions.assertThat(value)
+            .isEqualTo("value");
     }
 
 }

@@ -3,6 +3,8 @@ package com.bernardomg.configuration.source;
 
 public interface ConfigurationSource {
 
-    public String getConfiguration(final String key);
+    public Float getFloat(final String key);
+
+    public String getString(final String key);
 
 }
