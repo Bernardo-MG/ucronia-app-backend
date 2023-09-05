@@ -7,8 +7,6 @@ import java.util.Collection;
 
 public interface FeesPayment {
 
-    public Float getAmount();
-
     public String getDescription();
 
     public Collection<YearMonth> getFeeDates();

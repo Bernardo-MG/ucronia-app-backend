@@ -31,6 +31,7 @@ import com.bernardomg.association.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.configuration.source.ConfigurationSource;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.validation.Validator;
 
@@ -52,6 +53,10 @@ public final class DefaultFeeService implements FeeService {
 
     private static final String          CACHE_SINGLE   = "fee";
 
+    private static String                FEE_AMOUNT     = "fee.amount";
+
+    private final ConfigurationSource    configurationSource;
+
     private final FeeRepository          feeRepository;
 
     private final FeeMapper              mapper;
@@ -67,7 +72,8 @@ public final class DefaultFeeService implements FeeService {
     private final Validator<FeeUpdate>   validatorUpdate;
 
     public DefaultFeeService(final FeeRepository feeRepo, final TransactionRepository transactionRepo,
-            final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper) {
+            final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper,
+            final ConfigurationSource confSource) {
         super();
 
         feeRepository = feeRepo;
@@ -75,6 +81,7 @@ public final class DefaultFeeService implements FeeService {
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
         mapper = mpper;
+        configurationSource = confSource;
 
         // TODO: Test validation
         validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
@@ -148,14 +155,19 @@ public final class DefaultFeeService implements FeeService {
         final PersistentTransaction              transaction;
         final Collection<PersistentFee>          fees;
         final Function<YearMonth, PersistentFee> toPersistentFee;
+        final Float                              feeAmount;
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
         validatorPay.validate(payment);
 
+        // Calculate amount
+        feeAmount = configurationSource.getFloat(FEE_AMOUNT) * payment.getFeeDates()
+            .size();
+
         // Register transaction
         transaction = new PersistentTransaction();
-        transaction.setAmount(payment.getAmount());
+        transaction.setAmount(feeAmount);
         transaction.setDate(payment.getPaymentDate());
         transaction.setDescription(payment.getDescription());
 
