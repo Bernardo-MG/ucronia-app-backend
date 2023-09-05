@@ -1,6 +1,6 @@
-# Association App Backend
+# Ucronia App Backend
 
-Backend for handling a small association.
+Backend app for the Ucronía association.
 
 [![Release docs](https://img.shields.io/badge/docs-release-blue.svg)][site-release]
 [![Development docs](https://img.shields.io/badge/docs-develop-blue.svg)][site-develop]
@@ -65,10 +65,10 @@ If you wish to fork or modify the code, visit the [GitHub project page][scm], wh
 
 The project has been released under the [MIT License][license].
 
-[issues]: https://github.com/bernardo-mg/association-app-backend/issues
-[javadoc-develop]: https://docs.bernardomg.com/development/maven/association-app-backend/apidocs
-[javadoc-release]: https://docs.bernardomg.com/maven/association-app-backend/apidocs
+[issues]: https://github.com/bernardo-mg/ucronia-app-backend/issues
+[javadoc-develop]: https://docs.bernardomg.com/development/maven/ucronia-app-backend/apidocs
+[javadoc-release]: https://docs.bernardomg.com/maven/ucronia-app-backend/apidocs
 [license]: https://www.opensource.org/licenses/mit-license.php
-[scm]: https://github.com/bernardo-mg/association-app-backend
-[site-develop]: https://docs.bernardomg.com/development/maven/association-app-backend
-[site-release]: https://docs.bernardomg.com/maven/association-app-backend
+[scm]: https://github.com/bernardo-mg/ucronia-app-backend
+[site-develop]: https://docs.bernardomg.com/development/maven/ucronia-app-backend
+[site-release]: https://docs.bernardomg.com/maven/ucronia-app-backend

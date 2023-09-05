@@ -20,13 +20,13 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg</groupId>
-   <artifactId>association-app-backend</artifactId>
+   <artifactId>ucronia-app-backend</artifactId>
    <version>1.0.0-SNAPSHOT</version>
    <packaging>war</packaging>
 
    <name>Association App Backend</name>
    <description>Application backend for handling a small association.</description>
-   <url>https://github.com/bernardo-mg/association-app-backend</url>
+   <url>https://github.com/bernardo-mg/ucronia-app-backend</url>
    <inceptionYear>2022</inceptionYear>
 
    <licenses>
@@ -42,20 +42,20 @@
    <!-- ********************************************** -->
 
    <scm>
-      <connection>scm:git:https://github.com/bernardo-mg/association-app-backend.git</connection>
-      <developerConnection>scm:git:https://github.com/bernardo-mg/association-app-backend.git</developerConnection>
+      <connection>scm:git:https://github.com/bernardo-mg/ucronia-app-backend.git</connection>
+      <developerConnection>scm:git:https://github.com/bernardo-mg/ucronia-app-backend.git</developerConnection>
       <tag>head</tag>
-      <url>https://www.github.com/bernardo-mg/association-app-backend</url>
+      <url>https://www.github.com/bernardo-mg/ucronia-app-backend</url>
    </scm>
 
    <issueManagement>
       <system>GitHub</system>
-      <url>https://www.github.com/bernardo-mg/association-app-backend/issues</url>
+      <url>https://www.github.com/bernardo-mg/ucronia-app-backend/issues</url>
    </issueManagement>
 
    <ciManagement>
       <system>Github</system>
-      <url>https://www.github.com/bernardo-mg/association-app-backend/actions</url>
+      <url>https://www.github.com/bernardo-mg/ucronia-app-backend/actions</url>
       <notifiers />
    </ciManagement>
 
@@ -92,7 +92,7 @@
                <!-- Github repository -->
                <id>github</id>
                <name>GitHub Packages</name>
-               <url>https://maven.pkg.github.com/bernardo-mg/association-app-backend</url>
+               <url>https://maven.pkg.github.com/bernardo-mg/ucronia-app-backend</url>
             </repository>
          </distributionManagement>
       </profile>
@@ -178,7 +178,7 @@
       <!-- ============================================== -->
       <!-- =============== MANIFEST DATA ================ -->
       <!-- ============================================== -->
-      <manifest.name>com/bernardomg/association-app-backend</manifest.name>
+      <manifest.name>com/bernardomg/ucronia-app-backend</manifest.name>
       <!-- ============================================== -->
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
