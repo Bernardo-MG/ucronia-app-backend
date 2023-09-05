@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.fee.model.request.FeeQuery;
@@ -31,7 +32,6 @@ import com.bernardomg.association.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.configuration.source.ConfigurationSource;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.validation.Validator;
 
@@ -47,33 +47,31 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private static final String          CACHE_CALENDAR = "fee_calendar";
+    private static final String                  CACHE_CALENDAR = "fee_calendar";
 
-    private static final String          CACHE_MULTIPLE = "fees";
+    private static final String                  CACHE_MULTIPLE = "fees";
 
-    private static final String          CACHE_SINGLE   = "fee";
+    private static final String                  CACHE_SINGLE   = "fee";
 
-    private static String                FEE_AMOUNT     = "fee.amount";
+    private final AssociationConfigurationSource configurationSource;
 
-    private final ConfigurationSource    configurationSource;
+    private final FeeRepository                  feeRepository;
 
-    private final FeeRepository          feeRepository;
+    private final FeeMapper                      mapper;
 
-    private final FeeMapper              mapper;
+    private final MemberFeeRepository            memberFeeRepository;
 
-    private final MemberFeeRepository    memberFeeRepository;
+    private final MemberRepository               memberRepository;
 
-    private final MemberRepository       memberRepository;
+    private final TransactionRepository          transactionRepository;
 
-    private final TransactionRepository  transactionRepository;
+    private final Validator<FeesPayment>         validatorPay;
 
-    private final Validator<FeesPayment> validatorPay;
-
-    private final Validator<FeeUpdate>   validatorUpdate;
+    private final Validator<FeeUpdate>           validatorUpdate;
 
     public DefaultFeeService(final FeeRepository feeRepo, final TransactionRepository transactionRepo,
             final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper,
-            final ConfigurationSource confSource) {
+            final AssociationConfigurationSource confSource) {
         super();
 
         feeRepository = feeRepo;
@@ -162,7 +160,7 @@ public final class DefaultFeeService implements FeeService {
         validatorPay.validate(payment);
 
         // Calculate amount
-        feeAmount = configurationSource.getFloat(FEE_AMOUNT) * payment.getFeeDates()
+        feeAmount = configurationSource.getFeeAmount() * payment.getFeeDates()
             .size();
 
         // Register transaction
