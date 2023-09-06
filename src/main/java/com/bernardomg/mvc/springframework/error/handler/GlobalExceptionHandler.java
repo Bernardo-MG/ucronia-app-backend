@@ -169,9 +169,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         log.error(ex.getMessage());
 
-        message = "Internal error";
+        message = "Server error. Contact admin.";
 
-        response = Response.error(message, "500");
+        response = Response.error(message, String.valueOf(statusCode.value()));
 
         return super.handleExceptionInternal(ex, response, headers, statusCode, request);
     }
