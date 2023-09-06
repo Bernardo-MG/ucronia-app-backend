@@ -25,7 +25,7 @@
 package com.bernardomg.association.configuration.controller;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +51,7 @@ public class AssociationConfigurationController {
 
     private final AssociationConfigurationService service;
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
     public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
         service.update(config);
