@@ -34,6 +34,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -69,6 +70,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         super();
     }
 
+    @ExceptionHandler({ MethodArgumentTypeMismatchException.class, HttpMessageConversionException.class })
+    public final ResponseEntity<Object> handleBadRequestException(final Exception ex, final WebRequest request)
+            throws Exception {
+        log.warn(ex.getMessage(), ex);
+
+        // TODO: add response model for these cases
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     /**
      * Handles unmapped exceptions.
      *
@@ -87,15 +97,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         response = Response.error("Internal error");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
-    public final ResponseEntity<Object> handleMethodArgumentException(final MethodArgumentTypeMismatchException ex,
-            final WebRequest request) throws Exception {
-        log.warn(ex.getMessage(), ex);
-
-        // TODO: add response model for these cases
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({ InvalidIdException.class })

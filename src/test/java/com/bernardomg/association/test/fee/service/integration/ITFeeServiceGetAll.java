@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
@@ -77,84 +77,84 @@ class ITFeeServiceGetAll {
 
         feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.JANUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.JUNE))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.JULY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.AUGUST))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.SEPTEMBER))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.OCTOBER))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.NOVEMBER))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.DECEMBER))
@@ -181,7 +181,7 @@ class ITFeeServiceGetAll {
 
         FeeAssertions.isEqualTo(fees.iterator()
             .next(),
-            DtoMemberFee.builder()
+            ImmutableMemberFee.builder()
                 .memberId(1L)
                 .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -209,35 +209,35 @@ class ITFeeServiceGetAll {
 
         feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(feesItr.next(), DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))

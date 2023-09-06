@@ -15,8 +15,9 @@ import com.bernardomg.configuration.source.ConfigurationSource;
 public class AssociationConfigurationConfig {
 
     @Bean("associationConfigurationService")
-    public AssociationConfigurationService getAssociationConfigurationService(final ConfigurationRepository configurationRepository) {
-        return new DefaultAssociationConfigurationService(configurationRepository);
+    public AssociationConfigurationService getAssociationConfigurationService(
+            final ConfigurationSource configurationSource, final ConfigurationRepository configurationRepository) {
+        return new DefaultAssociationConfigurationService(configurationSource, configurationRepository);
     }
 
     @Bean("associationConfigurationSource")

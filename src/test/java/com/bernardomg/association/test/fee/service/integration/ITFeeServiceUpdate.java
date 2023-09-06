@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeeUpdate;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
@@ -126,7 +126,7 @@ class ITFeeServiceUpdate {
 
         fee = service.update(1L, feeRequest);
 
-        FeeAssertions.isEqualTo(fee, DtoMemberFee.builder()
+        FeeAssertions.isEqualTo(fee, ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName(null)
             .date(YearMonth.of(2020, Month.FEBRUARY))
