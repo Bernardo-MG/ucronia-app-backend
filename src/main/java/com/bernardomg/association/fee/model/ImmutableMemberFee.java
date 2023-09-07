@@ -6,11 +6,11 @@ import java.time.YearMonth;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
-public final class DtoMemberFee implements MemberFee {
+public final class ImmutableMemberFee implements MemberFee {
 
     @JsonFormat(pattern = "yyyy-MM")
     private final YearMonth date;

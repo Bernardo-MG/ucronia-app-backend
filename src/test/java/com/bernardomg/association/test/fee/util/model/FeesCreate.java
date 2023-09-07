@@ -19,7 +19,6 @@ public final class FeesCreate {
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY), YearMonth.of(2020, Month.FEBRUARY)))
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -29,7 +28,6 @@ public final class FeesCreate {
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY)))
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -38,7 +36,6 @@ public final class FeesCreate {
             .memberId(1L)
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY)))
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
-            .amount(1F)
             .build();
     }
 
@@ -47,7 +44,6 @@ public final class FeesCreate {
             .memberId(1L)
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -56,7 +52,6 @@ public final class FeesCreate {
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY)))
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -65,7 +60,6 @@ public final class FeesCreate {
             .memberId(1L)
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY)))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -75,7 +69,6 @@ public final class FeesCreate {
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY), YearMonth.of(2020, Month.MARCH)))
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -90,7 +83,6 @@ public final class FeesCreate {
             .feeDates(feeDates)
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 
@@ -100,7 +92,6 @@ public final class FeesCreate {
             .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY)))
             .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Fee paid")
-            .amount(1F)
             .build();
     }
 

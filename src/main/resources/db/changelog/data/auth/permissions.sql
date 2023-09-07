@@ -43,4 +43,5 @@ INSERT INTO resources (id, name) VALUES
    (11, 'FEE'),
    (12, 'TRANSACTION'),
    (13, 'BALANCE'),
-   (14, 'STATS');
+   (14, 'STATS'),
+   (15, 'ASSOCIATION_CONFIGURATION');

@@ -11,7 +11,7 @@ import com.bernardomg.configuration.source.PersistentConfigurationSource;
 @Configuration
 public class ConfigurationConfig {
 
-    @Bean("ConfigurationSource")
+    @Bean("configurationSource")
     public ConfigurationSource configurationSource(final ConfigurationRepository configurationRepository) {
         return new PersistentConfigurationSource(configurationRepository);
     }
