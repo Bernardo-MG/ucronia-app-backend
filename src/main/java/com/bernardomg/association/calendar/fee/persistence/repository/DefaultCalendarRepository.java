@@ -141,6 +141,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             .getValue();
 
         return ImmutableFeeMonth.builder()
+            .feeId(fee.getId())
             .month(month)
             .paid(fee.getPaid())
             .build();

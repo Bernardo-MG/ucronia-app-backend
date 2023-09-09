@@ -26,6 +26,8 @@ package com.bernardomg.association.calendar.fee.model;
 
 public interface FeeMonth {
 
+    public Long getFeeId();
+
     public Integer getMonth();
 
     public Boolean getPaid();
