@@ -55,10 +55,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
@@ -70,10 +68,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
@@ -84,10 +80,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
@@ -97,10 +91,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isZero();
-        Assertions.assertThat(range.getEnd())
-            .isZero();
+        Assertions.assertThat(range.getYears())
+            .isEmpty();
     }
 
     @Test
@@ -111,10 +103,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
@@ -125,10 +115,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2019);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsExactly(2019, 2020);
     }
 
     @Test
@@ -139,10 +127,8 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange(false);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2018);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsExactly(2018, 2020);
     }
 
 }

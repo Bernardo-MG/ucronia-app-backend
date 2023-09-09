@@ -49,14 +49,12 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     @DisplayName("With a full year the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testFindRangeWithActiveMember_FullYear() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
@@ -64,83 +62,71 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     void testFindRangeWithActiveMember_FullYear_TwoMembers() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
     @DisplayName("With an inactive member it returns no range")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
     void testFindRangeWithActiveMember_Inactive_FullYear() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isZero();
-        Assertions.assertThat(calendar.getEnd())
-            .isZero();
+        Assertions.assertThat(range.getYears())
+            .isEmpty();
     }
 
     @Test
     @DisplayName("With no data it returns no dates")
     void testFindRangeWithActiveMember_NoData() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isZero();
-        Assertions.assertThat(calendar.getEnd())
-            .isZero();
+        Assertions.assertThat(range.getYears())
+            .isEmpty();
     }
 
     @Test
     @DisplayName("With a single fee the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     void testFindRangeWithActiveMember_Single() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
     @DisplayName("With two years connected the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     void testFindRangeWithActiveMember_TwoConnectedYears() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isEqualTo(2019);
-        Assertions.assertThat(calendar.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsExactly(2019, 2020);
     }
 
     @Test
     @DisplayName("With two years with a gap the year range is returned")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
     void testFindRangeWithActiveMember_TwoYearsWithGap() {
-        final FeeCalendarRange calendar;
+        final FeeCalendarRange range;
 
-        calendar = repository.findRangeWithActiveMember();
+        range = repository.findRangeWithActiveMember();
 
-        Assertions.assertThat(calendar.getStart())
-            .isEqualTo(2018);
-        Assertions.assertThat(calendar.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsExactly(2018, 2020);
     }
 
 }

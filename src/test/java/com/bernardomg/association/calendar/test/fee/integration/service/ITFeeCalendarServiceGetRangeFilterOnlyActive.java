@@ -55,10 +55,8 @@ class ITFeeCalendarServiceGetRangeFilterOnlyActive {
 
         range = service.getRange(true);
 
-        Assertions.assertThat(range.getStart())
-            .isEqualTo(2020);
-        Assertions.assertThat(range.getEnd())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getYears())
+            .containsOnly(2020);
     }
 
     @Test
@@ -69,10 +67,8 @@ class ITFeeCalendarServiceGetRangeFilterOnlyActive {
 
         range = service.getRange(true);
 
-        Assertions.assertThat(range.getStart())
-            .isZero();
-        Assertions.assertThat(range.getEnd())
-            .isZero();
+        Assertions.assertThat(range.getYears())
+            .isEmpty();
     }
 
     @Test
@@ -82,10 +78,8 @@ class ITFeeCalendarServiceGetRangeFilterOnlyActive {
 
         range = service.getRange(true);
 
-        Assertions.assertThat(range.getStart())
-            .isZero();
-        Assertions.assertThat(range.getEnd())
-            .isZero();
+        Assertions.assertThat(range.getYears())
+            .isEmpty();
     }
 
 }
