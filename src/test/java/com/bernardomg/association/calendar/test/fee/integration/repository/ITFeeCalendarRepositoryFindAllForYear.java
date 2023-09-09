@@ -76,6 +76,27 @@ class ITFeeCalendarRepositoryFindAllForYear {
     }
 
     @Test
+    @DisplayName("With not surname it returns the correct name")
+    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/full_year.sql" })
+    void testFindAllForYear_NoSurname_Data() {
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
+        final Sort                      sort;
+
+        sort = Sort.unsorted();
+
+        calendars = repository.findAllForYear(2020, sort)
+            .iterator();
+
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .year(2020)
+            .active(true)
+            .build());
+    }
+    @Test
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testFindAllForYear_FullYear_Data() {
