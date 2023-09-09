@@ -22,7 +22,7 @@ public class FeeMaintenanceScheduleTask {
     }
 
     @Async
-    @Scheduled(cron = "0 0 0 1 1/1 *")
+    @Scheduled(cron = "0 0 1 * *")
     public void registerMonthFees() {
         log.info("Starting current month fee registering");
         service.registerMonthFees();
