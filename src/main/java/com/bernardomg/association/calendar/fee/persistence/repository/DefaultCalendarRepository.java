@@ -171,7 +171,8 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
                 .next();
             name = List.of(row.getName(), row.getSurname())
                 .stream()
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.joining(" "))
+                .trim();
         }
 
         return ImmutableUserFeeCalendar.builder()
