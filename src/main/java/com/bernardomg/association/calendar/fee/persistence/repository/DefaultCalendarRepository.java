@@ -4,6 +4,7 @@ package com.bernardomg.association.calendar.fee.persistence.repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -152,7 +153,6 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         final Collection<FeeMonth> months;
         final FeeCalendarRow       row;
         final String               name;
-        FeeMonth                   feeMonth;
 
         if (fees.isEmpty()) {
             // TODO: Tests this case to make sure it is handled correctly
@@ -161,12 +161,11 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             name = "";
             months = Collections.emptyList();
         } else {
-            // TODO: Months are not being sorted
-            months = new ArrayList<>();
-            for (final FeeCalendarRow fee : fees) {
-                feeMonth = toFeeMonth(fee);
-                months.add(feeMonth);
-            }
+            months = fees.stream()
+                .map(this::toFeeMonth)
+                // Sort by month
+                .sorted(Comparator.comparing(FeeMonth::getMonth))
+                .toList();
 
             row = fees.iterator()
                 .next();
