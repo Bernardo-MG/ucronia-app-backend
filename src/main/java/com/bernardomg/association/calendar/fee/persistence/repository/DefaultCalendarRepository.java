@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
 import com.bernardomg.association.calendar.fee.model.FeeCalendarRow;
 import com.bernardomg.association.calendar.fee.model.FeeMonth;
+import com.bernardomg.association.calendar.fee.model.ImmutableFeeCalendarRange;
 import com.bernardomg.association.calendar.fee.model.ImmutableFeeMonth;
 import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
@@ -31,17 +32,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
-    private static final String               QUERY_FOR_YEAR                 = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
+    private static final String              QUERY_FOR_YEAR                 = "SELECT f.id AS id, f.date AS date, f.paid AS paid, m.name AS name, m.surname AS surname, m.id AS memberId, m.active AS active FROM fees f JOIN members m ON f.member_id = m.id";
 
-    private static final String               QUERY_RANGE                    = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f) s";
+    private static final String              QUERY_RANGE                    = "SELECT extract(year from f.date) AS feeYear FROM fees f GROUP BY feeYear ORDER BY feeYear ASC";
 
-    private static final String               QUERY_RANGE_WITH_ACTIVE_MEMBER = "SELECT extract(year from s.min_date) AS start_date, extract(year from s.max_date) AS end_date FROM (SELECT min(f.date) AS min_date, max(f.date) AS max_date FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true) s";
+    private static final String              QUERY_RANGE_WITH_ACTIVE_MEMBER = "SELECT extract(year from f.date) AS feeYear FROM fees f JOIN members m ON f.member_id = m.id WHERE m.active = true GROUP BY feeYear ORDER BY feeYear ASC";
 
-    private final RowMapper<FeeCalendarRange> feeRangeRowMapper              = new FeeCalendarRangeRowMapper();
+    private final RowMapper<FeeCalendarRow>  feeYearRowRowMapper            = new FeeCalendarRowRowMapper();
 
-    private final RowMapper<FeeCalendarRow>   feeYearRowRowMapper            = new FeeCalendarRowRowMapper();
-
-    private final NamedParameterJdbcTemplate  jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
     public final Collection<UserFeeCalendar> findAllForYear(final Integer year, final Sort sort) {
@@ -56,12 +55,22 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
     @Override
     public final FeeCalendarRange findRange() {
-        return jdbcTemplate.queryForObject(QUERY_RANGE, Collections.emptyMap(), feeRangeRowMapper);
+        final Collection<Integer> years;
+
+        years = jdbcTemplate.queryForList(QUERY_RANGE, Collections.emptyMap(), Integer.class);
+        return ImmutableFeeCalendarRange.builder()
+            .years(years)
+            .build();
     }
 
     @Override
     public final FeeCalendarRange findRangeWithActiveMember() {
-        return jdbcTemplate.queryForObject(QUERY_RANGE_WITH_ACTIVE_MEMBER, Collections.emptyMap(), feeRangeRowMapper);
+        final Collection<Integer> years;
+
+        years = jdbcTemplate.queryForList(QUERY_RANGE_WITH_ACTIVE_MEMBER, Collections.emptyMap(), Integer.class);
+        return ImmutableFeeCalendarRange.builder()
+            .years(years)
+            .build();
     }
 
     private final List<FeeCalendarRow> findAll(final String query, final Integer year, final Sort sort) {

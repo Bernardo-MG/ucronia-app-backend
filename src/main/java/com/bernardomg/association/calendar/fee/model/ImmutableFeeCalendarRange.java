@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.calendar.fee.model;
 
+import java.util.Collection;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -31,8 +33,6 @@ import lombok.Value;
 @Builder
 public final class ImmutableFeeCalendarRange implements FeeCalendarRange {
 
-    private final Integer end;
-
-    private final Integer start;
+    private final Collection<Integer> years;
 
 }
