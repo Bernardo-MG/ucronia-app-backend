@@ -57,8 +57,8 @@ public class FeeCalendarController {
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public FeeCalendarRange readRange(final DtoFeeCalendarQueryRequest request) {
-        return service.getRange(request.getOnlyActive());
+    public FeeCalendarRange readRange() {
+        return service.getRange();
     }
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)

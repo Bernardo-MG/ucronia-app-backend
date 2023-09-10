@@ -37,9 +37,9 @@ public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
 
     private final Long                 memberId;
 
-    private final Collection<FeeMonth> months;
+    private final String               memberName;
 
-    private final String               name;
+    private final Collection<FeeMonth> months;
 
     private final Integer              year;
 

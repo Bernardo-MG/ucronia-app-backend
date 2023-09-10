@@ -33,7 +33,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.fee.model.ImmutableMemberFee;
@@ -66,7 +68,7 @@ class ITFeeServiceGetAll {
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
-        pageable = Pageable.unpaged();
+        pageable = PageRequest.of(0, 20, Direction.ASC, "date");
 
         feeQuery = FeesQuery.empty();
 

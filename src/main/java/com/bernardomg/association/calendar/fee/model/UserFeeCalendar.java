@@ -32,9 +32,9 @@ public interface UserFeeCalendar {
 
     public Long getMemberId();
 
-    public Collection<FeeMonth> getMonths();
+    public String getMemberName();
 
-    public String getName();
+    public Collection<FeeMonth> getMonths();
 
     public Integer getYear();
 
