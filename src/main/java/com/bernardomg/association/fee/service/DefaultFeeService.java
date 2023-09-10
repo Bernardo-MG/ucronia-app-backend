@@ -4,7 +4,6 @@ package com.bernardomg.association.fee.service;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -14,6 +13,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -257,13 +257,13 @@ public final class DefaultFeeService implements FeeService {
 
         date = payment.getFeeDates()
             .stream()
-            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null, new Locale("es")) + " "
-                    + f.getYear())
+            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
+                LocaleContextHolder.getLocale()) + " " + f.getYear())
             .collect(Collectors.joining(", "));
 
         messageArguments = List.of(name, date)
             .toArray();
-        message = messageSource.getMessage("fee.payment.message", messageArguments, new Locale("es"));
+        message = messageSource.getMessage("fee.payment.message", messageArguments, LocaleContextHolder.getLocale());
         transaction.setDescription(message);
 
         transactionRepository.save(transaction);
