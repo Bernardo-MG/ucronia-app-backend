@@ -39,15 +39,10 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     private final MemberFeeRepository memberFeeRepository;
 
     @Override
-    public final FeeCalendarRange getRange(final boolean onlyActive) {
+    public final FeeCalendarRange getRange() {
         final Collection<Integer> years;
 
-        if (onlyActive) {
-            years = memberFeeRepository.findYears(onlyActive);
-        } else {
-            years = memberFeeRepository.findYears();
-        }
-
+        years = memberFeeRepository.findYears();
         return ImmutableFeeCalendarRange.builder()
             .years(years)
             .build();

@@ -14,7 +14,7 @@ import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
  */
 public interface FeeCalendarService {
 
-    public FeeCalendarRange getRange(final boolean onlyActive);
+    public FeeCalendarRange getRange();
 
     public Iterable<UserFeeCalendar> getYear(final int year, final boolean onlyActive, final Sort sort);
 
