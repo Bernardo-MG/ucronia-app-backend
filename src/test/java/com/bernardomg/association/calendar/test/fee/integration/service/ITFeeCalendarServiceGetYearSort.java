@@ -37,6 +37,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 import com.bernardomg.association.calendar.fee.service.FeeCalendarService;
 import com.bernardomg.association.calendar.test.fee.util.assertion.UserFeeCalendarAssertions;
@@ -119,6 +120,76 @@ class ITFeeCalendarServiceGetYearSort {
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(PropertyReferenceException.class);
+    }
+
+    @Test
+    @DisplayName("With ascending order by name it returns the ordered data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
+            "/db/queries/fee/full_year_alternative.sql" })
+    void testGetYear_TwoMembers_Name_Asc() {
+        final Iterator<UserFeeCalendar> calendars;
+        final Sort                      sort;
+        UserFeeCalendar                 calendar;
+
+        sort = Sort.by(Order.asc("memberName"));
+
+        calendars = service.getYear(2020, false, sort)
+            .iterator();
+
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .memberName("Member 1 Surname 1")
+            .year(2020)
+            .active(true)
+            .build());
+
+        UserFeeCalendarAssertions.assertFullYear(calendar);
+
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(2L)
+            .memberName("Member 2 Surname 2")
+            .year(2020)
+            .active(true)
+            .build());
+
+        UserFeeCalendarAssertions.assertFullYear(calendar);
+    }
+
+    @Test
+    @DisplayName("With descending order by name it returns the ordered data")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
+            "/db/queries/fee/full_year_alternative.sql" })
+    void testGetYear_TwoMembers_Name_Desc() {
+        final Iterator<UserFeeCalendar> calendars;
+        final Sort                      sort;
+        UserFeeCalendar                 calendar;
+
+        sort = Sort.by(Order.desc("memberName"));
+
+        calendars = service.getYear(2020, false, sort)
+            .iterator();
+
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(2L)
+            .memberName("Member 2 Surname 2")
+            .year(2020)
+            .active(true)
+            .build());
+
+        UserFeeCalendarAssertions.assertFullYear(calendar);
+
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .memberName("Member 1 Surname 1")
+            .year(2020)
+            .active(true)
+            .build());
+
+        UserFeeCalendarAssertions.assertFullYear(calendar);
     }
 
 }

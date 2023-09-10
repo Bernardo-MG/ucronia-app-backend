@@ -44,13 +44,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get year")
-class ITFeeCalendarServiceGetYear {
+@DisplayName("Fee calendar service - get all - filter by only active status")
+class ITFeeCalendarServiceGetYearOnlyActive {
 
     @Autowired
     private FeeCalendarService service;
 
-    public ITFeeCalendarServiceGetYear() {
+    public ITFeeCalendarServiceGetYearOnlyActive() {
         super();
     }
 
@@ -63,7 +63,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -83,7 +83,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -110,7 +110,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(2);
@@ -135,7 +135,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         // First member
@@ -170,40 +170,10 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
-            .next()
-            .getMonths()))
-            .isEqualTo(12);
-    }
-
-    @Test
-    @DisplayName("With an inactive user and a full year it returns all data")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_Inactive_Data() {
-        final Iterator<UserFeeCalendar> calendars;
-        final Sort                      sort;
-        UserFeeCalendar                 calendar;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, false, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.getActive())
-            .isFalse();
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+            .isZero();
     }
 
     @Test
@@ -215,7 +185,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
@@ -231,7 +201,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -256,7 +226,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -278,7 +248,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -312,7 +282,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -334,7 +304,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -368,7 +338,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2019, false, sort);
+        calendars = service.getYear(2019, true, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -390,7 +360,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2019, false, sort)
+        calendars = service.getYear(2019, true, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -440,7 +410,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, true, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -462,7 +432,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, true, sort)
             .iterator();
 
         calendar = calendars.next();
