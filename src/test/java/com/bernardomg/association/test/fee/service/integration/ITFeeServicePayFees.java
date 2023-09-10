@@ -114,7 +114,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Member 1 Surname 1 fee for February 2020")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(1F)
             .build());
     }
@@ -192,7 +192,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Member 1 Surname 1 fee for February 2020")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(1F)
             .build());
     }
@@ -264,7 +264,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Member 1 Surname 1 fee for February 2020, March 2020")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020, Marzo 2020")
             .amount(2F)
             .build());
     }
@@ -289,7 +289,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Member 1 Surname 1 fee for February 2020")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(0F)
             .build());
     }
@@ -341,7 +341,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Member 1 Surname 1 fee for February 2020")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(1F)
             .build());
     }

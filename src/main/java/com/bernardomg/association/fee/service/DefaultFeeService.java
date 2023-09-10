@@ -232,7 +232,7 @@ public final class DefaultFeeService implements FeeService {
         final Float                 feeAmount;
         final PersistentMember      member;
         final String                name;
-        final String                date;
+        final String                dates;
         final String                message;
         final Object[]              messageArguments;
 
@@ -255,13 +255,13 @@ public final class DefaultFeeService implements FeeService {
             .collect(Collectors.joining(" "))
             .trim();
 
-        date = payment.getFeeDates()
+        dates = payment.getFeeDates()
             .stream()
             .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
                 LocaleContextHolder.getLocale()) + " " + f.getYear())
             .collect(Collectors.joining(", "));
 
-        messageArguments = List.of(name, date)
+        messageArguments = List.of(name, dates)
             .toArray();
         message = messageSource.getMessage("fee.payment.message", messageArguments, LocaleContextHolder.getLocale());
         transaction.setDescription(message);
