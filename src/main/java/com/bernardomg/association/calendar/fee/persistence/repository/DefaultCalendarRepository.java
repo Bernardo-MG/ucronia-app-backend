@@ -1,16 +1,20 @@
 
 package com.bernardomg.association.calendar.fee.persistence.repository;
 
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -24,6 +28,9 @@ import com.bernardomg.association.calendar.fee.model.ImmutableFeeCalendarRange;
 import com.bernardomg.association.calendar.fee.model.ImmutableFeeMonth;
 import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
+import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
+import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +49,8 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
     private final RowMapper<FeeCalendarRow>  feeYearRowRowMapper            = new FeeCalendarRowRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    
+    private final MemberFeeRepository memberFeeRepository;
 
     @Override
     public final Collection<UserFeeCalendar> findAllForYear(final boolean onlyActive, final int year, final Sort sort) {
@@ -54,7 +63,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
             query = QUERY_FOR_YEAR;
         }
 
-        return findAllForYear(query, year, sort);
+        return findAllForYear(year, sort);
     }
 
     @Override
@@ -98,20 +107,22 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         return jdbcTemplate.query(query + where + sorting, namedParameters, feeYearRowRowMapper);
     }
 
-    private final Collection<UserFeeCalendar> findAllForYear(final String query, final Integer year, final Sort sort) {
-        final Collection<FeeCalendarRow>      readFees;
-        final Map<Long, List<FeeCalendarRow>> memberFees;
+    private final Collection<UserFeeCalendar> findAllForYear(final Integer year, final Sort sort) {
+        final Collection<PersistentMemberFee>      readFees;
+        final Map<Long, List<PersistentMemberFee>> memberFees;
         final Collection<UserFeeCalendar>     years;
         final Iterable<Long>                  memberIds;
-        List<FeeCalendarRow>                  fees;
+        final Specification<PersistentMemberFee> spec;
+        List<PersistentMemberFee>                  fees;
         UserFeeCalendar                       feeYear;
         Boolean                               active;
 
-        readFees = findAll(query, year, sort);
+        spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
+        readFees = memberFeeRepository.findAll(spec, sort);
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(FeeCalendarRow::getMemberId));
+            .collect(Collectors.groupingBy(PersistentMemberFee::getMemberId));
         memberIds = readFees.stream()
-            .map(FeeCalendarRow::getMemberId)
+            .map(PersistentMemberFee::getMemberId)
             .distinct()
             .toList();
 
@@ -133,7 +144,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
         return years;
     }
 
-    private final FeeMonth toFeeMonth(final FeeCalendarRow fee) {
+    private final FeeMonth toFeeMonth(final PersistentMemberFee fee) {
         final Integer month;
 
         // Calendar months start at index 0, this has to be corrected
@@ -149,17 +160,18 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
     }
 
     private final UserFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
-            final Collection<FeeCalendarRow> fees) {
+            final Collection<PersistentMemberFee> fees) {
         final Collection<FeeMonth> months;
-        final FeeCalendarRow       row;
+        final PersistentMemberFee       row;
         final String               name;
 
         if (fees.isEmpty()) {
             // TODO: Tests this case to make sure it is handled correctly
             // TODO: Move out of the method and make sure this can't happen
             log.warn("No data found for member {}", member);
-            name = "";
             months = Collections.emptyList();
+
+            name = "";
         } else {
             months = fees.stream()
                 .map(this::toFeeMonth)
@@ -169,10 +181,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
             row = fees.iterator()
                 .next();
-            name = List.of(row.getName(), row.getSurname())
-                .stream()
-                .collect(Collectors.joining(" "))
-                .trim();
+            name = row.getMemberName();
         }
 
         return ImmutableUserFeeCalendar.builder()

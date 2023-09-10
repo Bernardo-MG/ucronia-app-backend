@@ -42,4 +42,7 @@ public class PersistentMemberFee implements Serializable {
     @Column(name = "paid")
     private Boolean           paid;
 
+    @Column(name = "active")
+    private Boolean           active;
+
 }

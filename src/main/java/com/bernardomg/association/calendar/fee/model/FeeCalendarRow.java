@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.fee.model;
 
 import java.time.LocalDate;
 
+@Deprecated
 public interface FeeCalendarRow {
 
     public Boolean getActive();
