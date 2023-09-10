@@ -60,7 +60,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
 
         sort = Sort.by(Order.asc("name"));
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -84,7 +84,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
 
         sort = Sort.by(Order.desc("name"));
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -109,7 +109,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
 
         sort = Sort.by(Order.asc("name"));
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -144,7 +144,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
 
         sort = Sort.by(Order.desc("name"));
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -179,7 +179,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
 
         sort = Sort.by(Order.asc("surname"));
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -214,7 +214,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
 
         sort = Sort.by(Order.desc("surname"));
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();

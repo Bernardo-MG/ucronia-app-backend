@@ -63,7 +63,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(false, 2020, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -85,7 +85,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -106,7 +106,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -128,7 +128,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(false, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
@@ -143,7 +143,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(false, 2020, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -165,7 +165,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -197,7 +197,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(false, 2020, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -219,7 +219,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort)
+        calendars = repository.findAllForYear(false, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -251,7 +251,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2019, sort);
+        calendars = repository.findAllForYear(false, 2019, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -272,7 +272,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendar = repository.findAllForYear(2019, sort)
+        calendar = repository.findAllForYear(false, 2019, sort)
             .iterator()
             .next();
 
@@ -320,7 +320,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYear(2020, sort);
+        calendars = repository.findAllForYear(false, 2020, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -341,7 +341,7 @@ class ITFeeCalendarRepositoryFindAllForYear {
 
         sort = Sort.unsorted();
 
-        calendar = repository.findAllForYear(2020, sort)
+        calendar = repository.findAllForYear(false, 2020, sort)
             .iterator()
             .next();
 

@@ -61,7 +61,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendar = repository.findAllForYearWithActiveMember(2020, sort);
+        calendar = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendar))
             .isEqualTo(1);
@@ -81,7 +81,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -104,7 +104,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
@@ -118,7 +118,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isZero();
@@ -133,7 +133,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -155,7 +155,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -187,7 +187,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -209,7 +209,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -241,7 +241,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendar = repository.findAllForYearWithActiveMember(2019, sort);
+        calendar = repository.findAllForYear(true, 2019, sort);
 
         Assertions.assertThat(IterableUtils.size(calendar))
             .isEqualTo(1);
@@ -262,7 +262,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendar = repository.findAllForYearWithActiveMember(2019, sort)
+        calendar = repository.findAllForYear(true, 2019, sort)
             .iterator()
             .next();
 
@@ -310,7 +310,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -331,7 +331,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMember {
 
         sort = Sort.unsorted();
 
-        calendar = repository.findAllForYearWithActiveMember(2020, sort)
+        calendar = repository.findAllForYear(true, 2020, sort)
             .iterator()
             .next();
 

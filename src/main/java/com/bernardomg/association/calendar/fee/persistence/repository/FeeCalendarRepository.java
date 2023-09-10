@@ -10,12 +10,8 @@ import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
 
 public interface FeeCalendarRepository {
 
-    public Collection<UserFeeCalendar> findAllForYear(final Integer year, final Sort sort);
+    public Collection<UserFeeCalendar> findAllForYear(final boolean onlyActive, final int year, final Sort sort);
 
-    public Collection<UserFeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort);
-
-    public FeeCalendarRange findRange();
-
-    public FeeCalendarRange findRangeWithActiveMember();
+    public FeeCalendarRange findRange(final boolean onlyActive);
 
 }

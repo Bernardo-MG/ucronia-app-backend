@@ -51,7 +51,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_FullYear() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .containsOnly(2020);
@@ -64,7 +64,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_FullYear_TwoMembers() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .containsOnly(2020);
@@ -76,7 +76,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_Inactive_FullYear() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .isEmpty();
@@ -87,7 +87,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_NoData() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .isEmpty();
@@ -99,7 +99,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_Single() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .containsOnly(2020);
@@ -111,7 +111,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_TwoConnectedYears() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .containsExactly(2019, 2020);
@@ -123,7 +123,7 @@ class ITFeeCalendarRepositoryFindRangeWithActiveMember {
     void testFindRangeWithActiveMember_TwoYearsWithGap() {
         final FeeCalendarRange range;
 
-        range = repository.findRangeWithActiveMember();
+        range = repository.findRange(true);
 
         Assertions.assertThat(range.getYears())
             .containsExactly(2018, 2020);

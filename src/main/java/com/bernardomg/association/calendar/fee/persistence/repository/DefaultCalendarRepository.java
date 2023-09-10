@@ -44,31 +44,31 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public final Collection<UserFeeCalendar> findAllForYear(final Integer year, final Sort sort) {
-        return findAllForYear(QUERY_FOR_YEAR, year, sort);
+    public final Collection<UserFeeCalendar> findAllForYear(final boolean onlyActive, final int year, final Sort sort) {
+        final String query;
+
+        if (onlyActive) {
+            // TODO: Improve how the where is built
+            query = QUERY_FOR_YEAR + " WHERE m.active = true";
+        } else {
+            query = QUERY_FOR_YEAR;
+        }
+
+        return findAllForYear(query, year, sort);
     }
 
     @Override
-    public final Collection<UserFeeCalendar> findAllForYearWithActiveMember(final Integer year, final Sort sort) {
-        // TODO: Improve how the where is built
-        return findAllForYear(QUERY_FOR_YEAR + " WHERE m.active = true", year, sort);
-    }
-
-    @Override
-    public final FeeCalendarRange findRange() {
+    public final FeeCalendarRange findRange(final boolean onlyActive) {
         final Collection<Integer> years;
+        final String              query;
 
-        years = jdbcTemplate.queryForList(QUERY_RANGE, Collections.emptyMap(), Integer.class);
-        return ImmutableFeeCalendarRange.builder()
-            .years(years)
-            .build();
-    }
+        if (onlyActive) {
+            query = QUERY_RANGE_WITH_ACTIVE_MEMBER;
+        } else {
+            query = QUERY_RANGE;
+        }
 
-    @Override
-    public final FeeCalendarRange findRangeWithActiveMember() {
-        final Collection<Integer> years;
-
-        years = jdbcTemplate.queryForList(QUERY_RANGE_WITH_ACTIVE_MEMBER, Collections.emptyMap(), Integer.class);
+        years = jdbcTemplate.queryForList(query, Collections.emptyMap(), Integer.class);
         return ImmutableFeeCalendarRange.builder()
             .years(years)
             .build();

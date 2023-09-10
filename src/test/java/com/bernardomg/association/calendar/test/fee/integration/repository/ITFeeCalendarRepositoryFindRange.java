@@ -51,7 +51,7 @@ class ITFeeCalendarRepositoryFindRange {
     void testFindRange_FullYear() {
         final FeeCalendarRange range;
 
-        range = repository.findRange();
+        range = repository.findRange(false);
 
         Assertions.assertThat(range.getYears())
             .containsOnly(2020);
@@ -64,7 +64,7 @@ class ITFeeCalendarRepositoryFindRange {
     void testFindRange_FullYear_TwoMembers() {
         final FeeCalendarRange range;
 
-        range = repository.findRange();
+        range = repository.findRange(false);
 
         Assertions.assertThat(range.getYears())
             .containsOnly(2020);
@@ -75,7 +75,7 @@ class ITFeeCalendarRepositoryFindRange {
     void testFindRange_NoData() {
         final FeeCalendarRange range;
 
-        range = repository.findRange();
+        range = repository.findRange(false);
 
         Assertions.assertThat(range.getYears())
             .isEmpty();
@@ -87,7 +87,7 @@ class ITFeeCalendarRepositoryFindRange {
     void testFindRange_Single() {
         final FeeCalendarRange range;
 
-        range = repository.findRange();
+        range = repository.findRange(false);
 
         Assertions.assertThat(range.getYears())
             .containsOnly(2020);
@@ -99,7 +99,7 @@ class ITFeeCalendarRepositoryFindRange {
     void testFindRange_TwoConnectedYears() {
         final FeeCalendarRange range;
 
-        range = repository.findRange();
+        range = repository.findRange(false);
 
         Assertions.assertThat(range.getYears())
             .containsSequence(2019, 2020);
@@ -111,7 +111,7 @@ class ITFeeCalendarRepositoryFindRange {
     void testFindRange_TwoYearsWithGap() {
         final FeeCalendarRange range;
 
-        range = repository.findRange();
+        range = repository.findRange(false);
 
         Assertions.assertThat(range.getYears())
             .containsSequence(2018, 2020);

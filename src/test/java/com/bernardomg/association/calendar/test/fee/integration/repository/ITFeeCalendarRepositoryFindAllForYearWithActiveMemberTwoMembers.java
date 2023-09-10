@@ -62,7 +62,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort);
+        calendars = repository.findAllForYear(true, 2020, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(2);
@@ -85,7 +85,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberTwoMembers {
 
         sort = Sort.unsorted();
 
-        calendars = repository.findAllForYearWithActiveMember(2020, sort)
+        calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
 
         // First member
