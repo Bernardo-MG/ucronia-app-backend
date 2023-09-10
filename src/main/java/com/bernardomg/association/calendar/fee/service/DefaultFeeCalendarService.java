@@ -51,8 +51,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     @Override
     @Cacheable(cacheNames = CACHE)
     public final Iterable<UserFeeCalendar> getYear(final int year, final boolean onlyActive, final Sort sort) {
-        // TODO: It seems the sort is applied to the months, not the calendar itself
-        // TODO: Make sure the months are being sorted
         final Collection<PersistentMemberFee>      readFees;
         final Map<Long, List<PersistentMemberFee>> memberFees;
         final Collection<UserFeeCalendar>          years;
