@@ -11,6 +11,10 @@ import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 
 public final class MemberFeeSpecifications {
 
+    public static Specification<PersistentMemberFee> active(final boolean active) {
+        return (root, query, cb) -> cb.equal(root.get("active"), active);
+    }
+
     public static Specification<PersistentMemberFee> after(final YearMonth date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }

@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
@@ -63,7 +63,7 @@ class ITFeeCalendarServiceGetYearSort {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
 
-        sort = Sort.by(Order.asc("name"));
+        sort = Sort.by(Order.asc("memberName"));
 
         calendars = service.getYear(2020, false, sort)
             .iterator();
@@ -88,7 +88,7 @@ class ITFeeCalendarServiceGetYearSort {
         final Iterator<UserFeeCalendar> calendars;
         final UserFeeCalendar           calendar;
 
-        sort = Sort.by(Order.asc("name"));
+        sort = Sort.by(Order.asc("memberName"));
 
         calendars = service.getYear(2020, false, sort)
             .iterator();
@@ -118,7 +118,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(BadSqlGrammarException.class);
+            .isInstanceOf(PropertyReferenceException.class);
     }
 
 }

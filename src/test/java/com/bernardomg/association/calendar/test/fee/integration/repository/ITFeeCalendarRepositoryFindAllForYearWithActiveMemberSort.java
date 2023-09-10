@@ -58,7 +58,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
         final Sort                      sort;
         UserFeeCalendar                 calendar;
 
-        sort = Sort.by(Order.asc("name"));
+        sort = Sort.by(Order.asc("memberName"));
 
         calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
@@ -82,7 +82,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
         final Sort                      sort;
         UserFeeCalendar                 calendar;
 
-        sort = Sort.by(Order.desc("name"));
+        sort = Sort.by(Order.desc("memberName"));
 
         calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
@@ -107,7 +107,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
         final Sort                      sort;
         UserFeeCalendar                 calendar;
 
-        sort = Sort.by(Order.asc("name"));
+        sort = Sort.by(Order.asc("memberName"));
 
         calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
@@ -142,7 +142,7 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
         final Sort                      sort;
         UserFeeCalendar                 calendar;
 
-        sort = Sort.by(Order.desc("name"));
+        sort = Sort.by(Order.desc("memberName"));
 
         calendars = repository.findAllForYear(true, 2020, sort)
             .iterator();
@@ -166,76 +166,6 @@ class ITFeeCalendarRepositoryFindAllForYearWithActiveMemberSort {
             .build());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With ascending order by surname it returns the ordered data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
-    void testFindAllForYearWithActiveMember_TwoMembers_Surname_Asc() {
-        final Iterator<UserFeeCalendar> calendars;
-        final Sort                      sort;
-        UserFeeCalendar                 calendar;
-
-        sort = Sort.by(Order.asc("surname"));
-
-        calendars = repository.findAllForYear(true, 2020, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
-            .memberId(1L)
-            .name("Member 1 Surname 1")
-            .year(2020)
-            .active(true)
-            .build());
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-
-        calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
-            .memberId(2L)
-            .name("Member 2 Surname 2")
-            .year(2020)
-            .active(true)
-            .build());
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With descending order by surname it returns the ordered data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
-    void testFindAllForYearWithActiveMember_TwoMembers_Surname_Desc() {
-        final Iterator<UserFeeCalendar> calendars;
-        final Sort                      sort;
-        UserFeeCalendar                 result;
-
-        sort = Sort.by(Order.desc("surname"));
-
-        calendars = repository.findAllForYear(true, 2020, sort)
-            .iterator();
-
-        result = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
-            .memberId(2L)
-            .name("Member 2 Surname 2")
-            .year(2020)
-            .active(true)
-            .build());
-
-        UserFeeCalendarAssertions.assertFullYear(result);
-
-        result = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(result, ImmutableUserFeeCalendar.builder()
-            .memberId(1L)
-            .name("Member 1 Surname 1")
-            .year(2020)
-            .active(true)
-            .build());
-
-        UserFeeCalendarAssertions.assertFullYear(result);
     }
 
 }
