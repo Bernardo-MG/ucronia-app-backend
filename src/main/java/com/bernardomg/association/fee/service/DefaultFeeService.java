@@ -150,39 +150,14 @@ public final class DefaultFeeService implements FeeService {
     @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
     @Transactional
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
-        final PersistentTransaction              transaction;
-        final Collection<PersistentFee>          fees;
-        final Function<YearMonth, PersistentFee> toPersistentFee;
-        final Float                              feeAmount;
+        final Collection<PersistentFee> fees;
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
         validatorPay.validate(payment);
 
-        // Calculate amount
-        feeAmount = configurationSource.getFeeAmount() * payment.getFeeDates()
-            .size();
-
-        // Register transaction
-        transaction = new PersistentTransaction();
-        transaction.setAmount(feeAmount);
-        transaction.setDate(payment.getPaymentDate());
-        transaction.setDescription(payment.getDescription());
-
-        transactionRepository.save(transaction);
-
-        // Register fees
-        toPersistentFee = (date) -> toPersistentFee(payment.getMemberId(), date);
-        fees = payment.getFeeDates()
-            .stream()
-            .map(toPersistentFee)
-            .toList();
-
-        // Update fees on fees to update
-        fees.stream()
-            .forEach(this::loadId);
-
-        feeRepository.saveAll(fees);
+        registerTransaction(payment);
+        fees = registerFees(payment);
 
         // TODO: Doesn't return names
         return fees.stream()
@@ -224,6 +199,43 @@ public final class DefaultFeeService implements FeeService {
                 .getId();
             fee.setId(id);
         }
+    }
+
+    private final Collection<PersistentFee> registerFees(final FeesPayment payment) {
+        final Collection<PersistentFee>          fees;
+        final Function<YearMonth, PersistentFee> toPersistentFee;
+
+        // Register fees
+        toPersistentFee = (date) -> toPersistentFee(payment.getMemberId(), date);
+        fees = payment.getFeeDates()
+            .stream()
+            .map(toPersistentFee)
+            .toList();
+
+        // Update fees on fees to update
+        fees.stream()
+            .forEach(this::loadId);
+
+        return feeRepository.saveAll(fees);
+    }
+
+    private final void registerTransaction(final FeesPayment payment) {
+        final PersistentTransaction transaction;
+        final Float                 feeAmount;
+
+        validatorPay.validate(payment);
+
+        // Calculate amount
+        feeAmount = configurationSource.getFeeAmount() * payment.getFeeDates()
+            .size();
+
+        // Register transaction
+        transaction = new PersistentTransaction();
+        transaction.setAmount(feeAmount);
+        transaction.setDate(payment.getPaymentDate());
+        transaction.setDescription(payment.getDescription());
+
+        transactionRepository.save(transaction);
     }
 
     private final PersistentFee toPersistentFee(final Long memberId, final YearMonth date) {
