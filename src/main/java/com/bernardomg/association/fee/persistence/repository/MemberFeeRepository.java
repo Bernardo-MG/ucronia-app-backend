@@ -24,12 +24,22 @@
 
 package com.bernardomg.association.fee.persistence.repository;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 
 public interface MemberFeeRepository
         extends JpaRepository<PersistentMemberFee, Long>, JpaSpecificationExecutor<PersistentMemberFee> {
+
+    @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f GROUP BY feeYear ORDER BY feeYear ASC")
+    public Collection<Integer> findYears();
+
+    @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f WHERE f.active = :active GROUP BY feeYear ORDER BY feeYear ASC")
+    public Collection<Integer> findYears(@Param("active") final boolean active);
 
 }

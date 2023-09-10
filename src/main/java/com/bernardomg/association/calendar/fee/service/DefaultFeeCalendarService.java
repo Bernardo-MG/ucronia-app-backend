@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.calendar.fee.model.FeeCalendarRange;
 import com.bernardomg.association.calendar.fee.model.FeeMonth;
+import com.bernardomg.association.calendar.fee.model.ImmutableFeeCalendarRange;
 import com.bernardomg.association.calendar.fee.model.ImmutableFeeMonth;
 import com.bernardomg.association.calendar.fee.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.calendar.fee.model.UserFeeCalendar;
-import com.bernardomg.association.calendar.fee.persistence.repository.FeeCalendarRepository;
 import com.bernardomg.association.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
@@ -34,17 +34,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private static final String         CACHE = "fee_calendar";
+    private static final String       CACHE = "fee_calendar";
 
-    private final MemberFeeRepository   memberFeeRepository;
-
-    private final FeeCalendarRepository repository;
+    private final MemberFeeRepository memberFeeRepository;
 
     @Override
     public final FeeCalendarRange getRange(final boolean onlyActive) {
-        // TODO: Shouldn't be cached?
+        final Collection<Integer> years;
 
-        return repository.findRange(onlyActive);
+        if (onlyActive) {
+            years = memberFeeRepository.findYears(onlyActive);
+        } else {
+            years = memberFeeRepository.findYears();
+        }
+
+        return ImmutableFeeCalendarRange.builder()
+            .years(years)
+            .build();
     }
 
     @Override
