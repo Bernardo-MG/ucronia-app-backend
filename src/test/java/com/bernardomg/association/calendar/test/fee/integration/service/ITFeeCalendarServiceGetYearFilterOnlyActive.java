@@ -107,7 +107,7 @@ class ITFeeCalendarServiceGetYearFilterOnlyActive {
         calendar = calendars.next();
         Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(calendar.getName())
+        Assertions.assertThat(calendar.getMemberName())
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
@@ -184,7 +184,7 @@ class ITFeeCalendarServiceGetYearFilterOnlyActive {
         calendar = calendars.next();
         Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
-        Assertions.assertThat(calendar.getName())
+        Assertions.assertThat(calendar.getMemberName())
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);

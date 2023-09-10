@@ -142,7 +142,7 @@ public final class DefaultCalendarRepository implements FeeCalendarRepository {
 
         return ImmutableUserFeeCalendar.builder()
             .memberId(member)
-            .name(name)
+            .memberName(name)
             .active(active)
             .months(months)
             .year(year)

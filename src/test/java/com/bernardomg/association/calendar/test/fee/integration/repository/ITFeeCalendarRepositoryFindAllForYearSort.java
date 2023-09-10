@@ -66,7 +66,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .year(2020)
             .active(true)
             .build());
@@ -90,7 +90,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .year(2020)
             .active(true)
             .build());
@@ -115,7 +115,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .year(2020)
             .active(true)
             .build());
@@ -125,7 +125,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
-            .name("Member 2 Surname 2")
+            .memberName("Member 2 Surname 2")
             .year(2020)
             .active(true)
             .build());
@@ -150,7 +150,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(2L)
-            .name("Member 2 Surname 2")
+            .memberName("Member 2 Surname 2")
             .year(2020)
             .active(true)
             .build());
@@ -160,7 +160,7 @@ class ITFeeCalendarRepositoryFindAllForYearSort {
         calendar = calendars.next();
         UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
             .memberId(1L)
-            .name("Member 1 Surname 1")
+            .memberName("Member 1 Surname 1")
             .year(2020)
             .active(true)
             .build());
