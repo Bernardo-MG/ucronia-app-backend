@@ -3,13 +3,17 @@ package com.bernardomg.association.fee.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,6 +33,7 @@ import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository
 import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.fee.validation.UpdateFeeValidator;
+import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
@@ -63,17 +68,20 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberRepository               memberRepository;
 
+    private final MessageSource                  messageSource;
+
     private final TransactionRepository          transactionRepository;
 
     private final Validator<FeesPayment>         validatorPay;
 
     private final Validator<FeeUpdate>           validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final TransactionRepository transactionRepo,
-            final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper,
-            final AssociationConfigurationSource confSource) {
+    public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
+            final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
+            final MemberRepository memberRepo, final FeeMapper mpper, final AssociationConfigurationSource confSource) {
         super();
 
+        messageSource = msgSource;
         feeRepository = feeRepo;
         transactionRepository = transactionRepo;
         memberFeeRepository = memberFeeRepo;
@@ -222,6 +230,11 @@ public final class DefaultFeeService implements FeeService {
     private final void registerTransaction(final FeesPayment payment) {
         final PersistentTransaction transaction;
         final Float                 feeAmount;
+        final PersistentMember      member;
+        final String                name;
+        final String                date;
+        final String                message;
+        final Object[]              messageArguments;
 
         validatorPay.validate(payment);
 
@@ -233,7 +246,25 @@ public final class DefaultFeeService implements FeeService {
         transaction = new PersistentTransaction();
         transaction.setAmount(feeAmount);
         transaction.setDate(payment.getPaymentDate());
-        transaction.setDescription(payment.getDescription());
+
+        member = memberRepository.findById(payment.getMemberId())
+            .get();
+
+        name = List.of(member.getName(), member.getSurname())
+            .stream()
+            .collect(Collectors.joining(" "))
+            .trim();
+
+        date = payment.getFeeDates()
+            .stream()
+            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null, new Locale("es")) + " "
+                    + f.getYear())
+            .collect(Collectors.joining(", "));
+
+        messageArguments = List.of(name, date)
+            .toArray();
+        message = messageSource.getMessage("fee.payment.message", messageArguments, new Locale("es"));
+        transaction.setDescription(message);
 
         transactionRepository.save(transaction);
     }

@@ -7,8 +7,6 @@ import java.util.Collection;
 
 public interface FeesPayment {
 
-    public String getDescription();
-
     public Collection<YearMonth> getFeeDates();
 
     public Long getMemberId();
