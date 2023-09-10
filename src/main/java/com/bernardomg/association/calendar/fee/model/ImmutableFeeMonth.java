@@ -31,6 +31,8 @@ import lombok.Value;
 @Builder
 public final class ImmutableFeeMonth implements FeeMonth {
 
+    private final Long    feeId;
+
     private final Integer month;
 
     private final Boolean paid;

@@ -76,6 +76,27 @@ class ITFeeCalendarRepositoryFindAllForYear {
     }
 
     @Test
+    @DisplayName("With not surname it returns the correct name")
+    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/full_year.sql" })
+    void testFindAllForYear_NoSurname_Data() {
+        final Iterator<UserFeeCalendar> calendars;
+        final UserFeeCalendar           calendar;
+        final Sort                      sort;
+
+        sort = Sort.unsorted();
+
+        calendars = repository.findAllForYear(2020, sort)
+            .iterator();
+
+        calendar = calendars.next();
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+            .memberId(1L)
+            .name("Member 1")
+            .year(2020)
+            .active(true)
+            .build());
+    }
+    @Test
     @DisplayName("With a full year it returns all the data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testFindAllForYear_FullYear_Data() {
@@ -159,6 +180,8 @@ class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isEqualTo(1);
         Assertions.assertThat(month.getMonth())
             .isEqualTo(1);
         Assertions.assertThat(month.getPaid())
@@ -211,6 +234,8 @@ class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isEqualTo(1);
         Assertions.assertThat(month.getMonth())
             .isEqualTo(1);
         Assertions.assertThat(month.getPaid())
@@ -262,18 +287,24 @@ class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(10);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(11);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(12);
         Assertions.assertThat(month.getPaid())
@@ -325,42 +356,56 @@ class ITFeeCalendarRepositoryFindAllForYear {
             .iterator();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(1);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(2);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(3);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(4);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(5);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(6);
         Assertions.assertThat(month.getPaid())
             .isTrue();
 
         month = months.next();
+        Assertions.assertThat(month.getFeeId())
+            .isNotNull();
         Assertions.assertThat(month.getMonth())
             .isEqualTo(7);
         Assertions.assertThat(month.getPaid())
