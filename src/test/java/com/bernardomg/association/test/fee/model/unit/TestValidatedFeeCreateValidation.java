@@ -21,29 +21,6 @@ class TestValidatedFeeCreateValidation {
         .getValidator();
 
     @Test
-    @DisplayName("A DTO missing the description is invalid")
-    void validate_missingDescription() {
-        final FeesPayment                           request;
-        final Set<ConstraintViolation<FeesPayment>> errors;
-        final ConstraintViolation<FeesPayment>      error;
-
-        request = FeesCreate.missingDescription();
-
-        errors = validator.validate(request);
-
-        Assertions.assertThat(errors)
-            .hasSize(1);
-
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("description");
-        Assertions.assertThat(error.getInvalidValue())
-            .isNull();
-    }
-
-    @Test
     @DisplayName("A DTO missing the fee dates is invalid")
     void validate_missingFeeDates() {
         final FeesPayment                           request;

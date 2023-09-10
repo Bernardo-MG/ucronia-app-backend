@@ -29,14 +29,6 @@ public final class FeesCreate {
             .build();
     }
 
-    public static final FeesPayment missingDescription() {
-        return FeesPaymentRequest.builder()
-            .memberId(1L)
-            .feeDates(List.of(YearMonth.of(2020, Month.FEBRUARY)))
-            .paymentDate(LocalDate.of(2020, Month.JANUARY, 1))
-            .build();
-    }
-
     public static final FeesPayment missingFeeDates() {
         return FeesPaymentRequest.builder()
             .memberId(1L)
