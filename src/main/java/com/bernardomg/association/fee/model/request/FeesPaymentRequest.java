@@ -20,9 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class FeesPaymentRequest implements FeesPayment {
 
-    @NotEmpty
-    private String                         description;
-
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotEmpty
     private Collection<@NotNull YearMonth> feeDates;
