@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 
 # Resolve and cache dependencies
 COPY ./pom.xml .
-RUN mvn compile
+RUN mvn dependency:go-offline
 
 # Copy and build
 COPY . .
