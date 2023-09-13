@@ -24,22 +24,20 @@
 
 package com.bernardomg.association.transaction.persistence.repository;
 
-import java.time.LocalDate;
+import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import com.bernardomg.association.transaction.persistence.model.Month;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 
 public interface TransactionRepository
         extends JpaRepository<PersistentTransaction, Long>, JpaSpecificationExecutor<PersistentTransaction> {
 
-    @Query("SELECT MAX(date) FROM Transaction t")
-    public LocalDate findMaxDate();
-
-    @Query("SELECT MIN(date) FROM Transaction t")
-    public LocalDate findMinDate();
+    @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY date ORDER BY date ASC")
+    public Collection<Month> findMonths();
 
     @Query("SELECT SUM(t.amount) AS balance FROM Transaction t")
     public Float sumAll();

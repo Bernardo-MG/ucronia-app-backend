@@ -24,14 +24,17 @@
 
 package com.bernardomg.association.calendar.test.transaction;
 
+import java.time.Month;
+import java.time.YearMonth;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.calendar.transaction.model.TransactionRange;
 import com.bernardomg.association.calendar.transaction.service.TransactionCalendarService;
-import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -55,15 +58,13 @@ class ITTransactionCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getStartMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(range.getStartYear())
-            .isEqualTo(2020);
-
-        Assertions.assertThat(range.getEndMonth())
-            .isEqualTo(12);
-        Assertions.assertThat(range.getEndYear())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getMonths())
+            .hasSize(12)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
+                YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
+                YearMonth.of(2020, Month.JUNE), YearMonth.of(2020, Month.JULY), YearMonth.of(2020, Month.AUGUST),
+                YearMonth.of(2020, Month.SEPTEMBER), YearMonth.of(2020, Month.OCTOBER),
+                YearMonth.of(2020, Month.NOVEMBER), YearMonth.of(2020, Month.DECEMBER));
     }
 
     @Test
@@ -73,15 +74,8 @@ class ITTransactionCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getStartMonth())
-            .isZero();
-        Assertions.assertThat(range.getStartYear())
-            .isZero();
-
-        Assertions.assertThat(range.getEndMonth())
-            .isZero();
-        Assertions.assertThat(range.getEndYear())
-            .isZero();
+        Assertions.assertThat(range.getMonths())
+            .hasSize(0);
     }
 
 }
