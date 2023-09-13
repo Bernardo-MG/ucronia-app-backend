@@ -68,6 +68,32 @@ class ITTransactionCalendarServiceGetRange {
     }
 
     @Test
+    @DisplayName("With multiple transactions the same day, a single month is returned")
+    @Sql({ "/db/queries/transaction/multiple_same_day.sql" })
+    void testGetRange_MultipleSameDay() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(1)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With multiple transactions the same month, a single month is returned")
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    void testGetRange_MultipleSameMonth() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(1)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY));
+    }
+
+    @Test
     @DisplayName("With no data, an empty range is returned")
     void testGetRange_NoData() {
         final TransactionRange range;

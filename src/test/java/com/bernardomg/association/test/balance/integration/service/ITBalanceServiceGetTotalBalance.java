@@ -110,7 +110,7 @@ class ITBalanceServiceGetTotalBalance {
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetTotalBalance_Multiple() {
         final Balance balance;
 

@@ -57,7 +57,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetAll_AfterDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -119,7 +119,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetAll_BeforeDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -161,7 +161,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetAll_InDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
