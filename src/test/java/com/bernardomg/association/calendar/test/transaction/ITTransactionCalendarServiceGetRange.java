@@ -51,7 +51,7 @@ class ITTransactionCalendarServiceGetRange {
     }
 
     @Test
-    @DisplayName("With a full year, a range for the full year is returned")
+    @DisplayName("With two full consecutive years, a range for them is returned")
     @Sql({ "/db/queries/transaction/full_consecutive_years.sql" })
     void testGetRange_ConsecutiveFullYear() {
         final TransactionRange range;
@@ -124,6 +124,28 @@ class ITTransactionCalendarServiceGetRange {
 
         Assertions.assertThat(range.getMonths())
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With two full not consecutive years, a range for them is returned")
+    @Sql({ "/db/queries/transaction/full_not_consecutive_years.sql" })
+    void testGetRange_NotConsecutiveFullYear() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(24)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
+                YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
+                YearMonth.of(2020, Month.JUNE), YearMonth.of(2020, Month.JULY), YearMonth.of(2020, Month.AUGUST),
+                YearMonth.of(2020, Month.SEPTEMBER), YearMonth.of(2020, Month.OCTOBER),
+                YearMonth.of(2020, Month.NOVEMBER), YearMonth.of(2020, Month.DECEMBER),
+                YearMonth.of(2022, Month.JANUARY), YearMonth.of(2022, Month.FEBRUARY), YearMonth.of(2022, Month.MARCH),
+                YearMonth.of(2022, Month.APRIL), YearMonth.of(2022, Month.MAY), YearMonth.of(2022, Month.JUNE),
+                YearMonth.of(2022, Month.JULY), YearMonth.of(2022, Month.AUGUST), YearMonth.of(2022, Month.SEPTEMBER),
+                YearMonth.of(2022, Month.OCTOBER), YearMonth.of(2022, Month.NOVEMBER),
+                YearMonth.of(2022, Month.DECEMBER));
     }
 
 }
