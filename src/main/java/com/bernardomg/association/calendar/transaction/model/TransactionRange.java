@@ -22,21 +22,13 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.model;
+package com.bernardomg.association.calendar.transaction.model;
 
-import lombok.Builder;
-import lombok.Value;
+import java.time.YearMonth;
+import java.util.Collection;
 
-@Value
-@Builder
-public final class ImmutableTransactionRange implements TransactionRange {
+public interface TransactionRange {
 
-    private final Integer endMonth;
-
-    private final Integer endYear;
-
-    private final Integer startMonth;
-
-    private final Integer startYear;
+    public Collection<YearMonth> getMonths();
 
 }

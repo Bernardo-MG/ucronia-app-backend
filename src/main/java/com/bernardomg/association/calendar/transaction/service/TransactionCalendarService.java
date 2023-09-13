@@ -3,8 +3,8 @@ package com.bernardomg.association.calendar.transaction.service;
 
 import java.time.YearMonth;
 
+import com.bernardomg.association.calendar.transaction.model.TransactionRange;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRange;
 
 /**
  * Transaction service. Supports all the CRUD operations.

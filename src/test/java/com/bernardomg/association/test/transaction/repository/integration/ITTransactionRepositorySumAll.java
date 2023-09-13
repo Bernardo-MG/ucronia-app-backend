@@ -51,7 +51,7 @@ class ITTransactionRepositorySumAll {
 
     @Test
     @DisplayName("With multiple transactions, it returns the sum of all")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testFindSumAll_Multiple() {
         final Float calendar;
 

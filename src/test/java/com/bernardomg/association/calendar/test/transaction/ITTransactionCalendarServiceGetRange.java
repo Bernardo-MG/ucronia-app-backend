@@ -24,14 +24,17 @@
 
 package com.bernardomg.association.calendar.test.transaction;
 
+import java.time.Month;
+import java.time.YearMonth;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.calendar.transaction.model.TransactionRange;
 import com.bernardomg.association.calendar.transaction.service.TransactionCalendarService;
-import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,6 +51,28 @@ class ITTransactionCalendarServiceGetRange {
     }
 
     @Test
+    @DisplayName("With two full consecutive years, a range for them is returned")
+    @Sql({ "/db/queries/transaction/full_consecutive_years.sql" })
+    void testGetRange_ConsecutiveFullYear() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(24)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
+                YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
+                YearMonth.of(2020, Month.JUNE), YearMonth.of(2020, Month.JULY), YearMonth.of(2020, Month.AUGUST),
+                YearMonth.of(2020, Month.SEPTEMBER), YearMonth.of(2020, Month.OCTOBER),
+                YearMonth.of(2020, Month.NOVEMBER), YearMonth.of(2020, Month.DECEMBER),
+                YearMonth.of(2021, Month.JANUARY), YearMonth.of(2021, Month.FEBRUARY), YearMonth.of(2021, Month.MARCH),
+                YearMonth.of(2021, Month.APRIL), YearMonth.of(2021, Month.MAY), YearMonth.of(2021, Month.JUNE),
+                YearMonth.of(2021, Month.JULY), YearMonth.of(2021, Month.AUGUST), YearMonth.of(2021, Month.SEPTEMBER),
+                YearMonth.of(2021, Month.OCTOBER), YearMonth.of(2021, Month.NOVEMBER),
+                YearMonth.of(2021, Month.DECEMBER));
+    }
+
+    @Test
     @DisplayName("With a full year, a range for the full year is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetRange_FullYear() {
@@ -55,15 +80,39 @@ class ITTransactionCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getStartMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(range.getStartYear())
-            .isEqualTo(2020);
+        Assertions.assertThat(range.getMonths())
+            .hasSize(12)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
+                YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
+                YearMonth.of(2020, Month.JUNE), YearMonth.of(2020, Month.JULY), YearMonth.of(2020, Month.AUGUST),
+                YearMonth.of(2020, Month.SEPTEMBER), YearMonth.of(2020, Month.OCTOBER),
+                YearMonth.of(2020, Month.NOVEMBER), YearMonth.of(2020, Month.DECEMBER));
+    }
 
-        Assertions.assertThat(range.getEndMonth())
-            .isEqualTo(12);
-        Assertions.assertThat(range.getEndYear())
-            .isEqualTo(2020);
+    @Test
+    @DisplayName("With multiple transactions the same day, a single month is returned")
+    @Sql({ "/db/queries/transaction/multiple_same_day.sql" })
+    void testGetRange_MultipleSameDay() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(1)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With multiple transactions the same month, a single month is returned")
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    void testGetRange_MultipleSameMonth() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(1)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY));
     }
 
     @Test
@@ -73,15 +122,30 @@ class ITTransactionCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getStartMonth())
-            .isZero();
-        Assertions.assertThat(range.getStartYear())
-            .isZero();
+        Assertions.assertThat(range.getMonths())
+            .isEmpty();
+    }
 
-        Assertions.assertThat(range.getEndMonth())
-            .isZero();
-        Assertions.assertThat(range.getEndYear())
-            .isZero();
+    @Test
+    @DisplayName("With two full not consecutive years, a range for them is returned")
+    @Sql({ "/db/queries/transaction/full_not_consecutive_years.sql" })
+    void testGetRange_NotConsecutiveFullYear() {
+        final TransactionRange range;
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getMonths())
+            .hasSize(24)
+            .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
+                YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
+                YearMonth.of(2020, Month.JUNE), YearMonth.of(2020, Month.JULY), YearMonth.of(2020, Month.AUGUST),
+                YearMonth.of(2020, Month.SEPTEMBER), YearMonth.of(2020, Month.OCTOBER),
+                YearMonth.of(2020, Month.NOVEMBER), YearMonth.of(2020, Month.DECEMBER),
+                YearMonth.of(2022, Month.JANUARY), YearMonth.of(2022, Month.FEBRUARY), YearMonth.of(2022, Month.MARCH),
+                YearMonth.of(2022, Month.APRIL), YearMonth.of(2022, Month.MAY), YearMonth.of(2022, Month.JUNE),
+                YearMonth.of(2022, Month.JULY), YearMonth.of(2022, Month.AUGUST), YearMonth.of(2022, Month.SEPTEMBER),
+                YearMonth.of(2022, Month.OCTOBER), YearMonth.of(2022, Month.NOVEMBER),
+                YearMonth.of(2022, Month.DECEMBER));
     }
 
 }

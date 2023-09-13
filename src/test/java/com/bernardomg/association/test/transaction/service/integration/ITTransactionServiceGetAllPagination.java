@@ -49,7 +49,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all - pagination")
-@Sql({ "/db/queries/transaction/multiple.sql" })
+@Sql({ "/db/queries/transaction/multiple_same_month.sql" })
 class ITTransactionServiceGetAllPagination {
 
     @Autowired
