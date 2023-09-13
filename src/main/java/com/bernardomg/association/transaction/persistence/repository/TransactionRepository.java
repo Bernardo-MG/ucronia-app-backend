@@ -36,7 +36,7 @@ import com.bernardomg.association.transaction.persistence.model.PersistentTransa
 public interface TransactionRepository
         extends JpaRepository<PersistentTransaction, Long>, JpaSpecificationExecutor<PersistentTransaction> {
 
-    @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY date ORDER BY date ASC")
+    @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY year, month ORDER BY year, month ASC")
     public Collection<Month> findMonths();
 
     @Query("SELECT SUM(t.amount) AS balance FROM Transaction t")
