@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.fee.model.DtoMemberFee;
+import com.bernardomg.association.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
@@ -70,6 +70,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid and the fee exists but is unpaid, it is set to paid")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_PersistedFee() {
         final FeesPayment   feeRequest;
         final PersistentFee entity;
@@ -95,6 +96,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid and the fee exists but is unpaid, a single transaction is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -112,7 +114,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Fee paid")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(1F)
             .build());
     }
@@ -120,6 +122,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid and the fee exists but is unpaid, it returns the created data")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
@@ -133,7 +136,7 @@ class ITFeeServicePayFees {
 
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
-            DtoMemberFee.builder()
+            ImmutableMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)
@@ -145,6 +148,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When the user is inactive and a fee is created the fee is persisted")
     @Sql({ "/db/queries/member/inactive.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_Inactive_PersistedFee() {
         final FeesPayment   feeRequest;
         final PersistentFee entity;
@@ -170,6 +174,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When the user is inactive and a fee is created a single transaction is persisted")
     @Sql({ "/db/queries/member/inactive.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_Inactive_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -187,7 +192,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Fee paid")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(1F)
             .build());
     }
@@ -195,6 +200,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When the user is inactive and a a fee is created it returns the created data")
     @Sql({ "/db/queries/member/inactive.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_Inactive_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
@@ -208,7 +214,7 @@ class ITFeeServicePayFees {
 
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
-            DtoMemberFee.builder()
+            ImmutableMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)
@@ -220,6 +226,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates multiple fees are persisted")
     @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_MultipleDates_PersistedFee() {
         final FeesPayment feeRequest;
 
@@ -239,6 +246,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates a single transaction is persisted")
     @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -256,14 +264,40 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Fee paid")
-            .amount(1F)
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020, Marzo 2020")
+            .amount(2F)
+            .build());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
+    @Sql({ "/db/queries/member/single.sql" })
+    void testCreate_NoAmount_PersistedTransaction() {
+        final FeesPayment           feeRequest;
+        final PersistentTransaction entity;
+
+        feeRequest = FeesCreate.valid();
+
+        service.payFees(feeRequest);
+
+        entity = transactionRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(transactionRepository.count())
+            .isEqualTo(1);
+        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
+            .id(1L)
+            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
+            .amount(0F)
             .build());
     }
 
     @Test
     @DisplayName("When a fee is paid the fee is persisted")
     @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_PersistedFee() {
         final FeesPayment   feeRequest;
         final PersistentFee entity;
@@ -289,6 +323,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid a single transaction is persisted")
     @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -306,7 +341,7 @@ class ITFeeServicePayFees {
         TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
             .id(1L)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Fee paid")
+            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .amount(1F)
             .build());
     }
@@ -314,6 +349,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid it returns the created data")
     @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
@@ -327,7 +363,7 @@ class ITFeeServicePayFees {
 
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
-            DtoMemberFee.builder()
+            ImmutableMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
                 .memberName(null)

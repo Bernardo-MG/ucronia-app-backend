@@ -240,7 +240,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetMonthlyBalance_Multiple() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;

@@ -3,19 +3,24 @@ package com.bernardomg.association.fee.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.model.MemberFee;
 import com.bernardomg.association.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.fee.model.request.FeeQuery;
@@ -28,6 +33,7 @@ import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository
 import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.fee.validation.UpdateFeeValidator;
+import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
@@ -46,35 +52,42 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private static final String          CACHE_CALENDAR = "fee_calendar";
+    private static final String                  CACHE_CALENDAR = "fee_calendar";
 
-    private static final String          CACHE_MULTIPLE = "fees";
+    private static final String                  CACHE_MULTIPLE = "fees";
 
-    private static final String          CACHE_SINGLE   = "fee";
+    private static final String                  CACHE_SINGLE   = "fee";
 
-    private final FeeRepository          feeRepository;
+    private final AssociationConfigurationSource configurationSource;
 
-    private final FeeMapper              mapper;
+    private final FeeRepository                  feeRepository;
 
-    private final MemberFeeRepository    memberFeeRepository;
+    private final FeeMapper                      mapper;
 
-    private final MemberRepository       memberRepository;
+    private final MemberFeeRepository            memberFeeRepository;
 
-    private final TransactionRepository  transactionRepository;
+    private final MemberRepository               memberRepository;
 
-    private final Validator<FeesPayment> validatorPay;
+    private final MessageSource                  messageSource;
 
-    private final Validator<FeeUpdate>   validatorUpdate;
+    private final TransactionRepository          transactionRepository;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final TransactionRepository transactionRepo,
-            final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo, final FeeMapper mpper) {
+    private final Validator<FeesPayment>         validatorPay;
+
+    private final Validator<FeeUpdate>           validatorUpdate;
+
+    public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
+            final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
+            final MemberRepository memberRepo, final FeeMapper mpper, final AssociationConfigurationSource confSource) {
         super();
 
+        messageSource = msgSource;
         feeRepository = feeRepo;
         transactionRepository = transactionRepo;
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
         mapper = mpper;
+        configurationSource = confSource;
 
         // TODO: Test validation
         validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
@@ -145,34 +158,14 @@ public final class DefaultFeeService implements FeeService {
     @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
     @Transactional
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
-        final PersistentTransaction              transaction;
-        final Collection<PersistentFee>          fees;
-        final Function<YearMonth, PersistentFee> toPersistentFee;
+        final Collection<PersistentFee> fees;
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
         validatorPay.validate(payment);
 
-        // Register transaction
-        transaction = new PersistentTransaction();
-        transaction.setAmount(payment.getAmount());
-        transaction.setDate(payment.getPaymentDate());
-        transaction.setDescription(payment.getDescription());
-
-        transactionRepository.save(transaction);
-
-        // Register fees
-        toPersistentFee = (date) -> toPersistentFee(payment.getMemberId(), date);
-        fees = payment.getFeeDates()
-            .stream()
-            .map(toPersistentFee)
-            .toList();
-
-        // Update fees on fees to update
-        fees.stream()
-            .forEach(this::loadId);
-
-        feeRepository.saveAll(fees);
+        registerTransaction(payment);
+        fees = registerFees(payment);
 
         // TODO: Doesn't return names
         return fees.stream()
@@ -214,6 +207,66 @@ public final class DefaultFeeService implements FeeService {
                 .getId();
             fee.setId(id);
         }
+    }
+
+    private final Collection<PersistentFee> registerFees(final FeesPayment payment) {
+        final Collection<PersistentFee>          fees;
+        final Function<YearMonth, PersistentFee> toPersistentFee;
+
+        // Register fees
+        toPersistentFee = (date) -> toPersistentFee(payment.getMemberId(), date);
+        fees = payment.getFeeDates()
+            .stream()
+            .map(toPersistentFee)
+            .toList();
+
+        // Update fees on fees to update
+        fees.stream()
+            .forEach(this::loadId);
+
+        return feeRepository.saveAll(fees);
+    }
+
+    private final void registerTransaction(final FeesPayment payment) {
+        final PersistentTransaction transaction;
+        final Float                 feeAmount;
+        final PersistentMember      member;
+        final String                name;
+        final String                dates;
+        final String                message;
+        final Object[]              messageArguments;
+
+        validatorPay.validate(payment);
+
+        // Calculate amount
+        feeAmount = configurationSource.getFeeAmount() * payment.getFeeDates()
+            .size();
+
+        // Register transaction
+        transaction = new PersistentTransaction();
+        transaction.setAmount(feeAmount);
+        transaction.setDate(payment.getPaymentDate());
+
+        member = memberRepository.findById(payment.getMemberId())
+            .get();
+
+        name = List.of(member.getName(), member.getSurname())
+            .stream()
+            .collect(Collectors.joining(" "))
+            .trim();
+
+        dates = payment.getFeeDates()
+            .stream()
+            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
+                LocaleContextHolder.getLocale()) + " " + f.getYear())
+            .collect(Collectors.joining(", "));
+
+        messageArguments = List.of(name, dates)
+            .toArray();
+        message = messageSource.getMessage("fee.payment.message", messageArguments, LocaleContextHolder.getLocale());
+        transaction.setDescription(message);
+
+        transactionRepository.save(transaction);
     }
 
     private final PersistentFee toPersistentFee(final Long memberId, final YearMonth date) {

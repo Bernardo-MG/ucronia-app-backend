@@ -24,10 +24,10 @@
 
 package com.bernardomg.association.calendar.fee.model;
 
+import java.util.Collection;
+
 public interface FeeCalendarRange {
 
-    public Integer getEnd();
-
-    public Integer getStart();
+    public Collection<Integer> getYears();
 
 }

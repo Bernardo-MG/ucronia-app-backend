@@ -225,7 +225,7 @@ class ITTransactionServiceGetAll {
 
     @Test
     @DisplayName("With multiple transactions, it returns all the transactions")
-    @Sql({ "/db/queries/transaction/multiple.sql" })
+    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetAll_Multiple_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;

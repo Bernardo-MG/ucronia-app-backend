@@ -32,9 +32,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.calendar.transaction.model.TransactionRange;
 import com.bernardomg.association.calendar.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionRange;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 

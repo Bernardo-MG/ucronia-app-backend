@@ -93,8 +93,8 @@ public final class UserFeeCalendarAssertions {
     public static final void isEqualTo(final UserFeeCalendar received, final UserFeeCalendar expected) {
         Assertions.assertThat(received.getMemberId())
             .isEqualTo(expected.getMemberId());
-        Assertions.assertThat(received.getName())
-            .isEqualTo(expected.getName());
+        Assertions.assertThat(received.getMemberName())
+            .isEqualTo(expected.getMemberName());
         Assertions.assertThat(received.getYear())
             .isEqualTo(expected.getYear());
         Assertions.assertThat(received.getActive())

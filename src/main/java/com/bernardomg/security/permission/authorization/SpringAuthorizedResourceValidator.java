@@ -31,8 +31,8 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
             authorized = authentication.getAuthorities()
                 .stream()
                 .anyMatch(a -> isValid(a, resource, action));
-            log.debug("Can user {} apply action {} to resource {}: {}", authentication.getName(), action, resource,
-                authorized);
+            log.debug("Authorized user {} against resource {} with action {}: {}", authentication.getName(), resource,
+                action, authorized);
         } else {
             log.debug("User {} is not authenticated", authentication.getName());
             authorized = false;
