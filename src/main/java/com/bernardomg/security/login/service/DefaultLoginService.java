@@ -24,12 +24,18 @@
 
 package com.bernardomg.security.login.service;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,27 +45,99 @@ public final class DefaultLoginService implements LoginService {
 
     private final LoginStatusProvider     loginStatusProvider;
 
-    public DefaultLoginService(@NonNull final LoginStatusProvider loginStatusProv,
-            @NonNull final Predicate<LoginRequest> valid) {
+    private final Pattern                 pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
+    private final UserRepository          userRepository;
+
+    public DefaultLoginService(final LoginStatusProvider loginStatusProv, final Predicate<LoginRequest> valid,
+            final UserRepository userRepo) {
         super();
 
-        loginStatusProvider = loginStatusProv;
-        isValid = valid;
+        loginStatusProvider = Objects.requireNonNull(loginStatusProv);
+        isValid = Objects.requireNonNull(valid);
+        userRepository = Objects.requireNonNull(userRepo);
     }
 
     @Override
     public final LoginStatus login(final LoginRequest login) {
-        final Boolean valid;
-        final String  username;
+        final Boolean      valid;
+        final String       username;
+        final String       validUsername;
+        final LoginRequest validLogin;
 
         username = login.getUsername()
             .toLowerCase();
 
         log.debug("Log in attempt for {}", username);
+        validLogin = getLogin(login);
 
-        valid = isValid.test(login);
+        valid = isValid(validLogin);
 
-        return loginStatusProvider.getStatus(username, valid);
+        validUsername = validLogin.getUsername()
+            .toLowerCase();
+        return loginStatusProvider.getStatus(validUsername, valid);
+    }
+
+    private final LoginRequest getLogin(final LoginRequest login) {
+        final Matcher                  matcher;
+        final Optional<PersistentUser> readUser;
+        final LoginRequest             validLogin;
+
+        matcher = pattern.matcher(login.getUsername());
+
+        if (matcher.find()) {
+            // Using email for login
+            log.debug("Login attempt with email");
+            readUser = userRepository.findOneByEmail(login.getUsername());
+            if (readUser.isPresent()) {
+                // Get the actual username and continue
+                validLogin = DtoLoginRequest.builder()
+                    .username(readUser.get()
+                        .getUsername())
+                    .password(login.getPassword())
+                    .build();
+            } else {
+                log.debug("No user found for email {}", login.getUsername());
+                validLogin = login;
+            }
+        } else {
+            // Using username for login
+            log.debug("Login attempt with username");
+            validLogin = login;
+        }
+
+        return validLogin;
+    }
+
+    private final boolean isValid(final LoginRequest login) {
+        final Matcher                  matcher;
+        final Optional<PersistentUser> readUser;
+        final LoginRequest             validLogin;
+
+        matcher = pattern.matcher(login.getUsername());
+
+        if (matcher.find()) {
+            // Using email for login
+            log.debug("Login attempt with email");
+            readUser = userRepository.findOneByEmail(login.getUsername());
+            if (readUser.isPresent()) {
+                // Get the actual username and continue
+                validLogin = DtoLoginRequest.builder()
+                    .username(readUser.get()
+                        .getUsername())
+                    .password(login.getPassword())
+                    .build();
+            } else {
+                log.debug("No user found for email {}", login.getUsername());
+                validLogin = login;
+            }
+        } else {
+            // Using username for login
+            log.debug("Login attempt with username");
+            validLogin = login;
+        }
+
+        return isValid.test(validLogin);
     }
 
 }

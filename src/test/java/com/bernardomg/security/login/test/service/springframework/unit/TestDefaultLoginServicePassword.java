@@ -4,6 +4,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.Assertions;
@@ -25,6 +26,8 @@ import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLoginService - password validation")
@@ -35,6 +38,9 @@ class TestDefaultLoginServicePassword {
 
     @Mock
     private UserDetailsService userDetService;
+
+    @Mock
+    private UserRepository     userRepository;
 
     public TestDefaultLoginServicePassword() {
         super();
@@ -54,7 +60,17 @@ class TestDefaultLoginServicePassword {
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(loginStatusProvider, valid);
+        return new DefaultLoginService(loginStatusProvider, valid, userRepository);
+    }
+
+    private final void loadUser() {
+        final PersistentUser persistentUser;
+
+        persistentUser = new PersistentUser();
+        persistentUser.setId(1l);
+        persistentUser.setUsername("admin");
+        persistentUser.setPassword("email@somewhere.com");
+        given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(persistentUser));
     }
 
     @Test
@@ -62,6 +78,8 @@ class TestDefaultLoginServicePassword {
     void testLogIn_Email_InvalidPassword() {
         final LoginStatus     status;
         final DtoLoginRequest login;
+
+        loadUser();
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
@@ -80,6 +98,8 @@ class TestDefaultLoginServicePassword {
     void testLogIn_Email_ValidPassword() {
         final LoginStatus     status;
         final DtoLoginRequest login;
+
+        loadUser();
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
