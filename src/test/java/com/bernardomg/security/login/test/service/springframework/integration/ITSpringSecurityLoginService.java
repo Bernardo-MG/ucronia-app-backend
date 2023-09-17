@@ -80,6 +80,33 @@ class ITSpringSecurityLoginService {
     }
 
     @Test
+    @DisplayName("Logs in with a valid email")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testLogIn_Email_Valid() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertThat(status)
+            .isInstanceOf(TokenLoginStatus.class);
+
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+            .isNotBlank();
+    }
+
+    @Test
     @DisplayName("Doesn't log in an expired user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",

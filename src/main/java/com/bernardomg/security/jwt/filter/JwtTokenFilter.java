@@ -205,14 +205,14 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
                 userDetails = userDetailsService.loadUserByUsername(subject.get());
 
                 if (isValid(userDetails)) {
-                    // User valid
-                    log.debug("Authenticated {} request for {} to {}", request.getMethod(), subject.get(),
-                        request.getServletPath());
-
                     // Create and register authentication
                     authentication = getAuthentication(userDetails, request, token.get());
                     SecurityContextHolder.getContext()
                         .setAuthentication(authentication);
+
+                    // User valid
+                    log.debug("Authenticated {} request for {} to {}", request.getMethod(), subject.get(),
+                        request.getServletPath());
                 } else {
                     log.debug("Invalid user {}", subject.get());
                 }
