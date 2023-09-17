@@ -23,6 +23,7 @@ import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
 import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLoginService - failure handling")
@@ -33,6 +34,9 @@ class TestDefaultLoginServiceFailure {
 
     @Mock
     private UserDetailsService userDetService;
+
+    @Mock
+    private UserRepository     userRepository;
 
     public TestDefaultLoginServiceFailure() {
         super();
@@ -47,7 +51,7 @@ class TestDefaultLoginServiceFailure {
         loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(loginStatusProvider, valid);
+        return new DefaultLoginService(loginStatusProvider, valid, userRepository);
     }
 
     private final DefaultLoginService getServiceWithNullUser() {
