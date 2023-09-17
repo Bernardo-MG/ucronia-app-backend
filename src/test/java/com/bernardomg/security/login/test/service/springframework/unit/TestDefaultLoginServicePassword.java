@@ -58,8 +58,44 @@ class TestDefaultLoginServicePassword {
     }
 
     @Test
-    @DisplayName("Doesn't log in with an invalid password")
-    void testLogIn_Invalid() {
+    @DisplayName("Doesn't log in using the email and with an invalid password")
+    void testLogIn_Email_InvalidPassword() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getService(false).login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Logs in using the email and with a valid password")
+    void testLogIn_Email_ValidPassword() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getService(true).login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the username and with an invalid password")
+    void testLogIn_Username_InvalidPassword() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -76,8 +112,8 @@ class TestDefaultLoginServicePassword {
     }
 
     @Test
-    @DisplayName("Logs in with a valid password")
-    void testLogIn_Valid() {
+    @DisplayName("Logs in using the username and with a valid password")
+    void testLogIn_Username_ValidPassword() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 

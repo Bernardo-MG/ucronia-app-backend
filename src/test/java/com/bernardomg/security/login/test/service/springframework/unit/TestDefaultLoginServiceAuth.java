@@ -107,8 +107,118 @@ class TestDefaultLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Doesn't log in a expired user")
-    void testLogIn_AccountExpired() {
+    @DisplayName("Doesn't log in using the email a expired user")
+    void testLogIn_Email_AccountExpired() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getServiceForAccountExpired().login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the email a user with expired credentials")
+    void testLogIn_Email_CredentialsExpired() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getServiceForCredentialsExpired().login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the email a disabled user")
+    void testLogIn_Email_Disabled() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getServiceForDisabled().login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the email a locked user")
+    void testLogIn_Email_Locked() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getServiceForLocked().login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the email a not existing user")
+    void testLogIn_Email_NotExisting() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getServiceForNotExisting().login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Logs in with a valid email")
+    void testLogIn_Email_Valid() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+
+        login = new DtoLoginRequest();
+        login.setUsername("email@somewhere.com");
+        login.setPassword("1234");
+
+        status = getServiceForValid().login(login);
+
+        Assertions.assertThat(status.getLogged())
+            .isTrue();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the username a expired user")
+    void testLogIn_Username_AccountExpired() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -125,8 +235,8 @@ class TestDefaultLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Doesn't log in a user with expired credentials")
-    void testLogIn_CredentialsExpired() {
+    @DisplayName("Doesn't log in using the username a user with expired credentials")
+    void testLogIn_Username_CredentialsExpired() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -143,8 +253,8 @@ class TestDefaultLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Doesn't log in a disabled user")
-    void testLogIn_Disabled() {
+    @DisplayName("Doesn't log in using the username a disabled user")
+    void testLogIn_Username_Disabled() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -161,8 +271,8 @@ class TestDefaultLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Doesn't log in a locked user")
-    void testLogIn_Locked() {
+    @DisplayName("Doesn't log in using the username a locked user")
+    void testLogIn_Username_Locked() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -179,8 +289,8 @@ class TestDefaultLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Doesn't log in a not existing user")
-    void testLogIn_NotExisting() {
+    @DisplayName("Doesn't log in using the username a not existing user")
+    void testLogIn_Username_NotExisting() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -197,8 +307,8 @@ class TestDefaultLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Logs in with a valid user")
-    void testLogIn_Valid() {
+    @DisplayName("Logs in with a valid username")
+    void testLogIn_Username_Valid() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
