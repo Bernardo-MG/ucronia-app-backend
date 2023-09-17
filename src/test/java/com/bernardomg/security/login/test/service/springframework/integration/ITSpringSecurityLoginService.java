@@ -101,7 +101,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo("admin");
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }
