@@ -46,4 +46,4 @@ HEALTHCHECK --interval=30s --retries=5 --timeout=10s CMD curl --fail --silent lo
 USER runner
 
 # Run with remote debugging
-ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8000", "-jar", "app.war"]
+CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8000", "-jar", "app.war"]
