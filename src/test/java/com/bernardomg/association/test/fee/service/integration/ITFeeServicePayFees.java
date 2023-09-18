@@ -41,11 +41,11 @@ import com.bernardomg.association.fee.model.request.FeesPayment;
 import com.bernardomg.association.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.test.fee.util.model.FeesCreate;
-import com.bernardomg.association.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
