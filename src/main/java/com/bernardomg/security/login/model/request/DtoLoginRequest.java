@@ -24,7 +24,10 @@
 
 package com.bernardomg.security.login.model.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * All the data required for a login attempt.
@@ -33,6 +36,9 @@ import lombok.Data;
  *
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DtoLoginRequest implements LoginRequest {
 
     /**
