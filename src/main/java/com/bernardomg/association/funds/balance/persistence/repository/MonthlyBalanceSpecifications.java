@@ -12,15 +12,15 @@ import com.bernardomg.association.funds.balance.persistence.model.PersistentMont
 public final class MonthlyBalanceSpecifications {
 
     public static Specification<PersistentMonthlyBalance> after(final YearMonth date) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date);
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date.atDay(1));
     }
 
     public static Specification<PersistentMonthlyBalance> before(final YearMonth date) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date);
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date.atDay(1));
     }
 
     public static Specification<PersistentMonthlyBalance> between(final YearMonth start, final YearMonth end) {
-        return (root, query, cb) -> cb.between(root.get("month"), start, end);
+        return (root, query, cb) -> cb.between(root.get("month"), start.atDay(1), end.atDay(1));
     }
 
     public static Optional<Specification<PersistentMonthlyBalance>> fromRequest(final BalanceQuery request) {

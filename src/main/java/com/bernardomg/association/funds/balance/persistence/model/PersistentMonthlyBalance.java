@@ -2,7 +2,7 @@
 package com.bernardomg.association.funds.balance.persistence.model;
 
 import java.io.Serializable;
-import java.time.YearMonth;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +28,7 @@ public class PersistentMonthlyBalance implements Serializable {
 
     @Id
     @Column(name = "date", nullable = false)
-    private YearMonth         month;
+    private LocalDate         month;
 
     @Column(name = "total", nullable = false)
     private Float             monthlyTotal;

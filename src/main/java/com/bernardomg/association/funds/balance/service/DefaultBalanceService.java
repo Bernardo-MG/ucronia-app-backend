@@ -32,11 +32,17 @@ public final class DefaultBalanceService implements BalanceService {
     @Override
     public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query) {
         final Optional<Specification<PersistentMonthlyBalance>> spec;
+        final Collection<PersistentMonthlyBalance>              balance;
 
         spec = MonthlyBalanceSpecifications.fromRequest(query);
 
-        return monthlyBalanceRepository.findAll(spec.get())
-            .stream()
+        if (spec.isPresent()) {
+            balance = monthlyBalanceRepository.findAll(spec.get());
+        } else {
+            balance = monthlyBalanceRepository.findAll();
+        }
+
+        return balance.stream()
             .map(mapper::toDto)
             .toList();
     }

@@ -66,7 +66,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
-            .hasSize(1);
+            .hasSize(12);
 
         balancesItr = balances.iterator();
 
@@ -171,7 +171,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
-            .hasSize(1);
+            .hasSize(12);
 
         balancesItr = balances.iterator();
 
@@ -338,7 +338,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
-            .hasSize(1);
+            .hasSize(12);
 
         balancesItr = balances.iterator();
 
