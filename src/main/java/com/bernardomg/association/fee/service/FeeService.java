@@ -30,13 +30,13 @@ public interface FeeService {
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
      *
-     * @param request
+     * @param query
      *            sample for filtering
      * @param pageable
      *            pagination to apply
      * @return all the fees matching the sample
      */
-    public Iterable<MemberFee> getAll(final FeeQuery request, final Pageable pageable);
+    public Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

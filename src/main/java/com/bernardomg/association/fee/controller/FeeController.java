@@ -81,8 +81,8 @@ public class FeeController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery request, final Pageable pageable) {
-        return service.getAll(request, pageable);
+    public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery query, final Pageable pageable) {
+        return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

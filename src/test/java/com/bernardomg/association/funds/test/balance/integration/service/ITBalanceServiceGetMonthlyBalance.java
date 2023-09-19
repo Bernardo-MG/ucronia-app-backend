@@ -37,8 +37,10 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.DtoMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
+import com.bernardomg.association.funds.balance.model.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.test.balance.assertion.BalanceAssertions;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -76,10 +78,13 @@ class ITBalanceServiceGetMonthlyBalance {
     void testGetMonthlyBalance_AroundZero(final Float amount) {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
+        final BalanceQuery                         query;
 
         persist(amount);
 
-        balances = service.getMonthlyBalance();
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -99,10 +104,13 @@ class ITBalanceServiceGetMonthlyBalance {
     void testGetMonthlyBalance_Decimal(final Float amount) {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
+        final BalanceQuery                         query;
 
         persist(amount);
 
-        balances = service.getMonthlyBalance();
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -122,8 +130,11 @@ class ITBalanceServiceGetMonthlyBalance {
     void testGetMonthlyBalance_DecimalsAddUpToZero() {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
+        final BalanceQuery                         query;
 
-        balances = service.getMonthlyBalance();
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -145,8 +156,11 @@ class ITBalanceServiceGetMonthlyBalance {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
+        final BalanceQuery                         query;
 
-        balances = service.getMonthlyBalance();
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
             .hasSize(12);
@@ -245,8 +259,11 @@ class ITBalanceServiceGetMonthlyBalance {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
+        final BalanceQuery                         query;
 
-        balances = service.getMonthlyBalance();
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -265,8 +282,11 @@ class ITBalanceServiceGetMonthlyBalance {
     @DisplayName("With no data it returns nothing")
     void testGetMonthlyBalance_NoData() {
         final Collection<? extends MonthlyBalance> balances;
+        final BalanceQuery                         query;
 
-        balances = service.getMonthlyBalance();
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query);
 
         Assertions.assertThat(balances)
             .isEmpty();

@@ -33,10 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.balance.model.Balance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
+import com.bernardomg.association.funds.balance.model.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -54,8 +56,8 @@ public class BalanceController {
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "BALANCE", action = Actions.READ)
-    public Collection<? extends MonthlyBalance> readMonthlyBalance() {
-        return service.getMonthlyBalance();
+    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final ValidatedBalanceQuery query) {
+        return service.getMonthlyBalance(query);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
