@@ -28,9 +28,9 @@ public class PersistentMonthlyBalance implements Serializable {
 
     @Id
     @Column(name = "date", nullable = false)
-    private LocalDate         date;
+    private LocalDate         month;
 
     @Column(name = "total", nullable = false)
-    private Float             total;
+    private Float             monthlyTotal;
 
 }

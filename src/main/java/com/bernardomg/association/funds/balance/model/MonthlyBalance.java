@@ -7,8 +7,8 @@ public interface MonthlyBalance {
 
     public Float getCumulative();
 
-    public LocalDate getDate();
+    public LocalDate getMonth();
 
-    public Float getTotal();
+    public Float getMonthlyTotal();
 
 }

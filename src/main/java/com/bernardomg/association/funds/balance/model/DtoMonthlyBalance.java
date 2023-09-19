@@ -12,8 +12,8 @@ public final class DtoMonthlyBalance implements MonthlyBalance {
 
     private Float     cumulative;
 
-    private LocalDate date;
+    private LocalDate month;
 
-    private Float     total;
+    private Float     monthlyTotal;
 
 }
