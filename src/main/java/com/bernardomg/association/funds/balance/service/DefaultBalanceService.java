@@ -4,6 +4,7 @@ package com.bernardomg.association.funds.balance.service;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -30,16 +31,16 @@ public final class DefaultBalanceService implements BalanceService {
     private final TransactionRepository    transactionRepository;
 
     @Override
-    public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query) {
+    public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
         final Optional<Specification<PersistentMonthlyBalance>> spec;
         final Collection<PersistentMonthlyBalance>              balance;
 
         spec = MonthlyBalanceSpecifications.fromRequest(query);
 
         if (spec.isPresent()) {
-            balance = monthlyBalanceRepository.findAll(spec.get());
+            balance = monthlyBalanceRepository.findAll(spec.get(), sort);
         } else {
-            balance = monthlyBalanceRepository.findAll();
+            balance = monthlyBalanceRepository.findAll(sort);
         }
 
         return balance.stream()

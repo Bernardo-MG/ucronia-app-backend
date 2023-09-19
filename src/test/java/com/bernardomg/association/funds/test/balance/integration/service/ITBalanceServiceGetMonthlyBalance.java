@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
@@ -79,12 +80,15 @@ class ITBalanceServiceGetMonthlyBalance {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         persist(amount);
 
         query = ValidatedBalanceQuery.builder()
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -105,12 +109,15 @@ class ITBalanceServiceGetMonthlyBalance {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         persist(amount);
 
         query = ValidatedBalanceQuery.builder()
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -131,10 +138,13 @@ class ITBalanceServiceGetMonthlyBalance {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -157,10 +167,13 @@ class ITBalanceServiceGetMonthlyBalance {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(12);
@@ -260,10 +273,13 @@ class ITBalanceServiceGetMonthlyBalance {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -283,10 +299,13 @@ class ITBalanceServiceGetMonthlyBalance {
     void testGetMonthlyBalance_NoData() {
         final Collection<? extends MonthlyBalance> balances;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .isEmpty();

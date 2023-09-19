@@ -34,6 +34,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
@@ -59,11 +60,14 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .endDate(YearMonth.of(2020, Month.DECEMBER))
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(12);
@@ -163,12 +167,15 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .endDate(YearMonth.of(2020, Month.DECEMBER))
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(12);
@@ -268,12 +275,15 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .endDate(YearMonth.of(2020, Month.JANUARY))
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(1);
@@ -296,12 +306,15 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .endDate(YearMonth.of(2020, Month.FEBRUARY))
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(2);
@@ -331,11 +344,14 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         final Iterator<? extends MonthlyBalance>   balancesItr;
         MonthlyBalance                             balance;
         final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
 
         query = ValidatedBalanceQuery.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .build();
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
             .hasSize(12);

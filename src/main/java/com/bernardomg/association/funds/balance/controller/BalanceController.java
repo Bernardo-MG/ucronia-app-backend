@@ -26,6 +26,7 @@ package com.bernardomg.association.funds.balance.controller;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,8 +57,9 @@ public class BalanceController {
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "BALANCE", action = Actions.READ)
-    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final ValidatedBalanceQuery query) {
-        return service.getMonthlyBalance(query);
+    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final ValidatedBalanceQuery query,
+            final Sort sort) {
+        return service.getMonthlyBalance(query, sort);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
