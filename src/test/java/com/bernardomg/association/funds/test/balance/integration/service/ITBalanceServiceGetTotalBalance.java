@@ -115,6 +115,20 @@ class ITBalanceServiceGetTotalBalance {
     }
 
     @Test
+    @DisplayName("With a full year it returns the correct data")
+    @Sql({ "/db/queries/transaction/full_year.sql" })
+    void testGetTotalBalance_FullYear() {
+        final MonthlyBalance balance;
+
+        balance = service.getTotalBalance();
+
+        Assertions.assertThat(balance.getCumulative())
+            .isEqualTo(12);
+        Assertions.assertThat(balance.getMonthlyTotal())
+            .isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetTotalBalance_Multiple() {
