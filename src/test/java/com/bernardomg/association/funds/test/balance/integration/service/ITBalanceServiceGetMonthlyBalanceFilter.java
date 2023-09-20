@@ -68,7 +68,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -371,7 +371,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
