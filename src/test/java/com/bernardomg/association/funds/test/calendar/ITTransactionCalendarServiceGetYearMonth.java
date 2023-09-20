@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.funds.test.calendar;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 
@@ -56,12 +57,49 @@ class ITTransactionCalendarServiceGetYearMonth {
     void testGetRange_FullYear() {
         final YearMonth                       date;
         final Iterable<? extends Transaction> data;
+        final Transaction                     transaction;
 
         date = YearMonth.of(2020, Month.FEBRUARY);
         data = service.getYearMonth(date);
 
         Assertions.assertThat(data)
             .hasSize(1);
+
+        transaction = data.iterator()
+            .next();
+        Assertions.assertThat(transaction.getDate())
+            .isEqualTo(LocalDate.of(2020, Month.FEBRUARY, 1));
+        Assertions.assertThat(transaction.getDescription())
+            .isEqualTo("Transaction 2");
+        Assertions.assertThat(transaction.getAmount())
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Reading for a not existing month returns nothing")
+    @Sql({ "/db/queries/transaction/full_year.sql" })
+    void testGetRange_FullYear_NotExisting() {
+        final YearMonth                       date;
+        final Iterable<? extends Transaction> data;
+
+        date = YearMonth.of(2019, Month.DECEMBER);
+        data = service.getYearMonth(date);
+
+        Assertions.assertThat(data)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is returned")
+    void testGetRange_NoData() {
+        final YearMonth                       date;
+        final Iterable<? extends Transaction> data;
+
+        date = YearMonth.of(2020, Month.FEBRUARY);
+        data = service.getYearMonth(date);
+
+        Assertions.assertThat(data)
+            .isEmpty();
     }
 
 }
