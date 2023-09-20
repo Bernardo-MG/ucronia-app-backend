@@ -2,6 +2,7 @@
 package com.bernardomg.association.funds.balance.service;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.funds.balance.model.Balance;
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
@@ -21,15 +21,18 @@ import com.bernardomg.association.funds.balance.persistence.model.PersistentMont
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceSpecifications;
 
-import lombok.AllArgsConstructor;
-
-@Service
-@AllArgsConstructor
 public final class DefaultBalanceService implements BalanceService {
 
     private final BalanceMapper            mapper;
 
     private final MonthlyBalanceRepository monthlyBalanceRepository;
+
+    public DefaultBalanceService(final MonthlyBalanceRepository monthlyBalanceRepo, final BalanceMapper mppr) {
+        super();
+
+        monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);
+        mapper = Objects.requireNonNull(mppr);
+    }
 
     @Override
     public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {

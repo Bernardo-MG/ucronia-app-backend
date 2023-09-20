@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.funds.transaction.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -10,7 +11,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.mapper.TransactionMapper;
@@ -22,7 +22,6 @@ import com.bernardomg.association.funds.transaction.persistence.repository.Trans
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
 import com.bernardomg.exception.InvalidIdException;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,8 +30,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Service
-@AllArgsConstructor
 @Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
@@ -42,7 +39,14 @@ public final class DefaultTransactionService implements TransactionService {
 
     private final TransactionMapper     mapper;
 
-    private final TransactionRepository repository;
+    private final TransactionRepository transactionRepository;
+
+    public DefaultTransactionService(final TransactionRepository transactionRepo, final TransactionMapper mpr) {
+        super();
+
+        transactionRepository = Objects.requireNonNull(transactionRepo);
+        mapper = Objects.requireNonNull(mpr);
+    }
 
     @Override
     @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
@@ -59,7 +63,7 @@ public final class DefaultTransactionService implements TransactionService {
         entity.setDescription(entity.getDescription()
             .trim());
 
-        created = repository.save(entity);
+        created = transactionRepository.save(entity);
 
         return mapper.toDto(created);
     }
@@ -71,11 +75,11 @@ public final class DefaultTransactionService implements TransactionService {
 
         log.debug("Deleting transaction {}", id);
 
-        if (!repository.existsById(id)) {
+        if (!transactionRepository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
         }
 
-        repository.deleteById(id);
+        transactionRepository.deleteById(id);
     }
 
     @Override
@@ -89,9 +93,9 @@ public final class DefaultTransactionService implements TransactionService {
         spec = TransactionSpecifications.fromRequest(request);
 
         if (spec.isEmpty()) {
-            page = repository.findAll(pageable);
+            page = transactionRepository.findAll(pageable);
         } else {
-            page = repository.findAll(spec.get(), pageable);
+            page = transactionRepository.findAll(spec.get(), pageable);
         }
 
         return page.map(mapper::toDto);
@@ -106,11 +110,11 @@ public final class DefaultTransactionService implements TransactionService {
 
         log.debug("Reading member with id {}", id);
 
-        if (!repository.existsById(id)) {
+        if (!transactionRepository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
         }
 
-        found = repository.findById(id);
+        found = transactionRepository.findById(id);
 
         if (found.isPresent()) {
             data = mapper.toDto(found.get());
@@ -131,7 +135,7 @@ public final class DefaultTransactionService implements TransactionService {
 
         log.debug("Updating transactin with id {} using data {}", id, transaction);
 
-        if (!repository.existsById(id)) {
+        if (!transactionRepository.existsById(id)) {
             throw new InvalidIdException("transaction", id);
         }
 
@@ -144,7 +148,7 @@ public final class DefaultTransactionService implements TransactionService {
         entity.setDescription(entity.getDescription()
             .trim());
 
-        updated = repository.save(entity);
+        updated = transactionRepository.save(entity);
         return mapper.toDto(updated);
     }
 

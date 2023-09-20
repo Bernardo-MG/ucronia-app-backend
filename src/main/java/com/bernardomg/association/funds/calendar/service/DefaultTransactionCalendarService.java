@@ -3,9 +3,9 @@ package com.bernardomg.association.funds.calendar.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.funds.calendar.model.ImmutableTransactionRange;
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
@@ -15,7 +15,6 @@ import com.bernardomg.association.funds.transaction.persistence.model.Persistent
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,14 +23,19 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Service
-@AllArgsConstructor
 @Slf4j
 public final class DefaultTransactionCalendarService implements TransactionCalendarService {
 
     private final TransactionMapper     mapper;
 
-    private final TransactionRepository repository;
+    private final TransactionRepository transactionRepository;
+
+    public DefaultTransactionCalendarService(final TransactionRepository transactionRepo, final TransactionMapper mpr) {
+        super();
+
+        transactionRepository = Objects.requireNonNull(transactionRepo);
+        mapper = Objects.requireNonNull(mpr);
+    }
 
     @Override
     public final TransactionRange getRange() {
@@ -39,7 +43,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
 
         log.debug("Reading the transactions range");
 
-        months = repository.findMonths()
+        months = transactionRepository.findMonths()
             .stream()
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
@@ -55,7 +59,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
         final Collection<PersistentTransaction>    read;
 
         spec = TransactionSpecifications.fromDate(date);
-        read = repository.findAll(spec);
+        read = transactionRepository.findAll(spec);
 
         return read.stream()
             .map(mapper::toDto)
