@@ -4,11 +4,11 @@ package com.bernardomg.association.funds.balance.model;
 import java.time.LocalDate;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
-public final class DtoMonthlyBalance implements MonthlyBalance {
+public final class ImmutableMonthlyBalance implements MonthlyBalance {
 
     private Float     cumulative;
 

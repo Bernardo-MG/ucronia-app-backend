@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.funds.balance.model.Balance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
@@ -63,7 +62,7 @@ public class BalanceController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Balance readTotalBalance() {
+    public MonthlyBalance readTotalBalance() {
         return service.getTotalBalance();
     }
 

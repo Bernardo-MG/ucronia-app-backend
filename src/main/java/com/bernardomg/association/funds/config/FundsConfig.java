@@ -27,7 +27,6 @@ package com.bernardomg.association.funds.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.funds.balance.model.mapper.BalanceMapper;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.balance.service.DefaultBalanceService;
@@ -52,9 +51,8 @@ public class FundsConfig {
     }
 
     @Bean("balanceService")
-    public BalanceService getBalanceService(final MonthlyBalanceRepository monthlyBalanceRepository,
-            final BalanceMapper mapper) {
-        return new DefaultBalanceService(monthlyBalanceRepository, mapper);
+    public BalanceService getBalanceService(final MonthlyBalanceRepository monthlyBalanceRepository) {
+        return new DefaultBalanceService(monthlyBalanceRepository);
     }
 
     @Bean("transactionCalendarService")

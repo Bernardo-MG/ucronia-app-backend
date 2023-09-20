@@ -38,7 +38,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.DtoMonthlyBalance;
+import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
@@ -94,84 +94,84 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balancesItr = balances.iterator();
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JANUARY, 1))
             .monthlyTotal(1f)
             .cumulative(1f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.FEBRUARY, 1))
             .monthlyTotal(1f)
             .cumulative(2f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.MARCH, 1))
             .monthlyTotal(1f)
             .cumulative(3f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.APRIL, 1))
             .monthlyTotal(1f)
             .cumulative(4f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.MAY, 1))
             .monthlyTotal(1f)
             .cumulative(5f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JUNE, 1))
             .monthlyTotal(1f)
             .cumulative(6f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JULY, 1))
             .monthlyTotal(1f)
             .cumulative(7f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.AUGUST, 1))
             .monthlyTotal(1f)
             .cumulative(8f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.SEPTEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(9f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.OCTOBER, 1))
             .monthlyTotal(1f)
             .cumulative(10f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.NOVEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(11f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.DECEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(12f)
@@ -202,84 +202,84 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balancesItr = balances.iterator();
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JANUARY, 1))
             .monthlyTotal(1f)
             .cumulative(1f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.FEBRUARY, 1))
             .monthlyTotal(1f)
             .cumulative(2f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.MARCH, 1))
             .monthlyTotal(1f)
             .cumulative(3f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.APRIL, 1))
             .monthlyTotal(1f)
             .cumulative(4f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.MAY, 1))
             .monthlyTotal(1f)
             .cumulative(5f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JUNE, 1))
             .monthlyTotal(1f)
             .cumulative(6f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JULY, 1))
             .monthlyTotal(1f)
             .cumulative(7f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.AUGUST, 1))
             .monthlyTotal(1f)
             .cumulative(8f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.SEPTEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(9f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.OCTOBER, 1))
             .monthlyTotal(1f)
             .cumulative(10f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.NOVEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(11f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.DECEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(12f)
@@ -310,7 +310,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balancesItr = balances.iterator();
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JANUARY, 1))
             .monthlyTotal(1f)
             .cumulative(1f)
@@ -341,14 +341,14 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balancesItr = balances.iterator();
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JANUARY, 1))
             .monthlyTotal(1f)
             .cumulative(1f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.FEBRUARY, 1))
             .monthlyTotal(1f)
             .cumulative(2f)
@@ -397,84 +397,84 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balancesItr = balances.iterator();
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JANUARY, 1))
             .monthlyTotal(1f)
             .cumulative(1f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.FEBRUARY, 1))
             .monthlyTotal(1f)
             .cumulative(2f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.MARCH, 1))
             .monthlyTotal(1f)
             .cumulative(3f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.APRIL, 1))
             .monthlyTotal(1f)
             .cumulative(4f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.MAY, 1))
             .monthlyTotal(1f)
             .cumulative(5f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JUNE, 1))
             .monthlyTotal(1f)
             .cumulative(6f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.JULY, 1))
             .monthlyTotal(1f)
             .cumulative(7f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.AUGUST, 1))
             .monthlyTotal(1f)
             .cumulative(8f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.SEPTEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(9f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.OCTOBER, 1))
             .monthlyTotal(1f)
             .cumulative(10f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.NOVEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(11f)
             .build());
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, DtoMonthlyBalance.builder()
+        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(LocalDate.of(2020, Month.DECEMBER, 1))
             .monthlyTotal(1f)
             .cumulative(12f)

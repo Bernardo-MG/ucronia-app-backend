@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.funds.balance.model.Balance;
+import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
@@ -72,13 +72,15 @@ class ITBalanceServiceGetTotalBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testGetTotalBalance_AroundZero(final Float amount) {
-        final Balance balance;
+        final MonthlyBalance balance;
 
         persist(amount);
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getAmount())
+        Assertions.assertThat(balance.getCumulative())
+            .isEqualTo(amount);
+        Assertions.assertThat(balance.getMonthlyTotal())
             .isEqualTo(amount);
     }
 
@@ -86,13 +88,15 @@ class ITBalanceServiceGetTotalBalance {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testGetTotalBalance_Decimal(final Float amount) {
-        final Balance balance;
+        final MonthlyBalance balance;
 
         persist(amount);
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getAmount())
+        Assertions.assertThat(balance.getCumulative())
+            .isEqualTo(amount);
+        Assertions.assertThat(balance.getMonthlyTotal())
             .isEqualTo(amount);
     }
 
@@ -100,11 +104,13 @@ class ITBalanceServiceGetTotalBalance {
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     void testGetTotalBalance_DecimalsAddUpToZero() {
-        final Balance balance;
+        final MonthlyBalance balance;
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getAmount())
+        Assertions.assertThat(balance.getCumulative())
+            .isZero();
+        Assertions.assertThat(balance.getMonthlyTotal())
             .isZero();
     }
 
@@ -112,22 +118,26 @@ class ITBalanceServiceGetTotalBalance {
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetTotalBalance_Multiple() {
-        final Balance balance;
+        final MonthlyBalance balance;
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getAmount())
+        Assertions.assertThat(balance.getCumulative())
+            .isEqualTo(5);
+        Assertions.assertThat(balance.getMonthlyTotal())
             .isEqualTo(5);
     }
 
     @Test
     @DisplayName("With not data it returns nothing")
     void testGetTotalBalance_NoData() {
-        final Balance balance;
+        final MonthlyBalance balance;
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getAmount())
+        Assertions.assertThat(balance.getCumulative())
+            .isZero();
+        Assertions.assertThat(balance.getMonthlyTotal())
             .isZero();
     }
 
