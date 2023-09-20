@@ -53,6 +53,25 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     private BalanceService service;
 
     @Test
+    @DisplayName("Filtering ending before the year returns no month")
+    @Sql({ "/db/queries/transaction/full_year.sql" })
+    void testGetMonthlyBalance_EndBeforeStart() {
+        final Collection<? extends MonthlyBalance> balances;
+        final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
+
+        query = ValidatedBalanceQuery.builder()
+            .endDate(YearMonth.of(2019, Month.DECEMBER))
+            .build();
+        balances = service.getMonthlyBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .hasSize(0);
+    }
+
+    @Test
     @DisplayName("Filtering ending on December returns all the months")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetMonthlyBalance_EndDecember() {
@@ -334,6 +353,25 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
             .monthlyTotal(1f)
             .cumulative(2f)
             .build());
+    }
+
+    @Test
+    @DisplayName("Filtering beginning after the year returns no month")
+    @Sql({ "/db/queries/transaction/full_year.sql" })
+    void testGetMonthlyBalance_StartAfterEnd() {
+        final Collection<? extends MonthlyBalance> balances;
+        final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
+
+        query = ValidatedBalanceQuery.builder()
+            .startDate(YearMonth.of(2021, Month.JANUARY))
+            .build();
+        balances = service.getMonthlyBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .hasSize(0);
     }
 
     @Test
