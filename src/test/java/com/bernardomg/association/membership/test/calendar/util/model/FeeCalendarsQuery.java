@@ -8,7 +8,7 @@ public final class FeeCalendarsQuery {
 
     public static final DtoFeeCalendarQueryRequest active() {
         return DtoFeeCalendarQueryRequest.builder()
-            .active(MemberStatus.ACTIVE)
+            .status(MemberStatus.ACTIVE)
             .build();
     }
 

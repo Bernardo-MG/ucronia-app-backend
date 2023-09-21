@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class DtoFeeCalendarQueryRequest {
 
-    private MemberStatus active;
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ALL;
 
 }

@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.membership.member.model.request;
 
+import com.bernardomg.association.membership.member.model.MemberStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,16 +14,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class ValidatedMemberQuery implements MemberQuery {
 
-    private Boolean active;
+    private Long         id;
 
-    private Long    id;
+    private String       identifier;
 
-    private String  identifier;
+    private String       name;
 
-    private String  name;
+    private String       phone;
 
-    private String  phone;
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ALL;
 
-    private String  surname;
+    private String       surname;
 
 }

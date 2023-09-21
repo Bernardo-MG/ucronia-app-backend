@@ -1,9 +1,9 @@
 
 package com.bernardomg.association.membership.member.model.request;
 
-public interface MemberQuery {
+import com.bernardomg.association.membership.member.model.MemberStatus;
 
-    public Boolean getActive();
+public interface MemberQuery {
 
     public Long getId();
 
@@ -12,6 +12,8 @@ public interface MemberQuery {
     public String getName();
 
     public String getPhone();
+
+    public MemberStatus getStatus();
 
     public String getSurname();
 

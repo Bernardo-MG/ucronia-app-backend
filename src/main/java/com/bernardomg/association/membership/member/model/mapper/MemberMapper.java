@@ -20,6 +20,7 @@ public interface MemberMapper {
     public PersistentMember toEntity(final MemberCreate data);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "active", ignore = true)
     public PersistentMember toEntity(final MemberQuery data);
 
     @Mapping(target = "id", ignore = true)

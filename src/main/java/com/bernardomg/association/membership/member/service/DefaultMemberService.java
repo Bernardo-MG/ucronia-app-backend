@@ -98,6 +98,16 @@ public final class DefaultMemberService implements MemberService {
 
         entity = mapper.toEntity(query);
 
+        switch (query.getStatus()) {
+            case ACTIVE:
+                entity.setActive(true);
+                break;
+            case INACTIVE:
+                entity.setActive(false);
+                break;
+            default:
+        }
+
         return repository.findAll(Example.of(entity), pageable)
             .map(mapper::toDto);
     }
