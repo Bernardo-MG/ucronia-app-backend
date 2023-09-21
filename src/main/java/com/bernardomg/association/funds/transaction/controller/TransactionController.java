@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.controller;
-
-import java.util.Collection;
+package com.bernardomg.association.funds.transaction.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,11 +37,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.model.MemberFee;
-import com.bernardomg.association.fee.model.request.FeesPaymentRequest;
-import com.bernardomg.association.fee.model.request.ValidatedFeeQuery;
-import com.bernardomg.association.fee.model.request.ValidatedFeeUpdate;
-import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.funds.transaction.model.Transaction;
+import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionCreate;
+import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionQuery;
+import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionUpdate;
+import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
@@ -51,51 +49,52 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Transaction REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/fee")
+@RequestMapping("/funds/transaction")
 @AllArgsConstructor
-public class FeeController {
+public class TransactionController {
 
     /**
-     * Fee service.
+     * Transaction service.
      */
-    private final FeeService service;
+    private final TransactionService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "FEE", action = Actions.CREATE)
-    public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(fee);
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.CREATE)
+    public Transaction create(@Valid @RequestBody final ValidatedTransactionCreate transaction) {
+        return service.create(transaction);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.DELETE)
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.DELETE)
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery query, final Pageable pageable) {
-        return service.getAll(query, pageable);
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
+        return service.getAll(request, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
-    public MemberFee readOne(@PathVariable("id") final long id) {
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
-    public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedFeeUpdate fee) {
-        return service.update(id, fee);
+    @AuthorizedResource(resource = "TRANSACTION", action = Actions.UPDATE)
+    public Transaction update(@PathVariable("id") final long id,
+            @Valid @RequestBody final ValidatedTransactionUpdate transaction) {
+        return service.update(id, transaction);
     }
 
 }

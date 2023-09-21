@@ -39,9 +39,11 @@ INSERT INTO resources (id, name) VALUES
    (2, 'ROLE'),
    (3, 'ACTION'),
    (4, 'RESOURCE'),
+   (5, 'TOKEN'),
    (10, 'MEMBER'),
    (11, 'FEE'),
    (12, 'TRANSACTION'),
    (13, 'BALANCE'),
    (14, 'STATS'),
-   (15, 'ASSOCIATION_CONFIGURATION');
+   (15, 'ASSOCIATION_CONFIGURATION'),
+   (16, 'FUNDS');

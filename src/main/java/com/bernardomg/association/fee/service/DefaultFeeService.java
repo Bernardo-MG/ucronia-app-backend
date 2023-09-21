@@ -33,10 +33,10 @@ import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository
 import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.fee.validation.UpdateFeeValidator;
+import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.member.persistence.model.PersistentMember;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.transaction.persistence.model.PersistentTransaction;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.validation.Validator;
 
@@ -110,15 +110,15 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     @Cacheable(cacheNames = CACHE_MULTIPLE)
-    public final Iterable<MemberFee> getAll(final FeeQuery request, final Pageable pageable) {
+    public final Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
         // TODO: Test repository
         // TODO: Test reading with no name or surname
 
-        log.debug("Reading fees with sample {} and pagination {}", request, pageable);
+        log.debug("Reading fees with sample {} and pagination {}", query, pageable);
 
-        spec = MemberFeeSpecifications.fromRequest(request);
+        spec = MemberFeeSpecifications.fromRequest(query);
 
         if (spec.isEmpty()) {
             page = memberFeeRepository.findAll(pageable);
