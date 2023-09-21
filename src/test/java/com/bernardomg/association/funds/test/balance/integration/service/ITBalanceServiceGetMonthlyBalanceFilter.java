@@ -356,6 +356,26 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     }
 
     @Test
+    @DisplayName("Filtering with a range where the end is before the start returns no month")
+    @Sql({ "/db/queries/transaction/full_year.sql" })
+    void testGetMonthlyBalance_RangeEndBeforeStart() {
+        final Collection<? extends MonthlyBalance> balances;
+        final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
+
+        query = ValidatedBalanceQuery.builder()
+            .startDate(YearMonth.of(2020, Month.DECEMBER))
+            .endDate(YearMonth.of(2020, Month.JANUARY))
+            .build();
+        balances = service.getMonthlyBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("Filtering beginning after the year returns no month")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetMonthlyBalance_StartAfterEnd() {
