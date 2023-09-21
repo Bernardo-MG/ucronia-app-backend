@@ -46,3 +46,11 @@ databaseChangeLog:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
+  - changeSet:
+      id: member_views
+      author: Bernardo
+      changes:
+        -  createView:  
+            remarks: Monthly member balance
+            selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM fees GROUP BY month_year) AS subquery
+            viewName: member_monthly_balances
