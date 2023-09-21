@@ -34,6 +34,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
+import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -58,7 +59,7 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .isEmpty();
@@ -73,7 +74,7 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .isEmpty();
@@ -88,7 +89,7 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(IterableUtils.size(calendars))
             .isEqualTo(1);
@@ -107,7 +108,7 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, false, sort);
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .isEmpty();

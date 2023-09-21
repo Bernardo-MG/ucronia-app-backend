@@ -40,6 +40,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.membership.calendar.model.ImmutableUserFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
+import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -66,7 +67,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, null, sort)
+        calendars = service.getYear(2020, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -91,7 +92,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, null, sort)
+        calendars = service.getYear(2020, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -115,7 +116,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Direction.ASC, "abc");
 
-        execution = () -> service.getYear(2020, null, sort)
+        execution = () -> service.getYear(2020, MemberStatus.ALL, sort)
             .iterator();
 
         Assertions.assertThatThrownBy(execution)
@@ -133,7 +134,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, null, sort)
+        calendars = service.getYear(2020, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -168,7 +169,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.desc("memberName"));
 
-        calendars = service.getYear(2020, null, sort)
+        calendars = service.getYear(2020, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();

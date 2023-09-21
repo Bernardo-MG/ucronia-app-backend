@@ -25,6 +25,7 @@ import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
+import com.bernardomg.association.membership.member.model.MemberStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @Cacheable(cacheNames = CACHE)
-    public final Iterable<UserFeeCalendar> getYear(final int year, final Boolean active, final Sort sort) {
+    public final Iterable<UserFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
         final Collection<PersistentMemberFee>      readFees;
         final Map<Long, List<PersistentMemberFee>> memberFees;
         final Collection<UserFeeCalendar>          years;
@@ -61,13 +62,14 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         Boolean                                    activeFilter;
 
         spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
-        // TODO: Use an enum
-        if (active != null) {
-            if (active) {
+        switch (active) {
+            case ACTIVE:
                 spec = spec.and(MemberFeeSpecifications.active(true));
-            } else {
+                break;
+            case INACTIVE:
                 spec = spec.and(MemberFeeSpecifications.active(false));
-            }
+                break;
+            default:
         }
         readFees = memberFeeRepository.findAll(spec, sort);
         memberFees = readFees.stream()
