@@ -26,7 +26,6 @@ package com.bernardomg.association.membership.test.member.service.integration;
 
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,8 +70,8 @@ class ITMemberServiceGetAll {
 
         members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(members))
-            .isEqualTo(5);
+        Assertions.assertThat(members)
+            .hasSize(5);
 
         membersItr = members.iterator();
 
@@ -138,8 +137,8 @@ class ITMemberServiceGetAll {
 
         members = service.getAll(memberQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(members))
-            .isEqualTo(1);
+        Assertions.assertThat(members)
+            .hasSize(1);
 
         membersItr = members.iterator();
 

@@ -28,7 +28,6 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -91,8 +90,8 @@ class ITFeeServiceGetAllPagination {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
 
         feesItr = fees.iterator();
 
@@ -118,8 +117,8 @@ class ITFeeServiceGetAllPagination {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
 
         feesItr = fees.iterator();
 

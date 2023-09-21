@@ -28,7 +28,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,8 +70,8 @@ class ITTransactionServiceGetAllFilter {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isEqualTo(4);
+        Assertions.assertThat(transactions)
+            .hasSize(4);
 
         transactionsItr = transactions.iterator();
 
@@ -133,8 +132,8 @@ class ITTransactionServiceGetAllFilter {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isEqualTo(2);
+        Assertions.assertThat(transactions)
+            .hasSize(2);
 
         transactionsItr = transactions.iterator();
 
@@ -175,8 +174,8 @@ class ITTransactionServiceGetAllFilter {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isOne();
+        Assertions.assertThat(transactions)
+            .hasSize(1);
 
         transactionsItr = transactions.iterator();
 
@@ -207,8 +206,8 @@ class ITTransactionServiceGetAllFilter {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isOne();
+        Assertions.assertThat(transactions)
+            .hasSize(1);
 
         transactionsItr = transactions.iterator();
 
@@ -240,8 +239,8 @@ class ITTransactionServiceGetAllFilter {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isOne();
+        Assertions.assertThat(transactions)
+            .hasSize(1);
 
         transactionsItr = transactions.iterator();
 

@@ -4,7 +4,6 @@ package com.bernardomg.security.permission.test.resource.integration.service;
 import java.util.Collection;
 import java.util.stream.StreamSupport;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,8 +45,8 @@ class ITResourceServiceGetAll {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(4);
+        Assertions.assertThat(result)
+            .hasSize(4);
     }
 
     @Test

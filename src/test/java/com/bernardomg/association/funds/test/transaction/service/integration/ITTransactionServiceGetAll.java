@@ -28,7 +28,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -133,8 +132,8 @@ class ITTransactionServiceGetAll {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isEqualTo(12);
+        Assertions.assertThat(transactions)
+            .hasSize(12);
 
         transactionsItr = transactions.iterator();
 
@@ -239,8 +238,8 @@ class ITTransactionServiceGetAll {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isEqualTo(5);
+        Assertions.assertThat(transactions)
+            .hasSize(5);
 
         transactionsItr = transactions.iterator();
 

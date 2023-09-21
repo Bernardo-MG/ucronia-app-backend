@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.membership.test.calendar.integration.service;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -91,12 +90,12 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
 
         calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(1);
+            .getMonths())
+            .hasSize(1);
     }
 
     @Test

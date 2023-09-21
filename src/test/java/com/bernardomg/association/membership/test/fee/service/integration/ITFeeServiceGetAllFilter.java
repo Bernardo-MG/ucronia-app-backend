@@ -70,8 +70,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
@@ -94,8 +94,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isZero();
+        Assertions.assertThat(fees)
+            .isEmpty();
     }
 
     @Test
@@ -112,8 +112,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
@@ -136,8 +136,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
@@ -160,8 +160,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
@@ -184,8 +184,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isZero();
+        Assertions.assertThat(fees)
+            .isEmpty();
     }
 
     @Test
@@ -202,8 +202,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isEqualTo(1);
+        Assertions.assertThat(fees)
+            .hasSize(1);
         FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
@@ -226,8 +226,8 @@ class ITFeeServiceGetAllFilter {
 
         fees = service.getAll(feeQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(fees))
-            .isZero();
+        Assertions.assertThat(fees)
+            .isEmpty();
     }
 
 }

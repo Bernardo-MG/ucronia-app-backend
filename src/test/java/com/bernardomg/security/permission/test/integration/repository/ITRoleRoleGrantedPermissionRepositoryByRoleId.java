@@ -3,7 +3,6 @@ package com.bernardomg.security.permission.test.integration.repository;
 
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,8 +44,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
         read = repository.findAllByRoleId(1L, pageable);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(4);
+        Assertions.assertThat(read)
+            .hasSize(4);
 
         itr = read.iterator();
 
@@ -109,8 +108,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
         read = repository.findAllByRoleId(1L, pageable);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(1);
+        Assertions.assertThat(read)
+            .hasSize(1);
     }
 
     @Test
@@ -153,8 +152,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
         read = repository.findAllByRoleId(1L, pageable);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isZero();
+        Assertions.assertThat(read)
+            .isEmpty();
     }
 
     @Test
@@ -171,8 +170,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
         read = repository.findAllByRoleId(-1L, pageable);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isZero();
+        Assertions.assertThat(read)
+            .isEmpty();
     }
 
     @Test
@@ -189,8 +188,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
 
         read = repository.findAllByRoleId(1L, pageable);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isZero();
+        Assertions.assertThat(read)
+            .isEmpty();
     }
 
 }

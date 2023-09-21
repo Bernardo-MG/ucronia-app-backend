@@ -26,7 +26,6 @@ package com.bernardomg.association.membership.test.calendar.integration.service;
 
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,12 +65,12 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(12);
+            .getMonths())
+            .hasSize(12);
     }
 
     @Test
@@ -113,16 +112,16 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(2);
+        Assertions.assertThat(calendars)
+            .hasSize(2);
 
         calendarsItr = calendars.iterator();
-        Assertions.assertThat(IterableUtils.size(calendarsItr.next()
-            .getMonths()))
-            .isEqualTo(12);
-        Assertions.assertThat(IterableUtils.size(calendarsItr.next()
-            .getMonths()))
-            .isEqualTo(12);
+        Assertions.assertThat(calendarsItr.next()
+            .getMonths())
+            .hasSize(12);
+        Assertions.assertThat(calendarsItr.next()
+            .getMonths())
+            .hasSize(12);
     }
 
     @Test
@@ -173,12 +172,12 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(12);
+            .getMonths())
+            .hasSize(12);
     }
 
     @Test
@@ -218,8 +217,8 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isZero();
+        Assertions.assertThat(calendars)
+            .isEmpty();
     }
 
     @Test
@@ -259,12 +258,12 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(1);
+            .getMonths())
+            .hasSize(1);
     }
 
     @Test
@@ -315,12 +314,12 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(1);
+            .getMonths())
+            .hasSize(1);
     }
 
     @Test
@@ -443,12 +442,12 @@ class ITFeeCalendarServiceGetYear {
 
         calendars = service.getYear(2020, MemberStatus.ALL, sort);
 
-        Assertions.assertThat(IterableUtils.size(calendars))
-            .isEqualTo(1);
-        Assertions.assertThat(IterableUtils.size(calendars.iterator()
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
             .next()
-            .getMonths()))
-            .isEqualTo(7);
+            .getMonths())
+            .hasSize(7);
     }
 
     @Test
