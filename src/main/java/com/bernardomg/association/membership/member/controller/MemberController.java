@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.member.model.Member;
+import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
+import com.bernardomg.association.membership.member.model.request.ValidatedMemberBalanceQuery;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberUpdate;
@@ -77,10 +79,17 @@ public class MemberController {
         service.delete(id);
     }
 
+    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
+    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final ValidatedMemberBalanceQuery query) {
+        // TODO: Extract to its own controller
+        return service.getBalance(query);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
-    public Iterable<Member> readAll(@Valid final ValidatedMemberQuery member, final Pageable pageable) {
-        return service.getAll(member, pageable);
+    public Iterable<Member> readAll(@Valid final ValidatedMemberQuery query, final Pageable pageable) {
+        return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -13,9 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
+import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.persistence.model.PersistentMonthlyBalance;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceSpecifications;

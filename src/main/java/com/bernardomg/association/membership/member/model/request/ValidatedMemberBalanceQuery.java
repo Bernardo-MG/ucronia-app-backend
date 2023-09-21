@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.funds.balance.model;
+package com.bernardomg.association.membership.member.model.request;
 
 import java.time.YearMonth;
 
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedBalanceQuery implements BalanceQuery {
+public final class ValidatedMemberBalanceQuery implements MemberBalanceQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     private YearMonth endDate;

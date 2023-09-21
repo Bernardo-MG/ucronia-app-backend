@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.member.model.Member;
+import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
+import com.bernardomg.association.membership.member.model.request.ValidatedMemberBalanceQuery;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -45,6 +47,8 @@ public interface MemberService {
      * @return all the members matching the sample
      */
     public Iterable<Member> getAll(final MemberQuery query, final Pageable pageable);
+
+    public Iterable<? extends MonthlyMemberBalance> getBalance(final ValidatedMemberBalanceQuery query);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
