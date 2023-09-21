@@ -48,7 +48,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/balance")
+@RequestMapping("/funds/balance")
 @AllArgsConstructor
 public class BalanceController {
 
