@@ -38,13 +38,13 @@ public interface MemberService {
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
      *
-     * @param sample
-     *            sample for filtering
+     * @param query
+     *            query for filtering
      * @param pageable
      *            pagination to apply
      * @return all the members matching the sample
      */
-    public Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable);
+    public Iterable<Member> getAll(final MemberQuery query, final Pageable pageable);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

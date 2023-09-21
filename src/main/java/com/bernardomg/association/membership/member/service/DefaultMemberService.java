@@ -91,12 +91,12 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     @Cacheable(cacheNames = CACHE_MULTIPLE)
-    public final Iterable<Member> getAll(final MemberQuery sample, final Pageable pageable) {
+    public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
         final PersistentMember entity;
 
-        log.debug("Reading members with sample {} and pagination {}", sample, pageable);
+        log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
-        entity = mapper.toEntity(sample);
+        entity = mapper.toEntity(query);
 
         return repository.findAll(Example.of(entity), pageable)
             .map(mapper::toDto);

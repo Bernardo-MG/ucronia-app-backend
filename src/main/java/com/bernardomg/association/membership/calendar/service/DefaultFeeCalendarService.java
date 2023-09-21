@@ -50,7 +50,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     @Override
     @Cacheable(cacheNames = CACHE)
-    public final Iterable<UserFeeCalendar> getYear(final int year, final boolean onlyActive, final Sort sort) {
+    public final Iterable<UserFeeCalendar> getYear(final int year, final Boolean active, final Sort sort) {
         final Collection<PersistentMemberFee>      readFees;
         final Map<Long, List<PersistentMemberFee>> memberFees;
         final Collection<UserFeeCalendar>          years;
@@ -58,11 +58,16 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         Specification<PersistentMemberFee>         spec;
         List<PersistentMemberFee>                  fees;
         UserFeeCalendar                            feeYear;
-        Boolean                                    active;
+        Boolean                                    activeFilter;
 
         spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
-        if (onlyActive) {
-            spec = spec.and(MemberFeeSpecifications.active(true));
+        // TODO: Use an enum
+        if (active != null) {
+            if (active) {
+                spec = spec.and(MemberFeeSpecifications.active(true));
+            } else {
+                spec = spec.and(MemberFeeSpecifications.active(false));
+            }
         }
         readFees = memberFeeRepository.findAll(spec, sort);
         memberFees = readFees.stream()
@@ -76,13 +81,13 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         for (final Long member : memberIds) {
             fees = memberFees.get(member);
             if (fees.isEmpty()) {
-                active = false;
+                activeFilter = false;
             } else {
-                active = fees.iterator()
+                activeFilter = fees.iterator()
                     .next()
                     .getActive();
             }
-            feeYear = toFeeYear(member, year, active, fees);
+            feeYear = toFeeYear(member, year, activeFilter, fees);
 
             years.add(feeYear);
         }

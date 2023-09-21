@@ -66,7 +66,7 @@ public class FeeCalendarController {
     public Iterable<UserFeeCalendar> readYear(@PathVariable("year") final Integer year,
             final DtoFeeCalendarQueryRequest request, final Pageable pageable) {
         // TODO: receive just the sort object
-        return service.getYear(year, request.getOnlyActive(), pageable.getSort());
+        return service.getYear(year, request.getActive(), pageable.getSort());
     }
 
 }

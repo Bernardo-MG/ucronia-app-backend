@@ -5,9 +5,20 @@ import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalend
 
 public final class FeeCalendarsQuery {
 
-    public static final DtoFeeCalendarQueryRequest onlyActive() {
+    public static final DtoFeeCalendarQueryRequest active() {
         return DtoFeeCalendarQueryRequest.builder()
-            .onlyActive(true)
+            .active(true)
+            .build();
+    }
+
+    public static final DtoFeeCalendarQueryRequest all() {
+        return DtoFeeCalendarQueryRequest.builder()
+            .build();
+    }
+
+    public static final DtoFeeCalendarQueryRequest inactive() {
+        return DtoFeeCalendarQueryRequest.builder()
+            .active(false)
             .build();
     }
 

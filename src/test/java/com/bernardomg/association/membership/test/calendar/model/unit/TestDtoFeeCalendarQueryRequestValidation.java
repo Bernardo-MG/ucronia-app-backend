@@ -26,7 +26,7 @@ class TestDtoFeeCalendarQueryRequestValidation {
         final DtoFeeCalendarQueryRequest                           request;
         final Set<ConstraintViolation<DtoFeeCalendarQueryRequest>> errors;
 
-        request = FeeCalendarsQuery.onlyActive();
+        request = FeeCalendarsQuery.active();
 
         errors = validator.validate(request);
 

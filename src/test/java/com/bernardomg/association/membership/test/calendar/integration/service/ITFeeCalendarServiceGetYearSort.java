@@ -66,7 +66,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, null, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -91,7 +91,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, null, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -115,7 +115,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Direction.ASC, "abc");
 
-        execution = () -> service.getYear(2020, false, sort)
+        execution = () -> service.getYear(2020, null, sort)
             .iterator();
 
         Assertions.assertThatThrownBy(execution)
@@ -133,7 +133,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, null, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -168,7 +168,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.desc("memberName"));
 
-        calendars = service.getYear(2020, false, sort)
+        calendars = service.getYear(2020, null, sort)
             .iterator();
 
         calendar = calendars.next();

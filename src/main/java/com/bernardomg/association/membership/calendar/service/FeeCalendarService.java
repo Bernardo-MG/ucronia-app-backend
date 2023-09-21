@@ -16,6 +16,6 @@ public interface FeeCalendarService {
 
     public FeeCalendarRange getRange();
 
-    public Iterable<UserFeeCalendar> getYear(final int year, final boolean onlyActive, final Sort sort);
+    public Iterable<UserFeeCalendar> getYear(final int year, final Boolean active, final Sort sort);
 
 }
