@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
 import com.bernardomg.association.membership.balance.service.MemberBalanceService;
-import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 

@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.membership.balance.service;
 
+import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
-import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
 
 /**
  * Member service. Supports all the CRUD operations.

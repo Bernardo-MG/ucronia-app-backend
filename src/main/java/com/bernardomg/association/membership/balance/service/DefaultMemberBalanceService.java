@@ -5,8 +5,8 @@ import java.util.Collections;
 
 import org.springframework.stereotype.Service;
 
+import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
-import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
