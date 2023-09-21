@@ -38,8 +38,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
-import com.bernardomg.association.membership.member.model.request.ValidatedMemberBalanceQuery;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberUpdate;
@@ -77,13 +75,6 @@ public class MemberController {
     @AuthorizedResource(resource = "MEMBER", action = Actions.DELETE)
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
-    }
-
-    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final ValidatedMemberBalanceQuery query) {
-        // TODO: Extract to its own controller
-        return service.getBalance(query);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

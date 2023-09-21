@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.membership.member.service;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,12 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
-import com.bernardomg.association.membership.member.model.request.ValidatedMemberBalanceQuery;
 import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.exception.InvalidIdException;
@@ -113,12 +110,6 @@ public final class DefaultMemberService implements MemberService {
 
         return repository.findAll(Example.of(entity), pageable)
             .map(mapper::toDto);
-    }
-
-    @Override
-    public final Iterable<? extends MonthlyMemberBalance> getBalance(final ValidatedMemberBalanceQuery query) {
-        // TODO Auto-generated method stub
-        return Collections.emptyList();
     }
 
     @Override

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.member.model.request;
+package com.bernardomg.association.membership.balance.model.request;
 
 import java.time.YearMonth;
 
