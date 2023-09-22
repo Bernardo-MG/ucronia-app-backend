@@ -62,8 +62,8 @@ public final class DefaultBalanceService implements BalanceService {
         if (balances.isEmpty()) {
             result = ImmutableMonthlyBalance.builder()
                 .month(LocalDate.now())
-                .cumulative(0F)
-                .monthlyTotal(0F)
+                .total(0F)
+                .difference(0F)
                 .build();
         } else {
             balance = balances.iterator()
@@ -77,8 +77,8 @@ public final class DefaultBalanceService implements BalanceService {
     private final MonthlyBalance toMonthlyBalance(final PersistentMonthlyBalance entity) {
         return ImmutableMonthlyBalance.builder()
             .month(entity.getMonth())
-            .cumulative(entity.getCumulative())
-            .monthlyTotal(entity.getMonthlyTotal())
+            .total(entity.getCumulative())
+            .difference(entity.getMonthlyTotal())
             .build();
     }
 

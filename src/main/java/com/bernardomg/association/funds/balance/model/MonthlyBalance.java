@@ -5,10 +5,10 @@ import java.time.LocalDate;
 
 public interface MonthlyBalance {
 
-    public Float getCumulative();
+    public Float getDifference();
 
     public LocalDate getMonth();
 
-    public Float getMonthlyTotal();
+    public Float getTotal();
 
 }
