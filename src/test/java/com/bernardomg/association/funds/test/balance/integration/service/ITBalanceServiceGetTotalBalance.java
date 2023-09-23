@@ -78,9 +78,9 @@ class ITBalanceServiceGetTotalBalance {
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getCumulative())
+        Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
-        Assertions.assertThat(balance.getMonthlyTotal())
+        Assertions.assertThat(balance.getDifference())
             .isEqualTo(amount);
     }
 
@@ -94,9 +94,9 @@ class ITBalanceServiceGetTotalBalance {
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getCumulative())
+        Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
-        Assertions.assertThat(balance.getMonthlyTotal())
+        Assertions.assertThat(balance.getDifference())
             .isEqualTo(amount);
     }
 
@@ -108,9 +108,9 @@ class ITBalanceServiceGetTotalBalance {
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getCumulative())
+        Assertions.assertThat(balance.getTotal())
             .isZero();
-        Assertions.assertThat(balance.getMonthlyTotal())
+        Assertions.assertThat(balance.getDifference())
             .isZero();
     }
 
@@ -122,9 +122,9 @@ class ITBalanceServiceGetTotalBalance {
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getCumulative())
+        Assertions.assertThat(balance.getTotal())
             .isEqualTo(12);
-        Assertions.assertThat(balance.getMonthlyTotal())
+        Assertions.assertThat(balance.getDifference())
             .isEqualTo(1);
     }
 
@@ -136,9 +136,9 @@ class ITBalanceServiceGetTotalBalance {
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getCumulative())
+        Assertions.assertThat(balance.getTotal())
             .isEqualTo(5);
-        Assertions.assertThat(balance.getMonthlyTotal())
+        Assertions.assertThat(balance.getDifference())
             .isEqualTo(5);
     }
 
@@ -149,9 +149,9 @@ class ITBalanceServiceGetTotalBalance {
 
         balance = service.getTotalBalance();
 
-        Assertions.assertThat(balance.getCumulative())
+        Assertions.assertThat(balance.getTotal())
             .isZero();
-        Assertions.assertThat(balance.getMonthlyTotal())
+        Assertions.assertThat(balance.getDifference())
             .isZero();
     }
 

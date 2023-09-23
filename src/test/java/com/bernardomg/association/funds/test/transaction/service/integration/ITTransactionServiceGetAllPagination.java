@@ -27,7 +27,6 @@ package com.bernardomg.association.funds.test.transaction.service.integration;
 import java.time.LocalDate;
 import java.time.Month;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,8 +89,8 @@ class ITTransactionServiceGetAllPagination {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isEqualTo(1);
+        Assertions.assertThat(transactions)
+            .hasSize(1);
 
         transaction = transactions.iterator()
             .next();
@@ -116,8 +115,8 @@ class ITTransactionServiceGetAllPagination {
 
         transactions = service.getAll(transactionQuery, pageable);
 
-        Assertions.assertThat(IterableUtils.size(transactions))
-            .isEqualTo(1);
+        Assertions.assertThat(transactions)
+            .hasSize(1);
 
         transaction = transactions.iterator()
             .next();

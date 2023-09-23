@@ -102,8 +102,8 @@ class ITRoleServiceGetAllPagination {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
+        Assertions.assertThat(result)
+            .hasSize(1);
     }
 
     @Test

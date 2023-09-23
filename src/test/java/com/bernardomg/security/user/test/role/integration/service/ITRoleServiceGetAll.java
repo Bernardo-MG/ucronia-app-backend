@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.user.test.role.integration.service;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,8 +41,8 @@ class ITRoleServiceGetAll {
 
         result = service.getAll(sample, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
+        Assertions.assertThat(result)
+            .hasSize(1);
     }
 
     @Test

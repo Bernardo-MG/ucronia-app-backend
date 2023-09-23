@@ -3,7 +3,6 @@ package com.bernardomg.security.permission.test.integration.service;
 
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,8 +50,8 @@ class ITRolePermissionServiceAddPermission {
         service.addPermission(1l, 1l, 1l);
         result = rolePermissionRepository.findAll();
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
+        Assertions.assertThat(result)
+            .hasSize(1);
 
         found = result.iterator()
             .next();
@@ -80,8 +79,8 @@ class ITRolePermissionServiceAddPermission {
         roleGrantedPermissionRepository.flush();
         result = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
+        Assertions.assertThat(result)
+            .hasSize(1);
 
         found = result.iterator()
             .next();
@@ -106,8 +105,8 @@ class ITRolePermissionServiceAddPermission {
         service.addPermission(1l, 1l, 1l);
         result = rolePermissionRepository.findAll();
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(4);
+        Assertions.assertThat(result)
+            .hasSize(4);
 
         itr = result.iterator();
 

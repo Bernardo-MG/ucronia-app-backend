@@ -11,13 +11,13 @@ public final class BalanceAssertions {
         Assertions.assertThat(received.getMonth())
             .withFailMessage("Expected date '%s' but got '%s'", expected.getMonth(), received.getMonth())
             .isEqualTo(expected.getMonth());
-        Assertions.assertThat(received.getMonthlyTotal())
-            .withFailMessage("Expected total '%s' but got '%s'", expected.getMonthlyTotal(), received.getMonthlyTotal())
-            .isEqualTo(expected.getMonthlyTotal());
-        Assertions.assertThat(received.getCumulative())
-            .withFailMessage("Expected cumulative '%s' but got '%s'", expected.getCumulative(),
-                received.getCumulative())
-            .isEqualTo(expected.getCumulative());
+        Assertions.assertThat(received.getTotal())
+            .withFailMessage("Expected total '%s' but got '%s'", expected.getTotal(), received.getTotal())
+            .isEqualTo(expected.getTotal());
+        Assertions.assertThat(received.getDifference())
+            .withFailMessage("Expected difference '%s' but got '%s'", expected.getDifference(),
+                received.getDifference())
+            .isEqualTo(expected.getDifference());
     }
 
 }
