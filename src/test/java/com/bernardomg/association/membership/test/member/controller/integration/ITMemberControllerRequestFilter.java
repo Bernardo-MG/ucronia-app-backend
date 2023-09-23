@@ -58,12 +58,12 @@ class ITMemberControllerRequestFilter {
 
     private final RequestBuilder getGetRequestActive() {
         return MockMvcRequestBuilders.get(TestUrls.MEMBER)
-            .param("active", "true");
+            .param("status", "ACTIVE");
     }
 
     private final RequestBuilder getGetRequestNotActive() {
         return MockMvcRequestBuilders.get(TestUrls.MEMBER)
-            .param("active", "false");
+            .param("status", "INACTIVE");
     }
 
     @Test
