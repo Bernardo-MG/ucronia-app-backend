@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.funds.balance.service;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -61,7 +61,7 @@ public final class DefaultBalanceService implements BalanceService {
         balances = monthlyBalanceRepository.findAll(page);
         if (balances.isEmpty()) {
             result = ImmutableMonthlyBalance.builder()
-                .month(LocalDate.now())
+                .month(YearMonth.now())
                 .total(0F)
                 .difference(0F)
                 .build();
@@ -75,8 +75,14 @@ public final class DefaultBalanceService implements BalanceService {
     }
 
     private final MonthlyBalance toMonthlyBalance(final PersistentMonthlyBalance entity) {
+        final YearMonth month;
+
+        month = YearMonth.of(entity.getMonth()
+            .getYear(),
+            entity.getMonth()
+                .getMonth());
         return ImmutableMonthlyBalance.builder()
-            .month(entity.getMonth())
+            .month(month)
             .total(entity.getCumulative())
             .difference(entity.getMonthlyTotal())
             .build();

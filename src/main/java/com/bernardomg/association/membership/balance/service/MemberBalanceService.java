@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.membership.balance.service;
 
+import org.springframework.data.domain.Sort;
+
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
-import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
+import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -12,6 +14,6 @@ import com.bernardomg.association.membership.balance.model.request.ValidatedMemb
  */
 public interface MemberBalanceService {
 
-    public Iterable<? extends MonthlyMemberBalance> getBalance(final ValidatedMemberBalanceQuery query);
+    public Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery query, final Sort sort);
 
 }

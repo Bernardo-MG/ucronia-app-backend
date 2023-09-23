@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.membership.balance.model;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 
 import lombok.Builder;
 import lombok.Value;
@@ -12,7 +12,7 @@ public final class ImmutableMonthlyMemberBalance implements MonthlyMemberBalance
 
     private Long      difference;
 
-    private LocalDate month;
+    private YearMonth month;
 
     private Long      total;
 

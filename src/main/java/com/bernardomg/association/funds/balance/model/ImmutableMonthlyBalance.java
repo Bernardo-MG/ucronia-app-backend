@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.funds.balance.model;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 
 import lombok.Builder;
 import lombok.Value;
@@ -12,7 +12,7 @@ public final class ImmutableMonthlyBalance implements MonthlyBalance {
 
     private Float     difference;
 
-    private LocalDate month;
+    private YearMonth month;
 
     private Float     total;
 

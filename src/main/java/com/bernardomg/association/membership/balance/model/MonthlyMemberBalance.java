@@ -1,13 +1,13 @@
 
 package com.bernardomg.association.membership.balance.model;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 
 public interface MonthlyMemberBalance {
 
     public Long getDifference();
 
-    public LocalDate getMonth();
+    public YearMonth getMonth();
 
     public Long getTotal();
 
