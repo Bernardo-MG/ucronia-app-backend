@@ -11,15 +11,20 @@ import com.bernardomg.association.membership.balance.persistence.model.Persisten
 
 public final class MonthlyMemberBalanceSpecifications {
 
-    public static Specification<PersistentMonthlyMemberBalance> after(final YearMonth date) {
+    public static Specification<PersistentMonthlyMemberBalance> afterOrEqual(final YearMonth date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date.atDay(1));
     }
 
     public static Specification<PersistentMonthlyMemberBalance> before(final YearMonth date) {
+        return (root, query, cb) -> cb.lessThan(root.get("month"), date.atDay(1));
+    }
+
+    public static Specification<PersistentMonthlyMemberBalance> beforeOrEqual(final YearMonth date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date.atDay(1));
     }
 
-    public static Specification<PersistentMonthlyMemberBalance> between(final YearMonth start, final YearMonth end) {
+    public static Specification<PersistentMonthlyMemberBalance> betweenIncluding(final YearMonth start,
+            final YearMonth end) {
         return (root, query, cb) -> cb.between(root.get("month"), start.atDay(1), end.atDay(1));
     }
 
@@ -28,11 +33,11 @@ public final class MonthlyMemberBalanceSpecifications {
         final Optional<Specification<PersistentMonthlyMemberBalance>> spec;
 
         if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(between(request.getStartDate(), request.getEndDate()));
+            spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
         } else if (request.getStartDate() != null) {
-            spec = Optional.of(after(request.getStartDate()));
+            spec = Optional.of(afterOrEqual(request.getStartDate()));
         } else if (request.getEndDate() != null) {
-            spec = Optional.of(before(request.getEndDate()));
+            spec = Optional.of(beforeOrEqual(request.getEndDate()));
         } else {
             spec = Optional.empty();
         }

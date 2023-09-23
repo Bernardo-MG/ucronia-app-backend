@@ -34,16 +34,23 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     @Override
     public final Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery query, final Sort sort) {
-        final Optional<Specification<PersistentMonthlyMemberBalance>> spec;
+        final Optional<Specification<PersistentMonthlyMemberBalance>> requestSpec;
+        final Specification<PersistentMonthlyMemberBalance>           limitSpec;
+        final Specification<PersistentMonthlyMemberBalance>           spec;
         final Collection<PersistentMonthlyMemberBalance>              balance;
 
-        spec = MonthlyMemberBalanceSpecifications.fromRequest(query);
+        requestSpec = MonthlyMemberBalanceSpecifications.fromRequest(query);
+        limitSpec = MonthlyMemberBalanceSpecifications.before(YearMonth.now()
+            .plusMonths(1));
 
-        if (spec.isPresent()) {
-            balance = monthlyMemberBalanceRepository.findAll(spec.get(), sort);
+        if (requestSpec.isPresent()) {
+            spec = requestSpec.get()
+                .and(limitSpec);
         } else {
-            balance = monthlyMemberBalanceRepository.findAll(sort);
+            spec = limitSpec;
         }
+
+        balance = monthlyMemberBalanceRepository.findAll(spec, sort);
 
         return balance.stream()
             .map(this::toMonthlyBalance)
@@ -62,4 +69,5 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
             .total(entity.getMonthlyTotal())
             .build();
     }
+
 }

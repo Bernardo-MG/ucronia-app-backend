@@ -32,10 +32,7 @@ class ITMemberBalanceService {
 
     private static Stream<Arguments> geFeeDates() {
         return Stream.of(Arguments.of(YearMonth.now(), 1L), Arguments.of(YearMonth.now()
-            .minusMonths(1), 1L), Arguments.of(
-                YearMonth.now()
-                    .plusMonths(1),
-                0L));
+            .minusMonths(1), 1L));
     }
 
     @Autowired
@@ -127,6 +124,28 @@ class ITMemberBalanceService {
             .isEqualTo(date);
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(count);
+    }
+
+    @DisplayName("Returns no balance for the next month")
+    void testGetBalance_NextMonth() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+        final YearMonth                                date;
+
+        date = YearMonth.now()
+            .plusMonths(1);
+        persist(date.getYear(), date.getMonth(), true);
+
+        query = ValidatedMemberBalanceQuery.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .isEmpty();
     }
 
     @Test
