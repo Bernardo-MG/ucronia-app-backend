@@ -83,8 +83,8 @@ public final class DefaultBalanceService implements BalanceService {
                 .getMonth());
         return ImmutableMonthlyBalance.builder()
             .month(month)
-            .total(entity.getCumulative())
-            .difference(entity.getMonthlyTotal())
+            .total(entity.getTotal())
+            .difference(entity.getDifference())
             .build();
     }
 

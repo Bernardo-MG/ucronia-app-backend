@@ -39,7 +39,7 @@ databaseChangeLog:
       id: funds_views
       author: Bernardo
       changes:
-        -  createView:  
+        -  createView:
             remarks: Monthly balance
-            selectQuery: SELECT month_year AS date, total, SUM(total) OVER (ORDER BY month_year) AS cumulative FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS total FROM transactions GROUP BY month_year) AS subquery
+            selectQuery: SELECT month_year AS date, difference, SUM(difference) OVER (ORDER BY month_year) AS total FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS difference FROM transactions GROUP BY month_year) AS subquery
             viewName: monthly_balances

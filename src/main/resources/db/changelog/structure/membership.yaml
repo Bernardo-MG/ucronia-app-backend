@@ -86,11 +86,11 @@ databaseChangeLog:
       id: membership_views
       author: Bernardo
       changes:
-        -  createView:  
+        -  createView:
             remarks: Fees joined with their members
             selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, m.active AS active, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id
             viewName: member_fees
-        -  createView:  
+        -  createView:
             remarks: Monthly member balance
             selectQuery: SELECT month_year AS date, total FROM (SELECT DATE_TRUNC('month', date) AS month_year, COUNT(date) AS total FROM fees GROUP BY month_year) AS subquery
             viewName: member_monthly_balances

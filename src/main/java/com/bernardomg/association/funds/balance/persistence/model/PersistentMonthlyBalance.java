@@ -23,14 +23,14 @@ public class PersistentMonthlyBalance implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
-    @Column(name = "cumulative", nullable = false)
-    private Float             cumulative;
+    @Column(name = "total", nullable = false)
+    private Float             total;
 
     @Id
     @Column(name = "date", nullable = false)
     private LocalDate         month;
 
-    @Column(name = "total", nullable = false)
-    private Float             monthlyTotal;
+    @Column(name = "difference", nullable = false)
+    private Float             difference;
 
 }

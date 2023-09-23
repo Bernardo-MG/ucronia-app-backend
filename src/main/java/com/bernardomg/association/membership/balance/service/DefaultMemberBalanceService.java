@@ -66,7 +66,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
                 .getMonth());
         return ImmutableMonthlyMemberBalance.builder()
             .month(month)
-            .total(entity.getMonthlyTotal())
+            .total(entity.getTotal())
             .build();
     }
 

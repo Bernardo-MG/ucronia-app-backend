@@ -28,6 +28,6 @@ public class PersistentMonthlyMemberBalance implements Serializable {
     private LocalDate         month;
 
     @Column(name = "total", nullable = false)
-    private Long              monthlyTotal;
+    private Long              total;
 
 }
