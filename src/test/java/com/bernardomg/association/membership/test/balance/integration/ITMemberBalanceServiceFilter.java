@@ -3,14 +3,11 @@ package com.bernardomg.association.membership.test.balance.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
-import java.util.stream.Stream;
+import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,17 +23,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Balance service - get balance")
+@DisplayName("Balance service - get balance - filter")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql" })
-class ITMemberBalanceService {
-
-    private static Stream<Arguments> geFeeDates() {
-        return Stream.of(Arguments.of(YearMonth.now(), 1L), Arguments.of(YearMonth.now()
-            .minusMonths(1), 1L), Arguments.of(
-                YearMonth.now()
-                    .plusMonths(1),
-                0L));
-    }
+class ITMemberBalanceServiceFilter {
 
     @Autowired
     private FeeRepository        feeRepository;
@@ -57,22 +46,52 @@ class ITMemberBalanceService {
         feeRepository.flush();
     }
 
-    private final void persistAlternative(final Integer year, final Month month) {
-        final PersistentFee entity;
+    @Test
+    @DisplayName("Can filter around the current month")
+    void testGetBalance_Filter_AroundCurrent() {
+        final YearMonth                                yearMonth;
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+        final Iterator<? extends MonthlyMemberBalance> balancesItr;
+        MonthlyMemberBalance                           balance;
 
-        entity = PersistentFee.builder()
-            .date(YearMonth.of(year, month))
-            .memberId(2l)
-            .paid(true)
+        yearMonth = YearMonth.now();
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .minus(1), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth(), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .plus(1), false);
+
+        query = ValidatedMemberBalanceQuery.builder()
+            .startDate(yearMonth.minusMonths(1))
+            .endDate(yearMonth.plusMonths(1))
             .build();
 
-        feeRepository.save(entity);
-        feeRepository.flush();
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .hasSize(2);
+
+        balancesItr = balances.iterator();
+        balance = balancesItr.next();
+        Assertions.assertThat(balance.getMonth())
+            .isEqualTo(yearMonth.minusMonths(1));
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(1);
+
+        balance = balancesItr.next();
+        Assertions.assertThat(balance.getMonth())
+            .isEqualTo(yearMonth);
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(1);
     }
 
     @Test
-    @DisplayName("With a fee for the current month and not paid it returns balance for this month")
-    void testGetBalance_CurrentMonth_NotPaid() {
+    @DisplayName("Can filter for the previous month")
+    void testGetBalance_Filter_PreviousMonth() {
         final YearMonth                                yearMonth;
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
@@ -80,9 +99,15 @@ class ITMemberBalanceService {
         final MonthlyMemberBalance                     balance;
 
         yearMonth = YearMonth.now();
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .minus(1), false);
         persist(yearMonth.getYear(), yearMonth.getMonth(), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .plus(1), false);
 
         query = ValidatedMemberBalanceQuery.builder()
+            .startDate(yearMonth.minusMonths(1))
+            .endDate(yearMonth.minusMonths(1))
             .build();
 
         sort = Sort.unsorted();
@@ -95,48 +120,29 @@ class ITMemberBalanceService {
         balance = balances.iterator()
             .next();
         Assertions.assertThat(balance.getMonth())
-            .isEqualTo(yearMonth);
+            .isEqualTo(yearMonth.minusMonths(1));
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(1);
     }
 
-    @ParameterizedTest(name = "Date: {0}")
-    @MethodSource("geFeeDates")
-    @DisplayName("Returns balance for the current month and adjacents")
-    void testGetBalance_Dates(final YearMonth date, final Long count) {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
-        final Iterable<? extends MonthlyMemberBalance> balances;
-        final MonthlyMemberBalance                     balance;
-
-        persist(date.getYear(), date.getMonth(), true);
-
-        query = ValidatedMemberBalanceQuery.builder()
-            .build();
-
-        sort = Sort.unsorted();
-
-        balances = service.getBalance(query, sort);
-
-        Assertions.assertThat(balances)
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-        Assertions.assertThat(balance.getMonth())
-            .isEqualTo(date);
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(count);
-    }
-
     @Test
-    @DisplayName("With no data it returns nothing")
-    void testGetBalance_NoData() {
+    @DisplayName("Filtering with a range where the end is before the start returns nothing")
+    void testGetBalance_Filter_RangeEndBeforeStart() {
+        final YearMonth                                yearMonth;
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
 
+        yearMonth = YearMonth.now();
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .minus(1), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth(), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .plus(1), false);
+
         query = ValidatedMemberBalanceQuery.builder()
+            .startDate(yearMonth)
+            .endDate(yearMonth.minusMonths(1))
             .build();
 
         sort = Sort.unsorted();
@@ -148,19 +154,25 @@ class ITMemberBalanceService {
     }
 
     @Test
-    @DisplayName("With fees for two members this month it returns balance for both this month")
-    void testGetBalance_TwoMembers() {
+    @DisplayName("Can filter for two months")
+    void testGetBalance_Filter_TwoMonths() {
         final YearMonth                                yearMonth;
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
-        final MonthlyMemberBalance                     balance;
+        final Iterator<? extends MonthlyMemberBalance> balancesItr;
+        MonthlyMemberBalance                           balance;
 
         yearMonth = YearMonth.now();
-        persist(yearMonth.getYear(), yearMonth.getMonth(), true);
-        persistAlternative(yearMonth.getYear(), yearMonth.getMonth());
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .minus(1), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth(), false);
+        persist(yearMonth.getYear(), yearMonth.getMonth()
+            .plus(1), false);
 
         query = ValidatedMemberBalanceQuery.builder()
+            .startDate(yearMonth.minusMonths(1))
+            .endDate(yearMonth)
             .build();
 
         sort = Sort.unsorted();
@@ -168,14 +180,20 @@ class ITMemberBalanceService {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
-            .hasSize(1);
+            .hasSize(2);
 
-        balance = balances.iterator()
-            .next();
+        balancesItr = balances.iterator();
+        balance = balancesItr.next();
+        Assertions.assertThat(balance.getMonth())
+            .isEqualTo(yearMonth.minusMonths(1));
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(1);
+
+        balance = balancesItr.next();
         Assertions.assertThat(balance.getMonth())
             .isEqualTo(yearMonth);
         Assertions.assertThat(balance.getTotal())
-            .isEqualTo(2);
+            .isEqualTo(1);
     }
 
 }

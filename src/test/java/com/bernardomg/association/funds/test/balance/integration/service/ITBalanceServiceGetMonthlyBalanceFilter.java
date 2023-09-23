@@ -355,7 +355,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     }
 
     @Test
-    @DisplayName("Filtering with a range where the end is before the start returns no month")
+    @DisplayName("Filtering with a range where the end is before the start returns nothing")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetMonthlyBalance_RangeEndBeforeStart() {
         final Collection<? extends MonthlyBalance> balances;
