@@ -57,8 +57,8 @@ class ITUserRoleServiceGetRolesPagination {
 
         result = service.getRoles(1l, pageable);
 
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(1);
+        Assertions.assertThat(result)
+            .hasSize(1);
     }
 
     @Test

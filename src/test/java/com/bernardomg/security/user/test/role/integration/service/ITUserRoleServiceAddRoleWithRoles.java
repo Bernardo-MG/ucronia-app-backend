@@ -4,7 +4,6 @@ package com.bernardomg.security.user.test.role.integration.service;
 import java.util.Collection;
 import java.util.stream.StreamSupport;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,8 +45,8 @@ class ITUserRoleServiceAddRoleWithRoles {
         result = service.getRoles(1l, pageable);
 
         // FIXME: Should be a single role
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(2);
+        Assertions.assertThat(result)
+            .hasSize(2);
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)
@@ -70,8 +69,8 @@ class ITUserRoleServiceAddRoleWithRoles {
         result = service.getRoles(1l, pageable);
 
         // FIXME: Should be a single role
-        Assertions.assertThat(IterableUtils.size(result))
-            .isEqualTo(2);
+        Assertions.assertThat(result)
+            .hasSize(2);
 
         roleNames = StreamSupport.stream(result.spliterator(), false)
             .map(Role::getName)

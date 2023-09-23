@@ -3,7 +3,6 @@ package com.bernardomg.security.permission.test.integration.repository;
 
 import java.util.Collection;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,8 +35,8 @@ class ITUserUserPermissionRepositoryByUserId {
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(4);
+        Assertions.assertThat(read)
+            .hasSize(4);
     }
 
     @Test
@@ -49,8 +48,8 @@ class ITUserUserPermissionRepositoryByUserId {
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isZero();
+        Assertions.assertThat(read)
+            .isEmpty();
     }
 
     @Test
@@ -64,8 +63,8 @@ class ITUserUserPermissionRepositoryByUserId {
 
         read = repository.findAllByUserId(-1L);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isZero();
+        Assertions.assertThat(read)
+            .isEmpty();
     }
 
     @Test
@@ -79,8 +78,8 @@ class ITUserUserPermissionRepositoryByUserId {
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isZero();
+        Assertions.assertThat(read)
+            .isEmpty();
     }
 
     @Test
@@ -96,8 +95,8 @@ class ITUserUserPermissionRepositoryByUserId {
 
         read = repository.findAllByUserId(1L);
 
-        Assertions.assertThat(IterableUtils.size(read))
-            .isEqualTo(4);
+        Assertions.assertThat(read)
+            .hasSize(4);
     }
 
 }
