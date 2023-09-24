@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.configuration.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.configuration.cache.ConfigurationCaches;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
@@ -55,12 +58,14 @@ public class AssociationConfigurationController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION)
     public AssociationConfiguration read() {
         return service.read();
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
+    @CacheEvict(cacheNames = ConfigurationCaches.CONFIGURATION, allEntries = true)
     public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
         service.update(config);
     }
