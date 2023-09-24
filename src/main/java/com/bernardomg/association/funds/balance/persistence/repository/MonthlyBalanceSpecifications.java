@@ -15,6 +15,10 @@ public final class MonthlyBalanceSpecifications {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), date.atDay(1));
     }
 
+    public static Specification<PersistentMonthlyBalance> before(final YearMonth date) {
+        return (root, query, cb) -> cb.lessThan(root.get("month"), date.atDay(1));
+    }
+
     public static Specification<PersistentMonthlyBalance> beforeOrEqual(final YearMonth date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), date.atDay(1));
     }
