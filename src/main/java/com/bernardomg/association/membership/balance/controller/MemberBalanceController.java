@@ -59,7 +59,7 @@ public class MemberBalanceController {
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembershipCaches.BALANCE)
+    @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
     public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final ValidatedMemberBalanceQuery query,
             final Sort sort) {
         return service.getBalance(query, sort);
