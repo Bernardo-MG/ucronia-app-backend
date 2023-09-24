@@ -3,10 +3,6 @@ package com.bernardomg.association.membership.member.service;
 
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,10 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
-    private static final String    CACHE_MULTIPLE = "members";
-
-    private static final String    CACHE_SINGLE   = "member";
-
     private final MemberMapper     mapper;
 
     /**
@@ -46,8 +38,6 @@ public final class DefaultMemberService implements MemberService {
     private final MemberRepository repository;
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Member create(final MemberCreate member) {
         final PersistentMember entity;
         final PersistentMember created;
@@ -74,8 +64,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
-            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
 
         log.debug("Deleting member {}", id);
@@ -90,7 +78,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
         final PersistentMember entity;
 
@@ -113,7 +100,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Member> getOne(final long id) {
         final Optional<PersistentMember> found;
         final Optional<Member>           result;
@@ -138,8 +124,6 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Member update(final long id, final MemberUpdate member) {
         final PersistentMember entity;
         final PersistentMember updated;

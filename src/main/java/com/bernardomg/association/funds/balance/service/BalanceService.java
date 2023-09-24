@@ -10,8 +10,8 @@ import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 
 public interface BalanceService {
 
-    public Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
+    public MonthlyBalance getBalance();
 
-    public MonthlyBalance getTotalBalance();
+    public Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
 
 }

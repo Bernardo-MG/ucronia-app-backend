@@ -24,6 +24,10 @@
 
 package com.bernardomg.association.membership.member.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberCreate;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberQuery;
@@ -67,24 +72,30 @@ public class MemberController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @AuthorizedResource(resource = "MEMBER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
     public Member create(@Valid @RequestBody final ValidatedMemberCreate member) {
         return service.create(member);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.DELETE)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { MembershipCaches.MEMBERS, MembershipCaches.MEMBER }, allEntries = true) })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembershipCaches.MEMBERS)
     public Iterable<Member> readAll(@Valid final ValidatedMemberQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembershipCaches.MEMBER, key = "#id")
     public Member readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
@@ -92,6 +103,8 @@ public class MemberController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
     public Member update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedMemberUpdate member) {
         return service.update(id, member);
     }
