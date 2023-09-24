@@ -57,14 +57,14 @@ public class AssociationConfigurationController {
     private final AssociationConfigurationService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @AuthorizedResource(resource = "ASSOCIATION_CONFIGURATION", action = Actions.READ)
     @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION)
     public AssociationConfiguration read() {
         return service.read();
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
+    @AuthorizedResource(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
     @CacheEvict(cacheNames = ConfigurationCaches.CONFIGURATION, allEntries = true)
     public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
         service.update(config);
