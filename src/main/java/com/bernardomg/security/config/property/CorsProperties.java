@@ -32,6 +32,6 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "cors")
 public final class CorsProperties {
 
-    private String origins;
+    private String origins = "";
 
 }

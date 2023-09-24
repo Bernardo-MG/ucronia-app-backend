@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.config;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +35,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.bernardomg.security.config.property.CorsProperties;
 import com.bernardomg.security.jwt.configuration.JwtSecurityConfigurer;
 import com.bernardomg.security.jwt.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.jwt.token.JwtTokenData;
@@ -46,7 +54,11 @@ import com.bernardomg.security.token.TokenValidator;
  */
 @Configuration
 @EnableWebSecurity
+@EnableConfigurationProperties(CorsProperties.class)
 public class WebSecurityConfig {
+
+    @Autowired
+    private CorsProperties corsProperties;
 
     /**
      * Default constructor.
@@ -85,7 +97,7 @@ public class WebSecurityConfig {
                 .authenticated())
             // CSRF and CORS
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> {})
+            .cors(cors -> cors.configurationSource(getCorsConfigurationSource()))
             // Authentication error handling
             .exceptionHandling(handler -> handler.authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint()))
             // Stateless
@@ -98,6 +110,23 @@ public class WebSecurityConfig {
         http.apply(new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder));
 
         return http.build();
+    }
+
+    private CorsConfigurationSource getCorsConfigurationSource() {
+        final CorsConfiguration               configuration;
+        final UrlBasedCorsConfigurationSource source;
+
+        configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(corsProperties.getOrigins()
+            .split(",")));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("*"));
+
+        source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
 }
