@@ -3,6 +3,8 @@ package com.bernardomg.association.membership.cache;
 
 public final class MembershipCaches {
 
+    public static final String BALANCE        = "balance";
+
     public static final String CALENDAR       = "fees_calendar";
 
     public static final String CALENDAR_RANGE = "fees_calendar_range";

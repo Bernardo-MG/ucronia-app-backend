@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeesPaymentRequest;
@@ -75,18 +76,17 @@ public class FeeController {
     @ResponseStatus(HttpStatus.CREATED)
     @AuthorizedResource(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = { MembershipCaches.FEES, MembershipCaches.FEE,
-            MembershipCaches.CALENDAR, MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
+            MembershipCaches.CALENDAR, MembershipCaches.CALENDAR_RANGE, FundsCaches.BALANCE }, allEntries = true) })
     public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
         return service.payFees(fee);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.DELETE)
-    @Caching(
-            evict = {
-                    @CacheEvict(cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
-                            MembershipCaches.CALENDAR_RANGE }, allEntries = true),
-                    @CacheEvict(cacheNames = MembershipCaches.FEE, key = "#id") })
+    @Caching(evict = {
+            @CacheEvict(cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
+                    MembershipCaches.CALENDAR_RANGE, FundsCaches.BALANCE }, allEntries = true),
+            @CacheEvict(cacheNames = MembershipCaches.FEE, key = "#id") })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
@@ -108,10 +108,11 @@ public class FeeController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembershipCaches.FEE, key = "#result.id") },
-            evict = { @CacheEvict(
-                    cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR, MembershipCaches.CALENDAR_RANGE },
-                    allEntries = true) })
+    @Caching(
+            put = { @CachePut(cacheNames = MembershipCaches.FEE,
+                    key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
+                    MembershipCaches.CALENDAR_RANGE, FundsCaches.BALANCE }, allEntries = true) })
     public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedFeeUpdate fee) {
         return service.update(id, fee);
     }
