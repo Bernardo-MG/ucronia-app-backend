@@ -27,6 +27,7 @@ package com.bernardomg.association.configuration.controller;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,6 +53,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/configuration/association")
 @AllArgsConstructor
+@Transactional
 public class AssociationConfigurationController {
 
     private final AssociationConfigurationService service;

@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -141,7 +140,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @Transactional
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
         final Collection<PersistentFee> fees;
 

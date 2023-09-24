@@ -26,6 +26,7 @@ package com.bernardomg.security.permission.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/action")
 @AllArgsConstructor
+@Transactional
 public class ActionController {
 
     private final ActionService service;

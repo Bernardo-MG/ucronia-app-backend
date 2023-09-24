@@ -26,6 +26,7 @@ package com.bernardomg.security.user.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/user/{id}/role")
 @AllArgsConstructor
+@Transactional
 public class UserRoleController {
 
     private final UserRoleService service;

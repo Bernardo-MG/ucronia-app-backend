@@ -27,6 +27,7 @@ package com.bernardomg.association.membership.calendar.controller;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/fee/calendar")
 @AllArgsConstructor
+@Transactional
 public class FeeCalendarController {
 
     private final FeeCalendarService service;

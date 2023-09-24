@@ -27,6 +27,7 @@ package com.bernardomg.association.membership.balance.controller;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/member")
 @AllArgsConstructor
+@Transactional
 public class MemberBalanceController {
 
     /**
