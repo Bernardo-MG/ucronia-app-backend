@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private static final String       CACHE = "fee_calendar";
-
     private final MemberFeeRepository memberFeeRepository;
 
     @Override
@@ -50,7 +47,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE)
     public final Iterable<UserFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
         final Collection<PersistentMemberFee>      readFees;
         final Map<Long, List<PersistentMemberFee>> memberFees;
