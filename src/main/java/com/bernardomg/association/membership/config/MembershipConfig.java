@@ -22,16 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.fee.config;
+package com.bernardomg.association.membership.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceRepository;
+import com.bernardomg.association.membership.balance.service.DefaultMemberBalanceService;
+import com.bernardomg.association.membership.balance.service.MemberBalanceService;
+import com.bernardomg.association.membership.calendar.service.DefaultFeeCalendarService;
+import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.membership.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.membership.member.service.DefaultMemberService;
+import com.bernardomg.association.membership.member.service.MemberService;
 
 /**
  * Security configuration.
@@ -40,10 +49,15 @@ import com.bernardomg.association.membership.member.persistence.repository.Membe
  *
  */
 @Configuration
-public class FeeConfig {
+public class MembershipConfig {
 
-    public FeeConfig() {
+    public MembershipConfig() {
         super();
+    }
+
+    @Bean("feeCalendarService")
+    public FeeCalendarService getFeeCalendarService(final MemberFeeRepository memberFeeRepository) {
+        return new DefaultFeeCalendarService(memberFeeRepository);
     }
 
     @Bean("feeMaintenanceScheduleTask")
@@ -55,6 +69,17 @@ public class FeeConfig {
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
             final MemberRepository memberRepo) {
         return new DefaultFeeMaintenanceService(feeRepo, memberRepo);
+    }
+
+    @Bean("memberBalanceService")
+    public MemberBalanceService
+            getMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository) {
+        return new DefaultMemberBalanceService(monthlyMemberBalanceRepository);
+    }
+
+    @Bean("memberService")
+    public MemberService getMemberService(final MemberRepository memberRepository, final MemberMapper mapper) {
+        return new DefaultMemberService(memberRepository, mapper);
     }
 
 }
