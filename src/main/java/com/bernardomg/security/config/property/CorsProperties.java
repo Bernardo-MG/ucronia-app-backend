@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.config.property;
 
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
@@ -32,6 +34,14 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "cors")
 public final class CorsProperties {
 
-    private String origins = "";
+    private List<String> allowedHeaders = List.of("*");
+
+    private List<String> allowedMethods = List.of("*");
+
+    private List<String> allowedOrigins = List.of("*");
+
+    private List<String> exposedHeaders = List.of("*");
+
+    private String       pattern        = "/**";
 
 }

@@ -49,7 +49,7 @@ services:
             - spring.datasource.username=postgres
             - spring.datasource.password=password
             # CORS
-            - cors.origins=http://localhost:4200
+            - cors.allowedOrigins=http://localhost:4200
             # JWT
             - security.jwt.secret=1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
             - security.jwt.validity=5d
