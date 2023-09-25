@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,12 +29,15 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
@@ -55,6 +58,15 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("Balance service - get monthly balance")
 class ITBalanceServiceGetMonthlyBalance {
 
+    private static Stream<Arguments> geValidDates() {
+        return Stream.of(
+            // This month
+            Arguments.of(YearMonth.now()),
+            // Previous month
+            Arguments.of(YearMonth.now()
+                .minusMonths(1)));
+    }
+
     @Autowired
     private TransactionRepository repository;
 
@@ -68,6 +80,19 @@ class ITBalanceServiceGetMonthlyBalance {
             .date(LocalDate.of(2020, Month.JANUARY, 1))
             .description("Description")
             .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
+    private final void persist(final Integer year, final Month month) {
+        final PersistentTransaction entity;
+
+        entity = PersistentTransaction.builder()
+            .date(LocalDate.of(year, month, 1))
+            .description("Description")
+            .amount(1F)
             .build();
 
         repository.save(entity);
@@ -101,6 +126,35 @@ class ITBalanceServiceGetMonthlyBalance {
             .isEqualTo(amount);
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
+    }
+
+    @ParameterizedTest(name = "Date: {0}")
+    @MethodSource("geValidDates")
+    @DisplayName("Returns balance for the current month and adjacents")
+    void testGetMonthlyBalance_Dates(final YearMonth date) {
+        final Collection<? extends MonthlyBalance> balances;
+        final MonthlyBalance                       balance;
+        final BalanceQuery                         query;
+        final Sort                                 sort;
+
+        sort = Sort.unsorted();
+
+        persist(date.getYear(), date.getMonth());
+
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .hasSize(1);
+
+        balance = balances.iterator()
+            .next();
+
+        Assertions.assertThat(balance.getDifference())
+            .isEqualTo(1F);
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(1F);
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -293,6 +347,28 @@ class ITBalanceServiceGetMonthlyBalance {
             .difference(5f)
             .total(5f)
             .build());
+    }
+
+    @Test
+    @DisplayName("Returns no balance for the next month")
+    void testGetMonthlyBalance_NextMonth() {
+        final Collection<? extends MonthlyBalance> balances;
+        final BalanceQuery                         query;
+        final Sort                                 sort;
+        final YearMonth                            date;
+
+        date = YearMonth.now()
+            .plusMonths(1);
+        persist(date.getYear(), date.getMonth());
+
+        sort = Sort.unsorted();
+
+        query = ValidatedBalanceQuery.builder()
+            .build();
+        balances = service.getMonthlyBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .isEmpty();
     }
 
     @Test

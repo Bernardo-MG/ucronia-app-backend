@@ -8,17 +8,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -51,12 +46,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public final class DefaultFeeService implements FeeService {
-
-    private static final String                  CACHE_CALENDAR = "fee_calendar";
-
-    private static final String                  CACHE_MULTIPLE = "fees";
-
-    private static final String                  CACHE_SINGLE   = "fee";
 
     private final AssociationConfigurationSource configurationSource;
 
@@ -95,8 +84,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true),
-            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
 
         log.debug("Deleting fee {}", id);
@@ -109,7 +96,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
@@ -130,7 +116,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<MemberFee> getOne(final long id) {
         final Optional<PersistentMemberFee> found;
         final Optional<MemberFee>           result;
@@ -155,8 +140,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR, CACHE_SINGLE }, allEntries = true) })
-    @Transactional
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
         final Collection<PersistentFee> fees;
 
@@ -174,8 +157,6 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = { CACHE_MULTIPLE, CACHE_CALENDAR }, allEntries = true) })
     public final MemberFee update(final long id, final FeeUpdate fee) {
         final PersistentFee entity;
         final PersistentFee updated;

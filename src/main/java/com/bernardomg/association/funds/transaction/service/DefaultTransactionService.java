@@ -4,10 +4,6 @@ package com.bernardomg.association.funds.transaction.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,10 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
-    private static final String         CACHE_MULTIPLE = "transactions";
-
-    private static final String         CACHE_SINGLE   = "transaction";
-
     private final TransactionMapper     mapper;
 
     private final TransactionRepository transactionRepository;
@@ -49,8 +41,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Transaction create(final TransactionCreate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
@@ -69,8 +59,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
-            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final void delete(final long id) {
 
         log.debug("Deleting transaction {}", id);
@@ -83,7 +71,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
@@ -102,7 +89,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Transaction> getOne(final long id) {
         final Optional<PersistentTransaction> found;
         final Optional<Transaction>           result;
@@ -127,8 +113,6 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Transaction update(final long id, final TransactionUpdate transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;

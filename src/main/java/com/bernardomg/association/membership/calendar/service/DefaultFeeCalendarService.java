@@ -9,12 +9,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
@@ -27,17 +26,18 @@ import com.bernardomg.association.membership.fee.persistence.repository.MemberFe
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
-@AllArgsConstructor
 @Slf4j
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private static final String       CACHE = "fee_calendar";
-
     private final MemberFeeRepository memberFeeRepository;
+
+    public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo) {
+        super();
+
+        memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
+    }
 
     @Override
     public final FeeCalendarRange getRange() {
@@ -50,7 +50,6 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE)
     public final Iterable<UserFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
         final Collection<PersistentMemberFee>      readFees;
         final Map<Long, List<PersistentMemberFee>> memberFees;

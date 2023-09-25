@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.configuration.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.configuration.cache.ConfigurationCaches;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
@@ -49,18 +53,21 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/configuration/association")
 @AllArgsConstructor
+@Transactional
 public class AssociationConfigurationController {
 
     private final AssociationConfigurationService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @AuthorizedResource(resource = "ASSOCIATION_CONFIGURATION", action = Actions.READ)
+    @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION)
     public AssociationConfiguration read() {
         return service.read();
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
+    @AuthorizedResource(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
+    @CacheEvict(cacheNames = ConfigurationCaches.CONFIGURATION, allEntries = true)
     public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
         service.update(config);
     }

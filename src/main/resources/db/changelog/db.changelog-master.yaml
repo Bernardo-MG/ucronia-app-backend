@@ -15,12 +15,22 @@ databaseChangeLog:
       file: structure/membership.yaml
       relativeToChangelogFile: true
   - changeSet:
-      id: initial_sequences
+      id: app_initial_sequences
       author: Bernardo
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: data/initialize_association_sequences.sql
+            path: data/configuration/sequences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: association_initial_sequences
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: data/association/sequences.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true

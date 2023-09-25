@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,10 @@ package com.bernardomg.association.funds.balance.controller;
 
 import java.util.Collection;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
@@ -50,20 +53,23 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/funds/balance")
 @AllArgsConstructor
+@Transactional
 public class BalanceController {
 
     private final BalanceService service;
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Cacheable(cacheNames = FundsCaches.BALANCE)
+    public MonthlyBalance readBalance() {
+        return service.getBalance();
+    }
+
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "BALANCE", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.MONTHLY_BALANCE)
     public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final ValidatedBalanceQuery query,
             final Sort sort) {
         return service.getMonthlyBalance(query, sort);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public MonthlyBalance readTotalBalance() {
-        return service.getTotalBalance();
     }
 
 }

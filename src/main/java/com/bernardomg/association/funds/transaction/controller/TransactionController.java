@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,14 @@
 
 package com.bernardomg.association.funds.transaction.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionCreate;
 import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionQuery;
@@ -57,6 +63,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/funds/transaction")
 @AllArgsConstructor
+@Transactional
 public class TransactionController {
 
     /**
@@ -67,24 +74,38 @@ public class TransactionController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
     public Transaction create(@Valid @RequestBody final ValidatedTransactionCreate transaction) {
         return service.create(transaction);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
+            @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#id"),
+            @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
+            @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
+            @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
+            @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.TRANSACTIONS)
     public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#id")
     public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
@@ -92,6 +113,12 @@ public class TransactionController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
+                    @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
     public Transaction update(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedTransactionUpdate transaction) {
         return service.update(id, transaction);

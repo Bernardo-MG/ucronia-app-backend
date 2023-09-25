@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,10 @@
 
 package com.bernardomg.association.membership.balance.controller;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
 import com.bernardomg.association.membership.balance.service.MemberBalanceService;
+import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
@@ -48,6 +51,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/member")
 @AllArgsConstructor
+@Transactional
 public class MemberBalanceController {
 
     /**
@@ -57,6 +61,7 @@ public class MemberBalanceController {
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
     public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final ValidatedMemberBalanceQuery query,
             final Sort sort) {
         return service.getBalance(query, sort);

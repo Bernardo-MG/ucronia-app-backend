@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,15 @@ package com.bernardomg.association.funds.calendar.controller;
 
 import java.time.YearMonth;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
 import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
 import com.bernardomg.association.funds.transaction.model.Transaction;
@@ -49,6 +52,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/funds/calendar")
 @AllArgsConstructor
+@Transactional
 public class TransactionCalendarController {
 
     /**
@@ -58,6 +62,7 @@ public class TransactionCalendarController {
 
     @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.CALENDAR)
     public Iterable<? extends Transaction> readAll(@PathVariable("year") final Integer year,
             @PathVariable("month") final Integer month) {
         final YearMonth date;
@@ -68,6 +73,7 @@ public class TransactionCalendarController {
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.CALENDAR_RANGE)
     public TransactionRange readRange() {
         return service.getRange();
     }

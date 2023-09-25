@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,8 +46,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Balance service - get total balance")
-class ITBalanceServiceGetTotalBalance {
+@DisplayName("Balance service - get balance")
+class ITBalanceServiceGetBalance {
 
     @Autowired
     private TransactionRepository repository;
@@ -71,12 +71,12 @@ class ITBalanceServiceGetTotalBalance {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
-    void testGetTotalBalance_AroundZero(final Float amount) {
+    void testGetBalance_AroundZero(final Float amount) {
         final MonthlyBalance balance;
 
         persist(amount);
 
-        balance = service.getTotalBalance();
+        balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
@@ -87,12 +87,12 @@ class ITBalanceServiceGetTotalBalance {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
-    void testGetTotalBalance_Decimal(final Float amount) {
+    void testGetBalance_Decimal(final Float amount) {
         final MonthlyBalance balance;
 
         persist(amount);
 
-        balance = service.getTotalBalance();
+        balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
@@ -103,10 +103,10 @@ class ITBalanceServiceGetTotalBalance {
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
-    void testGetTotalBalance_DecimalsAddUpToZero() {
+    void testGetBalance_DecimalsAddUpToZero() {
         final MonthlyBalance balance;
 
-        balance = service.getTotalBalance();
+        balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
             .isZero();
@@ -117,10 +117,10 @@ class ITBalanceServiceGetTotalBalance {
     @Test
     @DisplayName("With a full year it returns the correct data")
     @Sql({ "/db/queries/transaction/full_year.sql" })
-    void testGetTotalBalance_FullYear() {
+    void testGetBalance_FullYear() {
         final MonthlyBalance balance;
 
-        balance = service.getTotalBalance();
+        balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(12);
@@ -131,10 +131,10 @@ class ITBalanceServiceGetTotalBalance {
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
-    void testGetTotalBalance_Multiple() {
+    void testGetBalance_Multiple() {
         final MonthlyBalance balance;
 
-        balance = service.getTotalBalance();
+        balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(5);
@@ -144,10 +144,10 @@ class ITBalanceServiceGetTotalBalance {
 
     @Test
     @DisplayName("With not data it returns nothing")
-    void testGetTotalBalance_NoData() {
+    void testGetBalance_NoData() {
         final MonthlyBalance balance;
 
-        balance = service.getTotalBalance();
+        balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
             .isZero();

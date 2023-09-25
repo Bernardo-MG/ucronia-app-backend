@@ -3,12 +3,11 @@ package com.bernardomg.association.membership.balance.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.membership.balance.model.ImmutableMonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
@@ -17,20 +16,21 @@ import com.bernardomg.association.membership.balance.persistence.model.Persisten
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceRepository;
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceSpecifications;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Default implementation of the member service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Service
-@AllArgsConstructor
 public final class DefaultMemberBalanceService implements MemberBalanceService {
 
-    @Autowired
     private final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository;
+
+    public DefaultMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepo) {
+        super();
+
+        monthlyMemberBalanceRepository = Objects.requireNonNull(monthlyMemberBalanceRepo);
+    }
 
     @Override
     public final Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery query, final Sort sort) {

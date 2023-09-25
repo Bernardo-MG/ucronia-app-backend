@@ -31,25 +31,7 @@ public final class DefaultBalanceService implements BalanceService {
     }
 
     @Override
-    public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
-        final Optional<Specification<PersistentMonthlyBalance>> spec;
-        final Collection<PersistentMonthlyBalance>              balance;
-
-        spec = MonthlyBalanceSpecifications.fromRequest(query);
-
-        if (spec.isPresent()) {
-            balance = monthlyBalanceRepository.findAll(spec.get(), sort);
-        } else {
-            balance = monthlyBalanceRepository.findAll(sort);
-        }
-
-        return balance.stream()
-            .map(this::toMonthlyBalance)
-            .toList();
-    }
-
-    @Override
-    public final MonthlyBalance getTotalBalance() {
+    public final MonthlyBalance getBalance() {
         final Pageable                       page;
         final Sort                           sort;
         final Page<PersistentMonthlyBalance> balances;
@@ -72,6 +54,31 @@ public final class DefaultBalanceService implements BalanceService {
         }
 
         return result;
+    }
+
+    @Override
+    public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
+        final Optional<Specification<PersistentMonthlyBalance>> requestSpec;
+        final Specification<PersistentMonthlyBalance>           limitSpec;
+        final Specification<PersistentMonthlyBalance>           spec;
+        final Collection<PersistentMonthlyBalance>              balance;
+
+        requestSpec = MonthlyBalanceSpecifications.fromRequest(query);
+        limitSpec = MonthlyBalanceSpecifications.before(YearMonth.now()
+            .plusMonths(1));
+
+        if (requestSpec.isPresent()) {
+            spec = requestSpec.get()
+                .and(limitSpec);
+        } else {
+            spec = limitSpec;
+        }
+
+        balance = monthlyBalanceRepository.findAll(spec, sort);
+
+        return balance.stream()
+            .map(this::toMonthlyBalance)
+            .toList();
     }
 
     private final MonthlyBalance toMonthlyBalance(final PersistentMonthlyBalance entity) {

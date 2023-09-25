@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,16 @@
 
 package com.bernardomg.association.membership.calendar.controller;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalendarQueryRequest;
@@ -51,18 +54,21 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/fee/calendar")
 @AllArgsConstructor
+@Transactional
 public class FeeCalendarController {
 
     private final FeeCalendarService service;
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = MembershipCaches.CALENDAR_RANGE)
     public FeeCalendarRange readRange() {
         return service.getRange();
     }
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @Cacheable(cacheNames = MembershipCaches.CALENDAR)
     public Iterable<UserFeeCalendar> readYear(@PathVariable("year") final Integer year,
             final DtoFeeCalendarQueryRequest request, final Pageable pageable) {
         // TODO: receive just the sort object

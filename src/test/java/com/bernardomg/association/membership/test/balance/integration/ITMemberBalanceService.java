@@ -30,9 +30,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql" })
 class ITMemberBalanceService {
 
-    private static Stream<Arguments> geFeeDates() {
-        return Stream.of(Arguments.of(YearMonth.now(), 1L), Arguments.of(YearMonth.now()
-            .minusMonths(1), 1L));
+    private static Stream<Arguments> geValidDates() {
+        return Stream.of(
+            // This month
+            Arguments.of(YearMonth.now()),
+            // Previous month
+            Arguments.of(YearMonth.now()
+                .minusMonths(1)));
     }
 
     @Autowired
@@ -98,9 +102,9 @@ class ITMemberBalanceService {
     }
 
     @ParameterizedTest(name = "Date: {0}")
-    @MethodSource("geFeeDates")
+    @MethodSource("geValidDates")
     @DisplayName("Returns balance for the current month and adjacents")
-    void testGetBalance_Dates(final YearMonth date, final Long count) {
+    void testGetBalance_Dates(final YearMonth date) {
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
@@ -123,9 +127,10 @@ class ITMemberBalanceService {
         Assertions.assertThat(balance.getMonth())
             .isEqualTo(date);
         Assertions.assertThat(balance.getTotal())
-            .isEqualTo(count);
+            .isEqualTo(1);
     }
 
+    @Test
     @DisplayName("Returns no balance for the next month")
     void testGetBalance_NextMonth() {
         final MemberBalanceQuery                       query;
