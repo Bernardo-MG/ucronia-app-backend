@@ -24,9 +24,6 @@
 
 package com.bernardomg.security.config;
 
-import java.util.Arrays;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,9 +54,6 @@ import com.bernardomg.security.token.TokenValidator;
 @EnableConfigurationProperties(CorsProperties.class)
 public class WebSecurityConfig {
 
-    @Autowired
-    private CorsProperties corsProperties;
-
     /**
      * Default constructor.
      */
@@ -85,7 +79,7 @@ public class WebSecurityConfig {
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
             final TokenDecoder<JwtTokenData> decoder, final TokenValidator tokenValidator,
-            final UserDetailsService userDetailsService) throws Exception {
+            final UserDetailsService userDetailsService, final CorsProperties corsProperties) throws Exception {
 
         http
             // Whitelist access
@@ -97,7 +91,7 @@ public class WebSecurityConfig {
                 .authenticated())
             // CSRF and CORS
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(getCorsConfigurationSource()))
+            .cors(cors -> cors.configurationSource(getCorsConfigurationSource(corsProperties)))
             // Authentication error handling
             .exceptionHandling(handler -> handler.authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint()))
             // Stateless
@@ -112,16 +106,15 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    private CorsConfigurationSource getCorsConfigurationSource() {
+    private CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
         final CorsConfiguration               configuration;
         final UrlBasedCorsConfigurationSource source;
 
         configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(corsProperties.getOrigins()
-            .split(",")));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("*"));
+        configuration.setAllowedOrigins(corsProperties.getAllowedOrigins());
+        configuration.setAllowedMethods(corsProperties.getAllowedMethods());
+        configuration.setAllowedHeaders(corsProperties.getAllowedHeaders());
+        configuration.setExposedHeaders(corsProperties.getExposedHeaders());
 
         source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
