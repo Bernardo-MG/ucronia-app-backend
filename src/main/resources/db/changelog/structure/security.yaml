@@ -63,24 +63,9 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: false
   - changeSet:
-      id: security_roles
+      id: security_permissions
       author: Bernardo
       changes:
-        - createTable:
-            tableName: roles
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(60)
-                  constraints:
-                    nullable: false
-                    unique: true
         - createTable:
             tableName: resources
             columns:
@@ -111,10 +96,44 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+        - createTable:
+            tableName: permissions
+            columns:
+              - column:
+                  name: resource
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_role_permissions_resource_id
+                    references: resources(name)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: action
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_role_permissions_action_id
+                    references: actions(name)
+                    nullable: false
+                    deleteCascade: true
   - changeSet:
-      id: security_roles_relationships
+      id: security_roles
       author: Bernardo
       changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
         - createTable:
             tableName: role_permissions
             columns:
@@ -127,19 +146,11 @@ databaseChangeLog:
                     nullable: false
                     deleteCascade: true
               - column:
-                  name: resource_id
+                  name: permission_id
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_role_permissions_resource_id
-                    references: resources(id)
-                    nullable: false
-                    deleteCascade: true
-              - column:
-                  name: action_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_role_permissions_action_id
-                    references: actions(id)
+                    foreignKeyName: fk_role_permissions_permission_id
+                    references: permissions(id)
                     nullable: false
                     deleteCascade: true
               - column:

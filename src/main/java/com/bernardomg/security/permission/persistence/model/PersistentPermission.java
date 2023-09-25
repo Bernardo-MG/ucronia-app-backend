@@ -28,8 +28,9 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,29 +43,31 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "RolePermission")
-@Table(name = "role_permissions")
-@IdClass(RolePermissionKey.class)
+@Entity(name = "Permission")
+@Table(name = "permissions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentRolePermission implements Serializable {
+public class PersistentPermission implements Serializable {
 
     /**
      * Serialization id.
      */
-    private static final long serialVersionUID = 8513041662486312372L;
+    private static final long serialVersionUID = -104825862522637053L;
 
-    @Column(name = "granted", nullable = false)
-    private Boolean           granted;
+    @Column(name = "action", nullable = false)
+    private String            action;
 
+    /**
+     * Entity id.
+     */
     @Id
-    @Column(name = "permission_id", nullable = false)
-    private Long              permissionId;
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_resources_id")
+    @Column(name = "id", nullable = false, unique = true)
+    private Long              id;
 
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+    @Column(name = "resource", nullable = false)
+    private String            resource;
 
 }

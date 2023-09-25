@@ -35,6 +35,7 @@ import com.bernardomg.security.permission.model.mapper.PermissionMapper;
 import com.bernardomg.security.permission.model.mapper.ResourceMapper;
 import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.permission.persistence.repository.ActionRepository;
+import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
 import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
@@ -84,12 +85,11 @@ public class PermissionConfig {
 
     @Bean("rolePermissionService")
     public RolePermissionService getRolePermissionService(final RoleRepository roleRepo,
-            final ResourceRepository resourceRepo, final ActionRepository actionRepo,
-            final RolePermissionRepository roleActionsRepo,
+            final PermissionRepository permissionRepo, final RolePermissionRepository roleActionsRepo,
             final RoleGrantedPermissionRepository roleGrantedPermissionRepo, final RolePermissionMapper rolePermMapper,
             final PermissionMapper permMapper) {
-        return new DefaultRolePermissionService(roleRepo, resourceRepo, actionRepo, roleActionsRepo,
-            roleGrantedPermissionRepo, rolePermMapper, permMapper);
+        return new DefaultRolePermissionService(roleRepo, permissionRepo, roleActionsRepo, roleGrantedPermissionRepo,
+            rolePermMapper, permMapper);
     }
 
 }

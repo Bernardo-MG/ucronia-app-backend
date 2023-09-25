@@ -39,7 +39,7 @@ class ITRolePermissionServiceAddPermissionValidation {
         action = new ArrayList<>();
         action.add(1L);
 
-        executable = () -> service.addPermission(1l, 1l, 1l);
+        executable = () -> service.addPermission(1l, 1l);
 
         failure = FieldFailure.of("resource.notExisting", "resource", "notExisting", 1L);
 
@@ -57,7 +57,7 @@ class ITRolePermissionServiceAddPermissionValidation {
         action = new ArrayList<>();
         action.add(1L);
 
-        executable = () -> service.addPermission(1l, 1l, 1l);
+        executable = () -> service.addPermission(1l, 1l);
 
         failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
 
@@ -75,7 +75,7 @@ class ITRolePermissionServiceAddPermissionValidation {
         action = new ArrayList<>();
         action.add(-1L);
 
-        executable = () -> service.addPermission(1l, 1l, 1l);
+        executable = () -> service.addPermission(1l, 1l);
 
         failure = FieldFailure.of("action.notExisting", "action", "notExisting", 1L);
 

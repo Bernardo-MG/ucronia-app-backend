@@ -47,7 +47,7 @@ class ITRolePermissionServiceAddPermission {
         final Iterable<PersistentRolePermission> result;
         final PersistentRolePermission           found;
 
-        service.addPermission(1l, 1l, 1l);
+        service.addPermission(1l, 1l);
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -57,8 +57,7 @@ class ITRolePermissionServiceAddPermission {
             .next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(1L)
-            .resourceId(1L)
+            .permissionId(1L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -75,7 +74,7 @@ class ITRolePermissionServiceAddPermission {
 
         pageable = Pageable.unpaged();
 
-        service.addPermission(1l, 1l, 1l);
+        service.addPermission(1l, 1l);
         roleGrantedPermissionRepository.flush();
         result = service.getPermissions(1l, pageable);
 
@@ -102,7 +101,7 @@ class ITRolePermissionServiceAddPermission {
         final Iterator<PersistentRolePermission> itr;
         PersistentRolePermission                 found;
 
-        service.addPermission(1l, 1l, 1l);
+        service.addPermission(1l, 1l);
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -113,8 +112,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(1L)
-            .resourceId(1L)
+            .permissionId(1L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -122,8 +120,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(2L)
-            .resourceId(1L)
+            .permissionId(2L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -131,8 +128,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(3L)
-            .resourceId(1L)
+            .permissionId(3L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -140,8 +136,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(4L)
-            .resourceId(1L)
+            .permissionId(4L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -154,13 +149,11 @@ class ITRolePermissionServiceAddPermission {
     void testAddRole_ReturnedData() {
         final RolePermission result;
 
-        result = service.addPermission(1l, 1l, 1l);
+        result = service.addPermission(1l, 1l);
 
         Assertions.assertThat(result.getRoleId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getResourceId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getActionId())
+        Assertions.assertThat(result.getPermissionId())
             .isEqualTo(1);
     }
 

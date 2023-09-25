@@ -22,49 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.persistence.model;
+package com.bernardomg.security.permission.persistence.repository;
 
-import java.io.Serializable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.bernardomg.security.permission.persistence.model.PersistentPermission;
 
 /**
- * Dto implementation of {@code Action}.
+ * Repository for action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "RolePermission")
-@Table(name = "role_permissions")
-@IdClass(RolePermissionKey.class)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PersistentRolePermission implements Serializable {
-
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 8513041662486312372L;
-
-    @Column(name = "granted", nullable = false)
-    private Boolean           granted;
-
-    @Id
-    @Column(name = "permission_id", nullable = false)
-    private Long              permissionId;
-
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+public interface PermissionRepository extends JpaRepository<PersistentPermission, Long> {
 
 }

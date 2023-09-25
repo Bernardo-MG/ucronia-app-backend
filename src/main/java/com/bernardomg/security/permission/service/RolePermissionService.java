@@ -13,13 +13,11 @@ public interface RolePermissionService {
      *
      * @param roleId
      *            role id
-     * @param resourceId
-     *            resource id to add
-     * @param actionId
-     *            action id to add
+     * @param permission
+     *            permission id to add
      * @return the added permission
      */
-    public RolePermission addPermission(final long roleId, final long resourceId, final long actionId);
+    public RolePermission addPermission(final long roleId, final Long permission);
 
     /**
      * Returns all action for a role.
@@ -37,12 +35,10 @@ public interface RolePermissionService {
      *
      * @param roleId
      *            role id
-     * @param resourceId
-     *            resource id to add
-     * @param actionId
-     *            action id to remove
+     * @param permission
+     *            permission id to remove
      * @return the removed permission
      */
-    public RolePermission removePermission(final long roleId, final long resourceId, final long actionId);
+    public RolePermission removePermission(final long roleId, final Long permission);
 
 }

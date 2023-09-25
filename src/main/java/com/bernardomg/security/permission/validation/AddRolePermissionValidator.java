@@ -3,9 +3,9 @@ package com.bernardomg.security.permission.validation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
@@ -17,19 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class AddRolePermissionValidator implements Validator<RolePermission> {
 
-    private final ActionRepository   actionRepository;
+    private final PermissionRepository rolePermissionRepository;
 
-    private final ResourceRepository resourceRepository;
+    private final RoleRepository       roleRepository;
 
-    private final RoleRepository     roleRepository;
-
-    public AddRolePermissionValidator(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
-            final ActionRepository actionRepo) {
+    public AddRolePermissionValidator(final RoleRepository roleRepo, final PermissionRepository rolePermissionRepo) {
         super();
 
-        roleRepository = roleRepo;
-        resourceRepository = resourceRepo;
-        actionRepository = actionRepo;
+        roleRepository = Objects.requireNonNull(roleRepo);
+        rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
     }
 
     @Override
@@ -47,19 +43,11 @@ public final class AddRolePermissionValidator implements Validator<RolePermissio
             failures.add(failure);
         }
 
-        // The resource exists
-        if (!resourceRepository.existsById(relationship.getResourceId())) {
-            log.error("Found no resource with id {}", relationship.getResourceId());
+        // The permission exists
+        if (!rolePermissionRepository.existsById(relationship.getPermissionId())) {
+            log.error("Found no permission with id {}", relationship.getPermissionId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("resource", "notExisting", relationship.getResourceId());
-            failures.add(failure);
-        }
-
-        // The action exists
-        if (!actionRepository.existsById(relationship.getActionId())) {
-            log.error("Found no action with id {}", relationship.getActionId());
-            // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("action", "notExisting", relationship.getActionId());
+            failure = FieldFailure.of("id", "notExisting", relationship.getPermissionId());
             failures.add(failure);
         }
 

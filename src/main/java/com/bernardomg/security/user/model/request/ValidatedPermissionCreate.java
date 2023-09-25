@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 public final class ValidatedPermissionCreate implements PermissionCreate {
 
     @NotNull
-    private Long actionId;
-
-    @NotNull
-    private Long resourceId;
+    private Long permissionId;
 
 }

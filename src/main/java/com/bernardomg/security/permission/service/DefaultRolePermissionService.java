@@ -2,6 +2,7 @@
 package com.bernardomg.security.permission.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,12 +11,13 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
 import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
+import com.bernardomg.security.permission.persistence.model.PersistentPermission;
 import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.permission.validation.AddRolePermissionValidator;
+import com.bernardomg.security.permission.validation.RemoveRolePermissionValidator;
 import com.bernardomg.security.user.model.DtoRolePermission;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
@@ -32,6 +34,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     private final PermissionMapper                permissionMapper;
 
+    private final PermissionRepository            permissionRepository;
+
     private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
 
     private final RolePermissionMapper            rolePermissionMapper;
@@ -42,40 +46,39 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     private final Validator<RolePermission>       validatorRemoveRolePermission;
 
-    public DefaultRolePermissionService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
-            final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
+    public DefaultRolePermissionService(final RoleRepository roleRepo, final PermissionRepository permissionRepo,
+            final RolePermissionRepository rolePermissionRepo,
             final RoleGrantedPermissionRepository roleGrantedPermissionRepo, final RolePermissionMapper rolePermMapper,
             final PermissionMapper permMapper) {
         super();
 
-        rolePermissionRepository = Objects.requireNonNull(roleActionsRepo);
+        permissionRepository = Objects.requireNonNull(permissionRepo);
+        rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
         roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
         rolePermissionMapper = Objects.requireNonNull(rolePermMapper);
         permissionMapper = Objects.requireNonNull(permMapper);
 
-        validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
-        // TODO: Just validate if the permission exists
-        validatorRemoveRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
+        validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, permissionRepo);
+        validatorRemoveRolePermission = new RemoveRolePermissionValidator(rolePermissionRepo);
     }
 
     @Override
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
-    public final RolePermission addPermission(final long roleId, final long resourceId, final long actionId) {
+    public final RolePermission addPermission(final long roleId, final Long permission) {
         final PersistentRolePermission rolePermissionSample;
-        final RolePermission           roleAction;
+        final RolePermission           rolePermission;
         final PersistentRolePermission created;
 
-        log.debug("Adding action {} to resource {} for role {}", actionId, resourceId, roleId);
+        log.debug("Adding permission {} for role {}", permission, roleId);
 
-        roleAction = DtoRolePermission.builder()
+        rolePermission = DtoRolePermission.builder()
             .roleId(roleId)
-            .resourceId(resourceId)
-            .actionId(actionId)
+            .permissionId(permission)
             .build();
-        validatorAddRolePermission.validate(roleAction);
+        validatorAddRolePermission.validate(rolePermission);
 
         // Build relationship entities
-        rolePermissionSample = getRolePermissionSample(roleId, resourceId, actionId);
+        rolePermissionSample = getRolePermissionSample(roleId, permission);
         rolePermissionSample.setGranted(true);
 
         // Persist relationship entities
@@ -96,36 +99,45 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
-    public final RolePermission removePermission(final long roleId, final long resourceId, final long actionId) {
-        final PersistentRolePermission rolePermissionSample;
-        final RolePermission           roleAction;
-        final PersistentRolePermission updated;
+    public final RolePermission removePermission(final long roleId, final Long permission) {
+        final PersistentRolePermission       rolePermissionSample;
+        final RolePermission                 rolePermission;
+        final PersistentRolePermission       updated;
+        final Optional<PersistentPermission> read;
+        final RolePermission                 result;
 
-        log.debug("Removing action {} to resource {} for role {}", actionId, resourceId, roleId);
+        log.debug("Removing permission {} for role {}", permission, roleId);
 
-        roleAction = DtoRolePermission.builder()
+        rolePermission = DtoRolePermission.builder()
             .roleId(roleId)
-            .resourceId(resourceId)
-            .actionId(actionId)
+            .permissionId(permission)
             .build();
-        validatorRemoveRolePermission.validate(roleAction);
+        validatorRemoveRolePermission.validate(rolePermission);
 
-        // Build relationship entities
-        rolePermissionSample = getRolePermissionSample(roleId, resourceId, actionId);
-        rolePermissionSample.setGranted(false);
+        read = permissionRepository.findById(permission);
 
-        // Delete relationship entities
-        updated = rolePermissionRepository.save(rolePermissionSample);
+        if (read.isPresent()) {
+            // Build relationship entities
+            rolePermissionSample = getRolePermissionSample(roleId, read.get()
+                .getId());
+            rolePermissionSample.setGranted(false);
 
-        return rolePermissionMapper.toDto(updated);
+            // Delete relationship entities
+            updated = rolePermissionRepository.save(rolePermissionSample);
+
+            result = rolePermissionMapper.toDto(updated);
+        } else {
+            result = DtoRolePermission.builder()
+                .build();
+        }
+
+        return result;
     }
 
-    private final PersistentRolePermission getRolePermissionSample(final long roleId, final long resourceId,
-            final long actionId) {
+    private final PersistentRolePermission getRolePermissionSample(final long roleId, final long permissionId) {
         return PersistentRolePermission.builder()
             .roleId(roleId)
-            .resourceId(resourceId)
-            .actionId(actionId)
+            .permissionId(permissionId)
             .build();
     }
 

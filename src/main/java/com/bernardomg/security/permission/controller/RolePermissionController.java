@@ -63,7 +63,7 @@ public class RolePermissionController {
     @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
     public RolePermission add(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedPermissionCreate permission) {
-        return service.addPermission(id, permission.getResourceId(), permission.getActionId());
+        return service.addPermission(id, permission.getPermissionId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,11 +72,10 @@ public class RolePermissionController {
         return service.getPermissions(id, pageable);
     }
 
-    @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{permission}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
-    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("resource") final Long resource,
-            @PathVariable("action") final Long action) {
-        return service.removePermission(id, resource, action);
+    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final Long permission) {
+        return service.removePermission(id, permission);
     }
 
 }
