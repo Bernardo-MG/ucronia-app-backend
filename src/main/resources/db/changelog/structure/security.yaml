@@ -100,6 +100,12 @@ databaseChangeLog:
             tableName: permissions
             columns:
               - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
                   name: resource
                   type: varchar(60)
                   constraints:
@@ -181,7 +187,7 @@ databaseChangeLog:
         - addUniqueConstraint:
             constraintName: role_permissions_unique
             tableName: role_permissions
-            columnNames: 'role_id, resource_id, action_id'
+            columnNames: 'role_id, permission_id'
         - addUniqueConstraint:
             constraintName: user_roles_unique
             tableName: user_roles
