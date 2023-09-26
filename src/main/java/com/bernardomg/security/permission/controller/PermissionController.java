@@ -57,7 +57,7 @@ public class PermissionController {
     private final PermissionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @Cacheable(cacheNames = PermissionCaches.PERMISSION_SET, key = "#username")
+    @Cacheable(cacheNames = PermissionCaches.PERMISSION_SET)
     public PermissionsSet readAll(final Authentication authentication) {
         final PermissionsSet permissions;
 

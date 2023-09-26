@@ -80,7 +80,7 @@ public class UserController {
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
-            @CacheEvict(cacheNames = UserCaches.USER, key = "#userId") })
+            @CacheEvict(cacheNames = UserCaches.USER, key = "#id") })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
