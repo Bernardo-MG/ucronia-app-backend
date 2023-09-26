@@ -6,12 +6,10 @@ import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
@@ -20,6 +18,7 @@ import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.model.ImmutableTokenStatus;
 import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
@@ -40,10 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class DefaultUserService implements UserService {
-
-    private static final String         CACHE_MULTIPLE = "security_users";
-
-    private static final String         CACHE_SINGLE   = "security_user";
 
     private final UserMapper            mapper;
 
@@ -96,9 +91,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Transactional
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User activateNewUser(final String token, final String password) {
         final String         tokenUsername;
         final PersistentUser user;
@@ -138,8 +130,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
-            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#userId") })
     public final void delete(final long userId) {
 
         log.debug("Deleting user {}", userId);
@@ -154,7 +144,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
         final PersistentUser entity;
 
@@ -175,7 +164,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<User> getOne(final long id) {
 
         log.debug("Reading member with id {}", id);
@@ -189,8 +177,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final User registerNewUser(final UserCreate user) {
         final PersistentUser userEntity;
         final PersistentUser created;
@@ -243,8 +229,8 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public final User update(final long id, final UserUpdate user) {
         final PersistentUser           userEntity;
         final PersistentUser           created;
