@@ -4,10 +4,6 @@ package com.bernardomg.security.user.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
@@ -29,10 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class DefaultRoleService implements RoleService {
-
-    private static final String         CACHE_MULTIPLE = "security_roles";
-
-    private static final String         CACHE_SINGLE   = "security_role";
 
     private final RoleMapper            mapper;
 
@@ -57,8 +49,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Role create(final RoleCreate role) {
         final PersistentRole entity;
         final PersistentRole created;
@@ -75,8 +65,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true),
-            @CacheEvict(cacheNames = CACHE_SINGLE, key = "#id") })
     public final Boolean delete(final long id) {
 
         log.debug("Deleting role {}", id);
@@ -89,7 +77,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         final PersistentRole entitySample;
 
@@ -102,7 +89,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Role> getOne(final long id) {
 
         log.debug("Reading role with id {}", id);
@@ -116,8 +102,6 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = CACHE_SINGLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = CACHE_MULTIPLE, allEntries = true) })
     public final Role update(final long id, final RoleUpdate role) {
         final PersistentRole entity;
         final PersistentRole created;

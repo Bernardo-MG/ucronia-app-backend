@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.permission.controller;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.permission.cache.PermissionCaches;
 import com.bernardomg.security.permission.service.ActionService;
 import com.bernardomg.security.user.model.Action;
 import com.bernardomg.security.user.model.request.ValidatedActionQuery;
@@ -56,12 +58,14 @@ public class ActionController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ACTION", action = "READ")
+    @Cacheable(cacheNames = PermissionCaches.ACTIONS)
     public Iterable<Action> readAll(@Valid final ValidatedActionQuery action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ACTION", action = "READ")
+    @Cacheable(cacheNames = PermissionCaches.ACTION, key = "#id")
     public Action readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);

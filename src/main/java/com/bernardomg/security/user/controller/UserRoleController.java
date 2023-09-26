@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.user.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.UserRole;
 import com.bernardomg.security.user.model.request.ValidatedUserRoleAdd;
@@ -61,18 +64,21 @@ public class UserRoleController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @CacheEvict(cacheNames = { UserCaches.PERMISSION_SET, UserCaches.USER_ROLE }, allEntries = true)
     public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
         return service.addRole(id, role.getId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.READ)
+    @Cacheable(cacheNames = UserCaches.USER_ROLE)
     public Iterable<Role> readAll(@PathVariable("id") final long id, final Pageable pageable) {
         return service.getRoles(id, pageable);
     }
 
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @CacheEvict(cacheNames = { UserCaches.PERMISSION_SET, UserCaches.USER_ROLE }, allEntries = true)
     public UserRole remove(@PathVariable("id") final long id, @PathVariable("role") final Long role) {
         return service.removeRole(id, role);
     }

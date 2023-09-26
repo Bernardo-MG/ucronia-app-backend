@@ -24,6 +24,9 @@
 
 package com.bernardomg.security.user.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.token.model.TokenStatus;
+import com.bernardomg.security.user.cache.UserCaches;
+import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserActivationRequest;
 import com.bernardomg.security.user.service.UserService;
 
@@ -58,9 +63,11 @@ public class UserActivationController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void activateNewUser(@PathVariable("token") final String token,
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+    public User activateNewUser(@PathVariable("token") final String token,
             @Valid @RequestBody final UserActivationRequest request) {
-        service.activateNewUser(token, request.getPassword());
+        return service.activateNewUser(token, request.getPassword());
     }
 
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
