@@ -26,10 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultRolePermissionService implements RolePermissionService {
 
-    private static final String                   PERMISSION_CACHE_NAME     = "security_role_permission";
-
-    private static final String                   PERMISSION_SET_CACHE_NAME = "security_permission_set";
-
     private final PermissionMapper                permissionMapper;
 
     private final PermissionRepository            permissionRepository;
