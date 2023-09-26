@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.user.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
 import com.bernardomg.security.user.model.request.ValidatedRoleQuery;
@@ -63,24 +68,30 @@ public class RoleController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ROLE", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
     public Role create(@Valid @RequestBody final ValidatedRoleCreate form) {
         return service.create(form);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ROLE", action = Actions.DELETE)
+    @Caching(evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true),
+            @CacheEvict(cacheNames = UserCaches.ROLE, key = "#id") })
     public Boolean delete(@PathVariable("id") final long id) {
         return service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ROLE", action = Actions.READ)
+    @Cacheable(cacheNames = UserCaches.ROLES)
     public Iterable<Role> readAll(@Valid final ValidatedRoleQuery role, final Pageable pageable) {
         return service.getAll(role, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ROLE", action = Actions.READ)
+    @Cacheable(cacheNames = UserCaches.ROLE, key = "#id")
     public Role readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
@@ -88,6 +99,8 @@ public class RoleController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
     public Role update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedRoleUpdate form) {
         return service.update(id, form);
     }
