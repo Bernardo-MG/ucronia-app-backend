@@ -48,7 +48,8 @@ class ITRolePermissionServiceRemovePermissionValidation {
 
     @Test
     @DisplayName("Throws an exception when the resource doesn't exist")
-    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/role/single.sql" })
+    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/permission/crud.sql",
+            "/db/queries/security/role/single.sql" })
     void testAddPermission_NotExistingResource() {
         final Collection<Long> action;
         final ThrowingCallable executable;

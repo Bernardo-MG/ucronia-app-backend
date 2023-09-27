@@ -27,8 +27,8 @@ class ITPermissionService {
     @Test
     @DisplayName("Returns all the permissions")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetPermissions() {
         final PermissionsSet permissions;
@@ -57,8 +57,8 @@ class ITPermissionService {
     @Test
     @DisplayName("Returns no permissions when the user password is expired")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/password_expired.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetPermissions_CredentialsExpired() {
         final PermissionsSet permissions;
@@ -77,8 +77,8 @@ class ITPermissionService {
     @Test
     @DisplayName("Returns no permissions when the user is disabled")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetPermissions_Disabled() {
         final PermissionsSet permissions;
@@ -97,8 +97,8 @@ class ITPermissionService {
     @Test
     @DisplayName("Returns no permissions when the user is expired")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetPermissions_Expired() {
         final PermissionsSet permissions;
@@ -117,8 +117,8 @@ class ITPermissionService {
     @Test
     @DisplayName("Returns no permissions when the user is locked")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetPermissions_Locked() {
         final PermissionsSet permissions;
@@ -155,7 +155,7 @@ class ITPermissionService {
     @Test
     @DisplayName("Returns no permissions when the user doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testGetPermissions_NotExisting() {
         final PermissionsSet permissions;
         final String         username;

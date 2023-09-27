@@ -42,7 +42,7 @@ class ITRolePermissionServiceAddPermission {
     @Test
     @DisplayName("Adds a permission")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testAddPermission_AddsEntity() {
         final Iterable<PersistentRolePermission> result;
         final PersistentRolePermission           found;
@@ -66,7 +66,7 @@ class ITRolePermissionServiceAddPermission {
     @Test
     @DisplayName("Reading the permissions after adding a permission returns the new permission")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testAddPermission_CallBack() {
         final Iterable<Permission> result;
         final Permission           found;
@@ -95,7 +95,8 @@ class ITRolePermissionServiceAddPermission {
     @Test
     @DisplayName("When adding an existing permission no permission is added")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
     void testAddPermission_Existing() {
         final Iterable<PersistentRolePermission> result;
         final Iterator<PersistentRolePermission> itr;
@@ -145,7 +146,7 @@ class ITRolePermissionServiceAddPermission {
     @Test
     @DisplayName("Returns the created data")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testAddRole_ReturnedData() {
         final RolePermission result;
 

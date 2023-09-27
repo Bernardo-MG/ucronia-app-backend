@@ -31,8 +31,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @Test
     @DisplayName("Finds all the granted permissions for the role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testAllByRoleId() {
         final Iterable<PersistentRoleGrantedPermission> read;
@@ -97,8 +97,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @Test
     @DisplayName("Applies pagination")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testAllByRoleId_FirstPage_Count() {
         final Page<PersistentRoleGrantedPermission> read;
@@ -115,8 +115,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @Test
     @DisplayName("The returned permission contains the ids")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testAllByRoleId_Ids() {
         final Iterable<PersistentRoleGrantedPermission> read;
@@ -159,8 +159,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @Test
     @DisplayName("Finds no permissions for a not existing role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testAllByRoleId_NotExisting_Count() {
         final Page<PersistentRoleGrantedPermission> read;
@@ -177,8 +177,8 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
     @Test
     @DisplayName("When there are no granted permissions nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission_not_granted.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission_not_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testAllByRoleId_NotGranted() {
         final Iterable<PersistentRoleGrantedPermission> read;

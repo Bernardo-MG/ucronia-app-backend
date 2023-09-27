@@ -30,7 +30,8 @@ class ITRolePermissionServiceAddPermissionValidation {
 
     @Test
     @DisplayName("Throws an exception when adding a permission for a resource which doesn't exist")
-    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/role/single.sql" })
+    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/permission/crud.sql",
+            "/db/queries/security/role/single.sql" })
     void testAddAction_NotExistingResource() {
         final Collection<Long> action;
         final ThrowingCallable executable;
