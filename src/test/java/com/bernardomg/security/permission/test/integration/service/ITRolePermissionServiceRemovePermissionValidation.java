@@ -18,7 +18,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - set action validation")
+@DisplayName("Role service - remove permission validation")
 class ITRolePermissionServiceRemovePermissionValidation {
 
     @Autowired
@@ -29,46 +29,10 @@ class ITRolePermissionServiceRemovePermissionValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the action doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/role/single.sql" })
-    void testAddPermission_NotExistingAction() {
-        final Collection<Long> action;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        action = new ArrayList<>();
-        action.add(-1L);
-
-        executable = () -> service.removePermission(1l, 1l);
-
-        failure = FieldFailure.of("action.notExisting", "action", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the resource doesn't exist")
-    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/permission/crud.sql",
-            "/db/queries/security/role/single.sql" })
-    void testAddPermission_NotExistingResource() {
-        final Collection<Long> action;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        action = new ArrayList<>();
-        action.add(-1L);
-
-        executable = () -> service.removePermission(1l, 1l);
-
-        failure = FieldFailure.of("resource.notExisting", "resource", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the role doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql" })
-    void testAddPermission_NotExistingRole() {
+    @DisplayName("Throws an exception when the role permission doesn't exist")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    void testAddPermission_NotExistingRolePermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -78,7 +42,7 @@ class ITRolePermissionServiceRemovePermissionValidation {
 
         executable = () -> service.removePermission(1l, 1l);
 
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
+        failure = FieldFailure.of("rolePermission.notExisting", "rolePermission", "notExisting", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

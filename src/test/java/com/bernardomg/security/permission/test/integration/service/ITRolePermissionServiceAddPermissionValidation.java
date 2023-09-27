@@ -29,10 +29,10 @@ class ITRolePermissionServiceAddPermissionValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when adding a permission for a resource which doesn't exist")
-    @Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/permission/crud.sql",
+    @DisplayName("Throws an exception when adding a permission which doesn't exist")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/role/single.sql" })
-    void testAddAction_NotExistingResource() {
+    void testAddAction_NotExistingPermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -42,14 +42,15 @@ class ITRolePermissionServiceAddPermissionValidation {
 
         executable = () -> service.addPermission(1l, 1l);
 
-        failure = FieldFailure.of("resource.notExisting", "resource", "notExisting", 1L);
+        failure = FieldFailure.of("permission.notExisting", "permission", "notExisting", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
     @DisplayName("Throws an exception when adding a permission for a role which doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql" })
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/permission/crud.sql" })
     void testAddAction_NotExistingRole() {
         final Collection<Long> action;
         final ThrowingCallable executable;
@@ -60,25 +61,7 @@ class ITRolePermissionServiceAddPermissionValidation {
 
         executable = () -> service.addPermission(1l, 1l);
 
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when adding a permission for an action which doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/role/single.sql" })
-    void testAddPermission_NotExistingAction() {
-        final Collection<Long> action;
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        action = new ArrayList<>();
-        action.add(-1L);
-
-        executable = () -> service.addPermission(1l, 1l);
-
-        failure = FieldFailure.of("action.notExisting", "action", "notExisting", 1L);
+        failure = FieldFailure.of("role.notExisting", "role", "notExisting", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

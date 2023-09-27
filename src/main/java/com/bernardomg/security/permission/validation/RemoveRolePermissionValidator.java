@@ -9,6 +9,7 @@ import com.bernardomg.security.permission.persistence.repository.RolePermissionR
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,15 +31,20 @@ public final class RemoveRolePermissionValidator implements Validator<RolePermis
 
         failures = new ArrayList<>();
 
-        // The role exists
+        // The role permission exists
         if (!rolePermissionRepository.existsByRoleIdAndPermissionId(relationship.getRoleId(),
             relationship.getPermissionId())) {
             log.error("Found no role permission for role {} and permission {}", relationship.getRoleId(),
                 relationship.getPermissionId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
             // TODO: Use the correct id
-            failure = FieldFailure.of("id", "notExisting", relationship.getRoleId());
+            failure = FieldFailure.of("rolePermission", "notExisting", relationship.getRoleId());
             failures.add(failure);
+        }
+
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
         }
     }
 

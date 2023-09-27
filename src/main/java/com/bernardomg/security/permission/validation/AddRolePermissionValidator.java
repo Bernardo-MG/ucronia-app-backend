@@ -39,7 +39,7 @@ public final class AddRolePermissionValidator implements Validator<RolePermissio
         if (!roleRepository.existsById(relationship.getRoleId())) {
             log.error("Found no role with id {}", relationship.getRoleId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("id", "notExisting", relationship.getRoleId());
+            failure = FieldFailure.of("role", "notExisting", relationship.getRoleId());
             failures.add(failure);
         }
 
@@ -47,7 +47,7 @@ public final class AddRolePermissionValidator implements Validator<RolePermissio
         if (!rolePermissionRepository.existsById(relationship.getPermissionId())) {
             log.error("Found no permission with id {}", relationship.getPermissionId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("id", "notExisting", relationship.getPermissionId());
+            failure = FieldFailure.of("permission", "notExisting", relationship.getPermissionId());
             failures.add(failure);
         }
 
