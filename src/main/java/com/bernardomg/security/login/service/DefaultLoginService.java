@@ -30,9 +30,12 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.bernardomg.security.login.model.ImmutableLoginStatus;
+import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
+import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -43,17 +46,20 @@ public final class DefaultLoginService implements LoginService {
 
     private final Predicate<LoginRequest> isValid;
 
-    private final LoginStatusProvider     loginStatusProvider;
-
     private final Pattern                 pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
+    /**
+     * Token encoder for creating authentication tokens.
+     */
+    private final TokenEncoder<String>    tokenEncoder;
 
     private final UserRepository          userRepository;
 
-    public DefaultLoginService(final LoginStatusProvider loginStatusProv, final Predicate<LoginRequest> valid,
+    public DefaultLoginService(final TokenEncoder<String> tknEncoder, final Predicate<LoginRequest> valid,
             final UserRepository userRepo) {
         super();
 
-        loginStatusProvider = Objects.requireNonNull(loginStatusProv);
+        tokenEncoder = Objects.requireNonNull(tknEncoder);
         isValid = Objects.requireNonNull(valid);
         userRepository = Objects.requireNonNull(userRepo);
     }
@@ -75,7 +81,7 @@ public final class DefaultLoginService implements LoginService {
 
         validUsername = validLogin.getUsername()
             .toLowerCase();
-        return loginStatusProvider.getStatus(validUsername, valid);
+        return getStatus(validUsername, valid);
     }
 
     private final LoginRequest getLogin(final LoginRequest login) {
@@ -107,6 +113,27 @@ public final class DefaultLoginService implements LoginService {
         }
 
         return validLogin;
+    }
+
+    private final LoginStatus getStatus(final String username, final boolean logged) {
+        final LoginStatus status;
+        final String      token;
+
+        if (logged) {
+            token = tokenEncoder.encode(username);
+            status = ImmutableTokenLoginStatus.builder()
+                .username(username)
+                .logged(logged)
+                .token(token)
+                .build();
+        } else {
+            status = ImmutableLoginStatus.builder()
+                .username(username)
+                .logged(logged)
+                .build();
+        }
+
+        return status;
     }
 
     private final boolean isValid(final LoginRequest login) {

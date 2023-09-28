@@ -24,9 +24,8 @@ import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
-import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -35,28 +34,29 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 class TestDefaultLoginServiceAuth {
 
     @Mock
-    private PasswordEncoder    passEncoder;
+    private PasswordEncoder      passEncoder;
 
     @Mock
-    private UserDetailsService userDetService;
+    private TokenEncoder<String> tokenEncoder;
 
     @Mock
-    private UserRepository     userRepository;
+    private UserDetailsService   userDetService;
+
+    @Mock
+    private UserRepository       userRepository;
 
     public TestDefaultLoginServiceAuth() {
         super();
     }
 
     private final DefaultLoginService getService(final UserDetails user) {
-        final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
-        loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(loginStatusProvider, valid, userRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository);
     }
 
     private final DefaultLoginService getServiceForAccountExpired() {
@@ -92,16 +92,14 @@ class TestDefaultLoginServiceAuth {
     }
 
     private final DefaultLoginService getServiceForNotExisting() {
-        final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
             .willThrow(UsernameNotFoundException.class);
 
-        loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(loginStatusProvider, valid, userRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository);
     }
 
     private final DefaultLoginService getServiceForValid() {
@@ -229,6 +227,7 @@ class TestDefaultLoginServiceAuth {
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
@@ -339,6 +338,7 @@ class TestDefaultLoginServiceAuth {
         final DtoLoginRequest login;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("admin");

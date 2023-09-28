@@ -34,8 +34,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -56,13 +54,11 @@ public class LoginConfig {
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService, final UserRepository userRepo,
             final PasswordEncoder passwordEncoder, final TokenEncoder<String> tokenEncoder) {
-        final LoginStatusProvider     statusProvider;
         final Predicate<LoginRequest> valid;
 
-        statusProvider = new TokenLoginStatusProvider(tokenEncoder);
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        return new DefaultLoginService(statusProvider, valid, userRepo);
+        return new DefaultLoginService(tokenEncoder, valid, userRepo);
     }
 
 }

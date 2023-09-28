@@ -20,17 +20,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.token.TokenEncoder;
+import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultLoginService - password validation")
-class TestDefaultLoginServicePassword {
+@DisplayName("DefaultLoginService - token generation")
+class TestDefaultLoginServiceToken {
 
     @Mock
     private PasswordEncoder      passEncoder;
@@ -44,7 +46,7 @@ class TestDefaultLoginServicePassword {
     @Mock
     private UserRepository       userRepository;
 
-    public TestDefaultLoginServicePassword() {
+    public TestDefaultLoginServiceToken() {
         super();
     }
 
@@ -74,34 +76,14 @@ class TestDefaultLoginServicePassword {
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email and with an invalid password")
-    void testLogIn_Email_InvalidPassword() {
+    @DisplayName("Returns a token login status when the user is logged")
+    void testGetStatus_Logged() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
         loadUser();
 
-        login = new DtoLoginRequest();
-        login.setUsername("email@somewhere.com");
-        login.setPassword("1234");
-
-        status = getService(false).login(login);
-
-        Assertions.assertThat(status.getLogged())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
-    }
-
-    @Test
-    @DisplayName("Logs in using the email and with a valid password")
-    void testLogIn_Email_ValidPassword() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
-
-        loadUser();
-
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn(TokenConstants.TOKEN);
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
@@ -113,42 +95,29 @@ class TestDefaultLoginServicePassword {
             .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
+        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+            .isEqualTo(TokenConstants.TOKEN);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username and with an invalid password")
-    void testLogIn_Username_InvalidPassword() {
+    @DisplayName("Returns a default login status when the user is logged")
+    void testGetStatus_NotLogged() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
+        loadUser();
+
         login = new DtoLoginRequest();
-        login.setUsername("admin");
+        login.setUsername("email@somewhere.com");
         login.setPassword("1234");
 
         status = getService(false).login(login);
 
+        Assertions.assertThat(status)
+            .isNotInstanceOf(TokenLoginStatus.class);
+
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
-    }
-
-    @Test
-    @DisplayName("Logs in using the username and with a valid password")
-    void testLogIn_Username_ValidPassword() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
-
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
-
-        login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
-
-        status = getService(true).login(login);
-
-        Assertions.assertThat(status.getLogged())
-            .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
     }
