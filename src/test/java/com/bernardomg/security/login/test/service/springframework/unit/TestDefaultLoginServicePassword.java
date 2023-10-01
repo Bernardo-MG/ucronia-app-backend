@@ -3,6 +3,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -37,7 +38,7 @@ class TestDefaultLoginServicePassword {
     private PasswordEncoder                 passEncoder;
 
     @Mock
-    private TokenEncoder<String>            tokenEncoder;
+    private TokenEncoder                    tokenEncoder;
 
     @Mock
     private UserDetailsService              userDetService;
@@ -64,7 +65,8 @@ class TestDefaultLoginServicePassword {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            Duration.ZERO);
     }
 
     private final void loadUser() {
@@ -105,7 +107,7 @@ class TestDefaultLoginServicePassword {
 
         loadUser();
 
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
@@ -143,7 +145,7 @@ class TestDefaultLoginServicePassword {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("admin");

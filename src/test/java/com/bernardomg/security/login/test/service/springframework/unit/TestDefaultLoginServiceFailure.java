@@ -3,6 +3,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.time.Duration;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.Assertions;
@@ -33,7 +34,7 @@ class TestDefaultLoginServiceFailure {
     private PasswordEncoder                 passEncoder;
 
     @Mock
-    private TokenEncoder<String>            tokenEncoder;
+    private TokenEncoder                    tokenEncoder;
 
     @Mock
     private UserDetailsService              userDetService;
@@ -55,7 +56,8 @@ class TestDefaultLoginServiceFailure {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            Duration.ZERO);
     }
 
     private final DefaultLoginService getServiceWithNullUser() {

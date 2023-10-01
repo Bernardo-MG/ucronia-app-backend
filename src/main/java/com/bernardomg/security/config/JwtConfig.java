@@ -33,9 +33,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.config.property.JwtProperties;
-import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
+import com.bernardomg.security.jwt.token.JwtTokenDataEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;
@@ -85,7 +85,7 @@ public class JwtConfig {
      * @return the token encoder
      */
     @Bean("tokenEncoder")
-    public TokenEncoder<String> getTokenEncoder(final JwtProperties properties) {
+    public TokenEncoder getTokenEncoder(final JwtProperties properties) {
         final SecretKey key;
 
         key = Keys.hmacShaKeyFor(properties.getSecret()
@@ -93,7 +93,7 @@ public class JwtConfig {
 
         log.info("Security tokens will have a validity of {}", properties.getValidity());
 
-        return new JwtSubjectTokenEncoder(key, properties.getValidity());
+        return new JwtTokenDataEncoder(key);
     }
 
     /**

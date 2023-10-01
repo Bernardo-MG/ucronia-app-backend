@@ -3,6 +3,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -38,7 +39,7 @@ class TestDefaultLoginServiceAuth {
     private PasswordEncoder                 passEncoder;
 
     @Mock
-    private TokenEncoder<String>            tokenEncoder;
+    private TokenEncoder                    tokenEncoder;
 
     @Mock
     private UserDetailsService              userDetService;
@@ -60,7 +61,8 @@ class TestDefaultLoginServiceAuth {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            Duration.ZERO);
     }
 
     private final DefaultLoginService getServiceForAccountExpired() {
@@ -103,7 +105,8 @@ class TestDefaultLoginServiceAuth {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            Duration.ZERO);
     }
 
     private final DefaultLoginService getServiceForValid() {
@@ -231,7 +234,7 @@ class TestDefaultLoginServiceAuth {
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
@@ -342,7 +345,7 @@ class TestDefaultLoginServiceAuth {
         final DtoLoginRequest login;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
-        given(tokenEncoder.encode(ArgumentMatchers.anyString())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("admin");

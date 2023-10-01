@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.login.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.bernardomg.security.jwt.token.ImmutableJwtTokenData;
+import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
@@ -57,20 +61,27 @@ public final class DefaultLoginService implements LoginService {
     /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder<String>            tokenEncoder;
+    private final TokenEncoder                    tokenEncoder;
 
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
 
     private final UserRepository                  userRepository;
 
-    public DefaultLoginService(final TokenEncoder<String> tknEncoder, final Predicate<LoginRequest> valid,
-            final UserRepository userRepo, final UserGrantedPermissionRepository userGrantedPermissionRepo) {
+    /**
+     * Token validity time in seconds.
+     */
+    private final Duration                        validity;
+
+    public DefaultLoginService(final TokenEncoder tknEncoder, final Predicate<LoginRequest> valid,
+            final UserRepository userRepo, final UserGrantedPermissionRepository userGrantedPermissionRepo,
+            final Duration vldt) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);
         isValid = Objects.requireNonNull(valid);
         userRepository = Objects.requireNonNull(userRepo);
         userGrantedPermissionRepository = Objects.requireNonNull(userGrantedPermissionRepo);
+        validity = Objects.requireNonNull(vldt);
     }
 
     @Override
@@ -91,6 +102,34 @@ public final class DefaultLoginService implements LoginService {
         validUsername = validLogin.getUsername()
             .toLowerCase();
         return getStatus(validUsername, valid);
+    }
+
+    private final String encode(final String subject) {
+        final LocalDateTime expiration;
+        final LocalDateTime issuedAt;
+        final String        token;
+        final JwtTokenData  data;
+
+        // Issued right now
+        issuedAt = LocalDateTime.now();
+        // Expires in a number of seconds equal to validity
+        // TODO: handle validity in the encoder
+        expiration = LocalDateTime.now()
+            .plus(validity);
+
+        // Build token data for the wrapped encoder
+        data = ImmutableJwtTokenData.builder()
+            .withSubject(subject)
+            .withIssuedAt(issuedAt)
+            .withNotBefore(issuedAt)
+            .withExpiration(expiration)
+            .build();
+
+        token = tokenEncoder.encode(data);
+
+        log.debug("Created token for subject {} with expiration date {}", subject, expiration);
+
+        return token;
     }
 
     private final LoginRequest getLogin(final LoginRequest login) {
@@ -150,7 +189,7 @@ public final class DefaultLoginService implements LoginService {
         if (logged) {
             permissions = getPermissionsMap(username);
             // TODO: add permissions to token
-            token = tokenEncoder.encode(username);
+            token = encode(username);
             status = ImmutableTokenLoginStatus.builder()
                 .username(username)
                 .logged(logged)

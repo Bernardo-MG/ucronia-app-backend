@@ -24,15 +24,14 @@
 
 package com.bernardomg.security.token;
 
+import com.bernardomg.security.jwt.token.JwtTokenData;
+
 /**
  * Creates a token from the provided object.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
- * @param <T>
- *            type to encode
  */
-public interface TokenEncoder<T> {
+public interface TokenEncoder {
 
     /**
      * Returns a token encoding the data.
@@ -41,6 +40,6 @@ public interface TokenEncoder<T> {
      *            data to encode into the token
      * @return token from the data
      */
-    public String encode(final T data);
+    public String encode(final JwtTokenData data);
 
 }

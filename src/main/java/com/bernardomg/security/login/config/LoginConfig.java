@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.config.property.JwtProperties;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.LoginService;
@@ -54,14 +55,14 @@ public class LoginConfig {
 
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final UserRepository userRepository, final PasswordEncoder passwordEncoder,
-            final TokenEncoder<String> tokenEncoder,
-            final UserGrantedPermissionRepository userGrantedPermissionRepository) {
+            final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
+            final UserGrantedPermissionRepository userGrantedPermissionRepository, final JwtProperties properties) {
         final Predicate<LoginRequest> valid;
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            properties.getValidity());
     }
 
 }
