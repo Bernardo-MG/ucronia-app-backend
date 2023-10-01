@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenData;
-import com.bernardomg.security.jwt.token.JwtTokenDataEncoder;
+import com.bernardomg.security.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 
-@DisplayName("JwtSubjectTokenEncoder - generate token")
-class TestJwtTokenDataEncoderGenerateToken {
+@DisplayName("DefaultTokenEncoder - generate token")
+class TestDefaultTokenEncoderGenerateToken {
 
     private final TokenEncoder encoder;
 
-    public TestJwtTokenDataEncoderGenerateToken() {
+    public TestDefaultTokenEncoderGenerateToken() {
         super();
 
-        encoder = new JwtTokenDataEncoder(TokenConstants.KEY);
+        encoder = new DefaultTokenEncoder(TokenConstants.KEY);
     }
 
     @Test

@@ -10,25 +10,25 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.security.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
-import com.bernardomg.security.jwt.token.JwtTokenDataEncoder;
+import com.bernardomg.security.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 
-@DisplayName("JwtSubjectTokenEncoder - has expired")
-class TestJwtTokenDataEncoderHasExpired {
+@DisplayName("DefaultTokenEncoder - has expired")
+class TestDefaultTokenEncoderHasExpired {
 
     private final TokenEncoder      encoder;
 
     private final JwtTokenValidator validator;
 
-    public TestJwtTokenDataEncoderHasExpired() {
+    public TestDefaultTokenEncoderHasExpired() {
         super();
 
         final TokenDecoder<JwtTokenData> decoder;
 
-        encoder = new JwtTokenDataEncoder(TokenConstants.KEY);
+        encoder = new DefaultTokenEncoder(TokenConstants.KEY);
         decoder = new JwtTokenDataDecoder(TokenConstants.KEY);
         validator = new JwtTokenValidator(decoder);
     }

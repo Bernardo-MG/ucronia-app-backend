@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class JwtTokenDataEncoder implements TokenEncoder {
+public final class DefaultTokenEncoder implements TokenEncoder {
 
     /**
      * Secret key for generating tokens. Created from the secret received when constructing the provider.
@@ -57,7 +57,7 @@ public final class JwtTokenDataEncoder implements TokenEncoder {
      * @param secretKey
      *            key used when generating tokens
      */
-    public JwtTokenDataEncoder(final SecretKey secretKey) {
+    public DefaultTokenEncoder(final SecretKey secretKey) {
         super();
 
         key = Objects.requireNonNull(secretKey);
