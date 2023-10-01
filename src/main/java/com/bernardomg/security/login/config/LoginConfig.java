@@ -35,6 +35,7 @@ import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -52,13 +53,15 @@ public class LoginConfig {
     }
 
     @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService, final UserRepository userRepo,
-            final PasswordEncoder passwordEncoder, final TokenEncoder<String> tokenEncoder) {
+    public LoginService getLoginService(final UserDetailsService userDetailsService,
+            final UserRepository userRepository, final PasswordEncoder passwordEncoder,
+            final TokenEncoder<String> tokenEncoder,
+            final UserGrantedPermissionRepository userGrantedPermissionRepository) {
         final Predicate<LoginRequest> valid;
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepo);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
     }
 
 }

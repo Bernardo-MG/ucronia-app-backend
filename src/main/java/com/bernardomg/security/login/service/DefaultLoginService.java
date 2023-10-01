@@ -24,17 +24,23 @@
 
 package com.bernardomg.security.login.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
+import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -44,24 +50,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultLoginService implements LoginService {
 
-    private final Predicate<LoginRequest> isValid;
+    private final Predicate<LoginRequest>         isValid;
 
-    private final Pattern                 pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern                         pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
     /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder<String>    tokenEncoder;
+    private final TokenEncoder<String>            tokenEncoder;
 
-    private final UserRepository          userRepository;
+    private final UserGrantedPermissionRepository userGrantedPermissionRepository;
+
+    private final UserRepository                  userRepository;
 
     public DefaultLoginService(final TokenEncoder<String> tknEncoder, final Predicate<LoginRequest> valid,
-            final UserRepository userRepo) {
+            final UserRepository userRepo, final UserGrantedPermissionRepository userGrantedPermissionRepo) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);
         isValid = Objects.requireNonNull(valid);
         userRepository = Objects.requireNonNull(userRepo);
+        userGrantedPermissionRepository = Objects.requireNonNull(userGrantedPermissionRepo);
     }
 
     @Override
@@ -115,11 +124,32 @@ public final class DefaultLoginService implements LoginService {
         return validLogin;
     }
 
+    private final Map<String, List<String>> getPermissionsMap(final String username) {
+        Function<PersistentUserGrantedPermission, String> resourceMapper;
+        Function<PersistentUserGrantedPermission, String> actionMapper;
+
+        // Resource name in lower case
+        resourceMapper = PersistentUserGrantedPermission::getResource;
+        resourceMapper = resourceMapper.andThen(String::toLowerCase);
+
+        // Action name in lower case
+        actionMapper = PersistentUserGrantedPermission::getAction;
+        actionMapper = actionMapper.andThen(String::toLowerCase);
+
+        // Transform into a map, with the resource as key, and the list of actions as value
+        return userGrantedPermissionRepository.findAllByUsername(username)
+            .stream()
+            .collect(Collectors.groupingBy(resourceMapper, Collectors.mapping(actionMapper, Collectors.toList())));
+    }
+
     private final LoginStatus getStatus(final String username, final boolean logged) {
-        final LoginStatus status;
-        final String      token;
+        final LoginStatus               status;
+        final String                    token;
+        final Map<String, List<String>> permissions;
 
         if (logged) {
+            permissions = getPermissionsMap(username);
+            // TODO: add permissions to token
             token = tokenEncoder.encode(username);
             status = ImmutableTokenLoginStatus.builder()
                 .username(username)

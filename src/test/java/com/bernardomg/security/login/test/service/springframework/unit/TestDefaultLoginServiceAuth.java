@@ -25,6 +25,7 @@ import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -34,16 +35,19 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 class TestDefaultLoginServiceAuth {
 
     @Mock
-    private PasswordEncoder      passEncoder;
+    private PasswordEncoder                 passEncoder;
 
     @Mock
-    private TokenEncoder<String> tokenEncoder;
+    private TokenEncoder<String>            tokenEncoder;
 
     @Mock
-    private UserDetailsService   userDetService;
+    private UserDetailsService              userDetService;
 
     @Mock
-    private UserRepository       userRepository;
+    private UserGrantedPermissionRepository userGrantedPermissionRepository;
+
+    @Mock
+    private UserRepository                  userRepository;
 
     public TestDefaultLoginServiceAuth() {
         super();
@@ -56,7 +60,7 @@ class TestDefaultLoginServiceAuth {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
     }
 
     private final DefaultLoginService getServiceForAccountExpired() {
@@ -99,7 +103,7 @@ class TestDefaultLoginServiceAuth {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository);
     }
 
     private final DefaultLoginService getServiceForValid() {

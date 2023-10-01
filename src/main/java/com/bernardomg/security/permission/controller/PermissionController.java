@@ -52,6 +52,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/security/permission")
 @AllArgsConstructor
 @Transactional
+@Deprecated
 public class PermissionController {
 
     private final PermissionService service;
