@@ -151,6 +151,7 @@ public final class DefaultFeeService implements FeeService {
         fees = registerFees(payment);
 
         // Read fees to return names
+        feeRepository.flush();
         ids = fees.stream()
             .map(PersistentFee::getId)
             .toList();
