@@ -44,41 +44,41 @@ public class ImmutableJwtTokenData implements JwtTokenData {
     /**
      * Audience.
      */
-    private final String        audience;
+    private final String                    audience;
 
     /**
      * Expiration date.
      */
-    private final LocalDateTime expiration;
-    
+    private final LocalDateTime             expiration;
+
+    /**
+     * Id.
+     */
+    private final String                    id;
+
+    /**
+     * Issued at date.
+     */
+    private final LocalDateTime             issuedAt;
+
+    /**
+     * Issuer.
+     */
+    private final String                    issuer;
+
+    /**
+     * Not before date.
+     */
+    private final LocalDateTime             notBefore;
+
     /**
      * Permissions.
      */
     private final Map<String, List<String>> permissions;
 
     /**
-     * Id.
-     */
-    private final String        id;
-
-    /**
-     * Issued at date.
-     */
-    private final LocalDateTime issuedAt;
-
-    /**
-     * Issuer.
-     */
-    private final String        issuer;
-
-    /**
-     * Not before date.
-     */
-    private final LocalDateTime notBefore;
-
-    /**
      * Subject.
      */
-    private final String        subject;
+    private final String                    subject;
 
 }

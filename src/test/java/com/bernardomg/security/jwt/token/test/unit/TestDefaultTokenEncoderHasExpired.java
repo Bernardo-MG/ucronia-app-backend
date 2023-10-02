@@ -7,10 +7,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.bernardomg.security.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
-import com.bernardomg.security.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenEncoder;

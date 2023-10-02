@@ -49,12 +49,6 @@ public interface JwtTokenData {
      * @return the expiration date
      */
     public LocalDateTime getExpiration();
-    
-    /**
-     * Returns the permissions.
-     * @return the permissions
-     */
-    public Map<String, List<String>> getPermissions();
 
     /**
      * Returns the id.
@@ -83,6 +77,13 @@ public interface JwtTokenData {
      * @return the not before date
      */
     public LocalDateTime getNotBefore();
+
+    /**
+     * Returns the permissions.
+     *
+     * @return the permissions
+     */
+    public Map<String, List<String>> getPermissions();
 
     /**
      * Returns the subject.
