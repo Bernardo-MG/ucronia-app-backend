@@ -31,12 +31,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.config.property.JwtProperties;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.LoginStatusProvider;
-import com.bernardomg.security.login.service.TokenLoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -54,15 +54,15 @@ public class LoginConfig {
     }
 
     @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService, final UserRepository userRepo,
-            final PasswordEncoder passwordEncoder, final TokenEncoder<String> tokenEncoder) {
-        final LoginStatusProvider     statusProvider;
+    public LoginService getLoginService(final UserDetailsService userDetailsService,
+            final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
+            final UserGrantedPermissionRepository userGrantedPermissionRepository, final JwtProperties properties) {
         final Predicate<LoginRequest> valid;
 
-        statusProvider = new TokenLoginStatusProvider(tokenEncoder);
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        return new DefaultLoginService(statusProvider, valid, userRepo);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            properties.getValidity());
     }
 
 }
