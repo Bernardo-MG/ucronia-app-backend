@@ -127,8 +127,6 @@ public final class DefaultFeeService implements FeeService {
             throw new InvalidIdException("fee", id);
         }
 
-        // TODO: Test repository
-        // TODO: Test reading with no name or surname
         found = memberFeeRepository.findById(id);
 
         if (found.isPresent()) {
@@ -143,6 +141,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
         final Collection<PersistentFee> fees;
+        final Collection<Long>          ids;
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
@@ -151,14 +150,11 @@ public final class DefaultFeeService implements FeeService {
         registerTransaction(payment);
         fees = registerFees(payment);
 
-        // TODO: Do a single read
         // Read fees to return names
-        return fees.stream()
+        ids = fees.stream()
             .map(PersistentFee::getId)
-            .map(this::getOne)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
             .toList();
+        return readAll(ids);
     }
 
     @Override
@@ -203,6 +199,16 @@ public final class DefaultFeeService implements FeeService {
                 .getId();
             fee.setId(id);
         }
+    }
+
+    private final List<ImmutableMemberFee> readAll(final Collection<Long> ids) {
+        final List<PersistentMemberFee> found;
+
+        found = memberFeeRepository.findAllById(ids);
+
+        return found.stream()
+            .map(mapper::toDto)
+            .toList();
     }
 
     private final Collection<PersistentFee> registerFees(final FeesPayment payment) {
