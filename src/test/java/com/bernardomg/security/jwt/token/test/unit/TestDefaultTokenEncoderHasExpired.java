@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.Assertions;
@@ -34,23 +35,6 @@ class TestDefaultTokenEncoderHasExpired {
     }
 
     @Test
-    @DisplayName("A new token is not expired")
-    void testHasExpired_fromGeneratedToken() {
-        final String       token;
-        final Boolean      expired;
-        final JwtTokenData data;
-
-        data = ImmutableJwtTokenData.builder()
-            .build();
-
-        token = encoder.encode(data);
-        expired = validator.hasExpired(token);
-
-        Assertions.assertThat(expired)
-            .isFalse();
-    }
-
-    @Test
     @DisplayName("An expired token is identified as such")
     void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
         final String       token;
@@ -58,6 +42,9 @@ class TestDefaultTokenEncoderHasExpired {
         final JwtTokenData data;
 
         data = ImmutableJwtTokenData.builder()
+            .withIssuer("issuer")
+            .withExpiration(LocalDateTime.now()
+                .plusSeconds(-1))
             .build();
 
         token = encoder.encode(data);
@@ -69,6 +56,44 @@ class TestDefaultTokenEncoderHasExpired {
 
         Assertions.assertThat(expired)
             .isTrue();
+    }
+
+    @Test
+    @DisplayName("A token without expiration is not expired")
+    void testHasExpired_noExpiration() {
+        final String       token;
+        final Boolean      expired;
+        final JwtTokenData data;
+
+        data = ImmutableJwtTokenData.builder()
+            .withIssuer("issuer")
+            .build();
+
+        token = encoder.encode(data);
+        expired = validator.hasExpired(token);
+
+        Assertions.assertThat(expired)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("A not expired token is not expired")
+    void testHasExpired_notExpired() {
+        final String       token;
+        final Boolean      expired;
+        final JwtTokenData data;
+
+        data = ImmutableJwtTokenData.builder()
+            .withIssuer("issuer")
+            .withExpiration(LocalDateTime.now()
+                .plusMonths(1))
+            .build();
+
+        token = encoder.encode(data);
+        expired = validator.hasExpired(token);
+
+        Assertions.assertThat(expired)
+            .isFalse();
     }
 
 }
