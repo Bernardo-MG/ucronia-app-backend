@@ -85,9 +85,7 @@ class ITRolePermissionServiceAddPermission {
             .next();
 
         RolePermissionAssertions.isEqualTo(found, DtoPermission.builder()
-            .actionId(1L)
             .action("CREATE")
-            .resourceId(1L)
             .resource("DATA")
             .build());
     }

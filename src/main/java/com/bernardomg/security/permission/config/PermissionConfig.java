@@ -38,8 +38,10 @@ import com.bernardomg.security.permission.persistence.repository.RoleGrantedPerm
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.permission.service.ActionService;
 import com.bernardomg.security.permission.service.DefaultActionService;
+import com.bernardomg.security.permission.service.DefaultPermissionService;
 import com.bernardomg.security.permission.service.DefaultResourceService;
 import com.bernardomg.security.permission.service.DefaultRolePermissionService;
+import com.bernardomg.security.permission.service.PermissionService;
 import com.bernardomg.security.permission.service.ResourceService;
 import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
@@ -60,6 +62,12 @@ public class PermissionConfig {
     @Bean("actionService")
     public ActionService getActionService(final ActionRepository repository, final ActionMapper mapper) {
         return new DefaultActionService(repository, mapper);
+    }
+
+    @Bean("permissionService")
+    public PermissionService getPermissionService(final PermissionRepository repository,
+            final PermissionMapper mapper) {
+        return new DefaultPermissionService(repository, mapper);
     }
 
     @Bean("resourceService")

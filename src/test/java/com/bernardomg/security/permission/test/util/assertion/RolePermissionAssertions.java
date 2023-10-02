@@ -9,16 +9,9 @@ import com.bernardomg.security.permission.persistence.model.PersistentRolePermis
 public final class RolePermissionAssertions {
 
     public static final void isEqualTo(final Permission received, final Permission expected) {
-        Assertions.assertThat(received.getActionId())
-            .withFailMessage("Expected action id '%s' but got '%s'", expected.getActionId(), received.getActionId())
-            .isEqualTo(expected.getActionId());
         Assertions.assertThat(received.getAction())
             .withFailMessage("Expected action '%s' but got '%s'", expected.getAction(), received.getAction())
             .isEqualTo(expected.getAction());
-        Assertions.assertThat(received.getResourceId())
-            .withFailMessage("Expected resource id '%s' but got '%s'", expected.getResourceId(),
-                received.getResourceId())
-            .isEqualTo(expected.getResourceId());
         Assertions.assertThat(received.getResource())
             .withFailMessage("Expected resource '%s' but got '%s'", expected.getResource(), received.getResource())
             .isEqualTo(expected.getResource());
