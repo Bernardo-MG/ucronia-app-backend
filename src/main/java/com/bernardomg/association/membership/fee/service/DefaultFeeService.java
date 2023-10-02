@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
@@ -150,16 +151,22 @@ public final class DefaultFeeService implements FeeService {
         registerTransaction(payment);
         fees = registerFees(payment);
 
-        // TODO: Doesn't return names
+        // TODO: Do a single read
+        // Read fees to return names
         return fees.stream()
-            .map(mapper::toDto)
+            .map(PersistentFee::getId)
+            .map(this::getOne)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .toList();
     }
 
     @Override
     public final MemberFee update(final long id, final FeeUpdate fee) {
-        final PersistentFee entity;
-        final PersistentFee updated;
+        final PersistentFee       entity;
+        final PersistentFee       updated;
+        final Optional<MemberFee> read;
+        final MemberFee           result;
 
         log.debug("Updating fee with id {} using data {}", id, fee);
 
@@ -174,8 +181,16 @@ public final class DefaultFeeService implements FeeService {
 
         updated = feeRepository.save(entity);
 
-        // TODO: Doesn't return names
-        return mapper.toDto(updated);
+        // Read updated fee with name
+        read = getOne(updated.getId());
+        if (read.isPresent()) {
+            result = read.get();
+        } else {
+            result = ImmutableMemberFee.builder()
+                .build();
+        }
+
+        return result;
     }
 
     private final void loadId(final PersistentFee fee) {

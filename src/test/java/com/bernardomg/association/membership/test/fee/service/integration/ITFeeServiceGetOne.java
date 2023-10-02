@@ -91,4 +91,42 @@ class ITFeeServiceGetOne {
             .build());
     }
 
+    @Test
+    @DisplayName("With no name or surname, an empty name is returned")
+    @Sql({ "/db/queries/member/no_name_or_surname.sql", "/db/queries/fee/single.sql" })
+    void testGetOne_NoNameOrSurname() {
+        final Optional<MemberFee> fee;
+
+        fee = service.getOne(1L);
+
+        Assertions.assertThat(fee)
+            .isPresent();
+
+        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .memberName("")
+            .date(YearMonth.of(2020, Month.FEBRUARY))
+            .paid(true)
+            .build());
+    }
+
+    @Test
+    @DisplayName("With no surname, only the name is returned")
+    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/single.sql" })
+    void testGetOne_NoSurname() {
+        final Optional<MemberFee> fee;
+
+        fee = service.getOne(1L);
+
+        Assertions.assertThat(fee)
+            .isPresent();
+
+        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
+            .memberId(1L)
+            .memberName("Member 1")
+            .date(YearMonth.of(2020, Month.FEBRUARY))
+            .paid(true)
+            .build());
+    }
+
 }
