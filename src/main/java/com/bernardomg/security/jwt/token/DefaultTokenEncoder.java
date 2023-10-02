@@ -75,7 +75,8 @@ public final class DefaultTokenEncoder implements TokenEncoder {
             .setId(data.getId())
             .setIssuer(data.getIssuer())
             .setSubject(data.getSubject())
-            .setAudience(data.getAudience());
+            .setAudience(data.getAudience())
+            .claim("permissions", data.getPermissions());
 
         // TODO: Use optional
         if (data.getIssuedAt() != null) {

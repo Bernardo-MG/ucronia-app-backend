@@ -104,7 +104,7 @@ public final class DefaultLoginService implements LoginService {
         return getStatus(validUsername, valid);
     }
 
-    private final String encode(final String subject) {
+    private final String encode(final String subject, final Map<String, List<String>> permissions) {
         final LocalDateTime expiration;
         final LocalDateTime issuedAt;
         final String        token;
@@ -123,6 +123,8 @@ public final class DefaultLoginService implements LoginService {
             .withIssuedAt(issuedAt)
             .withNotBefore(issuedAt)
             .withExpiration(expiration)
+            // TODO: Test permissions are added
+            .withPermissions(permissions)
             .build();
 
         token = tokenEncoder.encode(data);
@@ -189,7 +191,7 @@ public final class DefaultLoginService implements LoginService {
         if (logged) {
             permissions = getPermissionsMap(username);
             // TODO: add permissions to token
-            token = encode(username);
+            token = encode(username, permissions);
             status = ImmutableTokenLoginStatus.builder()
                 .username(username)
                 .logged(logged)

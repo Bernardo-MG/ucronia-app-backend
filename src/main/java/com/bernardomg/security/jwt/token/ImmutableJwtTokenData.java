@@ -25,6 +25,8 @@
 package com.bernardomg.security.jwt.token;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Value;
@@ -48,6 +50,11 @@ public class ImmutableJwtTokenData implements JwtTokenData {
      * Expiration date.
      */
     private final LocalDateTime expiration;
+    
+    /**
+     * Permissions.
+     */
+    private final Map<String, List<String>> permissions;
 
     /**
      * Id.
