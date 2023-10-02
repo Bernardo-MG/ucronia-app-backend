@@ -70,11 +70,18 @@ public final class JwtTokenValidator implements TokenValidator {
             expiration = tokenDataDecoder.decode(token)
                 .getExpiration();
 
-            // Compare expiration to current date
-            current = LocalDateTime.now();
-            expired = expiration.isBefore(current);
+            if (expiration != null) {
+                // Compare expiration to current date
+                current = LocalDateTime.now();
+                expired = expiration.isBefore(current);
+                log.debug("Expired '{}' as token expires on {}, and the current date is {}.", expired, expiration,
+                    current);
+            } else {
+                // No expiration
+                expired = false;
+                log.debug("The token has no expiration date");
+            }
 
-            log.debug("Expired '{}' as token expires on {}, and the current date is {}.", expired, expiration, current);
         } catch (final ExpiredJwtException e) {
             // Token parsing failed due to expiration date
             log.debug(e.getLocalizedMessage());

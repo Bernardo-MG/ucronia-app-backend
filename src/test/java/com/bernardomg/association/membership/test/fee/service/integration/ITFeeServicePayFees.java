@@ -139,7 +139,7 @@ class ITFeeServicePayFees {
             ImmutableMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
-                .memberName(null)
+                .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());
@@ -217,7 +217,7 @@ class ITFeeServicePayFees {
             ImmutableMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
-                .memberName(null)
+                .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());
@@ -366,7 +366,7 @@ class ITFeeServicePayFees {
             ImmutableMemberFee.builder()
                 .id(1L)
                 .memberId(1L)
-                .memberName(null)
+                .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());

@@ -128,7 +128,7 @@ class ITFeeServiceUpdate {
 
         FeeAssertions.isEqualTo(fee, ImmutableMemberFee.builder()
             .memberId(1L)
-            .memberName(null)
+            .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(false)
             .build());

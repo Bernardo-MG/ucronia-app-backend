@@ -3,6 +3,7 @@ package com.bernardomg.security.login.test.service.springframework.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -23,9 +24,9 @@ import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.login.service.DefaultLoginStatusProvider;
-import com.bernardomg.security.login.service.LoginStatusProvider;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -34,13 +35,19 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 class TestDefaultLoginServicePassword {
 
     @Mock
-    private PasswordEncoder    passEncoder;
+    private PasswordEncoder                 passEncoder;
 
     @Mock
-    private UserDetailsService userDetService;
+    private TokenEncoder                    tokenEncoder;
 
     @Mock
-    private UserRepository     userRepository;
+    private UserDetailsService              userDetService;
+
+    @Mock
+    private UserGrantedPermissionRepository userGrantedPermissionRepository;
+
+    @Mock
+    private UserRepository                  userRepository;
 
     public TestDefaultLoginServicePassword() {
         super();
@@ -48,7 +55,6 @@ class TestDefaultLoginServicePassword {
 
     private final DefaultLoginService getService(final Boolean match) {
         final UserDetails             user;
-        final LoginStatusProvider     loginStatusProvider;
         final Predicate<LoginRequest> valid;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
@@ -57,10 +63,10 @@ class TestDefaultLoginServicePassword {
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(match);
 
-        loginStatusProvider = new DefaultLoginStatusProvider();
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        return new DefaultLoginService(loginStatusProvider, valid, userRepository);
+        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+            Duration.ZERO);
     }
 
     private final void loadUser() {
@@ -101,6 +107,8 @@ class TestDefaultLoginServicePassword {
 
         loadUser();
 
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
+
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
         login.setPassword("1234");
@@ -136,6 +144,8 @@ class TestDefaultLoginServicePassword {
     void testLogIn_Username_ValidPassword() {
         final LoginStatus     status;
         final DtoLoginRequest login;
+
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
         login = new DtoLoginRequest();
         login.setUsername("admin");

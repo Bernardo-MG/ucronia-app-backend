@@ -25,6 +25,8 @@
 package com.bernardomg.security.jwt.token;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Value;
@@ -42,36 +44,41 @@ public class ImmutableJwtTokenData implements JwtTokenData {
     /**
      * Audience.
      */
-    private final String        audience;
+    private final String                    audience;
 
     /**
      * Expiration date.
      */
-    private final LocalDateTime expiration;
+    private final LocalDateTime             expiration;
 
     /**
      * Id.
      */
-    private final String        id;
+    private final String                    id;
 
     /**
      * Issued at date.
      */
-    private final LocalDateTime issuedAt;
+    private final LocalDateTime             issuedAt;
 
     /**
      * Issuer.
      */
-    private final String        issuer;
+    private final String                    issuer;
 
     /**
      * Not before date.
      */
-    private final LocalDateTime notBefore;
+    private final LocalDateTime             notBefore;
+
+    /**
+     * Permissions.
+     */
+    private final Map<String, List<String>> permissions;
 
     /**
      * Subject.
      */
-    private final String        subject;
+    private final String                    subject;
 
 }
