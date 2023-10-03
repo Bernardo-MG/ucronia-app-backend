@@ -3,7 +3,6 @@ package com.bernardomg.security.permission.service;
 
 import java.util.Optional;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
@@ -18,10 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultResourceService implements ResourceService {
 
-    private static final String      CACHE_MULTIPLE = "security_resources";
-
-    private static final String      CACHE_SINGLE   = "security_resource";
-
     private final ResourceMapper     mapper;
 
     private final ResourceRepository repository;
@@ -34,7 +29,6 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_MULTIPLE)
     public final Iterable<Resource> getAll(final ResourceQuery sample, final Pageable pageable) {
         final PersistentResource entitySample;
 
@@ -47,7 +41,6 @@ public final class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_SINGLE, key = "#id")
     public final Optional<Resource> getOne(final long id) {
 
         log.debug("Reading resource with id {}", id);

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
@@ -126,8 +127,6 @@ public final class DefaultFeeService implements FeeService {
             throw new InvalidIdException("fee", id);
         }
 
-        // TODO: Test repository
-        // TODO: Test reading with no name or surname
         found = memberFeeRepository.findById(id);
 
         if (found.isPresent()) {
@@ -142,6 +141,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<? extends MemberFee> payFees(final FeesPayment payment) {
         final Collection<PersistentFee> fees;
+        final Collection<Long>          ids;
 
         log.debug("Paying fees for member with id {}. Months paid: {}", payment.getMemberId(), payment.getFeeDates());
 
@@ -150,16 +150,20 @@ public final class DefaultFeeService implements FeeService {
         registerTransaction(payment);
         fees = registerFees(payment);
 
-        // TODO: Doesn't return names
-        return fees.stream()
-            .map(mapper::toDto)
+        // Read fees to return names
+        feeRepository.flush();
+        ids = fees.stream()
+            .map(PersistentFee::getId)
             .toList();
+        return readAll(ids);
     }
 
     @Override
     public final MemberFee update(final long id, final FeeUpdate fee) {
-        final PersistentFee entity;
-        final PersistentFee updated;
+        final PersistentFee       entity;
+        final PersistentFee       updated;
+        final Optional<MemberFee> read;
+        final MemberFee           result;
 
         log.debug("Updating fee with id {} using data {}", id, fee);
 
@@ -174,8 +178,16 @@ public final class DefaultFeeService implements FeeService {
 
         updated = feeRepository.save(entity);
 
-        // TODO: Doesn't return names
-        return mapper.toDto(updated);
+        // Read updated fee with name
+        read = getOne(updated.getId());
+        if (read.isPresent()) {
+            result = read.get();
+        } else {
+            result = ImmutableMemberFee.builder()
+                .build();
+        }
+
+        return result;
     }
 
     private final void loadId(final PersistentFee fee) {
@@ -188,6 +200,16 @@ public final class DefaultFeeService implements FeeService {
                 .getId();
             fee.setId(id);
         }
+    }
+
+    private final List<ImmutableMemberFee> readAll(final Collection<Long> ids) {
+        final List<PersistentMemberFee> found;
+
+        found = memberFeeRepository.findAllById(ids);
+
+        return found.stream()
+            .map(mapper::toDto)
+            .toList();
     }
 
     private final Collection<PersistentFee> registerFees(final FeesPayment payment) {

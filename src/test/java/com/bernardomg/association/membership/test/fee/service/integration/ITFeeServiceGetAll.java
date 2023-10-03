@@ -264,4 +264,58 @@ class ITFeeServiceGetAll {
             .isEmpty();
     }
 
+    @Test
+    @DisplayName("With no name or surname it returns an empty name")
+    @Sql({ "/db/queries/member/no_name_or_surname.sql", "/db/queries/fee/single.sql" })
+    void testGetAll_NoNameOrSurname() {
+        final Iterable<MemberFee> fees;
+        final FeeQuery            feeQuery;
+        final Pageable            pageable;
+
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.empty();
+
+        fees = service.getAll(feeQuery, pageable);
+
+        Assertions.assertThat(fees)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fees.iterator()
+            .next(),
+            ImmutableMemberFee.builder()
+                .memberId(1L)
+                .memberName("")
+                .date(YearMonth.of(2020, Month.FEBRUARY))
+                .paid(true)
+                .build());
+    }
+
+    @Test
+    @DisplayName("With no surname it returns only the name")
+    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/single.sql" })
+    void testGetAll_NoSurname() {
+        final Iterable<MemberFee> fees;
+        final FeeQuery            feeQuery;
+        final Pageable            pageable;
+
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.empty();
+
+        fees = service.getAll(feeQuery, pageable);
+
+        Assertions.assertThat(fees)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fees.iterator()
+            .next(),
+            ImmutableMemberFee.builder()
+                .memberId(1L)
+                .memberName("Member 1")
+                .date(YearMonth.of(2020, Month.FEBRUARY))
+                .paid(true)
+                .build());
+    }
+
 }

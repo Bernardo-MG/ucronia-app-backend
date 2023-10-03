@@ -64,18 +64,30 @@ public final class JwtTokenDataDecoder implements TokenDecoder<JwtTokenData> {
         claims = parser.parseClaimsJws(token)
             .getBody();
 
-        issuedAt = claims.getIssuedAt()
-            .toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
-        expiration = claims.getExpiration()
-            .toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
-        notBefore = claims.getNotBefore()
-            .toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
+        if (claims.getIssuedAt() != null) {
+            issuedAt = claims.getIssuedAt()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        } else {
+            issuedAt = null;
+        }
+        if (claims.getExpiration() != null) {
+            expiration = claims.getExpiration()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        } else {
+            expiration = null;
+        }
+        if (claims.getNotBefore() != null) {
+            notBefore = claims.getNotBefore()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        } else {
+            notBefore = null;
+        }
 
         return ImmutableJwtTokenData.builder()
             .withId(claims.getId())

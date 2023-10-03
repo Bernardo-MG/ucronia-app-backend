@@ -3,8 +3,6 @@ package com.bernardomg.security.user.service;
 
 import java.util.Objects;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.model.DtoUserRole;
@@ -22,10 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
-
-    private static final String       PERMISSION_SET_CACHE_NAME = "security_permission_set";
-
-    private static final String       ROLE_CACHE_NAME           = "security_user_role";
 
     private final RoleRepository      roleRepository;
 
@@ -50,7 +44,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
     public final UserRole addRole(final long userId, final long roleId) {
         final PersistentUserRole userRoleSample;
         final UserRole           userRole;
@@ -73,7 +66,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @Cacheable(cacheNames = ROLE_CACHE_NAME)
     public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
 
         log.debug("Getting roles for user {} and pagination {}", userId, pageable);
@@ -82,7 +74,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, ROLE_CACHE_NAME }, allEntries = true)
     public final UserRole removeRole(final long userId, final long roleId) {
         final PersistentUserRole userRoleSample;
         final UserRole           userRole;

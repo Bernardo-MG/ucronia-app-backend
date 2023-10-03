@@ -1,15 +1,15 @@
 
 package com.bernardomg.security.jwt.token.test.unit;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.jwt.token.JwtSubjectTokenEncoder;
+import com.bernardomg.security.jwt.token.DefaultTokenEncoder;
+import com.bernardomg.security.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenData;
 import com.bernardomg.security.jwt.token.JwtTokenDataDecoder;
 import com.bernardomg.security.token.TokenDecoder;
@@ -18,27 +18,32 @@ import com.bernardomg.security.token.test.constant.TokenConstants;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
-@DisplayName("JwtSubjectTokenEncoder - get subject")
-class TestJwtSubjectTokenEncoderGetSubject {
+@DisplayName("DefaultTokenEncoder - get subject")
+class TestDefaultTokenEncoderGetSubject {
 
     private final TokenDecoder<JwtTokenData> decoder;
 
-    private final TokenEncoder<String>       encoder;
+    private final TokenEncoder               encoder;
 
-    public TestJwtSubjectTokenEncoderGetSubject() {
+    public TestDefaultTokenEncoderGetSubject() {
         super();
 
-        encoder = new JwtSubjectTokenEncoder(TokenConstants.KEY, Duration.ofSeconds(1));
+        encoder = new DefaultTokenEncoder(TokenConstants.KEY);
         decoder = new JwtTokenDataDecoder(TokenConstants.KEY);
     }
 
     @Test
     @DisplayName("Recovers the subject from a token")
     void testGetSubject_fromGeneratedToken() {
-        final String token;
-        final String subject;
+        final String       token;
+        final String       subject;
+        final JwtTokenData data;
 
-        token = encoder.encode("subject");
+        data = ImmutableJwtTokenData.builder()
+            .withSubject("subject")
+            .build();
+
+        token = encoder.encode(data);
         subject = decoder.decode(token)
             .getSubject();
 
@@ -51,12 +56,17 @@ class TestJwtSubjectTokenEncoderGetSubject {
     void testGetSubject_fromGeneratedToken_expired() throws InterruptedException {
         final String           token;
         final ThrowingCallable executable;
+        final JwtTokenData     data;
 
-        token = encoder.encode("subject");
+        data = ImmutableJwtTokenData.builder()
+            .withSubject("subject")
+            .withExpiration(LocalDateTime.now()
+                .plusSeconds(-1))
+            .build();
 
-        TimeUnit.SECONDS.sleep(Double.valueOf(2)
-            .longValue());
+        token = encoder.encode(data);
 
+        // TODO: This is a test for the decoder, test it
         executable = () -> decoder.decode(token);
 
         Assertions.assertThatThrownBy(executable)

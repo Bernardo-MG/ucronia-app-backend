@@ -3,8 +3,6 @@ package com.bernardomg.security.permission.service;
 
 import java.util.Objects;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.permission.model.Permission;
@@ -25,10 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class DefaultRolePermissionService implements RolePermissionService {
-
-    private static final String                   PERMISSION_CACHE_NAME     = "security_role_permission";
-
-    private static final String                   PERMISSION_SET_CACHE_NAME = "security_permission_set";
 
     private final PermissionMapper                permissionMapper;
 
@@ -59,7 +53,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final RolePermission addPermission(final long roleId, final long resourceId, final long actionId) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
@@ -85,7 +78,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    @Cacheable(cacheNames = PERMISSION_CACHE_NAME)
     public final Iterable<Permission> getPermissions(final long roleId, final Pageable pageable) {
 
         log.debug("Getting roles for role {} and pagination {}", roleId, pageable);
@@ -95,7 +87,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    @CacheEvict(cacheNames = { PERMISSION_SET_CACHE_NAME, PERMISSION_CACHE_NAME }, allEntries = true)
     public final RolePermission removePermission(final long roleId, final long resourceId, final long actionId) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           roleAction;
