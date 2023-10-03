@@ -31,9 +31,7 @@ import org.springframework.context.annotation.DependsOn;
 
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.security.initializer.TestUsersInitializer;
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -54,10 +52,9 @@ public class SecurityInitializerConfig {
 
     @Bean("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public TestRolesInitializer getTestRolesInitializer(final ActionRepository actionRepo,
-            final ResourceRepository resourceRepo, final PermissionRepository permissionRepo,
+    public TestRolesInitializer getTestRolesInitializer(final PermissionRepository permissionRepo,
             final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
-        return new TestRolesInitializer(actionRepo, resourceRepo, permissionRepo, roleRepo, rolePermissionRepo);
+        return new TestRolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
     }
 
     @Bean("testUsersInitializer")
