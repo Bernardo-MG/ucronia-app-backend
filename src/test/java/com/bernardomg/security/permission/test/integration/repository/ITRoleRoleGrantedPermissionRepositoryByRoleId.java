@@ -52,9 +52,7 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         found = itr.next();
 
         RoleGrantedPermissionAssertions.isEqualTo(found, PersistentRoleGrantedPermission.builder()
-            .actionId(1L)
             .action("CREATE")
-            .resourceId(1L)
             .resource("DATA")
             .roleId(1L)
             .role("ADMIN")
@@ -63,9 +61,7 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         found = itr.next();
 
         RoleGrantedPermissionAssertions.isEqualTo(found, PersistentRoleGrantedPermission.builder()
-            .actionId(2L)
             .action("READ")
-            .resourceId(1L)
             .resource("DATA")
             .roleId(1L)
             .role("ADMIN")
@@ -74,9 +70,7 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         found = itr.next();
 
         RoleGrantedPermissionAssertions.isEqualTo(found, PersistentRoleGrantedPermission.builder()
-            .actionId(3L)
             .action("UPDATE")
-            .resourceId(1L)
             .resource("DATA")
             .roleId(1L)
             .role("ADMIN")
@@ -85,9 +79,7 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
         found = itr.next();
 
         RoleGrantedPermissionAssertions.isEqualTo(found, PersistentRoleGrantedPermission.builder()
-            .actionId(4L)
             .action("DELETE")
-            .resourceId(1L)
             .resource("DATA")
             .roleId(1L)
             .role("ADMIN")
@@ -131,9 +123,7 @@ class ITRoleRoleGrantedPermissionRepositoryByRoleId {
             .next();
 
         RoleGrantedPermissionAssertions.isEqualTo(found, PersistentRoleGrantedPermission.builder()
-            .actionId(1L)
             .action("CREATE")
-            .resourceId(1L)
             .resource("DATA")
             .roleId(1L)
             .role("ADMIN")

@@ -13,7 +13,7 @@ public interface PermissionMapper {
 
     public DtoPermission toDto(final PersistentPermission entity);
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", source = "permissionId")
     public DtoPermission toDto(final PersistentRoleGrantedPermission entity);
 
 }
