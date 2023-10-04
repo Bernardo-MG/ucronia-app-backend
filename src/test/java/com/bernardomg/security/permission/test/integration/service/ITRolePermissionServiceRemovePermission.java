@@ -36,19 +36,6 @@ class ITRolePermissionServiceRemovePermission {
     }
 
     @Test
-    @DisplayName("Returns the removed data")
-    void testAddRole_ReturnedData() {
-        final RolePermission result;
-
-        result = service.removePermission(1l, 1l);
-
-        Assertions.assertThat(result.getRoleId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getPermissionId())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Can remove a permission")
     void testRemovePermission() {
         final Iterable<PersistentRolePermission> result;
@@ -94,6 +81,19 @@ class ITRolePermissionServiceRemovePermission {
             .roleId(1L)
             .granted(true)
             .build());
+    }
+
+    @Test
+    @DisplayName("Returns the removed data")
+    void testRemovePermission_ReturnedData() {
+        final RolePermission result;
+
+        result = service.removePermission(1l, 1l);
+
+        Assertions.assertThat(result.getRoleId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getPermissionId())
+            .isEqualTo(1);
     }
 
 }

@@ -24,7 +24,11 @@
 
 package com.bernardomg.security.permission.persistence.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.permission.persistence.model.PersistentPermission;
 
@@ -35,5 +39,11 @@ import com.bernardomg.security.permission.persistence.model.PersistentPermission
  *
  */
 public interface PermissionRepository extends JpaRepository<PersistentPermission, Long> {
+
+    @Query("SELECT p FROM Permission p WHERE p.id NOT IN (SELECT p.id FROM Permission p INNER JOIN RoleGrantedPermission g ON p.id = g.permissionId WHERE g.roleId = :roleId)")
+    public Page<PersistentPermission> findAvailableToRole(@Param("roleId") final Long roleId, final Pageable pageable);
+
+    @Query("SELECT p FROM Permission p INNER JOIN RoleGrantedPermission g ON p.id = g.permissionId WHERE g.roleId = :roleId")
+    public Page<PersistentPermission> findByRole(@Param("roleId") final Long roleId, final Pageable pageable);
 
 }

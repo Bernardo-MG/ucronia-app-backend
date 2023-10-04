@@ -32,7 +32,7 @@ class ITRolePermissionServiceRemovePermissionValidation {
     @DisplayName("Throws an exception when the role permission doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
-    void testAddPermission_NotExistingRolePermission() {
+    void testRemovePermission_NotExistingRolePermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;
         final FieldFailure     failure;

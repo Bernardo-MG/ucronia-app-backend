@@ -12,7 +12,6 @@ import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
 import com.bernardomg.security.permission.persistence.model.PersistentPermission;
 import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
-import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.permission.validation.AddRolePermissionValidator;
 import com.bernardomg.security.permission.validation.RemoveRolePermissionValidator;
@@ -26,29 +25,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultRolePermissionService implements RolePermissionService {
 
-    private final PermissionMapper                permissionMapper;
+    private final PermissionMapper          permissionMapper;
 
-    private final PermissionRepository            permissionRepository;
+    private final PermissionRepository      permissionRepository;
 
-    private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
+    private final RolePermissionMapper      rolePermissionMapper;
 
-    private final RolePermissionMapper            rolePermissionMapper;
+    private final RolePermissionRepository  rolePermissionRepository;
 
-    private final RolePermissionRepository        rolePermissionRepository;
+    private final Validator<RolePermission> validatorAddRolePermission;
 
-    private final Validator<RolePermission>       validatorAddRolePermission;
-
-    private final Validator<RolePermission>       validatorRemoveRolePermission;
+    private final Validator<RolePermission> validatorRemoveRolePermission;
 
     public DefaultRolePermissionService(final RoleRepository roleRepo, final PermissionRepository permissionRepo,
-            final RolePermissionRepository rolePermissionRepo,
-            final RoleGrantedPermissionRepository roleGrantedPermissionRepo, final RolePermissionMapper rolePermMapper,
+            final RolePermissionRepository rolePermissionRepo, final RolePermissionMapper rolePermMapper,
             final PermissionMapper permMapper) {
         super();
 
         permissionRepository = Objects.requireNonNull(permissionRepo);
         rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
-        roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
         rolePermissionMapper = Objects.requireNonNull(rolePermMapper);
         permissionMapper = Objects.requireNonNull(permMapper);
 
@@ -81,11 +76,15 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
+    public final Iterable<Permission> getAvailablePermissions(final long roleId, final Pageable pageable) {
+        // TODO: test this
+        return permissionRepository.findAvailableToRole(roleId, pageable)
+            .map(permissionMapper::toDto);
+    }
+
+    @Override
     public final Iterable<Permission> getPermissions(final long roleId, final Pageable pageable) {
-
-        log.debug("Getting roles for role {} and pagination {}", roleId, pageable);
-
-        return roleGrantedPermissionRepository.findAllByRoleId(roleId, pageable)
+        return permissionRepository.findByRole(roleId, pageable)
             .map(permissionMapper::toDto);
     }
 
