@@ -65,7 +65,9 @@ public class UserRoleController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
-    @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES }, allEntries = true)
+    @CacheEvict(
+            cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES, UserCaches.USER_AVAILABLE_ROLES },
+            allEntries = true)
     public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
         return service.addRole(id, role.getId());
     }
@@ -79,14 +81,16 @@ public class UserRoleController {
 
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.USER_ROLES)
+    @Cacheable(cacheNames = UserCaches.USER_AVAILABLE_ROLES)
     public Iterable<Role> readAvailable(@PathVariable("id") final long userId, final Pageable pageable) {
         return service.getAvailableRoles(userId, pageable);
     }
 
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
-    @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES }, allEntries = true)
+    @CacheEvict(
+            cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES, UserCaches.USER_AVAILABLE_ROLES },
+            allEntries = true)
     public UserRole remove(@PathVariable("id") final long userId, @PathVariable("role") final Long roleId) {
         return service.removeRole(userId, roleId);
     }
