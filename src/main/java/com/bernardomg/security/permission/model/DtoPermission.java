@@ -10,10 +10,8 @@ public final class DtoPermission implements Permission {
 
     private final String action;
 
-    private final Long   actionId;
+    private final Long   id;
 
     private final String resource;
-
-    private final Long   resourceId;
 
 }

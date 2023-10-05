@@ -60,15 +60,11 @@ public class PersistentUserGrantedPermission implements Serializable {
     private String            action;
 
     @Id
-    @Column(name = "action_id", nullable = false)
-    private Long              actionId;
+    @Column(name = "permission_id", nullable = false)
+    private Long              permissionId;
 
     @Column(name = "resource", nullable = false)
     private String            resource;
-
-    @Id
-    @Column(name = "resource_id", nullable = false)
-    private Long              resourceId;
 
     @Id
     @Column(name = "user_id", nullable = false)

@@ -17,8 +17,9 @@ import com.bernardomg.validation.failure.FieldFailure;
 @AllAuthoritiesMockUser
 @DisplayName("User service - remove role - validation")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
+        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
+        "/db/queries/security/relationship/user_role.sql" })
 class ITUserRoleServiceRemoveRoleValidation {
 
     @Autowired

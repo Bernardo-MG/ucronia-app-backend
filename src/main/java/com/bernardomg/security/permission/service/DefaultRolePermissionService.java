@@ -2,18 +2,19 @@
 package com.bernardomg.security.permission.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
 import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
+import com.bernardomg.security.permission.persistence.model.PersistentPermission;
 import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
-import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
+import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.permission.validation.AddRolePermissionValidator;
+import com.bernardomg.security.permission.validation.RemoveRolePermissionValidator;
 import com.bernardomg.security.user.model.DtoRolePermission;
 import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
@@ -24,51 +25,48 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultRolePermissionService implements RolePermissionService {
 
-    private final PermissionMapper                permissionMapper;
+    private final PermissionMapper          permissionMapper;
 
-    private final RoleGrantedPermissionRepository roleGrantedPermissionRepository;
+    private final PermissionRepository      permissionRepository;
 
-    private final RolePermissionMapper            rolePermissionMapper;
+    private final RolePermissionMapper      rolePermissionMapper;
 
-    private final RolePermissionRepository        rolePermissionRepository;
+    private final RolePermissionRepository  rolePermissionRepository;
 
-    private final Validator<RolePermission>       validatorAddRolePermission;
+    private final Validator<RolePermission> validatorAddRolePermission;
 
-    private final Validator<RolePermission>       validatorRemoveRolePermission;
+    private final Validator<RolePermission> validatorRemoveRolePermission;
 
-    public DefaultRolePermissionService(final RoleRepository roleRepo, final ResourceRepository resourceRepo,
-            final ActionRepository actionRepo, final RolePermissionRepository roleActionsRepo,
-            final RoleGrantedPermissionRepository roleGrantedPermissionRepo, final RolePermissionMapper rolePermMapper,
+    public DefaultRolePermissionService(final RoleRepository roleRepo, final PermissionRepository permissionRepo,
+            final RolePermissionRepository rolePermissionRepo, final RolePermissionMapper rolePermMapper,
             final PermissionMapper permMapper) {
         super();
 
-        rolePermissionRepository = Objects.requireNonNull(roleActionsRepo);
-        roleGrantedPermissionRepository = Objects.requireNonNull(roleGrantedPermissionRepo);
+        permissionRepository = Objects.requireNonNull(permissionRepo);
+        rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
         rolePermissionMapper = Objects.requireNonNull(rolePermMapper);
         permissionMapper = Objects.requireNonNull(permMapper);
 
-        validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
-        // TODO: Just validate if the permission exists
-        validatorRemoveRolePermission = new AddRolePermissionValidator(roleRepo, resourceRepo, actionRepo);
+        validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, permissionRepo);
+        validatorRemoveRolePermission = new RemoveRolePermissionValidator(rolePermissionRepo);
     }
 
     @Override
-    public final RolePermission addPermission(final long roleId, final long resourceId, final long actionId) {
+    public final RolePermission addPermission(final long roleId, final Long permission) {
         final PersistentRolePermission rolePermissionSample;
-        final RolePermission           roleAction;
+        final RolePermission           rolePermission;
         final PersistentRolePermission created;
 
-        log.debug("Adding action {} to resource {} for role {}", actionId, resourceId, roleId);
+        log.debug("Adding permission {} for role {}", permission, roleId);
 
-        roleAction = DtoRolePermission.builder()
+        rolePermission = DtoRolePermission.builder()
             .roleId(roleId)
-            .resourceId(resourceId)
-            .actionId(actionId)
+            .permissionId(permission)
             .build();
-        validatorAddRolePermission.validate(roleAction);
+        validatorAddRolePermission.validate(rolePermission);
 
         // Build relationship entities
-        rolePermissionSample = getRolePermissionSample(roleId, resourceId, actionId);
+        rolePermissionSample = getRolePermissionSample(roleId, permission);
         rolePermissionSample.setGranted(true);
 
         // Persist relationship entities
@@ -78,45 +76,57 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final Iterable<Permission> getPermissions(final long roleId, final Pageable pageable) {
-
-        log.debug("Getting roles for role {} and pagination {}", roleId, pageable);
-
-        return roleGrantedPermissionRepository.findAllByRoleId(roleId, pageable)
+    public final Iterable<Permission> getAvailablePermissions(final long roleId, final Pageable pageable) {
+        return permissionRepository.findAvailableToRole(roleId, pageable)
             .map(permissionMapper::toDto);
     }
 
     @Override
-    public final RolePermission removePermission(final long roleId, final long resourceId, final long actionId) {
-        final PersistentRolePermission rolePermissionSample;
-        final RolePermission           roleAction;
-        final PersistentRolePermission updated;
-
-        log.debug("Removing action {} to resource {} for role {}", actionId, resourceId, roleId);
-
-        roleAction = DtoRolePermission.builder()
-            .roleId(roleId)
-            .resourceId(resourceId)
-            .actionId(actionId)
-            .build();
-        validatorRemoveRolePermission.validate(roleAction);
-
-        // Build relationship entities
-        rolePermissionSample = getRolePermissionSample(roleId, resourceId, actionId);
-        rolePermissionSample.setGranted(false);
-
-        // Delete relationship entities
-        updated = rolePermissionRepository.save(rolePermissionSample);
-
-        return rolePermissionMapper.toDto(updated);
+    public final Iterable<Permission> getPermissions(final long roleId, final Pageable pageable) {
+        return permissionRepository.findForRole(roleId, pageable)
+            .map(permissionMapper::toDto);
     }
 
-    private final PersistentRolePermission getRolePermissionSample(final long roleId, final long resourceId,
-            final long actionId) {
+    @Override
+    public final RolePermission removePermission(final long roleId, final Long permission) {
+        final PersistentRolePermission       rolePermissionSample;
+        final RolePermission                 rolePermission;
+        final PersistentRolePermission       updated;
+        final Optional<PersistentPermission> read;
+        final RolePermission                 result;
+
+        log.debug("Removing permission {} for role {}", permission, roleId);
+
+        rolePermission = DtoRolePermission.builder()
+            .roleId(roleId)
+            .permissionId(permission)
+            .build();
+        validatorRemoveRolePermission.validate(rolePermission);
+
+        read = permissionRepository.findById(permission);
+
+        if (read.isPresent()) {
+            // Build relationship entities
+            rolePermissionSample = getRolePermissionSample(roleId, read.get()
+                .getId());
+            rolePermissionSample.setGranted(false);
+
+            // Delete relationship entities
+            updated = rolePermissionRepository.save(rolePermissionSample);
+
+            result = rolePermissionMapper.toDto(updated);
+        } else {
+            result = DtoRolePermission.builder()
+                .build();
+        }
+
+        return result;
+    }
+
+    private final PersistentRolePermission getRolePermissionSample(final long roleId, final long permissionId) {
         return PersistentRolePermission.builder()
             .roleId(roleId)
-            .resourceId(resourceId)
-            .actionId(actionId)
+            .permissionId(permissionId)
             .build();
     }
 

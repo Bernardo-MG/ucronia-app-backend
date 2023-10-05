@@ -40,8 +40,8 @@ class ITFullPasswordResetProcess {
     @WithMockUser(username = "admin")
     @DisplayName("Can follow the password recovery from start to end")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testResetPassword_Valid() {
         final TokenStatus    validTokenStatus;

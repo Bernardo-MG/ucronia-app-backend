@@ -28,24 +28,34 @@ class ITRolePermissionServiceGetPermissions {
     }
 
     @Test
-    @DisplayName("Returns no permission for a not existing role")
-    void testGetActions_NotExisting() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+    @DisplayName("Returns all the data for a role's permission")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/permission/single.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/relationship/role_single_permission.sql" })
+    void testGetPermissions() {
+        final Permission result;
+        final Pageable   pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(-1l, pageable);
+        result = service.getPermissions(1l, pageable)
+            .iterator()
+            .next();
 
-        Assertions.assertThat(result)
-            .isEmpty();
+        Assertions.assertThat(result.getResource())
+            .isEqualTo("DATA");
+        Assertions.assertThat(result.getAction())
+            .isEqualTo("CREATE");
+        Assertions.assertThat(result.getId())
+            .isEqualTo(1L);
     }
 
     @Test
-    @DisplayName("Returns the permissions for a role")
+    @DisplayName("Returns the permissions for a role with multiple permissions")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
-    void testGetPermissions() {
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
+    void testGetPermissions_multiple() {
         final Iterable<Permission> result;
         final Pageable             pageable;
         Boolean                    found;
@@ -90,9 +100,9 @@ class ITRolePermissionServiceGetPermissions {
     }
 
     @Test
-    @DisplayName("When the permission is not granted nothing is returned")
+    @DisplayName("When the role has no permissions nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testGetPermissions_NoPermissions() {
         final Iterable<Permission> result;
         final Pageable             pageable;
@@ -106,9 +116,23 @@ class ITRolePermissionServiceGetPermissions {
     }
 
     @Test
+    @DisplayName("Returns no permission for a not existing role")
+    void testGetPermissions_NotExisting() {
+        final Iterable<Permission> result;
+        final Pageable             pageable;
+
+        pageable = Pageable.unpaged();
+
+        result = service.getPermissions(-1l, pageable);
+
+        Assertions.assertThat(result)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When there no permissions are granted nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql" })
     void testGetPermissions_NotGranted() {
         final Iterable<Permission> result;

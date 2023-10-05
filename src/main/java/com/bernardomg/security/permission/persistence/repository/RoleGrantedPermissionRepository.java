@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.permission.persistence.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.permission.persistence.model.PersistentRoleGrantedPermission;
@@ -39,7 +37,5 @@ import com.bernardomg.security.permission.persistence.model.RoleGrantedPermissio
  */
 public interface RoleGrantedPermissionRepository
         extends JpaRepository<PersistentRoleGrantedPermission, RoleGrantedPermissionKey> {
-
-    public Page<PersistentRoleGrantedPermission> findAllByRoleId(final Long roleId, final Pageable pageable);
 
 }

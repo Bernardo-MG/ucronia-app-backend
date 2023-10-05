@@ -35,11 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.cache.PermissionCaches;
-import com.bernardomg.security.permission.service.ActionService;
-import com.bernardomg.security.user.model.Action;
-import com.bernardomg.security.user.model.request.ValidatedActionQuery;
+import com.bernardomg.security.permission.model.Permission;
+import com.bernardomg.security.permission.service.PermissionService;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -49,24 +47,24 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/action")
+@RequestMapping("/security/permission")
 @AllArgsConstructor
 @Transactional
-public class ActionController {
+public class PermissionController {
 
-    private final ActionService service;
+    private final PermissionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ACTION", action = "READ")
-    @Cacheable(cacheNames = PermissionCaches.ACTIONS)
-    public Iterable<Action> readAll(@Valid final ValidatedActionQuery action, final Pageable pageable) {
-        return service.getAll(action, pageable);
+    @AuthorizedResource(resource = "RESOURCE", action = "READ")
+    @Cacheable(cacheNames = PermissionCaches.RESOURCES)
+    public Iterable<Permission> readAll(final Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ACTION", action = "READ")
-    @Cacheable(cacheNames = PermissionCaches.ACTION, key = "#id")
-    public Action readOne(@PathVariable("id") final long id) {
+    @AuthorizedResource(resource = "RESOURCE", action = "READ")
+    @Cacheable(cacheNames = PermissionCaches.RESOURCE, key = "#id")
+    public Permission readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }

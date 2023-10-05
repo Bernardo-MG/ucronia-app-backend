@@ -43,6 +43,9 @@ public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
 
     public boolean existsByName(final String name);
 
+    @Query("SELECT r FROM Role r WHERE r.id NOT IN (SELECT r.id FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id)")
+    public Page<Role> findAvailableToUser(@Param("id") final Long id, final Pageable pageable);
+
     @Query("SELECT r FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
     public Page<Role> findForUser(@Param("id") final Long id, final Pageable pageable);
 

@@ -39,4 +39,6 @@ public interface RolePermissionRepository extends JpaRepository<PersistentRolePe
 
     public void deleteAllByRoleId(final Long id);
 
+    public boolean existsByRoleIdAndPermissionId(final Long roleId, final Long permissionId);
+
 }

@@ -19,8 +19,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - remove role")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
+        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
+        "/db/queries/security/relationship/user_role.sql" })
 class ITUserRoleServiceRemoveRole {
 
     @Autowired
@@ -34,30 +35,8 @@ class ITUserRoleServiceRemoveRole {
     }
 
     @Test
-    @DisplayName("Removes the entity when removing a role")
-    void testAddRole_RemovesEntity() {
-        service.removeRole(1L, 1L);
-
-        Assertions.assertThat(userRoleRepository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("Returns the removed data")
-    void testAddRole_ReturnedData() {
-        final UserRole entity;
-
-        entity = service.removeRole(1L, 1L);
-
-        Assertions.assertThat(entity.getUserId())
-            .isEqualTo(1);
-        Assertions.assertThat(entity.getRoleId())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Reading the roles after removing a role doesn't return it")
-    void testAddRoles_CallBack() {
+    void testRemoveRole_CallBack() {
         final Iterable<Role> result;
         final Pageable       pageable;
 
@@ -68,6 +47,28 @@ class ITUserRoleServiceRemoveRole {
 
         Assertions.assertThat(result)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Removes the entity when removing a role")
+    void testRemoveRole_RemovesEntity() {
+        service.removeRole(1L, 1L);
+
+        Assertions.assertThat(userRoleRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("Returns the removed data")
+    void testRemoveRole_ReturnedData() {
+        final UserRole entity;
+
+        entity = service.removeRole(1L, 1L);
+
+        Assertions.assertThat(entity.getUserId())
+            .isEqualTo(1);
+        Assertions.assertThat(entity.getRoleId())
+            .isEqualTo(1);
     }
 
 }

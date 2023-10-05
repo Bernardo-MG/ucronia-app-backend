@@ -28,8 +28,8 @@ class ITPasswordResetServiceChangeTokenStatus {
     @Test
     @DisplayName("Changing password with a consumed token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset_consumed.sql" })
     void testChangePassword_ConsumedToken() {
@@ -47,8 +47,8 @@ class ITPasswordResetServiceChangeTokenStatus {
     @Test
     @DisplayName("Changing password with an expired token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset_expired.sql" })
     void testChangePassword_ExpiredToken() {
@@ -66,8 +66,8 @@ class ITPasswordResetServiceChangeTokenStatus {
     @Test
     @DisplayName("Changing password with a not existing token gives a failure")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testChangePassword_NotExistingToken() {
         final ThrowingCallable executable;

@@ -56,16 +56,12 @@ public class PersistentRolePermission implements Serializable {
      */
     private static final long serialVersionUID = 8513041662486312372L;
 
-    @Id
-    @Column(name = "action_id", nullable = false)
-    private Long              actionId;
-
     @Column(name = "granted", nullable = false)
     private Boolean           granted;
 
     @Id
-    @Column(name = "resource_id", nullable = false)
-    private Long              resourceId;
+    @Column(name = "permission_id", nullable = false)
+    private Long              permissionId;
 
     @Id
     @Column(name = "role_id", nullable = false)
