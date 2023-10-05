@@ -61,6 +61,9 @@ INSERT INTO permissions (id, resource, action) VALUES
    (9, 'ACTION', 'READ'),
    (10, 'RESOURCE', 'READ'),
    (11, 'TOKEN', 'READ'),
+   -- Security views
+   (12, 'USER', 'VIEW'),
+   (13, 'ROLE', 'VIEW'),
    -- Association data
    (50, 'MEMBER', 'CREATE'),
    (51, 'MEMBER', 'READ'),
@@ -82,4 +85,5 @@ INSERT INTO permissions (id, resource, action) VALUES
    (66, 'BALANCE', 'READ'),
    -- Association views
    (67, 'FUNDS', 'VIEW'),
-   (68, 'MEMBERSHIP', 'VIEW');
+   (68, 'MEMBERSHIP', 'VIEW'),
+   (69, 'ASSOCIATION_CONFIGURATION', 'VIEW');
