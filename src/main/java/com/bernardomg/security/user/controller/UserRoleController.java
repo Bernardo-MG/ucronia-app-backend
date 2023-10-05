@@ -77,6 +77,13 @@ public class UserRoleController {
         return service.getRoles(userId, pageable);
     }
 
+    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "USER", action = Actions.READ)
+    @Cacheable(cacheNames = UserCaches.USER_ROLES)
+    public Iterable<Role> readAvailable(@PathVariable("id") final long userId, final Pageable pageable) {
+        return service.getAvailableRoles(userId, pageable);
+    }
+
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES }, allEntries = true)
