@@ -30,7 +30,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @Test
     @DisplayName("Returns the permissions not assigned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/single.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_single_permission.sql" })
     void testGetAvailablePermissions() {
         final Iterable<Permission> result;
@@ -72,8 +72,8 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @Test
     @DisplayName("When all the permission have been assigned nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/single.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_single_permission.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
     void testGetAvailablePermissions_AllAssigned() {
         final Iterable<Permission> result;
         final Pageable             pageable;
@@ -97,7 +97,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(1l, pageable);
+        result = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(result)
             .hasSize(4);
@@ -149,7 +149,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
     }
 
     @Test
-    @DisplayName("When there no permissions are granted all are returned")
+    @DisplayName("When there no permissions granted all are returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql" })
@@ -163,8 +163,15 @@ class ITRolePermissionServiceGetAvailablePermissions {
         result = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(result)
-            .hasSize(3);
+            .hasSize(4);
 
+        // DATA:CREATE
+        found = StreamSupport.stream(result.spliterator(), false)
+            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
+            .findAny()
+            .isPresent();
+        Assertions.assertThat(found)
+            .isTrue();
         // DATA:READ
         found = StreamSupport.stream(result.spliterator(), false)
             .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))

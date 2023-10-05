@@ -77,7 +77,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final Iterable<Permission> getAvailablePermissions(final long roleId, final Pageable pageable) {
-        // TODO: test this
         return permissionRepository.findAvailableToRole(roleId, pageable)
             .map(permissionMapper::toDto);
     }
