@@ -44,6 +44,6 @@ public interface PermissionRepository extends JpaRepository<PersistentPermission
     public Page<PersistentPermission> findAvailableToRole(@Param("roleId") final Long roleId, final Pageable pageable);
 
     @Query("SELECT p FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
-    public Page<PersistentPermission> findByRole(@Param("roleId") final Long roleId, final Pageable pageable);
+    public Page<PersistentPermission> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
 
 }

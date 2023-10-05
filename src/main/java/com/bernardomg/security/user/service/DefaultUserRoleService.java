@@ -67,7 +67,6 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
-
         log.debug("Getting roles for user {} and pagination {}", userId, pageable);
 
         return roleRepository.findForUser(userId, pageable);
