@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -70,7 +71,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         super();
     }
 
-    @ExceptionHandler({ MethodArgumentTypeMismatchException.class, HttpMessageConversionException.class })
+    @ExceptionHandler({ MethodArgumentTypeMismatchException.class, HttpMessageConversionException.class,
+            IllegalArgumentException.class, InvalidDataAccessApiUsageException.class })
     public final ResponseEntity<Object> handleBadRequestException(final Exception ex, final WebRequest request)
             throws Exception {
         log.warn(ex.getMessage(), ex);
