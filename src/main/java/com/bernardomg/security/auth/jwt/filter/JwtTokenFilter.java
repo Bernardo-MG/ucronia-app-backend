@@ -39,8 +39,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
-import com.bernardomg.security.token.TokenDecoder;
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.auth.jwt.token.TokenDecoder;
+import com.bernardomg.security.auth.jwt.token.TokenValidator;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

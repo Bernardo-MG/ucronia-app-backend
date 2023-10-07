@@ -27,10 +27,14 @@ package com.bernardomg.security.auth.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.auth.permission.AuthorizedResourceAspect;
 import com.bernardomg.security.auth.permission.AuthorizedResourceValidator;
 import com.bernardomg.security.auth.permission.SpringAuthorizedResourceValidator;
+import com.bernardomg.security.auth.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
  * Authentication configuration.
@@ -55,6 +59,12 @@ public class AuthConfig {
 
         validator = new SpringAuthorizedResourceValidator();
         return new AuthorizedResourceAspect(validator);
+    }
+
+    @Bean("userDetailsService")
+    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
+            final UserGrantedPermissionRepository userPermsRepository) {
+        return new PersistentUserDetailsService(userRepository, userPermsRepository);
     }
 
 }

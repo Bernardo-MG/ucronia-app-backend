@@ -22,24 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.token;
-
-import com.bernardomg.security.auth.jwt.token.JwtTokenData;
+package com.bernardomg.security.auth.jwt.token;
 
 /**
- * Creates a token from the provided object.
+ * Creates an object from the provided token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
+ *
+ * @param <T>
+ *            type to decode
  */
-public interface TokenEncoder {
+public interface TokenDecoder<T> {
 
     /**
-     * Returns a token encoding the data.
+     * Returns an object decoded from the token.
      *
-     * @param data
-     *            data to encode into the token
-     * @return token from the data
+     * @param token
+     *            token to decode as the object
+     * @return object from the token
      */
-    public String encode(final JwtTokenData data);
+    public T decode(final String token);
 
 }

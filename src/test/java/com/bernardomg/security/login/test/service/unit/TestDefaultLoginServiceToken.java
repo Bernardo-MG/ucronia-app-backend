@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
@@ -27,7 +28,6 @@ import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;

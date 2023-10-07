@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 
 import com.bernardomg.security.auth.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
+import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
@@ -45,7 +46,6 @@ import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 

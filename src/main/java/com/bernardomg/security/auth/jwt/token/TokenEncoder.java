@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.auth.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.bernardomg.security.auth.springframework.userdetails.PersistentUserDetailsService;
-import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
+package com.bernardomg.security.auth.jwt.token;
 
 /**
- * Authentication configuration.
+ * Creates a token from the provided object.
  *
- * @author Bernardo Martínez Garrido
- *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
-@Configuration
-public class SpringAuthConfig {
+public interface TokenEncoder {
 
     /**
-     * Default constructor.
+     * Returns a token encoding the data.
+     *
+     * @param data
+     *            data to encode into the token
+     * @return token from the data
      */
-    public SpringAuthConfig() {
-        super();
-    }
-
-    @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final UserGrantedPermissionRepository userPermsRepository) {
-        return new PersistentUserDetailsService(userRepository, userPermsRepository);
-    }
+    public String encode(final JwtTokenData data);
 
 }

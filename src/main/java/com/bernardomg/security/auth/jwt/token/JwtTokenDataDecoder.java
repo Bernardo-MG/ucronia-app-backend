@@ -7,8 +7,6 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.security.token.TokenDecoder;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

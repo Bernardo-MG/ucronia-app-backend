@@ -36,9 +36,9 @@ import com.bernardomg.security.auth.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.JwtTokenDataDecoder;
 import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.token.TokenDecoder;
-import com.bernardomg.security.token.TokenEncoder;
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.auth.jwt.token.TokenDecoder;
+import com.bernardomg.security.auth.jwt.token.TokenEncoder;
+import com.bernardomg.security.auth.jwt.token.TokenValidator;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

@@ -13,8 +13,8 @@ import com.bernardomg.security.auth.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.JwtTokenDataDecoder;
 import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.token.TokenDecoder;
-import com.bernardomg.security.token.TokenEncoder;
+import com.bernardomg.security.auth.jwt.token.TokenDecoder;
+import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 
 @DisplayName("DefaultTokenEncoder - has expired")

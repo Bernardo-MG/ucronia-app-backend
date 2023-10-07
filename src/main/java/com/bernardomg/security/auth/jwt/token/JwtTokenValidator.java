@@ -27,9 +27,6 @@ package com.bernardomg.security.auth.jwt.token;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import com.bernardomg.security.token.TokenDecoder;
-import com.bernardomg.security.token.TokenValidator;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 

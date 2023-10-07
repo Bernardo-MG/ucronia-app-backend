@@ -32,11 +32,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.bernardomg.security.auth.jwt.filter.JwtTokenFilter;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
-import com.bernardomg.security.token.TokenDecoder;
-import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.auth.jwt.token.TokenDecoder;
+import com.bernardomg.security.auth.jwt.token.TokenValidator;
 
 /**
- * JWT security configurar. Applies JWT configuration to the Spring web configuration.
+ * JWT security configurer. Adds a {@link JwtTokenFilter} before the username and password authentication filter.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
