@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.auth.permission.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.model.Role;

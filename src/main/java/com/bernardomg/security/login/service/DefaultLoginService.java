@@ -36,8 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.jwt.token.ImmutableJwtTokenData;
-import com.bernardomg.security.jwt.token.JwtTokenData;
+import com.bernardomg.security.auth.jwt.token.ImmutableJwtTokenData;
+import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;

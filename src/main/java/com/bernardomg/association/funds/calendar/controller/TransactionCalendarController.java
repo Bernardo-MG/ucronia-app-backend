@@ -38,7 +38,7 @@ import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
 import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.auth.permission.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;

@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.token;
 
-import com.bernardomg.security.jwt.token.JwtTokenData;
+import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 
 /**
  * Creates a token from the provided object.
