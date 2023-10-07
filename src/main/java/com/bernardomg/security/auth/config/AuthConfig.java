@@ -27,9 +27,7 @@ package com.bernardomg.security.auth.config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.security.auth.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.auth.permission.AuthorizedResourceAspect;
 import com.bernardomg.security.auth.permission.AuthorizedResourceValidator;
 import com.bernardomg.security.auth.permission.SpringAuthorizedResourceValidator;
@@ -48,11 +46,6 @@ public class AuthConfig {
      */
     public AuthConfig() {
         super();
-    }
-
-    @Bean("authenticationEntryPoint")
-    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
-        return new ErrorResponseAuthenticationEntryPoint();
     }
 
     @Bean("authorizedResourceAspect")

@@ -44,7 +44,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Authentication configuration.
+ * JWT authentication configuration.
  *
  * @author Bernardo Martínez Garrido
  *

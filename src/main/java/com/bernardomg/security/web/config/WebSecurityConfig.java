@@ -27,20 +27,25 @@ package com.bernardomg.security.web.config;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.bernardomg.security.auth.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.token.TokenDecoder;
 import com.bernardomg.security.token.TokenValidator;
+import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
+import com.bernardomg.security.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 
 /**
  * Web security configuration.
@@ -60,25 +65,35 @@ public class WebSecurityConfig {
         super();
     }
 
+    @Bean("authenticationEntryPoint")
+    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return new ErrorResponseAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> getJwtSecurityConfigurer(
+            final TokenDecoder<JwtTokenData> decoder, final TokenValidator tokenValidator,
+            final UserDetailsService userDetailsService) {
+        return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
+    }
+
     /**
      * Web security filter chain. Sets up all the authentication requirements for requests.
      *
      * @param http
      *            HTTP security component
-     * @param decoder
-     *            token decoder
-     * @param tokenValidator
-     *            token validator
-     * @param userDetailsService
-     *            user details service
+     * @param corsProperties
+     * @param jwtSecurityConfigurer
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
      */
     @Bean("webSecurityFilterChain")
-    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
-            final TokenDecoder<JwtTokenData> decoder, final TokenValidator tokenValidator,
-            final UserDetailsService userDetailsService, final CorsProperties corsProperties) throws Exception {
+    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
+            final JwtSecurityConfigurer jwtSecurityConfigurer) throws Exception {
+        final CorsConfigurationSource corsConfigurationSource;
+
+        corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
 
         http
             // Whitelist access
@@ -89,36 +104,20 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(c -> c.anyRequest()
                 .authenticated())
             // CSRF and CORS
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(getCorsConfigurationSource(corsProperties)))
+            .csrf(CsrfConfigurer::disable)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
             // Authentication error handling
             .exceptionHandling(handler -> handler.authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint()))
             // Stateless
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // Disable login and logout forms
-            .formLogin(c -> c.disable())
-            .logout(c -> c.disable());
+            .formLogin(FormLoginConfigurer::disable)
+            .logout(LogoutConfigurer::disable);
 
         // JWT configuration
-        http.apply(new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder));
+        http.apply(jwtSecurityConfigurer);
 
         return http.build();
-    }
-
-    private CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
-        final CorsConfiguration               configuration;
-        final UrlBasedCorsConfigurationSource source;
-
-        configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(corsProperties.getAllowedOrigins());
-        configuration.setAllowedMethods(corsProperties.getAllowedMethods());
-        configuration.setAllowedHeaders(corsProperties.getAllowedHeaders());
-        configuration.setExposedHeaders(corsProperties.getExposedHeaders());
-
-        source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
     }
 
 }

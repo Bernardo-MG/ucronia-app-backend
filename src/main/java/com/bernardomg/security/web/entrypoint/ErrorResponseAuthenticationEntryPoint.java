@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.auth.entrypoint;
+package com.bernardomg.security.web.entrypoint;
 
 import java.io.IOException;
 
@@ -31,7 +31,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.bernardomg.mvc.response.model.ErrorResponse;
-import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,7 +40,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Authentication entry point which returns an {@link FailureResponse} on failure.
+ * Authentication entry point which returns an {@link ErrorResponse} on failure.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
