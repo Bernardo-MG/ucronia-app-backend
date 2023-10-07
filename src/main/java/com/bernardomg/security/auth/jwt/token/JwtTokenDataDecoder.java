@@ -17,7 +17,7 @@ import io.jsonwebtoken.Jwts;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class JwtTokenDataDecoder implements TokenDecoder<JwtTokenData> {
+public final class JwtTokenDataDecoder implements TokenDecoder {
 
     /**
      * JWT parser for reading tokens.

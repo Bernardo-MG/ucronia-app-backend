@@ -38,7 +38,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenValidator;
 
@@ -60,22 +59,22 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * Token header identifier. This is added before the token to tell which kind of token it is.
      */
-    private static final String              TOKEN_HEADER_IDENTIFIER = "Bearer";
+    private static final String      TOKEN_HEADER_IDENTIFIER = "Bearer";
 
     /**
      * Token decoder. Required to acquire the subject.
      */
-    private final TokenDecoder<JwtTokenData> tokenDataDecoder;
+    private final TokenDecoder       tokenDataDecoder;
 
     /**
      * Token validator.
      */
-    private final TokenValidator             tokenValidator;
+    private final TokenValidator     tokenValidator;
 
     /**
      * User details service. Gives access to the user, to validate the token against it.
      */
-    private final UserDetailsService         userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     /**
      * Constructs a filter with the received arguments.
@@ -88,7 +87,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            token decoder
      */
     public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
-            final TokenDecoder<JwtTokenData> decoder) {
+            final TokenDecoder decoder) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);

@@ -41,7 +41,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenValidator;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
@@ -72,7 +71,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> getJwtSecurityConfigurer(
-            final TokenDecoder<JwtTokenData> decoder, final TokenValidator tokenValidator,
+            final TokenDecoder decoder, final TokenValidator tokenValidator,
             final UserDetailsService userDetailsService) {
         return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
     }

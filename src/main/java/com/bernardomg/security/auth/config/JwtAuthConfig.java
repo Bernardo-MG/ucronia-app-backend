@@ -33,7 +33,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.auth.jwt.token.DefaultTokenEncoder;
-import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.JwtTokenDataDecoder;
 import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
@@ -69,7 +68,7 @@ public class JwtAuthConfig {
      * @return the token encoder
      */
     @Bean("jwtTokenDecoder")
-    public TokenDecoder<JwtTokenData> getTokenDecoder(final JwtProperties properties) {
+    public TokenDecoder getTokenDecoder(final JwtProperties properties) {
         final SecretKey key;
 
         key = Keys.hmacShaKeyFor(properties.getSecret()
@@ -104,7 +103,7 @@ public class JwtAuthConfig {
      * @return the token validator
      */
     @Bean("jwtTokenValidator")
-    public TokenValidator getTokenValidator(final TokenDecoder<JwtTokenData> decoder) {
+    public TokenValidator getTokenValidator(final TokenDecoder decoder) {
         return new JwtTokenValidator(decoder);
     }
 

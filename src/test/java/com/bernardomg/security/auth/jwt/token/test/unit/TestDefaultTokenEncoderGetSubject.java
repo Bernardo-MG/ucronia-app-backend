@@ -21,9 +21,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 @DisplayName("DefaultTokenEncoder - get subject")
 class TestDefaultTokenEncoderGetSubject {
 
-    private final TokenDecoder<JwtTokenData> decoder;
+    private final TokenDecoder decoder;
 
-    private final TokenEncoder               encoder;
+    private final TokenEncoder encoder;
 
     public TestDefaultTokenEncoderGetSubject() {
         super();

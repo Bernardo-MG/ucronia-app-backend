@@ -32,7 +32,7 @@ package com.bernardomg.security.auth.jwt.token;
  * @param <T>
  *            type to decode
  */
-public interface TokenDecoder<T> {
+public interface TokenDecoder {
 
     /**
      * Returns an object decoded from the token.
@@ -41,6 +41,6 @@ public interface TokenDecoder<T> {
      *            token to decode as the object
      * @return object from the token
      */
-    public T decode(final String token);
+    public JwtTokenData decode(final String token);
 
 }

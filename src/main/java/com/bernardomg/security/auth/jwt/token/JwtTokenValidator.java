@@ -42,7 +42,7 @@ public final class JwtTokenValidator implements TokenValidator {
     /**
      * Token decoder. Without this the token claims can't be validated.
      */
-    private final TokenDecoder<JwtTokenData> tokenDataDecoder;
+    private final TokenDecoder tokenDataDecoder;
 
     /**
      * Constructs a validator with the received arguments.
@@ -50,7 +50,7 @@ public final class JwtTokenValidator implements TokenValidator {
      * @param decoder
      *            token decoder for reading the token claims
      */
-    public JwtTokenValidator(final TokenDecoder<JwtTokenData> decoder) {
+    public JwtTokenValidator(final TokenDecoder decoder) {
         super();
 
         tokenDataDecoder = Objects.requireNonNull(decoder);

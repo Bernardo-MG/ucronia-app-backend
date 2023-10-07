@@ -31,7 +31,6 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.bernardomg.security.auth.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenValidator;
 
@@ -59,7 +58,7 @@ public final class JwtSecurityConfigurer extends SecurityConfigurerAdapter<Defau
      *            token decoder to use
      */
     public JwtSecurityConfigurer(final UserDetailsService userDetService, final TokenValidator tokenValidator,
-            final TokenDecoder<JwtTokenData> decoder) {
+            final TokenDecoder decoder) {
         super();
 
         tokenFilter = new JwtTokenFilter(userDetService, tokenValidator, decoder);

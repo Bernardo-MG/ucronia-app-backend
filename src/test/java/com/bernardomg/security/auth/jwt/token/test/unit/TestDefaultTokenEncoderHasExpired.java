@@ -27,7 +27,7 @@ class TestDefaultTokenEncoderHasExpired {
     public TestDefaultTokenEncoderHasExpired() {
         super();
 
-        final TokenDecoder<JwtTokenData> decoder;
+        final TokenDecoder decoder;
 
         encoder = new DefaultTokenEncoder(TokenConstants.KEY);
         decoder = new JwtTokenDataDecoder(TokenConstants.KEY);
