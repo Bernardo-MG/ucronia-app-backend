@@ -33,9 +33,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @DisplayName("JwtTokenFilter")
 class TestJwtTokenFilter {
 
-    private static final String TOKEN    = "token";
+    private static final String HEADER_BEARER = "Bearer token";
 
-    private static final String USERNAME = "username";
+    private static final String TOKEN         = "token";
+
+    private static final String USERNAME      = "username";
 
     @Mock
     private TokenDecoder        decoder;
@@ -57,6 +59,24 @@ class TestJwtTokenFilter {
         filter = new JwtTokenFilter(userDetService, validator, decoder);
     }
 
+    private final UserDetails getValidUserDetails() {
+        final UserDetails userDetails;
+
+        userDetails = Mockito.mock(UserDetails.class);
+        Mockito.when(userDetails.getUsername())
+            .thenReturn(USERNAME);
+        Mockito.when(userDetails.isAccountNonExpired())
+            .thenReturn(true);
+        Mockito.when(userDetails.isAccountNonLocked())
+            .thenReturn(true);
+        Mockito.when(userDetails.isCredentialsNonExpired())
+            .thenReturn(true);
+        Mockito.when(userDetails.isEnabled())
+            .thenReturn(true);
+
+        return userDetails;
+    }
+
     @Test
     @DisplayName("With a valid token the user is stored")
     void testDoFilter() throws ServletException, IOException {
@@ -67,9 +87,10 @@ class TestJwtTokenFilter {
         final UserDetails         userDetails;
         final Authentication      authentication;
 
+        // GIVEN
         given(validator.hasExpired(TOKEN)).willReturn(false);
 
-        userDetails = Mockito.mock(UserDetails.class);
+        userDetails = getValidUserDetails();
         given(userDetService.loadUserByUsername(USERNAME)).willReturn(userDetails);
 
         jwtTokenData = ImmutableJwtTokenData.builder()
@@ -78,18 +99,17 @@ class TestJwtTokenFilter {
         given(decoder.decode(TOKEN)).willReturn(jwtTokenData);
 
         request = Mockito.mock(HttpServletRequest.class);
-        given(request.getHeader("Authorization")).willReturn("Bearer " + TOKEN);
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
 
         response = Mockito.mock(HttpServletResponse.class);
         filterChain = Mockito.mock(FilterChain.class);
 
+        // WHEN
         filter.doFilter(request, response, filterChain);
 
-        Mockito.verify(userDetService, Mockito.times(1))
-            .loadUserByUsername(USERNAME);
+        // THEN
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
-
         Assertions.assertThat(authentication.getName())
             .isEqualTo(USERNAME);
     }

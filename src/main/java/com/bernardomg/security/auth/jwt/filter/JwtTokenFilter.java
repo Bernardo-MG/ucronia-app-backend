@@ -144,7 +144,6 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         final String           header;
         final Optional<String> token;
 
-        // TODO: Should be case insensitive
         header = request.getHeader("Authorization");
 
         if (header == null) {
