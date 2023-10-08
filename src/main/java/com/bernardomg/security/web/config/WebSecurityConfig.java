@@ -24,9 +24,12 @@
 
 package com.bernardomg.security.web.config;
 
+import java.util.Collection;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -34,12 +37,14 @@ import org.springframework.security.config.annotation.web.configurers.FormLoginC
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Web security configuration.
@@ -50,6 +55,7 @@ import com.bernardomg.security.web.entrypoint.ErrorResponseAuthenticationEntryPo
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties.class)
+@Slf4j
 public class WebSecurityConfig {
 
     /**
@@ -70,14 +76,15 @@ public class WebSecurityConfig {
      * @param http
      *            HTTP security component
      * @param corsProperties
-     * @param jwtSecurityConfigurer
+     * @param securityConfigurers
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
      */
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
-            final JwtSecurityConfigurer jwtSecurityConfigurer) throws Exception {
+            final Collection<SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers)
+            throws Exception {
         final CorsConfigurationSource corsConfigurationSource;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
@@ -101,8 +108,11 @@ public class WebSecurityConfig {
             .formLogin(FormLoginConfigurer::disable)
             .logout(LogoutConfigurer::disable);
 
-        // JWT configuration
-        http.apply(jwtSecurityConfigurer);
+        // Security configurers
+        log.debug("Applying configurers: {}", securityConfigurers);
+        for (final SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> securityConfigurer : securityConfigurers) {
+            http.apply(securityConfigurer);
+        }
 
         return http.build();
     }
