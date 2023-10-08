@@ -24,8 +24,20 @@
 
 package com.bernardomg.security.auth.permission;
 
+/**
+ * Validates permissions over a resource.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface AuthorizedResourceValidator {
 
+    /**
+     * Checks if the user in session has can apply the action over the resource.
+     * @param resource protected resource
+     * @param action action to check
+     * @return {@code true} if the user has the correct authority. {@code false} otherwise
+     */
     public boolean isAuthorized(final String resource, final String action);
 
 }

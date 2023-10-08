@@ -34,10 +34,20 @@ import org.springframework.security.access.AccessDeniedException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Wraps the code marked by {@code AuthorizedResource} and applies resource-based authentication. The validation is applied against
+ * the user in session.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Aspect
 @Slf4j
 public final class AuthorizedResourceAspect {
 
+    /**
+     * Authorization validator. Makes sure the user in session has the required authorities.
+     */
     private final AuthorizedResourceValidator authValidator;
 
     public AuthorizedResourceAspect(final AuthorizedResourceValidator validator) {

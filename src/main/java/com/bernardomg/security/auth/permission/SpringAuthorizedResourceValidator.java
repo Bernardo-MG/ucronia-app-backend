@@ -32,6 +32,12 @@ import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGr
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Spring based authorized resource validator.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class SpringAuthorizedResourceValidator implements AuthorizedResourceValidator {
 
@@ -44,13 +50,13 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
         final Authentication authentication;
         final boolean        authorized;
 
-        // TODO: Check before casting
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
         if (authentication == null) {
             log.debug("Missing authentication object");
             authorized = false;
         } else if (authentication.isAuthenticated()) {
+            // It is authorized if any authority matches
             authorized = authentication.getAuthorities()
                 .stream()
                 .anyMatch(a -> isValid(a, resource, action));

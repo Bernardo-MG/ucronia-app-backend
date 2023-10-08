@@ -31,14 +31,28 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotates a resource requiring authorization.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
 public @interface AuthorizedResource {
 
+    /**
+     * Action required over the resource.
+     * @return action required
+     */
     public String action();
 
+    /**
+     * Resource to authorize.
+     * @return resource to authorize
+     */
     public String resource();
 
 }
