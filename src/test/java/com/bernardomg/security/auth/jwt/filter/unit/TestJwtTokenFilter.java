@@ -20,8 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.auth.jwt.filter.JwtTokenFilter;
 import com.bernardomg.security.auth.jwt.token.ImmutableJwtTokenData;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
-import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 
 import jakarta.servlet.FilterChain;
@@ -48,7 +48,7 @@ class TestJwtTokenFilter {
     private UserDetailsService  userDetService;
 
     @Mock
-    private JwtTokenValidator   validator;
+    private JjwtTokenValidator  validator;
 
     public TestJwtTokenFilter() {
         super();

@@ -36,16 +36,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JWT data token encoder.
+ * JJWT token encoder. Will create a JWT token from a {@link JwtTokenData} using the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class DefaultTokenEncoder implements TokenEncoder {
+public final class JjwtTokenEncoder implements TokenEncoder {
 
     /**
-     * Secret key for generating tokens. Created from the secret received when constructing the provider.
+     * Secret key for generating tokens.
      */
     private final SecretKey key;
 
@@ -53,9 +53,9 @@ public final class DefaultTokenEncoder implements TokenEncoder {
      * Constructs an encoder with the received arguments.
      *
      * @param secretKey
-     *            key used when generating tokens
+     *            secret key used for the token
      */
-    public DefaultTokenEncoder(final SecretKey secretKey) {
+    public JjwtTokenEncoder(final SecretKey secretKey) {
         super();
 
         key = Objects.requireNonNull(secretKey);

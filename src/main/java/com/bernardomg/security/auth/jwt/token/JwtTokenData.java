@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents the commons JWT token claims.
+ * Represents the common JWT token claims.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

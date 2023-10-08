@@ -8,57 +8,51 @@ import java.util.Objects;
 import javax.crypto.SecretKey;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 
 /**
- * JWT data token decoder. Builds a {@code JwtTokenData} from a JWT token.
+ * JJWT data token decoder. Will create{@link JwtTokenData} from a JWT token using the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class JwtTokenDataDecoder implements TokenDecoder {
+public final class JjwtTokenDataDecoder implements TokenDecoder {
 
     /**
-     * JWT parser for reading tokens.
+     * JWTS parser for reading tokens.
      */
     private final JwtParser parser;
 
     /**
-     * Builds a decoder with the received parser.
-     *
-     * @param prsr
-     *            JWT parser
-     */
-    public JwtTokenDataDecoder(final JwtParser prsr) {
-        super();
-
-        parser = Objects.requireNonNull(prsr);
-    }
-
-    /**
      * Builds a decoder with the received key.
      *
-     * @param key
-     *            secret key for the token
+     * @param secretKey
+     *            secret key used for the token
      */
-    public JwtTokenDataDecoder(final SecretKey key) {
+    public JjwtTokenDataDecoder(final SecretKey secretKey) {
         super();
 
-        Objects.requireNonNull(key);
+        Objects.requireNonNull(secretKey);
 
         parser = Jwts.parserBuilder()
-            .setSigningKey(key)
+            .setSigningKey(secretKey)
             .build();
     }
 
     @Override
-    public final JwtTokenData decode(final String token) {
+    public final JwtTokenData decode(final String token) throws ExpiredJwtException, UnsupportedJwtException,
+            MalformedJwtException, SignatureException, IllegalArgumentException {
         final Claims        claims;
         final LocalDateTime issuedAt;
         final LocalDateTime expiration;
         final LocalDateTime notBefore;
 
+        // Acquire claims
         claims = parser.parseClaimsJws(token)
             .getBody();
 

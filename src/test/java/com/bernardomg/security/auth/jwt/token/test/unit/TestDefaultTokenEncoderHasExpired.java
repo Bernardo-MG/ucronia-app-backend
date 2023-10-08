@@ -8,30 +8,25 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.auth.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.auth.jwt.token.ImmutableJwtTokenData;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenEncoder;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.JwtTokenData;
-import com.bernardomg.security.auth.jwt.token.JwtTokenDataDecoder;
-import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
-import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 
 @DisplayName("DefaultTokenEncoder - has expired")
 class TestDefaultTokenEncoderHasExpired {
 
-    private final TokenEncoder      encoder;
+    private final TokenEncoder       encoder;
 
-    private final JwtTokenValidator validator;
+    private final JjwtTokenValidator validator;
 
     public TestDefaultTokenEncoderHasExpired() {
         super();
 
-        final TokenDecoder decoder;
-
-        encoder = new DefaultTokenEncoder(TokenConstants.KEY);
-        decoder = new JwtTokenDataDecoder(TokenConstants.KEY);
-        validator = new JwtTokenValidator(decoder);
+        encoder = new JjwtTokenEncoder(TokenConstants.KEY);
+        validator = new JjwtTokenValidator(TokenConstants.KEY);
     }
 
     @Test

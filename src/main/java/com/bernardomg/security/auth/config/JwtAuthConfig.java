@@ -34,9 +34,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.auth.jwt.token.DefaultTokenEncoder;
-import com.bernardomg.security.auth.jwt.token.JwtTokenDataDecoder;
-import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenDataDecoder;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenEncoder;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.auth.jwt.token.TokenValidator;
@@ -79,9 +79,10 @@ public class JwtAuthConfig {
     public TokenDecoder getTokenDecoder(final JwtProperties properties) {
         final SecretKey key;
 
+        // TODO: Shouldn't the key be unique?
         key = Keys.hmacShaKeyFor(properties.getSecret()
             .getBytes(StandardCharsets.UTF_8));
-        return new JwtTokenDataDecoder(key);
+        return new JjwtTokenDataDecoder(key);
     }
 
     /**
@@ -95,12 +96,13 @@ public class JwtAuthConfig {
     public TokenEncoder getTokenEncoder(final JwtProperties properties) {
         final SecretKey key;
 
+        // TODO: Shouldn't the key be unique?
         key = Keys.hmacShaKeyFor(properties.getSecret()
             .getBytes(StandardCharsets.UTF_8));
 
         log.info("Security tokens will have a validity of {}", properties.getValidity());
 
-        return new DefaultTokenEncoder(key);
+        return new JjwtTokenEncoder(key);
     }
 
     /**
@@ -111,8 +113,14 @@ public class JwtAuthConfig {
      * @return the token validator
      */
     @Bean("jwtTokenValidator")
-    public TokenValidator getTokenValidator(final TokenDecoder decoder) {
-        return new JwtTokenValidator(decoder);
+    public TokenValidator getTokenValidator(final JwtProperties properties) {
+        final SecretKey key;
+
+        // TODO: Shouldn't the key be unique?
+        key = Keys.hmacShaKeyFor(properties.getSecret()
+            .getBytes(StandardCharsets.UTF_8));
+
+        return new JjwtTokenValidator(key);
     }
 
 }

@@ -25,19 +25,20 @@
 package com.bernardomg.security.auth.jwt.token;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+
+import javax.crypto.SecretKey;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JWT token validator.
+ * JJWT token validator. Will validate a JWT token using the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class JwtTokenValidator implements TokenValidator {
+public final class JjwtTokenValidator implements TokenValidator {
 
     /**
      * Token decoder. Without this the token claims can't be validated.
@@ -47,13 +48,13 @@ public final class JwtTokenValidator implements TokenValidator {
     /**
      * Constructs a validator with the received arguments.
      *
-     * @param decoder
-     *            token decoder for reading the token claims
+     * @param secretKey
+     *            secret key used for the token
      */
-    public JwtTokenValidator(final TokenDecoder decoder) {
+    public JjwtTokenValidator(final SecretKey secretKey) {
         super();
 
-        tokenDataDecoder = Objects.requireNonNull(decoder);
+        tokenDataDecoder = new JjwtTokenDataDecoder(secretKey);
     }
 
     @Override
