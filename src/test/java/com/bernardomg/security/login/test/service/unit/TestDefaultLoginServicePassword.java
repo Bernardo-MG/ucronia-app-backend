@@ -25,7 +25,7 @@ import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.login.service.JwtPermissionTokenEncoder;
+import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
@@ -68,7 +68,8 @@ class TestDefaultLoginServicePassword {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        loginTokenEncoder = new JwtPermissionTokenEncoder(tokenEncoder, userGrantedPermissionRepository, Duration.ZERO);
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
+            Duration.ZERO);
 
         return new DefaultLoginService(valid, userRepository, loginTokenEncoder);
     }

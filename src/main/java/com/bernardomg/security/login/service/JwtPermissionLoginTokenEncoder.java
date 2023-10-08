@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class JwtPermissionTokenEncoder implements LoginTokenEncoder {
+public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
     /**
      * Token encoder for creating authentication tokens.
@@ -38,7 +38,7 @@ public class JwtPermissionTokenEncoder implements LoginTokenEncoder {
      */
     private final Duration                        validity;
 
-    public JwtPermissionTokenEncoder(final TokenEncoder tknEncoder,
+    public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder,
             final UserGrantedPermissionRepository userGrantedPermissionRepo, final Duration vldt) {
         super();
 
