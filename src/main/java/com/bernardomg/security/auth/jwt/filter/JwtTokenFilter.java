@@ -49,6 +49,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * JWT token filter. Takes the JWT token from the request, validates it and initializes the authentication.
+ * <h1>Header</h1>
+ * The token should come in the Authorization header, which must follow a structure like this: {@code Authorization: Bearer [token]}. 
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -57,7 +59,8 @@ import lombok.extern.slf4j.Slf4j;
 public final class JwtTokenFilter extends OncePerRequestFilter {
 
     /**
-     * Token header identifier. This is added before the token to tell which kind of token it is.
+     * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the authentication
+     * header is valid.
      */
     private static final String      TOKEN_HEADER_IDENTIFIER = "Bearer";
 
@@ -67,7 +70,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     private final TokenDecoder       tokenDataDecoder;
 
     /**
-     * Token validator.
+     * Token validator. Expired tokens are rejected.
      */
     private final TokenValidator     tokenValidator;
 
@@ -131,7 +134,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Takes the token from the authorization header.
+     * Takes the token from the authorization header. This is expected to be something like {@code Authorization: Bearer [token]}.
      *
      * @param request
      *            request containing the header with the token
@@ -141,6 +144,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         final String           header;
         final Optional<String> token;
 
+        // TODO: Should be case insensitive
         header = request.getHeader("Authorization");
 
         if (header == null) {
@@ -151,6 +155,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             .startsWith(TOKEN_HEADER_IDENTIFIER + " "))) {
             // Token received
             // Take it by removing the identifier
+            // TODO: Should be case insensitive
             token = Optional.of(header.substring(TOKEN_HEADER_IDENTIFIER.length())
                 .trim());
         } else {
