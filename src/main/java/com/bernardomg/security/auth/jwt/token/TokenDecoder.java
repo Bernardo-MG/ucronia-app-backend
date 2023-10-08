@@ -28,9 +28,6 @@ package com.bernardomg.security.auth.jwt.token;
  * Creates an object from the provided token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
- * @param <T>
- *            type to decode
  */
 public interface TokenDecoder {
 
