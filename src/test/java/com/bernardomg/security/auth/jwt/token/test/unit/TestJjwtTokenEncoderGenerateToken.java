@@ -11,12 +11,12 @@ import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 
-@DisplayName("DefaultTokenEncoder - generate token")
-class TestDefaultTokenEncoderGenerateToken {
+@DisplayName("JjwtTokenEncoder - generate token")
+class TestJjwtTokenEncoderGenerateToken {
 
     private final TokenEncoder encoder;
 
-    public TestDefaultTokenEncoderGenerateToken() {
+    public TestJjwtTokenEncoderGenerateToken() {
         super();
 
         encoder = new JjwtTokenEncoder(TokenConstants.KEY);

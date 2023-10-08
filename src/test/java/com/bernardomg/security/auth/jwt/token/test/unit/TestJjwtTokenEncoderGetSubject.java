@@ -18,14 +18,14 @@ import com.bernardomg.security.token.test.constant.TokenConstants;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
-@DisplayName("DefaultTokenEncoder - get subject")
-class TestDefaultTokenEncoderGetSubject {
+@DisplayName("JjwtTokenEncoder - get subject")
+class TestJjwtTokenEncoderGetSubject {
 
     private final TokenDecoder decoder;
 
     private final TokenEncoder encoder;
 
-    public TestDefaultTokenEncoderGetSubject() {
+    public TestJjwtTokenEncoderGetSubject() {
         super();
 
         encoder = new JjwtTokenEncoder(TokenConstants.KEY);

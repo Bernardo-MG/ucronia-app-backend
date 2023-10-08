@@ -15,14 +15,14 @@ import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 
-@DisplayName("DefaultTokenEncoder - has expired")
-class TestDefaultTokenEncoderHasExpired {
+@DisplayName("JjwtTokenEncoder - has expired")
+class TestJjwtTokenEncoderHasExpired {
 
     private final TokenEncoder       encoder;
 
     private final JjwtTokenValidator validator;
 
-    public TestDefaultTokenEncoderHasExpired() {
+    public TestJjwtTokenEncoderHasExpired() {
         super();
 
         encoder = new JjwtTokenEncoder(TokenConstants.KEY);
