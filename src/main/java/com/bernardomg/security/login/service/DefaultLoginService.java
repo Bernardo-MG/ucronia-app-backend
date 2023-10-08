@@ -43,11 +43,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultLoginService implements LoginService {
 
+    private final Pattern                 emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
     private final Predicate<LoginRequest> isValid;
 
     private final LoginTokenEncoder       loginTokenEncoder;
-
-    private final Pattern                 pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
     private final UserRepository          userRepository;
 
@@ -74,7 +74,7 @@ public final class DefaultLoginService implements LoginService {
 
         loginWithName = loadLoginName(login);
 
-        valid = isValid(loginWithName);
+        valid = isValid.test(loginWithName);
 
         validUsername = loginWithName.getUsername()
             .toLowerCase();
@@ -102,50 +102,22 @@ public final class DefaultLoginService implements LoginService {
         return status;
     }
 
-    private final boolean isValid(final LoginRequest login) {
-        final Matcher                  matcher;
-        final Optional<PersistentUser> readUser;
-        final LoginRequest             validLogin;
-
-        matcher = pattern.matcher(login.getUsername());
-
-        if (matcher.find()) {
-            // Using email for login
-            log.debug("Login attempt with email");
-            readUser = userRepository.findOneByEmail(login.getUsername());
-            if (readUser.isPresent()) {
-                // Get the actual username and continue
-                validLogin = DtoLoginRequest.builder()
-                    .username(readUser.get()
-                        .getUsername())
-                    .password(login.getPassword())
-                    .build();
-            } else {
-                log.debug("No user found for email {}", login.getUsername());
-                validLogin = login;
-            }
-        } else {
-            // Using username for login
-            log.debug("Login attempt with username");
-            validLogin = login;
-        }
-
-        return isValid.test(validLogin);
-    }
-
     private final LoginRequest loadLoginName(final LoginRequest login) {
-        final Matcher                  matcher;
+        final Matcher                  emailMatcher;
         final Optional<PersistentUser> readUser;
         final LoginRequest             validLogin;
+        final String                   username;
 
-        // TODO: To lower case
-        matcher = pattern.matcher(login.getUsername());
+        username = login.getUsername()
+            .toLowerCase();
 
-        if (matcher.find()) {
+        emailMatcher = emailPattern.matcher(username);
+
+        if (emailMatcher.find()) {
             // Using email for login
             log.debug("Login attempt with email");
             // TODO: To lower case
-            readUser = userRepository.findOneByEmail(login.getUsername());
+            readUser = userRepository.findOneByEmail(username);
             if (readUser.isPresent()) {
                 // Get the actual username and continue
                 validLogin = DtoLoginRequest.builder()
@@ -154,8 +126,7 @@ public final class DefaultLoginService implements LoginService {
                     .password(login.getPassword())
                     .build();
             } else {
-                log.debug("No user found for email {}", login.getUsername()
-                    .toLowerCase());
+                log.debug("No user found for email {}", username);
                 validLogin = login;
             }
         } else {
