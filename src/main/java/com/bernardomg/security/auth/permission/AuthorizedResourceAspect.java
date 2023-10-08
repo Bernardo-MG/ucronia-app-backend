@@ -23,7 +23,7 @@ public final class AuthorizedResourceAspect {
         authValidator = validator;
     }
 
-    @Before("@annotation(com.bernardomg.security.permission.authorization.AuthorizedResource)")
+    @Before("@annotation(com.bernardomg.security.auth.permission.AuthorizedResource)")
     public final void before(final JoinPoint call) {
         final MethodSignature    signature;
         final Method             method;
