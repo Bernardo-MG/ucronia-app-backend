@@ -33,14 +33,11 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.auth.jwt.token.TokenDecoder;
-import com.bernardomg.security.auth.jwt.token.TokenValidator;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 
@@ -65,12 +62,6 @@ public class WebSecurityConfig {
     @Bean("authenticationEntryPoint")
     public AuthenticationEntryPoint getAuthenticationEntryPoint() {
         return new ErrorResponseAuthenticationEntryPoint();
-    }
-
-    @Bean
-    public JwtSecurityConfigurer getJwtSecurityConfigurer(final TokenDecoder decoder,
-            final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
-        return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
     }
 
     /**

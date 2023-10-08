@@ -31,7 +31,9 @@ import javax.crypto.SecretKey;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
 import com.bernardomg.security.auth.jwt.token.DefaultTokenEncoder;
 import com.bernardomg.security.auth.jwt.token.JwtTokenDataDecoder;
 import com.bernardomg.security.auth.jwt.token.JwtTokenValidator;
@@ -58,6 +60,12 @@ public class JwtAuthConfig {
      */
     public JwtAuthConfig() {
         super();
+    }
+
+    @Bean
+    public JwtSecurityConfigurer getJwtSecurityConfigurer(final TokenDecoder decoder,
+            final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
+        return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
     }
 
     /**
