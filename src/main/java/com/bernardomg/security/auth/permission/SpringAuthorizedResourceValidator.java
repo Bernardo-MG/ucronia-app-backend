@@ -25,7 +25,6 @@
 package com.bernardomg.security.auth.permission;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGrantedAuthority;
@@ -34,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Spring based authorized resource validator.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
@@ -59,6 +58,8 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
             // It is authorized if any authority matches
             authorized = authentication.getAuthorities()
                 .stream()
+                .filter(ResourceActionGrantedAuthority.class::isInstance)
+                .map(ResourceActionGrantedAuthority.class::cast)
                 .anyMatch(a -> isValid(a, resource, action));
             log.debug("Authorized user {} against resource {} with action {}: {}", authentication.getName(), resource,
                 action, authorized);
@@ -70,19 +71,12 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
         return authorized;
     }
 
-    private final boolean isValid(final GrantedAuthority authority, final String resource, final String action) {
-        final boolean valid;
-
-        if (authority instanceof final ResourceActionGrantedAuthority resourceAuthority) {
-            valid = resourceAuthority.getResource()
-                .equals(resource)
-                    && resourceAuthority.getAction()
-                        .equals(action);
-        } else {
-            valid = false;
-        }
-
-        return valid;
+    private final boolean isValid(final ResourceActionGrantedAuthority authority, final String resource,
+            final String action) {
+        return authority.getResource()
+            .equals(resource)
+                && authority.getAction()
+                    .equals(action);
     }
 
 }
