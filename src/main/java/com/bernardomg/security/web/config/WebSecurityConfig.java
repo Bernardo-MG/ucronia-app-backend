@@ -27,7 +27,6 @@ package com.bernardomg.security.web.config;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -36,7 +35,6 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -70,9 +68,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> getJwtSecurityConfigurer(
-            final TokenDecoder decoder, final TokenValidator tokenValidator,
-            final UserDetailsService userDetailsService) {
+    public JwtSecurityConfigurer getJwtSecurityConfigurer(final TokenDecoder decoder,
+            final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
         return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
     }
 
