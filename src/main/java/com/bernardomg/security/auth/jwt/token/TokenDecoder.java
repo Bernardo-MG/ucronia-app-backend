@@ -25,18 +25,18 @@
 package com.bernardomg.security.auth.jwt.token;
 
 /**
- * Creates an object from the provided token.
+ * Creates a {@link JwtTokenData} from a JWT token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 public interface TokenDecoder {
 
     /**
-     * Returns an object decoded from the token.
+     * Returns a {@code JwtTokenData} decoded from the JWT token.
      *
      * @param token
-     *            token to decode as the object
-     * @return object from the token
+     *            token to decode
+     * @return {@code JwtTokenData} decoded from the token
      */
     public JwtTokenData decode(final String token);
 

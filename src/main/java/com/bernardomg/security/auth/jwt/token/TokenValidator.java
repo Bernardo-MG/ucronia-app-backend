@@ -25,7 +25,7 @@
 package com.bernardomg.security.auth.jwt.token;
 
 /**
- * Token validator.
+ * Validates a JWT token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
