@@ -116,7 +116,7 @@ class TestJwtTokenFilter {
 
     @Test
     @DisplayName("With a expired token no user is stored")
-    void testDoFilter_InvalidToken() throws ServletException, IOException {
+    void testDoFilter_ExpiredToken() throws ServletException, IOException {
         final HttpServletRequest  request;
         final HttpServletResponse response;
         final FilterChain         filterChain;

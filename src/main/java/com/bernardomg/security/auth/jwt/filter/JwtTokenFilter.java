@@ -50,7 +50,9 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * JWT token filter. Takes the JWT token from the request, validates it and initializes the authentication.
  * <h1>Header</h1>
- * The token should come in the Authorization header, which must follow a structure like this: {@code Authorization: Bearer [token]}. 
+ * <p>
+ * The token should come in the Authorization header, which must follow a structure like this:
+ * {@code Authorization: Bearer [token]}. This is case insensitive.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -59,8 +61,8 @@ import lombok.extern.slf4j.Slf4j;
 public final class JwtTokenFilter extends OncePerRequestFilter {
 
     /**
-     * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the authentication
-     * header is valid.
+     * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the
+     * authentication header is valid.
      */
     private static final String      TOKEN_HEADER_IDENTIFIER = "Bearer";
 
@@ -96,12 +98,10 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         userDetailsService = Objects.requireNonNull(userDetService);
         tokenValidator = Objects.requireNonNull(validator);
         tokenDataDecoder = Objects.requireNonNull(decoder);
-
-        // TODO: Test this class
     }
 
     /**
-     * Returns an authentication object created from the user and request.
+     * Returns an {@link UsernamePasswordAuthenticationToken} created from the user and request.
      *
      * @param userDetails
      *            user for the authentication
@@ -122,19 +122,8 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Returns the subject from a token.
-     *
-     * @param token
-     *            the token to parse
-     * @return the subject from the token if found, or an empty {@code Optional} otherwise
-     */
-    private final Optional<String> getSubject(final String token) {
-        return Optional.ofNullable(tokenDataDecoder.decode(token)
-            .getSubject());
-    }
-
-    /**
-     * Takes the token from the authorization header. This is expected to be something like {@code Authorization: Bearer [token]}.
+     * Takes the token from the authorization header. This is expected to be something like
+     * {@code Authorization: Bearer [token]}.
      *
      * @param request
      *            request containing the header with the token
@@ -160,7 +149,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         } else {
             // Invalid token received
             token = Optional.empty();
-            log.warn("Authorization header has an invalid structure, can't return token");
+            log.warn("Authorization header {} has an invalid structure, can't return token", header);
         }
 
         return token;
@@ -182,7 +171,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     protected final void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
             final FilterChain chain) throws ServletException, IOException {
         final Optional<String> token;
-        final Optional<String> subject;
+        final String           subject;
         final UserDetails      userDetails;
         final Authentication   authentication;
 
@@ -198,27 +187,21 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             // Will load a new authentication from the token
 
             // Takes subject from the token
-            subject = getSubject(token.get());
+            subject = tokenDataDecoder.decode(token.get())
+                .getSubject();
+            userDetails = userDetailsService.loadUserByUsername(subject);
 
-            if (subject.isEmpty()) {
-                log.debug("Could not find subject in token {}", token.get());
+            if (isValid(userDetails)) {
+                // Create and register authentication
+                authentication = getAuthentication(userDetails, request, token.get());
+                SecurityContextHolder.getContext()
+                    .setAuthentication(authentication);
+
+                // User valid
+                log.debug("Authenticated {} request for {} to {}", request.getMethod(), subject,
+                    request.getServletPath());
             } else {
-                // Found subject
-                // Searchs for user
-                userDetails = userDetailsService.loadUserByUsername(subject.get());
-
-                if (isValid(userDetails)) {
-                    // Create and register authentication
-                    authentication = getAuthentication(userDetails, request, token.get());
-                    SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
-
-                    // User valid
-                    log.debug("Authenticated {} request for {} to {}", request.getMethod(), subject.get(),
-                        request.getServletPath());
-                } else {
-                    log.debug("Invalid user {}", subject.get());
-                }
+                log.debug("Invalid user {}", subject);
             }
         } else {
             log.debug("Invalid token {}", token.get());
