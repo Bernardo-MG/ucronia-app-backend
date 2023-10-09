@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * JWT token filter. Takes the JWT token from the request, validates it and initializes the authentication.
- * <h1>Header</h1>
+ * <h2>Header</h2>
  * <p>
  * The token should come in the Authorization header, which must follow a structure like this:
  * {@code Authorization: Bearer [token]}. This is case insensitive.
