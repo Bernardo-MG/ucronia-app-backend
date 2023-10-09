@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotates a resource requiring authorization.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
@@ -45,12 +45,14 @@ public @interface AuthorizedResource {
 
     /**
      * Action required over the resource.
+     *
      * @return action required
      */
     public String action();
 
     /**
      * Resource to authorize.
+     *
      * @return resource to authorize
      */
     public String resource();

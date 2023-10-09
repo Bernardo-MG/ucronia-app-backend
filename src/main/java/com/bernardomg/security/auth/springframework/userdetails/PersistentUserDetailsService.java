@@ -136,7 +136,10 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
         return userGrantedPermissionRepository.findAllByUserId(id)
             .stream()
-            .map(p -> new ResourceActionGrantedAuthority(p.getResource(), p.getAction()))
+            .map(p -> ResourceActionGrantedAuthority.builder()
+                .resource(p.getResource())
+                .action(p.getAction())
+                .build())
             .distinct()
             .toList();
     }

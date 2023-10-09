@@ -26,6 +26,11 @@ package com.bernardomg.security.auth.springframework.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder
 public final class ResourceActionGrantedAuthority implements GrantedAuthority {
 
     /**
@@ -33,40 +38,18 @@ public final class ResourceActionGrantedAuthority implements GrantedAuthority {
      */
     private static final long serialVersionUID = 2121524436657408632L;
 
-    private final String      action;
+    private String            action;
 
-    private final String      resource;
-
-    public ResourceActionGrantedAuthority(final String resource, final String action) {
-        super();
-
-        // TODO: use @Value
-
-        this.resource = resource;
-        this.action = action;
-    }
-
-    public final String getAction() {
-        return action;
-    }
+    private String            resource;
 
     @Override
     public final String getAuthority() {
-        return toString();
-    }
-
-    public final String getResource() {
-        return resource;
-    }
-
-    @Override
-    public int hashCode() {
-        return toString().hashCode();
+        return String.format("%s:%s", resource, action);
     }
 
     @Override
     public String toString() {
-        return String.format("%s:%s", resource, action);
+        return getAuthority();
     }
 
 }
