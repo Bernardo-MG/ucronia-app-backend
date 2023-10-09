@@ -108,8 +108,8 @@ public class JwtAuthConfig {
     /**
      * Returns the token validator.
      *
-     * @param decoder
-     *            token decoder
+     * @param properties
+     *            JWT configuration properties
      * @return the token validator
      */
     @Bean("jwtTokenValidator")
