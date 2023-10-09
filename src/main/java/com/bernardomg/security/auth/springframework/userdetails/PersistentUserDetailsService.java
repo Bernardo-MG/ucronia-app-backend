@@ -44,25 +44,20 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * User details service which takes the user data from the persistence layer.
+ * <h2>User names</h2>
  * <p>
- * Makes use of repositories, which will return the user and his action.
- * <p>
- * The user search is based on the username, and is case insensitive. As the persisted user details are expected to
- * contain the username in lower case.
+ * Users are located through the username, with a case insensitive search. The persisted user details are expected to
+ * contain the username in lower case, to avoid repeated usernames.
  * <h2>Granted authorities</h2>
  * <p>
- * Actions are read moving through the model. The service receives a username and then finds the action assigned to the
- * related user:
- * <p>
- * {@code user -> role -> action}
- * <p>
- * These action are used to create the granted authorities.
+ * Permissions will be acquired through a {@link UserGrantedPermissionRepository}, which queries a permissions view.
+ * This contains the resource and action pairs assigned to the user, and will be used to create the granted authorities.
  * <h2>Exceptions</h2>
  * <p>
  * When loading users any of these cases throws a {@code UsernameNotFoundException}:
  * <ul>
  * <li>There is no user for the username</li>
- * <li>Theres is a user, but he has no action</li>
+ * <li>There is a user, but he has no action</li>
  * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
@@ -72,27 +67,29 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
-     * Repository for the user permissions.
+     * User permissions repository.
      */
-    private final UserGrantedPermissionRepository userPermsRepo;
+    private final UserGrantedPermissionRepository userGrantedPermissionRepository;
 
     /**
-     * Repository for the user data.
+     * User repository.
      */
-    private final UserRepository                  userRepo;
+    private final UserRepository                  userRepository;
 
     /**
      * Constructs a user details service.
      *
-     * @param userRepository
-     *            repository for user details
+     * @param userRepo
+     *            users repository
+     * @param userGrantedPermissionRepo
+     *            user permissions repository
      */
-    public PersistentUserDetailsService(final UserRepository userRepository,
-            final UserGrantedPermissionRepository userPermsRepository) {
+    public PersistentUserDetailsService(final UserRepository userRepo,
+            final UserGrantedPermissionRepository userGrantedPermissionRepo) {
         super();
 
-        userRepo = Objects.requireNonNull(userRepository, "Received a null pointer as user repository");
-        userPermsRepo = Objects.requireNonNull(userPermsRepository,
+        userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");
+        userGrantedPermissionRepository = Objects.requireNonNull(userGrantedPermissionRepo,
             "Received a null pointer as user permission repository");
     }
 
@@ -104,7 +101,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         // TODO: Test this
 
-        user = userRepo.findOneByUsername(username.toLowerCase(Locale.getDefault()));
+        user = userRepository.findOneByUsername(username.toLowerCase(Locale.getDefault()));
 
         if (!user.isPresent()) {
             log.error("Username {} not found in DB", username);
@@ -137,7 +134,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
-        return userPermsRepo.findAllByUserId(id)
+        return userGrantedPermissionRepository.findAllByUserId(id)
             .stream()
             .map(p -> new ResourceActionGrantedAuthority(p.getResource(), p.getAction()))
             .distinct()

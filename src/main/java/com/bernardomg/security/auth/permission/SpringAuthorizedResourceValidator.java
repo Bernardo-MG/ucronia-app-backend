@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.auth.permission;
 
+import java.util.function.Predicate;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -32,7 +34,8 @@ import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGr
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Spring based authorized resource validator.
+ * Spring based authorized resource validator. Checks that the current user has access to a resource, as defined by its
+ * authorities. It will look for a {@link ResourceActionGrantedAuthority} matching the permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -46,8 +49,9 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
 
     @Override
     public final boolean isAuthorized(final String resource, final String action) {
-        final Authentication authentication;
-        final boolean        authorized;
+        final Authentication                            authentication;
+        final boolean                                   authorized;
+        final Predicate<ResourceActionGrantedAuthority> matchesPermission;
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
@@ -55,12 +59,14 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
             log.debug("Missing authentication object");
             authorized = false;
         } else if (authentication.isAuthenticated()) {
+            matchesPermission = (a) -> matches(a, resource, action);
+
             // It is authorized if any authority matches
             authorized = authentication.getAuthorities()
                 .stream()
                 .filter(ResourceActionGrantedAuthority.class::isInstance)
                 .map(ResourceActionGrantedAuthority.class::cast)
-                .anyMatch(a -> isValid(a, resource, action));
+                .anyMatch(matchesPermission);
             log.debug("Authorized user {} against resource {} with action {}: {}", authentication.getName(), resource,
                 action, authorized);
         } else {
@@ -71,7 +77,18 @@ public final class SpringAuthorizedResourceValidator implements AuthorizedResour
         return authorized;
     }
 
-    private final boolean isValid(final ResourceActionGrantedAuthority authority, final String resource,
+    /**
+     * Checks if the authority matches the permission.
+     *
+     * @param authority
+     *            authority to check
+     * @param resource
+     *            resource to validate
+     * @param action
+     *            action to validate
+     * @return {@code true} if the authority matches the permission, {@code false} otherwise
+     */
+    private final boolean matches(final ResourceActionGrantedAuthority authority, final String resource,
             final String action) {
         return authority.getResource()
             .equals(resource)
