@@ -59,6 +59,7 @@ public class BalanceController {
     private final BalanceService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.BALANCE)
     public MonthlyBalance readBalance() {
         return service.getBalance();
