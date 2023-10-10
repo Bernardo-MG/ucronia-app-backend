@@ -38,7 +38,7 @@ import com.bernardomg.association.configuration.cache.ConfigurationCaches;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
-import com.bernardomg.security.auth.permission.AuthorizedResource;
+import com.bernardomg.security.auth.access.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;

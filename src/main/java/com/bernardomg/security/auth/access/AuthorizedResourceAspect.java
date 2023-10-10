@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.auth.permission;
+package com.bernardomg.security.auth.access;
 
 import java.lang.reflect.Method;
 

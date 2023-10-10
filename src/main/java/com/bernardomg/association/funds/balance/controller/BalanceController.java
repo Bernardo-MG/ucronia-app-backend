@@ -38,7 +38,7 @@ import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.cache.FundsCaches;
-import com.bernardomg.security.auth.permission.AuthorizedResource;
+import com.bernardomg.security.auth.access.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;

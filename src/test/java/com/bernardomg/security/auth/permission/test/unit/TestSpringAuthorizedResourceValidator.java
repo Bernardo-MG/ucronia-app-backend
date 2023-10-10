@@ -16,8 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.auth.permission.AuthorizedResourceValidator;
-import com.bernardomg.security.auth.permission.SpringAuthorizedResourceValidator;
+import com.bernardomg.security.auth.access.AuthorizedResourceValidator;
+import com.bernardomg.security.auth.access.SpringAuthorizedResourceValidator;
 import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGrantedAuthority;
 
 @ExtendWith(MockitoExtension.class)

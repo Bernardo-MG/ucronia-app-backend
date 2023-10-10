@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.auth.permission.AuthorizedResourceAspect;
-import com.bernardomg.security.auth.permission.AuthorizedResourceValidator;
-import com.bernardomg.security.auth.permission.SpringAuthorizedResourceValidator;
+import com.bernardomg.security.auth.access.AuthorizedResourceAspect;
+import com.bernardomg.security.auth.access.AuthorizedResourceValidator;
+import com.bernardomg.security.auth.access.SpringAuthorizedResourceValidator;
 import com.bernardomg.security.auth.springframework.userdetails.PersistentUserDetailsService;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;

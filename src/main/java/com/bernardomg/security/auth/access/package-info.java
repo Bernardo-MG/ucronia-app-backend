@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,39 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.auth.permission;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * Annotates a resource requiring authorization.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Access control components.
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-@Documented
-public @interface AuthorizedResource {
 
-    /**
-     * Action required over the resource.
-     *
-     * @return action required
-     */
-    public String action();
-
-    /**
-     * Resource to authorize.
-     *
-     * @return resource to authorize
-     */
-    public String resource();
-
-}
+package com.bernardomg.security.auth.access;

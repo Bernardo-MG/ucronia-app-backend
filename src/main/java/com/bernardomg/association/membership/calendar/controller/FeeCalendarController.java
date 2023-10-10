@@ -38,7 +38,7 @@ import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
-import com.bernardomg.security.auth.permission.AuthorizedResource;
+import com.bernardomg.security.auth.access.AuthorizedResource;
 import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;

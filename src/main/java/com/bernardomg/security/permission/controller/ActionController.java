@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.auth.permission.AuthorizedResource;
+import com.bernardomg.security.auth.access.AuthorizedResource;
 import com.bernardomg.security.permission.cache.PermissionCaches;
 import com.bernardomg.security.permission.service.ActionService;
 import com.bernardomg.security.user.model.Action;
