@@ -34,8 +34,8 @@ import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGr
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Validates permissions over a resource with the help of Spring. Checks that the current user has access to a resource,
- * as defined by its authorities. It will look for a {@link ResourceActionGrantedAuthority} matching the permission.
+ * Validates permissions over a resource with the help of Spring. Permissions are checked through the user authorities,
+ * concretely it will look for a {@link ResourceActionGrantedAuthority} matching the permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -59,6 +59,9 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
             log.debug("Missing authentication object");
             authorized = false;
         } else if (authentication.isAuthenticated()) {
+            // Authenticated user
+
+            // Curries the permission check
             matchesPermission = (a) -> matches(a, resource, action);
 
             // It is authorized if any authority matches
@@ -70,6 +73,7 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
             log.debug("Authorized user {} against resource {} with action {}: {}", authentication.getName(), resource,
                 action, authorized);
         } else {
+            // Not authenticated user
             log.debug("User {} is not authenticated", authentication.getName());
             authorized = false;
         }

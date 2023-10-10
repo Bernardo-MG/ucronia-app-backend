@@ -33,7 +33,7 @@ package com.bernardomg.security.auth.access;
 public interface ResourceAccessValidator {
 
     /**
-     * Checks if the user in session has can apply the action over the resource.
+     * Checks if the user in session has a permission applying the action over the resource.
      *
      * @param resource
      *            protected resource

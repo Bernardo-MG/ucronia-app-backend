@@ -38,7 +38,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JJWT token encoder. Will create a JWT token from a {@link JwtTokenData} using the JJWT library.
+ * Token encoder based on the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

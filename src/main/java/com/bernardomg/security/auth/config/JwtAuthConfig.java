@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.auth.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.auth.jwt.token.JjwtTokenDataDecoder;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenDecoder;
 import com.bernardomg.security.auth.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.auth.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
@@ -75,14 +75,14 @@ public class JwtAuthConfig {
      *            JWT configuration properties
      * @return the token encoder
      */
-    @Bean("jwtTokenDecoder")
+    @Bean("jjwtTokenDecoder")
     public TokenDecoder getTokenDecoder(final JwtProperties properties) {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
         key = Keys.hmacShaKeyFor(properties.getSecret()
             .getBytes(StandardCharsets.UTF_8));
-        return new JjwtTokenDataDecoder(key);
+        return new JjwtTokenDecoder(key);
     }
 
     /**
@@ -92,7 +92,7 @@ public class JwtAuthConfig {
      *            JWT configuration properties
      * @return the token encoder
      */
-    @Bean("jwtTokenEncoder")
+    @Bean("jjwtTokenEncoder")
     public TokenEncoder getTokenEncoder(final JwtProperties properties) {
         final SecretKey key;
 
@@ -112,7 +112,7 @@ public class JwtAuthConfig {
      *            JWT configuration properties
      * @return the token validator
      */
-    @Bean("jwtTokenValidator")
+    @Bean("jjwtTokenValidator")
     public TokenValidator getTokenValidator(final JwtProperties properties) {
         final SecretKey key;
 

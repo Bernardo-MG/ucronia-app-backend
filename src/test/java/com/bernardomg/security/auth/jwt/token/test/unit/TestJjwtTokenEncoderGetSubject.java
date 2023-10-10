@@ -8,7 +8,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.auth.jwt.token.JjwtTokenDataDecoder;
+import com.bernardomg.security.auth.jwt.token.JjwtTokenDecoder;
 import com.bernardomg.security.auth.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
@@ -29,7 +29,7 @@ class TestJjwtTokenEncoderGetSubject {
         super();
 
         encoder = new JjwtTokenEncoder(TokenConstants.KEY);
-        decoder = new JjwtTokenDataDecoder(TokenConstants.KEY);
+        decoder = new JjwtTokenDecoder(TokenConstants.KEY);
     }
 
     @Test

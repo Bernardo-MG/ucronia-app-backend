@@ -32,8 +32,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates a method requiring permissions on a resource. The permission is a pair composed of a resource and an action
- * applied over it.
+ * Access control annotation, marking a method with requires permissions over a resource. Said permission is a pair
+ * composed of a resource and an action applied over it.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

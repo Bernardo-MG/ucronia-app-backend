@@ -35,8 +35,8 @@ import org.springframework.security.access.AccessDeniedException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Wraps the code marked by {@code AuthorizedResource} and applies resource-based authentication. The validation is
- * applied against the user in session.
+ * Aspect which wraps the code marked by {@code AuthorizedResource} and applies resource-based authentication. The
+ * validation is applied against the user in session.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

@@ -52,9 +52,9 @@ public class AuthConfig {
         super();
     }
 
-    @Bean("authorizedResourceAspect")
+    @Bean("requireResourceAccessAspect")
     @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAccessAspect getAuthorizedResourceAspect() {
+    public RequireResourceAccessAspect getRequireResourceAccessAspect() {
         final ResourceAccessValidator validator;
 
         validator = new SpringResourceAccessValidator();

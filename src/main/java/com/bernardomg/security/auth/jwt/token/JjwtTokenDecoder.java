@@ -19,12 +19,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 
 /**
- * JJWT data token decoder. Will create{@link JwtTokenData} from a JWT token using the JJWT library.
+ * Token decoder based on the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class JjwtTokenDataDecoder implements TokenDecoder {
+public final class JjwtTokenDecoder implements TokenDecoder {
 
     /**
      * JWTS parser for reading tokens.
@@ -37,7 +37,7 @@ public final class JjwtTokenDataDecoder implements TokenDecoder {
      * @param secretKey
      *            secret key used for the token
      */
-    public JjwtTokenDataDecoder(final SecretKey secretKey) {
+    public JjwtTokenDecoder(final SecretKey secretKey) {
         super();
 
         Objects.requireNonNull(secretKey);

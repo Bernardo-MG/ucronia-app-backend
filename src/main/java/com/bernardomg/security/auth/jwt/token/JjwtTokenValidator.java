@@ -32,7 +32,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JJWT token validator. Will validate a JWT token using the JJWT library.
+ * Token validator based on the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -54,7 +54,7 @@ public final class JjwtTokenValidator implements TokenValidator {
     public JjwtTokenValidator(final SecretKey secretKey) {
         super();
 
-        tokenDataDecoder = new JjwtTokenDataDecoder(secretKey);
+        tokenDataDecoder = new JjwtTokenDecoder(secretKey);
     }
 
     @Override
