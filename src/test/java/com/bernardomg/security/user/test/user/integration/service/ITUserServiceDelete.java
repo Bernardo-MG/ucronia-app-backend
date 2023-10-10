@@ -34,13 +34,13 @@ import com.bernardomg.security.permission.persistence.repository.ActionRepositor
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - delete without roles")
-@Sql({ "/db/queries/security/user/single.sql" })
 class ITUserServiceDelete {
 
     @Autowired
@@ -61,10 +61,7 @@ class ITUserServiceDelete {
 
     @Test
     @DisplayName("Does not remove roles or action when deleting")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @ValidUser
     void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
 
@@ -78,6 +75,7 @@ class ITUserServiceDelete {
 
     @Test
     @DisplayName("Removes an entity when deleting")
+    @Sql({ "/db/queries/security/user/single.sql" })
     void testDelete_RemovesEntity() {
         service.delete(1L);
 

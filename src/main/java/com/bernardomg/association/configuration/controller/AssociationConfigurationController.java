@@ -38,7 +38,7 @@ import com.bernardomg.association.configuration.cache.ConfigurationCaches;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
-import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;
@@ -59,14 +59,14 @@ public class AssociationConfigurationController {
     private final AssociationConfigurationService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ASSOCIATION_CONFIGURATION", action = Actions.READ)
+    @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.READ)
     @Cacheable(cacheNames = ConfigurationCaches.CONFIGURATION)
     public AssociationConfiguration read() {
         return service.read();
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
     @CacheEvict(cacheNames = ConfigurationCaches.CONFIGURATION, allEntries = true)
     public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
         service.update(config);

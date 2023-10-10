@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.cache.PermissionCaches;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.permission.model.Permission;
@@ -63,7 +63,7 @@ public class RolePermissionController {
     private final RolePermissionService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
     public RolePermission add(@PathVariable("id") final long id,
@@ -72,21 +72,21 @@ public class RolePermissionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ROLE", action = Actions.READ)
+    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
     public Iterable<Permission> readAll(@PathVariable("id") final long id, final Pageable pageable) {
         return service.getPermissions(id, pageable);
     }
 
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ROLE", action = Actions.READ)
+    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
     public Iterable<Permission> readAvailable(@PathVariable("id") final long id, final Pageable pageable) {
         return service.getAvailablePermissions(id, pageable);
     }
 
     @DeleteMapping(path = "/{permission}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
     public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final Long permission) {

@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.model.User;
@@ -70,7 +70,7 @@ public class UserController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "USER", action = Actions.CREATE)
+    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User create(@Valid @RequestBody final ValidatedUserCreate user) {
@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.DELETE)
+    @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
             @CacheEvict(cacheNames = UserCaches.USER, key = "#id") })
     public void delete(@PathVariable("id") final long id) {
@@ -86,14 +86,14 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
     public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable pageable) {
         return service.getAll(user, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER, key = "#id")
     public User readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
@@ -101,7 +101,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate form) {

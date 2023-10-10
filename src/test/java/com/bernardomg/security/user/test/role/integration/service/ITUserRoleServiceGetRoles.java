@@ -6,20 +6,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.Role;
 import com.bernardomg.security.user.service.UserRoleService;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - get roles")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
-        "/db/queries/security/relationship/user_role.sql" })
+@ValidUser
 class ITUserRoleServiceGetRoles {
 
     @Autowired

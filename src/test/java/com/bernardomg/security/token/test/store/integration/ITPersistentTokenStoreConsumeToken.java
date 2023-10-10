@@ -10,6 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.test.config.ConsumedToken;
+import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -26,7 +28,7 @@ class ITPersistentTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token which is already consumed keeps the status as consumed")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/consumed.sql" })
+    @ConsumedToken
     void testConsume_AlreadyConsumed_Consumed() {
         final PersistentToken persistedToken;
 
@@ -43,7 +45,7 @@ class ITPersistentTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token changes the status to consumed")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testConsume_Consumes() {
         final PersistentToken persistedToken;
 
@@ -60,7 +62,7 @@ class ITPersistentTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token doesn't create any new token")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testConsume_NotCreate() {
         final long count;
 
