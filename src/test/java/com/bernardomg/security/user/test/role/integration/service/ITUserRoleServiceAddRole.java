@@ -34,8 +34,8 @@ class ITUserRoleServiceAddRole {
     @Test
     @DisplayName("Adds an entity when adding a role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql" })
     void testAddRole_AddsEntity() {
         final PersistentUserRole entity;
 
@@ -57,8 +57,8 @@ class ITUserRoleServiceAddRole {
     @Test
     @DisplayName("Reading the roles after adding a role returns the new role")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql" })
     void testAddRole_CallBack() {
         final Iterable<Role> result;
         final Role           role;
@@ -82,8 +82,8 @@ class ITUserRoleServiceAddRole {
     @Test
     @DisplayName("Adding an existing role adds nothing")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testAddRole_Existing() {
         service.addRole(1L, 1L);
@@ -95,8 +95,8 @@ class ITUserRoleServiceAddRole {
     @Test
     @DisplayName("Returns the created data")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql" })
     void testAddRole_ReturnedData() {
         final UserRole entity;
 

@@ -37,8 +37,8 @@ INSERT INTO actions (id, name) VALUES
 INSERT INTO resources (id, name) VALUES
    (1, 'USER'),
    (2, 'ROLE'),
-   (3, 'ACTION'),
-   (4, 'RESOURCE'),
+   -- (3, 'ACTION'),
+   -- (4, 'RESOURCE'),
    (5, 'TOKEN'),
    (10, 'MEMBER'),
    (11, 'FEE'),
@@ -47,3 +47,43 @@ INSERT INTO resources (id, name) VALUES
    (15, 'ASSOCIATION_CONFIGURATION'),
    (16, 'FUNDS'),
    (17, 'MEMBERSHIP');
+
+INSERT INTO permissions (id, resource, action) VALUES
+   -- Security
+   (1, 'USER', 'CREATE'),
+   (2, 'USER', 'READ'),
+   (3, 'USER', 'UPDATE'),
+   (4, 'USER', 'DELETE'),
+   (5, 'ROLE', 'CREATE'),
+   (6, 'ROLE', 'READ'),
+   (7, 'ROLE', 'UPDATE'),
+   (8, 'ROLE', 'DELETE'),
+   -- (9, 'ACTION', 'READ'),
+   -- (10, 'RESOURCE', 'READ'),
+   (11, 'TOKEN', 'READ'),
+   -- Security views
+   (12, 'USER', 'VIEW'),
+   (13, 'ROLE', 'VIEW'),
+   -- Association data
+   (50, 'MEMBER', 'CREATE'),
+   (51, 'MEMBER', 'READ'),
+   (52, 'MEMBER', 'UPDATE'),
+   (53, 'MEMBER', 'DELETE'),
+   (54, 'FEE', 'CREATE'),
+   (55, 'FEE', 'READ'),
+   (56, 'FEE', 'UPDATE'),
+   (57, 'FEE', 'DELETE'),
+   (58, 'TRANSACTION', 'CREATE'),
+   (59, 'TRANSACTION', 'READ'),
+   (60, 'TRANSACTION', 'UPDATE'),
+   (61, 'TRANSACTION', 'DELETE'),
+   (62, 'ASSOCIATION_CONFIGURATION', 'CREATE'),
+   (63, 'ASSOCIATION_CONFIGURATION', 'READ'),
+   (64, 'ASSOCIATION_CONFIGURATION', 'UPDATE'),
+   (65, 'ASSOCIATION_CONFIGURATION', 'DELETE'),
+   -- Association generated data
+   (66, 'BALANCE', 'READ'),
+   -- Association views
+   (67, 'FUNDS', 'VIEW'),
+   (68, 'MEMBERSHIP', 'VIEW'),
+   (69, 'ASSOCIATION_CONFIGURATION', 'VIEW');

@@ -33,13 +33,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.auth.access.RequireResourceAccess;
+import com.bernardomg.security.permission.authorization.AuthorizedResource;
 import com.bernardomg.security.permission.cache.PermissionCaches;
-import com.bernardomg.security.permission.service.ResourceService;
-import com.bernardomg.security.user.model.Resource;
-import com.bernardomg.security.user.model.request.ValidatedResourceQuery;
+import com.bernardomg.security.permission.model.Permission;
+import com.bernardomg.security.permission.service.PermissionService;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -49,24 +47,24 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/resource")
+@RequestMapping("/security/permission")
 @AllArgsConstructor
 @Transactional
-public class ResourceController {
+public class PermissionController {
 
-    private final ResourceService service;
+    private final PermissionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "RESOURCE", action = "READ")
+    @AuthorizedResource(resource = "RESOURCE", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.RESOURCES)
-    public Iterable<Resource> readAll(@Valid final ValidatedResourceQuery action, final Pageable pageable) {
-        return service.getAll(action, pageable);
+    public Iterable<Permission> readAll(final Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "RESOURCE", action = "READ")
+    @AuthorizedResource(resource = "RESOURCE", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.RESOURCE, key = "#id")
-    public Resource readOne(@PathVariable("id") final long id) {
+    public Permission readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }

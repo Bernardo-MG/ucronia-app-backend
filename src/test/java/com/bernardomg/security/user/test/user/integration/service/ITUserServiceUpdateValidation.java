@@ -30,8 +30,9 @@ class ITUserServiceUpdateValidation {
     @Test
     @DisplayName("Throws an exception when the email already exists")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/user/alternative.sql", "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/user/alternative.sql",
+            "/db/queries/security/relationship/role_permission.sql" })
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;

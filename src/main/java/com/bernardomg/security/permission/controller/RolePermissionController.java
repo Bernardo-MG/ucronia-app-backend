@@ -63,11 +63,12 @@ public class RolePermissionController {
     private final RolePermissionService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
-    @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS }, allEntries = true)
+    @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
+    @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
+            PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
     public RolePermission add(@PathVariable("id") final long id,
             @Valid @RequestBody final ValidatedPermissionCreate permission) {
-        return service.addPermission(id, permission.getResourceId(), permission.getActionId());
+        return service.addPermission(id, permission.getPermissionId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,12 +78,19 @@ public class RolePermissionController {
         return service.getPermissions(id, pageable);
     }
 
-    @DeleteMapping(path = "/{resource}/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
-    @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("resource") final Long resource,
-            @PathVariable("action") final Long action) {
-        return service.removePermission(id, resource, action);
+    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ROLE", action = Actions.READ)
+    @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
+    public Iterable<Permission> readAvailable(@PathVariable("id") final long id, final Pageable pageable) {
+        return service.getAvailablePermissions(id, pageable);
+    }
+
+    @DeleteMapping(path = "/{permission}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AuthorizedResource(resource = "ROLE", action = Actions.UPDATE)
+    @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
+            PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
+    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final Long permission) {
+        return service.removePermission(id, permission);
     }
 
 }

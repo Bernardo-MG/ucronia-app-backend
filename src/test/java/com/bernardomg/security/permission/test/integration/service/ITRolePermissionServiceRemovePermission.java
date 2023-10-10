@@ -21,7 +21,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("Role service - remove permission")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/relationship/role_permission.sql" })
 class ITRolePermissionServiceRemovePermission {
 
     @Autowired
@@ -35,28 +36,13 @@ class ITRolePermissionServiceRemovePermission {
     }
 
     @Test
-    @DisplayName("Returns the removed data")
-    void testAddRole_ReturnedData() {
-        final RolePermission result;
-
-        result = service.removePermission(1l, 1l, 1l);
-
-        Assertions.assertThat(result.getRoleId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getResourceId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getActionId())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Can remove a permission")
     void testRemovePermission() {
         final Iterable<PersistentRolePermission> result;
         final Iterator<PersistentRolePermission> itr;
         PersistentRolePermission                 found;
 
-        service.removePermission(1l, 1l, 1l);
+        service.removePermission(1l, 1l);
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -67,8 +53,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(1L)
-            .resourceId(1L)
+            .permissionId(1L)
             .roleId(1L)
             .granted(false)
             .build());
@@ -76,8 +61,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(2L)
-            .resourceId(1L)
+            .permissionId(2L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -85,8 +69,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(3L)
-            .resourceId(1L)
+            .permissionId(3L)
             .roleId(1L)
             .granted(true)
             .build());
@@ -94,11 +77,23 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
-            .actionId(4L)
-            .resourceId(1L)
+            .permissionId(4L)
             .roleId(1L)
             .granted(true)
             .build());
+    }
+
+    @Test
+    @DisplayName("Returns the removed data")
+    void testRemovePermission_ReturnedData() {
+        final RolePermission result;
+
+        result = service.removePermission(1l, 1l);
+
+        Assertions.assertThat(result.getRoleId())
+            .isEqualTo(1);
+        Assertions.assertThat(result.getPermissionId())
+            .isEqualTo(1);
     }
 
 }

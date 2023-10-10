@@ -19,6 +19,8 @@ public interface UserRoleService {
      */
     public UserRole addRole(final long userId, final long roleId);
 
+    public Iterable<Role> getAvailableRoles(final long userId, final Pageable pageable);
+
     /**
      * Returns all the roles for the user.
      *

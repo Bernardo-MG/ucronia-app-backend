@@ -1,18 +1,15 @@
 
 package com.bernardomg.security.initializer;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.permission.constant.Actions;
-import com.bernardomg.security.permission.persistence.model.PersistentAction;
-import com.bernardomg.security.permission.persistence.model.PersistentResource;
+import com.bernardomg.security.permission.persistence.model.PersistentPermission;
 import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.user.persistence.model.PersistentRole;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
@@ -22,30 +19,31 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TestRolesInitializer implements ApplicationRunner {
 
-    private final ActionRepository         actionRepository;
-
-    private final ResourceRepository       resourceRepository;
+    private final PermissionRepository     permissionRepository;
 
     private final RolePermissionRepository rolePermissionRepository;
 
     private final RoleRepository           roleRepository;
 
-    public TestRolesInitializer(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
-            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
+    public TestRolesInitializer(final PermissionRepository permissionRepo, final RoleRepository roleRepo,
+            final RolePermissionRepository rolePermissionRepo) {
         super();
 
-        actionRepository = actionRepo;
-        resourceRepository = resourceRepo;
+        permissionRepository = permissionRepo;
         roleRepository = roleRepo;
         rolePermissionRepository = rolePermissionRepo;
     }
 
     @Override
     public final void run(final ApplicationArguments args) throws Exception {
+        final Collection<PersistentPermission> permissions;
+
         log.debug("Initializing test roles");
 
-        runIfNotExists(this::initializeAdminRole, "ADMIN");
-        runIfNotExists(this::initializeReadRole, "READ");
+        permissions = permissionRepository.findAll();
+
+        runIfNotExists(() -> initializeAdminRole(permissions), "ADMIN");
+        runIfNotExists(() -> initializeReadRole(permissions), "READ");
 
         log.debug("Initialized test roles");
     }
@@ -62,34 +60,26 @@ public final class TestRolesInitializer implements ApplicationRunner {
             .build();
     }
 
-    private final void initializeAdminRole() {
-        final PersistentRole           rootRole;
-        final PersistentRole           savedRootRole;
-        final List<PersistentAction>   actions;
-        final List<PersistentResource> resources;
-        PersistentRolePermission       permission;
+    private final void initializeAdminRole(final Collection<PersistentPermission> permissions) {
+        final PersistentRole     rootRole;
+        final PersistentRole     savedRootRole;
+        PersistentRolePermission rolePermission;
 
         // Add read user
         rootRole = getRootRole();
         savedRootRole = roleRepository.save(rootRole);
 
-        actions = actionRepository.findAll();
-        resources = resourceRepository.findAll();
-
-        for (final PersistentResource resource : resources) {
-            for (final PersistentAction action : actions) {
-                permission = PersistentRolePermission.builder()
-                    .roleId(savedRootRole.getId())
-                    .actionId(action.getId())
-                    .resourceId(resource.getId())
-                    .granted(true)
-                    .build();
-                rolePermissionRepository.save(permission);
-            }
+        for (final PersistentPermission perm : permissions) {
+            rolePermission = PersistentRolePermission.builder()
+                .roleId(savedRootRole.getId())
+                .permissionId(perm.getId())
+                .granted(true)
+                .build();
+            rolePermissionRepository.save(rolePermission);
         }
     }
 
-    private final void initializeReadRole() {
+    private final void initializeReadRole(final Collection<PersistentPermission> permissions) {
         final PersistentRole readRole;
         final PersistentRole savedReadRole;
 
@@ -97,8 +87,8 @@ public final class TestRolesInitializer implements ApplicationRunner {
         readRole = getReadRole();
         savedReadRole = roleRepository.save(readRole);
 
-        setPermissions(savedReadRole, Actions.READ);
-        setPermissions(savedReadRole, Actions.VIEW);
+        setPermissions(savedReadRole, permissions, Actions.READ);
+        setPermissions(savedReadRole, permissions, Actions.VIEW);
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {
@@ -110,28 +100,22 @@ public final class TestRolesInitializer implements ApplicationRunner {
         }
     }
 
-    private final void setPermissions(final PersistentRole role, final String actionName) {
-        final PersistentAction         example;
-        final List<PersistentAction>   actions;
-        final List<PersistentResource> resources;
-        PersistentRolePermission       permission;
+    private final void setPermissions(final PersistentRole role, final Collection<PersistentPermission> permissions,
+            final String actionName) {
+        PersistentRolePermission               rolePermission;
+        final Collection<PersistentPermission> validPermissions;
 
-        example = PersistentAction.builder()
-            .name(actionName)
-            .build();
-        actions = actionRepository.findAll(Example.of(example));
-        resources = resourceRepository.findAll();
-
-        for (final PersistentResource resource : resources) {
-            for (final PersistentAction action : actions) {
-                permission = PersistentRolePermission.builder()
-                    .roleId(role.getId())
-                    .actionId(action.getId())
-                    .resourceId(resource.getId())
-                    .granted(true)
-                    .build();
-                rolePermissionRepository.save(permission);
-            }
+        validPermissions = permissions.stream()
+            .filter(p -> p.getAction()
+                .equals(actionName))
+            .toList();
+        for (final PersistentPermission permission : validPermissions) {
+            rolePermission = PersistentRolePermission.builder()
+                .roleId(role.getId())
+                .permissionId(permission.getId())
+                .granted(true)
+                .build();
+            rolePermissionRepository.save(rolePermission);
         }
     }
 

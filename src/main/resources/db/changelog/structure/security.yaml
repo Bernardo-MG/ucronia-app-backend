@@ -63,24 +63,9 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: false
   - changeSet:
-      id: security_roles
+      id: security_permissions
       author: Bernardo
       changes:
-        - createTable:
-            tableName: roles
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(60)
-                  constraints:
-                    nullable: false
-                    unique: true
         - createTable:
             tableName: resources
             columns:
@@ -111,10 +96,50 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+        - createTable:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resource
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_role_permissions_resource_id
+                    references: resources(name)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: action
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_role_permissions_action_id
+                    references: actions(name)
+                    nullable: false
+                    deleteCascade: true
   - changeSet:
-      id: security_roles_relationships
+      id: security_roles
       author: Bernardo
       changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
         - createTable:
             tableName: role_permissions
             columns:
@@ -127,19 +152,11 @@ databaseChangeLog:
                     nullable: false
                     deleteCascade: true
               - column:
-                  name: resource_id
+                  name: permission_id
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_role_permissions_resource_id
-                    references: resources(id)
-                    nullable: false
-                    deleteCascade: true
-              - column:
-                  name: action_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_role_permissions_action_id
-                    references: actions(id)
+                    foreignKeyName: fk_role_permissions_permission_id
+                    references: permissions(id)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -170,7 +187,7 @@ databaseChangeLog:
         - addUniqueConstraint:
             constraintName: role_permissions_unique
             tableName: role_permissions
-            columnNames: 'role_id, resource_id, action_id'
+            columnNames: 'role_id, permission_id'
         - addUniqueConstraint:
             constraintName: user_roles_unique
             tableName: user_roles
@@ -234,11 +251,11 @@ databaseChangeLog:
       id: security_views
       author: Bernardo
       changes:
-        -  createView:  
+        -  createView:
             remarks: User granted permissions
-            selectQuery: SELECT DISTINCT u.id AS user_id, u.username AS username, p.resource_id AS resource_id, p.resource AS resource, p.action_id AS action_id, p.action AS action FROM (SELECT r.id AS resource_id, r.name AS resource, a.id AS action_id, a.name AS action, rp.role_id AS role_id FROM role_permissions rp LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id
+            selectQuery: SELECT DISTINCT u.id AS user_id, u.username AS username, p.permission_id AS permission_id, p.resource AS resource, p.action AS action FROM (SELECT p.id AS permission_id, p.resource AS resource, p.action AS action, rp.role_id AS role_id FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN permissions p ON rp.permission_id = p.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id
             viewName: user_granted_permissions
-        -  createView:  
+        -  createView:
             remarks: Role granted permissions
-            selectQuery: SELECT rl.id AS role_id, rl.name AS role, r.id AS resource_id, r.name AS resource, a.id AS action_id, a.name AS action FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN actions a ON rp.action_id = a.id LEFT JOIN resources r ON rp.resource_id = r.id WHERE rp.granted = true
+            selectQuery: SELECT p.id AS permission_id, rl.id AS role_id, rl.name AS role, p.resource AS resource, p.action AS action FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN permissions p ON rp.permission_id = p.id WHERE rp.granted = true
             viewName: role_granted_permissions

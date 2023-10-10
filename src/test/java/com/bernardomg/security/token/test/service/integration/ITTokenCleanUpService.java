@@ -24,8 +24,8 @@ public class ITTokenCleanUpService {
     @Test
     @DisplayName("Removes consumed tokens")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/consumed.sql" })
     void testCleanUpTokens_Consumed() {
@@ -53,8 +53,8 @@ public class ITTokenCleanUpService {
     @Test
     @DisplayName("Removes expired tokens")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/expired.sql" })
     void testCleanUpTokens_Expired() {
@@ -70,8 +70,8 @@ public class ITTokenCleanUpService {
     @Test
     @DisplayName("Removes revoked tokens")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/revoked.sql" })
     void testCleanUpTokens_Revoked() {
@@ -87,8 +87,8 @@ public class ITTokenCleanUpService {
     @Test
     @DisplayName("Does not remove valid tokens")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/valid.sql" })
     void testCleanUpTokens_Valid() {

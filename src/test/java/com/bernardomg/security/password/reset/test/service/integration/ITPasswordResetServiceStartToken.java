@@ -33,8 +33,8 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery generates a token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testStartPasswordReset_CreatedToken() {
         final long count;
@@ -50,8 +50,8 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery populates the created token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testStartPasswordReset_TokenData() {
         final PersistentToken token;
@@ -77,8 +77,8 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery with an existing token for the user generates a new token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testStartPasswordReset_TokenExists_CreatedToken() {
@@ -95,8 +95,8 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery with an existing token for the user revokes the older one")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     @Sql({ "/db/queries/security/token/password_reset.sql" })
     void testStartPasswordReset_TokenExists_ExpiresToken() {
@@ -114,8 +114,8 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testStartPasswordReset_UserNotExists_NoToken() {
         final boolean exists;
