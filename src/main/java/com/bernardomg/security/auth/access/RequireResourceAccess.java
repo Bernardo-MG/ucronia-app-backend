@@ -32,7 +32,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates a resource requiring authorization.
+ * Annotates a method requiring permissions on a resource. The permission is a pair composed of a resource and an action
+ * applied over it.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -41,7 +42,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface AuthorizedResource {
+public @interface RequireResourceAccess {
 
     /**
      * Action required over the resource.

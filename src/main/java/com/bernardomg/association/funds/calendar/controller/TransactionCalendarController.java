@@ -38,7 +38,7 @@ import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
 import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.security.auth.access.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
@@ -61,7 +61,7 @@ public class TransactionCalendarController {
     private final TransactionCalendarService service;
 
     @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.CALENDAR)
     public Iterable<? extends Transaction> readAll(@PathVariable("year") final Integer year,
             @PathVariable("month") final Integer month) {
@@ -72,7 +72,7 @@ public class TransactionCalendarController {
     }
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.CALENDAR_RANGE)
     public TransactionRange readRange() {
         return service.getRange();

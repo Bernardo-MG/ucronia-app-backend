@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.auth.permission.test.unit;
+package com.bernardomg.security.auth.access.test.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -16,20 +16,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.auth.access.AuthorizedResourceValidator;
-import com.bernardomg.security.auth.access.SpringAuthorizedResourceValidator;
+import com.bernardomg.security.auth.access.ResourceAccessValidator;
+import com.bernardomg.security.auth.access.SpringResourceAccessValidator;
 import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGrantedAuthority;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringAuthorizedResourceValidator")
-class TestSpringAuthorizedResourceValidator {
+@DisplayName("SpringResourceAccessValidator")
+class TestSpringResourceAccessValidator {
 
     @Mock
-    private Authentication                    authentication;
+    private Authentication                authentication;
 
-    private final AuthorizedResourceValidator validator = new SpringAuthorizedResourceValidator();
+    private final ResourceAccessValidator validator = new SpringResourceAccessValidator();
 
-    public TestSpringAuthorizedResourceValidator() {
+    public TestSpringResourceAccessValidator() {
         super();
     }
 

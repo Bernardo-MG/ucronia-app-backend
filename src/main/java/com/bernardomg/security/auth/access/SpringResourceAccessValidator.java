@@ -34,16 +34,16 @@ import com.bernardomg.security.auth.springframework.userdetails.ResourceActionGr
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Spring based authorized resource validator. Checks that the current user has access to a resource, as defined by its
- * authorities. It will look for a {@link ResourceActionGrantedAuthority} matching the permission.
+ * Validates permissions over a resource with the help of Spring. Checks that the current user has access to a resource,
+ * as defined by its authorities. It will look for a {@link ResourceActionGrantedAuthority} matching the permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class SpringAuthorizedResourceValidator implements AuthorizedResourceValidator {
+public final class SpringResourceAccessValidator implements ResourceAccessValidator {
 
-    public SpringAuthorizedResourceValidator() {
+    public SpringResourceAccessValidator() {
         super();
     }
 

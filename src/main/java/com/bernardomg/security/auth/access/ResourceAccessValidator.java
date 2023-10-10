@@ -30,7 +30,7 @@ package com.bernardomg.security.auth.access;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface AuthorizedResourceValidator {
+public interface ResourceAccessValidator {
 
     /**
      * Checks if the user in session has can apply the action over the resource.

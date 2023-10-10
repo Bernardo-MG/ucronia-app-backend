@@ -51,7 +51,7 @@ import com.bernardomg.association.membership.fee.model.request.FeesPaymentReques
 import com.bernardomg.association.membership.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.membership.fee.model.request.ValidatedFeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.security.auth.access.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;
@@ -76,7 +76,7 @@ public class FeeController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "FEE", action = Actions.CREATE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
             MembershipCaches.FEES, MembershipCaches.FEE, MembershipCaches.MONTHLY_BALANCE, MembershipCaches.CALENDAR,
@@ -89,7 +89,7 @@ public class FeeController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.DELETE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = {
             @CacheEvict(cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
                     MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true),
@@ -99,14 +99,14 @@ public class FeeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.FEES)
     public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.FEE, key = "#id")
     public MemberFee readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
@@ -114,7 +114,7 @@ public class FeeController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembershipCaches.FEE, key = "#result.id") },
             evict = {
                     @CacheEvict(

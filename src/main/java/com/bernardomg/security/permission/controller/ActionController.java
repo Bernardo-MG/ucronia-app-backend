@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.auth.access.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.cache.PermissionCaches;
 import com.bernardomg.security.permission.service.ActionService;
 import com.bernardomg.security.user.model.Action;
@@ -57,14 +57,14 @@ public class ActionController {
     private final ActionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ACTION", action = "READ")
+    @RequireResourceAccess(resource = "ACTION", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.ACTIONS)
     public Iterable<Action> readAll(@Valid final ValidatedActionQuery action, final Pageable pageable) {
         return service.getAll(action, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "ACTION", action = "READ")
+    @RequireResourceAccess(resource = "ACTION", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.ACTION, key = "#id")
     public Action readOne(@PathVariable("id") final long id) {
         return service.getOne(id)

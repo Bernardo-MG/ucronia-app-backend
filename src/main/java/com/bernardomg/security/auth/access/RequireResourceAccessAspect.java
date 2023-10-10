@@ -43,14 +43,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Aspect
 @Slf4j
-public final class AuthorizedResourceAspect {
+public final class RequireResourceAccessAspect {
 
     /**
      * Authorization validator. Makes sure the user in session has the required authorities.
      */
-    private final AuthorizedResourceValidator authValidator;
+    private final ResourceAccessValidator authValidator;
 
-    public AuthorizedResourceAspect(final AuthorizedResourceValidator validator) {
+    public RequireResourceAccessAspect(final ResourceAccessValidator validator) {
         super();
 
         authValidator = validator;
@@ -58,15 +58,15 @@ public final class AuthorizedResourceAspect {
 
     @Before("@annotation(com.bernardomg.security.auth.permission.AuthorizedResource)")
     public final void before(final JoinPoint call) {
-        final MethodSignature    signature;
-        final Method             method;
-        final AuthorizedResource annotation;
-        final boolean            authorized;
+        final MethodSignature       signature;
+        final Method                method;
+        final RequireResourceAccess annotation;
+        final boolean               authorized;
 
         signature = (MethodSignature) call.getSignature();
         method = signature.getMethod();
 
-        annotation = method.getAnnotation(AuthorizedResource.class);
+        annotation = method.getAnnotation(RequireResourceAccess.class);
         authorized = authValidator.isAuthorized(annotation.resource(), annotation.action());
 
         if (!authorized) {

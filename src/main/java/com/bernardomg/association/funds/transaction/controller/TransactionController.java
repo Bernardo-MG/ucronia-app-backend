@@ -48,7 +48,7 @@ import com.bernardomg.association.funds.transaction.model.request.ValidatedTrans
 import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionUpdate;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.security.auth.access.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;
@@ -73,7 +73,7 @@ public class TransactionController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.CREATE)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
@@ -85,7 +85,7 @@ public class TransactionController {
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.DELETE)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#id"),
             @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
@@ -97,14 +97,14 @@ public class TransactionController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTIONS)
     public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
         return service.getAll(request, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#id")
     public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
@@ -112,7 +112,7 @@ public class TransactionController {
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "TRANSACTION", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),

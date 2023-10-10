@@ -38,7 +38,7 @@ import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
-import com.bernardomg.security.auth.access.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
@@ -60,14 +60,14 @@ public class FeeCalendarController {
     private final FeeCalendarService service;
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.CALENDAR_RANGE)
     public FeeCalendarRange readRange() {
         return service.getRange();
     }
 
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "FEE", action = Actions.READ)
+    @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.CALENDAR)
     public Iterable<UserFeeCalendar> readYear(@PathVariable("year") final Integer year,
             final DtoFeeCalendarQueryRequest request, final Pageable pageable) {

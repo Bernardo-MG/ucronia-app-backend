@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.auth.access.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.cache.PermissionCaches;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.cache.UserCaches;
@@ -64,21 +64,21 @@ public class UserRoleController {
     private final UserRoleService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES }, allEntries = true)
     public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
         return service.addRole(id, role.getId());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER_ROLES)
     public Iterable<Role> readAll(@PathVariable("id") final long userId, final Pageable pageable) {
         return service.getRoles(userId, pageable);
     }
 
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES }, allEntries = true)
     public UserRole remove(@PathVariable("id") final long userId, @PathVariable("role") final Long roleId) {
         return service.removeRole(userId, roleId);

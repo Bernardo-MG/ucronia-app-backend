@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.auth.access.AuthorizedResourceAspect;
-import com.bernardomg.security.auth.access.AuthorizedResourceValidator;
-import com.bernardomg.security.auth.access.SpringAuthorizedResourceValidator;
+import com.bernardomg.security.auth.access.RequireResourceAccessAspect;
+import com.bernardomg.security.auth.access.ResourceAccessValidator;
+import com.bernardomg.security.auth.access.SpringResourceAccessValidator;
 import com.bernardomg.security.auth.springframework.userdetails.PersistentUserDetailsService;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -54,11 +54,11 @@ public class AuthConfig {
 
     @Bean("authorizedResourceAspect")
     @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public AuthorizedResourceAspect getAuthorizedResourceAspect() {
-        final AuthorizedResourceValidator validator;
+    public RequireResourceAccessAspect getAuthorizedResourceAspect() {
+        final ResourceAccessValidator validator;
 
-        validator = new SpringAuthorizedResourceValidator();
-        return new AuthorizedResourceAspect(validator);
+        validator = new SpringResourceAccessValidator();
+        return new RequireResourceAccessAspect(validator);
     }
 
     @Bean("userDetailsService")
