@@ -30,35 +30,10 @@ class ITSpringSecurityLoginService {
     }
 
     @Test
-    @DisplayName("Doesn't log in a user with expired password")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    void testLogIn_CredentialsExpired() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
-
-        login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
-
-        status = service.login(login);
-
-        Assertions.assertThat(status)
-            .isNotInstanceOf(TokenLoginStatus.class);
-
-        Assertions.assertThat(status.getLogged())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
-    }
-
-    @Test
     @DisplayName("Doesn't log in a disabled user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/disabled.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Disabled() {
         final LoginStatus     status;
@@ -82,8 +57,8 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("Logs in with a valid email")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Email_Valid() {
         final LoginStatus     status;
@@ -109,8 +84,8 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("Logs in with a valid email, ignoring case")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Email_Valid_Case() {
         final LoginStatus     status;
@@ -136,8 +111,8 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("Doesn't log in an expired user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/expired.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/expired.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Expired() {
         final LoginStatus     status;
@@ -161,10 +136,33 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("Doesn't log in a locked user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/locked.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Locked() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in a user with no permissions")
+    @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testLogIn_NoPermissions() {
         final LoginStatus     status;
         final DtoLoginRequest login;
 
@@ -207,10 +205,60 @@ class ITSpringSecurityLoginService {
     }
 
     @Test
+    @DisplayName("Doesn't log in a user with no granted permissions")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission_not_granted.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testLogIn_NotGrantedPermissions() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertThat(status)
+            .isNotExactlyInstanceOf(TokenLoginStatus.class);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
+    @DisplayName("Doesn't log in a user with expired password")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/password_expired.sql", "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/user_role.sql" })
+    void testLogIn_PasswordExpired() {
+        final LoginStatus     status;
+        final DtoLoginRequest login;
+
+        login = new DtoLoginRequest();
+        login.setUsername("admin");
+        login.setPassword("1234");
+
+        status = service.login(login);
+
+        Assertions.assertThat(status)
+            .isNotInstanceOf(TokenLoginStatus.class);
+
+        Assertions.assertThat(status.getLogged())
+            .isFalse();
+        Assertions.assertThat(status.getUsername())
+            .isEqualTo("admin");
+    }
+
+    @Test
     @DisplayName("Logs in with a valid user")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Valid() {
         final LoginStatus     status;
@@ -236,8 +284,8 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("Logs in with a valid user, ignoring username case")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Valid_Case() {
         final LoginStatus     status;
@@ -263,8 +311,8 @@ class ITSpringSecurityLoginService {
     @Test
     @DisplayName("On a succesful login returns a valid JWT token")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testLogIn_Valid_JwtToken() {
         final LoginStatus     status;
@@ -286,54 +334,6 @@ class ITSpringSecurityLoginService {
             .getBody();
 
         Assertions.assertThat(claims.getSubject())
-            .isEqualTo("admin");
-    }
-
-    @Test
-    @DisplayName("Doesn't log in a user with no permissions")
-    @Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    void testLogIn_Valid_NoPermissions() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
-
-        login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
-
-        status = service.login(login);
-
-        Assertions.assertThat(status)
-            .isNotExactlyInstanceOf(TokenLoginStatus.class);
-
-        Assertions.assertThat(status.getLogged())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
-    }
-
-    @Test
-    @DisplayName("Doesn't log in a user with no granted permissions")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission_not_granted.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    void testLogIn_Valid_NotGrantedPermissions() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
-
-        login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
-
-        status = service.login(login);
-
-        Assertions.assertThat(status)
-            .isNotExactlyInstanceOf(TokenLoginStatus.class);
-
-        Assertions.assertThat(status.getLogged())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
     }
 
