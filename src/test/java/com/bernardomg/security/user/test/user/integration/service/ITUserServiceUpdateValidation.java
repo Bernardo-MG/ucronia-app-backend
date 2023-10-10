@@ -5,10 +5,11 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.AlternativeUser;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -29,10 +30,8 @@ class ITUserServiceUpdateValidation {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/user/alternative.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+    @ValidUser
+    @AlternativeUser
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;

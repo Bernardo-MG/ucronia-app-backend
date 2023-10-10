@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.test.config.ExpiredToken;
+import com.bernardomg.security.token.test.config.RevokedToken;
+import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -21,7 +24,7 @@ class ITPersistentTokenStoreIsValid {
     @Test
     @DisplayName("A consumed token is invalid")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/expired.sql" })
+    @ExpiredToken
     void testIsValid_Consumed() {
         final Boolean valid;
 
@@ -34,7 +37,7 @@ class ITPersistentTokenStoreIsValid {
     @Test
     @DisplayName("An expired token is invalid")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/expired.sql" })
+    @ExpiredToken
     void testIsValid_Expired() {
         final Boolean valid;
 
@@ -47,7 +50,7 @@ class ITPersistentTokenStoreIsValid {
     @Test
     @DisplayName("An expired token is invalid")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/revoked.sql" })
+    @RevokedToken
     void testIsValid_Revoked() {
         final Boolean valid;
 
@@ -60,7 +63,7 @@ class ITPersistentTokenStoreIsValid {
     @Test
     @DisplayName("A valid token is valid")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testIsValid_Valid() {
         final Boolean valid;
 
@@ -73,7 +76,7 @@ class ITPersistentTokenStoreIsValid {
     @Test
     @DisplayName("A token for the wrong scope is invalid")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testIsValid_WrongScope() {
         final Boolean valid;
 

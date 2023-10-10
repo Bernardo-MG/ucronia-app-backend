@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -25,7 +26,7 @@ class ITPersistentTokenStoreRevokeTokens {
     @Test
     @DisplayName("Revokes an already revoked token")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testRevokeExistingTokens_AlreadyRevoked_Revoked() {
         final PersistentToken token;
 
@@ -41,7 +42,7 @@ class ITPersistentTokenStoreRevokeTokens {
     @Test
     @DisplayName("Does not revoke a token for the wrong scope")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testRevokeExistingTokens_InvalidScope_NotRevoked() {
         final PersistentToken token;
 
@@ -57,7 +58,7 @@ class ITPersistentTokenStoreRevokeTokens {
     @Test
     @DisplayName("Does not revoke a token for a not existing user")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testRevokeExistingTokens_NotExistingUser_NotRevoked() {
         final PersistentToken token;
 
@@ -73,7 +74,7 @@ class ITPersistentTokenStoreRevokeTokens {
     @Test
     @DisplayName("Revokes an existing token")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testRevokeExistingTokens_Revoked() {
         final PersistentToken token;
 
