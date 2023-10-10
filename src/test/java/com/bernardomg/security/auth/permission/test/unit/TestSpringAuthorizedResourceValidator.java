@@ -37,7 +37,10 @@ class TestSpringAuthorizedResourceValidator {
     private final Collection getAuthorities() {
         final ResourceActionGrantedAuthority authority;
 
-        authority = ResourceActionGrantedAuthority.builder().resource("resource").action("action").build();
+        authority = ResourceActionGrantedAuthority.builder()
+            .resource("resource")
+            .action("action")
+            .build();
         return List.of(authority);
     }
 

@@ -7,6 +7,9 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
+import com.bernardomg.security.auth.jwt.token.model.ImmutableJwtTokenData;
+import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;

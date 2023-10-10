@@ -19,10 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.auth.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.auth.jwt.token.ImmutableJwtTokenData;
 import com.bernardomg.security.auth.jwt.token.JjwtTokenValidator;
-import com.bernardomg.security.auth.jwt.token.JwtTokenData;
 import com.bernardomg.security.auth.jwt.token.TokenDecoder;
+import com.bernardomg.security.auth.jwt.token.model.ImmutableJwtTokenData;
+import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

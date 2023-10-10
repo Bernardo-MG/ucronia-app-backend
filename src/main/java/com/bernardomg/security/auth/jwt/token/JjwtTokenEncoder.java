@@ -30,6 +30,8 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
+import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
+
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

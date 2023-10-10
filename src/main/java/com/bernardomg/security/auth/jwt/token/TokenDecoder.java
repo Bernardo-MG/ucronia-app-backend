@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.auth.jwt.token;
 
+import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
+
 /**
  * Creates a {@link JwtTokenData} from a JWT token.
  *

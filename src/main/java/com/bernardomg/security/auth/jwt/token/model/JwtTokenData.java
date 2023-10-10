@@ -22,63 +22,74 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.auth.jwt.token;
+package com.bernardomg.security.auth.jwt.token.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
- * Immutable implementation of the JWT token data.
+ * Represents the common JWT token claims.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public class ImmutableJwtTokenData implements JwtTokenData {
+public interface JwtTokenData {
 
     /**
-     * Audience.
+     * Returns the audience.
+     *
+     * @return the audience
      */
-    private final String                    audience;
+    public String getAudience();
 
     /**
-     * Expiration date.
+     * Returns the expiration date.
+     *
+     * @return the expiration date
      */
-    private final LocalDateTime             expiration;
+    public LocalDateTime getExpiration();
 
     /**
-     * Id.
+     * Returns the id.
+     *
+     * @return the id
      */
-    private final String                    id;
+    public String getId();
 
     /**
-     * Issued at date.
+     * Returns the issued at date.
+     *
+     * @return the issued at date
      */
-    private final LocalDateTime             issuedAt;
+    public LocalDateTime getIssuedAt();
 
     /**
-     * Issuer.
+     * Returns the issuer.
+     *
+     * @return the issuer
      */
-    private final String                    issuer;
+    public String getIssuer();
 
     /**
-     * Not before date.
+     * Returns the not before date.
+     *
+     * @return the not before date
      */
-    private final LocalDateTime             notBefore;
+    public LocalDateTime getNotBefore();
 
     /**
-     * Permissions.
+     * Returns the permissions.
+     *
+     * @return the permissions
      */
-    private final Map<String, List<String>> permissions;
+    public Map<String, List<String>> getPermissions();
 
     /**
-     * Subject.
+     * Returns the subject.
+     *
+     * @return the subject
      */
-    private final String                    subject;
+    public String getSubject();
 
 }
