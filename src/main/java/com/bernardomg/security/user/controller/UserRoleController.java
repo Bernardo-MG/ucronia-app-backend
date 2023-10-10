@@ -64,7 +64,7 @@ public class UserRoleController {
     private final UserRoleService service;
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES, UserCaches.USER_AVAILABLE_ROLES },
             allEntries = true)
@@ -80,14 +80,14 @@ public class UserRoleController {
     }
 
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER_AVAILABLE_ROLES)
     public Iterable<Role> readAvailable(@PathVariable("id") final long userId, final Pageable pageable) {
         return service.getAvailableRoles(userId, pageable);
     }
 
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES, UserCaches.USER_AVAILABLE_ROLES },
             allEntries = true)

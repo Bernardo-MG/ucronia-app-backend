@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.permission.authorization.AuthorizedResource;
+import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.cache.PermissionCaches;
 import com.bernardomg.security.permission.model.Permission;
 import com.bernardomg.security.permission.service.PermissionService;
@@ -55,14 +55,14 @@ public class PermissionController {
     private final PermissionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "RESOURCE", action = "READ")
+    @RequireResourceAccess(resource = "RESOURCE", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.RESOURCES)
     public Iterable<Permission> readAll(final Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AuthorizedResource(resource = "RESOURCE", action = "READ")
+    @RequireResourceAccess(resource = "RESOURCE", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.RESOURCE, key = "#id")
     public Permission readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
