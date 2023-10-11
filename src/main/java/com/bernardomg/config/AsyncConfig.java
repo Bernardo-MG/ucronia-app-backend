@@ -1,27 +1,43 @@
 
 package com.bernardomg.config;
 
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import com.bernardomg.async.LoggingAsyncExceptionHandler;
+
 @Configuration
 @EnableAsync
-public class AsyncConfig {
+@EnableConfigurationProperties(AsyncProperties.class)
+public class AsyncConfig implements AsyncConfigurer {
 
+    @Autowired
+    private AsyncProperties asyncProperties;
+
+    @Override
     @Bean
-    public ThreadPoolTaskExecutor asyncExecutor() {
+    public ThreadPoolTaskExecutor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor;
 
         executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10); // Set the number of initial threads
-        executor.setMaxPoolSize(20); // Set the maximum number of threads
-        executor.setQueueCapacity(100); // Set the capacity of the queue
-        executor.setThreadNamePrefix("Async-"); // Set thread name prefix
+        executor.setCorePoolSize(asyncProperties.getCorePoolSize());
+        executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
+        executor.setQueueCapacity(asyncProperties.getQueueCapacity());
+        executor.setThreadNamePrefix(asyncProperties.getThreadNamePrefix());
         executor.initialize();
 
         return executor;
+    }
+    
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new LoggingAsyncExceptionHandler();
     }
 
 }
