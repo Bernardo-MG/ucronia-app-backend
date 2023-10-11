@@ -26,4 +26,4 @@
  * Configuration classes.
  */
 
-package com.bernardomg.association.config;
+package com.bernardomg.config;

@@ -22,35 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg;
+package com.bernardomg.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.actuate.audit.AuditEventRepository;
+import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-/**
- * Application runnable class. This allows Spring Boot to run the application.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@SpringBootApplication
-public class Application {
+@Configuration
+public class AuditConfig {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(Application.class, args);
+    public AuditConfig() {
+        super();
     }
 
-    /**
-     * Default constructor.
-     */
-    public Application() {
-        super();
+    @Bean("auditEventRepository")
+    public AuditEventRepository getAuditEventRepository() {
+        return new InMemoryAuditEventRepository();
     }
 
 }
