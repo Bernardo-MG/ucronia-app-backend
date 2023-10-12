@@ -25,6 +25,7 @@
 package com.bernardomg.jpa.converter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 
@@ -57,17 +58,19 @@ public final class YearMonthDateAttributeConverter implements AttributeConverter
 
     @Override
     public final YearMonth convertToEntityAttribute(final java.sql.Date dbData) {
-        final YearMonth date;
+        final YearMonth month;
+        final LocalDate localDate;
 
         if (dbData != null) {
-            date = YearMonth.from(Instant.ofEpochMilli(dbData.getTime())
+            localDate = Instant.ofEpochMilli(dbData.getTime())
                 .atZone(ZoneId.systemDefault())
-                .toLocalDate());
+                .toLocalDate();
+            month = YearMonth.from(localDate);
         } else {
-            date = null;
+            month = null;
         }
 
-        return date;
+        return month;
     }
 
 }
