@@ -41,19 +41,46 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "async")
 public final class AsyncProperties {
 
-    @NotEmpty
-    private Integer corePoolSize     = 1;
+    @Validated
+    @Data
+    public final class ExecutorProperties {
+
+        @NotEmpty
+        private Integer corePoolSize     = 1;
+
+        @NotEmpty
+        private String  groupName        = "AsyncGroup";
+
+        @NotEmpty
+        private Integer maxPoolSize      = 5;
+
+        @NotEmpty
+        private Integer queueCapacity    = 10;
+
+        @NotEmpty
+        private String  threadNamePrefix = "AsyncExecutor-";
+
+    }
+
+    @Validated
+    @Data
+    public final class SchedulerProperties {
+
+        @NotEmpty
+        private String  groupName        = "SchedulerGroup";
+
+        @NotEmpty
+        private Integer poolSize         = 2;
+
+        @NotEmpty
+        private String  threadNamePrefix = "AsyncScheduler-";
+
+    }
 
     @NotEmpty
-    private String  groupName        = "AsyncGroup";
+    private ExecutorProperties  executor  = new ExecutorProperties();
 
     @NotEmpty
-    private Integer maxPoolSize      = 5;
-
-    @NotEmpty
-    private Integer queueCapacity    = 10;
-
-    @NotEmpty
-    private String  threadNamePrefix = "Async-";
+    private SchedulerProperties scheduler = new SchedulerProperties();
 
 }

@@ -7,14 +7,19 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.SchedulingTaskExecutor;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.TaskUtils;
 
 import com.bernardomg.async.LoggingAsyncExceptionHandler;
 
 @Configuration
 @EnableAsync
+@EnableScheduling
 @EnableConfigurationProperties(AsyncProperties.class)
 public class AsyncConfig implements AsyncConfigurer {
 
@@ -22,16 +27,21 @@ public class AsyncConfig implements AsyncConfigurer {
     private AsyncProperties asyncProperties;
 
     @Override
-    @Bean
+    @Bean("SchedulingTaskExecutor")
     public SchedulingTaskExecutor getAsyncExecutor() {
         final ThreadPoolTaskExecutor executor;
 
         executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(asyncProperties.getCorePoolSize());
-        executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
-        executor.setQueueCapacity(asyncProperties.getQueueCapacity());
-        executor.setThreadNamePrefix(asyncProperties.getThreadNamePrefix());
-        executor.setThreadGroupName(asyncProperties.getGroupName());
+        executor.setCorePoolSize(asyncProperties.getExecutor()
+            .getCorePoolSize());
+        executor.setMaxPoolSize(asyncProperties.getExecutor()
+            .getMaxPoolSize());
+        executor.setQueueCapacity(asyncProperties.getExecutor()
+            .getQueueCapacity());
+        executor.setThreadNamePrefix(asyncProperties.getExecutor()
+            .getThreadNamePrefix());
+        executor.setThreadGroupName(asyncProperties.getExecutor()
+            .getGroupName());
         executor.initialize();
 
         return executor;
@@ -40,6 +50,22 @@ public class AsyncConfig implements AsyncConfigurer {
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new LoggingAsyncExceptionHandler();
+    }
+
+    @Bean("TaskScheduler")
+    public TaskScheduler getThreadPoolTaskScheduler() {
+        final ThreadPoolTaskScheduler scheduler;
+
+        scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setThreadNamePrefix(asyncProperties.getScheduler()
+            .getThreadNamePrefix());
+        scheduler.setThreadGroupName(asyncProperties.getScheduler()
+            .getGroupName());
+        scheduler.setPoolSize(asyncProperties.getScheduler()
+            .getPoolSize());
+        scheduler.setErrorHandler(TaskUtils.getDefaultErrorHandler(false));
+
+        return scheduler;
     }
 
 }
