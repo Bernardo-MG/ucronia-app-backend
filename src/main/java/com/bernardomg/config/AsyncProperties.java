@@ -42,13 +42,13 @@ import lombok.Data;
 public final class AsyncProperties {
 
     @NotEmpty
-    private Integer corePoolSize     = 10;
+    private Integer corePoolSize     = 1;
 
     @NotEmpty
-    private Integer maxPoolSize      = 20;
+    private Integer maxPoolSize      = 5;
 
     @NotEmpty
-    private Integer queueCapacity    = 100;
+    private Integer queueCapacity    = 10;
 
     @NotEmpty
     private String  threadNamePrefix = "Async-";
