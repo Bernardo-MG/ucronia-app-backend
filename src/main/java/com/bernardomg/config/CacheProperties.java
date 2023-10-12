@@ -35,7 +35,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 /**
- * JWT configuration properties.
+ * Cache configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

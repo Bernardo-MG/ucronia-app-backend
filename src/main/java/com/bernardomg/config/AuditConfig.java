@@ -29,6 +29,12 @@ import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Audit configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Configuration
 public class AuditConfig {
 

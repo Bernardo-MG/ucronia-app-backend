@@ -10,6 +10,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
 
+/**
+ * Cache configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Configuration
 @EnableCaching
 @EnableConfigurationProperties(CacheProperties.class)

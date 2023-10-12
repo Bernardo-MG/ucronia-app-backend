@@ -17,6 +17,12 @@ import org.springframework.scheduling.support.TaskUtils;
 
 import com.bernardomg.async.LoggingAsyncExceptionHandler;
 
+/**
+ * Async configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Configuration
 @EnableAsync
 @EnableScheduling
