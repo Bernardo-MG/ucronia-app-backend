@@ -45,6 +45,9 @@ public final class AsyncProperties {
     private Integer corePoolSize     = 1;
 
     @NotEmpty
+    private String  groupName        = "AsyncGroup";
+
+    @NotEmpty
     private Integer maxPoolSize      = 5;
 
     @NotEmpty
