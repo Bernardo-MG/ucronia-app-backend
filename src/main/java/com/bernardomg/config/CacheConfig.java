@@ -1,6 +1,7 @@
 
 package com.bernardomg.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -10,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
 
 @Configuration
-@EnableCaching(proxyTargetClass = true)
+@EnableCaching
+@EnableConfigurationProperties(CacheProperties.class)
 public class CacheConfig {
 
     public CacheConfig() {

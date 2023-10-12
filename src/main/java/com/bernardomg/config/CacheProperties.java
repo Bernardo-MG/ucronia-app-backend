@@ -31,6 +31,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 /**
@@ -41,16 +42,16 @@ import lombok.Data;
  */
 @Validated
 @Data
-@ConfigurationProperties(prefix = "async")
+@ConfigurationProperties(prefix = "cache")
 public final class CacheProperties {
 
     @NotEmpty
     private Collection<String> cacheNames        = List.of("cache");
 
-    @NotEmpty
+    @PositiveOrZero
     private Integer            expireAfterAccess = 600;
 
-    @NotEmpty
+    @PositiveOrZero
     private Integer            maximumSize       = 500;
 
 }
