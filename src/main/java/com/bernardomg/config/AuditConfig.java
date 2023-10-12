@@ -22,8 +22,29 @@
  * SOFTWARE.
  */
 
-/**
- * Configuration classes.
- */
+package com.bernardomg.config;
 
-package com.bernardomg.association.config;
+import org.springframework.boot.actuate.audit.AuditEventRepository;
+import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Audit configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration
+public class AuditConfig {
+
+    public AuditConfig() {
+        super();
+    }
+
+    @Bean("auditEventRepository")
+    public AuditEventRepository getAuditEventRepository() {
+        return new InMemoryAuditEventRepository();
+    }
+
+}
