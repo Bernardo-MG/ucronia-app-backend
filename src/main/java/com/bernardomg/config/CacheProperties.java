@@ -24,13 +24,9 @@
 
 package com.bernardomg.config;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
@@ -45,13 +41,10 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "cache")
 public final class CacheProperties {
 
-    @NotEmpty
-    private Collection<String> cacheNames        = List.of("cache");
+    @PositiveOrZero
+    private Integer expireAfterAccess = 600;
 
     @PositiveOrZero
-    private Integer            expireAfterAccess = 600;
-
-    @PositiveOrZero
-    private Integer            maximumSize       = 500;
+    private Integer maximumSize       = 500;
 
 }

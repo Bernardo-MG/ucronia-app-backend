@@ -27,12 +27,7 @@ public class CacheConfig {
 
     @Bean("CacheManager")
     public CacheManager getCacheManager(final CacheProperties cacheProperties) {
-        final CaffeineCacheManager cacheManager;
-
-        cacheManager = new CaffeineCacheManager();
-        cacheManager.setCacheNames(cacheProperties.getCacheNames());
-
-        return cacheManager;
+        return new CaffeineCacheManager();
     }
 
     @Bean("CaffeineSpec")
