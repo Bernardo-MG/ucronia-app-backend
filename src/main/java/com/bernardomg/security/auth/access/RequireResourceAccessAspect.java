@@ -56,7 +56,7 @@ public final class RequireResourceAccessAspect {
         authValidator = validator;
     }
 
-    @Before("@annotation(com.bernardomg.security.auth.permission.AuthorizedResource)")
+    @Before("@annotation(com.bernardomg.security.auth.access.RequireResourceAccess)")
     public final void before(final JoinPoint call) {
         final MethodSignature       signature;
         final Method                method;
