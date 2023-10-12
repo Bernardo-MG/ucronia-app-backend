@@ -28,6 +28,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 /**
@@ -45,16 +47,16 @@ public final class AsyncProperties {
     @Data
     public final class ExecutorProperties {
 
-        @NotEmpty
+        @PositiveOrZero
         private Integer corePoolSize     = 1;
 
         @NotEmpty
         private String  groupName        = "AsyncGroup";
 
-        @NotEmpty
+        @PositiveOrZero
         private Integer maxPoolSize      = 5;
 
-        @NotEmpty
+        @PositiveOrZero
         private Integer queueCapacity    = 10;
 
         @NotEmpty
@@ -69,7 +71,7 @@ public final class AsyncProperties {
         @NotEmpty
         private String  groupName        = "SchedulerGroup";
 
-        @NotEmpty
+        @PositiveOrZero
         private Integer poolSize         = 2;
 
         @NotEmpty
@@ -77,10 +79,10 @@ public final class AsyncProperties {
 
     }
 
-    @NotEmpty
+    @NotNull
     private ExecutorProperties  executor  = new ExecutorProperties();
 
-    @NotEmpty
+    @NotNull
     private SchedulerProperties scheduler = new SchedulerProperties();
 
 }
