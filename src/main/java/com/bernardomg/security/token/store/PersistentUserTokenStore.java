@@ -32,7 +32,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.bernardomg.security.token.exception.ConsumedTokenException;
-import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
@@ -82,7 +81,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final Optional<PersistentUserToken> read;
         final PersistentUserToken           persistentToken;
 
-        read = userTokenRepository.findOneByToken(token);
+        read = userTokenRepository.findOneByTokenAndScope(token, tokenScope);
 
         if (!read.isPresent()) {
             log.error("Token missing: {}", token);
@@ -106,7 +105,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final LocalDateTime       creation;
         final LocalDateTime       expiration;
         final String              tokenCode;
-        
+
         // TODO: Remove name argument
 
         expiration = LocalDateTime.now()
@@ -142,11 +141,10 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     public final String getUsername(final String token) {
         final Optional<String> username;
 
-        // TODO: Shouldn't this receive the scope?
-        username = userTokenRepository.findUsernameByToken(token);
+        username = userTokenRepository.findUsernameByToken(token, tokenScope);
 
         if (username.isEmpty()) {
-            throw new InvalidTokenException(token);
+            throw new MissingTokenException(token);
         }
 
         return username.get();
@@ -158,9 +156,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final PersistentUserToken           entity;
         final Boolean                       valid;
 
-        // TODO: Check scope
-
-        read = userTokenRepository.findOneByToken(token);
+        read = userTokenRepository.findOneByTokenAndScope(token, tokenScope);
         if (read.isPresent()) {
             entity = read.get();
             if (!tokenScope.equals(entity.getScope())) {

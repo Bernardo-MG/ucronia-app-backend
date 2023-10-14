@@ -59,7 +59,7 @@ public interface UserTokenRepository extends JpaRepository<PersistentUserToken, 
 
     public List<PersistentUserToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
-    public Optional<PersistentUserToken> findOneByToken(final String token);
+    public Optional<PersistentUserToken> findOneByTokenAndScope(final String token, final String scope);
 
     /**
      * Returns the username of the user linked to the token.
@@ -68,7 +68,7 @@ public interface UserTokenRepository extends JpaRepository<PersistentUserToken, 
      *            token to search for the username
      * @return username of the token's user
      */
-    @Query("SELECT u.username FROM User u JOIN UserToken t ON u.id = t.userId WHERE t.token = :token")
-    public Optional<String> findUsernameByToken(@Param("token") final String token);
+    @Query("SELECT u.username FROM User u JOIN UserToken t ON u.id = t.userId WHERE t.token = :token AND t.scope = :scope")
+    public Optional<String> findUsernameByToken(@Param("token") final String token, @Param("scope") final String scope);
 
 }

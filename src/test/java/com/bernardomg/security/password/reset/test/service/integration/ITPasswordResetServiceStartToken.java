@@ -93,7 +93,7 @@ class ITPasswordResetServiceStartToken {
 
         service.startPasswordReset("email@somewhere.com");
 
-        token = userTokenRepository.findOneByToken(TokenConstants.TOKEN)
+        token = userTokenRepository.findOneByTokenAndScope(TokenConstants.TOKEN, "password_reset")
             .get();
 
         Assertions.assertThat(token.isRevoked())

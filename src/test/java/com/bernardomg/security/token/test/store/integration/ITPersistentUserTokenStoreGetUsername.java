@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
-import com.bernardomg.security.token.exception.InvalidTokenException;
+import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.UserRegisteredToken;
@@ -57,10 +57,10 @@ class ITPersistentUserTokenStoreGetUsername {
 
         executable = () -> store.getUsername(TokenConstants.TOKEN);
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Missing token " + TokenConstants.TOKEN);
     }
 
     @Test
@@ -73,10 +73,10 @@ class ITPersistentUserTokenStoreGetUsername {
 
         executable = () -> store.getUsername(TokenConstants.TOKEN);
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Missing token " + TokenConstants.TOKEN);
     }
 
 }

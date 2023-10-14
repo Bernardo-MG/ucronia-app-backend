@@ -95,20 +95,16 @@ class ITPersistentUserTokenStoreConsumeToken {
     }
 
     @Test
-    @DisplayName("Consuming an out of scope token doesn't change the status to consumed")
+    @DisplayName("Consuming an out of scope token throws an exception")
     @OnlyUser
     @UserRegisteredToken
     void testConsume_OutOfScope() {
-        final PersistentUserToken persistedToken;
+        final ThrowingCallable executable;
 
-        store.consumeToken(TokenConstants.TOKEN);
+        executable = () -> store.consumeToken(TokenConstants.TOKEN);
 
-        persistedToken = userTokenRepository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertThat(persistedToken.isConsumed())
-            .isTrue();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingTokenException.class);
     }
 
 }
