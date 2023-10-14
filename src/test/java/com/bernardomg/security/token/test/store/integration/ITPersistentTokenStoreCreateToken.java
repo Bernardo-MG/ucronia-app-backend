@@ -8,11 +8,11 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -27,7 +27,7 @@ class ITPersistentTokenStoreCreateToken {
 
     @Test
     @DisplayName("After generating a token a new token is persisted")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testCreateToken_Persisted() {
         final long count;
 
@@ -40,7 +40,7 @@ class ITPersistentTokenStoreCreateToken {
 
     @Test
     @DisplayName("After generating a token said token data is persisted")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testCreateToken_PersistedData() {
         final PersistentToken token;
         final LocalDateTime   lower;
@@ -72,7 +72,7 @@ class ITPersistentTokenStoreCreateToken {
 
     @Test
     @DisplayName("After generating a token it returns said token")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testCreateToken_Return() {
         final String token;
 
@@ -84,7 +84,7 @@ class ITPersistentTokenStoreCreateToken {
 
     @Test
     @DisplayName("Can generate tokens when the username doesn't match the user's")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testCreateToken_UserNameNotExisting() {
         final long count;
 
@@ -98,7 +98,7 @@ class ITPersistentTokenStoreCreateToken {
 
     @Test
     @DisplayName("When generating a token for and invalid user id, then an exception is thrown")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testCreateToken_UserNotExisting() {
         final ThrowingCallable executable;
 

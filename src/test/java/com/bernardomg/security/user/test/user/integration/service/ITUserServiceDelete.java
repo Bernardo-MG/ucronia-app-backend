@@ -28,12 +28,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -75,7 +75,7 @@ class ITUserServiceDelete {
 
     @Test
     @DisplayName("Removes an entity when deleting")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testDelete_RemovesEntity() {
         service.delete(1L);
 

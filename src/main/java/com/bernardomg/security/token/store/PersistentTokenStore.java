@@ -4,6 +4,7 @@ package com.bernardomg.security.token.store;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,8 +27,8 @@ public final class PersistentTokenStore implements TokenStore {
     public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Duration valid) {
         super();
 
-        tokenRepository = tRepository;
-        validity = valid;
+        tokenRepository = Objects.requireNonNull(tRepository);
+        validity = Objects.requireNonNull(valid);
     }
 
     @Override

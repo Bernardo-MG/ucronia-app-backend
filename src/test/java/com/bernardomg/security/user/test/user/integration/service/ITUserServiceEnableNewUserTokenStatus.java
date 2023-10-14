@@ -13,6 +13,7 @@ import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -30,7 +31,7 @@ class ITUserServiceEnableNewUserTokenStatus {
 
     @Test
     @DisplayName("Enabling a new user with a user already enabled throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @Sql({ "/db/queries/security/token/user_registered.sql" })
     void testEnableNewUser_AlreadyEnabled() {
         final ThrowingCallable executable;
@@ -46,7 +47,7 @@ class ITUserServiceEnableNewUserTokenStatus {
 
     @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @Sql({ "/db/queries/security/token/user_registered_consumed.sql" })
     void testEnableNewUser_Consumed() {
         final ThrowingCallable executable;
@@ -62,7 +63,7 @@ class ITUserServiceEnableNewUserTokenStatus {
 
     @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @Sql({ "/db/queries/security/token/user_registered_expired.sql" })
     void testEnableNewUser_Expired() {
         final ThrowingCallable executable;
@@ -78,7 +79,7 @@ class ITUserServiceEnableNewUserTokenStatus {
 
     @Test
     @DisplayName("Enabling a new user with no token throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testEnableNewUser_Missing() {
         final ThrowingCallable executable;
         final Exception        exception;

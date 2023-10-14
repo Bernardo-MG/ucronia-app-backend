@@ -5,10 +5,10 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -29,7 +29,7 @@ class ITUserServiceRegisterNewUserValidation {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testRegisterNewUser_ExistingEmail() {
         final UserCreate       data;
         final ThrowingCallable executable;
@@ -46,7 +46,7 @@ class ITUserServiceRegisterNewUserValidation {
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testRegisterNewUser_ExistingUsername() {
         final UserCreate       data;
         final ThrowingCallable executable;

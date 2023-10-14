@@ -5,13 +5,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -23,7 +23,7 @@ class ITPersistentTokenStoreExists {
 
     @Test
     @DisplayName("A valid token exists")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ValidToken
     void testExists_existing() {
         final Boolean exists;
@@ -36,7 +36,7 @@ class ITPersistentTokenStoreExists {
 
     @Test
     @DisplayName("An expired token exists")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ExpiredToken
     void testExists_expired() {
         final Boolean exists;
@@ -60,7 +60,7 @@ class ITPersistentTokenStoreExists {
 
     @Test
     @DisplayName("A revoked token exists")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @RevokedToken
     void testExists_revoked() {
         final Boolean exists;
@@ -73,7 +73,7 @@ class ITPersistentTokenStoreExists {
 
     @Test
     @DisplayName("A token for the wrong scope doesn't exist")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ValidToken
     void testExists_WrongScope() {
         final Boolean exists;

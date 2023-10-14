@@ -6,12 +6,12 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -23,7 +23,7 @@ class ITPersistentTokenStoreGetUsername {
 
     @Test
     @DisplayName("Extracts the username from a token")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ValidToken
     void testGetUsername() {
         final String subject;
@@ -36,7 +36,7 @@ class ITPersistentTokenStoreGetUsername {
 
     @Test
     @DisplayName("Extracts no username from an invalid token")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ValidToken
     void testGetUsername_InvalidToken() {
         final ThrowingCallable executable;

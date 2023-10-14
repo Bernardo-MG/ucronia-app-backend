@@ -6,7 +6,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.ConsumedTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
@@ -16,6 +15,7 @@ import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.config.ConsumedToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -30,7 +30,7 @@ class ITPersistentTokenStoreConsumeToken {
 
     @Test
     @DisplayName("Consuming a token which is already consumed throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ConsumedToken
     void testConsume_AlreadyConsumed_Exception() {
         final ThrowingCallable executable;
@@ -43,7 +43,7 @@ class ITPersistentTokenStoreConsumeToken {
 
     @Test
     @DisplayName("Consuming a token changes the status to consumed")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ValidToken
     void testConsume_Consumes() {
         final PersistentToken persistedToken;
@@ -60,7 +60,7 @@ class ITPersistentTokenStoreConsumeToken {
 
     @Test
     @DisplayName("Consuming a token doesn't create any new token")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     @ValidToken
     void testConsume_NotCreate() {
         final long count;
@@ -74,7 +74,7 @@ class ITPersistentTokenStoreConsumeToken {
 
     @Test
     @DisplayName("Consuming a token that doesn't exist throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testConsume_NotExisting_Exception() {
         final ThrowingCallable executable;
 
