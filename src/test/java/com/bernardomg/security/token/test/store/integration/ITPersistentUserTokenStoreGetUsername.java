@@ -60,7 +60,7 @@ class ITPersistentUserTokenStoreGetUsername {
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token abc");
+            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
     }
 
     @Test
@@ -76,7 +76,7 @@ class ITPersistentUserTokenStoreGetUsername {
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token abc");
+            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
     }
 
 }
