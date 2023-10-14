@@ -40,6 +40,16 @@ import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * User token store based on {@link PersistentUserToken}.
+ * <h2>Validity</h2>
+ * <p>
+ * The token validity duration is received in the constructor. This sets the validity duration, starting on the moment
+ * it is created.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class PersistentUserTokenStore implements UserTokenStore {
 
@@ -48,6 +58,9 @@ public final class PersistentUserTokenStore implements UserTokenStore {
      */
     private final String              tokenScope;
 
+    /**
+     * User tokens repository.
+     */
     private final UserTokenRepository userTokenRepository;
 
     /**
@@ -93,6 +106,8 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final LocalDateTime       creation;
         final LocalDateTime       expiration;
         final String              tokenCode;
+        
+        // TODO: Remove name argument
 
         expiration = LocalDateTime.now()
             .plus(validity);
@@ -143,7 +158,6 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final PersistentUserToken           entity;
         final Boolean                       valid;
 
-        // TODO: Use the token service to verify it
         // TODO: Check scope
 
         read = userTokenRepository.findOneByToken(token);

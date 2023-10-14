@@ -11,6 +11,7 @@ import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
@@ -57,6 +58,22 @@ class ITPersistentUserTokenStoreRevokeTokens {
         final PersistentUserToken token;
 
         store.revokeExistingTokens(2l);
+
+        token = userTokenRepository.findAll()
+            .iterator()
+            .next();
+        Assertions.assertThat(token.isRevoked())
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("Does not revoke an out of scope token")
+    @OnlyUser
+    @UserRegisteredToken
+    void testRevokeExistingTokens_OutOfScope_NotRevoked() {
+        final PersistentUserToken token;
+
+        store.revokeExistingTokens(1l);
 
         token = userTokenRepository.findAll()
             .iterator()

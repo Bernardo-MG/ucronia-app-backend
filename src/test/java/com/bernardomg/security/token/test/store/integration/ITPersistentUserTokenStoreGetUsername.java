@@ -12,6 +12,7 @@ import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
@@ -48,14 +49,29 @@ class ITPersistentUserTokenStoreGetUsername {
     }
 
     @Test
-    @DisplayName("Extracts no username from an invalid token")
+    @DisplayName("Extracts no username from a not existing token")
     @OnlyUser
-    @ValidToken
-    void testGetUsername_InvalidToken() {
+    void testGetUsername_notExisting() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> store.getUsername("abc");
+        executable = () -> store.getUsername(TokenConstants.TOKEN);
+
+        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .isEqualTo("Invalid token abc");
+    }
+
+    @Test
+    @DisplayName("Extracts no username from an out of scope token")
+    @OnlyUser
+    @UserRegisteredToken
+    void testGetUsername_outOfScope() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        executable = () -> store.getUsername(TokenConstants.TOKEN);
 
         exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
 

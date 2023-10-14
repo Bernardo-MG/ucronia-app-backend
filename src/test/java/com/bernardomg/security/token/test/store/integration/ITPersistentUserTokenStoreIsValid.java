@@ -12,6 +12,7 @@ import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
@@ -52,6 +53,19 @@ class ITPersistentUserTokenStoreIsValid {
     @OnlyUser
     @ExpiredToken
     void testIsValid_Expired() {
+        final Boolean valid;
+
+        valid = store.isValid(TokenConstants.TOKEN);
+
+        Assertions.assertThat(valid)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("An out of scope token is invalid")
+    @OnlyUser
+    @UserRegisteredToken
+    void testIsValid_outOfScope() {
         final Boolean valid;
 
         valid = store.isValid(TokenConstants.TOKEN);

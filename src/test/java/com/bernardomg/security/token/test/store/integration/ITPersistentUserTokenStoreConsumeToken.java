@@ -15,6 +15,7 @@ import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.ConsumedToken;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
@@ -91,6 +92,23 @@ class ITPersistentUserTokenStoreConsumeToken {
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingTokenException.class);
+    }
+
+    @Test
+    @DisplayName("Consuming an out of scope token doesn't change the status to consumed")
+    @OnlyUser
+    @UserRegisteredToken
+    void testConsume_OutOfScope() {
+        final PersistentUserToken persistedToken;
+
+        store.consumeToken(TokenConstants.TOKEN);
+
+        persistedToken = userTokenRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(persistedToken.isConsumed())
+            .isTrue();
     }
 
 }

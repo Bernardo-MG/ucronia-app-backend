@@ -61,6 +61,13 @@ public interface UserTokenRepository extends JpaRepository<PersistentUserToken, 
 
     public Optional<PersistentUserToken> findOneByToken(final String token);
 
+    /**
+     * Returns the username of the user linked to the token.
+     *
+     * @param token
+     *            token to search for the username
+     * @return username of the token's user
+     */
     @Query("SELECT u.username FROM User u JOIN UserToken t ON u.id = t.userId WHERE t.token = :token")
     public Optional<String> findUsernameByToken(@Param("token") final String token);
 

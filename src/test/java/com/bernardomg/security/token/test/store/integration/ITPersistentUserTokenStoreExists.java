@@ -12,6 +12,7 @@ import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
@@ -63,6 +64,19 @@ class ITPersistentUserTokenStoreExists {
     @Test
     @DisplayName("A not existing token doesn't exist")
     void testExists_notExisting() {
+        final Boolean exists;
+
+        exists = store.exists(TokenConstants.TOKEN);
+
+        Assertions.assertThat(exists)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("An out of scope token doesn't exist")
+    @OnlyUser
+    @UserRegisteredToken
+    void testExists_outOfScope() {
         final Boolean exists;
 
         exists = store.exists(TokenConstants.TOKEN);
