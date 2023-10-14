@@ -26,11 +26,11 @@ class ITPersistentUserTokenStoreRevokeTokens {
     private TokenProperties          tokenProperties;
 
     @Autowired
-    private UserTokenRepository      tokenRepository;
+    private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(userTokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
     }
 
     @Test
@@ -42,7 +42,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
 
         store.revokeExistingTokens(1l);
 
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .iterator()
             .next();
         Assertions.assertThat(token.isRevoked())
@@ -58,7 +58,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
 
         store.revokeExistingTokens(2l);
 
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .iterator()
             .next();
         Assertions.assertThat(token.isRevoked())
@@ -74,7 +74,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
 
         store.revokeExistingTokens(1l);
 
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .iterator()
             .next();
         Assertions.assertThat(token.isRevoked())

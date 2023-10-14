@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.security.token.store;
 
@@ -20,20 +43,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PersistentUserTokenStore implements UserTokenStore {
 
-    private final UserTokenRepository tokenRepository;
-
     /**
      * Token scope.
      */
     private final String              tokenScope;
 
+    private final UserTokenRepository userTokenRepository;
+
+    /**
+     * Token validity duration. This is how long the token is valid, starting on the time it is created.
+     */
     private final Duration            validity;
 
     public PersistentUserTokenStore(@NonNull final UserTokenRepository tRepository, @NonNull final String token,
             @NonNull final Duration valid) {
         super();
 
-        tokenRepository = Objects.requireNonNull(tRepository);
+        userTokenRepository = Objects.requireNonNull(tRepository);
         validity = Objects.requireNonNull(valid);
         tokenScope = Objects.requireNonNull(token);
     }
@@ -43,7 +69,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final Optional<PersistentUserToken> read;
         final PersistentUserToken           persistentToken;
 
-        read = tokenRepository.findOneByToken(token);
+        read = userTokenRepository.findOneByToken(token);
 
         if (!read.isPresent()) {
             log.error("Token missing: {}", token);
@@ -57,7 +83,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         }
 
         persistentToken.setConsumed(true);
-        tokenRepository.save(persistentToken);
+        userTokenRepository.save(persistentToken);
         log.debug("Consumed token {}", token);
     }
 
@@ -85,7 +111,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         persistentToken.setRevoked(false);
         persistentToken.setExpirationDate(expiration);
 
-        tokenRepository.save(persistentToken);
+        userTokenRepository.save(persistentToken);
 
         log.debug("Created token for {} with scope {}", username, tokenScope);
 
@@ -94,7 +120,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
     @Override
     public final boolean exists(final String token) {
-        return tokenRepository.existsByTokenAndScope(token, tokenScope);
+        return userTokenRepository.existsByTokenAndScope(token, tokenScope);
     }
 
     @Override
@@ -102,7 +128,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         final Optional<String> username;
 
         // TODO: Shouldn't this receive the scope?
-        username = tokenRepository.findUsernameByToken(token);
+        username = userTokenRepository.findUsernameByToken(token);
 
         if (username.isEmpty()) {
             throw new InvalidTokenException(token);
@@ -120,7 +146,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         // TODO: Use the token service to verify it
         // TODO: Check scope
 
-        read = tokenRepository.findOneByToken(token);
+        read = userTokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
             if (!tokenScope.equals(entity.getScope())) {
@@ -161,10 +187,10 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     public final void revokeExistingTokens(final Long userId) {
         final Collection<PersistentUserToken> notRevoked;
 
-        notRevoked = tokenRepository.findAllNotRevokedByUserIdAndScope(userId, tokenScope);
+        notRevoked = userTokenRepository.findAllNotRevokedByUserIdAndScope(userId, tokenScope);
         notRevoked.forEach(t -> t.setRevoked(true));
 
-        tokenRepository.saveAll(notRevoked);
+        userTokenRepository.saveAll(notRevoked);
 
         log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, userId);
     }

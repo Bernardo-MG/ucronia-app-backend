@@ -23,7 +23,7 @@ public class ITPersistentUserTokenCleanUpService {
     private PersistentUserTokenCleanUpService service;
 
     @Autowired
-    private UserTokenRepository               tokenRepository;
+    private UserTokenRepository               userTokenRepository;
 
     @Test
     @DisplayName("Removes consumed tokens")
@@ -34,7 +34,7 @@ public class ITPersistentUserTokenCleanUpService {
 
         service.cleanUpTokens();
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isZero();
     }
@@ -46,7 +46,7 @@ public class ITPersistentUserTokenCleanUpService {
 
         service.cleanUpTokens();
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isZero();
     }
@@ -60,7 +60,7 @@ public class ITPersistentUserTokenCleanUpService {
 
         service.cleanUpTokens();
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isZero();
     }
@@ -74,7 +74,7 @@ public class ITPersistentUserTokenCleanUpService {
 
         service.cleanUpTokens();
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isZero();
     }
@@ -88,7 +88,7 @@ public class ITPersistentUserTokenCleanUpService {
 
         service.cleanUpTokens();
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isOne();
     }

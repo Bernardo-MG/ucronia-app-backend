@@ -27,10 +27,10 @@ class ITFullPasswordResetProcess {
     private PasswordResetService service;
 
     @Autowired
-    private UserTokenRepository  tokenRepository;
+    private UserRepository       userRepository;
 
     @Autowired
-    private UserRepository       userRepository;
+    private UserTokenRepository  userTokenRepository;
 
     public ITFullPasswordResetProcess() {
         super();
@@ -49,7 +49,7 @@ class ITFullPasswordResetProcess {
         service.startPasswordReset("email@somewhere.com");
 
         // Validate new token
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .stream()
             .findFirst()
             .get()

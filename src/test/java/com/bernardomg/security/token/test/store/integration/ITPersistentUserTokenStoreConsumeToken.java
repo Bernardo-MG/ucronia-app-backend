@@ -30,11 +30,11 @@ class ITPersistentUserTokenStoreConsumeToken {
     private TokenProperties          tokenProperties;
 
     @Autowired
-    private UserTokenRepository      tokenRepository;
+    private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(userTokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
     }
 
     @Test
@@ -59,7 +59,7 @@ class ITPersistentUserTokenStoreConsumeToken {
 
         store.consumeToken(TokenConstants.TOKEN);
 
-        persistedToken = tokenRepository.findAll()
+        persistedToken = userTokenRepository.findAll()
             .iterator()
             .next();
 
@@ -76,7 +76,7 @@ class ITPersistentUserTokenStoreConsumeToken {
 
         store.consumeToken(TokenConstants.TOKEN);
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isOne();
     }

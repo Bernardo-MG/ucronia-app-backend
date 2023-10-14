@@ -27,11 +27,11 @@ class ITPersistentUserTokenStoreExists {
     private TokenProperties          tokenProperties;
 
     @Autowired
-    private UserTokenRepository      tokenRepository;
+    private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(userTokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
     }
 
     @Test

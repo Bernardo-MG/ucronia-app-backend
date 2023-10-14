@@ -25,7 +25,7 @@ class ITPasswordResetServiceStartToken {
     private PasswordResetService service;
 
     @Autowired
-    private UserTokenRepository  tokenRepository;
+    private UserTokenRepository  userTokenRepository;
 
     public ITPasswordResetServiceStartToken() {
         super();
@@ -39,7 +39,7 @@ class ITPasswordResetServiceStartToken {
 
         service.startPasswordReset("email@somewhere.com");
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
 
         Assertions.assertThat(count)
             .isOne();
@@ -53,7 +53,7 @@ class ITPasswordResetServiceStartToken {
 
         service.startPasswordReset("email@somewhere.com");
 
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .iterator()
             .next();
 
@@ -78,7 +78,7 @@ class ITPasswordResetServiceStartToken {
 
         service.startPasswordReset("email@somewhere.com");
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
 
         Assertions.assertThat(count)
             .isEqualTo(2);
@@ -93,7 +93,7 @@ class ITPasswordResetServiceStartToken {
 
         service.startPasswordReset("email@somewhere.com");
 
-        token = tokenRepository.findOneByToken(TokenConstants.TOKEN)
+        token = userTokenRepository.findOneByToken(TokenConstants.TOKEN)
             .get();
 
         Assertions.assertThat(token.isRevoked())
@@ -112,7 +112,7 @@ class ITPasswordResetServiceStartToken {
 
         }
 
-        exists = tokenRepository.exists(Example.of(new PersistentUserToken()));
+        exists = userTokenRepository.exists(Example.of(new PersistentUserToken()));
 
         Assertions.assertThat(exists)
             .isFalse();

@@ -29,10 +29,10 @@ class ITUserServiceEnableNewUser {
     private UserService         service;
 
     @Autowired
-    private UserTokenRepository tokenRepository;
+    private UserRepository      userRepository;
 
     @Autowired
-    private UserRepository      userRepository;
+    private UserTokenRepository userTokenRepository;
 
     public ITUserServiceEnableNewUser() {
         super();
@@ -47,7 +47,7 @@ class ITUserServiceEnableNewUser {
 
         service.activateNewUser(TokenConstants.TOKEN, "1234");
 
-        consumed = tokenRepository.findById(1L)
+        consumed = userTokenRepository.findById(1L)
             .get()
             .isConsumed();
 

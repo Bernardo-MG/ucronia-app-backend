@@ -54,8 +54,8 @@ public class TokenConfig {
     }
 
     @Bean("tokenCleanUpService")
-    public TokenCleanUpService getTokenCleanUpService(final UserTokenRepository tokenRepository) {
-        return new PersistentUserTokenCleanUpService(tokenRepository);
+    public TokenCleanUpService getTokenCleanUpService(final UserTokenRepository userTokenRepository) {
+        return new PersistentUserTokenCleanUpService(userTokenRepository);
     }
 
 }

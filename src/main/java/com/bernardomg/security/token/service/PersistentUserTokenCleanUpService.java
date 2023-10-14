@@ -50,14 +50,14 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
 
     /**
-     * Token repository.
+     * User token repository.
      */
-    private final UserTokenRepository tokenRepository;
+    private final UserTokenRepository userTokenRepository;
 
     public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
         super();
 
-        tokenRepository = Objects.requireNonNull(respository);
+        userTokenRepository = Objects.requireNonNull(respository);
     }
 
     @Override
@@ -67,11 +67,11 @@ public final class PersistentUserTokenCleanUpService implements TokenCleanUpServ
         // Expiration date before now
         // Revoked
         // Consumed
-        tokens = tokenRepository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         log.info("Removing {} finished tokens", tokens.size());
 
-        tokenRepository.deleteAll(tokens);
+        userTokenRepository.deleteAll(tokens);
     }
 
 }

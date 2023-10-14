@@ -36,10 +36,10 @@ class ITFullNewUserRegisterProcess {
     private UserService         service;
 
     @Autowired
-    private UserTokenRepository tokenRepository;
+    private UserRepository      userRepository;
 
     @Autowired
-    private UserRepository      userRepository;
+    private UserTokenRepository userTokenRepository;
 
     public ITFullNewUserRegisterProcess() {
         super();
@@ -91,7 +91,7 @@ class ITFullNewUserRegisterProcess {
         service.registerNewUser(newUser);
 
         // Validate new token
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .stream()
             .findFirst()
             .get()

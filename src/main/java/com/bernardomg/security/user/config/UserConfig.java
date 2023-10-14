@@ -73,11 +73,12 @@ public class UserConfig {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final PasswordEncoder passEncoder, final UserMapper userMapper, final UserTokenRepository tokenRepository,
-            final TokenProperties tokenProperties) {
+            final PasswordEncoder passEncoder, final UserMapper userMapper,
+            final UserTokenRepository userTokenRepository, final TokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentUserTokenStore(tokenRepository, "user_registered", tokenProperties.getValidity());
+        tokenStore = new PersistentUserTokenStore(userTokenRepository, "user_registered",
+            tokenProperties.getValidity());
 
         return new DefaultUserService(userRepo, mSender, tokenStore, passEncoder, userMapper);
     }

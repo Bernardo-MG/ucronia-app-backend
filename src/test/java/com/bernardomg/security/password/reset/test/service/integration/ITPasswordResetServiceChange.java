@@ -24,10 +24,10 @@ class ITPasswordResetServiceChange {
     private PasswordResetService service;
 
     @Autowired
-    private UserTokenRepository  tokenRepository;
+    private UserRepository       userRepository;
 
     @Autowired
-    private UserRepository       userRepository;
+    private UserTokenRepository  userTokenRepository;
 
     public ITPasswordResetServiceChange() {
         super();
@@ -60,7 +60,7 @@ class ITPasswordResetServiceChange {
 
         service.changePassword(TokenConstants.TOKEN, "abc");
 
-        consumed = tokenRepository.findById(1L)
+        consumed = userTokenRepository.findById(1L)
             .get()
             .isConsumed();
 

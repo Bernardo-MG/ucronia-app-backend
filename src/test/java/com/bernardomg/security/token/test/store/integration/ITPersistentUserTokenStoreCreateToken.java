@@ -28,11 +28,11 @@ class ITPersistentUserTokenStoreCreateToken {
     private TokenProperties          tokenProperties;
 
     @Autowired
-    private UserTokenRepository      tokenRepository;
+    private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(userTokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
     }
 
     @Test
@@ -43,7 +43,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         store.createToken(1l, "admin");
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isOne();
     }
@@ -60,7 +60,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         store.createToken(1l, "admin");
 
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .iterator()
             .next();
 
@@ -101,7 +101,7 @@ class ITPersistentUserTokenStoreCreateToken {
         // TODO: then, just take the username from the user id
         store.createToken(1l, "abc");
 
-        count = tokenRepository.count();
+        count = userTokenRepository.count();
         Assertions.assertThat(count)
             .isOne();
     }
@@ -114,7 +114,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         executable = () -> {
             store.createToken(2l, "admin");
-            tokenRepository.flush();
+            userTokenRepository.flush();
         };
 
         // TODO: Does this make sense? Throw a custom exception
