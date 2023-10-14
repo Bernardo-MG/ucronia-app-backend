@@ -47,6 +47,7 @@ public final class PersistentTokenStore implements TokenStore {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
+
         persistentToken.setConsumed(true);
         tokenRepository.save(persistentToken);
         log.debug("Consumed token {}", token);
