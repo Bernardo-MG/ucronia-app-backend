@@ -16,7 +16,7 @@ import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - create token")
+@DisplayName("PersistentTokenStore - create token")
 class ITPersistentTokenStoreCreateToken {
 
     @Autowired

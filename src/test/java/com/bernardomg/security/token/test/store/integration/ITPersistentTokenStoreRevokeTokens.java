@@ -14,7 +14,7 @@ import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenProcessor - revoke existing tokens")
+@DisplayName("PersistentTokenStore - revoke existing tokens")
 class ITPersistentTokenStoreRevokeTokens {
 
     @Autowired
