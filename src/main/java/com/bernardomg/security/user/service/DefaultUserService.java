@@ -53,11 +53,6 @@ public final class DefaultUserService implements UserService {
     private final PasswordEncoder       passwordEncoder;
 
     /**
-     * Token scope for reseting passwords.
-     */
-    private final String                tokenScope;
-
-    /**
      * Token processor.
      */
     private final TokenStore            tokenStore;
@@ -71,15 +66,13 @@ public final class DefaultUserService implements UserService {
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper,
-            final String scope) {
+            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         mapper = Objects.requireNonNull(userMapper);
 
         tokenStore = Objects.requireNonNull(tStore);
-        tokenScope = Objects.requireNonNull(scope);
 
         passwordEncoder = Objects.requireNonNull(passEncoder);
 
@@ -97,12 +90,12 @@ public final class DefaultUserService implements UserService {
         final String         encodedPassword;
 
         // TODO: Use a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token, tokenScope)) {
+        if (!tokenStore.exists(token)) {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
 
-        if (!tokenStore.isValid(token, tokenScope)) {
+        if (!tokenStore.isValid(token)) {
             log.error("Token expired: {}", token);
             // TODO: Throw an exception for each possible case
             throw new InvalidTokenException(token);
@@ -215,10 +208,10 @@ public final class DefaultUserService implements UserService {
         created = userRepository.save(userEntity);
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.getId(), tokenScope);
+        tokenStore.revokeExistingTokens(created.getId());
 
         // Register new token
-        token = tokenStore.createToken(created.getId(), created.getUsername(), tokenScope);
+        token = tokenStore.createToken(created.getId(), created.getUsername());
 
         // TODO: Handle through events
         messageSender.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
@@ -282,7 +275,7 @@ public final class DefaultUserService implements UserService {
         final boolean valid;
         final String  username;
 
-        valid = tokenStore.isValid(token, tokenScope);
+        valid = tokenStore.isValid(token);
         username = tokenStore.getUsername(token);
 
         return ImmutableTokenStatus.builder()

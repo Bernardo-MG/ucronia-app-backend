@@ -18,13 +18,11 @@ public interface TokenStore {
      *            id for the user who generates the token
      * @param username
      *            username for the user who generates the token
-     * @param scope
-     *            token scope
      * @return token for the subject
      */
-    public String createToken(final Long userId, final String username, final String scope);
+    public String createToken(final Long userId, final String username);
 
-    public boolean exists(final String token, final String scope);
+    public boolean exists(final String token);
 
     /**
      * Returns the username for the token.
@@ -40,20 +38,16 @@ public interface TokenStore {
      *
      * @param token
      *            token to validate
-     * @param scope
-     *            token scope
      * @return {@code true} if the token has expired, {@code false} otherwise
      */
-    public boolean isValid(final String token, final String scope);
+    public boolean isValid(final String token);
 
     /**
      * Revokes all the tokens for a user, so they can no longer be used.
      *
      * @param userId
      *            user id
-     * @param scope
-     *            tokens scope
      */
-    public void revokeExistingTokens(final Long userId, final String scope);
+    public void revokeExistingTokens(final Long userId);
 
 }

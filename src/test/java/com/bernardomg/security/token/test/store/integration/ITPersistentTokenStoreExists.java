@@ -2,10 +2,13 @@
 package com.bernardomg.security.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.token.config.property.TokenProperties;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
@@ -18,8 +21,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenStore - exists")
 class ITPersistentTokenStoreExists {
 
-    @Autowired
     private PersistentTokenStore store;
+
+    @Autowired
+    private TokenProperties      tokenProperties;
+
+    @Autowired
+    private TokenRepository      tokenRepository;
+
+    @BeforeEach
+    public void initialize() {
+        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+    }
 
     @Test
     @DisplayName("A valid token exists")
@@ -28,7 +41,7 @@ class ITPersistentTokenStoreExists {
     void testExists_existing() {
         final Boolean exists;
 
-        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        exists = store.exists(TokenConstants.TOKEN);
 
         Assertions.assertThat(exists)
             .isTrue();
@@ -41,7 +54,7 @@ class ITPersistentTokenStoreExists {
     void testExists_expired() {
         final Boolean exists;
 
-        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        exists = store.exists(TokenConstants.TOKEN);
 
         Assertions.assertThat(exists)
             .isTrue();
@@ -52,7 +65,7 @@ class ITPersistentTokenStoreExists {
     void testExists_notExisting() {
         final Boolean exists;
 
-        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        exists = store.exists(TokenConstants.TOKEN);
 
         Assertions.assertThat(exists)
             .isFalse();
@@ -65,23 +78,10 @@ class ITPersistentTokenStoreExists {
     void testExists_revoked() {
         final Boolean exists;
 
-        exists = store.exists(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        exists = store.exists(TokenConstants.TOKEN);
 
         Assertions.assertThat(exists)
             .isTrue();
-    }
-
-    @Test
-    @DisplayName("A token for the wrong scope doesn't exist")
-    @OnlyUser
-    @ValidToken
-    void testExists_WrongScope() {
-        final Boolean exists;
-
-        exists = store.exists(TokenConstants.TOKEN, "abc");
-
-        Assertions.assertThat(exists)
-            .isFalse();
     }
 
 }

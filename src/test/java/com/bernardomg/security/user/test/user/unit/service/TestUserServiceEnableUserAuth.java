@@ -63,13 +63,13 @@ class TestUserServiceEnableUserAuth {
 
     @BeforeEach
     public void initializeService() {
-        service = new DefaultUserService(repository, messageSender, tokenStore, passwordEncoder, userMapper, "");
+        service = new DefaultUserService(repository, messageSender, tokenStore, passwordEncoder, userMapper);
     }
 
     @BeforeEach
     public void initializeToken() {
-        given(tokenStore.exists(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
-        given(tokenStore.isValid(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+        given(tokenStore.exists(ArgumentMatchers.anyString())).willReturn(true);
+        given(tokenStore.isValid(ArgumentMatchers.anyString())).willReturn(true);
         given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(USERNAME);
     }
 

@@ -34,8 +34,6 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 @DisplayName("PasswordRecoveryService - change password - authentication")
 class TestPasswordResetServiceChangeAuth {
 
-    private static final String                TOKEN_SCOPE = "password_reset";
-
     private static final String                USERNAME    = "username";
 
     @Mock
@@ -62,7 +60,7 @@ class TestPasswordResetServiceChangeAuth {
     @BeforeEach()
     public void initializeService() {
         service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder, "password_reset");
+            passwordEncoder);
     }
 
     private final void loadDisabledUser() {
@@ -113,8 +111,8 @@ class TestPasswordResetServiceChangeAuth {
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.exists(TokenConstants.TOKEN, TOKEN_SCOPE)).willReturn(true);
-        given(tokenStore.isValid(TokenConstants.TOKEN, TOKEN_SCOPE)).willReturn(true);
+        given(tokenStore.exists(TokenConstants.TOKEN)).willReturn(true);
+        given(tokenStore.isValid(TokenConstants.TOKEN)).willReturn(true);
         given(tokenStore.getUsername(TokenConstants.TOKEN)).willReturn(USERNAME);
     }
 

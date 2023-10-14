@@ -5,13 +5,16 @@ import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -19,11 +22,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenStore - create token")
 class ITPersistentTokenStoreCreateToken {
 
-    @Autowired
     private PersistentTokenStore store;
 
     @Autowired
+    private TokenProperties      tokenProperties;
+
+    @Autowired
     private TokenRepository      tokenRepository;
+
+    @BeforeEach
+    public void initialize() {
+        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+    }
 
     @Test
     @DisplayName("After generating a token a new token is persisted")
@@ -31,7 +41,7 @@ class ITPersistentTokenStoreCreateToken {
     void testCreateToken_Persisted() {
         final long count;
 
-        store.createToken(1l, "admin", "scope");
+        store.createToken(1l, "admin");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -48,7 +58,7 @@ class ITPersistentTokenStoreCreateToken {
 
         lower = LocalDateTime.now();
 
-        store.createToken(1l, "admin", "scope");
+        store.createToken(1l, "admin");
 
         token = tokenRepository.findAll()
             .iterator()
@@ -76,7 +86,7 @@ class ITPersistentTokenStoreCreateToken {
     void testCreateToken_Return() {
         final String token;
 
-        token = store.createToken(1l, "admin", "scope");
+        token = store.createToken(1l, "admin");
 
         Assertions.assertThat(token)
             .isNotNull();
@@ -89,7 +99,7 @@ class ITPersistentTokenStoreCreateToken {
         final long count;
 
         // TODO: then, just take the username from the user id
-        store.createToken(1l, "abc", "scope");
+        store.createToken(1l, "abc");
 
         count = tokenRepository.count();
         Assertions.assertThat(count)
@@ -103,7 +113,7 @@ class ITPersistentTokenStoreCreateToken {
         final ThrowingCallable executable;
 
         executable = () -> {
-            store.createToken(2l, "admin", "scope");
+            store.createToken(2l, "admin");
             tokenRepository.flush();
         };
 

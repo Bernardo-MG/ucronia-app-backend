@@ -3,11 +3,14 @@ package com.bernardomg.security.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.exception.InvalidTokenException;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
@@ -18,8 +21,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenStore - get username")
 class ITPersistentTokenStoreGetUsername {
 
-    @Autowired
     private PersistentTokenStore store;
+
+    @Autowired
+    private TokenProperties      tokenProperties;
+
+    @Autowired
+    private TokenRepository      tokenRepository;
+
+    @BeforeEach
+    public void initialize() {
+        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+    }
 
     @Test
     @DisplayName("Extracts the username from a token")

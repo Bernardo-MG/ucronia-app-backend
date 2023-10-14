@@ -33,10 +33,6 @@ import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.schedule.TokenCleanUpScheduleTask;
 import com.bernardomg.security.token.service.DefaultTokenCleanUpService;
 import com.bernardomg.security.token.service.TokenCleanUpService;
-import com.bernardomg.security.token.store.PersistentTokenStore;
-import com.bernardomg.security.token.store.TokenStore;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Security configuration.
@@ -46,7 +42,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Configuration
 @EnableConfigurationProperties(TokenProperties.class)
-@Slf4j
 public class TokenConfig {
 
     public TokenConfig() {
@@ -61,12 +56,6 @@ public class TokenConfig {
     @Bean("tokenCleanUpService")
     public TokenCleanUpService getTokenCleanUpService(final TokenRepository tokenRepository) {
         return new DefaultTokenCleanUpService(tokenRepository);
-    }
-
-    @Bean("tokenStore")
-    public TokenStore getTokenStore(final TokenRepository tokenRepository, final TokenProperties tokenProperties) {
-        log.info("Persistent tokens will have a validity of {}", tokenProperties.getValidity());
-        return new PersistentTokenStore(tokenRepository, tokenProperties.getValidity());
     }
 
 }

@@ -3,10 +3,12 @@ package com.bernardomg.security.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.exception.ConsumedTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
@@ -22,11 +24,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenStore - consume")
 class ITPersistentTokenStoreConsumeToken {
 
-    @Autowired
     private PersistentTokenStore store;
 
     @Autowired
+    private TokenProperties      tokenProperties;
+
+    @Autowired
     private TokenRepository      tokenRepository;
+
+    @BeforeEach
+    public void initialize() {
+        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+    }
 
     @Test
     @DisplayName("Consuming a token which is already consumed throws an exception")

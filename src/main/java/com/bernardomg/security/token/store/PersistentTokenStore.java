@@ -22,13 +22,20 @@ public final class PersistentTokenStore implements TokenStore {
 
     private final TokenRepository tokenRepository;
 
+    /**
+     * Token scope.
+     */
+    private final String          tokenScope;
+
     private final Duration        validity;
 
-    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final Duration valid) {
+    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final String token,
+            @NonNull final Duration valid) {
         super();
 
         tokenRepository = Objects.requireNonNull(tRepository);
         validity = Objects.requireNonNull(valid);
+        tokenScope = Objects.requireNonNull(token);
     }
 
     @Override
@@ -55,7 +62,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final String createToken(final Long userId, final String username, final String scope) {
+    public final String createToken(final Long userId, final String username) {
         final PersistentToken persistentToken;
         final LocalDateTime   creation;
         final LocalDateTime   expiration;
@@ -71,7 +78,7 @@ public final class PersistentTokenStore implements TokenStore {
 
         persistentToken = new PersistentToken();
         persistentToken.setUserId(userId);
-        persistentToken.setScope(scope);
+        persistentToken.setScope(tokenScope);
         persistentToken.setCreationDate(creation);
         persistentToken.setToken(tokenCode);
         persistentToken.setConsumed(false);
@@ -80,14 +87,14 @@ public final class PersistentTokenStore implements TokenStore {
 
         tokenRepository.save(persistentToken);
 
-        log.debug("Created token for {} with scope {}", username, scope);
+        log.debug("Created token for {} with scope {}", username, tokenScope);
 
         return tokenCode;
     }
 
     @Override
-    public final boolean exists(final String token, final String scope) {
-        return tokenRepository.existsByTokenAndScope(token, scope);
+    public final boolean exists(final String token) {
+        return tokenRepository.existsByTokenAndScope(token, tokenScope);
     }
 
     @Override
@@ -105,7 +112,7 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final boolean isValid(final String token, final String scope) {
+    public final boolean isValid(final String token) {
         final Optional<PersistentToken> read;
         final PersistentToken           entity;
         final Boolean                   valid;
@@ -116,10 +123,10 @@ public final class PersistentTokenStore implements TokenStore {
         read = tokenRepository.findOneByToken(token);
         if (read.isPresent()) {
             entity = read.get();
-            if (!scope.equals(entity.getScope())) {
+            if (!tokenScope.equals(entity.getScope())) {
                 // scope mismatch
                 valid = false;
-                log.warn("Expected scope {}, but the token is for {}", scope, entity.getScope());
+                log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
             } else if (entity.isConsumed()) {
                 // Consumed
                 // It isn't a valid token
@@ -151,15 +158,15 @@ public final class PersistentTokenStore implements TokenStore {
     }
 
     @Override
-    public final void revokeExistingTokens(final Long userId, final String scope) {
+    public final void revokeExistingTokens(final Long userId) {
         final Collection<PersistentToken> notRevoked;
 
-        notRevoked = tokenRepository.findAllNotRevokedByUserIdAndScope(userId, scope);
+        notRevoked = tokenRepository.findAllNotRevokedByUserIdAndScope(userId, tokenScope);
         notRevoked.forEach(t -> t.setRevoked(true));
 
         tokenRepository.saveAll(notRevoked);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", scope, userId);
+        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, userId);
     }
 
 }

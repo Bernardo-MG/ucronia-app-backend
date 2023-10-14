@@ -58,7 +58,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     @BeforeEach
     public void initializeService() {
         service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder, "password_reset");
+            passwordEncoder);
     }
 
     @BeforeEach

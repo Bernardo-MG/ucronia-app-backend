@@ -2,10 +2,13 @@
 package com.bernardomg.security.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.token.config.property.TokenProperties;
+import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
@@ -18,8 +21,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentTokenStore - is valid")
 class ITPersistentTokenStoreIsValid {
 
-    @Autowired
     private PersistentTokenStore store;
+
+    @Autowired
+    private TokenProperties      tokenProperties;
+
+    @Autowired
+    private TokenRepository      tokenRepository;
+
+    @BeforeEach
+    public void initialize() {
+        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+    }
 
     @Test
     @DisplayName("A consumed token is invalid")
@@ -28,7 +41,7 @@ class ITPersistentTokenStoreIsValid {
     void testIsValid_Consumed() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        valid = store.isValid(TokenConstants.TOKEN);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -41,7 +54,7 @@ class ITPersistentTokenStoreIsValid {
     void testIsValid_Expired() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        valid = store.isValid(TokenConstants.TOKEN);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -54,7 +67,7 @@ class ITPersistentTokenStoreIsValid {
     void testIsValid_Revoked() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        valid = store.isValid(TokenConstants.TOKEN);
 
         Assertions.assertThat(valid)
             .isFalse();
@@ -67,23 +80,10 @@ class ITPersistentTokenStoreIsValid {
     void testIsValid_Valid() {
         final Boolean valid;
 
-        valid = store.isValid(TokenConstants.TOKEN, TokenConstants.SCOPE);
+        valid = store.isValid(TokenConstants.TOKEN);
 
         Assertions.assertThat(valid)
             .isTrue();
-    }
-
-    @Test
-    @DisplayName("A token for the wrong scope is invalid")
-    @OnlyUser
-    @ValidToken
-    void testIsValid_WrongScope() {
-        final Boolean valid;
-
-        valid = store.isValid(TokenConstants.TOKEN, "abc");
-
-        Assertions.assertThat(valid)
-            .isFalse();
     }
 
 }
