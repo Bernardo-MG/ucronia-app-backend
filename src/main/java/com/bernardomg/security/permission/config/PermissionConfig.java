@@ -27,19 +27,13 @@ package com.bernardomg.security.permission.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.permission.model.mapper.ActionMapper;
 import com.bernardomg.security.permission.model.mapper.PermissionMapper;
-import com.bernardomg.security.permission.model.mapper.ResourceMapper;
 import com.bernardomg.security.permission.model.mapper.RolePermissionMapper;
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.permission.persistence.repository.ResourceRepository;
-import com.bernardomg.security.permission.persistence.repository.RoleGrantedPermissionRepository;
+import com.bernardomg.security.permission.persistence.repository.PermissionRepository;
 import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.permission.service.ActionService;
-import com.bernardomg.security.permission.service.DefaultActionService;
-import com.bernardomg.security.permission.service.DefaultResourceService;
+import com.bernardomg.security.permission.service.DefaultPermissionService;
 import com.bernardomg.security.permission.service.DefaultRolePermissionService;
-import com.bernardomg.security.permission.service.ResourceService;
+import com.bernardomg.security.permission.service.PermissionService;
 import com.bernardomg.security.permission.service.RolePermissionService;
 import com.bernardomg.security.user.persistence.repository.RoleRepository;
 
@@ -56,24 +50,17 @@ public class PermissionConfig {
         super();
     }
 
-    @Bean("actionService")
-    public ActionService getActionService(final ActionRepository repository, final ActionMapper mapper) {
-        return new DefaultActionService(repository, mapper);
-    }
-
-    @Bean("resourceService")
-    public ResourceService getResourceService(final ResourceRepository repository, final ResourceMapper mapper) {
-        return new DefaultResourceService(repository, mapper);
+    @Bean("permissionService")
+    public PermissionService getPermissionService(final PermissionRepository repository,
+            final PermissionMapper mapper) {
+        return new DefaultPermissionService(repository, mapper);
     }
 
     @Bean("rolePermissionService")
     public RolePermissionService getRolePermissionService(final RoleRepository roleRepo,
-            final ResourceRepository resourceRepo, final ActionRepository actionRepo,
-            final RolePermissionRepository roleActionsRepo,
-            final RoleGrantedPermissionRepository roleGrantedPermissionRepo, final RolePermissionMapper rolePermMapper,
-            final PermissionMapper permMapper) {
-        return new DefaultRolePermissionService(roleRepo, resourceRepo, actionRepo, roleActionsRepo,
-            roleGrantedPermissionRepo, rolePermMapper, permMapper);
+            final PermissionRepository permissionRepo, final RolePermissionRepository roleActionsRepo,
+            final RolePermissionMapper rolePermMapper, final PermissionMapper permMapper) {
+        return new DefaultRolePermissionService(roleRepo, permissionRepo, roleActionsRepo, rolePermMapper, permMapper);
     }
 
 }

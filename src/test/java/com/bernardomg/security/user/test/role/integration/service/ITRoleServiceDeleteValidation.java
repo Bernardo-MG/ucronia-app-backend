@@ -28,9 +28,9 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -63,10 +63,7 @@ class ITRoleServiceDeleteValidation {
 
     @Test
     @DisplayName("Throws an exception when the role has an user")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @ValidUser
     void testDelete_UserWithRole() {
         final ThrowingCallable executable;
         final FieldFailure     failure;

@@ -28,7 +28,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
@@ -36,6 +35,7 @@ import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -44,9 +44,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - update")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql" })
+@ValidUser
 class ITUserServiceUpdate {
 
     @Autowired

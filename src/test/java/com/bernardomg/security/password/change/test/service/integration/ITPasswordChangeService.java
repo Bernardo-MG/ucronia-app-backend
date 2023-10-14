@@ -7,11 +7,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -33,10 +34,7 @@ class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an existing user changes the password")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @ValidUser
     void testChangePassword_Existing_Changed() {
         final PersistentUser user;
 
@@ -54,10 +52,7 @@ class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with a user with expired password resets the flag")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @ExpiredPasswordUser
     void testChangePassword_ExpiredPassword() {
         final PersistentUser user;
 
@@ -75,10 +70,7 @@ class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an incorrect password gives a failure")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @ValidUser
     void testChangePassword_IncorrectPassword_Exception() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -93,10 +85,7 @@ class ITPasswordChangeService {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Changing password with an existing user changes the password")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
+    @ValidUser
     void testChangePassword_Long_Changed() {
         final PersistentUser user;
 

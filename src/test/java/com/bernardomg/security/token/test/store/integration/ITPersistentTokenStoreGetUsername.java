@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -23,7 +24,7 @@ class ITPersistentTokenStoreGetUsername {
     @Test
     @DisplayName("Extracts the username from a token")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testGetUsername() {
         final String subject;
 
@@ -36,7 +37,7 @@ class ITPersistentTokenStoreGetUsername {
     @Test
     @DisplayName("Extracts no username from an invalid token")
     @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidToken
     void testGetUsername_InvalidToken() {
         final ThrowingCallable executable;
         final Exception        exception;

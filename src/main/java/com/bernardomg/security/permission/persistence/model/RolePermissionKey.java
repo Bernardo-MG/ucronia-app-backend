@@ -19,9 +19,7 @@ public class RolePermissionKey implements Serializable {
      */
     private static final long serialVersionUID = -7233957066746780621L;
 
-    private Long              actionId;
-
-    private Long              resourceId;
+    private Long              permissionId;
 
     private Long              roleId;
 

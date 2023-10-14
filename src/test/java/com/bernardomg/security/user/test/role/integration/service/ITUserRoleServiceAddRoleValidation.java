@@ -5,9 +5,9 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.service.UserRoleService;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -16,9 +16,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - add role - validation")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql" })
+@ValidUser
 class ITUserRoleServiceAddRoleValidation {
 
     @Autowired

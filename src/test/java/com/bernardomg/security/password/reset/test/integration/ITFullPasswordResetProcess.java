@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -39,11 +39,8 @@ class ITFullPasswordResetProcess {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Can follow the password recovery from start to end")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    void testResetPassword_Valid() {
+    @ValidUser
+    void testResetPassword() {
         final TokenStatus    validTokenStatus;
         final String         token;
         final PersistentUser user;

@@ -31,13 +31,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.config.property.JwtProperties;
+import com.bernardomg.security.auth.config.JwtProperties;
+import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
+import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginService;
+import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.token.TokenEncoder;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
 /**
@@ -58,11 +60,14 @@ public class LoginConfig {
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
             final UserGrantedPermissionRepository userGrantedPermissionRepository, final JwtProperties properties) {
         final Predicate<LoginRequest> valid;
+        final LoginTokenEncoder       loginTokenEncoder;
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        return new DefaultLoginService(tokenEncoder, valid, userRepository, userGrantedPermissionRepository,
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             properties.getValidity());
+
+        return new DefaultLoginService(valid, userRepository, loginTokenEncoder);
     }
 
 }

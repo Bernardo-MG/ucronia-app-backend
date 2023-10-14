@@ -22,8 +22,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - get roles")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/role_permission.sql", "/db/queries/security/relationship/user_role.sql" })
+        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
+        "/db/queries/security/relationship/user_role.sql" })
 class ITUserRoleServiceGetRolesPagination {
 
     @Autowired
@@ -35,7 +36,7 @@ class ITUserRoleServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    void testGetActions_Page_Container() {
+    void testGetRoles_Page_Container() {
         final Iterable<Role> result;
         final Pageable       pageable;
 
@@ -48,22 +49,8 @@ class ITUserRoleServiceGetRolesPagination {
     }
 
     @Test
-    @DisplayName("Returns a page")
-    void testGetActions_Paged_Count() {
-        final Iterable<Role> result;
-        final Pageable       pageable;
-
-        pageable = PageRequest.of(0, 1);
-
-        result = service.getRoles(1l, pageable);
-
-        Assertions.assertThat(result)
-            .hasSize(1);
-    }
-
-    @Test
     @DisplayName("Returns all the data for the first page")
-    void testGetAll_Page1_Data() {
+    void testGetRoles_Page1_Data() {
         final Iterator<Role> data;
         final Role           result;
         final Pageable       pageable;
@@ -82,7 +69,7 @@ class ITUserRoleServiceGetRolesPagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    void testGetAll_Page2_Data() {
+    void testGetRoles_Page2_Data() {
         final Iterable<Role> data;
         final Pageable       pageable;
 
@@ -95,8 +82,22 @@ class ITUserRoleServiceGetRolesPagination {
     }
 
     @Test
+    @DisplayName("Returns a page")
+    void testGetRoles_Paged_Count() {
+        final Iterable<Role> result;
+        final Pageable       pageable;
+
+        pageable = PageRequest.of(0, 1);
+
+        result = service.getRoles(1l, pageable);
+
+        Assertions.assertThat(result)
+            .hasSize(1);
+    }
+
+    @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    void testGetAll_Unpaged_Container() {
+    void testGetRoles_Unpaged_Container() {
         final Iterable<Role> result;
         final Pageable       pageable;
 

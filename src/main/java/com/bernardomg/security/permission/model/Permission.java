@@ -5,10 +5,8 @@ public interface Permission {
 
     public String getAction();
 
-    public Long getActionId();
+    public Long getId();
 
     public String getResource();
-
-    public Long getResourceId();
 
 }

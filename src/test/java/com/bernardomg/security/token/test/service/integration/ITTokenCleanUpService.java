@@ -5,10 +5,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.service.DefaultTokenCleanUpService;
+import com.bernardomg.security.token.test.config.ConsumedToken;
+import com.bernardomg.security.token.test.config.ExpiredToken;
+import com.bernardomg.security.token.test.config.RevokedToken;
+import com.bernardomg.security.token.test.config.ValidToken;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -23,11 +27,8 @@ public class ITTokenCleanUpService {
 
     @Test
     @DisplayName("Removes consumed tokens")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/consumed.sql" })
+    @ValidUser
+    @ConsumedToken
     void testCleanUpTokens_Consumed() {
         final long count;
 
@@ -52,11 +53,8 @@ public class ITTokenCleanUpService {
 
     @Test
     @DisplayName("Removes expired tokens")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/expired.sql" })
+    @ValidUser
+    @ExpiredToken
     void testCleanUpTokens_Expired() {
         final long count;
 
@@ -69,11 +67,8 @@ public class ITTokenCleanUpService {
 
     @Test
     @DisplayName("Removes revoked tokens")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/revoked.sql" })
+    @ValidUser
+    @RevokedToken
     void testCleanUpTokens_Revoked() {
         final long count;
 
@@ -86,11 +81,8 @@ public class ITTokenCleanUpService {
 
     @Test
     @DisplayName("Does not remove valid tokens")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/valid.sql" })
+    @ValidUser
+    @ValidToken
     void testCleanUpTokens_Valid() {
         final long count;
 

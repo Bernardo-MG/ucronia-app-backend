@@ -42,7 +42,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("Role service - update errors")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/role/single.sql", "/db/queries/security/relationship/role_permission.sql" })
+        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
+        "/db/queries/security/relationship/role_permission.sql" })
 class ITUserServiceUpdateError {
 
     @Autowired

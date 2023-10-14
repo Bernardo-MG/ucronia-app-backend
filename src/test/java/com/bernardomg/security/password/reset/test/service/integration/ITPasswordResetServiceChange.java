@@ -5,13 +5,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.test.config.PasswordResetToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -33,11 +35,8 @@ class ITPasswordResetServiceChange {
 
     @Test
     @DisplayName("Changing password with a valid user changes the password")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    @ValidUser
+    @PasswordResetToken
     void testChangePassword_Changed() {
         final PersistentUser user;
 
@@ -54,11 +53,8 @@ class ITPasswordResetServiceChange {
 
     @Test
     @DisplayName("Changing password with an existing user marks the token as consumed")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    @ValidUser
+    @PasswordResetToken
     void testChangePassword_ConsumesToken() {
         final Boolean consumed;
 
@@ -74,11 +70,8 @@ class ITPasswordResetServiceChange {
 
     @Test
     @DisplayName("Changing password with expired password resets the flag")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/password_expired.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    @ExpiredPasswordUser
+    @PasswordResetToken
     void testChangePassword_ExpiredPassword() {
         final PersistentUser user;
 

@@ -5,11 +5,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.model.TokenStatus;
+import com.bernardomg.security.token.test.config.ConsumedToken;
+import com.bernardomg.security.token.test.config.ExpiredToken;
+import com.bernardomg.security.token.test.config.PasswordResetToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -25,11 +28,8 @@ class ITPasswordResetServiceToken {
 
     @Test
     @DisplayName("A consumed token is not valid")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/consumed.sql" })
+    @ValidUser
+    @ConsumedToken
     void testValidateToken_Consumed() {
         final TokenStatus status;
 
@@ -43,11 +43,8 @@ class ITPasswordResetServiceToken {
 
     @Test
     @DisplayName("An expired token is not valid")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/expired.sql" })
+    @ValidUser
+    @ExpiredToken
     void testValidateToken_Expired() {
         final TokenStatus status;
 
@@ -61,11 +58,8 @@ class ITPasswordResetServiceToken {
 
     @Test
     @DisplayName("A valid token is valid")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/password_reset.sql" })
+    @ValidUser
+    @PasswordResetToken
     void testValidateToken_Valid() {
         final TokenStatus status;
 

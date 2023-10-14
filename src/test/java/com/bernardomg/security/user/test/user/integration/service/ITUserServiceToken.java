@@ -29,11 +29,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.model.TokenStatus;
+import com.bernardomg.security.token.test.config.UserRegisteredConsumedToken;
+import com.bernardomg.security.token.test.config.UserRegisteredExpiredToken;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -53,11 +56,8 @@ class ITUserServiceToken {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("A consumed token is not valid")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/consumed.sql" })
+    @ValidUser
+    @UserRegisteredConsumedToken
     void testValidateToken_Consumed() {
         final TokenStatus status;
 
@@ -72,11 +72,8 @@ class ITUserServiceToken {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("An expired token is not valid")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/expired.sql" })
+    @ValidUser
+    @UserRegisteredExpiredToken
     void testValidateToken_Expired() {
         final TokenStatus status;
 
@@ -91,11 +88,8 @@ class ITUserServiceToken {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("A valid token is valid")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
-            "/db/queries/security/relationship/user_role.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @ValidUser
+    @UserRegisteredToken
     void testValidateToken_Valid() {
         final TokenStatus status;
 
