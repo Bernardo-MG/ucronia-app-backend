@@ -7,7 +7,9 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.bernardomg.security.token.exception.ConsumedTokenException;
 import com.bernardomg.security.token.exception.InvalidTokenException;
+import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 
@@ -35,18 +37,19 @@ public final class PersistentTokenStore implements TokenStore {
 
         read = tokenRepository.findOneByToken(token);
 
-        if (read.isPresent()) {
-            if (read.get()
-                .isConsumed()) {
-                log.warn("Token already consumed: {}", token);
-            } else {
-                entity = read.get();
-                entity.setConsumed(true);
-                tokenRepository.save(entity);
-                log.debug("Consumed token {}", token);
-            }
+        if (!read.isPresent()) {
+            log.error("Token missing: {}", token);
+            throw new MissingTokenException(token);
+        }
+        if (read.get()
+            .isConsumed()) {
+            log.warn("Token already consumed: {}", token);
+            throw new ConsumedTokenException(token);
         } else {
-            log.warn("Token not registered: {}", token);
+            entity = read.get();
+            entity.setConsumed(true);
+            tokenRepository.save(entity);
+            log.debug("Consumed token {}", token);
         }
     }
 

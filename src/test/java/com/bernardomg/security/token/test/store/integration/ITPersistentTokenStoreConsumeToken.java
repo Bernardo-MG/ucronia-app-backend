@@ -2,11 +2,14 @@
 package com.bernardomg.security.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.security.token.exception.ConsumedTokenException;
+import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.token.store.PersistentTokenStore;
@@ -26,20 +29,16 @@ class ITPersistentTokenStoreConsumeToken {
     private TokenRepository      tokenRepository;
 
     @Test
-    @DisplayName("Consuming a token which is already consumed keeps the status as consumed")
+    @DisplayName("Consuming a token which is already consumed throws an exception")
     @Sql({ "/db/queries/security/user/single.sql" })
     @ConsumedToken
-    void testConsume_AlreadyConsumed_Consumed() {
-        final PersistentToken persistedToken;
+    void testConsume_AlreadyConsumed_Exception() {
+        final ThrowingCallable executable;
 
-        store.consumeToken(TokenConstants.TOKEN);
+        executable = () -> store.consumeToken(TokenConstants.TOKEN);
 
-        persistedToken = tokenRepository.findAll()
-            .iterator()
-            .next();
-
-        Assertions.assertThat(persistedToken.isConsumed())
-            .isTrue();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(ConsumedTokenException.class);
     }
 
     @Test
@@ -74,15 +73,15 @@ class ITPersistentTokenStoreConsumeToken {
     }
 
     @Test
-    @DisplayName("Consuming a token that doesn't exist doesn't create a new token")
-    void testConsume_NotExists_NotCreate() {
-        final long count;
+    @DisplayName("Consuming a token that doesn't exist throws an exception")
+    @Sql({ "/db/queries/security/user/single.sql" })
+    void testConsume_NotExisting_Exception() {
+        final ThrowingCallable executable;
 
-        store.consumeToken(TokenConstants.TOKEN);
+        executable = () -> store.consumeToken(TokenConstants.TOKEN);
 
-        count = tokenRepository.count();
-        Assertions.assertThat(count)
-            .isZero();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingTokenException.class);
     }
 
 }
