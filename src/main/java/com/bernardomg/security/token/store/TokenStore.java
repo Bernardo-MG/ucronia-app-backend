@@ -3,6 +3,12 @@ package com.bernardomg.security.token.store;
 
 public interface TokenStore {
 
+    /**
+     * Consumes the token, marking it as already used.
+     *
+     * @param token
+     *            token to consume
+     */
     public void consumeToken(final String token);
 
     /**
@@ -40,6 +46,14 @@ public interface TokenStore {
      */
     public boolean isValid(final String token, final String scope);
 
+    /**
+     * Revokes all the tokens for a user, so they can no longer be used.
+     *
+     * @param userId
+     *            user id
+     * @param scope
+     *            tokens scope
+     */
     public void revokeExistingTokens(final Long userId, final String scope);
 
 }
