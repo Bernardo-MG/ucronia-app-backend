@@ -34,7 +34,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 @DisplayName("PasswordRecoveryService - change password - authentication")
 class TestPasswordResetServiceChangeAuth {
 
-    private static final String                USERNAME    = "username";
+    private static final String                USERNAME = "username";
 
     @Mock
     private SecurityMessageSender              messageSender;

@@ -43,6 +43,17 @@ public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
 
     public Boolean existsByTokenAndScope(final String token, final String scope);
 
+    /**
+     * Returns all the tokens which can no longer be used. That means any of these:
+     * <p>
+     * <ul>
+     * <li>Consumed</li>
+     * <li>Revoked</li>
+     * <li>Expired</li>
+     * </ul>
+     *
+     * @return
+     */
     @Query("SELECT t FROM Token t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
     public List<PersistentToken> findAllFinished();
 

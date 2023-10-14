@@ -22,40 +22,56 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.token.config;
+package com.bernardomg.security.token.service;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
+import java.util.Objects;
 
-import com.bernardomg.security.token.config.property.TokenProperties;
+import com.bernardomg.security.token.persistence.model.PersistentToken;
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.token.service.PersistentTokenCleanUpService;
-import com.bernardomg.security.token.service.TokenCleanUpService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Security configuration.
+ * Cleans up tokens through {@link PersistentToken}.
+ * <p>
+ * Removes tokens which match any of these cases:
+ * <p>
+ * <ul>
+ * <li>Consumed</li>
+ * <li>Revoked</li>
+ * <li>Expired</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-@EnableConfigurationProperties(TokenProperties.class)
-public class TokenConfig {
+@Slf4j
+public final class PersistentTokenCleanUpService implements TokenCleanUpService {
 
-    public TokenConfig() {
+    /**
+     * Token repository.
+     */
+    private final TokenRepository tokenRepository;
+
+    public PersistentTokenCleanUpService(final TokenRepository respository) {
         super();
+
+        tokenRepository = Objects.requireNonNull(respository);
     }
 
-    @Bean("tokenCleanUpScheduleTask")
-    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
-        return new TokenCleanUpScheduleTask(tokenCleanUpService);
-    }
+    @Override
+    public final void cleanUpTokens() {
+        final Collection<PersistentToken> tokens;
 
-    @Bean("tokenCleanUpService")
-    public TokenCleanUpService getTokenCleanUpService(final TokenRepository tokenRepository) {
-        return new PersistentTokenCleanUpService(tokenRepository);
+        // Expiration date before now
+        // Revoked
+        // Consumed
+        tokens = tokenRepository.findAllFinished();
+
+        log.info("Removing {} finished tokens", tokens.size());
+
+        tokenRepository.deleteAll(tokens);
     }
 
 }
