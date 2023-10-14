@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -43,10 +43,10 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     private SpringSecurityPasswordResetService service;
 
     @Mock
-    private TokenStore                         tokenProcessor;
+    private UserTokenStore                     tokenProcessor;
 
     @Mock
-    private TokenStore                         tokenStore;
+    private UserTokenStore                     tokenStore;
 
     @Mock
     private UserDetailsService                 userDetailsService;

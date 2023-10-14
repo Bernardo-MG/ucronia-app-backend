@@ -30,9 +30,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.config.property.TokenProperties;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.store.PersistentTokenStore;
-import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.model.mapper.RoleMapper;
 import com.bernardomg.security.user.model.mapper.UserMapper;
 import com.bernardomg.security.user.model.mapper.UserRoleMapper;
@@ -73,11 +73,11 @@ public class UserConfig {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final PasswordEncoder passEncoder, final UserMapper userMapper, final TokenRepository tokenRepository,
+            final PasswordEncoder passEncoder, final UserMapper userMapper, final UserTokenRepository tokenRepository,
             final TokenProperties tokenProperties) {
-        final TokenStore tokenStore;
+        final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentTokenStore(tokenRepository, "user_registered", tokenProperties.getValidity());
+        tokenStore = new PersistentUserTokenStore(tokenRepository, "user_registered", tokenProperties.getValidity());
 
         return new DefaultUserService(userRepo, mSender, tokenStore, passEncoder, userMapper);
     }

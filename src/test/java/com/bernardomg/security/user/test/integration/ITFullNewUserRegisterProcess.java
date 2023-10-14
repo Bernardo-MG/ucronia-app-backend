@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
@@ -30,16 +30,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFullNewUserRegisterProcess {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder     passwordEncoder;
 
     @Autowired
-    private UserService     service;
+    private UserService         service;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private UserTokenRepository tokenRepository;
 
     @Autowired
-    private UserRepository  userRepository;
+    private UserRepository      userRepository;
 
     public ITFullNewUserRegisterProcess() {
         super();

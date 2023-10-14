@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.service.PersistentTokenCleanUpService;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.service.PersistentUserTokenCleanUpService;
 import com.bernardomg.security.token.test.config.ConsumedToken;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
@@ -16,14 +16,14 @@ import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenCleanUpService")
-public class ITPersistentTokenCleanUpService {
+@DisplayName("PersistentUserTokenCleanUpService")
+public class ITPersistentUserTokenCleanUpService {
 
     @Autowired
-    private PersistentTokenCleanUpService service;
+    private PersistentUserTokenCleanUpService service;
 
     @Autowired
-    private TokenRepository               tokenRepository;
+    private UserTokenRepository               tokenRepository;
 
     @Test
     @DisplayName("Removes consumed tokens")

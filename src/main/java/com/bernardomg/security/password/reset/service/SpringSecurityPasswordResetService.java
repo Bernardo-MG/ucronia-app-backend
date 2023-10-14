@@ -36,7 +36,7 @@ import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.model.ImmutableTokenStatus;
 import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
@@ -82,7 +82,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     /**
      * Token processor.
      */
-    private final TokenStore            tokenStore;
+    private final UserTokenStore        tokenStore;
 
     /**
      * User details service, to find and validate users.
@@ -96,7 +96,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder) {
+            @NonNull final UserTokenStore tStore, @NonNull final PasswordEncoder passEncoder) {
         super();
 
         userRepository = repo;

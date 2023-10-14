@@ -14,11 +14,11 @@ import jakarta.persistence.TableGenerator;
 import lombok.Data;
 
 @Data
-@Entity(name = "Token")
-@Table(name = "tokens")
+@Entity(name = "UserToken")
+@Table(name = "user_tokens")
 @TableGenerator(name = "seq_tokens_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
         allocationSize = 1)
-public class PersistentToken implements Serializable {
+public class PersistentUserToken implements Serializable {
 
     private static final long serialVersionUID = -216369933325209746L;
 

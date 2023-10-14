@@ -22,7 +22,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
@@ -50,7 +50,7 @@ class TestPasswordResetServiceStartAuth {
     private PasswordResetService  service;
 
     @Mock
-    private TokenStore            tokenStore;
+    private UserTokenStore        tokenStore;
 
     @Mock
     private UserDetailsService    userDetailsService;

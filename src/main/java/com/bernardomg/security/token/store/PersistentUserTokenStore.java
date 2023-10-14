@@ -11,25 +11,25 @@ import java.util.UUID;
 import com.bernardomg.security.token.exception.ConsumedTokenException;
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.persistence.model.PersistentToken;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class PersistentTokenStore implements TokenStore {
+public final class PersistentUserTokenStore implements UserTokenStore {
 
-    private final TokenRepository tokenRepository;
+    private final UserTokenRepository tokenRepository;
 
     /**
      * Token scope.
      */
-    private final String          tokenScope;
+    private final String              tokenScope;
 
-    private final Duration        validity;
+    private final Duration            validity;
 
-    public PersistentTokenStore(@NonNull final TokenRepository tRepository, @NonNull final String token,
+    public PersistentUserTokenStore(@NonNull final UserTokenRepository tRepository, @NonNull final String token,
             @NonNull final Duration valid) {
         super();
 
@@ -40,8 +40,8 @@ public final class PersistentTokenStore implements TokenStore {
 
     @Override
     public final void consumeToken(final String token) {
-        final Optional<PersistentToken> read;
-        final PersistentToken           persistentToken;
+        final Optional<PersistentUserToken> read;
+        final PersistentUserToken           persistentToken;
 
         read = tokenRepository.findOneByToken(token);
 
@@ -63,10 +63,10 @@ public final class PersistentTokenStore implements TokenStore {
 
     @Override
     public final String createToken(final Long userId, final String username) {
-        final PersistentToken persistentToken;
-        final LocalDateTime   creation;
-        final LocalDateTime   expiration;
-        final String          tokenCode;
+        final PersistentUserToken persistentToken;
+        final LocalDateTime       creation;
+        final LocalDateTime       expiration;
+        final String              tokenCode;
 
         expiration = LocalDateTime.now()
             .plus(validity);
@@ -76,7 +76,7 @@ public final class PersistentTokenStore implements TokenStore {
         tokenCode = UUID.randomUUID()
             .toString();
 
-        persistentToken = new PersistentToken();
+        persistentToken = new PersistentUserToken();
         persistentToken.setUserId(userId);
         persistentToken.setScope(tokenScope);
         persistentToken.setCreationDate(creation);
@@ -113,9 +113,9 @@ public final class PersistentTokenStore implements TokenStore {
 
     @Override
     public final boolean isValid(final String token) {
-        final Optional<PersistentToken> read;
-        final PersistentToken           entity;
-        final Boolean                   valid;
+        final Optional<PersistentUserToken> read;
+        final PersistentUserToken           entity;
+        final Boolean                       valid;
 
         // TODO: Use the token service to verify it
         // TODO: Check scope
@@ -159,7 +159,7 @@ public final class PersistentTokenStore implements TokenStore {
 
     @Override
     public final void revokeExistingTokens(final Long userId) {
-        final Collection<PersistentToken> notRevoked;
+        final Collection<PersistentUserToken> notRevoked;
 
         notRevoked = tokenRepository.findAllNotRevokedByUserIdAndScope(userId, tokenScope);
         notRevoked.forEach(t -> t.setRevoked(true));

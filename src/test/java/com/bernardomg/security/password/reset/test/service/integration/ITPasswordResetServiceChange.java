@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.test.config.PasswordResetToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
@@ -24,7 +24,7 @@ class ITPasswordResetServiceChange {
     private PasswordResetService service;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private UserTokenRepository  tokenRepository;
 
     @Autowired
     private UserRepository       userRepository;

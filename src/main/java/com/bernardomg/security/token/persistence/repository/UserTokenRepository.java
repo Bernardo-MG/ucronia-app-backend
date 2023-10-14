@@ -31,15 +31,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.token.persistence.model.PersistentToken;
+import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 
 /**
- * Repository for tokens.
+ * Repository for user tokens.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
+public interface UserTokenRepository extends JpaRepository<PersistentUserToken, Long> {
 
     public Boolean existsByTokenAndScope(final String token, final String scope);
 
@@ -54,14 +54,14 @@ public interface TokenRepository extends JpaRepository<PersistentToken, Long> {
      *
      * @return
      */
-    @Query("SELECT t FROM Token t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
-    public List<PersistentToken> findAllFinished();
+    @Query("SELECT t FROM UserToken t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
+    public List<PersistentUserToken> findAllFinished();
 
-    public List<PersistentToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
+    public List<PersistentUserToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
-    public Optional<PersistentToken> findOneByToken(final String token);
+    public Optional<PersistentUserToken> findOneByToken(final String token);
 
-    @Query("SELECT u.username FROM User u JOIN Token t ON u.id = t.userId WHERE t.token = :token")
+    @Query("SELECT u.username FROM User u JOIN UserToken t ON u.id = t.userId WHERE t.token = :token")
     public Optional<String> findUsernameByToken(@Param("token") final String token);
 
 }

@@ -10,28 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
 import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenStore - get username")
-class ITPersistentTokenStoreGetUsername {
+@DisplayName("PersistentUserTokenStore - get username")
+class ITPersistentUserTokenStoreGetUsername {
 
-    private PersistentTokenStore store;
-
-    @Autowired
-    private TokenProperties      tokenProperties;
+    private PersistentUserTokenStore store;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private TokenProperties          tokenProperties;
+
+    @Autowired
+    private UserTokenRepository      tokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
     }
 
     @Test

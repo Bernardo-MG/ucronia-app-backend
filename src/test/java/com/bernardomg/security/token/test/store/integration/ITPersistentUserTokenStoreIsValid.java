@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.store.PersistentTokenStore;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.ExpiredToken;
 import com.bernardomg.security.token.test.config.RevokedToken;
 import com.bernardomg.security.token.test.config.ValidToken;
@@ -18,20 +18,20 @@ import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentTokenStore - is valid")
-class ITPersistentTokenStoreIsValid {
+@DisplayName("PersistentUserTokenStore - is valid")
+class ITPersistentUserTokenStoreIsValid {
 
-    private PersistentTokenStore store;
-
-    @Autowired
-    private TokenProperties      tokenProperties;
+    private PersistentUserTokenStore store;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private TokenProperties          tokenProperties;
+
+    @Autowired
+    private UserTokenRepository      tokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(tokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
     }
 
     @Test

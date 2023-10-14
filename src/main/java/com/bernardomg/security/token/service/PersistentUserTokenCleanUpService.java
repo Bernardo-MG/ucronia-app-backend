@@ -27,13 +27,13 @@ package com.bernardomg.security.token.service;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.security.token.persistence.model.PersistentToken;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Cleans up tokens through {@link PersistentToken}.
+ * Cleans up tokens through {@link PersistentUserToken}.
  * <p>
  * Removes tokens which match any of these cases:
  * <p>
@@ -47,14 +47,14 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class PersistentTokenCleanUpService implements TokenCleanUpService {
+public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
 
     /**
      * Token repository.
      */
-    private final TokenRepository tokenRepository;
+    private final UserTokenRepository tokenRepository;
 
-    public PersistentTokenCleanUpService(final TokenRepository respository) {
+    public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
         super();
 
         tokenRepository = Objects.requireNonNull(respository);
@@ -62,7 +62,7 @@ public final class PersistentTokenCleanUpService implements TokenCleanUpService 
 
     @Override
     public final void cleanUpTokens() {
-        final Collection<PersistentToken> tokens;
+        final Collection<PersistentUserToken> tokens;
 
         // Expiration date before now
         // Revoked

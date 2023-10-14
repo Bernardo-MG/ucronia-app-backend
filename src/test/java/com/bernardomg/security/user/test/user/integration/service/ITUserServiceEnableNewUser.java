@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
@@ -23,16 +23,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserServiceEnableNewUser {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder     passwordEncoder;
 
     @Autowired
-    private UserService     service;
+    private UserService         service;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private UserTokenRepository tokenRepository;
 
     @Autowired
-    private UserRepository  userRepository;
+    private UserRepository      userRepository;
 
     public ITUserServiceEnableNewUser() {
         super();

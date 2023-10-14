@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.persistence.model.PersistentToken;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.test.config.PasswordResetToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.ValidUser;
@@ -25,7 +25,7 @@ class ITPasswordResetServiceStartToken {
     private PasswordResetService service;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private UserTokenRepository  tokenRepository;
 
     public ITPasswordResetServiceStartToken() {
         super();
@@ -49,7 +49,7 @@ class ITPasswordResetServiceStartToken {
     @DisplayName("Starting password recovery populates the created token")
     @ValidUser
     void testStartPasswordReset_TokenData() {
-        final PersistentToken token;
+        final PersistentUserToken token;
 
         service.startPasswordReset("email@somewhere.com");
 
@@ -89,7 +89,7 @@ class ITPasswordResetServiceStartToken {
     @ValidUser
     @PasswordResetToken
     void testStartPasswordReset_TokenExists_ExpiresToken() {
-        final PersistentToken token;
+        final PersistentUserToken token;
 
         service.startPasswordReset("email@somewhere.com");
 
@@ -112,7 +112,7 @@ class ITPasswordResetServiceStartToken {
 
         }
 
-        exists = tokenRepository.exists(Example.of(new PersistentToken()));
+        exists = tokenRepository.exists(Example.of(new PersistentUserToken()));
 
         Assertions.assertThat(exists)
             .isFalse();

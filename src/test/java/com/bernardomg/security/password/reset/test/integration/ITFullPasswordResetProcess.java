@@ -10,7 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.ValidUser;
@@ -27,7 +27,7 @@ class ITFullPasswordResetProcess {
     private PasswordResetService service;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private UserTokenRepository  tokenRepository;
 
     @Autowired
     private UserRepository       userRepository;

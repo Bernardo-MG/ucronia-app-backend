@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.token.config.property.TokenProperties;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.token.service.PersistentTokenCleanUpService;
+import com.bernardomg.security.token.service.PersistentUserTokenCleanUpService;
 import com.bernardomg.security.token.service.TokenCleanUpService;
 
 /**
@@ -54,8 +54,8 @@ public class TokenConfig {
     }
 
     @Bean("tokenCleanUpService")
-    public TokenCleanUpService getTokenCleanUpService(final TokenRepository tokenRepository) {
-        return new PersistentTokenCleanUpService(tokenRepository);
+    public TokenCleanUpService getTokenCleanUpService(final UserTokenRepository tokenRepository) {
+        return new PersistentUserTokenCleanUpService(tokenRepository);
     }
 
 }

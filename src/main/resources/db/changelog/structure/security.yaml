@@ -197,7 +197,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
-            tableName: tokens
+            tableName: user_tokens
             columns:
               - column:
                   name: id

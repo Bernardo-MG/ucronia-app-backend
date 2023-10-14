@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.token.store;
 
-public interface TokenStore {
+public interface UserTokenStore {
 
     /**
      * Consumes the token, marking it as already used.
@@ -22,6 +22,13 @@ public interface TokenStore {
      */
     public String createToken(final Long userId, final String username);
 
+    /**
+     * Checks if the received token exists.
+     *
+     * @param token
+     *            token to check
+     * @return {@code true} if the token exists, {@code false} otherwise
+     */
     public boolean exists(final String token);
 
     /**

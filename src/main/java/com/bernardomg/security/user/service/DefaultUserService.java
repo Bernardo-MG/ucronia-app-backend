@@ -17,7 +17,7 @@ import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.model.ImmutableTokenStatus;
 import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.store.TokenStore;
+import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -55,7 +55,7 @@ public final class DefaultUserService implements UserService {
     /**
      * Token processor.
      */
-    private final TokenStore            tokenStore;
+    private final UserTokenStore        tokenStore;
 
     private final UserRepository        userRepository;
 
@@ -66,7 +66,7 @@ public final class DefaultUserService implements UserService {
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper) {
+            final UserTokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
