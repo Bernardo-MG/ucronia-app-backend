@@ -33,7 +33,7 @@ public final class PersistentTokenStore implements TokenStore {
     @Override
     public final void consumeToken(final String token) {
         final Optional<PersistentToken> read;
-        final PersistentToken           entity;
+        final PersistentToken           persistentToken;
 
         read = tokenRepository.findOneByToken(token);
 
@@ -41,16 +41,15 @@ public final class PersistentTokenStore implements TokenStore {
             log.error("Token missing: {}", token);
             throw new MissingTokenException(token);
         }
-        if (read.get()
-            .isConsumed()) {
+
+        persistentToken = read.get();
+        if (persistentToken.isConsumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
-        } else {
-            entity = read.get();
-            entity.setConsumed(true);
-            tokenRepository.save(entity);
-            log.debug("Consumed token {}", token);
         }
+        persistentToken.setConsumed(true);
+        tokenRepository.save(persistentToken);
+        log.debug("Consumed token {}", token);
     }
 
     @Override
