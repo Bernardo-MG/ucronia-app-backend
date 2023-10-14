@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.persistence.repository.TokenRepository;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
@@ -40,7 +41,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user consumes the token")
     @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @UserRegisteredToken
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
 
@@ -57,7 +58,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user sets it as enabled")
     @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @UserRegisteredToken
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
 
@@ -73,7 +74,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user sets it's password")
     @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @UserRegisteredToken
     void testEnableNewUser_Password() {
         final PersistentUser user;
 
@@ -89,7 +90,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user sets password expired flag ot false")
     @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @UserRegisteredToken
     void testEnableNewUser_PasswordReset() {
         final PersistentUser user;
 

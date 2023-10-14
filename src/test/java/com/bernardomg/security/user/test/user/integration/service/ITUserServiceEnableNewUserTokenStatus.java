@@ -6,10 +6,12 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.token.exception.InvalidTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
+import com.bernardomg.security.token.test.config.UserRegisteredConsumedToken;
+import com.bernardomg.security.token.test.config.UserRegisteredExpiredToken;
+import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.service.UserService;
@@ -32,7 +34,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     @Test
     @DisplayName("Enabling a new user with a user already enabled throws an exception")
     @OnlyUser
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @UserRegisteredToken
     void testEnableNewUser_AlreadyEnabled() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -48,7 +50,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
     @OnlyUser
-    @Sql({ "/db/queries/security/token/user_registered_consumed.sql" })
+    @UserRegisteredConsumedToken
     void testEnableNewUser_Consumed() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -64,7 +66,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
     @OnlyUser
-    @Sql({ "/db/queries/security/token/user_registered_expired.sql" })
+    @UserRegisteredExpiredToken
     void testEnableNewUser_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
