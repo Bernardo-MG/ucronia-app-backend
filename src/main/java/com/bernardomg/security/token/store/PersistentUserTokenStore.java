@@ -164,15 +164,25 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     }
 
     @Override
-    public final void revokeExistingTokens(final Long userId) {
+    public final void revokeExistingTokens(final String username) {
         final Collection<PersistentUserToken> notRevoked;
+        final Optional<PersistentUser>        readUser;
+        final PersistentUser                  user;
 
-        notRevoked = userTokenRepository.findAllNotRevokedByUserIdAndScope(userId, tokenScope);
+        readUser = userRepository.findOneByUsername(username);
+        if (!readUser.isPresent()) {
+            throw new UserNotFoundException(username);
+        }
+
+        user = readUser.get();
+
+        // Find all tokens not revoked, and mark them as revoked
+        notRevoked = userTokenRepository.findAllNotRevokedByUserIdAndScope(user.getId(), tokenScope);
         notRevoked.forEach(t -> t.setRevoked(true));
 
         userTokenRepository.saveAll(notRevoked);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, userId);
+        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.getId());
     }
 
     @Override

@@ -197,7 +197,7 @@ public final class DefaultUserService implements UserService {
         created = userRepository.save(userEntity);
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.getId());
+        tokenStore.revokeExistingTokens(created.getUsername());
 
         // Register new token
         token = tokenStore.createToken(created.getUsername());

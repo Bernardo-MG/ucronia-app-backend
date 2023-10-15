@@ -63,10 +63,10 @@ public interface UserTokenStore {
     /**
      * Revokes all the tokens for a user, so they can no longer be used.
      *
-     * @param userId
-     *            user id
+     * @param username
+     *            username for the user to revoke tokens for
      */
-    public void revokeExistingTokens(final Long userId);
+    public void revokeExistingTokens(final String username);
 
     /**
      *

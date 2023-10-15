@@ -46,7 +46,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_AlreadyRevoked_Revoked() {
         final PersistentUserToken token;
 
-        store.revokeExistingTokens(1l);
+        store.revokeExistingTokens("admin");
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -62,7 +62,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_NotExistingUser_NotRevoked() {
         final PersistentUserToken token;
 
-        store.revokeExistingTokens(2l);
+        store.revokeExistingTokens("abc");
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -78,7 +78,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_OutOfScope_NotRevoked() {
         final PersistentUserToken token;
 
-        store.revokeExistingTokens(1l);
+        store.revokeExistingTokens("admin");
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -94,7 +94,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_Revoked() {
         final PersistentUserToken token;
 
-        store.revokeExistingTokens(1l);
+        store.revokeExistingTokens("admin");
 
         token = userTokenRepository.findAll()
             .iterator()

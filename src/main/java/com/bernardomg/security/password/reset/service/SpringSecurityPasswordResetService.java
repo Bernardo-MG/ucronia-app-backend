@@ -147,7 +147,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         authorizePasswordChange(user.getUsername());
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(user.getId());
+        tokenStore.revokeExistingTokens(user.getUsername());
 
         // Register new token
         token = tokenStore.createToken(user.getUsername());
