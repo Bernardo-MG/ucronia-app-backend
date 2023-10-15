@@ -30,13 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.test.config.UserRegisteredConsumedToken;
-import com.bernardomg.security.token.test.config.UserRegisteredExpiredToken;
-import com.bernardomg.security.token.test.config.UserRegisteredToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.test.config.UserRegisteredConsumedToken;
+import com.bernardomg.security.user.token.test.config.UserRegisteredExpiredToken;
+import com.bernardomg.security.user.token.test.config.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -59,7 +59,7 @@ class ITUserServiceToken {
     @ValidUser
     @UserRegisteredConsumedToken
     void testValidateToken_Consumed() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
@@ -75,7 +75,7 @@ class ITUserServiceToken {
     @ValidUser
     @UserRegisteredExpiredToken
     void testValidateToken_Expired() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 
@@ -91,7 +91,7 @@ class ITUserServiceToken {
     @ValidUser
     @UserRegisteredToken
     void testValidateToken_Valid() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
         status = service.validateToken(TokenConstants.TOKEN);
 

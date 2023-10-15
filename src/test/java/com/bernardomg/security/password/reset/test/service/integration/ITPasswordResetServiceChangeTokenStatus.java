@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.exception.ConsumedTokenException;
-import com.bernardomg.security.token.exception.ExpiredTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.test.config.PasswordResetConsumedToken;
-import com.bernardomg.security.token.test.config.PasswordResetExpiredToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.exception.ConsumedTokenException;
+import com.bernardomg.security.user.token.exception.ExpiredTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.test.config.PasswordResetConsumedToken;
+import com.bernardomg.security.user.token.test.config.PasswordResetExpiredToken;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

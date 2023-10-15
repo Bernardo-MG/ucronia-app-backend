@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.persistence.model.PersistentUserToken;
-import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.token.test.config.PasswordResetToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.test.config.PasswordResetToken;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -13,10 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.model.ImmutableTokenStatus;
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -29,6 +25,10 @@ import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.exception.InvalidTokenException;
+import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 import com.bernardomg.security.user.validation.CreateUserValidator;
 import com.bernardomg.security.user.validation.DeleteUserValidator;
 import com.bernardomg.security.user.validation.UpdateUserValidator;
@@ -260,7 +260,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final TokenStatus validateToken(final String token) {
+    public final UserTokenStatus validateToken(final String token) {
         boolean      valid;
         final String username;
 
@@ -272,7 +272,7 @@ public final class DefaultUserService implements UserService {
         }
         username = tokenStore.getUsername(token);
 
-        return ImmutableTokenStatus.builder()
+        return ImmutableUserTokenStatus.builder()
             .valid(valid)
             .username(username)
             .build();

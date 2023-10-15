@@ -7,16 +7,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.token.exception.ConsumedTokenException;
-import com.bernardomg.security.token.exception.ExpiredTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.test.config.UserRegisteredConsumedToken;
-import com.bernardomg.security.token.test.config.UserRegisteredExpiredToken;
-import com.bernardomg.security.token.test.config.UserRegisteredToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.config.OnlyUser;
+import com.bernardomg.security.user.token.exception.ConsumedTokenException;
+import com.bernardomg.security.user.token.exception.ExpiredTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.test.config.UserRegisteredConsumedToken;
+import com.bernardomg.security.user.token.test.config.UserRegisteredExpiredToken;
+import com.bernardomg.security.user.token.test.config.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

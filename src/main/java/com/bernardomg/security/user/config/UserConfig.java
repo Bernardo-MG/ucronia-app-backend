@@ -29,10 +29,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.config.property.TokenProperties;
-import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.model.mapper.RoleMapper;
 import com.bernardomg.security.user.model.mapper.UserMapper;
 import com.bernardomg.security.user.model.mapper.UserRoleMapper;
@@ -45,6 +41,10 @@ import com.bernardomg.security.user.service.DefaultUserService;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.security.user.service.UserRoleService;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.token.config.property.TokenProperties;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 
 /**
  * Password handling configuration.

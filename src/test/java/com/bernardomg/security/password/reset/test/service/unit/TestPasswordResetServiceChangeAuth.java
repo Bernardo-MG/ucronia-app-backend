@@ -21,14 +21,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.store.UserTokenStore;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.store.UserTokenStore;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordRecoveryService - change password - authentication")

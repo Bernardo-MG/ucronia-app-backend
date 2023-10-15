@@ -9,7 +9,7 @@ import com.bernardomg.security.auth.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.auth.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 
 @DisplayName("JjwtTokenEncoder - generate token")
 class TestJjwtTokenEncoderGenerateToken {

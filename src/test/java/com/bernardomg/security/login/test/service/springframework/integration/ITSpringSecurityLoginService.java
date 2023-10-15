@@ -10,7 +10,6 @@ import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.DisabledUser;
 import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.user.test.config.ExpiredUser;
@@ -18,6 +17,7 @@ import com.bernardomg.security.user.test.config.LockedUser;
 import com.bernardomg.security.user.test.config.UserWithNotGrantedPermissions;
 import com.bernardomg.security.user.test.config.UserWithoutPermissions;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.test.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;

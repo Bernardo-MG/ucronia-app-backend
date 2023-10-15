@@ -32,16 +32,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.model.ImmutableTokenStatus;
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.store.UserTokenStore;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.exception.InvalidTokenException;
+import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -159,7 +159,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     }
 
     @Override
-    public final TokenStatus validateToken(final String token) {
+    public final UserTokenStatus validateToken(final String token) {
         boolean valid;
         String  username;
 
@@ -176,7 +176,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return ImmutableTokenStatus.builder()
+        return ImmutableUserTokenStatus.builder()
             .valid(valid)
             .username(username)
             .build();
