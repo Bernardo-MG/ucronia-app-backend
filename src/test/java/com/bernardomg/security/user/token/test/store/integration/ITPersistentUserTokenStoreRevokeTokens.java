@@ -2,11 +2,13 @@
 package com.bernardomg.security.user.token.test.store.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.config.property.TokenProperties;
@@ -43,7 +45,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     @DisplayName("Revokes an already revoked token")
     @OnlyUser
     @ValidToken
-    void testRevokeExistingTokens_AlreadyRevoked_Revoked() {
+    void testRevokeExistingTokens_AlreadyRevoked() {
         final PersistentUserToken token;
 
         store.revokeExistingTokens("admin");
@@ -56,19 +58,14 @@ class ITPersistentUserTokenStoreRevokeTokens {
     }
 
     @Test
-    @DisplayName("Does not revoke a token for a not existing user")
-    @OnlyUser
-    @ValidToken
-    void testRevokeExistingTokens_NotExistingUser_NotRevoked() {
-        final PersistentUserToken token;
+    @DisplayName("For a not existing user an exception is thrown")
+    void testRevokeExistingTokens_NotExistingUser() {
+        final ThrowingCallable executable;
 
-        store.revokeExistingTokens("abc");
+        executable = () -> store.revokeExistingTokens("admin");
 
-        token = userTokenRepository.findAll()
-            .iterator()
-            .next();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
@@ -91,7 +88,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     @DisplayName("Revokes an existing token")
     @OnlyUser
     @ValidToken
-    void testRevokeExistingTokens_Revoked() {
+    void testRevokeExistingTokens_Valid() {
         final PersistentUserToken token;
 
         store.revokeExistingTokens("admin");
