@@ -60,15 +60,16 @@ public class PasswordConfig {
     }
 
     @Bean("passwordRecoveryService")
-    public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
+    public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
             final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
             final TokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentUserTokenStore(userTokenRepository, "password_reset", tokenProperties.getValidity());
+        tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepository, "password_reset",
+            tokenProperties.getValidity());
 
-        return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenStore,
+        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, mailSender, tokenStore,
             passwordEncoder);
     }
 

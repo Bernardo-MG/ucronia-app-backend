@@ -15,6 +15,8 @@ import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.exception.UserNotFoundException;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -28,11 +30,15 @@ class ITPersistentUserTokenStoreCreateToken {
     private TokenProperties          tokenProperties;
 
     @Autowired
+    private UserRepository           userRepository;
+
+    @Autowired
     private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(userTokenRepository, userRepository, TokenConstants.SCOPE,
+            tokenProperties.getValidity());
     }
 
     @Test
@@ -41,7 +47,7 @@ class ITPersistentUserTokenStoreCreateToken {
     void testCreateToken_Persisted() {
         final long count;
 
-        store.createToken(1l, "admin");
+        store.createToken("admin");
 
         count = userTokenRepository.count();
         Assertions.assertThat(count)
@@ -58,7 +64,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         lower = LocalDateTime.now();
 
-        store.createToken(1l, "admin");
+        store.createToken("admin");
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -86,40 +92,25 @@ class ITPersistentUserTokenStoreCreateToken {
     void testCreateToken_Return() {
         final String token;
 
-        token = store.createToken(1l, "admin");
+        token = store.createToken("admin");
 
         Assertions.assertThat(token)
             .isNotNull();
     }
 
     @Test
-    @DisplayName("Can generate tokens when the username doesn't match the user's")
-    @OnlyUser
-    void testCreateToken_UserNameNotExisting() {
-        final long count;
-
-        // TODO: then, just take the username from the user id
-        store.createToken(1l, "abc");
-
-        count = userTokenRepository.count();
-        Assertions.assertThat(count)
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("When generating a token for and invalid user id, then an exception is thrown")
-    @OnlyUser
+    @DisplayName("When generating a token for a not existing user, then an exception is thrown")
     void testCreateToken_UserNotExisting() {
         final ThrowingCallable executable;
 
         executable = () -> {
-            store.createToken(2l, "admin");
+            store.createToken("admin");
             userTokenRepository.flush();
         };
 
         // TODO: Does this make sense? Throw a custom exception
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(Exception.class);
+            .isInstanceOf(UserNotFoundException.class);
     }
 
 }

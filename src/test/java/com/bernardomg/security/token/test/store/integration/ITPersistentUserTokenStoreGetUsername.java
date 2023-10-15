@@ -15,6 +15,7 @@ import com.bernardomg.security.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.token.test.config.UserRegisteredToken;
 import com.bernardomg.security.token.test.config.ValidToken;
 import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -28,11 +29,15 @@ class ITPersistentUserTokenStoreGetUsername {
     private TokenProperties          tokenProperties;
 
     @Autowired
+    private UserRepository           userRepository;
+
+    @Autowired
     private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, TokenConstants.SCOPE, tokenProperties.getValidity());
+        store = new PersistentUserTokenStore(userTokenRepository, userRepository, TokenConstants.SCOPE,
+            tokenProperties.getValidity());
     }
 
     @Test

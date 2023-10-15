@@ -45,13 +45,11 @@ public interface UserTokenStore {
     /**
      * Returns a new token for a user.
      *
-     * @param userId
-     *            id for the user who generates the token
      * @param username
      *            username for the user who generates the token
      * @return token for the subject
      */
-    public String createToken(final Long userId, final String username);
+    public String createToken(final String username);
 
     /**
      * Returns the username for the token.
@@ -70,13 +68,6 @@ public interface UserTokenStore {
      */
     public void revokeExistingTokens(final Long userId);
 
-    /**
-     * Check if the token has expired.
-     *
-     * @param token
-     *            token to validate
-     * @return {@code true} if the token has expired, {@code false} otherwise
-     */
     /**
      *
      * Check if the token is valid, throwing an exception otherwise. This exception is expected to be a concrete type,

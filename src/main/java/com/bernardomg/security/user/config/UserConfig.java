@@ -77,7 +77,7 @@ public class UserConfig {
             final UserTokenRepository userTokenRepository, final TokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentUserTokenStore(userTokenRepository, "user_registered",
+        tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
             tokenProperties.getValidity());
 
         return new DefaultUserService(userRepo, mSender, tokenStore, passEncoder, userMapper);

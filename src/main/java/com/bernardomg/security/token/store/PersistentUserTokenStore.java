@@ -38,8 +38,10 @@ import com.bernardomg.security.token.exception.OutOfScopeTokenException;
 import com.bernardomg.security.token.exception.RevokedTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.exception.UserNotFoundException;
+import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.user.persistence.repository.UserRepository;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -61,6 +63,11 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     private final String              tokenScope;
 
     /**
+     * User repository.
+     */
+    private final UserRepository      userRepository;
+
+    /**
      * User tokens repository.
      */
     private final UserTokenRepository userTokenRepository;
@@ -70,13 +77,14 @@ public final class PersistentUserTokenStore implements UserTokenStore {
      */
     private final Duration            validity;
 
-    public PersistentUserTokenStore(@NonNull final UserTokenRepository tRepository, @NonNull final String token,
-            @NonNull final Duration valid) {
+    public PersistentUserTokenStore(final UserTokenRepository tRepository, final UserRepository uRepository,
+            final String scope, final Duration duration) {
         super();
 
         userTokenRepository = Objects.requireNonNull(tRepository);
-        validity = Objects.requireNonNull(valid);
-        tokenScope = Objects.requireNonNull(token);
+        userRepository = Objects.requireNonNull(uRepository);
+        tokenScope = Objects.requireNonNull(scope);
+        validity = Objects.requireNonNull(duration);
     }
 
     @Override
@@ -103,13 +111,20 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     }
 
     @Override
-    public final String createToken(final Long userId, final String username) {
-        final PersistentUserToken persistentToken;
-        final LocalDateTime       creation;
-        final LocalDateTime       expiration;
-        final String              tokenCode;
+    public final String createToken(final String username) {
+        final PersistentUserToken      persistentToken;
+        final LocalDateTime            creation;
+        final LocalDateTime            expiration;
+        final String                   tokenCode;
+        final Optional<PersistentUser> readUser;
+        final PersistentUser           user;
 
-        // TODO: Remove name argument
+        readUser = userRepository.findOneByUsername(username);
+        if (!readUser.isPresent()) {
+            throw new UserNotFoundException(username);
+        }
+
+        user = readUser.get();
 
         expiration = LocalDateTime.now()
             .plus(validity);
@@ -120,7 +135,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
             .toString();
 
         persistentToken = new PersistentUserToken();
-        persistentToken.setUserId(userId);
+        persistentToken.setUserId(user.getId());
         persistentToken.setScope(tokenScope);
         persistentToken.setCreationDate(creation);
         persistentToken.setToken(tokenCode);
@@ -182,12 +197,14 @@ public final class PersistentUserTokenStore implements UserTokenStore {
             // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
-        } else if (entity.isRevoked()) {
+        }
+        if (entity.isRevoked()) {
             // Revoked
             // It isn't a valid token
             log.warn("Revoked token: {}", token);
             throw new RevokedTokenException(token);
-        } else if (LocalDateTime.now()
+        }
+        if (LocalDateTime.now()
             .isAfter(entity.getExpirationDate())) {
             // Expired
             // It isn't a valid token
