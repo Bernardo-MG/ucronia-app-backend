@@ -42,7 +42,7 @@ import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserActivationRequest;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.api.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

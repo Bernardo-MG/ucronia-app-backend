@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.token.model;
+package com.bernardomg.security.user.token.api.model;
 
 public interface UserTokenStatus {
 
