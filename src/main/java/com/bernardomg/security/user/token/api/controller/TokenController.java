@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.user.token.api.controller;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
-import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.token.api.model.UserToken;
 import com.bernardomg.security.user.token.api.service.UserTokenService;
 
@@ -56,8 +54,8 @@ public class TokenController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TOKEN", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.ROLES)
     public Iterable<UserToken> readAll(final Pageable pageable) {
+        // TODO: Apply cache
         return service.getAll(pageable);
     }
 
