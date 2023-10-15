@@ -28,7 +28,6 @@ public final class DefaultUserTokenService implements UserTokenService {
 
     @Override
     public final Iterable<UserToken> getAll(final Pageable pageable) {
-        // TODO: Test this
         return userTokenRepository.findAll(pageable)
             .map(this::toDto);
     }
@@ -47,8 +46,14 @@ public final class DefaultUserTokenService implements UserTokenService {
         }
 
         return ImmutableUserToken.builder()
+            .id(entity.getId())
             .username(username)
             .scope(entity.getScope())
+            .token(entity.getToken())
+            .creationDate(entity.getCreationDate())
+            .expirationDate(entity.getExpirationDate())
+            .consumed(entity.isConsumed())
+            .revoked(entity.isRevoked())
             .build();
     }
 
