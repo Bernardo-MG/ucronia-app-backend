@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.token.store;
 
+import com.bernardomg.security.token.exception.InvalidTokenException;
+
 /**
  * Store for tokens linked to users.
  *
@@ -52,15 +54,6 @@ public interface UserTokenStore {
     public String createToken(final Long userId, final String username);
 
     /**
-     * Checks if the received token exists.
-     *
-     * @param token
-     *            token to check
-     * @return {@code true} if the token exists, {@code false} otherwise
-     */
-    public boolean exists(final String token);
-
-    /**
      * Returns the username for the token.
      *
      * @param token
@@ -70,20 +63,30 @@ public interface UserTokenStore {
     public String getUsername(final String token);
 
     /**
-     * Check if the token has expired.
-     *
-     * @param token
-     *            token to validate
-     * @return {@code true} if the token has expired, {@code false} otherwise
-     */
-    public boolean isValid(final String token);
-
-    /**
      * Revokes all the tokens for a user, so they can no longer be used.
      *
      * @param userId
      *            user id
      */
     public void revokeExistingTokens(final Long userId);
+
+    /**
+     * Check if the token has expired.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token has expired, {@code false} otherwise
+     */
+    /**
+     *
+     * Check if the token is valid, throwing an exception otherwise. This exception is expected to be a concrete type,
+     * indicating the actual error.
+     *
+     * @param token
+     *            token to validate
+     * @throws InvalidTokenException
+     *             if the token is invalid
+     */
+    public void validate(final String token) throws InvalidTokenException;
 
 }

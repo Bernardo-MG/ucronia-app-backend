@@ -32,7 +32,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.bernardomg.security.token.exception.ConsumedTokenException;
+import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
+import com.bernardomg.security.token.exception.OutOfScopeTokenException;
+import com.bernardomg.security.token.exception.RevokedTokenException;
 import com.bernardomg.security.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.token.persistence.repository.UserTokenRepository;
 
@@ -133,11 +136,6 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     }
 
     @Override
-    public final boolean exists(final String token) {
-        return userTokenRepository.existsByTokenAndScope(token, tokenScope);
-    }
-
-    @Override
     public final String getUsername(final String token) {
         final Optional<String> username;
 
@@ -151,49 +149,6 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     }
 
     @Override
-    public final boolean isValid(final String token) {
-        final Optional<PersistentUserToken> read;
-        final PersistentUserToken           entity;
-        final Boolean                       valid;
-
-        read = userTokenRepository.findOneByTokenAndScope(token, tokenScope);
-        if (read.isPresent()) {
-            entity = read.get();
-            if (!tokenScope.equals(entity.getScope())) {
-                // scope mismatch
-                valid = false;
-                log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
-            } else if (entity.isConsumed()) {
-                // Consumed
-                // It isn't a valid token
-                valid = false;
-                log.warn("Consumed token: {}", token);
-            } else if (entity.isRevoked()) {
-                // Revoked
-                // It isn't a valid token
-                valid = false;
-                log.warn("Revoked token: {}", token);
-            } else if (LocalDateTime.now()
-                .isAfter(entity.getExpirationDate())) {
-                // Expired
-                // It isn't a valid token
-                valid = false;
-                log.warn("Expired token: {}", token);
-            } else {
-                // Not expired
-                // Verifies the expiration date is after the current date
-                valid = entity.getExpirationDate()
-                    .isAfter(LocalDateTime.now());
-            }
-        } else {
-            log.warn("Token not registered: {}", token);
-            valid = false;
-        }
-
-        return valid;
-    }
-
-    @Override
     public final void revokeExistingTokens(final Long userId) {
         final Collection<PersistentUserToken> notRevoked;
 
@@ -203,6 +158,42 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         userTokenRepository.saveAll(notRevoked);
 
         log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, userId);
+    }
+
+    @Override
+    public final void validate(final String token) {
+        final Optional<PersistentUserToken> read;
+        final PersistentUserToken           entity;
+
+        read = userTokenRepository.findOneByToken(token);
+        if (!read.isPresent()) {
+            log.warn("Token not registered: {}", token);
+            throw new MissingTokenException(token);
+        }
+
+        entity = read.get();
+        if (!tokenScope.equals(entity.getScope())) {
+            // Scope mismatch
+            log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
+            throw new OutOfScopeTokenException(token, tokenScope, entity.getScope());
+        }
+        if (entity.isConsumed()) {
+            // Consumed
+            // It isn't a valid token
+            log.warn("Consumed token: {}", token);
+            throw new ConsumedTokenException(token);
+        } else if (entity.isRevoked()) {
+            // Revoked
+            // It isn't a valid token
+            log.warn("Revoked token: {}", token);
+            throw new RevokedTokenException(token);
+        } else if (LocalDateTime.now()
+            .isAfter(entity.getExpirationDate())) {
+            // Expired
+            // It isn't a valid token
+            log.warn("Expired token: {}", token);
+            throw new ExpiredTokenException(token);
+        }
     }
 
 }

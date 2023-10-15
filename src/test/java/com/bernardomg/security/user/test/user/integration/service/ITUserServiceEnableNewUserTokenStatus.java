@@ -7,7 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.token.exception.InvalidTokenException;
+import com.bernardomg.security.token.exception.ConsumedTokenException;
+import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.test.config.UserRegisteredConsumedToken;
 import com.bernardomg.security.token.test.config.UserRegisteredExpiredToken;
@@ -48,7 +49,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with an expired token throws an exception")
+    @DisplayName("Enabling a new user with a consumed token throws an exception")
     @OnlyUser
     @UserRegisteredConsumedToken
     void testEnableNewUser_Consumed() {
@@ -57,10 +58,10 @@ class ITUserServiceEnableNewUserTokenStatus {
 
         executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Consumed token " + TokenConstants.TOKEN);
     }
 
     @Test
@@ -73,10 +74,10 @@ class ITUserServiceEnableNewUserTokenStatus {
 
         executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Expired token " + TokenConstants.TOKEN);
     }
 
     @Test

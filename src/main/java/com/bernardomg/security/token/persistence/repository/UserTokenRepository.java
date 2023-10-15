@@ -59,6 +59,8 @@ public interface UserTokenRepository extends JpaRepository<PersistentUserToken, 
 
     public List<PersistentUserToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
+    public Optional<PersistentUserToken> findOneByToken(final String token);
+
     public Optional<PersistentUserToken> findOneByTokenAndScope(final String token, final String scope);
 
     /**

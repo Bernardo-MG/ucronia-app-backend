@@ -111,8 +111,6 @@ class TestPasswordResetServiceChangeAuth {
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.exists(TokenConstants.TOKEN)).willReturn(true);
-        given(tokenStore.isValid(TokenConstants.TOKEN)).willReturn(true);
         given(tokenStore.getUsername(TokenConstants.TOKEN)).willReturn(USERNAME);
     }
 

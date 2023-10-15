@@ -33,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.model.ImmutableTokenStatus;
 import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.store.UserTokenStore;
@@ -113,17 +112,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final PersistentUser user;
         final String         encodedPassword;
 
-        // TODO: Use a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token)) {
-            log.error("Token missing: {}", token);
-            throw new MissingTokenException(token);
-        }
-
-        if (!tokenStore.isValid(token)) {
-            // TODO: Throw an exception for each possible case
-            log.error("Token expired: {}", token);
-            throw new InvalidTokenException(token);
-        }
+        tokenStore.validate(token);
 
         username = tokenStore.getUsername(token);
 
@@ -171,11 +160,21 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final TokenStatus validateToken(final String token) {
-        final boolean valid;
-        final String  username;
+        boolean valid;
+        String  username;
 
-        valid = tokenStore.isValid(token);
-        username = tokenStore.getUsername(token);
+        try {
+            tokenStore.validate(token);
+            valid = true;
+        } catch (final InvalidTokenException ex) {
+            valid = false;
+        }
+
+        try {
+            username = tokenStore.getUsername(token);
+        } catch (final InvalidTokenException ex) {
+            username = "";
+        }
 
         return ImmutableTokenStatus.builder()
             .valid(valid)

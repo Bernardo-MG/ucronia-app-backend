@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.exception.InvalidTokenException;
+import com.bernardomg.security.token.exception.ConsumedTokenException;
+import com.bernardomg.security.token.exception.ExpiredTokenException;
 import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.test.config.PasswordResetConsumedToken;
 import com.bernardomg.security.token.test.config.PasswordResetExpiredToken;
@@ -37,10 +38,10 @@ class ITPasswordResetServiceChangeTokenStatus {
 
         executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Consumed token " + TokenConstants.TOKEN);
     }
 
     @Test
@@ -53,10 +54,10 @@ class ITPasswordResetServiceChangeTokenStatus {
 
         executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Expired token " + TokenConstants.TOKEN);
     }
 
     @Test

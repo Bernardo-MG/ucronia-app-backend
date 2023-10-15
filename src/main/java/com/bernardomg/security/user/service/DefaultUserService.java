@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
 import com.bernardomg.security.token.model.ImmutableTokenStatus;
 import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.token.store.UserTokenStore;
@@ -89,17 +88,7 @@ public final class DefaultUserService implements UserService {
         final PersistentUser user;
         final String         encodedPassword;
 
-        // TODO: Use a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token)) {
-            log.error("Token missing: {}", token);
-            throw new MissingTokenException(token);
-        }
-
-        if (!tokenStore.isValid(token)) {
-            log.error("Token expired: {}", token);
-            // TODO: Throw an exception for each possible case
-            throw new InvalidTokenException(token);
-        }
+        tokenStore.validate(token);
 
         tokenUsername = tokenStore.getUsername(token);
 
@@ -272,10 +261,15 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final TokenStatus validateToken(final String token) {
-        final boolean valid;
-        final String  username;
+        boolean      valid;
+        final String username;
 
-        valid = tokenStore.isValid(token);
+        try {
+            tokenStore.validate(token);
+            valid = true;
+        } catch (final InvalidTokenException ex) {
+            valid = false;
+        }
         username = tokenStore.getUsername(token);
 
         return ImmutableTokenStatus.builder()

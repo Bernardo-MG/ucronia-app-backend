@@ -1,14 +1,14 @@
 
 package com.bernardomg.security.token.exception;
 
-public final class InvalidTokenException extends RuntimeException {
+public abstract class InvalidTokenException extends RuntimeException {
 
     private static final long serialVersionUID = -3466160863479056525L;
 
     private final String      token;
 
-    public InvalidTokenException(final String tkn) {
-        super(String.format("Invalid token %s", tkn));
+    public InvalidTokenException(final String message, final String tkn) {
+        super(message);
 
         token = tkn;
     }
