@@ -45,7 +45,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/token")
+@RequestMapping("/security/user/token")
 @AllArgsConstructor
 @Transactional
 public class TokenController {
