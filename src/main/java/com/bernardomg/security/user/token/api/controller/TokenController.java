@@ -53,7 +53,7 @@ public class TokenController {
     private final UserTokenService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TOKEN", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)
     public Iterable<UserToken> readAll(final Pageable pageable) {
         // TODO: Apply cache
         return service.getAll(pageable);

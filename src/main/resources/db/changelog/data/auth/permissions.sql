@@ -39,7 +39,7 @@ INSERT INTO resources (id, name) VALUES
    (2, 'ROLE'),
    -- (3, 'ACTION'),
    -- (4, 'RESOURCE'),
-   (5, 'TOKEN'),
+   (5, 'USER-TOKEN'),
    (10, 'MEMBER'),
    (11, 'FEE'),
    (12, 'TRANSACTION'),
