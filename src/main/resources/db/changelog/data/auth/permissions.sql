@@ -58,12 +58,12 @@ INSERT INTO permissions (id, resource, action) VALUES
    (6, 'ROLE', 'READ'),
    (7, 'ROLE', 'UPDATE'),
    (8, 'ROLE', 'DELETE'),
-   -- (9, 'ACTION', 'READ'),
-   -- (10, 'RESOURCE', 'READ'),
-   (11, 'TOKEN', 'READ'),
    -- Security views
    (12, 'USER', 'VIEW'),
    (13, 'ROLE', 'VIEW'),
+   -- User tokens
+   (14, 'USER-TOKEN', 'READ'),
+   (15, 'USER-TOKEN', 'VIEW'),
    -- Association data
    (50, 'MEMBER', 'CREATE'),
    (51, 'MEMBER', 'READ'),
