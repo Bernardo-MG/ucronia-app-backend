@@ -2,15 +2,20 @@
 package com.bernardomg.security.user.token.api.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.token.api.model.ImmutableUserToken;
 import com.bernardomg.security.user.token.api.model.UserToken;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserDataToken;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public final class DefaultUserTokenService implements UserTokenService {
 
     final UserDataTokenRepository userDataTokenRepository;
@@ -27,6 +32,18 @@ public final class DefaultUserTokenService implements UserTokenService {
     @Override
     public final Iterable<UserToken> getAll(final Pageable pageable) {
         return userDataTokenRepository.findAll(pageable)
+            .map(this::toDto);
+    }
+
+    @Override
+    public final Optional<UserToken> getOne(final long id) {
+        log.debug("Reading role with id {}", id);
+
+        if (!userDataTokenRepository.existsById(id)) {
+            throw new InvalidIdException("userToken", id);
+        }
+
+        return userDataTokenRepository.findById(id)
             .map(this::toDto);
     }
 

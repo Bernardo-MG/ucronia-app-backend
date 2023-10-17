@@ -28,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,6 +58,14 @@ public class TokenController {
     public Iterable<UserToken> readAll(final Pageable pageable) {
         // TODO: Apply cache
         return service.getAll(pageable);
+    }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)
+    public UserToken readOne(@PathVariable("id") final long id) {
+        // TODO: Apply cache
+        return service.getOne(id)
+            .orElse(null);
     }
 
 }

@@ -4,11 +4,13 @@ package com.bernardomg.security.user.test.user.integration.service;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.service.UserService;
@@ -58,6 +60,17 @@ class ITUserServiceGetOne {
             .expired(false)
             .locked(false)
             .build());
+    }
+
+    @Test
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testGetOne_NotExisting() {
+        final ThrowingCallable execution;
+
+        execution = () -> service.getOne(1L);
+
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }
