@@ -22,6 +22,9 @@ public final class ImmutableUserToken implements UserToken {
     @NonNull
     private Long          id;
 
+    @NonNull
+    private final String  name;
+
     private boolean       revoked;
 
     @NonNull

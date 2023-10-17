@@ -44,6 +44,7 @@ import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.token.api.service.DefaultUserTokenService;
 import com.bernardomg.security.user.token.api.service.UserTokenService;
 import com.bernardomg.security.user.token.config.property.TokenProperties;
+import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.user.token.store.UserTokenStore;
@@ -86,9 +87,9 @@ public class UserConfig {
     }
 
     @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
+    public UserTokenService getUserTokenService(final UserDataTokenRepository userDataTokenRepo,
             final UserRepository userRepo) {
-        return new DefaultUserTokenService(userTokenRepo, userRepo);
+        return new DefaultUserTokenService(userDataTokenRepo, userRepo);
     }
 
 }

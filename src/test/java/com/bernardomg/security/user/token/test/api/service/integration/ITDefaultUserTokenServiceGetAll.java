@@ -124,6 +124,8 @@ class ITDefaultUserTokenServiceGetAll {
             .isEqualTo(1);
         Assertions.assertThat(token.getUsername())
             .isEqualTo("admin");
+        Assertions.assertThat(token.getName())
+            .isEqualTo("Admin");
         Assertions.assertThat(token.getScope())
             .isEqualTo(TokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())

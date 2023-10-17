@@ -11,6 +11,8 @@ public interface UserToken {
 
     public Long getId();
 
+    public String getName();
+
     public String getScope();
 
     public String getToken();

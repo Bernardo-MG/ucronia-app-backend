@@ -2,52 +2,39 @@
 package com.bernardomg.security.user.token.api.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.token.api.model.ImmutableUserToken;
 import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.persistence.model.PersistentUserDataToken;
+import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
 
 public final class DefaultUserTokenService implements UserTokenService {
 
-    final UserRepository      userRepository;
+    final UserDataTokenRepository userDataTokenRepository;
 
-    final UserTokenRepository userTokenRepository;
+    final UserRepository          userRepository;
 
-    public DefaultUserTokenService(final UserTokenRepository userTokenRepo, final UserRepository userRepo) {
+    public DefaultUserTokenService(final UserDataTokenRepository userDataTokenRepo, final UserRepository userRepo) {
         super();
 
-        userTokenRepository = Objects.requireNonNull(userTokenRepo);
+        userDataTokenRepository = Objects.requireNonNull(userDataTokenRepo);
         userRepository = Objects.requireNonNull(userRepo);
     }
 
     @Override
     public final Iterable<UserToken> getAll(final Pageable pageable) {
-        return userTokenRepository.findAll(pageable)
+        return userDataTokenRepository.findAll(pageable)
             .map(this::toDto);
     }
 
-    private final UserToken toDto(final PersistentUserToken entity) {
-        final Optional<PersistentUser> readUser;
-        final String                   username;
-        // TODO: Optimize to avoid multiple repeated queries
-        readUser = userRepository.findById(entity.getUserId());
-
-        if (readUser.isPresent()) {
-            username = readUser.get()
-                .getUsername();
-        } else {
-            username = "";
-        }
-
+    private final UserToken toDto(final PersistentUserDataToken entity) {
         return ImmutableUserToken.builder()
             .id(entity.getId())
-            .username(username)
+            .username(entity.getUsername())
+            .name(entity.getName())
             .scope(entity.getScope())
             .token(entity.getToken())
             .creationDate(entity.getCreationDate())
