@@ -58,6 +58,8 @@ public final class DefaultUserTokenService implements UserTokenService {
     public final Optional<UserToken> getOne(final long id) {
         log.debug("Reading role with id {}", id);
 
+        // TODO: if an exception is thrown, then it makes no sense returning an optional
+        // TODO: read the optional and check if it is empty
         if (!userDataTokenRepository.existsById(id)) {
             throw new InvalidIdException("userToken", id);
         }
