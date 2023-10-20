@@ -32,7 +32,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.token.api.model.ImmutableUserToken;
 import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
+import com.bernardomg.security.user.token.api.model.UserTokenPartial;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserDataToken;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
@@ -76,7 +76,7 @@ public final class DefaultUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken patch(final long id, final UserTokenPatchRequest request) {
+    public final UserToken patch(final long id, final UserTokenPartial request) {
         final Optional<PersistentUserDataToken> read;
         final PersistentUserDataToken           patched;
         final PersistentUserToken               toSave;

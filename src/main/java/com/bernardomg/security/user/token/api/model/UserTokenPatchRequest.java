@@ -3,10 +3,21 @@ package com.bernardomg.security.user.token.api.model;
 
 import java.time.LocalDateTime;
 
-public interface UserTokenPatchRequest {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Boolean getConsumed();
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class UserTokenPatchRequest implements UserTokenPartial {
 
-    public LocalDateTime getExpirationDate();
+    private Boolean       consumed;
+
+    private LocalDateTime expirationDate;
+
+    private Boolean       revoked;
 
 }

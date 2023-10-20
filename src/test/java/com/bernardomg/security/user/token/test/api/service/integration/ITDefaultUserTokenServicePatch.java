@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.api.model.UserToken;
+import com.bernardomg.security.user.token.api.model.UserTokenPartial;
 import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
-import com.bernardomg.security.user.token.api.model.ValidatedUserTokenPatchRequest;
 import com.bernardomg.security.user.token.api.service.DefaultUserTokenService;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
@@ -37,9 +37,9 @@ class ITDefaultUserTokenServicePatch {
     @OnlyUser
     @ValidToken
     void testPatch_NotCreated() {
-        final UserTokenPatchRequest request;
+        final UserTokenPartial request;
 
-        request = ValidatedUserTokenPatchRequest.builder()
+        request = UserTokenPatchRequest.builder()
             .consumed(true)
             .build();
 
@@ -56,10 +56,10 @@ class ITDefaultUserTokenServicePatch {
     @DisplayName("Patching a not existing entity throws an exception")
     @OnlyUser
     void testPatch_NotExisting() {
-        final UserTokenPatchRequest request;
-        final ThrowingCallable      execution;
+        final UserTokenPartial request;
+        final ThrowingCallable execution;
 
-        request = ValidatedUserTokenPatchRequest.builder()
+        request = UserTokenPatchRequest.builder()
             .consumed(true)
             .build();
 
@@ -74,10 +74,10 @@ class ITDefaultUserTokenServicePatch {
     @OnlyUser
     @ValidToken
     void testPatch_Persisted() {
-        final PersistentUserToken   token;
-        final UserTokenPatchRequest request;
+        final PersistentUserToken token;
+        final UserTokenPartial    request;
 
-        request = ValidatedUserTokenPatchRequest.builder()
+        request = UserTokenPatchRequest.builder()
             .consumed(true)
             .build();
 
@@ -107,10 +107,10 @@ class ITDefaultUserTokenServicePatch {
     @OnlyUser
     @ValidToken
     void testPatch_Returned() {
-        final UserToken             token;
-        final UserTokenPatchRequest request;
+        final UserToken        token;
+        final UserTokenPartial request;
 
-        request = ValidatedUserTokenPatchRequest.builder()
+        request = UserTokenPatchRequest.builder()
             .consumed(true)
             .build();
 

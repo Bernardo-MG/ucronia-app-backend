@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
+import com.bernardomg.security.user.token.api.model.UserTokenPartial;
 
 public interface UserTokenService {
 
@@ -51,6 +51,6 @@ public interface UserTokenService {
      */
     public Optional<UserToken> getOne(final long id);
 
-    public UserToken patch(final long id, final UserTokenPatchRequest request);
+    public UserToken patch(final long id, final UserTokenPartial request);
 
 }
