@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.schedule.service.PersistentUserTokenCleanUpService;
-import com.bernardomg.security.user.token.test.config.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.ExpiredToken;
-import com.bernardomg.security.user.token.test.config.RevokedToken;
-import com.bernardomg.security.user.token.test.config.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
+import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

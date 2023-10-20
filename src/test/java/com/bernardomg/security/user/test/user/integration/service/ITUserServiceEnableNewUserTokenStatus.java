@@ -13,10 +13,10 @@ import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
-import com.bernardomg.security.user.token.test.config.UserRegisteredConsumedToken;
-import com.bernardomg.security.user.token.test.config.UserRegisteredExpiredToken;
-import com.bernardomg.security.user.token.test.config.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

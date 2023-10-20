@@ -12,9 +12,9 @@ import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
-import com.bernardomg.security.user.token.test.config.PasswordResetConsumedToken;
-import com.bernardomg.security.user.token.test.config.PasswordResetExpiredToken;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredToken;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

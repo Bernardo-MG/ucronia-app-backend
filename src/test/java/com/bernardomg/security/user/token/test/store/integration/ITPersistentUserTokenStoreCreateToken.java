@@ -17,7 +17,7 @@ import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -27,7 +27,7 @@ class ITPersistentUserTokenStoreCreateToken {
     private PersistentUserTokenStore store;
 
     @Autowired
-    private UserTokenProperties          tokenProperties;
+    private UserTokenProperties      tokenProperties;
 
     @Autowired
     private UserRepository           userRepository;

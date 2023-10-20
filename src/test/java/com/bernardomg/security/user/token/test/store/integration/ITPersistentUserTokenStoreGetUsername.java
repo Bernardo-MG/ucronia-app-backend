@@ -14,9 +14,9 @@ import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.config.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.ValidToken;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -26,7 +26,7 @@ class ITPersistentUserTokenStoreGetUsername {
     private PersistentUserTokenStore store;
 
     @Autowired
-    private UserTokenProperties          tokenProperties;
+    private UserTokenProperties      tokenProperties;
 
     @Autowired
     private UserRepository           userRepository;

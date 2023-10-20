@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.token.test.constant;
+package com.bernardomg.security.user.token.test.config.constant;
 
 import java.nio.charset.Charset;
 

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.token.test.config;
+package com.bernardomg.security.user.token.test.config.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/token/password_reset.sql" })
+@Sql({ "/db/queries/security/token/consumed.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface PasswordResetToken {
+public @interface ConsumedToken {
 
 }

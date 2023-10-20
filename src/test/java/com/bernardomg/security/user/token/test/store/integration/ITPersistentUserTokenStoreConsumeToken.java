@@ -16,10 +16,10 @@ import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.config.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.ValidToken;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -29,7 +29,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     private PersistentUserTokenStore store;
 
     @Autowired
-    private UserTokenProperties          tokenProperties;
+    private UserTokenProperties      tokenProperties;
 
     @Autowired
     private UserRepository           userRepository;

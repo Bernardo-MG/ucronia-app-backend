@@ -15,11 +15,11 @@ import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.api.model.UserToken;
 import com.bernardomg.security.user.token.api.service.DefaultUserTokenService;
-import com.bernardomg.security.user.token.test.config.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.ExpiredToken;
-import com.bernardomg.security.user.token.test.config.RevokedToken;
-import com.bernardomg.security.user.token.test.config.ValidToken;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
+import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

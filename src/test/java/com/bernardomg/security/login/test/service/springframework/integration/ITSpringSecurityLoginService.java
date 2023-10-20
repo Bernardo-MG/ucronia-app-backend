@@ -17,7 +17,7 @@ import com.bernardomg.security.user.test.config.LockedUser;
 import com.bernardomg.security.user.test.config.UserWithNotGrantedPermissions;
 import com.bernardomg.security.user.test.config.UserWithoutPermissions;
 import com.bernardomg.security.user.test.config.ValidUser;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;

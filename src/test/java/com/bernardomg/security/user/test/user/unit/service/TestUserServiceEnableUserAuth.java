@@ -30,7 +30,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.DefaultUserService;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.token.store.UserTokenStore;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")

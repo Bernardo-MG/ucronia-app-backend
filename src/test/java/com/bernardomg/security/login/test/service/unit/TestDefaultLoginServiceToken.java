@@ -32,7 +32,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.token.test.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLoginService - token generation")
