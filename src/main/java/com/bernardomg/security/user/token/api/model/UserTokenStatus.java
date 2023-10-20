@@ -34,6 +34,6 @@ public interface UserTokenStatus {
 
     public String getUsername();
 
-    public Boolean getValid();
+    public boolean isValid();
 
 }

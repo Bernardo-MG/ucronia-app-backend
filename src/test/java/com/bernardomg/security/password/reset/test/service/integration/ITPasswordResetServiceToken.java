@@ -35,7 +35,7 @@ class ITPasswordResetServiceToken {
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
@@ -50,7 +50,7 @@ class ITPasswordResetServiceToken {
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
@@ -65,7 +65,7 @@ class ITPasswordResetServiceToken {
 
         status = service.validateToken(TokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");

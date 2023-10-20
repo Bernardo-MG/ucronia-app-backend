@@ -32,9 +32,9 @@ import lombok.Value;
 @Builder
 public final class ImmutableUserTokenStatus implements UserTokenStatus {
 
+    @NonNull
     private final String  username;
 
-    @NonNull
-    private final Boolean valid;
+    private final boolean valid;
 
 }

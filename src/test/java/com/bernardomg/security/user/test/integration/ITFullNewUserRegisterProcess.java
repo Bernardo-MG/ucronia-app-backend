@@ -99,7 +99,7 @@ class ITFullNewUserRegisterProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus.getValid())
+        Assertions.assertThat(validTokenStatus.isValid())
             .isTrue();
         Assertions.assertThat(validTokenStatus.getUsername())
             .isEqualTo("username");
