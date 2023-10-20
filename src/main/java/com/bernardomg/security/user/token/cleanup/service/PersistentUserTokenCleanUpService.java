@@ -22,45 +22,56 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.schedule.task;
+package com.bernardomg.security.user.token.cleanup.service;
 
+import java.util.Collection;
 import java.util.Objects;
 
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-
-import com.bernardomg.security.user.token.schedule.service.TokenCleanUpService;
+import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Token clean up scheduled task. It delegates the actual clean up to {@link TokenCleanUpService}.
+ * Cleans up tokens through {@link PersistentUserToken}.
  * <p>
- * This clean up is executed monthly.
+ * Removes tokens which match any of these cases:
+ * <p>
+ * <ul>
+ * <li>Consumed</li>
+ * <li>Revoked</li>
+ * <li>Expired</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public class TokenCleanUpScheduleTask {
+public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
 
     /**
-     * Token clean up service.
+     * User token repository.
      */
-    private final TokenCleanUpService service;
+    private final UserTokenRepository userTokenRepository;
 
-    public TokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+    public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
         super();
 
-        service = Objects.requireNonNull(tokenCleanUpService);
+        userTokenRepository = Objects.requireNonNull(respository);
     }
 
-    @Async
-    @Scheduled(cron = "0 0 0 1 1/1 *")
-    public void cleanUpTokens() {
-        log.info("Starting token cleanup task");
-        service.cleanUpTokens();
-        log.info("Finished token cleanup task");
+    @Override
+    public final void cleanUpTokens() {
+        final Collection<PersistentUserToken> tokens;
+
+        // Expiration date before now
+        // Revoked
+        // Consumed
+        tokens = userTokenRepository.findAllFinished();
+
+        log.info("Removing {} finished tokens", tokens.size());
+
+        userTokenRepository.deleteAll(tokens);
     }
 
 }

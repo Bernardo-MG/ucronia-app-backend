@@ -22,56 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.schedule.service;
+package com.bernardomg.security.user.token.config;
 
-import java.util.Collection;
-import java.util.Objects;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.user.token.cleanup.service.PersistentUserTokenCleanUpService;
+import com.bernardomg.security.user.token.cleanup.service.TokenCleanUpService;
+import com.bernardomg.security.user.token.cleanup.task.TokenCleanUpScheduleTask;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
- * Cleans up tokens through {@link PersistentUserToken}.
- * <p>
- * Removes tokens which match any of these cases:
- * <p>
- * <ul>
- * <li>Consumed</li>
- * <li>Revoked</li>
- * <li>Expired</li>
- * </ul>
+ * Security configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
+@Configuration
+public class UserTokenCleanUpConfig {
 
-    /**
-     * User token repository.
-     */
-    private final UserTokenRepository userTokenRepository;
-
-    public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
+    public UserTokenCleanUpConfig() {
         super();
-
-        userTokenRepository = Objects.requireNonNull(respository);
     }
 
-    @Override
-    public final void cleanUpTokens() {
-        final Collection<PersistentUserToken> tokens;
+    @Bean("tokenCleanUpScheduleTask")
+    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+        return new TokenCleanUpScheduleTask(tokenCleanUpService);
+    }
 
-        // Expiration date before now
-        // Revoked
-        // Consumed
-        tokens = userTokenRepository.findAllFinished();
-
-        log.info("Removing {} finished tokens", tokens.size());
-
-        userTokenRepository.deleteAll(tokens);
+    @Bean("tokenCleanUpService")
+    public TokenCleanUpService getTokenCleanUpService(final UserTokenRepository userTokenRepository) {
+        return new PersistentUserTokenCleanUpService(userTokenRepository);
     }
 
 }

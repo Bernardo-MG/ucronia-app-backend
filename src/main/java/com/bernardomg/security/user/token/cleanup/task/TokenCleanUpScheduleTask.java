@@ -22,19 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.schedule.service;
+package com.bernardomg.security.user.token.cleanup.task;
+
+import java.util.Objects;
+
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import com.bernardomg.security.user.token.cleanup.service.TokenCleanUpService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service for removing old tokens which can no longer be used.
+ * Token clean up scheduled task. It delegates the actual clean up to {@link TokenCleanUpService}.
+ * <p>
+ * This clean up is executed monthly.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenCleanUpService {
+@Slf4j
+public class TokenCleanUpScheduleTask {
 
     /**
-     * Removes all unusable tokens.
+     * Token clean up service.
      */
-    public void cleanUpTokens();
+    private final TokenCleanUpService service;
+
+    public TokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+        super();
+
+        service = Objects.requireNonNull(tokenCleanUpService);
+    }
+
+    @Async
+    @Scheduled(cron = "0 0 0 1 1/1 *")
+    public void cleanUpTokens() {
+        log.info("Starting token cleanup task");
+        service.cleanUpTokens();
+        log.info("Finished token cleanup task");
+    }
 
 }
