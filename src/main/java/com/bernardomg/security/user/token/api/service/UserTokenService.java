@@ -31,26 +31,41 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.user.token.api.model.UserToken;
 import com.bernardomg.security.user.token.api.model.UserTokenPartial;
 
+/**
+ * User token service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface UserTokenService {
 
     /**
      * Returns all the user tokens, paged.
      *
-     * @param pageable
+     * @param pagination
      *            pagination to apply
      * @return all the user tokens paged
      */
-    public Iterable<UserToken> getAll(final Pageable pageable);
+    public Iterable<UserToken> getAll(final Pageable pagination);
 
     /**
      * Returns the user token for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
      * @param id
      *            id of the role to acquire
-     * @return an {@code Optional} with the user token, if it exists, of an empty {@code Optional} otherwise
+     * @return an {@code Optional} with the user token, if it exists, or an empty {@code Optional} otherwise
      */
     public Optional<UserToken> getOne(final long id);
 
-    public UserToken patch(final long id, final UserTokenPartial request);
+    /**
+     * Applies a partial change to a user token.
+     *
+     * @param id
+     *            id for the user token to read
+     * @param partial
+     *            partial change to apply
+     * @return the updated user token
+     */
+    public UserToken patch(final long id, final UserTokenPartial partial);
 
 }

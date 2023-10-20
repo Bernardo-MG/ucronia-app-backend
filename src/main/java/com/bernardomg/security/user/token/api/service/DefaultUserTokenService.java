@@ -40,11 +40,23 @@ import com.bernardomg.security.user.token.persistence.repository.UserTokenReposi
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default implementation of the user token service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DefaultUserTokenService implements UserTokenService {
 
+    /**
+     * User data token repository. This queries a view joining user tokens with their users.
+     */
     private final UserDataTokenRepository userDataTokenRepository;
 
+    /**
+     * User token repository.
+     */
     private final UserTokenRepository     userTokenRepository;
 
     public DefaultUserTokenService(final UserTokenRepository userTokenRepo,
@@ -56,8 +68,8 @@ public final class DefaultUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final Iterable<UserToken> getAll(final Pageable pageable) {
-        return userDataTokenRepository.findAll(pageable)
+    public final Iterable<UserToken> getAll(final Pageable pagination) {
+        return userDataTokenRepository.findAll(pagination)
             .map(this::toDto);
     }
 
@@ -76,7 +88,7 @@ public final class DefaultUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken patch(final long id, final UserTokenPartial request) {
+    public final UserToken patch(final long id, final UserTokenPartial partial) {
         final Optional<PersistentUserDataToken> read;
         final PersistentUserDataToken           patched;
         final PersistentUserToken               toSave;
@@ -99,11 +111,11 @@ public final class DefaultUserTokenService implements UserTokenService {
 
         toSave = toEntity(patched);
 
-        if (request.getExpirationDate() != null) {
-            toSave.setExpirationDate(request.getExpirationDate());
+        if (partial.getExpirationDate() != null) {
+            toSave.setExpirationDate(partial.getExpirationDate());
         }
-        if (request.getConsumed() != null) {
-            toSave.setConsumed(request.getConsumed());
+        if (partial.getConsumed() != null) {
+            toSave.setConsumed(partial.getConsumed());
         }
 
         saved = userTokenRepository.save(toSave);

@@ -43,7 +43,7 @@ import com.bernardomg.security.user.token.api.service.UserTokenService;
 import lombok.AllArgsConstructor;
 
 /**
- * Token REST controller.
+ * User token REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -52,23 +52,49 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/security/user/token")
 @AllArgsConstructor
 @Transactional
-public class TokenController {
+public class UserTokenController {
 
+    /**
+     * User token service.
+     */
     private final UserTokenService service;
 
+    /**
+     * Applies a partial change into a user token.
+     *
+     * @param id
+     *            id for the user token to patch
+     * @param request
+     *            partial change to apply
+     * @return the updated user token
+     */
     @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.UPDATE)
     public UserToken patch(@PathVariable("id") final long id, @RequestBody final UserTokenPatchRequest request) {
         return service.patch(id, request);
     }
 
+    /**
+     * Reads all the user tokens paged.
+     *
+     * @param pagination
+     *            pagination to apply
+     * @return all the user tokens paged
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)
-    public Iterable<UserToken> readAll(final Pageable pageable) {
+    public Iterable<UserToken> readAll(final Pageable pagination) {
         // TODO: Apply cache
-        return service.getAll(pageable);
+        return service.getAll(pagination);
     }
 
+    /**
+     * Reads a single user token. Otherwise {@code null} is returned.
+     *
+     * @param id
+     *            id for the user token to read
+     * @return the user token for the id, if it exists, or {@code null} otherwise
+     */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)
     public UserToken readOne(@PathVariable("id") final long id) {
