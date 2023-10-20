@@ -41,10 +41,7 @@ import com.bernardomg.security.user.service.DefaultUserService;
 import com.bernardomg.security.user.service.RoleService;
 import com.bernardomg.security.user.service.UserRoleService;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.token.api.service.DefaultUserTokenService;
-import com.bernardomg.security.user.token.api.service.UserTokenService;
-import com.bernardomg.security.user.token.config.property.TokenProperties;
-import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
+import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.user.token.store.UserTokenStore;
@@ -77,19 +74,13 @@ public class UserConfig {
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
             final PasswordEncoder passEncoder, final UserMapper userMapper,
-            final UserTokenRepository userTokenRepository, final TokenProperties tokenProperties) {
+            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
             tokenProperties.getValidity());
 
         return new DefaultUserService(userRepo, mSender, tokenStore, passEncoder, userMapper);
-    }
-
-    @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
-            final UserDataTokenRepository userDataTokenRepo) {
-        return new DefaultUserTokenService(userTokenRepo, userDataTokenRepo);
     }
 
 }

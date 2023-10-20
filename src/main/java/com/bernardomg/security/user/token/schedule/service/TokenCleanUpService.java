@@ -22,56 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.service;
-
-import java.util.Collection;
-import java.util.Objects;
-
-import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-
-import lombok.extern.slf4j.Slf4j;
+package com.bernardomg.security.user.token.schedule.service;
 
 /**
- * Cleans up tokens through {@link PersistentUserToken}.
- * <p>
- * Removes tokens which match any of these cases:
- * <p>
- * <ul>
- * <li>Consumed</li>
- * <li>Revoked</li>
- * <li>Expired</li>
- * </ul>
+ * Service for removing old tokens which can no longer be used.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
+public interface TokenCleanUpService {
 
     /**
-     * User token repository.
+     * Removes all unusable tokens.
      */
-    private final UserTokenRepository userTokenRepository;
-
-    public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
-        super();
-
-        userTokenRepository = Objects.requireNonNull(respository);
-    }
-
-    @Override
-    public final void cleanUpTokens() {
-        final Collection<PersistentUserToken> tokens;
-
-        // Expiration date before now
-        // Revoked
-        // Consumed
-        tokens = userTokenRepository.findAllFinished();
-
-        log.info("Removing {} finished tokens", tokens.size());
-
-        userTokenRepository.deleteAll(tokens);
-    }
+    public void cleanUpTokens();
 
 }

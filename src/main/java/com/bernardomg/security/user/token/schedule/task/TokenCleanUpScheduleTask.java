@@ -22,31 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.config.property;
+package com.bernardomg.security.user.token.schedule.task;
 
-import java.time.Duration;
+import java.util.Objects;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import com.bernardomg.security.user.token.schedule.service.TokenCleanUpService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Security token configuration properties.
+ * Token clean up scheduled task. It delegates the actual clean up to {@link TokenCleanUpService}.
+ * <p>
+ * This clean up is executed monthly.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
-@Data
-@ConfigurationProperties(prefix = "security.token")
-public final class TokenProperties {
+@Slf4j
+public class TokenCleanUpScheduleTask {
 
     /**
-     * Validity length, in seconds, for tokens.
+     * Token clean up service.
      */
-    @NotNull
-    private Duration validity = Duration.ofHours(1);
+    private final TokenCleanUpService service;
+
+    public TokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+        super();
+
+        service = Objects.requireNonNull(tokenCleanUpService);
+    }
+
+    @Async
+    @Scheduled(cron = "0 0 0 1 1/1 *")
+    public void cleanUpTokens() {
+        log.info("Starting token cleanup task");
+        service.cleanUpTokens();
+        log.info("Finished token cleanup task");
+    }
 
 }

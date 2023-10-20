@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.OnlyUser;
-import com.bernardomg.security.user.token.config.property.TokenProperties;
+import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
@@ -26,7 +26,7 @@ class ITPersistentUserTokenStoreGetUsername {
     private PersistentUserTokenStore store;
 
     @Autowired
-    private TokenProperties          tokenProperties;
+    private UserTokenProperties          tokenProperties;
 
     @Autowired
     private UserRepository           userRepository;

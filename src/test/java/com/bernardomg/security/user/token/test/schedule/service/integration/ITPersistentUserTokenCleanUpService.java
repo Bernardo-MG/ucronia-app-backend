@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.token.test.service.integration;
+package com.bernardomg.security.user.token.test.schedule.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.service.PersistentUserTokenCleanUpService;
+import com.bernardomg.security.user.token.schedule.service.PersistentUserTokenCleanUpService;
 import com.bernardomg.security.user.token.test.config.ConsumedToken;
 import com.bernardomg.security.user.token.test.config.ExpiredToken;
 import com.bernardomg.security.user.token.test.config.RevokedToken;
