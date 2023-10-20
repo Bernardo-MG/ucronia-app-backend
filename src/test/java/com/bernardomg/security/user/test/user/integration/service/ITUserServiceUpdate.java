@@ -25,10 +25,12 @@
 package com.bernardomg.security.user.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserUpdate;
@@ -44,7 +46,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - update")
-@ValidUser
 class ITUserServiceUpdate {
 
     @Autowired
@@ -59,6 +60,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Adds no entity when updating")
+    @ValidUser
     void testUpdate_AddsNoEntity() {
         final UserUpdate user;
 
@@ -72,6 +74,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Updates persisted data, ignoring case")
+    @ValidUser
     void testUpdate_Case_PersistedData() {
         final UserUpdate     user;
         final PersistentUser entity;
@@ -89,6 +92,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Returns the updated data, ignoring case")
+    @ValidUser
     void testUpdate_Case_ReturnedData() {
         final UserUpdate user;
         final User       result;
@@ -103,6 +107,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Can disable a user when updating")
+    @ValidUser
     void testUpdate_Disable_PersistedData() {
         final UserUpdate     user;
         final PersistentUser entity;
@@ -128,6 +133,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Can expire a user's password when updating")
+    @ValidUser
     void testUpdate_ExpiredPassword_PersistedData() {
         final UserUpdate     user;
         final PersistentUser entity;
@@ -152,7 +158,22 @@ class ITUserServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testUpdate_NotExisting_Exception() {
+        final UserUpdate       user;
+        final ThrowingCallable execution;
+
+        user = UsersUpdate.emailChange();
+
+        execution = () -> service.update(1L, user);
+
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
+    }
+
+    @Test
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
+    @ValidUser
     void testUpdate_Padded_PersistedData() {
         final UserUpdate     user;
         final PersistentUser entity;
@@ -170,6 +191,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Updates persisted data")
+    @ValidUser
     void testUpdate_PersistedData() {
         final UserUpdate     user;
         final PersistentUser entity;
@@ -195,6 +217,7 @@ class ITUserServiceUpdate {
 
     @Test
     @DisplayName("Returns the updated data")
+    @ValidUser
     void testUpdate_ReturnedData() {
         final UserUpdate user;
         final User       result;

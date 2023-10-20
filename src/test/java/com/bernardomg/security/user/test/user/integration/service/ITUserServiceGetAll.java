@@ -20,7 +20,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - get all")
-@OnlyUser
 class ITUserServiceGetAll {
 
     @Autowired
@@ -32,6 +31,7 @@ class ITUserServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
+    @OnlyUser
     void testGetAll_Count() {
         final Iterable<User> result;
         final UserQuery      sample;
@@ -49,6 +49,7 @@ class ITUserServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
+    @OnlyUser
     void testGetAll_Data() {
         final Iterable<User> data;
         final UserQuery      sample;
@@ -73,6 +74,23 @@ class ITUserServiceGetAll {
             .expired(false)
             .locked(false)
             .build());
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
+    void testGetAll_Empty_Count() {
+        final Iterable<User> result;
+        final UserQuery      sample;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        sample = UsersQuery.empty();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertThat(result)
+            .isEmpty();
     }
 
 }
