@@ -28,13 +28,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.token.api.model.UserToken;
+import com.bernardomg.security.user.token.api.model.ValidatedUserTokenPatchRequest;
 import com.bernardomg.security.user.token.api.service.UserTokenService;
 
 import lombok.AllArgsConstructor;
@@ -52,6 +55,13 @@ import lombok.AllArgsConstructor;
 public class TokenController {
 
     private final UserTokenService service;
+
+    @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.UPDATE)
+    public UserToken patch(@PathVariable("id") final long id,
+            @RequestBody final ValidatedUserTokenPatchRequest request) {
+        return service.patch(id, request);
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)

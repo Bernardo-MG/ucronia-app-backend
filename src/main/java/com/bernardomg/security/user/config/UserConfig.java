@@ -87,8 +87,9 @@ public class UserConfig {
     }
 
     @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserDataTokenRepository userDataTokenRepo) {
-        return new DefaultUserTokenService(userDataTokenRepo);
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
+            final UserDataTokenRepository userDataTokenRepo) {
+        return new DefaultUserTokenService(userTokenRepo, userDataTokenRepo);
     }
 
 }

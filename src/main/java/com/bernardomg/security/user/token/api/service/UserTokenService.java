@@ -29,12 +29,13 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.token.api.model.UserToken;
+import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
 
 public interface UserTokenService {
 
     /**
      * Returns all the user tokens, paged.
-     * 
+     *
      * @param pageable
      *            pagination to apply
      * @return all the user tokens paged
@@ -43,11 +44,13 @@ public interface UserTokenService {
 
     /**
      * Returns the user token for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
-     * 
+     *
      * @param id
      *            id of the role to acquire
      * @return an {@code Optional} with the user token, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<UserToken> getOne(final long id);
+
+    public UserToken patch(final long id, final UserTokenPatchRequest request);
 
 }

@@ -32,8 +32,11 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.token.api.model.ImmutableUserToken;
 import com.bernardomg.security.user.token.api.model.UserToken;
+import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserDataToken;
+import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,9 +45,13 @@ public final class DefaultUserTokenService implements UserTokenService {
 
     private final UserDataTokenRepository userDataTokenRepository;
 
-    public DefaultUserTokenService(final UserDataTokenRepository userDataTokenRepo) {
+    private final UserTokenRepository     userTokenRepository;
+
+    public DefaultUserTokenService(final UserTokenRepository userTokenRepo,
+            final UserDataTokenRepository userDataTokenRepo) {
         super();
 
+        userTokenRepository = Objects.requireNonNull(userTokenRepo);
         userDataTokenRepository = Objects.requireNonNull(userDataTokenRepo);
     }
 
@@ -68,6 +75,42 @@ public final class DefaultUserTokenService implements UserTokenService {
             .map(this::toDto);
     }
 
+    @Override
+    public final UserToken patch(final long id, final UserTokenPatchRequest request) {
+        final Optional<PersistentUserDataToken> read;
+        final PersistentUserDataToken           patched;
+        final PersistentUserToken               toSave;
+        final PersistentUserToken               saved;
+
+        log.debug("Patching role with id {}", id);
+
+        // TODO: if an exception is thrown, then it makes no sense returning an optional
+        // TODO: read the optional and check if it is empty
+        if (!userDataTokenRepository.existsById(id)) {
+            throw new InvalidIdException("userToken", id);
+        }
+
+        read = userDataTokenRepository.findById(id);
+        if (!read.isPresent()) {
+            throw new InvalidIdException("userToken", id);
+        }
+
+        patched = read.get();
+
+        toSave = toEntity(patched);
+
+        if (request.getExpirationDate() != null) {
+            toSave.setExpirationDate(request.getExpirationDate());
+        }
+        if (request.getConsumed() != null) {
+            toSave.setConsumed(request.getConsumed());
+        }
+
+        saved = userTokenRepository.save(toSave);
+
+        return toDto(saved, read.get());
+    }
+
     private final UserToken toDto(final PersistentUserDataToken entity) {
         return ImmutableUserToken.builder()
             .id(entity.getId())
@@ -80,6 +123,36 @@ public final class DefaultUserTokenService implements UserTokenService {
             .consumed(entity.isConsumed())
             .revoked(entity.isRevoked())
             .build();
+    }
+
+    private final UserToken toDto(final PersistentUserToken entity, final PersistentUserDataToken data) {
+        return ImmutableUserToken.builder()
+            .id(entity.getId())
+            .username(data.getUsername())
+            .name(data.getName())
+            .scope(entity.getScope())
+            .token(entity.getToken())
+            .creationDate(entity.getCreationDate())
+            .expirationDate(entity.getExpirationDate())
+            .consumed(entity.isConsumed())
+            .revoked(entity.isRevoked())
+            .build();
+    }
+
+    private final PersistentUserToken toEntity(final PersistentUserDataToken dataToken) {
+        final PersistentUserToken token;
+
+        token = new PersistentUserToken();
+        token.setId(dataToken.getId());
+        token.setUserId(dataToken.getUserId());
+        token.setToken(dataToken.getToken());
+        token.setScope(dataToken.getScope());
+        token.setCreationDate(dataToken.getCreationDate());
+        token.setExpirationDate(dataToken.getExpirationDate());
+        token.setConsumed(dataToken.isConsumed());
+        token.setRevoked(dataToken.isRevoked());
+
+        return token;
     }
 
 }
