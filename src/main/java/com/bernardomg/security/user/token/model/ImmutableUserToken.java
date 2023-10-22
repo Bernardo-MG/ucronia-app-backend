@@ -26,6 +26,8 @@ package com.bernardomg.security.user.token.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -43,9 +45,11 @@ public final class ImmutableUserToken implements UserToken {
     private boolean       consumed;
 
     @NonNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
 
     @NonNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expirationDate;
 
     @NonNull
