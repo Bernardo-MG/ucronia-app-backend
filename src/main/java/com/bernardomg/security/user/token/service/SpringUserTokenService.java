@@ -120,12 +120,6 @@ public final class SpringUserTokenService implements UserTokenService {
 
         log.debug("Patching role with id {}", id);
 
-        // TODO: if an exception is thrown, then it makes no sense returning an optional
-        // TODO: read the optional and check if it is empty
-        if (!userDataTokenRepository.existsById(id)) {
-            throw new InvalidIdException("userToken", id);
-        }
-
         read = userDataTokenRepository.findById(id);
         if (!read.isPresent()) {
             throw new InvalidIdException("userToken", id);
