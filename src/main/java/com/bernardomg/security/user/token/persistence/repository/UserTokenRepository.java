@@ -41,8 +41,6 @@ import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
  */
 public interface UserTokenRepository extends JpaRepository<PersistentUserToken, Long> {
 
-    public Boolean existsByTokenAndScope(final String token, final String scope);
-
     /**
      * Returns all the tokens which can no longer be used. That means any of these:
      * <p>
