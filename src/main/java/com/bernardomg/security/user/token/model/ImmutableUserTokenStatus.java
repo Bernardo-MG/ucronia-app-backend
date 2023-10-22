@@ -28,6 +28,12 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
+/**
+ * Immutable implementation of the user token status.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Value
 @Builder
 public final class ImmutableUserTokenStatus implements UserTokenStatus {

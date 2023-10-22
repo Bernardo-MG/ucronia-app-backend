@@ -37,13 +37,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.token.model.UserToken;
-import com.bernardomg.security.user.token.model.UserTokenPatchRequest;
 import com.bernardomg.security.user.token.service.UserTokenService;
 
 import lombok.AllArgsConstructor;
 
 /**
- * User token REST controller.
+ * User token REST controller. Supports reading and patching, as the token are generated there is little which the user
+ * can modify.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

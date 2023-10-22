@@ -34,22 +34,67 @@ import java.time.LocalDateTime;
  */
 public interface UserToken {
 
+    /**
+     * Returns the date at which the token was created.
+     *
+     * @return the date at which the token was created
+     */
     public LocalDateTime getCreationDate();
 
+    /**
+     * Returns the date at which the token will expire.
+     *
+     * @return the date at which the token will expire
+     */
     public LocalDateTime getExpirationDate();
 
+    /**
+     * Returns the token id.
+     *
+     * @return the token id
+     */
     public Long getId();
 
+    /**
+     * Returns the name of the user linked to the token.
+     *
+     * @return the name of the user linked to the token
+     */
     public String getName();
 
+    /**
+     * Returns the token scope.
+     *
+     * @return the token scope
+     */
     public String getScope();
 
+    /**
+     * Returns the token code.
+     *
+     * @return the token code
+     */
     public String getToken();
 
+    /**
+     * Returns the username of the user linked to the token.
+     *
+     * @return the username of the user linked to the token
+     */
     public String getUsername();
 
+    /**
+     * Indicates if the token is consumed
+     *
+     * @return {@code true} if the token is consumed, {@code false} otherwise
+     */
     public boolean isConsumed();
 
+    /**
+     * Indicates if the token is revoked
+     *
+     * @return {@code true} if the token is revoked, {@code false} otherwise
+     */
     public boolean isRevoked();
 
 }

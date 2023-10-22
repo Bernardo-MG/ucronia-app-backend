@@ -29,7 +29,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserDataToken;
 
 /**
- * Repository for user tokens.
+ * Repository for user tokens data. This allows querying a view joining user tokens with their users.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

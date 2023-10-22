@@ -31,11 +31,12 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.schedule.TokenCleanUpScheduleTask;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
 import com.bernardomg.security.user.token.service.UserTokenService;
 
 /**
- * Security configuration.
+ * User token configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -46,6 +47,11 @@ public class UserTokenConfig {
 
     public UserTokenConfig() {
         super();
+    }
+
+    @Bean("tokenCleanUpScheduleTask")
+    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
+        return new TokenCleanUpScheduleTask(tokenCleanUpService);
     }
 
     @Bean("userTokenService")

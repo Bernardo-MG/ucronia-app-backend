@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
+import com.bernardomg.security.user.token.controller.UserTokenPatchRequest;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.model.UserTokenPartial;
-import com.bernardomg.security.user.token.model.UserTokenPatchRequest;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;

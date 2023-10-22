@@ -22,15 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.model;
+package com.bernardomg.security.user.token.controller;
 
 import java.time.LocalDateTime;
+
+import com.bernardomg.security.user.token.model.UserTokenPartial;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Request for patching a token.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Data
 @Builder
 @NoArgsConstructor

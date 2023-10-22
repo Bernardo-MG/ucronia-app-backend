@@ -32,8 +32,18 @@ package com.bernardomg.security.user.token.model;
  */
 public interface UserTokenStatus {
 
+    /**
+     * Returns the username of the user linked to the token.
+     *
+     * @return the username of the user linked to the token
+     */
     public String getUsername();
 
+    /**
+     * Indicates if the token is valid
+     *
+     * @return {@code true} if the token is valid, {@code false} otherwise
+     */
     public boolean isValid();
 
 }

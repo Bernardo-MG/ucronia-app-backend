@@ -27,15 +27,26 @@ package com.bernardomg.security.user.token.model;
 import java.time.LocalDateTime;
 
 /**
- * Partial user token.
+ * Partial user token. All the fields are expected to be nullable, as this allows knowing which one will actually
+ * change.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface UserTokenPartial {
 
+    /**
+     * Indicates if the token is consumed
+     *
+     * @return {@code true} if the token is consumed, {@code false} otherwise
+     */
     public Boolean getConsumed();
 
+    /**
+     * Returns the date at which the token will expire.
+     *
+     * @return the date at which the token will expire
+     */
     public LocalDateTime getExpirationDate();
 
 }
