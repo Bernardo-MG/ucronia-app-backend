@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
-import com.bernardomg.security.user.token.controller.UserTokenPatchRequest;
+import com.bernardomg.security.user.token.model.DefaultUserTokenPartial;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.model.UserTokenPartial;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
@@ -40,7 +40,7 @@ class ITSpringUserTokenServicePatch {
         final PersistentUserToken token;
         final UserTokenPartial    request;
 
-        request = UserTokenPatchRequest.builder()
+        request = DefaultUserTokenPartial.builder()
             .build();
 
         service.patch(1L, request);
@@ -72,7 +72,7 @@ class ITSpringUserTokenServicePatch {
         final PersistentUserToken token;
         final UserTokenPartial    request;
 
-        request = UserTokenPatchRequest.builder()
+        request = DefaultUserTokenPartial.builder()
             .expirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
             .build();
 
@@ -104,7 +104,7 @@ class ITSpringUserTokenServicePatch {
     void testPatch_NotCreated() {
         final UserTokenPartial request;
 
-        request = UserTokenPatchRequest.builder()
+        request = DefaultUserTokenPartial.builder()
             .revoked(true)
             .build();
 
@@ -124,7 +124,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
         final ThrowingCallable execution;
 
-        request = UserTokenPatchRequest.builder()
+        request = DefaultUserTokenPartial.builder()
             .revoked(true)
             .build();
 
@@ -142,7 +142,7 @@ class ITSpringUserTokenServicePatch {
         final PersistentUserToken token;
         final UserTokenPartial    request;
 
-        request = UserTokenPatchRequest.builder()
+        request = DefaultUserTokenPartial.builder()
             .revoked(true)
             .build();
 
@@ -175,7 +175,7 @@ class ITSpringUserTokenServicePatch {
         final UserToken        token;
         final UserTokenPartial request;
 
-        request = UserTokenPatchRequest.builder()
+        request = DefaultUserTokenPartial.builder()
             .revoked(true)
             .build();
 

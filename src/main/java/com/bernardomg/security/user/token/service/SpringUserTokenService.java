@@ -38,6 +38,8 @@ import com.bernardomg.security.user.token.persistence.model.PersistentUserDataTo
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.validation.PatchUserTokenValidator;
+import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,12 +64,17 @@ public final class SpringUserTokenService implements UserTokenService {
     /**
      * User data token repository. This queries a view joining user tokens with their users.
      */
-    private final UserDataTokenRepository userDataTokenRepository;
+    private final UserDataTokenRepository     userDataTokenRepository;
 
     /**
      * User token repository.
      */
-    private final UserTokenRepository     userTokenRepository;
+    private final UserTokenRepository         userTokenRepository;
+
+    /**
+     * Patch validator.
+     */
+    private final Validator<UserTokenPartial> validatorPatch;
 
     public SpringUserTokenService(final UserTokenRepository userTokenRepo,
             final UserDataTokenRepository userDataTokenRepo) {
@@ -75,6 +82,8 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
         userDataTokenRepository = Objects.requireNonNull(userDataTokenRepo);
+
+        validatorPatch = new PatchUserTokenValidator();
     }
 
     @Override
@@ -120,13 +129,12 @@ public final class SpringUserTokenService implements UserTokenService {
 
         log.debug("Patching role with id {}", id);
 
-        // TODO: Expiration date can't be before creation date
-        // TODO: Can only revoke tokens, not cancel the revoke status
-
         read = userDataTokenRepository.findById(id);
         if (!read.isPresent()) {
             throw new InvalidIdException("userToken", id);
         }
+
+        validatorPatch.validate(partial);
 
         toPatch = read.get();
 

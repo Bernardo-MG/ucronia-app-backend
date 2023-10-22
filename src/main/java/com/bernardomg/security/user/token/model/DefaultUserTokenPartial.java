@@ -22,11 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.controller;
+package com.bernardomg.security.user.token.model;
 
 import java.time.LocalDateTime;
-
-import com.bernardomg.security.user.token.model.UserTokenPartial;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +32,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Request for patching a token.
+ * Default user token partial.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -43,7 +41,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserTokenPatchRequest implements UserTokenPartial {
+public final class DefaultUserTokenPartial implements UserTokenPartial {
 
     private LocalDateTime expirationDate;
 

@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.user.token.model.DefaultUserTokenPartial;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.service.UserTokenService;
 
@@ -70,7 +71,7 @@ public class UserTokenController {
      */
     @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
-    public UserToken patch(@PathVariable("id") final long id, @RequestBody final UserTokenPatchRequest request) {
+    public UserToken patch(@PathVariable("id") final long id, @RequestBody final DefaultUserTokenPartial request) {
         return service.patch(id, request);
     }
 
