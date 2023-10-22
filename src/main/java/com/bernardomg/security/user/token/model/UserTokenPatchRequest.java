@@ -22,41 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.model;
+package com.bernardomg.security.user.token.model;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
 @Builder
-public final class ImmutableUserToken implements UserToken {
+@NoArgsConstructor
+@AllArgsConstructor
+public final class UserTokenPatchRequest implements UserTokenPartial {
 
-    private boolean       consumed;
+    private Boolean       consumed;
 
-    @NonNull
-    private LocalDateTime creationDate;
-
-    @NonNull
     private LocalDateTime expirationDate;
 
-    @NonNull
-    private Long          id;
-
-    @NonNull
-    private final String  name;
-
-    private boolean       revoked;
-
-    @NonNull
-    private final String  scope;
-
-    @NonNull
-    private final String  token;
-
-    @NonNull
-    private final String  username;
+    private Boolean       revoked;
 
 }

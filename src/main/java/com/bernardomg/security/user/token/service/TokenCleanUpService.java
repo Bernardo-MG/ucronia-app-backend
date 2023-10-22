@@ -22,19 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.model;
+package com.bernardomg.security.user.token.service;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+/**
+ * Service for removing old tokens which can no longer be used.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface TokenCleanUpService {
 
-@Value
-@Builder
-public final class ImmutableUserTokenStatus implements UserTokenStatus {
-
-    @NonNull
-    private final String  username;
-
-    private final boolean valid;
+    /**
+     * Removes all unusable tokens.
+     */
+    public void cleanUpTokens();
 
 }

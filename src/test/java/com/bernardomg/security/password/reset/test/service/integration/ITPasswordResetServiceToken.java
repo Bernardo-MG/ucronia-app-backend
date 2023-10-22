@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.ValidUser;
-import com.bernardomg.security.user.token.api.model.UserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedToken;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredToken;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;

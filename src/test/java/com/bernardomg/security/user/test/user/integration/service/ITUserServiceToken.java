@@ -32,7 +32,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.config.ValidUser;
-import com.bernardomg.security.user.token.api.model.UserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;

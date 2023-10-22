@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.controller;
+package com.bernardomg.security.user.token.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.auth.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
-import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
-import com.bernardomg.security.user.token.api.service.UserTokenService;
+import com.bernardomg.security.user.token.model.UserToken;
+import com.bernardomg.security.user.token.model.UserTokenPatchRequest;
+import com.bernardomg.security.user.token.service.UserTokenService;
 
 import lombok.AllArgsConstructor;
 

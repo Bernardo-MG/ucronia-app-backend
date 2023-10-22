@@ -1,20 +1,18 @@
 
-package com.bernardomg.security.user.token.test.api.service.integration;
+package com.bernardomg.security.user.token.test.service.integration;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
-import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.service.DefaultUserTokenService;
+import com.bernardomg.security.user.token.model.UserToken;
+import com.bernardomg.security.user.token.service.DefaultUserTokenService;
 import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
 import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
 import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
@@ -23,8 +21,8 @@ import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("DefaultUserTokenService - get one")
-class ITDefaultUserTokenServiceGetOne {
+@DisplayName("DefaultUserTokenService - get all")
+class ITDefaultUserTokenServiceGetAll {
 
     @Autowired
     private DefaultUserTokenService service;
@@ -33,76 +31,94 @@ class ITDefaultUserTokenServiceGetOne {
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
     @ConsumedToken
-    void testGetOne_Consumed() {
-        final Optional<UserToken> token;
+    void testGetAll_Consumed() {
+        final Pageable            pageable;
+        final Iterable<UserToken> tokens;
 
-        token = service.getOne(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        tokens = service.getAll(pageable);
+
+        Assertions.assertThat(tokens)
+            .hasSize(1);
     }
 
     @Test
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
     @ExpiredToken
-    void testGetOne_Expired() {
-        final Optional<UserToken> token;
+    void testGetAll_Expired() {
+        final Pageable            pageable;
+        final Iterable<UserToken> tokens;
 
-        token = service.getOne(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        tokens = service.getAll(pageable);
+
+        Assertions.assertThat(tokens)
+            .hasSize(1);
     }
 
     @Test
-    @DisplayName("With a not existing token, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+    @DisplayName("Doesn't return anything when the token doesn't exist")
+    @OnlyUser
+    void testGetAll_NotExisting() {
+        final Pageable            pageable;
+        final Iterable<UserToken> tokens;
 
-        execution = () -> service.getOne(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(InvalidIdException.class);
+        tokens = service.getAll(pageable);
+
+        Assertions.assertThat(tokens)
+            .isEmpty();
     }
 
     @Test
     @DisplayName("Returns a token when the token is revoked")
     @OnlyUser
     @RevokedToken
-    void testGetOne_Revoked() {
-        final Optional<UserToken> token;
+    void testGetAll_Revoked() {
+        final Pageable            pageable;
+        final Iterable<UserToken> tokens;
 
-        token = service.getOne(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        tokens = service.getAll(pageable);
+
+        Assertions.assertThat(tokens)
+            .hasSize(1);
     }
 
     @Test
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
     @ValidToken
-    void testGetOne_Valid() {
-        final Optional<UserToken> token;
+    void testGetAll_Valid() {
+        final Pageable            pageable;
+        final Iterable<UserToken> tokens;
 
-        token = service.getOne(1L);
+        pageable = Pageable.unpaged();
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        tokens = service.getAll(pageable);
+
+        Assertions.assertThat(tokens)
+            .hasSize(1);
     }
 
     @Test
     @DisplayName("Returns all the token data when the token is valid")
     @OnlyUser
     @ValidToken
-    void testGetOne_Valid_data() {
-        final Optional<UserToken> read;
-        final UserToken           token;
+    void testGetAll_Valid_data() {
+        final Pageable  pageable;
+        final UserToken token;
 
-        read = service.getOne(1L);
+        pageable = Pageable.unpaged();
 
-        token = read.get();
+        token = service.getAll(pageable)
+            .iterator()
+            .next();
 
         Assertions.assertThat(token.getId())
             .isEqualTo(1);

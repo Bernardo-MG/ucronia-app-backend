@@ -22,45 +22,50 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.cleanup.task;
+package com.bernardomg.security.user.token.service;
 
-import java.util.Objects;
+import java.util.Optional;
 
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.user.token.cleanup.service.TokenCleanUpService;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.security.user.token.model.UserToken;
+import com.bernardomg.security.user.token.model.UserTokenPartial;
 
 /**
- * Token clean up scheduled task. It delegates the actual clean up to {@link TokenCleanUpService}.
- * <p>
- * This clean up is executed monthly.
+ * User token service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public class TokenCleanUpScheduleTask {
+public interface UserTokenService {
 
     /**
-     * Token clean up service.
+     * Returns all the user tokens, paged.
+     *
+     * @param pagination
+     *            pagination to apply
+     * @return all the user tokens paged
      */
-    private final TokenCleanUpService service;
+    public Iterable<UserToken> getAll(final Pageable pagination);
 
-    public TokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
-        super();
+    /**
+     * Returns the user token for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     *
+     * @param id
+     *            id of the role to acquire
+     * @return an {@code Optional} with the user token, if it exists, or an empty {@code Optional} otherwise
+     */
+    public Optional<UserToken> getOne(final long id);
 
-        service = Objects.requireNonNull(tokenCleanUpService);
-    }
-
-    @Async
-    @Scheduled(cron = "0 0 0 1 1/1 *")
-    public void cleanUpTokens() {
-        log.info("Starting token cleanup task");
-        service.cleanUpTokens();
-        log.info("Finished token cleanup task");
-    }
+    /**
+     * Applies a partial change to a user token.
+     *
+     * @param id
+     *            id for the user token to read
+     * @param partial
+     *            partial change to apply
+     * @return the updated user token
+     */
+    public UserToken patch(final long id, final UserTokenPartial partial);
 
 }

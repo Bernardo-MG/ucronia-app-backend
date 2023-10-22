@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.token.test.api.service.integration;
+package com.bernardomg.security.user.token.test.service.integration;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
-import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.model.UserTokenPartial;
-import com.bernardomg.security.user.token.api.model.UserTokenPatchRequest;
-import com.bernardomg.security.user.token.api.service.DefaultUserTokenService;
+import com.bernardomg.security.user.token.model.UserToken;
+import com.bernardomg.security.user.token.model.UserTokenPartial;
+import com.bernardomg.security.user.token.model.UserTokenPatchRequest;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.service.DefaultUserTokenService;
 import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
 import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;

@@ -22,56 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.cleanup.service;
+package com.bernardomg.security.user.token.schedule;
 
-import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import com.bernardomg.security.user.token.service.TokenCleanUpService;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Cleans up tokens through {@link PersistentUserToken}.
+ * Token clean up scheduled task. It delegates the actual clean up to {@link TokenCleanUpService}.
  * <p>
- * Removes tokens which match any of these cases:
- * <p>
- * <ul>
- * <li>Consumed</li>
- * <li>Revoked</li>
- * <li>Expired</li>
- * </ul>
+ * This clean up is executed monthly.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
+public class TokenCleanUpScheduleTask {
 
     /**
-     * User token repository.
+     * Token clean up service.
      */
-    private final UserTokenRepository userTokenRepository;
+    private final TokenCleanUpService service;
 
-    public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
+    public TokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
         super();
 
-        userTokenRepository = Objects.requireNonNull(respository);
+        service = Objects.requireNonNull(tokenCleanUpService);
     }
 
-    @Override
-    public final void cleanUpTokens() {
-        final Collection<PersistentUserToken> tokens;
-
-        // Expiration date before now
-        // Revoked
-        // Consumed
-        tokens = userTokenRepository.findAllFinished();
-
-        log.info("Removing {} finished tokens", tokens.size());
-
-        userTokenRepository.deleteAll(tokens);
+    @Async
+    @Scheduled(cron = "0 0 0 1 1/1 *")
+    public void cleanUpTokens() {
+        log.info("Starting token cleanup task");
+        service.cleanUpTokens();
+        log.info("Finished token cleanup task");
     }
 
 }

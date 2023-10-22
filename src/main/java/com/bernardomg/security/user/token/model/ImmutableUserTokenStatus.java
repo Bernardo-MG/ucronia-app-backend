@@ -22,18 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.model;
+package com.bernardomg.security.user.token.model;
 
-/**
- * User token status.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface UserTokenStatus {
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
 
-    public String getUsername();
+@Value
+@Builder
+public final class ImmutableUserTokenStatus implements UserTokenStatus {
 
-    public boolean isValid();
+    @NonNull
+    private final String  username;
+
+    private final boolean valid;
 
 }

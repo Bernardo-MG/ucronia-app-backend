@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.service;
+package com.bernardomg.security.user.token.service;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -30,9 +30,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.security.user.token.api.model.ImmutableUserToken;
-import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.model.UserTokenPartial;
+import com.bernardomg.security.user.token.model.ImmutableUserToken;
+import com.bernardomg.security.user.token.model.UserToken;
+import com.bernardomg.security.user.token.model.UserTokenPartial;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserDataToken;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;

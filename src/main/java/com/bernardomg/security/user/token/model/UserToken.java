@@ -22,50 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.service;
+package com.bernardomg.security.user.token.model;
 
-import java.util.Optional;
-
-import org.springframework.data.domain.Pageable;
-
-import com.bernardomg.security.user.token.api.model.UserToken;
-import com.bernardomg.security.user.token.api.model.UserTokenPartial;
+import java.time.LocalDateTime;
 
 /**
- * User token service.
+ * User token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserTokenService {
+public interface UserToken {
 
-    /**
-     * Returns all the user tokens, paged.
-     *
-     * @param pagination
-     *            pagination to apply
-     * @return all the user tokens paged
-     */
-    public Iterable<UserToken> getAll(final Pageable pagination);
+    public LocalDateTime getCreationDate();
 
-    /**
-     * Returns the user token for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
-     *
-     * @param id
-     *            id of the role to acquire
-     * @return an {@code Optional} with the user token, if it exists, or an empty {@code Optional} otherwise
-     */
-    public Optional<UserToken> getOne(final long id);
+    public LocalDateTime getExpirationDate();
 
-    /**
-     * Applies a partial change to a user token.
-     *
-     * @param id
-     *            id for the user token to read
-     * @param partial
-     *            partial change to apply
-     * @return the updated user token
-     */
-    public UserToken patch(final long id, final UserTokenPartial partial);
+    public Long getId();
+
+    public String getName();
+
+    public String getScope();
+
+    public String getToken();
+
+    public String getUsername();
+
+    public boolean isConsumed();
+
+    public boolean isRevoked();
 
 }

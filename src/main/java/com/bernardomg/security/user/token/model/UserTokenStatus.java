@@ -22,19 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.cleanup.service;
+package com.bernardomg.security.user.token.model;
 
 /**
- * Service for removing old tokens which can no longer be used.
+ * User token status.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenCleanUpService {
+public interface UserTokenStatus {
 
-    /**
-     * Removes all unusable tokens.
-     */
-    public void cleanUpTokens();
+    public String getUsername();
+
+    public boolean isValid();
 
 }

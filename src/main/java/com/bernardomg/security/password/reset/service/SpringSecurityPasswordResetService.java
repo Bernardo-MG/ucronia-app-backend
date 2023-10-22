@@ -38,9 +38,9 @@ import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.token.api.model.ImmutableUserTokenStatus;
-import com.bernardomg.security.user.token.api.model.UserTokenStatus;
 import com.bernardomg.security.user.token.exception.InvalidTokenException;
+import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 
 import lombok.NonNull;

@@ -21,7 +21,7 @@ import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.token.api.model.UserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

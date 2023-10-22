@@ -22,34 +22,56 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.api.model;
+package com.bernardomg.security.user.token.service;
 
-import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Objects;
+
+import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * User token.
+ * Cleans up tokens through {@link PersistentUserToken}.
+ * <p>
+ * Removes tokens which match any of these cases:
+ * <p>
+ * <ul>
+ * <li>Consumed</li>
+ * <li>Revoked</li>
+ * <li>Expired</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserToken {
+@Slf4j
+public final class PersistentUserTokenCleanUpService implements TokenCleanUpService {
 
-    public LocalDateTime getCreationDate();
+    /**
+     * User token repository.
+     */
+    private final UserTokenRepository userTokenRepository;
 
-    public LocalDateTime getExpirationDate();
+    public PersistentUserTokenCleanUpService(final UserTokenRepository respository) {
+        super();
 
-    public Long getId();
+        userTokenRepository = Objects.requireNonNull(respository);
+    }
 
-    public String getName();
+    @Override
+    public final void cleanUpTokens() {
+        final Collection<PersistentUserToken> tokens;
 
-    public String getScope();
+        // Expiration date before now
+        // Revoked
+        // Consumed
+        tokens = userTokenRepository.findAllFinished();
 
-    public String getToken();
+        log.info("Removing {} finished tokens", tokens.size());
 
-    public String getUsername();
-
-    public boolean isConsumed();
-
-    public boolean isRevoked();
+        userTokenRepository.deleteAll(tokens);
+    }
 
 }
