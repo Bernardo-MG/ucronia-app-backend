@@ -45,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  * Spring-based implementation of the user token service.
  * <h2>Unusable tokens</h2>
  * <p>
- * Cleaning up removes all of these tokens:
+ * Cleaning up tokens removes all of these:
  * <p>
  * <ul>
  * <li>Consumed tokens</li>
