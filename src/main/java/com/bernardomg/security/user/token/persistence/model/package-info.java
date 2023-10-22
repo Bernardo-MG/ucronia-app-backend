@@ -23,7 +23,7 @@
  */
 
 /**
- * Token stores.
+ * Persistence entities.
  */
 
-package com.bernardomg.security.user.token.store;
+package com.bernardomg.security.user.token.persistence.model;

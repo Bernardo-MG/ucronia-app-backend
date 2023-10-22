@@ -23,7 +23,7 @@
  */
 
 /**
- * Token stores.
+ * Token controllers.
  */
 
-package com.bernardomg.security.user.token.store;
+package com.bernardomg.security.user.token.controller;

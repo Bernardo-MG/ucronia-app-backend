@@ -23,7 +23,7 @@
  */
 
 /**
- * Token stores.
+ * Token model.
  */
 
-package com.bernardomg.security.user.token.store;
+package com.bernardomg.security.user.token.model;

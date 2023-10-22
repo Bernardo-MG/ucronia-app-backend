@@ -23,7 +23,7 @@
  */
 
 /**
- * Token stores.
+ * Repositories.
  */
 
-package com.bernardomg.security.user.token.store;
+package com.bernardomg.security.user.token.persistence.repository;

@@ -23,7 +23,7 @@
  */
 
 /**
- * Token stores.
+ * Scheduling components.
  */
 
-package com.bernardomg.security.user.token.store;
+package com.bernardomg.security.user.token.schedule;
