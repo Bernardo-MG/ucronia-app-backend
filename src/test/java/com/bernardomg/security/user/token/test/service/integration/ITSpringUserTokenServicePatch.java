@@ -33,73 +33,6 @@ class ITSpringUserTokenServicePatch {
     private UserTokenRepository    userTokenRepository;
 
     @Test
-    @DisplayName("Patching the revoked flag persists an updated token")
-    @OnlyUser
-    @ValidToken
-    void testPatch_Revoked_Persisted() {
-        final PersistentUserToken token;
-        final UserTokenPartial    request;
-
-        request = UserTokenPatchRequest.builder()
-            .revoked(true)
-            .build();
-
-        service.patch(1L, request);
-
-        token = userTokenRepository.findById(1l)
-            .get();
-
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(TokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(TokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isTrue();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
-    }
-
-    @Test
-    @DisplayName("Patching the revoked flag returns an updated token")
-    @OnlyUser
-    @ValidToken
-    void testPatch_Revoked_Returned() {
-        final UserToken        token;
-        final UserTokenPartial request;
-
-        request = UserTokenPatchRequest.builder()
-            .revoked(true)
-            .build();
-
-        token = service.patch(1L, request);
-
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getUsername())
-            .isEqualTo("admin");
-        Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(TokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(TokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isTrue();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
-    }
-
-    @Test
     @DisplayName("Patching with no data changes nothing")
     @OnlyUser
     @ValidToken
@@ -199,6 +132,73 @@ class ITSpringUserTokenServicePatch {
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(InvalidIdException.class);
+    }
+
+    @Test
+    @DisplayName("Patching the revoked flag persists an updated token")
+    @OnlyUser
+    @ValidToken
+    void testPatch_Revoked_Persisted() {
+        final PersistentUserToken token;
+        final UserTokenPartial    request;
+
+        request = UserTokenPatchRequest.builder()
+            .revoked(true)
+            .build();
+
+        service.patch(1L, request);
+
+        token = userTokenRepository.findById(1l)
+            .get();
+
+        Assertions.assertThat(token.getId())
+            .isEqualTo(1);
+        Assertions.assertThat(token.getScope())
+            .isEqualTo(TokenConstants.SCOPE);
+        Assertions.assertThat(token.getToken())
+            .isEqualTo(TokenConstants.TOKEN);
+        Assertions.assertThat(token.isConsumed())
+            .isFalse();
+        Assertions.assertThat(token.isRevoked())
+            .isTrue();
+        Assertions.assertThat(token.getCreationDate())
+            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+        Assertions.assertThat(token.getExpirationDate())
+            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+    }
+
+    @Test
+    @DisplayName("Patching the revoked flag returns an updated token")
+    @OnlyUser
+    @ValidToken
+    void testPatch_Revoked_Returned() {
+        final UserToken        token;
+        final UserTokenPartial request;
+
+        request = UserTokenPatchRequest.builder()
+            .revoked(true)
+            .build();
+
+        token = service.patch(1L, request);
+
+        Assertions.assertThat(token.getId())
+            .isEqualTo(1);
+        Assertions.assertThat(token.getUsername())
+            .isEqualTo("admin");
+        Assertions.assertThat(token.getName())
+            .isEqualTo("Admin");
+        Assertions.assertThat(token.getScope())
+            .isEqualTo(TokenConstants.SCOPE);
+        Assertions.assertThat(token.getToken())
+            .isEqualTo(TokenConstants.TOKEN);
+        Assertions.assertThat(token.isConsumed())
+            .isFalse();
+        Assertions.assertThat(token.isRevoked())
+            .isTrue();
+        Assertions.assertThat(token.getCreationDate())
+            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+        Assertions.assertThat(token.getExpirationDate())
+            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
     }
 
 }
