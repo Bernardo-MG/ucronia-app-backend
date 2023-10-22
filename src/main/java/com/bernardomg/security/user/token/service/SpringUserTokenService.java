@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.token.service;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -41,13 +42,22 @@ import com.bernardomg.security.user.token.persistence.repository.UserTokenReposi
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implementation of the user token service.
+ * Spring-based implementation of the user token service.
+ * <h2>Unusable tokens</h2>
+ * <p>
+ * Cleaning up removes all of these tokens:
+ * <p>
+ * <ul>
+ * <li>Consumed tokens</li>
+ * <li>Revoked tokens</li>
+ * <li>Expired tokens</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class DefaultUserTokenService implements UserTokenService {
+public final class SpringUserTokenService implements UserTokenService {
 
     /**
      * User data token repository. This queries a view joining user tokens with their users.
@@ -59,12 +69,26 @@ public final class DefaultUserTokenService implements UserTokenService {
      */
     private final UserTokenRepository     userTokenRepository;
 
-    public DefaultUserTokenService(final UserTokenRepository userTokenRepo,
+    public SpringUserTokenService(final UserTokenRepository userTokenRepo,
             final UserDataTokenRepository userDataTokenRepo) {
         super();
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
         userDataTokenRepository = Objects.requireNonNull(userDataTokenRepo);
+    }
+
+    @Override
+    public final void cleanUpTokens() {
+        final Collection<PersistentUserToken> tokens;
+
+        // Expiration date before now
+        // Revoked
+        // Consumed
+        tokens = userTokenRepository.findAllFinished();
+
+        log.info("Removing {} finished tokens", tokens.size());
+
+        userTokenRepository.deleteAll(tokens);
     }
 
     @Override

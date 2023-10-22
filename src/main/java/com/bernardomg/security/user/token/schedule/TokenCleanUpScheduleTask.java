@@ -29,12 +29,12 @@ import java.util.Objects;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.bernardomg.security.user.token.service.TokenCleanUpService;
+import com.bernardomg.security.user.token.service.UserTokenService;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Token clean up scheduled task. It delegates the actual clean up to {@link TokenCleanUpService}.
+ * Token clean up scheduled task. It delegates the actual clean up to {@link UserTokenCleanUpService}.
  * <p>
  * This clean up is executed monthly.
  *
@@ -47,9 +47,9 @@ public class TokenCleanUpScheduleTask {
     /**
      * Token clean up service.
      */
-    private final TokenCleanUpService service;
+    private final UserTokenService service;
 
-    public TokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+    public TokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
         super();
 
         service = Objects.requireNonNull(tokenCleanUpService);

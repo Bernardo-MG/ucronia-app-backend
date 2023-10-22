@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.service.PersistentUserTokenCleanUpService;
+import com.bernardomg.security.user.token.service.SpringUserTokenService;
 import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
 import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
 import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
@@ -16,14 +16,14 @@ import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentUserTokenCleanUpService")
-public class ITPersistentUserTokenCleanUpService {
+@DisplayName("SpringUserTokenService - clean up")
+public class ITSpringUserTokenServiceCleanUp {
 
     @Autowired
-    private PersistentUserTokenCleanUpService service;
+    private SpringUserTokenService service;
 
     @Autowired
-    private UserTokenRepository               userTokenRepository;
+    private UserTokenRepository    userTokenRepository;
 
     @Test
     @DisplayName("Removes consumed tokens")

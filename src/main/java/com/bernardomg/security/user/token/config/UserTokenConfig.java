@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.persistence.repository.UserDataTokenRepository;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.service.DefaultUserTokenService;
+import com.bernardomg.security.user.token.service.SpringUserTokenService;
 import com.bernardomg.security.user.token.service.UserTokenService;
 
 /**
@@ -51,7 +51,7 @@ public class UserTokenConfig {
     @Bean("userTokenService")
     public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
             final UserDataTokenRepository userDataTokenRepo) {
-        return new DefaultUserTokenService(userTokenRepo, userDataTokenRepo);
+        return new SpringUserTokenService(userTokenRepo, userDataTokenRepo);
     }
 
 }

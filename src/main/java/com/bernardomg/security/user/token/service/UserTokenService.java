@@ -40,6 +40,11 @@ import com.bernardomg.security.user.token.model.UserTokenPartial;
 public interface UserTokenService {
 
     /**
+     * Removes all unusable tokens.
+     */
+    public void cleanUpTokens();
+
+    /**
      * Returns all the user tokens, paged.
      *
      * @param pagination

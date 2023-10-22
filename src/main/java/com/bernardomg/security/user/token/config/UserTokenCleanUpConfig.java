@@ -27,10 +27,8 @@ package com.bernardomg.security.user.token.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.user.token.service.PersistentUserTokenCleanUpService;
-import com.bernardomg.security.user.token.service.TokenCleanUpService;
+import com.bernardomg.security.user.token.service.UserTokenService;
 
 /**
  * Security configuration.
@@ -46,13 +44,8 @@ public class UserTokenCleanUpConfig {
     }
 
     @Bean("tokenCleanUpScheduleTask")
-    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final TokenCleanUpService tokenCleanUpService) {
+    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
         return new TokenCleanUpScheduleTask(tokenCleanUpService);
-    }
-
-    @Bean("tokenCleanUpService")
-    public TokenCleanUpService getTokenCleanUpService(final UserTokenRepository userTokenRepository) {
-        return new PersistentUserTokenCleanUpService(userTokenRepository);
     }
 
 }

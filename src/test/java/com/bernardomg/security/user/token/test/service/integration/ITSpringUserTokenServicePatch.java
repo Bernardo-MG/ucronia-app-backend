@@ -17,20 +17,20 @@ import com.bernardomg.security.user.token.model.UserTokenPartial;
 import com.bernardomg.security.user.token.model.UserTokenPatchRequest;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.service.DefaultUserTokenService;
+import com.bernardomg.security.user.token.service.SpringUserTokenService;
 import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
 import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("DefaultUserTokenService - get one")
-class ITDefaultUserTokenServicePatch {
+@DisplayName("SpringUserTokenService - get one")
+class ITSpringUserTokenServicePatch {
 
     @Autowired
-    private DefaultUserTokenService service;
+    private SpringUserTokenService service;
 
     @Autowired
-    private UserTokenRepository     userTokenRepository;
+    private UserTokenRepository    userTokenRepository;
 
     @Test
     @DisplayName("Patching the consumed flag creates no new token")
