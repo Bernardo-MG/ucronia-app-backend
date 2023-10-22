@@ -34,7 +34,7 @@ import com.bernardomg.security.user.token.service.UserTokenService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Token clean up scheduled task. It delegates the actual clean up to {@link UserTokenCleanUpService}.
+ * Token clean up scheduled task. It delegates the actual clean up to {@link UserTokenService}.
  * <p>
  * This clean up is executed monthly.
  *
