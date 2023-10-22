@@ -33,15 +33,15 @@ class ITSpringUserTokenServicePatch {
     private UserTokenRepository    userTokenRepository;
 
     @Test
-    @DisplayName("Patching the consumed flag persists an updated token")
+    @DisplayName("Patching the revoked flag persists an updated token")
     @OnlyUser
     @ValidToken
-    void testPatch_Consumed_Persisted() {
+    void testPatch_Revoked_Persisted() {
         final PersistentUserToken token;
         final UserTokenPartial    request;
 
         request = UserTokenPatchRequest.builder()
-            .consumed(true)
+            .revoked(true)
             .build();
 
         service.patch(1L, request);
@@ -56,9 +56,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getToken())
             .isEqualTo(TokenConstants.TOKEN);
         Assertions.assertThat(token.isConsumed())
-            .isTrue();
-        Assertions.assertThat(token.isRevoked())
             .isFalse();
+        Assertions.assertThat(token.isRevoked())
+            .isTrue();
         Assertions.assertThat(token.getCreationDate())
             .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
         Assertions.assertThat(token.getExpirationDate())
@@ -66,15 +66,15 @@ class ITSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("Patching the consumed flag returns an updated token")
+    @DisplayName("Patching the revoked flag returns an updated token")
     @OnlyUser
     @ValidToken
-    void testPatch_Consumed_Returned() {
+    void testPatch_Revoked_Returned() {
         final UserToken        token;
         final UserTokenPartial request;
 
         request = UserTokenPatchRequest.builder()
-            .consumed(true)
+            .revoked(true)
             .build();
 
         token = service.patch(1L, request);
@@ -90,9 +90,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getToken())
             .isEqualTo(TokenConstants.TOKEN);
         Assertions.assertThat(token.isConsumed())
-            .isTrue();
-        Assertions.assertThat(token.isRevoked())
             .isFalse();
+        Assertions.assertThat(token.isRevoked())
+            .isTrue();
         Assertions.assertThat(token.getCreationDate())
             .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
         Assertions.assertThat(token.getExpirationDate())
@@ -165,14 +165,14 @@ class ITSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("Patching the consumed flag creates no new token")
+    @DisplayName("Patching the revoked flag creates no new token")
     @OnlyUser
     @ValidToken
     void testPatch_NotCreated() {
         final UserTokenPartial request;
 
         request = UserTokenPatchRequest.builder()
-            .consumed(true)
+            .revoked(true)
             .build();
 
         service.patch(1L, request);
@@ -192,7 +192,7 @@ class ITSpringUserTokenServicePatch {
         final ThrowingCallable execution;
 
         request = UserTokenPatchRequest.builder()
-            .consumed(true)
+            .revoked(true)
             .build();
 
         execution = () -> service.patch(1L, request);

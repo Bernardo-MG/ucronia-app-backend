@@ -36,17 +36,17 @@ import java.time.LocalDateTime;
 public interface UserTokenPartial {
 
     /**
-     * Indicates if the token is consumed
-     *
-     * @return {@code true} if the token is consumed, {@code false} otherwise
-     */
-    public Boolean getConsumed();
-
-    /**
      * Returns the date at which the token will expire.
      *
      * @return the date at which the token will expire
      */
     public LocalDateTime getExpirationDate();
+
+    /**
+     * Indicates if the token is revoked
+     *
+     * @return {@code true} if the token is revoked, {@code false} otherwise
+     */
+    public Boolean getRevoked();
 
 }

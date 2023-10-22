@@ -45,8 +45,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class UserTokenPatchRequest implements UserTokenPartial {
 
-    private Boolean       consumed;
-
     private LocalDateTime expirationDate;
 
     private Boolean       revoked;

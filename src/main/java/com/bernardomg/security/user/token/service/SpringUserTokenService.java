@@ -114,26 +114,29 @@ public final class SpringUserTokenService implements UserTokenService {
     @Override
     public final UserToken patch(final long id, final UserTokenPartial partial) {
         final Optional<PersistentUserDataToken> read;
-        final PersistentUserDataToken           patched;
+        final PersistentUserDataToken           toPatch;
         final PersistentUserToken               toSave;
         final PersistentUserToken               saved;
 
         log.debug("Patching role with id {}", id);
+
+        // TODO: Expiration date can't be before creation date
+        // TODO: Can only revoke tokens, not cancel the revoke status
 
         read = userDataTokenRepository.findById(id);
         if (!read.isPresent()) {
             throw new InvalidIdException("userToken", id);
         }
 
-        patched = read.get();
+        toPatch = read.get();
 
-        toSave = toEntity(patched);
+        toSave = toEntity(toPatch);
 
         if (partial.getExpirationDate() != null) {
             toSave.setExpirationDate(partial.getExpirationDate());
         }
-        if (partial.getConsumed() != null) {
-            toSave.setConsumed(partial.getConsumed());
+        if (partial.getRevoked() != null) {
+            toSave.setRevoked(partial.getRevoked());
         }
 
         saved = userTokenRepository.save(toSave);

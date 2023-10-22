@@ -50,7 +50,7 @@ class ITFeeServiceUpdateValidation {
     }
 
     @Test
-    @DisplayName("With an invalid id, an exception is thrown")
+    @DisplayName("With an invalid member id, an exception is thrown")
     @Sql({ "/db/queries/fee/single.sql" })
     @Disabled("This can't happen, it requires an inconsistent DB")
     void testUpdate_InvalidMember() {
