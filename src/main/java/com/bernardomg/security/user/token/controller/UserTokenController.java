@@ -69,7 +69,7 @@ public class UserTokenController {
      * @return the updated user token
      */
     @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.UPDATE)
+    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
     public UserToken patch(@PathVariable("id") final long id, @RequestBody final UserTokenPatchRequest request) {
         return service.patch(id, request);
     }
@@ -82,7 +82,7 @@ public class UserTokenController {
      * @return all the user tokens paged
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
     public Iterable<UserToken> readAll(final Pageable pagination) {
         // TODO: Apply cache
         return service.getAll(pagination);
@@ -96,7 +96,7 @@ public class UserTokenController {
      * @return the user token for the id, if it exists, or {@code null} otherwise
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER-TOKEN", action = Actions.READ)
+    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
     public UserToken readOne(@PathVariable("id") final long id) {
         // TODO: Apply cache
         return service.getOne(id)
