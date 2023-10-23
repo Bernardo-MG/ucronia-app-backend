@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/token/expired.sql" })
+@Sql({ "/db/queries/security/token/user_registered_consumed.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ExpiredToken {
+public @interface UserRegisteredConsumedUserToken {
 
 }

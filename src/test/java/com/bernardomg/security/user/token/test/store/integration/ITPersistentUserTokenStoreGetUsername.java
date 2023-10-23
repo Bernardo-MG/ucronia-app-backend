@@ -14,8 +14,8 @@ import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -43,7 +43,7 @@ class ITPersistentUserTokenStoreGetUsername {
     @Test
     @DisplayName("Extracts the username from a token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testGetUsername() {
         final String subject;
 
@@ -71,7 +71,7 @@ class ITPersistentUserTokenStoreGetUsername {
     @Test
     @DisplayName("Extracts no username from an out of scope token")
     @OnlyUser
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testGetUsername_outOfScope() {
         final ThrowingCallable executable;
         final Exception        exception;

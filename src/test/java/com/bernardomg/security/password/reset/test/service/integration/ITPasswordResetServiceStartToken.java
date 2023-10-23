@@ -13,7 +13,7 @@ import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -72,7 +72,7 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery with an existing token for the user generates a new token")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testStartPasswordReset_TokenExists_CreatedToken() {
         final long count;
 
@@ -87,7 +87,7 @@ class ITPasswordResetServiceStartToken {
     @Test
     @DisplayName("Starting password recovery with an existing token for the user revokes the older one")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testStartPasswordReset_TokenExists_ExpiresToken() {
         final PersistentUserToken token;
 

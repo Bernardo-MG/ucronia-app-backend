@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/token/user_registered.sql" })
+@Sql({ "/db/queries/security/token/password_reset_expired.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface UserRegisteredToken {
+public @interface PasswordResetExpiredUserToken {
 
 }

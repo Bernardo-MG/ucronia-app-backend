@@ -12,8 +12,8 @@ import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -31,7 +31,7 @@ class ITPasswordResetServiceChangeTokenStatus {
     @Test
     @DisplayName("Changing password with a consumed token gives a failure")
     @ValidUser
-    @PasswordResetConsumedToken
+    @PasswordResetConsumedUserToken
     void testChangePassword_ConsumedToken() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -47,7 +47,7 @@ class ITPasswordResetServiceChangeTokenStatus {
     @Test
     @DisplayName("Changing password with an expired token gives a failure")
     @ValidUser
-    @PasswordResetExpiredToken
+    @PasswordResetExpiredUserToken
     void testChangePassword_ExpiredToken() {
         final ThrowingCallable executable;
         final Exception        exception;

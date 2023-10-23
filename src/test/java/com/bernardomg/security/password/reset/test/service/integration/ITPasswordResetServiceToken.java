@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredToken;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -29,7 +29,7 @@ class ITPasswordResetServiceToken {
     @Test
     @DisplayName("A consumed token is not valid")
     @ValidUser
-    @PasswordResetConsumedToken
+    @PasswordResetConsumedUserToken
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
@@ -44,7 +44,7 @@ class ITPasswordResetServiceToken {
     @Test
     @DisplayName("An expired token is not valid")
     @ValidUser
-    @PasswordResetExpiredToken
+    @PasswordResetExpiredUserToken
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
@@ -59,7 +59,7 @@ class ITPasswordResetServiceToken {
     @Test
     @DisplayName("A valid token is valid")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 

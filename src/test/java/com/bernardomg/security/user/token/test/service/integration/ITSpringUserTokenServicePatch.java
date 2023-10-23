@@ -18,7 +18,7 @@ import com.bernardomg.security.user.token.model.UserTokenPartial;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -35,7 +35,7 @@ class ITSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching with no data changes nothing")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testPatch_Empty_Persisted() {
         final PersistentUserToken token;
         final UserTokenPartial    request;
@@ -67,7 +67,7 @@ class ITSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching the expiration date persists an updated token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testPatch_ExpirationDate_Persisted() {
         final PersistentUserToken token;
         final UserTokenPartial    request;
@@ -100,7 +100,7 @@ class ITSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching the revoked flag creates no new token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testPatch_NotCreated() {
         final UserTokenPartial request;
 
@@ -137,7 +137,7 @@ class ITSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching the revoked flag persists an updated token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testPatch_Revoked_Persisted() {
         final PersistentUserToken token;
         final UserTokenPartial    request;
@@ -170,7 +170,7 @@ class ITSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching the revoked flag returns an updated token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testPatch_Revoked_Returned() {
         final UserToken        token;
         final UserTokenPartial request;

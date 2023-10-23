@@ -13,10 +13,10 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
-import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
-import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -30,7 +30,7 @@ class ITSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
-    @ConsumedToken
+    @ConsumedUserToken
     void testGetAll_Consumed() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
@@ -46,7 +46,7 @@ class ITSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
-    @ExpiredToken
+    @ExpiredUserToken
     void testGetAll_Expired() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
@@ -77,7 +77,7 @@ class ITSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("Returns a token when the token is revoked")
     @OnlyUser
-    @RevokedToken
+    @RevokedUserToken
     void testGetAll_Revoked() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
@@ -93,7 +93,7 @@ class ITSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testGetAll_Valid() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
@@ -109,7 +109,7 @@ class ITSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("Returns all the token data when the token is valid")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testGetAll_Valid_data() {
         final Pageable  pageable;
         final UserToken token;

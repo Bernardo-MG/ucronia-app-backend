@@ -12,7 +12,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -36,7 +36,7 @@ class ITPasswordResetServiceChange {
     @Test
     @DisplayName("Changing password with a valid user changes the password")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testChangePassword_Changed() {
         final PersistentUser user;
 
@@ -54,7 +54,7 @@ class ITPasswordResetServiceChange {
     @Test
     @DisplayName("Changing password with an existing user marks the token as consumed")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testChangePassword_ConsumesToken() {
         final Boolean consumed;
 
@@ -71,7 +71,7 @@ class ITPasswordResetServiceChange {
     @Test
     @DisplayName("Changing password with expired password resets the flag")
     @ExpiredPasswordUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testChangePassword_ExpiredPassword() {
         final PersistentUser user;
 

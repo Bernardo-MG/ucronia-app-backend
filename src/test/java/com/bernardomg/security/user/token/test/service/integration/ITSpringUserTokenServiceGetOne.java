@@ -15,10 +15,10 @@ import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
-import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
-import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -32,7 +32,7 @@ class ITSpringUserTokenServiceGetOne {
     @Test
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
-    @ConsumedToken
+    @ConsumedUserToken
     void testGetOne_Consumed() {
         final Optional<UserToken> token;
 
@@ -45,7 +45,7 @@ class ITSpringUserTokenServiceGetOne {
     @Test
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
-    @ExpiredToken
+    @ExpiredUserToken
     void testGetOne_Expired() {
         final Optional<UserToken> token;
 
@@ -69,7 +69,7 @@ class ITSpringUserTokenServiceGetOne {
     @Test
     @DisplayName("Returns a token when the token is revoked")
     @OnlyUser
-    @RevokedToken
+    @RevokedUserToken
     void testGetOne_Revoked() {
         final Optional<UserToken> token;
 
@@ -82,7 +82,7 @@ class ITSpringUserTokenServiceGetOne {
     @Test
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testGetOne_Valid() {
         final Optional<UserToken> token;
 
@@ -95,7 +95,7 @@ class ITSpringUserTokenServiceGetOne {
     @Test
     @DisplayName("Returns all the token data when the token is valid")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testGetOne_Valid_data() {
         final Optional<UserToken> read;
         final UserToken           token;

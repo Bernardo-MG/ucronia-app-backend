@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/token/valid.sql" })
+@Sql({ "/db/queries/security/token/revoked.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ValidToken {
+public @interface RevokedUserToken {
 
 }

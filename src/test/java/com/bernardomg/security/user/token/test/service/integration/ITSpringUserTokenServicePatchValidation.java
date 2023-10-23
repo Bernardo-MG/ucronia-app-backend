@@ -12,8 +12,8 @@ import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.model.DefaultUserTokenPartial;
 import com.bernardomg.security.user.token.model.UserTokenPartial;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
-import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -28,7 +28,7 @@ class ITSpringUserTokenServicePatchValidation {
     @Test
     @DisplayName("When trying to set the expiration date before the current date an exception is thrown")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testUpdate_ExpireBeforeNow() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -51,7 +51,7 @@ class ITSpringUserTokenServicePatchValidation {
     @Test
     @DisplayName("When trying to enable a revoked token an exception is thrown")
     @OnlyUser
-    @RevokedToken
+    @RevokedUserToken
     void testUpdate_RemoveRevoked() {
         final ThrowingCallable execution;
         final FieldFailure     failure;

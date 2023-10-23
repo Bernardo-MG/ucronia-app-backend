@@ -18,11 +18,11 @@ import com.bernardomg.security.user.token.exception.OutOfScopeTokenException;
 import com.bernardomg.security.user.token.exception.RevokedTokenException;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
-import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -50,7 +50,7 @@ class ITPersistentUserTokenStoreValidate {
     @Test
     @DisplayName("A consumed token throws an exception")
     @OnlyUser
-    @ConsumedToken
+    @ConsumedUserToken
     void testIsValid_Consumed() {
         final ThrowingCallable executable;
 
@@ -63,7 +63,7 @@ class ITPersistentUserTokenStoreValidate {
     @Test
     @DisplayName("An expired token throws an exception")
     @OnlyUser
-    @ExpiredToken
+    @ExpiredUserToken
     void testIsValid_Expired() {
         final ThrowingCallable executable;
 
@@ -88,7 +88,7 @@ class ITPersistentUserTokenStoreValidate {
     @Test
     @DisplayName("An out of scope token throws an exception")
     @OnlyUser
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testIsValid_outOfScope() {
         final ThrowingCallable executable;
 
@@ -101,7 +101,7 @@ class ITPersistentUserTokenStoreValidate {
     @Test
     @DisplayName("A revoked token throws an exception")
     @OnlyUser
-    @RevokedToken
+    @RevokedUserToken
     void testIsValid_Revoked() {
         final ThrowingCallable executable;
 
@@ -114,7 +114,7 @@ class ITPersistentUserTokenStoreValidate {
     @Test
     @DisplayName("A valid token throws no exception")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testIsValid_Valid() {
         final ThrowingCallable executable;
 

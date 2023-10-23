@@ -16,9 +16,9 @@ import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -46,7 +46,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token which is already consumed throws an exception")
     @OnlyUser
-    @ConsumedToken
+    @ConsumedUserToken
     void testConsume_AlreadyConsumed_Exception() {
         final ThrowingCallable executable;
 
@@ -59,7 +59,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token changes the status to consumed")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testConsume_Consumes() {
         final PersistentUserToken persistedToken;
 
@@ -76,7 +76,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming a token doesn't create any new token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testConsume_NotCreate() {
         final long count;
 
@@ -102,7 +102,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     @Test
     @DisplayName("Consuming an out of scope token throws an exception")
     @OnlyUser
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testConsume_OutOfScope() {
         final ThrowingCallable executable;
 

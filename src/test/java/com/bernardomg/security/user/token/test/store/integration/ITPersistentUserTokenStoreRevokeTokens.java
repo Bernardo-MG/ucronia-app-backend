@@ -15,8 +15,8 @@ import com.bernardomg.security.user.token.config.property.UserTokenProperties;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -44,7 +44,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     @Test
     @DisplayName("Revokes an already revoked token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testRevokeExistingTokens_AlreadyRevoked() {
         final PersistentUserToken token;
 
@@ -71,7 +71,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     @Test
     @DisplayName("Does not revoke an out of scope token")
     @OnlyUser
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testRevokeExistingTokens_OutOfScope_NotRevoked() {
         final PersistentUserToken token;
 
@@ -87,7 +87,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     @Test
     @DisplayName("Revokes an existing token")
     @OnlyUser
-    @ValidToken
+    @ValidUserToken
     void testRevokeExistingTokens_Valid() {
         final PersistentUserToken token;
 

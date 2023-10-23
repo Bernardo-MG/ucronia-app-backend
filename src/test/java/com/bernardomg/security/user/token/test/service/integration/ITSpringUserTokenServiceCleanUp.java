@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
-import com.bernardomg.security.user.token.test.config.annotation.ConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ExpiredToken;
-import com.bernardomg.security.user.token.test.config.annotation.RevokedToken;
-import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
+import com.bernardomg.security.user.token.test.config.annotation.ConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.RevokedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -28,7 +28,7 @@ public class ITSpringUserTokenServiceCleanUp {
     @Test
     @DisplayName("Removes consumed tokens")
     @ValidUser
-    @ConsumedToken
+    @ConsumedUserToken
     void testCleanUpTokens_Consumed() {
         final long count;
 
@@ -54,7 +54,7 @@ public class ITSpringUserTokenServiceCleanUp {
     @Test
     @DisplayName("Removes expired tokens")
     @ValidUser
-    @ExpiredToken
+    @ExpiredUserToken
     void testCleanUpTokens_Expired() {
         final long count;
 
@@ -68,7 +68,7 @@ public class ITSpringUserTokenServiceCleanUp {
     @Test
     @DisplayName("Removes revoked tokens")
     @ValidUser
-    @RevokedToken
+    @RevokedUserToken
     void testCleanUpTokens_Revoked() {
         final long count;
 
@@ -82,7 +82,7 @@ public class ITSpringUserTokenServiceCleanUp {
     @Test
     @DisplayName("Does not remove valid tokens")
     @ValidUser
-    @ValidToken
+    @ValidUserToken
     void testCleanUpTokens_Valid() {
         final long count;
 

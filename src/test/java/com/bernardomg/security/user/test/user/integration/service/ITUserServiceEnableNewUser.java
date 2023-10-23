@@ -12,7 +12,7 @@ import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.config.NewlyCreated;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -41,7 +41,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user consumes the token")
     @NewlyCreated
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
 
@@ -58,7 +58,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user sets it as enabled")
     @NewlyCreated
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
 
@@ -74,7 +74,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user sets it's password")
     @NewlyCreated
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testEnableNewUser_Password() {
         final PersistentUser user;
 
@@ -90,7 +90,7 @@ class ITUserServiceEnableNewUser {
     @Test
     @DisplayName("Enabling a new user sets password expired flag ot false")
     @NewlyCreated
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testEnableNewUser_PasswordReset() {
         final PersistentUser user;
 

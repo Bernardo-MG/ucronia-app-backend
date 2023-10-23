@@ -13,9 +13,9 @@ import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedToken;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredToken;
-import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,7 +35,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     @Test
     @DisplayName("Enabling a new user with a user already enabled throws an exception")
     @OnlyUser
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testEnableNewUser_AlreadyEnabled() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -51,7 +51,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     @Test
     @DisplayName("Enabling a new user with a consumed token throws an exception")
     @OnlyUser
-    @UserRegisteredConsumedToken
+    @UserRegisteredConsumedUserToken
     void testEnableNewUser_Consumed() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -67,7 +67,7 @@ class ITUserServiceEnableNewUserTokenStatus {
     @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
     @OnlyUser
-    @UserRegisteredExpiredToken
+    @UserRegisteredExpiredUserToken
     void testEnableNewUser_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
