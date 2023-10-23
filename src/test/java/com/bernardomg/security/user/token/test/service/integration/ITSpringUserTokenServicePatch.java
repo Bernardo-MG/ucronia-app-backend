@@ -19,7 +19,7 @@ import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
 import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,9 +51,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getId())
             .isEqualTo(1);
         Assertions.assertThat(token.getScope())
-            .isEqualTo(TokenConstants.SCOPE);
+            .isEqualTo(UserTokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())
-            .isEqualTo(TokenConstants.TOKEN);
+            .isEqualTo(UserTokenConstants.TOKEN);
         Assertions.assertThat(token.isConsumed())
             .isFalse();
         Assertions.assertThat(token.isRevoked())
@@ -84,9 +84,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getId())
             .isEqualTo(1);
         Assertions.assertThat(token.getScope())
-            .isEqualTo(TokenConstants.SCOPE);
+            .isEqualTo(UserTokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())
-            .isEqualTo(TokenConstants.TOKEN);
+            .isEqualTo(UserTokenConstants.TOKEN);
         Assertions.assertThat(token.isConsumed())
             .isFalse();
         Assertions.assertThat(token.isRevoked())
@@ -154,9 +154,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getId())
             .isEqualTo(1);
         Assertions.assertThat(token.getScope())
-            .isEqualTo(TokenConstants.SCOPE);
+            .isEqualTo(UserTokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())
-            .isEqualTo(TokenConstants.TOKEN);
+            .isEqualTo(UserTokenConstants.TOKEN);
         Assertions.assertThat(token.isConsumed())
             .isFalse();
         Assertions.assertThat(token.isRevoked())
@@ -188,9 +188,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getName())
             .isEqualTo("Admin");
         Assertions.assertThat(token.getScope())
-            .isEqualTo(TokenConstants.SCOPE);
+            .isEqualTo(UserTokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())
-            .isEqualTo(TokenConstants.TOKEN);
+            .isEqualTo(UserTokenConstants.TOKEN);
         Assertions.assertThat(token.isConsumed())
             .isFalse();
         Assertions.assertThat(token.isRevoked())

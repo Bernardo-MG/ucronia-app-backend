@@ -13,7 +13,7 @@ import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.config.NewlyCreated;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -45,7 +45,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         consumed = userTokenRepository.findById(1L)
             .get()
@@ -62,7 +62,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -78,7 +78,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_Password() {
         final PersistentUser user;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -94,7 +94,7 @@ class ITUserServiceEnableNewUser {
     void testEnableNewUser_PasswordReset() {
         final PersistentUser user;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();

@@ -32,7 +32,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLoginService - token generation")
@@ -94,7 +94,7 @@ class TestDefaultLoginServiceToken {
 
         loadUser();
 
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(TokenConstants.TOKEN);
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
 
         login = new DtoLoginRequest();
         login.setUsername("email@somewhere.com");
@@ -107,7 +107,7 @@ class TestDefaultLoginServiceToken {
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
-            .isEqualTo(TokenConstants.TOKEN);
+            .isEqualTo(UserTokenConstants.TOKEN);
     }
 
     @Test

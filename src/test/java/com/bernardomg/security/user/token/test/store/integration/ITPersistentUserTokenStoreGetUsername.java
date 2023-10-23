@@ -16,7 +16,7 @@ import com.bernardomg.security.user.token.persistence.repository.UserTokenReposi
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
 import com.bernardomg.security.user.token.test.config.annotation.ValidToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -36,7 +36,7 @@ class ITPersistentUserTokenStoreGetUsername {
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, userRepository, TokenConstants.SCOPE,
+        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
             tokenProperties.getValidity());
     }
 
@@ -47,7 +47,7 @@ class ITPersistentUserTokenStoreGetUsername {
     void testGetUsername() {
         final String subject;
 
-        subject = store.getUsername(TokenConstants.TOKEN);
+        subject = store.getUsername(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(subject)
             .isEqualTo("admin");
@@ -60,12 +60,12 @@ class ITPersistentUserTokenStoreGetUsername {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> store.getUsername(TokenConstants.TOKEN);
+        executable = () -> store.getUsername(UserTokenConstants.TOKEN);
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + TokenConstants.TOKEN);
+            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 
     @Test
@@ -76,12 +76,12 @@ class ITPersistentUserTokenStoreGetUsername {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> store.getUsername(TokenConstants.TOKEN);
+        executable = () -> store.getUsername(UserTokenConstants.TOKEN);
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + TokenConstants.TOKEN);
+            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 
 }

@@ -14,7 +14,7 @@ import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -93,7 +93,7 @@ class ITPasswordResetServiceStartToken {
 
         service.startPasswordReset("email@somewhere.com");
 
-        token = userTokenRepository.findOneByTokenAndScope(TokenConstants.TOKEN, "password_reset")
+        token = userTokenRepository.findOneByTokenAndScope(UserTokenConstants.TOKEN, "password_reset")
             .get();
 
         Assertions.assertThat(token.isRevoked())

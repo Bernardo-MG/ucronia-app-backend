@@ -12,7 +12,7 @@ import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedToken;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredToken;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -33,7 +33,7 @@ class ITPasswordResetServiceToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(status.isValid())
             .isFalse();
@@ -48,7 +48,7 @@ class ITPasswordResetServiceToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(status.isValid())
             .isFalse();
@@ -63,7 +63,7 @@ class ITPasswordResetServiceToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(status.isValid())
             .isTrue();

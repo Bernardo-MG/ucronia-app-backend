@@ -13,7 +13,7 @@ import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -40,7 +40,7 @@ class ITPasswordResetServiceChange {
     void testChangePassword_Changed() {
         final PersistentUser user;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         user = userRepository.findAll()
             .stream()
@@ -58,7 +58,7 @@ class ITPasswordResetServiceChange {
     void testChangePassword_ConsumesToken() {
         final Boolean consumed;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         consumed = userTokenRepository.findById(1L)
             .get()
@@ -75,7 +75,7 @@ class ITPasswordResetServiceChange {
     void testChangePassword_ExpiredPassword() {
         final PersistentUser user;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         user = userRepository.findAll()
             .stream()

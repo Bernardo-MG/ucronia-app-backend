@@ -36,7 +36,7 @@ import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredToken;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -61,7 +61,7 @@ class ITUserServiceToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(status.isValid())
             .isFalse();
@@ -77,7 +77,7 @@ class ITUserServiceToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(status.isValid())
             .isFalse();
@@ -93,7 +93,7 @@ class ITUserServiceToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(status.isValid())
             .isTrue();

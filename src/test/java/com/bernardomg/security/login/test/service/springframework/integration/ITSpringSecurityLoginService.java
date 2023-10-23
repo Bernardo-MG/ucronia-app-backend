@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.auth.jwt.token.test.config.TokenConstants;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
@@ -17,7 +18,6 @@ import com.bernardomg.security.user.test.config.LockedUser;
 import com.bernardomg.security.user.test.config.UserWithNotGrantedPermissions;
 import com.bernardomg.security.user.test.config.UserWithoutPermissions;
 import com.bernardomg.security.user.test.config.ValidUser;
-import com.bernardomg.security.user.token.test.config.constant.TokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;
