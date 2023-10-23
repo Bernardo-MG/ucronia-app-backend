@@ -69,7 +69,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * Token decoder. Required to acquire the subject.
      */
-    private final TokenDecoder       tokenDataDecoder;
+    private final TokenDecoder       tokenDecoder;
 
     /**
      * Token validator. Expired tokens are rejected.
@@ -97,7 +97,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
 
         userDetailsService = Objects.requireNonNull(userDetService);
         tokenValidator = Objects.requireNonNull(validator);
-        tokenDataDecoder = Objects.requireNonNull(decoder);
+        tokenDecoder = Objects.requireNonNull(decoder);
     }
 
     /**
@@ -187,7 +187,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             // Will load a new authentication from the token
 
             // Takes subject from the token
-            subject = tokenDataDecoder.decode(token.get())
+            subject = tokenDecoder.decode(token.get())
                 .getSubject();
             userDetails = userDetailsService.loadUserByUsername(subject);
 

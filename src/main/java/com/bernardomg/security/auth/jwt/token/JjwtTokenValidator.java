@@ -43,7 +43,7 @@ public final class JjwtTokenValidator implements TokenValidator {
     /**
      * Token decoder. Without this the token claims can't be validated.
      */
-    private final TokenDecoder tokenDataDecoder;
+    private final TokenDecoder tokenDecoder;
 
     /**
      * Constructs a validator with the received arguments.
@@ -54,7 +54,7 @@ public final class JjwtTokenValidator implements TokenValidator {
     public JjwtTokenValidator(final SecretKey secretKey) {
         super();
 
-        tokenDataDecoder = new JjwtTokenDecoder(secretKey);
+        tokenDecoder = new JjwtTokenDecoder(secretKey);
     }
 
     @Override
@@ -65,7 +65,7 @@ public final class JjwtTokenValidator implements TokenValidator {
 
         try {
             // Acquire expiration date claim
-            expiration = tokenDataDecoder.decode(token)
+            expiration = tokenDecoder.decode(token)
                 .getExpiration();
 
             if (expiration != null) {
