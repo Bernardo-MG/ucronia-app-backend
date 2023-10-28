@@ -48,7 +48,7 @@ import com.bernardomg.association.membership.member.model.request.ValidatedMembe
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberQuery;
 import com.bernardomg.association.membership.member.model.request.ValidatedMemberUpdate;
 import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.security.authentication.access.RequireResourceAccess;
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;

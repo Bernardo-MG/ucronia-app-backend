@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.access;
+package com.bernardomg.security.authorization.access;
 
 import java.lang.reflect.Method;
 
@@ -32,31 +32,33 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.access.AccessDeniedException;
 
+import com.bernardomg.security.access.RequireResourceAccess;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Aspect which wraps the code marked by {@code AuthorizedResource} and applies resource-based authentication. The
- * validation is applied against the user in session.
+ * Intercepts calls to any method marked by {@code AuthorizedResource} and applies resource-based authentication. This
+ * is done with aspects.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Aspect
 @Slf4j
-public final class RequireResourceAccessAspect {
+public final class RequireResourceAccessInterceptor {
 
     /**
      * Authorization validator. Makes sure the user in session has the required authorities.
      */
     private final ResourceAccessValidator authValidator;
 
-    public RequireResourceAccessAspect(final ResourceAccessValidator validator) {
+    public RequireResourceAccessInterceptor(final ResourceAccessValidator validator) {
         super();
 
         authValidator = validator;
     }
 
-    @Before("@annotation(com.bernardomg.security.authentication.access.RequireResourceAccess)")
+    @Before("@annotation(com.bernardomg.security.access.RequireResourceAccess)")
     public final void before(final JoinPoint call) {
         final MethodSignature       signature;
         final Method                method;
@@ -72,7 +74,7 @@ public final class RequireResourceAccessAspect {
         if (!authorized) {
             log.debug("User is not authorized with action {} for resource {}", annotation.action(),
                 annotation.resource());
-            // TODO: Use a better exception
+            // TODO: Use a better exception, unrelated to Spring
             throw new AccessDeniedException("Missing authentication");
         }
     }

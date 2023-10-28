@@ -22,25 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.access;
+package com.bernardomg.security.access;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Validates permissions over a resource.
+ * Access control annotation, marking a method with requires permissions over a resource. Said permission is a pair
+ * composed of a resource and an action applied over it.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ResourceAccessValidator {
+@Target({ ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+public @interface RequireResourceAccess {
 
     /**
-     * Checks if the user in session has a permission applying the action over the resource.
+     * Action required over the resource.
      *
-     * @param resource
-     *            protected resource
-     * @param action
-     *            action to check
-     * @return {@code true} if the user has the correct authority. {@code false} otherwise
+     * @return action required
      */
-    public boolean isAuthorized(final String resource, final String action);
+    public String action();
+
+    /**
+     * Resource to authorize.
+     *
+     * @return resource to authorize
+     */
+    public String resource();
 
 }

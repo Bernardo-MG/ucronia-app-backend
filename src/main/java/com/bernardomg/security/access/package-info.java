@@ -26,4 +26,4 @@
  * Access control components.
  */
 
-package com.bernardomg.security.authentication.access;
+package com.bernardomg.security.access;

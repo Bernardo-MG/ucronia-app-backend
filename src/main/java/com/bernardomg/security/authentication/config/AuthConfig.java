@@ -29,10 +29,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.authentication.access.RequireResourceAccessAspect;
-import com.bernardomg.security.authentication.access.ResourceAccessValidator;
-import com.bernardomg.security.authentication.access.SpringResourceAccessValidator;
 import com.bernardomg.security.authentication.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.authorization.access.RequireResourceAccessInterceptor;
+import com.bernardomg.security.authorization.access.ResourceAccessValidator;
+import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 
@@ -54,11 +54,11 @@ public class AuthConfig {
 
     @Bean("requireResourceAccessAspect")
     @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAccessAspect getRequireResourceAccessAspect() {
+    public RequireResourceAccessInterceptor getRequireResourceAccessAspect() {
         final ResourceAccessValidator validator;
 
         validator = new SpringResourceAccessValidator();
-        return new RequireResourceAccessAspect(validator);
+        return new RequireResourceAccessInterceptor(validator);
     }
 
     @Bean("userDetailsService")

@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.authentication.access.RequireResourceAccess;
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 import com.bernardomg.security.user.token.model.DefaultUserTokenPartial;
 import com.bernardomg.security.user.token.model.UserToken;

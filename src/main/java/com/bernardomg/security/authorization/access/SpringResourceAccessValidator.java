@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.access;
+package com.bernardomg.security.authorization.access;
 
 import java.util.function.Predicate;
 
@@ -36,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Validates permissions over a resource with the help of Spring. Permissions are checked through the user authorities,
  * concretely it will look for a {@link ResourceActionGrantedAuthority} matching the permission.
+ * <p>
+ * This security validation is applied against the user in session.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
