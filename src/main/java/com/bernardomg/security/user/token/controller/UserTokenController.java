@@ -100,8 +100,7 @@ public class UserTokenController {
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
     public UserToken readOne(@PathVariable("id") final long id) {
         // TODO: Apply cache
-        return service.getOne(id)
-            .orElse(null);
+        return service.getOne(id);
     }
 
 }

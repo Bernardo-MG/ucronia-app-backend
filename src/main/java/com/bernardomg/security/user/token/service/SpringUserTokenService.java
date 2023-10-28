@@ -107,17 +107,18 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final Optional<UserToken> getOne(final long id) {
+    public final UserToken getOne(final long id) {
+        final Optional<UserToken> read;
+
         log.debug("Reading role with id {}", id);
 
-        // TODO: if an exception is thrown, then it makes no sense returning an optional
-        // TODO: read the optional and check if it is empty
-        if (!userDataTokenRepository.existsById(id)) {
+        read = userDataTokenRepository.findById(id)
+            .map(this::toDto);
+        if (read.isEmpty()) {
             throw new InvalidIdException("userToken", id);
         }
 
-        return userDataTokenRepository.findById(id)
-            .map(this::toDto);
+        return read.get();
     }
 
     @Override

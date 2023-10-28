@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * <li>The token expiration date is not before the current date</li>
  * <li>The token can be revoked, but revocation can't be reverted</li>
  * </ul>
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */

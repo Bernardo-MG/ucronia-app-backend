@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.user.token.service;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.token.model.UserToken;
@@ -54,13 +52,14 @@ public interface UserTokenService {
     public Iterable<UserToken> getAll(final Pageable pagination);
 
     /**
-     * Returns the user token for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the user token for the received id, if it exists. Otherwise it is expected to throw an
+     * {@code InvalidIdException}.
      *
      * @param id
      *            id of the role to acquire
-     * @return an {@code Optional} with the user token, if it exists, or an empty {@code Optional} otherwise
+     * @return the user token
      */
-    public Optional<UserToken> getOne(final long id);
+    public UserToken getOne(final long id);
 
     /**
      * Applies a partial change to a user token.

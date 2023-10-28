@@ -3,7 +3,6 @@ package com.bernardomg.security.user.token.test.service.integration;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -34,12 +33,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ConsumedUserToken
     void testGetOne_Consumed() {
-        final Optional<UserToken> token;
+        final UserToken token;
 
         token = service.getOne(1L);
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        Assertions.assertThat(token.getName())
+            .isEqualTo("Admin");
     }
 
     @Test
@@ -47,12 +46,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ExpiredUserToken
     void testGetOne_Expired() {
-        final Optional<UserToken> token;
+        final UserToken token;
 
         token = service.getOne(1L);
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        Assertions.assertThat(token.getName())
+            .isEqualTo("Admin");
     }
 
     @Test
@@ -71,12 +70,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @RevokedUserToken
     void testGetOne_Revoked() {
-        final Optional<UserToken> token;
+        final UserToken token;
 
         token = service.getOne(1L);
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        Assertions.assertThat(token.getName())
+            .isEqualTo("Admin");
     }
 
     @Test
@@ -84,12 +83,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ValidUserToken
     void testGetOne_Valid() {
-        final Optional<UserToken> token;
+        final UserToken token;
 
         token = service.getOne(1L);
 
-        Assertions.assertThat(token)
-            .isNotEmpty();
+        Assertions.assertThat(token.getName())
+            .isEqualTo("Admin");
     }
 
     @Test
@@ -97,12 +96,9 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ValidUserToken
     void testGetOne_Valid_data() {
-        final Optional<UserToken> read;
-        final UserToken           token;
+        final UserToken token;
 
-        read = service.getOne(1L);
-
-        token = read.get();
+        token = service.getOne(1L);
 
         Assertions.assertThat(token.getId())
             .isEqualTo(1);
