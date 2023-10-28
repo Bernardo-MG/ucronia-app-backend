@@ -51,7 +51,7 @@ import com.bernardomg.association.membership.fee.model.request.FeesPaymentReques
 import com.bernardomg.association.membership.fee.model.request.ValidatedFeeQuery;
 import com.bernardomg.association.membership.fee.model.request.ValidatedFeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.security.auth.access.RequireResourceAccess;
+import com.bernardomg.security.authentication.access.RequireResourceAccess;
 import com.bernardomg.security.permission.constant.Actions;
 
 import jakarta.validation.Valid;

@@ -31,8 +31,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.auth.config.JwtProperties;
-import com.bernardomg.security.auth.jwt.token.TokenEncoder;
+import com.bernardomg.security.authentication.config.JwtProperties;
+import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;

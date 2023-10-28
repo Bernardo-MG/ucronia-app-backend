@@ -9,9 +9,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.auth.jwt.token.TokenEncoder;
-import com.bernardomg.security.auth.jwt.token.model.ImmutableJwtTokenData;
-import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
+import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
 
