@@ -126,10 +126,8 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
         user = readUser.get();
 
-        expiration = LocalDateTime.now()
-            .plus(validity);
-
         creation = LocalDateTime.now();
+        expiration = creation.plus(validity);
 
         tokenCode = UUID.randomUUID()
             .toString();
