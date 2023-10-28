@@ -36,7 +36,6 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -63,11 +62,6 @@ public class WebSecurityConfig {
      */
     public WebSecurityConfig() {
         super();
-    }
-
-    @Bean("authenticationEntryPoint")
-    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
-        return new ErrorResponseAuthenticationEntryPoint();
     }
 
     /**

@@ -14,7 +14,7 @@ import com.bernardomg.security.auth.jwt.token.TokenDecoder;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.auth.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.auth.jwt.token.test.config.TokenConstants;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

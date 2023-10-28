@@ -13,7 +13,7 @@ import com.bernardomg.security.auth.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.auth.jwt.token.TokenEncoder;
 import com.bernardomg.security.auth.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.auth.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.token.test.constant.TokenConstants;
+import com.bernardomg.security.auth.jwt.token.test.config.TokenConstants;
 
 @DisplayName("JjwtTokenEncoder - has expired")
 class TestJjwtTokenEncoderHasExpired {

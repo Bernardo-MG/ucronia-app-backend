@@ -9,11 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -27,10 +27,10 @@ class ITFullPasswordResetProcess {
     private PasswordResetService service;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private UserRepository       userRepository;
 
     @Autowired
-    private UserRepository       userRepository;
+    private UserTokenRepository  userTokenRepository;
 
     public ITFullPasswordResetProcess() {
         super();
@@ -41,15 +41,15 @@ class ITFullPasswordResetProcess {
     @DisplayName("Can follow the password recovery from start to end")
     @ValidUser
     void testResetPassword() {
-        final TokenStatus    validTokenStatus;
-        final String         token;
-        final PersistentUser user;
+        final UserTokenStatus validTokenStatus;
+        final String          token;
+        final PersistentUser  user;
 
         // Start password reset
         service.startPasswordReset("email@somewhere.com");
 
         // Validate new token
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .stream()
             .findFirst()
             .get()
@@ -57,7 +57,7 @@ class ITFullPasswordResetProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus.getValid())
+        Assertions.assertThat(validTokenStatus.isValid())
             .isTrue();
         Assertions.assertThat(validTokenStatus.getUsername())
             .isEqualTo("admin");

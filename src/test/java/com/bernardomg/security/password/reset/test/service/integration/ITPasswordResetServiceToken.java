@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.test.config.ConsumedToken;
-import com.bernardomg.security.token.test.config.ExpiredToken;
-import com.bernardomg.security.token.test.config.PasswordResetToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetUserToken;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -29,13 +29,13 @@ class ITPasswordResetServiceToken {
     @Test
     @DisplayName("A consumed token is not valid")
     @ValidUser
-    @ConsumedToken
+    @PasswordResetConsumedUserToken
     void testValidateToken_Consumed() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
@@ -44,13 +44,13 @@ class ITPasswordResetServiceToken {
     @Test
     @DisplayName("An expired token is not valid")
     @ValidUser
-    @ExpiredToken
+    @PasswordResetExpiredUserToken
     void testValidateToken_Expired() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
@@ -59,13 +59,13 @@ class ITPasswordResetServiceToken {
     @Test
     @DisplayName("A valid token is valid")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testValidateToken_Valid() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");

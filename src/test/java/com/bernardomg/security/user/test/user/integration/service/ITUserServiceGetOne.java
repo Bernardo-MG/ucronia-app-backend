@@ -4,14 +4,16 @@ package com.bernardomg.security.user.test.user.integration.service;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -19,8 +21,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - get one")
-@Sql({ "/db/queries/security/role/single.sql", "/db/queries/security/user/single.sql",
-        "/db/queries/security/relationship/user_role.sql" })
 class ITUserServiceGetOne {
 
     @Autowired
@@ -32,6 +32,7 @@ class ITUserServiceGetOne {
 
     @Test
     @DisplayName("Returns a single entity by id")
+    @OnlyUser
     void testGetOne_Existing() {
         final Optional<User> result;
 
@@ -43,6 +44,7 @@ class ITUserServiceGetOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a single entity")
+    @OnlyUser
     void testGetOne_Existing_Data() {
         final User result;
 
@@ -58,6 +60,17 @@ class ITUserServiceGetOne {
             .expired(false)
             .locked(false)
             .build());
+    }
+
+    @Test
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testGetOne_NotExisting() {
+        final ThrowingCallable execution;
+
+        execution = () -> service.getOne(1L);
+
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(InvalidIdException.class);
     }
 
 }

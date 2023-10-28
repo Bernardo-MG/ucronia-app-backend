@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.password.reset.service;
 
-import com.bernardomg.security.token.model.TokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 
 /**
  * Password recovery service. Handles the steps requires to change a password.
@@ -51,6 +51,6 @@ public interface PasswordResetService {
      *            token to validate
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
-    public TokenStatus validateToken(final String token);
+    public UserTokenStatus validateToken(final String token);
 
 }

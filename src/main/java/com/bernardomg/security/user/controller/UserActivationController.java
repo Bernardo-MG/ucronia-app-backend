@@ -38,11 +38,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserActivationRequest;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -71,7 +71,7 @@ public class UserActivationController {
     }
 
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public TokenStatus validateToken(@PathVariable("token") final String token) {
+    public UserTokenStatus validateToken(@PathVariable("token") final String token) {
         // TODO: Use a generic controller for tokens
         return service.validateToken(token);
     }

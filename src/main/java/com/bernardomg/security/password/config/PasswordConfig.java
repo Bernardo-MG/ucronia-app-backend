@@ -34,9 +34,11 @@ import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.config.property.UserTokenProperties;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 
 /**
  * Password handling configuration.
@@ -58,12 +60,17 @@ public class PasswordConfig {
     }
 
     @Bean("passwordRecoveryService")
-    public PasswordResetService getPasswordRecoveryService(final UserRepository repository,
+    public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
-            final PasswordEncoder passwordEncoder, final TokenRepository tokenRepository,
-            final TokenStore tokenProcessor) {
-        return new SpringSecurityPasswordResetService(repository, userDetailsService, mailSender, tokenProcessor,
-            passwordEncoder, "password_reset");
+            final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
+            final UserTokenProperties tokenProperties) {
+        final UserTokenStore tokenStore;
+
+        tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepository, "password_reset",
+            tokenProperties.getValidity());
+
+        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, mailSender, tokenStore,
+            passwordEncoder);
     }
 
 }

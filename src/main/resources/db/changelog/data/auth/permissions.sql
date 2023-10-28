@@ -39,7 +39,7 @@ INSERT INTO resources (id, name) VALUES
    (2, 'ROLE'),
    -- (3, 'ACTION'),
    -- (4, 'RESOURCE'),
-   (5, 'TOKEN'),
+   (5, 'USER_TOKEN'),
    (10, 'MEMBER'),
    (11, 'FEE'),
    (12, 'TRANSACTION'),
@@ -58,12 +58,14 @@ INSERT INTO permissions (id, resource, action) VALUES
    (6, 'ROLE', 'READ'),
    (7, 'ROLE', 'UPDATE'),
    (8, 'ROLE', 'DELETE'),
-   -- (9, 'ACTION', 'READ'),
-   -- (10, 'RESOURCE', 'READ'),
-   (11, 'TOKEN', 'READ'),
+   -- User tokens
+   (14, 'USER_TOKEN', 'READ'),
+   (15, 'USER_TOKEN', 'UPDATE'),
+   (16, 'USER_TOKEN', 'DELETE'),
    -- Security views
    (12, 'USER', 'VIEW'),
    (13, 'ROLE', 'VIEW'),
+   (17, 'USER_TOKEN', 'VIEW'),
    -- Association data
    (50, 'MEMBER', 'CREATE'),
    (51, 'MEMBER', 'READ'),

@@ -6,13 +6,17 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
+import com.bernardomg.security.user.token.exception.ConsumedTokenException;
+import com.bernardomg.security.user.token.exception.ExpiredTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -30,13 +34,13 @@ class ITUserServiceEnableNewUserTokenStatus {
 
     @Test
     @DisplayName("Enabling a new user with a user already enabled throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @OnlyUser
+    @UserRegisteredUserToken
     void testEnableNewUser_AlreadyEnabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
 
@@ -45,50 +49,50 @@ class ITUserServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with an expired token throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/user_registered_consumed.sql" })
+    @DisplayName("Enabling a new user with a consumed token throws an exception")
+    @OnlyUser
+    @UserRegisteredConsumedUserToken
     void testEnableNewUser_Consumed() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Consumed token " + UserTokenConstants.TOKEN);
     }
 
     @Test
     @DisplayName("Enabling a new user with an expired token throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
-    @Sql({ "/db/queries/security/token/user_registered_expired.sql" })
+    @OnlyUser
+    @UserRegisteredExpiredUserToken
     void testEnableNewUser_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Expired token " + UserTokenConstants.TOKEN);
     }
 
     @Test
     @DisplayName("Enabling a new user with no token throws an exception")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testEnableNewUser_Missing() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + TokenConstants.TOKEN);
+            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 
 }

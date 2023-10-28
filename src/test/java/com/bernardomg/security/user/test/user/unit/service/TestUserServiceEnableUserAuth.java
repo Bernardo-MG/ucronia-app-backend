@@ -19,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.store.TokenStore;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -31,6 +29,8 @@ import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.DefaultUserService;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.token.store.UserTokenStore;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
@@ -52,7 +52,7 @@ class TestUserServiceEnableUserAuth {
     private UserService           service;
 
     @Mock
-    private TokenStore            tokenStore;
+    private UserTokenStore        tokenStore;
 
     @Mock
     private UserMapper            userMapper;
@@ -63,13 +63,11 @@ class TestUserServiceEnableUserAuth {
 
     @BeforeEach
     public void initializeService() {
-        service = new DefaultUserService(repository, messageSender, tokenStore, passwordEncoder, userMapper, "");
+        service = new DefaultUserService(repository, messageSender, tokenStore, passwordEncoder, userMapper);
     }
 
     @BeforeEach
     public void initializeToken() {
-        given(tokenStore.exists(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
-        given(tokenStore.isValid(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(USERNAME);
     }
 
@@ -158,7 +156,7 @@ class TestUserServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -176,7 +174,7 @@ class TestUserServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
@@ -193,7 +191,7 @@ class TestUserServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
 
@@ -210,7 +208,7 @@ class TestUserServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -227,7 +225,7 @@ class TestUserServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
 
@@ -242,7 +240,7 @@ class TestUserServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(TokenConstants.TOKEN, "1234");
+        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 

@@ -6,13 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.NewlyCreated;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -22,16 +23,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserServiceEnableNewUser {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder     passwordEncoder;
 
     @Autowired
-    private UserService     service;
+    private UserService         service;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private UserRepository      userRepository;
 
     @Autowired
-    private UserRepository  userRepository;
+    private UserTokenRepository userTokenRepository;
 
     public ITUserServiceEnableNewUser() {
         super();
@@ -39,14 +40,14 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user consumes the token")
-    @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @NewlyCreated
+    @UserRegisteredUserToken
     void testEnableNewUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        consumed = tokenRepository.findById(1L)
+        consumed = userTokenRepository.findById(1L)
             .get()
             .isConsumed();
 
@@ -56,12 +57,12 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user sets it as enabled")
-    @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @NewlyCreated
+    @UserRegisteredUserToken
     void testEnableNewUser_Enabled() {
         final PersistentUser user;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -72,12 +73,12 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user sets it's password")
-    @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @NewlyCreated
+    @UserRegisteredUserToken
     void testEnableNewUser_Password() {
         final PersistentUser user;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -88,12 +89,12 @@ class ITUserServiceEnableNewUser {
 
     @Test
     @DisplayName("Enabling a new user sets password expired flag ot false")
-    @Sql({ "/db/queries/security/user/newly_created.sql" })
-    @Sql({ "/db/queries/security/token/user_registered.sql" })
+    @NewlyCreated
+    @UserRegisteredUserToken
     void testEnableNewUser_PasswordReset() {
         final PersistentUser user;
 
-        service.activateNewUser(TokenConstants.TOKEN, "1234");
+        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();

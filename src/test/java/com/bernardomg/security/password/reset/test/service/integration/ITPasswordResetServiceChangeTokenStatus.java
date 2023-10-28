@@ -8,12 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.test.config.PasswordResetConsumedToken;
-import com.bernardomg.security.token.test.config.PasswordResetExpiredToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.exception.ConsumedTokenException;
+import com.bernardomg.security.user.token.exception.ExpiredTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -30,33 +31,33 @@ class ITPasswordResetServiceChangeTokenStatus {
     @Test
     @DisplayName("Changing password with a consumed token gives a failure")
     @ValidUser
-    @PasswordResetConsumedToken
+    @PasswordResetConsumedUserToken
     void testChangePassword_ConsumedToken() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "admin");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Consumed token " + UserTokenConstants.TOKEN);
     }
 
     @Test
     @DisplayName("Changing password with an expired token gives a failure")
     @ValidUser
-    @PasswordResetExpiredToken
+    @PasswordResetExpiredUserToken
     void testChangePassword_ExpiredToken() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "admin");
 
-        exception = Assertions.catchThrowableOfType(executable, InvalidTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Invalid token " + TokenConstants.TOKEN);
+            .isEqualTo("Expired token " + UserTokenConstants.TOKEN);
     }
 
     @Test
@@ -66,12 +67,12 @@ class ITPasswordResetServiceChangeTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "admin");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "admin");
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + TokenConstants.TOKEN);
+            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 
 }

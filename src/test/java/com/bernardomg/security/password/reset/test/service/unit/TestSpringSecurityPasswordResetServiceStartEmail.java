@@ -23,9 +23,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
@@ -43,10 +43,10 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     private SpringSecurityPasswordResetService service;
 
     @Mock
-    private TokenStore                         tokenProcessor;
+    private UserTokenStore                     tokenProcessor;
 
     @Mock
-    private TokenStore                         tokenStore;
+    private UserTokenStore                     tokenStore;
 
     @Mock
     private UserDetailsService                 userDetailsService;
@@ -58,7 +58,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     @BeforeEach
     public void initializeService() {
         service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder, "password_reset");
+            passwordEncoder);
     }
 
     @BeforeEach

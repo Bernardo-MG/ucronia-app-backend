@@ -32,17 +32,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.model.ImmutableTokenStatus;
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.exception.InvalidTokenException;
+import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -80,14 +79,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PasswordEncoder       passwordEncoder;
 
     /**
-     * Token scope for reseting passwords.
-     */
-    private final String                tokenScope;
-
-    /**
      * Token processor.
      */
-    private final TokenStore            tokenStore;
+    private final UserTokenStore        tokenStore;
 
     /**
      * User details service, to find and validate users.
@@ -101,7 +95,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
             @NonNull final UserDetailsService userDetsService, @NonNull final SecurityMessageSender mSender,
-            @NonNull final TokenStore tStore, @NonNull final PasswordEncoder passEncoder, @NonNull final String scope) {
+            @NonNull final UserTokenStore tStore, @NonNull final PasswordEncoder passEncoder) {
         super();
 
         userRepository = repo;
@@ -109,7 +103,6 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         messageSender = mSender;
         tokenStore = tStore;
         passwordEncoder = passEncoder;
-        tokenScope = scope;
     }
 
     @Override
@@ -119,17 +112,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final PersistentUser user;
         final String         encodedPassword;
 
-        // TODO: Use a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token, tokenScope)) {
-            log.error("Token missing: {}", token);
-            throw new MissingTokenException(token);
-        }
-
-        if (!tokenStore.isValid(token, tokenScope)) {
-            // TODO: Throw an exception for each possible case
-            log.error("Token expired: {}", token);
-            throw new InvalidTokenException(token);
-        }
+        tokenStore.validate(token);
 
         username = tokenStore.getUsername(token);
 
@@ -164,10 +147,10 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         authorizePasswordChange(user.getUsername());
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(user.getId(), tokenScope);
+        tokenStore.revokeExistingTokens(user.getUsername());
 
         // Register new token
-        token = tokenStore.createToken(user.getId(), user.getUsername(), tokenScope);
+        token = tokenStore.createToken(user.getUsername());
 
         // TODO: Handle through events
         messageSender.sendPasswordRecoveryMessage(user.getEmail(), user.getUsername(), token);
@@ -176,14 +159,24 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     }
 
     @Override
-    public final TokenStatus validateToken(final String token) {
-        final boolean valid;
-        final String  username;
+    public final UserTokenStatus validateToken(final String token) {
+        boolean valid;
+        String  username;
 
-        valid = tokenStore.isValid(token, tokenScope);
-        username = tokenStore.getUsername(token);
+        try {
+            tokenStore.validate(token);
+            valid = true;
+        } catch (final InvalidTokenException ex) {
+            valid = false;
+        }
 
-        return ImmutableTokenStatus.builder()
+        try {
+            username = tokenStore.getUsername(token);
+        } catch (final InvalidTokenException ex) {
+            username = "";
+        }
+
+        return ImmutableUserTokenStatus.builder()
             .valid(valid)
             .username(username)
             .build();

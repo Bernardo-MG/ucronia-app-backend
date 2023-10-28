@@ -6,11 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.auth.jwt.token.test.config.TokenConstants;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.test.config.DisabledUser;
 import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.user.test.config.ExpiredUser;

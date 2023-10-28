@@ -13,11 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.exception.InvalidIdException;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.exception.InvalidTokenException;
-import com.bernardomg.security.token.exception.MissingTokenException;
-import com.bernardomg.security.token.model.ImmutableTokenStatus;
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.store.TokenStore;
 import com.bernardomg.security.user.cache.UserCaches;
 import com.bernardomg.security.user.exception.UserEnabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
@@ -30,6 +25,10 @@ import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.exception.InvalidTokenException;
+import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.store.UserTokenStore;
 import com.bernardomg.security.user.validation.CreateUserValidator;
 import com.bernardomg.security.user.validation.DeleteUserValidator;
 import com.bernardomg.security.user.validation.UpdateUserValidator;
@@ -53,14 +52,9 @@ public final class DefaultUserService implements UserService {
     private final PasswordEncoder       passwordEncoder;
 
     /**
-     * Token scope for reseting passwords.
-     */
-    private final String                tokenScope;
-
-    /**
      * Token processor.
      */
-    private final TokenStore            tokenStore;
+    private final UserTokenStore        tokenStore;
 
     private final UserRepository        userRepository;
 
@@ -71,15 +65,13 @@ public final class DefaultUserService implements UserService {
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final TokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper,
-            final String scope) {
+            final UserTokenStore tStore, final PasswordEncoder passEncoder, final UserMapper userMapper) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         mapper = Objects.requireNonNull(userMapper);
 
         tokenStore = Objects.requireNonNull(tStore);
-        tokenScope = Objects.requireNonNull(scope);
 
         passwordEncoder = Objects.requireNonNull(passEncoder);
 
@@ -96,17 +88,7 @@ public final class DefaultUserService implements UserService {
         final PersistentUser user;
         final String         encodedPassword;
 
-        // TODO: Use a token validator which takes care of the exceptions
-        if (!tokenStore.exists(token, tokenScope)) {
-            log.error("Token missing: {}", token);
-            throw new MissingTokenException(token);
-        }
-
-        if (!tokenStore.isValid(token, tokenScope)) {
-            log.error("Token expired: {}", token);
-            // TODO: Throw an exception for each possible case
-            throw new InvalidTokenException(token);
-        }
+        tokenStore.validate(token);
 
         tokenUsername = tokenStore.getUsername(token);
 
@@ -215,10 +197,10 @@ public final class DefaultUserService implements UserService {
         created = userRepository.save(userEntity);
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.getId(), tokenScope);
+        tokenStore.revokeExistingTokens(created.getUsername());
 
         // Register new token
-        token = tokenStore.createToken(created.getId(), created.getUsername(), tokenScope);
+        token = tokenStore.createToken(created.getUsername());
 
         // TODO: Handle through events
         messageSender.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
@@ -278,14 +260,19 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final TokenStatus validateToken(final String token) {
-        final boolean valid;
-        final String  username;
+    public final UserTokenStatus validateToken(final String token) {
+        boolean      valid;
+        final String username;
 
-        valid = tokenStore.isValid(token, tokenScope);
+        try {
+            tokenStore.validate(token);
+            valid = true;
+        } catch (final InvalidTokenException ex) {
+            valid = false;
+        }
         username = tokenStore.getUsername(token);
 
-        return ImmutableTokenStatus.builder()
+        return ImmutableUserTokenStatus.builder()
             .valid(valid)
             .username(username)
             .build();

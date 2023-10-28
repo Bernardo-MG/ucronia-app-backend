@@ -16,13 +16,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.ValidatedUserCreate;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -30,16 +30,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFullNewUserRegisterProcess {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder     passwordEncoder;
 
     @Autowired
-    private UserService     service;
+    private UserService         service;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private UserRepository      userRepository;
 
     @Autowired
-    private UserRepository  userRepository;
+    private UserTokenRepository userTokenRepository;
 
     public ITFullNewUserRegisterProcess() {
         super();
@@ -74,10 +74,10 @@ class ITFullNewUserRegisterProcess {
     @Test
     @DisplayName("Can follow the new user process from start to end")
     void testNewUser_Valid() {
-        final TokenStatus    validTokenStatus;
-        final String         token;
-        final PersistentUser user;
-        final UserCreate     newUser;
+        final UserTokenStatus validTokenStatus;
+        final String          token;
+        final PersistentUser  user;
+        final UserCreate      newUser;
 
         // TODO: Set authentication to admin
         changeToAdmin();
@@ -91,7 +91,7 @@ class ITFullNewUserRegisterProcess {
         service.registerNewUser(newUser);
 
         // Validate new token
-        token = tokenRepository.findAll()
+        token = userTokenRepository.findAll()
             .stream()
             .findFirst()
             .get()
@@ -99,7 +99,7 @@ class ITFullNewUserRegisterProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus.getValid())
+        Assertions.assertThat(validTokenStatus.isValid())
             .isTrue();
         Assertions.assertThat(validTokenStatus.getUsername())
             .isEqualTo("username");

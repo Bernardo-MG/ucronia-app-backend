@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.DtoUser;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersQuery;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -20,7 +20,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - get all")
-@Sql({ "/db/queries/security/user/single.sql" })
 class ITUserServiceGetAll {
 
     @Autowired
@@ -32,6 +31,7 @@ class ITUserServiceGetAll {
 
     @Test
     @DisplayName("Returns all the entities")
+    @OnlyUser
     void testGetAll_Count() {
         final Iterable<User> result;
         final UserQuery      sample;
@@ -49,6 +49,7 @@ class ITUserServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
+    @OnlyUser
     void testGetAll_Data() {
         final Iterable<User> data;
         final UserQuery      sample;
@@ -73,6 +74,23 @@ class ITUserServiceGetAll {
             .expired(false)
             .locked(false)
             .build());
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
+    void testGetAll_Empty_Count() {
+        final Iterable<User> result;
+        final UserQuery      sample;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        sample = UsersQuery.empty();
+
+        result = service.getAll(sample, pageable);
+
+        Assertions.assertThat(result)
+            .isEmpty();
     }
 
 }

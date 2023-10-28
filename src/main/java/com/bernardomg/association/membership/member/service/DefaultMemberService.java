@@ -134,6 +134,8 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Updating member with id {} using data {}", id, member);
 
+        // TODO: Identificator and phone must be unique or empty
+
         if (!memberRepository.existsById(id)) {
             throw new InvalidIdException("member", id);
         }

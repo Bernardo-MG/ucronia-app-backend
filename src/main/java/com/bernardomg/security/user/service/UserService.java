@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.token.model.TokenStatus;
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.model.request.UserQuery;
 import com.bernardomg.security.user.model.request.UserUpdate;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
 
 public interface UserService {
 
@@ -70,6 +70,6 @@ public interface UserService {
      *            token to validate
      * @return token status
      */
-    public TokenStatus validateToken(final String token);
+    public UserTokenStatus validateToken(final String token);
 
 }

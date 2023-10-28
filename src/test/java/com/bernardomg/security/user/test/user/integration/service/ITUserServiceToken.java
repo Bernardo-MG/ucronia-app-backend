@@ -30,13 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.token.model.TokenStatus;
-import com.bernardomg.security.token.test.config.UserRegisteredConsumedToken;
-import com.bernardomg.security.token.test.config.UserRegisteredExpiredToken;
-import com.bernardomg.security.token.test.config.UserRegisteredToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredUserToken;
+import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -57,13 +57,13 @@ class ITUserServiceToken {
     @WithMockUser(username = "admin")
     @DisplayName("A consumed token is not valid")
     @ValidUser
-    @UserRegisteredConsumedToken
+    @UserRegisteredConsumedUserToken
     void testValidateToken_Consumed() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
@@ -73,13 +73,13 @@ class ITUserServiceToken {
     @WithMockUser(username = "admin")
     @DisplayName("An expired token is not valid")
     @ValidUser
-    @UserRegisteredExpiredToken
+    @UserRegisteredExpiredUserToken
     void testValidateToken_Expired() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");
@@ -89,13 +89,13 @@ class ITUserServiceToken {
     @WithMockUser(username = "admin")
     @DisplayName("A valid token is valid")
     @ValidUser
-    @UserRegisteredToken
+    @UserRegisteredUserToken
     void testValidateToken_Valid() {
-        final TokenStatus status;
+        final UserTokenStatus status;
 
-        status = service.validateToken(TokenConstants.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.getValid())
+        Assertions.assertThat(status.isValid())
             .isTrue();
         Assertions.assertThat(status.getUsername())
             .isEqualTo("admin");

@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.user.model.User;
 import com.bernardomg.security.user.model.request.UserCreate;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -32,7 +32,7 @@ class ITUserServiceRegisterNewUserExisting {
 
     @Test
     @DisplayName("Doesn't create over existing ids")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testRegisterNewUser() {
         final User       result;
         final UserCreate user;
@@ -48,7 +48,7 @@ class ITUserServiceRegisterNewUserExisting {
 
     @Test
     @DisplayName("Adds an entity when creating with an existing id")
-    @Sql({ "/db/queries/security/user/single.sql" })
+    @OnlyUser
     void testRegisterNewUser_AddsEntity() {
         final UserCreate user;
 

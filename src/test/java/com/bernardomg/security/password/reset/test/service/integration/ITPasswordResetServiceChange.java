@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.persistence.repository.TokenRepository;
-import com.bernardomg.security.token.test.config.PasswordResetToken;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.user.test.config.ValidUser;
+import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.test.config.annotation.PasswordResetUserToken;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -24,10 +24,10 @@ class ITPasswordResetServiceChange {
     private PasswordResetService service;
 
     @Autowired
-    private TokenRepository      tokenRepository;
+    private UserRepository       userRepository;
 
     @Autowired
-    private UserRepository       userRepository;
+    private UserTokenRepository  userTokenRepository;
 
     public ITPasswordResetServiceChange() {
         super();
@@ -36,11 +36,11 @@ class ITPasswordResetServiceChange {
     @Test
     @DisplayName("Changing password with a valid user changes the password")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testChangePassword_Changed() {
         final PersistentUser user;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         user = userRepository.findAll()
             .stream()
@@ -54,13 +54,13 @@ class ITPasswordResetServiceChange {
     @Test
     @DisplayName("Changing password with an existing user marks the token as consumed")
     @ValidUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testChangePassword_ConsumesToken() {
         final Boolean consumed;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
-        consumed = tokenRepository.findById(1L)
+        consumed = userTokenRepository.findById(1L)
             .get()
             .isConsumed();
 
@@ -71,11 +71,11 @@ class ITPasswordResetServiceChange {
     @Test
     @DisplayName("Changing password with expired password resets the flag")
     @ExpiredPasswordUser
-    @PasswordResetToken
+    @PasswordResetUserToken
     void testChangePassword_ExpiredPassword() {
         final PersistentUser user;
 
-        service.changePassword(TokenConstants.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         user = userRepository.findAll()
             .stream()

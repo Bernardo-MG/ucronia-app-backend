@@ -21,22 +21,20 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.store.TokenStore;
-import com.bernardomg.security.token.test.constant.TokenConstants;
 import com.bernardomg.security.user.exception.UserDisabledException;
 import com.bernardomg.security.user.exception.UserExpiredException;
 import com.bernardomg.security.user.exception.UserLockedException;
 import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.persistence.model.PersistentUser;
 import com.bernardomg.security.user.persistence.repository.UserRepository;
+import com.bernardomg.security.user.token.store.UserTokenStore;
+import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordRecoveryService - change password - authentication")
 class TestPasswordResetServiceChangeAuth {
 
-    private static final String                TOKEN_SCOPE = "password_reset";
-
-    private static final String                USERNAME    = "username";
+    private static final String                USERNAME = "username";
 
     @Mock
     private SecurityMessageSender              messageSender;
@@ -50,7 +48,7 @@ class TestPasswordResetServiceChangeAuth {
     private SpringSecurityPasswordResetService service;
 
     @Mock
-    private TokenStore                         tokenStore;
+    private UserTokenStore                     tokenStore;
 
     @Mock
     private UserDetailsService                 userDetailsService;
@@ -62,7 +60,7 @@ class TestPasswordResetServiceChangeAuth {
     @BeforeEach()
     public void initializeService() {
         service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder, "password_reset");
+            passwordEncoder);
     }
 
     private final void loadDisabledUser() {
@@ -113,9 +111,7 @@ class TestPasswordResetServiceChangeAuth {
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.exists(TokenConstants.TOKEN, TOKEN_SCOPE)).willReturn(true);
-        given(tokenStore.isValid(TokenConstants.TOKEN, TOKEN_SCOPE)).willReturn(true);
-        given(tokenStore.getUsername(TokenConstants.TOKEN)).willReturn(USERNAME);
+        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(USERNAME);
     }
 
     @Test
@@ -127,7 +123,7 @@ class TestPasswordResetServiceChangeAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
 
@@ -144,7 +140,7 @@ class TestPasswordResetServiceChangeAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
 
@@ -161,7 +157,7 @@ class TestPasswordResetServiceChangeAuth {
 
         loadLockedUser();
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
 
@@ -176,7 +172,7 @@ class TestPasswordResetServiceChangeAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(TokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
