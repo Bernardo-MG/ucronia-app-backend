@@ -52,7 +52,7 @@ import com.bernardomg.association.membership.fee.model.request.ValidatedFeeQuery
 import com.bernardomg.association.membership.fee.model.request.ValidatedFeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

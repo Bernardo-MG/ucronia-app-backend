@@ -37,7 +37,7 @@ import com.bernardomg.association.membership.balance.model.request.ValidatedMemb
 import com.bernardomg.association.membership.balance.service.MemberBalanceService;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

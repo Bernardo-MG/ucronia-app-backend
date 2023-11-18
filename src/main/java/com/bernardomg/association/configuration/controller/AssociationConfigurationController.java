@@ -39,7 +39,7 @@ import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
