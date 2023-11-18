@@ -1,5 +1,5 @@
 
-package com.bernardomg.config;
+package com.bernardomg.association.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;

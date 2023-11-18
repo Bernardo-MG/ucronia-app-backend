@@ -22,29 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.config;
+package com.bernardomg.association.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
+import org.springframework.boot.actuate.audit.AuditEventRepository;
+import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Cache configuration properties.
+ * Audit configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
-@Data
-@ConfigurationProperties(prefix = "cache")
-public final class CacheProperties {
+@Configuration
+public class AuditConfig {
 
-    @PositiveOrZero
-    private Integer expireAfterAccess = 600;
+    public AuditConfig() {
+        super();
+    }
 
-    @PositiveOrZero
-    private Integer maximumSize       = 500;
+    @Bean("auditEventRepository")
+    public AuditEventRepository getAuditEventRepository() {
+        return new InMemoryAuditEventRepository();
+    }
 
 }

@@ -1,5 +1,5 @@
 
-package com.bernardomg.config;
+package com.bernardomg.association.config;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;

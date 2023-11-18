@@ -22,8 +22,23 @@
  * SOFTWARE.
  */
 
-/**
- * Configuration classes.
- */
+package com.bernardomg.association.config;
 
-package com.bernardomg.config;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ * Persistence configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration
+@EnableTransactionManagement
+public class PersistenceConfig {
+
+    public PersistenceConfig() {
+        super();
+    }
+
+}
