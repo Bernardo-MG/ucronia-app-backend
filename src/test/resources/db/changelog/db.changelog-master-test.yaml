@@ -3,9 +3,6 @@ databaseChangeLog:
       file: structure/sequence.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/security.yaml
-      relativeToChangelogFile: true
-  - include:
       file: structure/configuration.yaml
       relativeToChangelogFile: true
   - include:
@@ -24,13 +21,15 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
+  # Security
+  - include:
+      file: classpath:db/changelog/auth/initialize.yaml
   - changeSet:
       id: auth_initial_data
       author: Bernardo
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: data/auth/sequences.sql
-            relativeToChangelogFile: true
+            path: classpath:db/changelog/auth/permissions.sql
             splitStatements: true
             stripComments: true
