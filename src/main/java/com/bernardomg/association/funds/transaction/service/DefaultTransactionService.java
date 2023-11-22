@@ -16,7 +16,7 @@ import com.bernardomg.association.funds.transaction.model.request.TransactionUpd
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,7 +64,7 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Deleting transaction {}", id);
 
         if (!transactionRepository.existsById(id)) {
-            throw new InvalidIdException("transaction", id);
+            throw new MissingIdException("transaction", id);
         }
 
         transactionRepository.deleteById(id);
@@ -97,7 +97,7 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Reading member with id {}", id);
 
         if (!transactionRepository.existsById(id)) {
-            throw new InvalidIdException("transaction", id);
+            throw new MissingIdException("transaction", id);
         }
 
         found = transactionRepository.findById(id);
@@ -120,7 +120,7 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Updating transactin with id {} using data {}", id, transaction);
 
         if (!transactionRepository.existsById(id)) {
-            throw new InvalidIdException("transaction", id);
+            throw new MissingIdException("transaction", id);
         }
 
         entity = mapper.toEntity(transaction);

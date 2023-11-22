@@ -33,7 +33,7 @@ import com.bernardomg.association.membership.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.membership.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +90,7 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Deleting fee {}", id);
 
         if (!feeRepository.existsById(id)) {
-            throw new InvalidIdException("fee", id);
+            throw new MissingIdException("fee", id);
         }
 
         feeRepository.deleteById(id);
@@ -124,7 +124,7 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Reading fee with id {}", id);
 
         if (!feeRepository.existsById(id)) {
-            throw new InvalidIdException("fee", id);
+            throw new MissingIdException("fee", id);
         }
 
         found = memberFeeRepository.findById(id);
@@ -168,7 +168,7 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Updating fee with id {} using data {}", id, fee);
 
         if (!feeRepository.existsById(id)) {
-            throw new InvalidIdException("fee", id);
+            throw new MissingIdException("fee", id);
         }
 
         validatorUpdate.validate(fee);

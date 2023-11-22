@@ -14,7 +14,7 @@ import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,7 +73,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Deleting member {}", id);
 
         if (!memberRepository.existsById(id)) {
-            throw new InvalidIdException("member", id);
+            throw new MissingIdException("member", id);
         }
 
         // TODO: Forbid deleting when there are relationships
@@ -112,7 +112,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Reading member with id {}", id);
 
         if (!memberRepository.existsById(id)) {
-            throw new InvalidIdException("member", id);
+            throw new MissingIdException("member", id);
         }
 
         found = memberRepository.findById(id);
@@ -137,7 +137,7 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Identificator and phone must be unique or empty
 
         if (!memberRepository.existsById(id)) {
-            throw new InvalidIdException("member", id);
+            throw new MissingIdException("member", id);
         }
 
         entity = mapper.toEntity(member);

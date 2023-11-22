@@ -27,19 +27,7 @@
 -- This SQL script populates the initial permissions data.
 -- ****************************************
 
-INSERT INTO actions (id, name) VALUES
-   (1, 'CREATE'),
-   (2, 'READ'),
-   (3, 'UPDATE'),
-   (4, 'DELETE'),
-   (5, 'VIEW');
-
 INSERT INTO resources (id, name) VALUES
-   (1, 'USER'),
-   (2, 'ROLE'),
-   -- (3, 'ACTION'),
-   -- (4, 'RESOURCE'),
-   (5, 'USER_TOKEN'),
    (10, 'MEMBER'),
    (11, 'FEE'),
    (12, 'TRANSACTION'),
@@ -49,23 +37,6 @@ INSERT INTO resources (id, name) VALUES
    (17, 'MEMBERSHIP');
 
 INSERT INTO permissions (id, resource, action) VALUES
-   -- Security
-   (1, 'USER', 'CREATE'),
-   (2, 'USER', 'READ'),
-   (3, 'USER', 'UPDATE'),
-   (4, 'USER', 'DELETE'),
-   (5, 'ROLE', 'CREATE'),
-   (6, 'ROLE', 'READ'),
-   (7, 'ROLE', 'UPDATE'),
-   (8, 'ROLE', 'DELETE'),
-   -- User tokens
-   (14, 'USER_TOKEN', 'READ'),
-   (15, 'USER_TOKEN', 'UPDATE'),
-   (16, 'USER_TOKEN', 'DELETE'),
-   -- Security views
-   (12, 'USER', 'VIEW'),
-   (13, 'ROLE', 'VIEW'),
-   (17, 'USER_TOKEN', 'VIEW'),
    -- Association data
    (50, 'MEMBER', 'CREATE'),
    (51, 'MEMBER', 'READ'),

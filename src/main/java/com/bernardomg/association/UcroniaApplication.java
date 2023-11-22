@@ -22,40 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+package com.bernardomg.association;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
-import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.configuration.config.ConfigurationConfig;
+import com.bernardomg.email.config.EmailConfig;
 
-@IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Member service - get one")
-class ITMemberServiceGetOneError {
+/**
+ * Application runnable class. This allows Spring Boot to run the application.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@SpringBootApplication
+@Import({ ConfigurationConfig.class, EmailConfig.class })
+public class UcroniaApplication {
 
-    @Autowired
-    private MemberService service;
-
-    public ITMemberServiceGetOneError() {
-        super();
+    /**
+     * Runnable main method.
+     *
+     * @param args
+     *            execution parameters
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(UcroniaApplication.class, args);
     }
 
-    @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
-
-        execution = () -> service.getOne(1L);
-
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
+    /**
+     * Default constructor.
+     */
+    public UcroniaApplication() {
+        super();
     }
 
 }

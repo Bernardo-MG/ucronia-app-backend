@@ -22,40 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+package com.bernardomg.association.config;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
-import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Data;
 
-@IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Member service - get one")
-class ITMemberServiceGetOneError {
+/**
+ * Cache configuration properties.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Validated
+@Data
+@ConfigurationProperties(prefix = "cache")
+public final class CacheProperties {
 
-    @Autowired
-    private MemberService service;
+    @PositiveOrZero
+    private Integer expireAfterAccess = 600;
 
-    public ITMemberServiceGetOneError() {
-        super();
-    }
-
-    @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
-
-        execution = () -> service.getOne(1L);
-
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
-    }
+    @PositiveOrZero
+    private Integer maximumSize       = 500;
 
 }

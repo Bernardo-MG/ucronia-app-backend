@@ -34,7 +34,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -62,7 +62,7 @@ class ITFeeServiceUpdateError {
         execution = () -> service.update(1L, feeRequest);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(InvalidIdException.class);
+            .isInstanceOf(MissingIdException.class);
     }
 
 }

@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -55,7 +55,7 @@ class ITTransactionServiceGetOneError {
         execution = () -> service.getOne(1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(InvalidIdException.class);
+            .isInstanceOf(MissingIdException.class);
     }
 
 }

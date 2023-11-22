@@ -22,40 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+/**
+ * Configuration classes.
+ */
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.test.config.annotation.IntegrationTest;
-
-@IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Member service - get one")
-class ITMemberServiceGetOneError {
-
-    @Autowired
-    private MemberService service;
-
-    public ITMemberServiceGetOneError() {
-        super();
-    }
-
-    @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
-
-        execution = () -> service.getOne(1L);
-
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
-    }
-
-}
+package com.bernardomg.association.config;

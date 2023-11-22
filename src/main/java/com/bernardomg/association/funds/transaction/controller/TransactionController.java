@@ -48,8 +48,8 @@ import com.bernardomg.association.funds.transaction.model.request.ValidatedTrans
 import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionQuery;
 import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionUpdate;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.security.auth.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

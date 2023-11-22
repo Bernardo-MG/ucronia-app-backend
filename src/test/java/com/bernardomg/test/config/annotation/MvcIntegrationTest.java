@@ -36,7 +36,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.UcroniaApplication;
+import com.bernardomg.association.UcroniaApplication;
 
 @SpringJUnitConfig
 @SpringBootTest(classes = UcroniaApplication.class)
