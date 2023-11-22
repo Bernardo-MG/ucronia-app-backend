@@ -43,3 +43,9 @@ databaseChangeLog:
             path: classpath:db/changelog/auth/permissions.sql
             splitStatements: true
             stripComments: true
+        - sqlFile:
+            encoding: UTF-8
+            path: data/auth/permissions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
