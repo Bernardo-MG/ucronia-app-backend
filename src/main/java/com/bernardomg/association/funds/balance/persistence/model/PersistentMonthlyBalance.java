@@ -23,9 +23,15 @@ public class PersistentMonthlyBalance implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
+    /**
+     * TODO: Rename, this is the monthly result
+     */
     @Column(name = "difference", nullable = false)
     private Float             difference;
 
+    /**
+     * TODO: Why is the name different in the table?
+     */
     @Id
     @Column(name = "date", nullable = false)
     private LocalDate         month;

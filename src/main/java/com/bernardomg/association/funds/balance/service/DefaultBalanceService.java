@@ -29,11 +29,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
@@ -57,23 +53,18 @@ public final class DefaultBalanceService implements BalanceService {
 
     @Override
     public final CurrentBalance getBalance() {
-        final Pageable                       page;
-        final Sort                           sort;
-        final Page<PersistentMonthlyBalance> balances;
-        final PersistentMonthlyBalance       balance;
-        final CurrentBalance                 result;
+        final PersistentMonthlyBalance           balance;
+        final Optional<PersistentMonthlyBalance> readBalance;
+        final CurrentBalance                     result;
 
-        sort = Sort.by(Direction.DESC, "month");
-        page = PageRequest.of(0, 1, sort);
-        balances = monthlyBalanceRepository.findAll(page);
-        if (balances.isEmpty()) {
+        readBalance = monthlyBalanceRepository.findFirstByOrderByMonthDesc();
+        if (readBalance.isEmpty()) {
             result = ImmutableCurrentBalance.builder()
                 .total(0F)
                 .difference(0F)
                 .build();
         } else {
-            balance = balances.iterator()
-                .next();
+            balance = readBalance.get();
             result = toCurrentBalance(balance);
         }
 

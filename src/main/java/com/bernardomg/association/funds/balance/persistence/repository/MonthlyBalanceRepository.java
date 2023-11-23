@@ -25,6 +25,7 @@
 package com.bernardomg.association.funds.balance.persistence.repository;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -33,5 +34,7 @@ import com.bernardomg.association.funds.balance.persistence.model.PersistentMont
 
 public interface MonthlyBalanceRepository
         extends JpaRepository<PersistentMonthlyBalance, LocalDate>, JpaSpecificationExecutor<PersistentMonthlyBalance> {
+    
+    public Optional<PersistentMonthlyBalance> findFirstByOrderByMonthDesc();
 
 }
