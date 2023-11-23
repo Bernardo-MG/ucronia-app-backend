@@ -23,15 +23,12 @@ public class PersistentMonthlyBalance implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
-    /**
-     * TODO: Rename, this is the monthly result
-     */
+    @Id
+    @Column(name = "date", nullable = false)
+    private LocalDate         month;
+
     @Column(name = "results", nullable = false)
     private Float             results;
-
-    @Id
-    @Column(name = "month", nullable = false)
-    private LocalDate         month;
 
     @Column(name = "total", nullable = false)
     private Float             total;

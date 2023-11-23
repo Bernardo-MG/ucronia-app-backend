@@ -5,9 +5,9 @@ import java.time.YearMonth;
 
 public interface MonthlyBalance {
 
-    public Float getResults();
-
     public YearMonth getMonth();
+
+    public Float getResults();
 
     public Float getTotal();
 

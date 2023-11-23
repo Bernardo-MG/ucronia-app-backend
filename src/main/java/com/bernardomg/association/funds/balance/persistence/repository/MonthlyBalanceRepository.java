@@ -34,7 +34,7 @@ import com.bernardomg.association.funds.balance.persistence.model.PersistentMont
 
 public interface MonthlyBalanceRepository
         extends JpaRepository<PersistentMonthlyBalance, LocalDate>, JpaSpecificationExecutor<PersistentMonthlyBalance> {
-    
+
     public Optional<PersistentMonthlyBalance> findFirstByOrderByMonthDesc();
 
 }
