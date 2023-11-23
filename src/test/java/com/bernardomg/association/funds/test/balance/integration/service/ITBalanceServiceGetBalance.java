@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.funds.balance.model.MonthlyBalance;
+import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
@@ -72,7 +72,7 @@ class ITBalanceServiceGetBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testGetBalance_AroundZero(final Float amount) {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         persist(amount);
 
@@ -88,7 +88,7 @@ class ITBalanceServiceGetBalance {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testGetBalance_Decimal(final Float amount) {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         persist(amount);
 
@@ -104,7 +104,7 @@ class ITBalanceServiceGetBalance {
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     void testGetBalance_DecimalsAddUpToZero() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         balance = service.getBalance();
 
@@ -118,7 +118,7 @@ class ITBalanceServiceGetBalance {
     @DisplayName("With a full year it returns the correct data")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetBalance_FullYear() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         balance = service.getBalance();
 
@@ -132,7 +132,7 @@ class ITBalanceServiceGetBalance {
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetBalance_Multiple() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         balance = service.getBalance();
 
@@ -145,7 +145,7 @@ class ITBalanceServiceGetBalance {
     @Test
     @DisplayName("With not data it returns nothing")
     void testGetBalance_NoData() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         balance = service.getBalance();
 

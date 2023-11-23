@@ -26,4 +26,4 @@
  * Application root folder.
  */
 
-package com.bernardomg;
+package com.bernardomg.association;
