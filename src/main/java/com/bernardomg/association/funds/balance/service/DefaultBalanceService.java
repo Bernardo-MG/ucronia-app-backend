@@ -57,6 +57,7 @@ public final class DefaultBalanceService implements BalanceService {
         final Optional<PersistentMonthlyBalance> readBalance;
         final CurrentBalance                     result;
 
+        // TODO: Return balance results for the current month, not the last one
         readBalance = monthlyBalanceRepository.findFirstByOrderByMonthDesc();
         if (readBalance.isEmpty()) {
             result = ImmutableCurrentBalance.builder()

@@ -25,7 +25,6 @@
 package com.bernardomg.association.funds.test.balance.integration.service;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -57,9 +56,11 @@ class ITBalanceServiceGetBalance {
 
     private final void persist(final Float amount) {
         final PersistentTransaction entity;
+        final LocalDate             month;
 
+        month = LocalDate.now();
         entity = PersistentTransaction.builder()
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .date(month)
             .description("Description")
             .amount(amount)
             .build();
@@ -102,9 +103,13 @@ class ITBalanceServiceGetBalance {
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
-    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     void testGetBalance_DecimalsAddUpToZero() {
         final CurrentBalance balance;
+
+        persist(-40.8F);
+        persist(13.6F);
+        persist(13.6F);
+        persist(13.6F);
 
         balance = service.getBalance();
 
@@ -130,9 +135,14 @@ class ITBalanceServiceGetBalance {
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetBalance_Multiple() {
         final CurrentBalance balance;
+
+        persist(1F);
+        persist(1F);
+        persist(1F);
+        persist(1F);
+        persist(1F);
 
         balance = service.getBalance();
 
