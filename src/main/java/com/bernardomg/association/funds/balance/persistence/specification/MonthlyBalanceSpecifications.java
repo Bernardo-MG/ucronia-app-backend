@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.funds.balance.persistence.repository;
+package com.bernardomg.association.funds.balance.persistence.specification;
 
 import java.time.YearMonth;
 import java.util.Optional;

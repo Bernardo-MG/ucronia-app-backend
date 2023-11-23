@@ -43,7 +43,7 @@ import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.persistence.model.PersistentMonthlyBalance;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
-import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceSpecifications;
+import com.bernardomg.association.funds.balance.persistence.specification.MonthlyBalanceSpecifications;
 
 public final class DefaultBalanceService implements BalanceService {
 
