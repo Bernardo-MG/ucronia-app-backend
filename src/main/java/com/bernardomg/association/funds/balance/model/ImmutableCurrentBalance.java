@@ -8,7 +8,7 @@ import lombok.Value;
 @Builder
 public final class ImmutableCurrentBalance implements CurrentBalance {
 
-    private Float difference;
+    private Float results;
 
     private Float total;
 

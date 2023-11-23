@@ -26,14 +26,11 @@ public class PersistentMonthlyBalance implements Serializable {
     /**
      * TODO: Rename, this is the monthly result
      */
-    @Column(name = "difference", nullable = false)
-    private Float             difference;
+    @Column(name = "results", nullable = false)
+    private Float             results;
 
-    /**
-     * TODO: Why is the name different in the table?
-     */
     @Id
-    @Column(name = "date", nullable = false)
+    @Column(name = "month", nullable = false)
     private LocalDate         month;
 
     @Column(name = "total", nullable = false)

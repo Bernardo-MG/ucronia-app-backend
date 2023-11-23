@@ -61,7 +61,7 @@ public final class DefaultBalanceService implements BalanceService {
         if (readBalance.isEmpty()) {
             result = ImmutableCurrentBalance.builder()
                 .total(0F)
-                .difference(0F)
+                .results(0F)
                 .build();
         } else {
             balance = readBalance.get();
@@ -99,7 +99,7 @@ public final class DefaultBalanceService implements BalanceService {
     private final CurrentBalance toCurrentBalance(final PersistentMonthlyBalance entity) {
         return ImmutableCurrentBalance.builder()
             .total(entity.getTotal())
-            .difference(entity.getDifference())
+            .results(entity.getResults())
             .build();
     }
 
@@ -113,7 +113,7 @@ public final class DefaultBalanceService implements BalanceService {
         return ImmutableMonthlyBalance.builder()
             .month(month)
             .total(entity.getTotal())
-            .difference(entity.getDifference())
+            .results(entity.getResults())
             .build();
     }
 

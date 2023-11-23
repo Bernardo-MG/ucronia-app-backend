@@ -80,7 +80,7 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
-        Assertions.assertThat(balance.getDifference())
+        Assertions.assertThat(balance.getResults())
             .isEqualTo(amount);
     }
 
@@ -96,7 +96,7 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(amount);
-        Assertions.assertThat(balance.getDifference())
+        Assertions.assertThat(balance.getResults())
             .isEqualTo(amount);
     }
 
@@ -110,7 +110,7 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isZero();
-        Assertions.assertThat(balance.getDifference())
+        Assertions.assertThat(balance.getResults())
             .isZero();
     }
 
@@ -124,7 +124,7 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(12);
-        Assertions.assertThat(balance.getDifference())
+        Assertions.assertThat(balance.getResults())
             .isEqualTo(1);
     }
 
@@ -138,7 +138,7 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(5);
-        Assertions.assertThat(balance.getDifference())
+        Assertions.assertThat(balance.getResults())
             .isEqualTo(5);
     }
 
@@ -151,7 +151,7 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isZero();
-        Assertions.assertThat(balance.getDifference())
+        Assertions.assertThat(balance.getResults())
             .isZero();
     }
 

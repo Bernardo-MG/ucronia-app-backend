@@ -10,7 +10,7 @@ import lombok.Value;
 @Builder
 public final class ImmutableMonthlyBalance implements MonthlyBalance {
 
-    private Float     difference;
+    private Float     results;
 
     private YearMonth month;
 
