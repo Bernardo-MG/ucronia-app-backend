@@ -43,6 +43,9 @@ import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
+/**
+ * TODO: Test with transactions for the previous month, the results should be 0
+ */
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Balance service - get balance")
@@ -69,6 +72,38 @@ class ITBalanceServiceGetBalance {
         repository.flush();
     }
 
+    private final void persistNextMonth(final Float amount) {
+        final PersistentTransaction entity;
+        final LocalDate             month;
+
+        month = LocalDate.now()
+            .minusMonths(1);
+        entity = PersistentTransaction.builder()
+            .date(month)
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
+    private final void persistPreviousMonth(final Float amount) {
+        final PersistentTransaction entity;
+        final LocalDate             month;
+
+        month = LocalDate.now()
+            .minusMonths(1);
+        entity = PersistentTransaction.builder()
+            .date(month)
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
@@ -83,6 +118,21 @@ class ITBalanceServiceGetBalance {
             .isEqualTo(amount);
         Assertions.assertThat(balance.getResults())
             .isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("With data for the current month it returns the balance")
+    void testGetBalance_CurrentMonth() {
+        final CurrentBalance balance;
+
+        persist(1F);
+
+        balance = service.getBalance();
+
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(1);
+        Assertions.assertThat(balance.getResults())
+            .isEqualTo(1);
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -153,7 +203,22 @@ class ITBalanceServiceGetBalance {
     }
 
     @Test
-    @DisplayName("With not data it returns nothing")
+    @DisplayName("With data for the next month it returns no balance")
+    void testGetBalance_NextMonth() {
+        final CurrentBalance balance;
+
+        persistNextMonth(1F);
+
+        balance = service.getBalance();
+
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(0);
+        Assertions.assertThat(balance.getResults())
+            .isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
     void testGetBalance_NoData() {
         final CurrentBalance balance;
 
@@ -163,6 +228,21 @@ class ITBalanceServiceGetBalance {
             .isZero();
         Assertions.assertThat(balance.getResults())
             .isZero();
+    }
+
+    @Test
+    @DisplayName("With data for the pervious month it returns the balance but no results")
+    void testGetBalance_PreviousMonth() {
+        final CurrentBalance balance;
+
+        persistPreviousMonth(1F);
+
+        balance = service.getBalance();
+
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(1);
+        Assertions.assertThat(balance.getResults())
+            .isEqualTo(0);
     }
 
 }
