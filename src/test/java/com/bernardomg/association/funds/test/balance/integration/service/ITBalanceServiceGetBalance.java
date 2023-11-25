@@ -104,6 +104,22 @@ class ITBalanceServiceGetBalance {
         repository.flush();
     }
 
+    private final void persistPreviousMonth(final Float amount, final int monthDiff) {
+        final PersistentTransaction entity;
+        final LocalDate             month;
+
+        month = LocalDate.now()
+            .minusMonths(monthDiff);
+        entity = PersistentTransaction.builder()
+            .date(month)
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
@@ -131,6 +147,23 @@ class ITBalanceServiceGetBalance {
 
         Assertions.assertThat(balance.getTotal())
             .isEqualTo(1);
+        Assertions.assertThat(balance.getResults())
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("With data for the current month and previous months it returns the balance")
+    void testGetBalance_CurrentMonthAndPrevious() {
+        final CurrentBalance balance;
+
+        persist(1F);
+        persistPreviousMonth(2F, 1);
+        persistPreviousMonth(3F, 2);
+
+        balance = service.getBalance();
+
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(6);
         Assertions.assertThat(balance.getResults())
             .isEqualTo(1);
     }
@@ -235,12 +268,43 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonth() {
         final CurrentBalance balance;
 
-        // TODO: Test multiple previous months
-        // TODO: Test multiple previous months with gaps
-
         persistPreviousMonth(1F);
         persistPreviousMonth(2F);
         persistPreviousMonth(3F);
+
+        balance = service.getBalance();
+
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(6);
+        Assertions.assertThat(balance.getResults())
+            .isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("With data for the previous months it returns the balance but no results")
+    void testGetBalance_PreviousMonths() {
+        final CurrentBalance balance;
+
+        persistPreviousMonth(1F, 1);
+        persistPreviousMonth(2F, 2);
+        persistPreviousMonth(3F, 3);
+
+        balance = service.getBalance();
+
+        Assertions.assertThat(balance.getTotal())
+            .isEqualTo(6);
+        Assertions.assertThat(balance.getResults())
+            .isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("With data for the previous months, including gaps, it returns the balance but no results")
+    void testGetBalance_PreviousMonths_Gaps() {
+        final CurrentBalance balance;
+
+        persistPreviousMonth(1F, 1);
+        persistPreviousMonth(2F, 2);
+        persistPreviousMonth(3F, 5);
 
         balance = service.getBalance();
 
