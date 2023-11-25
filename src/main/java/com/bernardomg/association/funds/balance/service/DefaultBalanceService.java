@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.funds.balance.service;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
@@ -55,21 +56,38 @@ public final class DefaultBalanceService implements BalanceService {
     public final CurrentBalance getBalance() {
         final PersistentMonthlyBalance           balance;
         final Optional<PersistentMonthlyBalance> readBalance;
-        final CurrentBalance                     result;
+        final CurrentBalance                     currentBalance;
+        final LocalDate                          month;
+        final Float                              results;
 
         // TODO: Return balance results for the current month, not the last one
-        readBalance = monthlyBalanceRepository.findFirstByOrderByMonthDesc();
+        month = LocalDate.now()
+            .withDayOfMonth(1);
+        readBalance = monthlyBalanceRepository.findLatest(month);
         if (readBalance.isEmpty()) {
-            result = ImmutableCurrentBalance.builder()
+            currentBalance = ImmutableCurrentBalance.builder()
                 .total(0F)
                 .results(0F)
                 .build();
         } else {
             balance = readBalance.get();
-            result = toCurrentBalance(balance);
+
+            // Take the results only if it's the current month
+            if (balance.getMonth()
+                .getMonth()
+                .equals(month.getMonth())) {
+                results = balance.getResults();
+            } else {
+                results = 0F;
+            }
+
+            currentBalance = ImmutableCurrentBalance.builder()
+                .total(balance.getTotal())
+                .results(results)
+                .build();
         }
 
-        return result;
+        return currentBalance;
     }
 
     @Override
@@ -95,13 +113,6 @@ public final class DefaultBalanceService implements BalanceService {
         return balance.stream()
             .map(this::toMonthlyBalance)
             .toList();
-    }
-
-    private final CurrentBalance toCurrentBalance(final PersistentMonthlyBalance entity) {
-        return ImmutableCurrentBalance.builder()
-            .total(entity.getTotal())
-            .results(entity.getResults())
-            .build();
     }
 
     private final MonthlyBalance toMonthlyBalance(final PersistentMonthlyBalance entity) {

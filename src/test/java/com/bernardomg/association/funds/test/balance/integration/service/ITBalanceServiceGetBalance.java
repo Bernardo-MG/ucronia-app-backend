@@ -77,7 +77,7 @@ class ITBalanceServiceGetBalance {
         final LocalDate             month;
 
         month = LocalDate.now()
-            .minusMonths(1);
+            .plusMonths(1);
         entity = PersistentTransaction.builder()
             .date(month)
             .description("Description")
@@ -231,16 +231,21 @@ class ITBalanceServiceGetBalance {
     }
 
     @Test
-    @DisplayName("With data for the pervious month it returns the balance but no results")
+    @DisplayName("With data for the previous month it returns the balance but no results")
     void testGetBalance_PreviousMonth() {
         final CurrentBalance balance;
 
+        // TODO: Test multiple previous months
+        // TODO: Test multiple previous months with gaps
+
         persistPreviousMonth(1F);
+        persistPreviousMonth(2F);
+        persistPreviousMonth(3F);
 
         balance = service.getBalance();
 
         Assertions.assertThat(balance.getTotal())
-            .isEqualTo(1);
+            .isEqualTo(6);
         Assertions.assertThat(balance.getResults())
             .isEqualTo(0);
     }
