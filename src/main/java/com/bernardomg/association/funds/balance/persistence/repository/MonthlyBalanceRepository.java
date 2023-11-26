@@ -37,7 +37,7 @@ import com.bernardomg.association.funds.balance.persistence.model.PersistentMont
 public interface MonthlyBalanceRepository
         extends JpaRepository<PersistentMonthlyBalance, LocalDate>, JpaSpecificationExecutor<PersistentMonthlyBalance> {
 
-    @Query("SELECT b FROM MonthlyBalance b WHERE month <= :month ORDER BY month ASC LIMIT 1")
+    @Query("SELECT b FROM MonthlyBalance b WHERE month <= :month ORDER BY month DESC LIMIT 1")
     public Optional<PersistentMonthlyBalance> findLatest(@Param("month") final LocalDate month);
 
 }
