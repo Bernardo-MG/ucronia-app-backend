@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.bernardomg.association.funds.transaction.exception.MissingTransactionIdException;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
@@ -16,7 +17,6 @@ import com.bernardomg.association.funds.transaction.model.request.TransactionUpd
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
-import com.bernardomg.exception.MissingIdException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +54,6 @@ public final class DefaultTransactionService implements TransactionService {
             .trim());
 
         created = transactionRepository.save(entity);
-
         return mapper.toDto(created);
     }
 
@@ -64,7 +63,7 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Deleting transaction {}", id);
 
         if (!transactionRepository.existsById(id)) {
-            throw new MissingIdException("transaction", id);
+            throw new MissingTransactionIdException(id);
         }
 
         transactionRepository.deleteById(id);
@@ -97,7 +96,7 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Reading member with id {}", id);
 
         if (!transactionRepository.existsById(id)) {
-            throw new MissingIdException("transaction", id);
+            throw new MissingTransactionIdException(id);
         }
 
         found = transactionRepository.findById(id);
@@ -117,10 +116,10 @@ public final class DefaultTransactionService implements TransactionService {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
-        log.debug("Updating transactin with id {} using data {}", id, transaction);
+        log.debug("Updating transaction with id {} using data {}", id, transaction);
 
         if (!transactionRepository.existsById(id)) {
-            throw new MissingIdException("transaction", id);
+            throw new MissingTransactionIdException(id);
         }
 
         entity = mapper.toEntity(transaction);
