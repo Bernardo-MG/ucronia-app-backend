@@ -78,7 +78,7 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
         final Specification<PersistentTransaction> spec;
         final Collection<PersistentTransaction>    read;
 
-        spec = TransactionSpecifications.fromDate(date);
+        spec = TransactionSpecifications.on(date);
         read = transactionRepository.findAll(spec);
 
         return read.stream()
