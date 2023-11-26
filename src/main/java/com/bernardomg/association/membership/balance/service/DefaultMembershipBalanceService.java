@@ -40,7 +40,7 @@ import com.bernardomg.association.membership.balance.persistence.repository.Mont
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceSpecifications;
 
 /**
- * Default implementation of the member service.
+ * Default implementation of the membership balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -63,10 +63,13 @@ public final class DefaultMembershipBalanceService implements MembershipBalanceS
         final Specification<MonthlyMemberBalanceEntity>           spec;
         final Collection<MonthlyMemberBalanceEntity>              balances;
 
+        // Specification from the request
         requestSpec = MonthlyMemberBalanceSpecifications.fromQuery(balance);
+        // Up to this month
         limitSpec = MonthlyMemberBalanceSpecifications.before(YearMonth.now()
             .plusMonths(1));
 
+        // Combine specifications
         if (requestSpec.isPresent()) {
             spec = requestSpec.get()
                 .and(limitSpec);
