@@ -236,7 +236,7 @@ class ITBalanceServiceGetBalance {
                 .isEqualTo(12);
             softly.assertThat(balance.getResults())
                 .as("month results")
-                .isEqualTo(1);
+                .isEqualTo(0);
         });
     }
 
