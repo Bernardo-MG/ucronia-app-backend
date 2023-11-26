@@ -12,7 +12,7 @@ import com.bernardomg.association.membership.balance.model.request.MemberBalance
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface MemberBalanceService {
+public interface MembershipBalanceService {
 
     public Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery query, final Sort sort);
 

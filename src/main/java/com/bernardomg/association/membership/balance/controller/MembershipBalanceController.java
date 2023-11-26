@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
-import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
-import com.bernardomg.association.membership.balance.service.MemberBalanceService;
+import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
+import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -43,7 +43,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Member REST controller.
+ * Membership balance REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -52,17 +52,17 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/member")
 @AllArgsConstructor
 @Transactional
-public class MemberBalanceController {
+public class MembershipBalanceController {
 
     /**
      * Member service.
      */
-    private final MemberBalanceService service;
+    private final MembershipBalanceService service;
 
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final ValidatedMemberBalanceQuery query,
+    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQueryRequest query,
             final Sort sort) {
         return service.getBalance(query, sort);
     }

@@ -17,8 +17,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
-import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
-import com.bernardomg.association.membership.balance.service.MemberBalanceService;
+import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
+import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -40,10 +40,10 @@ class ITMemberBalanceService {
     }
 
     @Autowired
-    private FeeRepository        feeRepository;
+    private FeeRepository            feeRepository;
 
     @Autowired
-    private MemberBalanceService service;
+    private MembershipBalanceService service;
 
     private final void persist(final Integer year, final Month month, final boolean paid) {
         final PersistentFee entity;
@@ -83,7 +83,7 @@ class ITMemberBalanceService {
         yearMonth = YearMonth.now();
         persist(yearMonth.getYear(), yearMonth.getMonth(), false);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .build();
 
         sort = Sort.unsorted();
@@ -112,7 +112,7 @@ class ITMemberBalanceService {
 
         persist(date.getYear(), date.getMonth(), true);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .build();
 
         sort = Sort.unsorted();
@@ -142,7 +142,7 @@ class ITMemberBalanceService {
             .plusMonths(1);
         persist(date.getYear(), date.getMonth(), true);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .build();
 
         sort = Sort.unsorted();
@@ -160,7 +160,7 @@ class ITMemberBalanceService {
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .build();
 
         sort = Sort.unsorted();
@@ -184,7 +184,7 @@ class ITMemberBalanceService {
         persist(yearMonth.getYear(), yearMonth.getMonth(), true);
         persistAlternative(yearMonth.getYear(), yearMonth.getMonth());
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .build();
 
         sort = Sort.unsorted();

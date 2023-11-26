@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.membership.balance.model.ImmutableMonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
-import com.bernardomg.association.membership.balance.persistence.model.PersistentMonthlyMemberBalance;
+import com.bernardomg.association.membership.balance.persistence.model.MonthlyMemberBalanceEntity;
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceRepository;
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceSpecifications;
 
@@ -22,11 +22,11 @@ import com.bernardomg.association.membership.balance.persistence.repository.Mont
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class DefaultMemberBalanceService implements MemberBalanceService {
+public final class DefaultMembershipBalanceService implements MembershipBalanceService {
 
     private final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository;
 
-    public DefaultMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepo) {
+    public DefaultMembershipBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepo) {
         super();
 
         monthlyMemberBalanceRepository = Objects.requireNonNull(monthlyMemberBalanceRepo);
@@ -34,10 +34,10 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     @Override
     public final Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery query, final Sort sort) {
-        final Optional<Specification<PersistentMonthlyMemberBalance>> requestSpec;
-        final Specification<PersistentMonthlyMemberBalance>           limitSpec;
-        final Specification<PersistentMonthlyMemberBalance>           spec;
-        final Collection<PersistentMonthlyMemberBalance>              balance;
+        final Optional<Specification<MonthlyMemberBalanceEntity>> requestSpec;
+        final Specification<MonthlyMemberBalanceEntity>           limitSpec;
+        final Specification<MonthlyMemberBalanceEntity>           spec;
+        final Collection<MonthlyMemberBalanceEntity>              balance;
 
         requestSpec = MonthlyMemberBalanceSpecifications.fromRequest(query);
         limitSpec = MonthlyMemberBalanceSpecifications.before(YearMonth.now()
@@ -57,7 +57,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
             .toList();
     }
 
-    private final MonthlyMemberBalance toMonthlyBalance(final PersistentMonthlyMemberBalance entity) {
+    private final MonthlyMemberBalance toMonthlyBalance(final MonthlyMemberBalanceEntity entity) {
         final YearMonth month;
 
         month = YearMonth.of(entity.getMonth()

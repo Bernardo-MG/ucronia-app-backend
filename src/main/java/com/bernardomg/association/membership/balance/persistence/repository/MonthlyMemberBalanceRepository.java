@@ -29,9 +29,9 @@ import java.time.LocalDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.bernardomg.association.membership.balance.persistence.model.PersistentMonthlyMemberBalance;
+import com.bernardomg.association.membership.balance.persistence.model.MonthlyMemberBalanceEntity;
 
-public interface MonthlyMemberBalanceRepository extends JpaRepository<PersistentMonthlyMemberBalance, LocalDate>,
-        JpaSpecificationExecutor<PersistentMonthlyMemberBalance> {
+public interface MonthlyMemberBalanceRepository extends JpaRepository<MonthlyMemberBalanceEntity, LocalDate>,
+        JpaSpecificationExecutor<MonthlyMemberBalanceEntity> {
 
 }

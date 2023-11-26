@@ -14,8 +14,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
-import com.bernardomg.association.membership.balance.model.request.ValidatedMemberBalanceQuery;
-import com.bernardomg.association.membership.balance.service.MemberBalanceService;
+import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
+import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -28,10 +28,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMemberBalanceServiceFilter {
 
     @Autowired
-    private FeeRepository        feeRepository;
+    private FeeRepository            feeRepository;
 
     @Autowired
-    private MemberBalanceService service;
+    private MembershipBalanceService service;
 
     private final void persist(final Integer year, final Month month, final boolean paid) {
         final PersistentFee entity;
@@ -63,7 +63,7 @@ class ITMemberBalanceServiceFilter {
         persist(yearMonth.getYear(), yearMonth.getMonth()
             .plus(1), false);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .startDate(yearMonth.minusMonths(1))
             .endDate(yearMonth.plusMonths(1))
             .build();
@@ -105,7 +105,7 @@ class ITMemberBalanceServiceFilter {
         persist(yearMonth.getYear(), yearMonth.getMonth()
             .plus(1), false);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .startDate(yearMonth.minusMonths(1))
             .endDate(yearMonth.minusMonths(1))
             .build();
@@ -140,7 +140,7 @@ class ITMemberBalanceServiceFilter {
         persist(yearMonth.getYear(), yearMonth.getMonth()
             .plus(1), false);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .startDate(yearMonth)
             .endDate(yearMonth.minusMonths(1))
             .build();
@@ -170,7 +170,7 @@ class ITMemberBalanceServiceFilter {
         persist(yearMonth.getYear(), yearMonth.getMonth()
             .plus(1), false);
 
-        query = ValidatedMemberBalanceQuery.builder()
+        query = MemberBalanceQueryRequest.builder()
             .startDate(yearMonth.minusMonths(1))
             .endDate(yearMonth)
             .build();

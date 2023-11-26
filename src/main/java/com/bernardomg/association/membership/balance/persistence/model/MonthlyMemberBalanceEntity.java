@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentMonthlyMemberBalance implements Serializable {
+public class MonthlyMemberBalanceEntity implements Serializable {
 
     private static final long serialVersionUID = 4603617058960663867L;
 
