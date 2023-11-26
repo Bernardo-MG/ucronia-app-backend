@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
+import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -86,7 +86,7 @@ public class BalanceController {
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.MONTHLY_BALANCE)
-    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final ValidatedBalanceQuery query,
+    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final BalanceQueryRequest query,
             final Sort sort) {
         return service.getMonthlyBalance(query, sort);
     }

@@ -39,7 +39,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
+import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.test.balance.assertion.BalanceAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -61,7 +61,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .endDate(YearMonth.of(2019, Month.DECEMBER))
             .build();
         balances = service.getMonthlyBalance(query, sort);
@@ -82,7 +82,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .endDate(YearMonth.of(2020, Month.DECEMBER))
             .build();
         balances = service.getMonthlyBalance(query, sort);
@@ -189,7 +189,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .endDate(YearMonth.of(2020, Month.DECEMBER))
             .build();
@@ -297,7 +297,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .endDate(YearMonth.of(2020, Month.JANUARY))
             .build();
@@ -328,7 +328,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .endDate(YearMonth.of(2020, Month.FEBRUARY))
             .build();
@@ -364,7 +364,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .startDate(YearMonth.of(2020, Month.DECEMBER))
             .endDate(YearMonth.of(2020, Month.JANUARY))
             .build();
@@ -384,7 +384,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .startDate(YearMonth.of(2021, Month.JANUARY))
             .build();
         balances = service.getMonthlyBalance(query, sort);
@@ -405,7 +405,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .startDate(YearMonth.of(2020, Month.JANUARY))
             .build();
         balances = service.getMonthlyBalance(query, sort);

@@ -37,7 +37,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedBalanceQuery implements BalanceQuery {
+public final class BalanceQueryRequest implements BalanceQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     private YearMonth endDate;

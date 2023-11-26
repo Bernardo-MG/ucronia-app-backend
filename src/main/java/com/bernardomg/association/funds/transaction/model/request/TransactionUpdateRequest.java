@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedTransactionUpdate implements TransactionUpdate {
+public final class TransactionUpdateRequest implements TransactionUpdate {
 
     @NotNull
     private Float     amount;
