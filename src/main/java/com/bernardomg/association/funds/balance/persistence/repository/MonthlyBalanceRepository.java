@@ -25,13 +25,29 @@
 package com.bernardomg.association.funds.balance.persistence.repository;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.funds.balance.persistence.model.PersistentMonthlyBalance;
+import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
 
+/**
+ * Monthly balance repository.
+ */
 public interface MonthlyBalanceRepository
-        extends JpaRepository<PersistentMonthlyBalance, LocalDate>, JpaSpecificationExecutor<PersistentMonthlyBalance> {
+        extends JpaRepository<MonthlyBalanceEntity, LocalDate>, JpaSpecificationExecutor<MonthlyBalanceEntity> {
+
+    /**
+     * Finds the latest balance with a month equal to or before the received one.
+     *
+     * @param month
+     *            month to mark the upper limit
+     * @return the latest balance in the month or before it
+     */
+    @Query("SELECT b FROM MonthlyBalance b WHERE month <= :month ORDER BY month DESC LIMIT 1")
+    public Optional<MonthlyBalanceEntity> findLatestInOrBefore(@Param("month") final LocalDate month);
 
 }

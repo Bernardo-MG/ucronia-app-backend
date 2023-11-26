@@ -14,10 +14,9 @@ public final class BalanceAssertions {
         Assertions.assertThat(received.getTotal())
             .withFailMessage("Expected total '%s' but got '%s'", expected.getTotal(), received.getTotal())
             .isEqualTo(expected.getTotal());
-        Assertions.assertThat(received.getDifference())
-            .withFailMessage("Expected difference '%s' but got '%s'", expected.getDifference(),
-                received.getDifference())
-            .isEqualTo(expected.getDifference());
+        Assertions.assertThat(received.getResults())
+            .withFailMessage("Expected difference '%s' but got '%s'", expected.getResults(), received.getResults())
+            .isEqualTo(expected.getResults());
     }
 
 }

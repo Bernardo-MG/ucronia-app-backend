@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
 import com.bernardomg.association.funds.balance.service.BalanceService;
@@ -45,7 +46,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Balance REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -56,15 +57,32 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class BalanceController {
 
+    /**
+     * Balance service
+     */
     private final BalanceService service;
 
+    /**
+     * Returns the current balance.
+     *
+     * @return the current balance
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.BALANCE)
-    public MonthlyBalance readBalance() {
+    public CurrentBalance readBalance() {
         return service.getBalance();
     }
 
+    /**
+     * Returns the monthly balance.
+     *
+     * @param query
+     *            range to search for the balance
+     * @param sort
+     *            sorting to apply
+     * @return the monthly balance
+     */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.MONTHLY_BALANCE)

@@ -1,25 +1,52 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.funds.balance.service;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.bernardomg.association.funds.balance.model.CurrentBalance;
+import com.bernardomg.association.funds.balance.model.ImmutableCurrentBalance;
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.persistence.model.PersistentMonthlyBalance;
+import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
-import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceSpecifications;
+import com.bernardomg.association.funds.balance.persistence.specification.MonthlyBalanceSpecifications;
 
+/**
+ * Default implementation of the balance service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 public final class DefaultBalanceService implements BalanceService {
 
     private final MonthlyBalanceRepository monthlyBalanceRepository;
@@ -31,42 +58,59 @@ public final class DefaultBalanceService implements BalanceService {
     }
 
     @Override
-    public final MonthlyBalance getBalance() {
-        final Pageable                       page;
-        final Sort                           sort;
-        final Page<PersistentMonthlyBalance> balances;
-        final PersistentMonthlyBalance       balance;
-        final MonthlyBalance                 result;
+    public final CurrentBalance getBalance() {
+        final MonthlyBalanceEntity           balance;
+        final Optional<MonthlyBalanceEntity> readBalance;
+        final CurrentBalance                 currentBalance;
+        final LocalDate                      month;
+        final Float                          results;
 
-        sort = Sort.by(Direction.DESC, "month");
-        page = PageRequest.of(0, 1, sort);
-        balances = monthlyBalanceRepository.findAll(page);
-        if (balances.isEmpty()) {
-            result = ImmutableMonthlyBalance.builder()
-                .month(YearMonth.now())
+        // Find latest monthly balance
+        // Ignore future balances
+        month = LocalDate.now()
+            .withDayOfMonth(1);
+        readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
+
+        if (readBalance.isEmpty()) {
+            currentBalance = ImmutableCurrentBalance.builder()
                 .total(0F)
-                .difference(0F)
+                .results(0F)
                 .build();
         } else {
-            balance = balances.iterator()
-                .next();
-            result = toMonthlyBalance(balance);
+            balance = readBalance.get();
+
+            // Take the results only if it's the current month
+            if (balance.getMonth()
+                .getMonth()
+                .equals(month.getMonth())) {
+                results = balance.getResults();
+            } else {
+                results = 0F;
+            }
+
+            currentBalance = ImmutableCurrentBalance.builder()
+                .total(balance.getTotal())
+                .results(results)
+                .build();
         }
 
-        return result;
+        return currentBalance;
     }
 
     @Override
     public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
-        final Optional<Specification<PersistentMonthlyBalance>> requestSpec;
-        final Specification<PersistentMonthlyBalance>           limitSpec;
-        final Specification<PersistentMonthlyBalance>           spec;
-        final Collection<PersistentMonthlyBalance>              balance;
+        final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
+        final Specification<MonthlyBalanceEntity>           limitSpec;
+        final Specification<MonthlyBalanceEntity>           spec;
+        final Collection<MonthlyBalanceEntity>              balance;
 
+        // Specification from the request
         requestSpec = MonthlyBalanceSpecifications.fromRequest(query);
+        // Up to this month
         limitSpec = MonthlyBalanceSpecifications.before(YearMonth.now()
             .plusMonths(1));
 
+        // Combine specifications
         if (requestSpec.isPresent()) {
             spec = requestSpec.get()
                 .and(limitSpec);
@@ -81,7 +125,7 @@ public final class DefaultBalanceService implements BalanceService {
             .toList();
     }
 
-    private final MonthlyBalance toMonthlyBalance(final PersistentMonthlyBalance entity) {
+    private final MonthlyBalance toMonthlyBalance(final MonthlyBalanceEntity entity) {
         final YearMonth month;
 
         month = YearMonth.of(entity.getMonth()
@@ -91,7 +135,7 @@ public final class DefaultBalanceService implements BalanceService {
         return ImmutableMonthlyBalance.builder()
             .month(month)
             .total(entity.getTotal())
-            .difference(entity.getDifference())
+            .results(entity.getResults())
             .build();
     }
 

@@ -22,8 +22,12 @@
  * SOFTWARE.
  */
 
-/**
- * Application root folder.
- */
+package com.bernardomg.association.funds.balance.model;
 
-package com.bernardomg;
+public interface CurrentBalance {
+
+    public Float getResults();
+
+    public Float getTotal();
+
+}
