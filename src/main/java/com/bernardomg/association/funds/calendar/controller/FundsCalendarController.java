@@ -60,10 +60,19 @@ public class FundsCalendarController {
      */
     private final FundsCalendarService service;
 
+    /**
+     * Returns all the fund changes for a month.
+     *
+     * @param year
+     *            year to read
+     * @param month
+     *            month to read
+     * @return all the fund changes for the month
+     */
     @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.CALENDAR)
-    public Iterable<? extends CalendarFundsDate> readAll(@PathVariable("year") final Integer year,
+    public Iterable<? extends CalendarFundsDate> readMonth(@PathVariable("year") final Integer year,
             @PathVariable("month") final Integer month) {
         final YearMonth date;
 
@@ -71,6 +80,11 @@ public class FundsCalendarController {
         return service.getYearMonth(date);
     }
 
+    /**
+     * Returns the range of available months.
+     *
+     * @return the range of available months
+     */
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.CALENDAR_RANGE)
