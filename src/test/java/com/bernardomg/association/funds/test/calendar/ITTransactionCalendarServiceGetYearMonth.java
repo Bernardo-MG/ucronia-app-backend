@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
-import com.bernardomg.association.funds.transaction.model.Transaction;
+import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
+import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -45,7 +45,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITTransactionCalendarServiceGetYearMonth {
 
     @Autowired
-    private TransactionCalendarService service;
+    private FundsCalendarService service;
 
     public ITTransactionCalendarServiceGetYearMonth() {
         super();
@@ -55,9 +55,9 @@ class ITTransactionCalendarServiceGetYearMonth {
     @DisplayName("Only the data for the month is returned")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetRange_FullYear() {
-        final YearMonth                       date;
-        final Iterable<? extends Transaction> data;
-        final Transaction                     transaction;
+        final YearMonth                             date;
+        final Iterable<? extends CalendarFundsDate> data;
+        final CalendarFundsDate                     transaction;
 
         date = YearMonth.of(2020, Month.FEBRUARY);
         data = service.getYearMonth(date);
@@ -79,8 +79,8 @@ class ITTransactionCalendarServiceGetYearMonth {
     @DisplayName("Reading for a not existing month returns nothing")
     @Sql({ "/db/queries/transaction/full_year.sql" })
     void testGetRange_FullYear_NotExisting() {
-        final YearMonth                       date;
-        final Iterable<? extends Transaction> data;
+        final YearMonth                             date;
+        final Iterable<? extends CalendarFundsDate> data;
 
         date = YearMonth.of(2019, Month.DECEMBER);
         data = service.getYearMonth(date);
@@ -92,8 +92,8 @@ class ITTransactionCalendarServiceGetYearMonth {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testGetRange_NoData() {
-        final YearMonth                       date;
-        final Iterable<? extends Transaction> data;
+        final YearMonth                             date;
+        final Iterable<? extends CalendarFundsDate> data;
 
         date = YearMonth.of(2020, Month.FEBRUARY);
         data = service.getYearMonth(date);

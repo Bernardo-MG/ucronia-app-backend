@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
-import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
+import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -44,7 +44,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITTransactionCalendarServiceGetRange {
 
     @Autowired
-    private TransactionCalendarService service;
+    private FundsCalendarService service;
 
     public ITTransactionCalendarServiceGetRange() {
         super();

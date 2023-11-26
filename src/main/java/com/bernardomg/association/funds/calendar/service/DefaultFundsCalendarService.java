@@ -7,10 +7,10 @@ import java.util.Objects;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
+import com.bernardomg.association.funds.calendar.model.ImmutableCalendarFundsDate;
 import com.bernardomg.association.funds.calendar.model.ImmutableTransactionRange;
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
-import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
@@ -24,17 +24,14 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class DefaultTransactionCalendarService implements TransactionCalendarService {
-
-    private final TransactionMapper     mapper;
+public final class DefaultFundsCalendarService implements FundsCalendarService {
 
     private final TransactionRepository transactionRepository;
 
-    public DefaultTransactionCalendarService(final TransactionRepository transactionRepo, final TransactionMapper mpr) {
+    public DefaultFundsCalendarService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
-        mapper = Objects.requireNonNull(mpr);
     }
 
     @Override
@@ -54,7 +51,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
-    public final Iterable<? extends Transaction> getYearMonth(final YearMonth date) {
+    public final Iterable<? extends CalendarFundsDate> getYearMonth(final YearMonth date) {
         final Specification<PersistentTransaction> spec;
         final Collection<PersistentTransaction>    read;
 
@@ -62,8 +59,17 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
         read = transactionRepository.findAll(spec);
 
         return read.stream()
-            .map(mapper::toDto)
+            .map(this::toDto)
             .toList();
+    }
+
+    private final CalendarFundsDate toDto(final PersistentTransaction entity) {
+        return ImmutableCalendarFundsDate.builder()
+            .id(entity.getId())
+            .date(entity.getDate())
+            .description(entity.getDescription())
+            .amount(entity.getAmount())
+            .build();
     }
 
 }

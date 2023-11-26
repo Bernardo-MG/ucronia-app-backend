@@ -35,16 +35,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.cache.FundsCaches;
+import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.model.TransactionRange;
-import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
-import com.bernardomg.association.funds.transaction.model.Transaction;
+import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import lombok.AllArgsConstructor;
 
 /**
- * Transaction REST controller.
+ * Funds calendar REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -53,17 +53,17 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/funds/calendar")
 @AllArgsConstructor
 @Transactional
-public class TransactionCalendarController {
+public class FundsCalendarController {
 
     /**
-     * Transaction service.
+     * Funds calendar service.
      */
-    private final TransactionCalendarService service;
+    private final FundsCalendarService service;
 
     @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.CALENDAR)
-    public Iterable<? extends Transaction> readAll(@PathVariable("year") final Integer year,
+    public Iterable<? extends CalendarFundsDate> readAll(@PathVariable("year") final Integer year,
             @PathVariable("month") final Integer month) {
         final YearMonth date;
 

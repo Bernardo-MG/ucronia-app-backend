@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.balance.service.DefaultBalanceService;
-import com.bernardomg.association.funds.calendar.service.DefaultTransactionCalendarService;
-import com.bernardomg.association.funds.calendar.service.TransactionCalendarService;
+import com.bernardomg.association.funds.calendar.service.DefaultFundsCalendarService;
+import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
 import com.bernardomg.association.funds.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.DefaultTransactionService;
@@ -55,10 +55,9 @@ public class FundsConfig {
         return new DefaultBalanceService(monthlyBalanceRepository);
     }
 
-    @Bean("transactionCalendarService")
-    public TransactionCalendarService getTransactionCalendarService(final TransactionRepository transactionRepository,
-            final TransactionMapper mapper) {
-        return new DefaultTransactionCalendarService(transactionRepository, mapper);
+    @Bean("fundsCalendarService")
+    public FundsCalendarService getFundsCalendarService(final TransactionRepository transactionRepository) {
+        return new DefaultFundsCalendarService(transactionRepository);
     }
 
     @Bean("transactionService")
