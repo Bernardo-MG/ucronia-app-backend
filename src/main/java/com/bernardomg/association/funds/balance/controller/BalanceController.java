@@ -77,8 +77,8 @@ public class BalanceController {
     /**
      * Returns the monthly balance.
      *
-     * @param query
-     *            range to search for the balance
+     * @param balance
+     *            query to filter balances
      * @param sort
      *            sorting to apply
      * @return the monthly balance
@@ -86,9 +86,9 @@ public class BalanceController {
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.MONTHLY_BALANCE)
-    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final BalanceQueryRequest query,
+    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final BalanceQueryRequest balance,
             final Sort sort) {
-        return service.getMonthlyBalance(query, sort);
+        return service.getMonthlyBalance(balance, sort);
     }
 
 }

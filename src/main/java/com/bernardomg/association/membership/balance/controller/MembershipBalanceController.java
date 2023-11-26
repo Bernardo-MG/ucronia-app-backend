@@ -44,6 +44,8 @@ import lombok.AllArgsConstructor;
 
 /**
  * Membership balance REST controller.
+ * <p>
+ * TODO: the route should show this is the balance
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -55,16 +57,25 @@ import lombok.AllArgsConstructor;
 public class MembershipBalanceController {
 
     /**
-     * Member service.
+     * Membership balance service.
      */
     private final MembershipBalanceService service;
 
+    /**
+     * Returns the monthly membership balance.
+     *
+     * @param balance
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly membership balance
+     */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQueryRequest query,
+    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQueryRequest balance,
             final Sort sort) {
-        return service.getBalance(query, sort);
+        return service.getBalance(balance, sort);
     }
 
 }

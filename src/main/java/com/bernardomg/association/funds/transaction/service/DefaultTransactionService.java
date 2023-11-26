@@ -70,13 +70,13 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable) {
+    public final Iterable<Transaction> getAll(final TransactionQuery transaction, final Pageable pageable) {
         final Page<PersistentTransaction>                    page;
         final Optional<Specification<PersistentTransaction>> spec;
 
-        log.debug("Reading members with sample {} and pagination {}", request, pageable);
+        log.debug("Reading members with sample {} and pagination {}", transaction, pageable);
 
-        spec = TransactionSpecifications.fromRequest(request);
+        spec = TransactionSpecifications.fromQuery(transaction);
 
         if (spec.isEmpty()) {
             page = transactionRepository.findAll(pageable);

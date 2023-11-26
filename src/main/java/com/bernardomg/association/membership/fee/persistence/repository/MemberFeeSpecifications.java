@@ -27,7 +27,7 @@ public final class MemberFeeSpecifications {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<PersistentMemberFee>> fromRequest(final FeeQuery request) {
+    public static Optional<Specification<PersistentMemberFee>> fromQuery(final FeeQuery request) {
         final Optional<Specification<PersistentMemberFee>> spec;
 
         if (request.getDate() != null) {

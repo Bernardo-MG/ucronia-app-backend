@@ -61,7 +61,7 @@ public final class TransactionSpecifications {
      *            request to create a specification from
      * @return specification for the request
      */
-    public static final Optional<Specification<PersistentTransaction>> fromRequest(final TransactionQuery request) {
+    public static final Optional<Specification<PersistentTransaction>> fromQuery(final TransactionQuery request) {
         final Optional<Specification<PersistentTransaction>> spec;
 
         if (request.getDate() != null) {

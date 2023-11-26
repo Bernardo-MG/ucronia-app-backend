@@ -105,7 +105,7 @@ public final class DefaultFeeService implements FeeService {
 
         log.debug("Reading fees with sample {} and pagination {}", query, pageable);
 
-        spec = MemberFeeSpecifications.fromRequest(query);
+        spec = MemberFeeSpecifications.fromQuery(query);
 
         if (spec.isEmpty()) {
             page = memberFeeRepository.findAll(pageable);

@@ -70,7 +70,7 @@ public final class MonthlyBalanceSpecifications {
      *            request to create a specification from
      * @return specification for the request
      */
-    public static Optional<Specification<MonthlyBalanceEntity>> fromRequest(final BalanceQuery request) {
+    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final BalanceQuery request) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
 
         if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
