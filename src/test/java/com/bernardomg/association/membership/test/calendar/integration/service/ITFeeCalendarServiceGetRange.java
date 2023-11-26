@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
+import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -41,7 +41,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetRange {
 
     @Autowired
-    private FeeCalendarService service;
+    private MemberFeeCalendarService service;
 
     public ITFeeCalendarServiceGetRange() {
         super();

@@ -25,7 +25,7 @@
 package com.bernardomg.association.membership.calendar.controller;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
-import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalendarQueryRequest;
-import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
+import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -55,9 +55,9 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/fee/calendar")
 @AllArgsConstructor
 @Transactional
-public class FeeCalendarController {
+public class MemberFeeCalendarController {
 
-    private final FeeCalendarService service;
+    private final MemberFeeCalendarService service;
 
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
@@ -69,10 +69,9 @@ public class FeeCalendarController {
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.CALENDAR)
-    public Iterable<UserFeeCalendar> readYear(@PathVariable("year") final Integer year,
-            final DtoFeeCalendarQueryRequest request, final Pageable pageable) {
-        // TODO: receive just the sort object
-        return service.getYear(year, request.getStatus(), pageable.getSort());
+    public Iterable<MemberFeeCalendar> readYear(@PathVariable("year") final Integer year,
+            final DtoFeeCalendarQueryRequest request, final Sort sort) {
+        return service.getYear(year, request.getStatus(), sort);
     }
 
 }

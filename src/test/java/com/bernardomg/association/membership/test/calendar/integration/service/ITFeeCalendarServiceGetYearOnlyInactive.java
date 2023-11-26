@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
+import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -43,7 +43,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetYearOnlyInactive {
 
     @Autowired
-    private FeeCalendarService service;
+    private MemberFeeCalendarService service;
 
     public ITFeeCalendarServiceGetYearOnlyInactive() {
         super();
@@ -53,8 +53,8 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
     @DisplayName("With a full year it returns all the entities")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FullYear_Count() {
-        final Iterable<UserFeeCalendar> calendars;
-        final Sort                      sort;
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
 
         sort = Sort.unsorted();
 
@@ -68,8 +68,8 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
     @DisplayName("With a single month for an active member it returns nothing")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
     void testGetYear_SingleMonth_Count() {
-        final Iterable<UserFeeCalendar> calendars;
-        final Sort                      sort;
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
 
         sort = Sort.unsorted();
 
@@ -83,8 +83,8 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
     @DisplayName("With a single month for an inactive member it returns all the data")
     @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/first_month.sql" })
     void testGetYear_SingleMonth_Inactive_Count() {
-        final Iterable<UserFeeCalendar> calendars;
-        final Sort                      sort;
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
 
         sort = Sort.unsorted();
 
@@ -102,8 +102,8 @@ class ITFeeCalendarServiceGetYearOnlyInactive {
     @DisplayName("With a single unpaid month for an active member it returns nothing")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
     void testGetYear_SingleMonth_Unpaid_Count() {
-        final Iterable<UserFeeCalendar> calendars;
-        final Sort                      sort;
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
 
         sort = Sort.unsorted();
 

@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.calendar.model.request;
+package com.bernardomg.association.membership.calendar.model;
 
-import com.bernardomg.association.membership.member.model.MemberStatus;
+import java.util.Collection;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public interface MemberFeeCalendar {
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public final class DtoFeeCalendarQueryRequest {
+    public Boolean getActive();
 
-    @Builder.Default
-    private MemberStatus status = MemberStatus.ALL;
+    public Long getMemberId();
+
+    public String getMemberName();
+
+    public Collection<FeeMonth> getMonths();
+
+    public Integer getYear();
 
 }

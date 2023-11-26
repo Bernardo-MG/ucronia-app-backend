@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.membership.calendar.service;
 
@@ -19,8 +42,8 @@ import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.ImmutableFeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.ImmutableFeeMonth;
-import com.bernardomg.association.membership.calendar.model.ImmutableUserFeeCalendar;
-import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
@@ -29,11 +52,11 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class DefaultFeeCalendarService implements FeeCalendarService {
+public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarService {
 
     private final MemberFeeRepository memberFeeRepository;
 
-    public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo) {
+    public DefaultMemberFeeCalendarService(final MemberFeeRepository memberFeeRepo) {
         super();
 
         memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
@@ -50,14 +73,14 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    public final Iterable<UserFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
+    public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
         final Collection<PersistentMemberFee>      readFees;
         final Map<Long, List<PersistentMemberFee>> memberFees;
-        final Collection<UserFeeCalendar>          years;
+        final Collection<MemberFeeCalendar>        years;
         final Iterable<Long>                       memberIds;
         Specification<PersistentMemberFee>         spec;
         List<PersistentMemberFee>                  fees;
-        UserFeeCalendar                            feeYear;
+        MemberFeeCalendar                          feeYear;
         Boolean                                    activeFilter;
 
         spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
@@ -111,7 +134,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .build();
     }
 
-    private final UserFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
+    private final MemberFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
             final Collection<PersistentMemberFee> fees) {
         final Collection<FeeMonth> months;
         final PersistentMemberFee  row;
@@ -136,7 +159,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             name = row.getMemberName();
         }
 
-        return ImmutableUserFeeCalendar.builder()
+        return ImmutableMemberFeeCalendar.builder()
             .memberId(member)
             .memberName(name)
             .active(active)

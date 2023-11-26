@@ -22,25 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.calendar.model;
+package com.bernardomg.association.membership.calendar.service;
 
-import java.util.Collection;
+import org.springframework.data.domain.Sort;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
+import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.member.model.MemberStatus;
 
-@Value
-@Builder
-public final class ImmutableUserFeeCalendar implements UserFeeCalendar {
+/**
+ * Fee service. Supports all the CRUD operations.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface MemberFeeCalendarService {
 
-    private final Boolean              active;
+    public FeeCalendarRange getRange();
 
-    private final Long                 memberId;
-
-    private final String               memberName;
-
-    private final Collection<FeeMonth> months;
-
-    private final Integer              year;
+    public Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort);
 
 }
