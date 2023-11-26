@@ -26,7 +26,7 @@ package com.bernardomg.association.funds.test.balance.integration.service;
 
 import java.time.LocalDate;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -130,10 +130,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(amount);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(amount);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(amount);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(amount);
+        });
     }
 
     @Test
@@ -145,10 +149,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(1);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(1);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(1);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(1);
+        });
     }
 
     @Test
@@ -162,10 +170,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(6);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(1);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(1);
+        });
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -178,10 +190,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(amount);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(amount);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(amount);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(amount);
+        });
     }
 
     @Test
@@ -196,10 +212,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isZero();
-        Assertions.assertThat(balance.getResults())
-            .isZero();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isZero();
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
     @Test
@@ -210,10 +230,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(12);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(1);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(12);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(1);
+        });
     }
 
     @Test
@@ -229,10 +253,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(5);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(5);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(5);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(5);
+        });
     }
 
     @Test
@@ -244,10 +272,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(0);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(0);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isZero();
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
     @Test
@@ -257,10 +289,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isZero();
-        Assertions.assertThat(balance.getResults())
-            .isZero();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isZero();
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
     @Test
@@ -274,10 +310,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(6);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(0);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
     @Test
@@ -291,10 +331,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(6);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(0);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
     @Test
@@ -308,10 +352,14 @@ class ITBalanceServiceGetBalance {
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(6);
-        Assertions.assertThat(balance.getResults())
-            .isEqualTo(0);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
 }
