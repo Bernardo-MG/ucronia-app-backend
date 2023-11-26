@@ -22,21 +22,43 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.balance.model;
+package com.bernardomg.association.funds.balance.persistence.model;
 
-import java.time.YearMonth;
+import java.io.Serializable;
+import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+/**
+ * Monthly balance entity. The table is actually a view.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+@Entity(name = "MonthlyBalance")
+@Table(name = "monthly_balances")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public final class ImmutableMonthlyBalance implements MonthlyBalance {
+public class MonthlyBalanceEntity implements Serializable {
 
-    private YearMonth month;
+    private static final long serialVersionUID = 4603617058960663867L;
 
-    private Float     results;
+    @Id
+    @Column(name = "date", nullable = false)
+    private LocalDate         month;
 
-    private Float     total;
+    @Column(name = "results", nullable = false)
+    private Float             results;
+
+    @Column(name = "total", nullable = false)
+    private Float             total;
 
 }

@@ -46,7 +46,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Balance REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

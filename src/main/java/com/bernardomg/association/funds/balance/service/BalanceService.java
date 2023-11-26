@@ -34,11 +34,27 @@ import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 
 /**
  * Balance service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
 public interface BalanceService {
 
+    /**
+     * Returns the current balance.
+     *
+     * @return the current balance
+     */
     public CurrentBalance getBalance();
 
+    /**
+     * Returns the monthly balances for the query.
+     *
+     * @param query
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly balances
+     */
     public Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
 
 }

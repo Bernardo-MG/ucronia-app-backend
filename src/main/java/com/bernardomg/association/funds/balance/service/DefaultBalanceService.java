@@ -38,10 +38,15 @@ import com.bernardomg.association.funds.balance.model.ImmutableCurrentBalance;
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.persistence.model.PersistentMonthlyBalance;
+import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.funds.balance.persistence.specification.MonthlyBalanceSpecifications;
 
+/**
+ * Default implementation of the balance service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 public final class DefaultBalanceService implements BalanceService {
 
     private final MonthlyBalanceRepository monthlyBalanceRepository;
@@ -54,15 +59,18 @@ public final class DefaultBalanceService implements BalanceService {
 
     @Override
     public final CurrentBalance getBalance() {
-        final PersistentMonthlyBalance           balance;
-        final Optional<PersistentMonthlyBalance> readBalance;
-        final CurrentBalance                     currentBalance;
-        final LocalDate                          month;
-        final Float                              results;
+        final MonthlyBalanceEntity           balance;
+        final Optional<MonthlyBalanceEntity> readBalance;
+        final CurrentBalance                 currentBalance;
+        final LocalDate                      month;
+        final Float                          results;
 
+        // Find latest monthly balance
+        // Ignore future balances
         month = LocalDate.now()
             .withDayOfMonth(1);
-        readBalance = monthlyBalanceRepository.findLatest(month);
+        readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
+
         if (readBalance.isEmpty()) {
             currentBalance = ImmutableCurrentBalance.builder()
                 .total(0F)
@@ -91,15 +99,18 @@ public final class DefaultBalanceService implements BalanceService {
 
     @Override
     public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
-        final Optional<Specification<PersistentMonthlyBalance>> requestSpec;
-        final Specification<PersistentMonthlyBalance>           limitSpec;
-        final Specification<PersistentMonthlyBalance>           spec;
-        final Collection<PersistentMonthlyBalance>              balance;
+        final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
+        final Specification<MonthlyBalanceEntity>           limitSpec;
+        final Specification<MonthlyBalanceEntity>           spec;
+        final Collection<MonthlyBalanceEntity>              balance;
 
+        // Specification from the request
         requestSpec = MonthlyBalanceSpecifications.fromRequest(query);
+        // Up to this month
         limitSpec = MonthlyBalanceSpecifications.before(YearMonth.now()
             .plusMonths(1));
 
+        // Combine specifications
         if (requestSpec.isPresent()) {
             spec = requestSpec.get()
                 .and(limitSpec);
@@ -114,7 +125,7 @@ public final class DefaultBalanceService implements BalanceService {
             .toList();
     }
 
-    private final MonthlyBalance toMonthlyBalance(final PersistentMonthlyBalance entity) {
+    private final MonthlyBalance toMonthlyBalance(final MonthlyBalanceEntity entity) {
         final YearMonth month;
 
         month = YearMonth.of(entity.getMonth()
