@@ -60,7 +60,6 @@ public final class DefaultBalanceService implements BalanceService {
         final LocalDate                          month;
         final Float                              results;
 
-        // TODO: Return balance results for the current month, not the last one
         month = LocalDate.now()
             .withDayOfMonth(1);
         readBalance = monthlyBalanceRepository.findLatest(month);
