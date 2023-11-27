@@ -22,17 +22,13 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.calendar.model;
+package com.bernardomg.association.funds.calendar.model;
 
+import java.time.YearMonth;
 import java.util.Collection;
 
-import lombok.Builder;
-import lombok.Value;
+public interface MonthsRange {
 
-@Value
-@Builder
-public final class ImmutableFeeCalendarRange implements FeeCalendarRange {
-
-    private final Collection<Integer> years;
+    public Collection<YearMonth> getMonths();
 
 }

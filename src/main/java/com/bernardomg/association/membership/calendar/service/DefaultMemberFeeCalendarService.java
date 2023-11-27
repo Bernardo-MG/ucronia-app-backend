@@ -38,12 +38,12 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.ImmutableFeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.ImmutableFeeMonth;
 import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.ImmutableYearsRange;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
@@ -63,11 +63,11 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
     }
 
     @Override
-    public final FeeCalendarRange getRange() {
+    public final YearsRange getRange() {
         final Collection<Integer> years;
 
         years = memberFeeRepository.findYears();
-        return ImmutableFeeCalendarRange.builder()
+        return ImmutableYearsRange.builder()
             .years(years)
             .build();
     }

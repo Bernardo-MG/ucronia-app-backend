@@ -26,8 +26,8 @@ package com.bernardomg.association.membership.calendar.service;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 
 /**
@@ -38,8 +38,24 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
  */
 public interface MemberFeeCalendarService {
 
-    public FeeCalendarRange getRange();
+    /**
+     * Returns the range of available years.
+     *
+     * @return the range of available years
+     */
+    public YearsRange getRange();
 
+    /**
+     * Returns all the member fees for a year.
+     *
+     * @param year
+     *            year to read
+     * @param active
+     *            member active status
+     * @param sort
+     *            sorting to apply
+     * @return all the member fees for a year
+     */
     public Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort);
 
 }

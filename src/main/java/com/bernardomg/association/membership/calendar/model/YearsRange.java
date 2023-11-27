@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.calendar.model;
+package com.bernardomg.association.membership.calendar.model;
 
-import java.time.YearMonth;
 import java.util.Collection;
 
-public interface TransactionRange {
+public interface YearsRange {
 
-    public Collection<YearMonth> getMonths();
+    public Collection<Integer> getYears();
 
 }

@@ -32,7 +32,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public final class ImmutableTransactionRange implements TransactionRange {
+public final class ImmutableMonthsRange implements MonthsRange {
 
     private final Collection<YearMonth> months;
 

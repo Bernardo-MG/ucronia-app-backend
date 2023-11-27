@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
-import com.bernardomg.association.membership.calendar.model.FeeCalendarRange;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -44,7 +44,7 @@ import com.bernardomg.security.authorization.permission.constant.Actions;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee year REST controller.
+ * Member fee calendar REST controller.
  *
  * TODO: rework this model
  *
@@ -57,15 +57,34 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class MemberFeeCalendarController {
 
+    /**
+     * Member fee calendar service.
+     */
     private final MemberFeeCalendarService service;
 
+    /**
+     * Returns the range of available years.
+     *
+     * @return the range of available years
+     */
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.CALENDAR_RANGE)
-    public FeeCalendarRange readRange() {
+    public YearsRange readRange() {
         return service.getRange();
     }
 
+    /**
+     * Returns all the member fees for a year.
+     *
+     * @param year
+     *            year to read
+     * @param request
+     *            request data
+     * @param sort
+     *            sorting to apply
+     * @return all the member fees for a year
+     */
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.CALENDAR)
