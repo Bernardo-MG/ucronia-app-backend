@@ -70,15 +70,15 @@ public final class MonthlyBalanceSpecifications {
      *            request to create a specification from
      * @return specification for the request
      */
-    public static Optional<Specification<MonthlyBalanceEntity>> fromRequest(final BalanceQuery request) {
+    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final BalanceQuery request) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
 
         if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
             spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
         } else if (request.getStartDate() != null) {
-            spec = Optional.of(inOrAfter(request.getStartDate()));
+            spec = Optional.of(onOrAfter(request.getStartDate()));
         } else if (request.getEndDate() != null) {
-            spec = Optional.of(inOrBefore(request.getEndDate()));
+            spec = Optional.of(onOrBefore(request.getEndDate()));
         } else {
             spec = Optional.empty();
         }
@@ -87,24 +87,24 @@ public final class MonthlyBalanceSpecifications {
     }
 
     /**
-     * Monthly balances in or after the month.
+     * Monthly balances on or after the month.
      *
      * @param month
      *            month to mark the lower limit
-     * @return monthly balances in or after the month
+     * @return monthly balances on or after the month
      */
-    public static Specification<MonthlyBalanceEntity> inOrAfter(final YearMonth month) {
+    public static Specification<MonthlyBalanceEntity> onOrAfter(final YearMonth month) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), month.atDay(1));
     }
 
     /**
-     * Monthly balances in or before the month.
+     * Monthly balances on or before the month.
      *
      * @param month
      *            month to mark the lower limit
-     * @return monthly balances in or before the month
+     * @return monthly balances on or before the month
      */
-    public static Specification<MonthlyBalanceEntity> inOrBefore(final YearMonth month) {
+    public static Specification<MonthlyBalanceEntity> onOrBefore(final YearMonth month) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), month.atDay(1));
     }
 

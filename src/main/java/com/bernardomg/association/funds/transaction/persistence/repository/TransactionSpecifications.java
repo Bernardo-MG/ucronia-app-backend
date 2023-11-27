@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.funds.transaction.persistence.repository;
 
@@ -10,42 +33,45 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 
+/**
+ * Specifications for transactions.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 public final class TransactionSpecifications {
 
-    public static final Specification<PersistentTransaction> after(final LocalDate date) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
-    }
-
-    public static final Specification<PersistentTransaction> before(final LocalDate date) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
-    }
-
-    public static final Specification<PersistentTransaction> between(final LocalDate start, final LocalDate end) {
+    /**
+     * Transactions between both dates, including them.
+     *
+     * @param start
+     *            starting date
+     * @param end
+     *            final date
+     * @return transactions between both dates
+     */
+    public static final Specification<PersistentTransaction> betweenIncluding(final LocalDate start,
+            final LocalDate end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static final Specification<PersistentTransaction> fromDate(final YearMonth date) {
-        final LocalDate startDate;
-        final LocalDate endDate;
-
-        startDate = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
-        endDate = LocalDate.of(date.getYear(), date.getMonthValue(), date.getMonth()
-            .length(date.isLeapYear()));
-
-        return between(startDate, endDate);
-    }
-
-    public static final Optional<Specification<PersistentTransaction>> fromRequest(final TransactionQuery request) {
+    /**
+     * Creates an specification from the request.
+     *
+     * @param request
+     *            request to create a specification from
+     * @return specification for the request
+     */
+    public static final Optional<Specification<PersistentTransaction>> fromQuery(final TransactionQuery request) {
         final Optional<Specification<PersistentTransaction>> spec;
 
         if (request.getDate() != null) {
             spec = Optional.of(on(request.getDate()));
         } else if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(between(request.getStartDate(), request.getEndDate()));
+            spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
         } else if (request.getStartDate() != null) {
-            spec = Optional.of(after(request.getStartDate()));
+            spec = Optional.of(onOrAfter(request.getStartDate()));
         } else if (request.getEndDate() != null) {
-            spec = Optional.of(before(request.getEndDate()));
+            spec = Optional.of(onOrBefore(request.getEndDate()));
         } else {
             spec = Optional.empty();
         }
@@ -53,8 +79,58 @@ public final class TransactionSpecifications {
         return spec;
     }
 
+    /**
+     * Transactions on the date.
+     *
+     * @param date
+     *            date to search on
+     * @return transactions on the date
+     */
     public static final Specification<PersistentTransaction> on(final LocalDate date) {
+        // TODO: Should remove hour?
         return (root, query, cb) -> cb.equal(root.get("date"), date);
+    }
+
+    /**
+     * Transactions on the month.
+     *
+     * @param month
+     *            month to search on
+     * @return transactions on the date
+     */
+    public static final Specification<PersistentTransaction> on(final YearMonth month) {
+        final LocalDate startDate;
+        final LocalDate endDate;
+
+        // Starts on the first day of the month
+        startDate = LocalDate.of(month.getYear(), month.getMonthValue(), 1);
+        // Ends on the last day of the month
+        endDate = LocalDate.of(month.getYear(), month.getMonthValue(), month.getMonth()
+            .length(month.isLeapYear()));
+
+        return betweenIncluding(startDate, endDate);
+    }
+
+    /**
+     * Transactions on or after the date.
+     *
+     * @param date
+     *            date to mark the lower limit
+     * @return transactions on or after the date
+     */
+    public static final Specification<PersistentTransaction> onOrAfter(final LocalDate date) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
+    }
+
+    /**
+     * Transactions on or before the date.
+     *
+     * @param date
+     *            date to mark the lower limit
+     * @return transactions on or before the date
+     */
+    public static final Specification<PersistentTransaction> onOrBefore(final LocalDate date) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
     private TransactionSpecifications() {

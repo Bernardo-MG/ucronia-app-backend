@@ -33,7 +33,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
@@ -73,8 +73,8 @@ class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final MemberUpdate     memberRequest;
-        final PersistentMember entity;
+        final MemberUpdate memberRequest;
+        final MemberEntity entity;
 
         memberRequest = MembersUpdate.paddedWithWhitespaces();
 
@@ -82,7 +82,7 @@ class ITMemberServiceUpdate {
         entity = repository.findAll()
             .iterator()
             .next();
-        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
+        MemberAssertions.isEqualTo(entity, MemberEntity.builder()
             .name("Member 123")
             .surname("Surname")
             .phone("12345")
@@ -94,8 +94,8 @@ class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     void testUpdate_PersistedData() {
-        final MemberUpdate     memberRequest;
-        final PersistentMember entity;
+        final MemberUpdate memberRequest;
+        final MemberEntity entity;
 
         memberRequest = MembersUpdate.nameChange();
 
@@ -103,7 +103,7 @@ class ITMemberServiceUpdate {
         entity = repository.findAll()
             .iterator()
             .next();
-        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
+        MemberAssertions.isEqualTo(entity, MemberEntity.builder()
             .name("Member 123")
             .surname("Surname")
             .phone("12345")

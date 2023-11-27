@@ -7,28 +7,28 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
+import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 
 public final class MemberFeeSpecifications {
 
-    public static Specification<PersistentMemberFee> active(final boolean active) {
+    public static Specification<MemberFeeEntity> active(final boolean active) {
         return (root, query, cb) -> cb.equal(root.get("active"), active);
     }
 
-    public static Specification<PersistentMemberFee> after(final YearMonth date) {
+    public static Specification<MemberFeeEntity> after(final YearMonth date) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentMemberFee> before(final YearMonth date) {
+    public static Specification<MemberFeeEntity> before(final YearMonth date) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
     }
 
-    public static Specification<PersistentMemberFee> between(final YearMonth start, final YearMonth end) {
+    public static Specification<MemberFeeEntity> between(final YearMonth start, final YearMonth end) {
         return (root, query, cb) -> cb.between(root.get("date"), start, end);
     }
 
-    public static Optional<Specification<PersistentMemberFee>> fromRequest(final FeeQuery request) {
-        final Optional<Specification<PersistentMemberFee>> spec;
+    public static Optional<Specification<MemberFeeEntity>> fromQuery(final FeeQuery request) {
+        final Optional<Specification<MemberFeeEntity>> spec;
 
         if (request.getDate() != null) {
             spec = Optional.of(on(request.getDate()));
@@ -45,7 +45,7 @@ public final class MemberFeeSpecifications {
         return spec;
     }
 
-    public static Specification<PersistentMemberFee> on(final YearMonth date) {
+    public static Specification<MemberFeeEntity> on(final YearMonth date) {
         return (root, query, cb) -> cb.equal(root.get("date"), date);
     }
 

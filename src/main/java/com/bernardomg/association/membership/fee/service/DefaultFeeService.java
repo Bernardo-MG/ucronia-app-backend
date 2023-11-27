@@ -24,14 +24,14 @@ import com.bernardomg.association.membership.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.request.FeesPayment;
+import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.membership.fee.validation.UpdateFeeValidator;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.validation.Validator;
@@ -98,14 +98,14 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable) {
-        final Page<PersistentMemberFee>                    page;
-        final Optional<Specification<PersistentMemberFee>> spec;
+        final Page<MemberFeeEntity>                    page;
+        final Optional<Specification<MemberFeeEntity>> spec;
         // TODO: Test repository
         // TODO: Test reading with no name or surname
 
         log.debug("Reading fees with sample {} and pagination {}", query, pageable);
 
-        spec = MemberFeeSpecifications.fromRequest(query);
+        spec = MemberFeeSpecifications.fromQuery(query);
 
         if (spec.isEmpty()) {
             page = memberFeeRepository.findAll(pageable);
@@ -118,8 +118,8 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Optional<MemberFee> getOne(final long id) {
-        final Optional<PersistentMemberFee> found;
-        final Optional<MemberFee>           result;
+        final Optional<MemberFeeEntity> found;
+        final Optional<MemberFee>       result;
 
         log.debug("Reading fee with id {}", id);
 
@@ -203,7 +203,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final List<ImmutableMemberFee> readAll(final Collection<Long> ids) {
-        final List<PersistentMemberFee> found;
+        final List<MemberFeeEntity> found;
 
         found = memberFeeRepository.findAllById(ids);
 
@@ -233,7 +233,7 @@ public final class DefaultFeeService implements FeeService {
     private final void registerTransaction(final FeesPayment payment) {
         final PersistentTransaction transaction;
         final Float                 feeAmount;
-        final PersistentMember      member;
+        final MemberEntity          member;
         final String                name;
         final String                dates;
         final String                message;

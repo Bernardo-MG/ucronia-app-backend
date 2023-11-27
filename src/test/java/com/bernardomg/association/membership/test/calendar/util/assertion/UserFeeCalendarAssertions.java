@@ -6,11 +6,11 @@ import java.util.Iterator;
 import org.assertj.core.api.Assertions;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 
 public final class UserFeeCalendarAssertions {
 
-    public static final void assertFullYear(final UserFeeCalendar result) {
+    public static final void assertFullYear(final MemberFeeCalendar result) {
         final Iterator<FeeMonth> months;
         FeeMonth                 month;
 
@@ -90,7 +90,7 @@ public final class UserFeeCalendarAssertions {
             .isTrue();
     }
 
-    public static final void isEqualTo(final UserFeeCalendar received, final UserFeeCalendar expected) {
+    public static final void isEqualTo(final MemberFeeCalendar received, final MemberFeeCalendar expected) {
         Assertions.assertThat(received.getMemberId())
             .isEqualTo(expected.getMemberId());
         Assertions.assertThat(received.getMemberName())

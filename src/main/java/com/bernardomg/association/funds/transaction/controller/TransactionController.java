@@ -44,9 +44,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionCreate;
-import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionQuery;
-import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionUpdate;
+import com.bernardomg.association.funds.transaction.model.request.TransactionCreateRequest;
+import com.bernardomg.association.funds.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.funds.transaction.model.request.TransactionUpdateRequest;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -71,6 +71,13 @@ public class TransactionController {
      */
     private final TransactionService service;
 
+    /**
+     * Creates a transaction.
+     *
+     * @param transaction
+     *            transaction to add
+     * @return the new transaction
+     */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
@@ -80,10 +87,16 @@ public class TransactionController {
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public Transaction create(@Valid @RequestBody final ValidatedTransactionCreate transaction) {
+    public Transaction create(@Valid @RequestBody final TransactionCreateRequest transaction) {
         return service.create(transaction);
     }
 
+    /**
+     * Deletes a transaction by its id.
+     *
+     * @param id
+     *            transaction id
+     */
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
@@ -96,13 +109,30 @@ public class TransactionController {
         service.delete(id);
     }
 
+    /**
+     * Returns all the transactions in a paginated form.
+     *
+     *
+     * @param transaction
+     *            query to filter transactions
+     * @param page
+     *            pagination to apply
+     * @return a page for the transactions matching the sample
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTIONS)
-    public Iterable<Transaction> readAll(@Valid final ValidatedTransactionQuery request, final Pageable pageable) {
-        return service.getAll(request, pageable);
+    public Iterable<Transaction> readAll(@Valid final TransactionQueryRequest transaction, final Pageable page) {
+        return service.getAll(transaction, page);
     }
 
+    /**
+     * Reads a single transaction by its id.
+     *
+     * @param id
+     *            id of the transaction to read
+     * @return the transaction for the id, or {@code null} if it doesn't exist
+     */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#id")
@@ -111,6 +141,15 @@ public class TransactionController {
             .orElse(null);
     }
 
+    /**
+     * Updates a transaction.
+     *
+     * @param id
+     *            id of the transaction to update
+     * @param transaction
+     *            updated transaction data
+     * @return the updated transaction
+     */
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
@@ -120,7 +159,7 @@ public class TransactionController {
                     @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
     public Transaction update(@PathVariable("id") final long id,
-            @Valid @RequestBody final ValidatedTransactionUpdate transaction) {
+            @Valid @RequestBody final TransactionUpdateRequest transaction) {
         return service.update(id, transaction);
     }
 

@@ -105,7 +105,7 @@ public final class DefaultBalanceService implements BalanceService {
         final Collection<MonthlyBalanceEntity>              balance;
 
         // Specification from the request
-        requestSpec = MonthlyBalanceSpecifications.fromRequest(query);
+        requestSpec = MonthlyBalanceSpecifications.fromQuery(query);
         // Up to this month
         limitSpec = MonthlyBalanceSpecifications.before(YearMonth.now()
             .plusMonths(1));

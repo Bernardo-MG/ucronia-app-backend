@@ -26,9 +26,9 @@ package com.bernardomg.association.membership.member.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
-public interface MemberRepository extends JpaRepository<PersistentMember, Long> {
+public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     public boolean existsByIdAndActive(final Long id, final boolean active);
 

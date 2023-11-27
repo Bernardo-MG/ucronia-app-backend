@@ -37,9 +37,9 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.membership.calendar.model.ImmutableUserFeeCalendar;
-import com.bernardomg.association.membership.calendar.model.UserFeeCalendar;
-import com.bernardomg.association.membership.calendar.service.FeeCalendarService;
+import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -52,7 +52,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetYearSort {
 
     @Autowired
-    private FeeCalendarService service;
+    private MemberFeeCalendarService service;
 
     public ITFeeCalendarServiceGetYearSort() {
         super();
@@ -61,9 +61,9 @@ class ITFeeCalendarServiceGetYearSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetYear_Name_Asc() {
-        final Sort                      sort;
-        final Iterator<UserFeeCalendar> calendars;
-        final UserFeeCalendar           calendar;
+        final Sort                        sort;
+        final Iterator<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
 
         sort = Sort.by(Order.asc("memberName"));
 
@@ -86,9 +86,9 @@ class ITFeeCalendarServiceGetYearSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     void testGetYear_Name_Desc() {
-        final Sort                      sort;
-        final Iterator<UserFeeCalendar> calendars;
-        final UserFeeCalendar           calendar;
+        final Sort                        sort;
+        final Iterator<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
 
         sort = Sort.by(Order.asc("memberName"));
 
@@ -128,9 +128,9 @@ class ITFeeCalendarServiceGetYearSort {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     void testGetYear_TwoMembers_Name_Asc() {
-        final Iterator<UserFeeCalendar> calendars;
-        final Sort                      sort;
-        UserFeeCalendar                 calendar;
+        final Iterator<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+        MemberFeeCalendar                 calendar;
 
         sort = Sort.by(Order.asc("memberName"));
 
@@ -138,7 +138,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .year(2020)
@@ -148,7 +148,7 @@ class ITFeeCalendarServiceGetYearSort {
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .year(2020)
@@ -163,9 +163,9 @@ class ITFeeCalendarServiceGetYearSort {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     void testGetYear_TwoMembers_Name_Desc() {
-        final Iterator<UserFeeCalendar> calendars;
-        final Sort                      sort;
-        UserFeeCalendar                 calendar;
+        final Iterator<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+        MemberFeeCalendar                 calendar;
 
         sort = Sort.by(Order.desc("memberName"));
 
@@ -173,7 +173,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .year(2020)
@@ -183,7 +183,7 @@ class ITFeeCalendarServiceGetYearSort {
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableUserFeeCalendar.builder()
+        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .year(2020)

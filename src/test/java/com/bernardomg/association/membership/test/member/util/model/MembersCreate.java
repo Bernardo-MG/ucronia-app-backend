@@ -2,12 +2,12 @@
 package com.bernardomg.association.membership.test.member.util.model;
 
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
-import com.bernardomg.association.membership.member.model.request.ValidatedMemberCreate;
+import com.bernardomg.association.membership.member.model.request.MemberCreateRequest;
 
 public final class MembersCreate {
 
     public static final MemberCreate active() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .name("Member")
             .surname("Surname")
             .phone("12345")
@@ -16,7 +16,7 @@ public final class MembersCreate {
     }
 
     public static final MemberCreate alternative() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .name("Member 2")
             .surname("Surname 2")
             .phone("12345 2")
@@ -25,7 +25,7 @@ public final class MembersCreate {
     }
 
     public static final MemberCreate missingIdentifier() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .name("Member")
             .surname("Surname")
             .phone("12345")
@@ -33,7 +33,7 @@ public final class MembersCreate {
     }
 
     public static final MemberCreate missingName() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
@@ -41,7 +41,7 @@ public final class MembersCreate {
     }
 
     public static final MemberCreate missingPhone() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .name("Member")
             .surname("Surname")
             .identifier("6789")
@@ -49,7 +49,7 @@ public final class MembersCreate {
     }
 
     public static final MemberCreate missingSurname() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .name("Member")
             .phone("12345")
             .identifier("6789")
@@ -57,7 +57,7 @@ public final class MembersCreate {
     }
 
     public static final MemberCreate paddedWithWhitespaces() {
-        return ValidatedMemberCreate.builder()
+        return MemberCreateRequest.builder()
             .name(" Member ")
             .surname(" Surname ")
             .phone("12345")
