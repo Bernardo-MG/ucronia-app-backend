@@ -40,13 +40,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Transaction calendar service - get range")
-class ITTransactionCalendarServiceGetRange {
+@DisplayName("Funds calendar service - get range")
+class ITFundsCalendarServiceGetRange {
 
     @Autowired
     private FundsCalendarService service;
 
-    public ITTransactionCalendarServiceGetRange() {
+    public ITFundsCalendarServiceGetRange() {
         super();
     }
 

@@ -23,9 +23,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Balance service - get balance - filter")
+@DisplayName("Membership balance service - get balance - filter")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql" })
-class ITMemberBalanceServiceFilter {
+class ITMembershipBalanceServiceFilter {
 
     @Autowired
     private FeeRepository            feeRepository;

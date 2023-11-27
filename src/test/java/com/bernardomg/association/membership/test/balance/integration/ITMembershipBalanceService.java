@@ -26,9 +26,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Balance service - get balance")
+@DisplayName("Membership balance service - get balance")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql" })
-class ITMemberBalanceService {
+class ITMembershipBalanceService {
 
     private static Stream<Arguments> geValidDates() {
         return Stream.of(
