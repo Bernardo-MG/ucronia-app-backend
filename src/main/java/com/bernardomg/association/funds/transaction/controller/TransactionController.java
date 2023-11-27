@@ -146,7 +146,7 @@ public class TransactionController {
      *
      * @param id
      *            id of the transaction to update
-     * @param request
+     * @param transaction
      *            updated transaction data
      * @return the updated transaction
      */
