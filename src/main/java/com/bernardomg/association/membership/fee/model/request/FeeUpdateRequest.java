@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedFeeUpdate implements FeeUpdate {
+public final class FeeUpdateRequest implements FeeUpdate {
 
     @JsonFormat(pattern = "yyyy-MM")
     @DateTimeFormat(pattern = "yyyy-MM")

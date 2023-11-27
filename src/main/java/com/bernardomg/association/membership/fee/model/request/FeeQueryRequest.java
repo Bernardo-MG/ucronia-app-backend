@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedFeeQuery implements FeeQuery {
+public final class FeeQueryRequest implements FeeQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     private YearMonth date;

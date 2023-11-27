@@ -2,7 +2,6 @@
 package com.bernardomg.association.membership.member.model.request;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,18 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedMemberUpdate implements MemberUpdate {
+public final class MemberCreateRequest implements MemberCreate {
 
-    @NotNull
-    private Boolean active;
-
-    private String  identifier;
+    private String identifier;
 
     @NotEmpty
-    private String  name;
+    private String name;
 
-    private String  phone;
+    private String phone;
 
-    private String  surname;
+    private String surname;
 
 }

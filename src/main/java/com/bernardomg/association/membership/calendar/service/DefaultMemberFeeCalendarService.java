@@ -44,7 +44,7 @@ import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCa
 import com.bernardomg.association.membership.calendar.model.ImmutableYearsRange;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
+import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.member.model.MemberStatus;
@@ -74,14 +74,14 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
     @Override
     public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
-        final Collection<PersistentMemberFee>      readFees;
-        final Map<Long, List<PersistentMemberFee>> memberFees;
-        final Collection<MemberFeeCalendar>        years;
-        final Iterable<Long>                       memberIds;
-        Specification<PersistentMemberFee>         spec;
-        List<PersistentMemberFee>                  fees;
-        MemberFeeCalendar                          feeYear;
-        Boolean                                    activeFilter;
+        final Collection<MemberFeeEntity>      readFees;
+        final Map<Long, List<MemberFeeEntity>> memberFees;
+        final Collection<MemberFeeCalendar>    years;
+        final Collection<Long>                 memberIds;
+        Specification<MemberFeeEntity>         spec;
+        List<MemberFeeEntity>                  fees;
+        MemberFeeCalendar                      feeYear;
+        Boolean                                activeFilter;
 
         spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
         switch (active) {
@@ -93,11 +93,14 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
                 break;
             default:
         }
+
         readFees = memberFeeRepository.findAll(spec, sort);
+        // Member fees grouped by id
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(PersistentMemberFee::getMemberId));
+            .collect(Collectors.groupingBy(MemberFeeEntity::getMemberId));
+        // Sorted ids
         memberIds = readFees.stream()
-            .map(PersistentMemberFee::getMemberId)
+            .map(MemberFeeEntity::getMemberId)
             .distinct()
             .toList();
 
@@ -119,7 +122,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         return years;
     }
 
-    private final FeeMonth toFeeMonth(final PersistentMemberFee fee) {
+    private final FeeMonth toFeeMonth(final MemberFeeEntity fee) {
         final Integer month;
 
         // Calendar months start at index 0, this has to be corrected
@@ -135,9 +138,9 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
     }
 
     private final MemberFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
-            final Collection<PersistentMemberFee> fees) {
+            final Collection<MemberFeeEntity> fees) {
         final Collection<FeeMonth> months;
-        final PersistentMemberFee  row;
+        final MemberFeeEntity      row;
         final String               name;
 
         if (fees.isEmpty()) {

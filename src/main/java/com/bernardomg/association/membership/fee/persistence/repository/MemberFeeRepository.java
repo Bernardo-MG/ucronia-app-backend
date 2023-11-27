@@ -30,10 +30,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
+import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 
 public interface MemberFeeRepository
-        extends JpaRepository<PersistentMemberFee, Long>, JpaSpecificationExecutor<PersistentMemberFee> {
+        extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
 
     @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f GROUP BY feeYear ORDER BY feeYear ASC")
     public Collection<Integer> findYears();

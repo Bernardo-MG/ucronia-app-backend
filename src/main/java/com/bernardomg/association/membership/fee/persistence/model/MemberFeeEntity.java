@@ -17,7 +17,7 @@ import lombok.Data;
 @Entity(name = "MemberFee")
 @Table(name = "member_fees")
 @Data
-public class PersistentMemberFee implements Serializable {
+public class MemberFeeEntity implements Serializable {
 
     /**
      * Serialization ID.

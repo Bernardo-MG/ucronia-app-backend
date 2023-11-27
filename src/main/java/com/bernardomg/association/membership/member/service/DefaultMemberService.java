@@ -12,7 +12,7 @@ import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.exception.MissingIdException;
 
@@ -43,8 +43,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member create(final MemberCreate member) {
-        final PersistentMember entity;
-        final PersistentMember created;
+        final MemberEntity entity;
+        final MemberEntity created;
 
         log.debug("Creating member {}", member);
 
@@ -83,7 +83,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final PersistentMember entity;
+        final MemberEntity entity;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
@@ -105,9 +105,9 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Optional<Member> getOne(final long id) {
-        final Optional<PersistentMember> found;
-        final Optional<Member>           result;
-        final Member                     data;
+        final Optional<MemberEntity> found;
+        final Optional<Member>       result;
+        final Member                 data;
 
         log.debug("Reading member with id {}", id);
 
@@ -129,8 +129,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final long id, final MemberUpdate member) {
-        final PersistentMember entity;
-        final PersistentMember updated;
+        final MemberEntity entity;
+        final MemberEntity updated;
 
         log.debug("Updating member with id {} using data {}", id, member);
 

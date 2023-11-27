@@ -4,7 +4,7 @@ package com.bernardomg.association.membership.test.member.util.assertion;
 import org.assertj.core.api.Assertions;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
 public final class MemberAssertions {
 
@@ -30,7 +30,7 @@ public final class MemberAssertions {
             .isEqualTo(expected.getActive());
     }
 
-    public static void isEqualTo(final PersistentMember received, final PersistentMember expected) {
+    public static void isEqualTo(final MemberEntity received, final MemberEntity expected) {
         Assertions.assertThat(received.getId())
             .withFailMessage("Expected id to not be null")
             .isNotNull();

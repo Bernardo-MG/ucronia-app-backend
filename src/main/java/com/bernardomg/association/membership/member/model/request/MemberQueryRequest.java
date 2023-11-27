@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedMemberQuery implements MemberQuery {
+public final class MemberQueryRequest implements MemberQuery {
 
     private Long         id;
 
