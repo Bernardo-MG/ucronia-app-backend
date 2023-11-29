@@ -42,6 +42,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("Member service - get all - filter")
 @Sql({ "/db/queries/member/multiple.sql" })
+@Sql({ "/db/queries/fee/multiple_with_missing.sql" })
 class ITMemberServiceGetAllFilter {
 
     @Autowired

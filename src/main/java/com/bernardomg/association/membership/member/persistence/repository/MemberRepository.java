@@ -24,12 +24,21 @@
 
 package com.bernardomg.association.membership.member.persistence.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     public boolean existsByIdAndActive(final Long id, final boolean active);
+
+    @Query("SELECT m FROM Member m INNER JOIN MemberFee f ON m.id = f.memberId")
+    public Page<MemberEntity> findAllActive(final Pageable pageable);
+
+    @Query("SELECT m FROM Member m LEFT JOIN MemberFee f ON m.id = f.memberId WHERE f.memberId IS NULL")
+    public Page<MemberEntity> findAllInactive(final Pageable pageable);
 
 }

@@ -3,8 +3,9 @@ package com.bernardomg.association.membership.member.service;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.member.model.Member;
@@ -83,23 +84,22 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final MemberEntity entity;
+        final Supplier<Page<MemberEntity>> memberSource;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
-        entity = mapper.toEntity(query);
-
         switch (query.getStatus()) {
             case ACTIVE:
-                entity.setActive(true);
+                memberSource = () -> memberRepository.findAllActive(pageable);
                 break;
             case INACTIVE:
-                entity.setActive(false);
+                memberSource = () -> memberRepository.findAllInactive(pageable);
                 break;
             default:
+                memberSource = () -> memberRepository.findAll(pageable);
         }
 
-        return memberRepository.findAll(Example.of(entity), pageable)
+        return memberSource.get()
             .map(mapper::toDto);
     }
 
