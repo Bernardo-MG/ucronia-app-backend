@@ -55,7 +55,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean notInactive(final PersistentFee fee) {
-        return memberRepository.existsByIdAndActive(fee.getMemberId(), true);
+        return memberRepository.existsActive(fee.getMemberId());
     }
 
     private final PersistentFee toCurrentMonth(final PersistentFee fee) {

@@ -28,12 +28,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    public boolean existsByIdAndActive(final Long id, final boolean active);
+    @Query("SELECT case when (count(*) > 0) then true else false end FROM Member m INNER JOIN MemberFee f ON m.id = f.memberId WHERE m.id = :id")
+    public boolean existsActive(@Param("id") final Long id);
 
     @Query("SELECT m FROM Member m INNER JOIN MemberFee f ON m.id = f.memberId")
     public Page<MemberEntity> findAllActive(final Pageable pageable);
