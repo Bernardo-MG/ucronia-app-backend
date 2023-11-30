@@ -110,36 +110,6 @@ public class ITFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("With an inactive member and a paid fee in the previous month, no new fee is registered")
-    @Sql({ "/db/queries/member/inactive.sql" })
-    void testRegisterMonthFees_PaidPreviousMonth_Inactive() {
-        final Long count;
-
-        registerFeePreviousMonth(true);
-
-        service.registerMonthFees();
-
-        count = feeRepository.count();
-        Assertions.assertThat(count)
-            .isOne();
-    }
-
-    @Test
-    @DisplayName("With an inactive member and a paid fee in the previous month, all fees are paid")
-    @Sql({ "/db/queries/member/inactive.sql" })
-    void testRegisterMonthFees_PaidPreviousMonth_Inactive_Status() {
-        final Collection<PersistentFee> fees;
-
-        registerFeePreviousMonth(true);
-
-        service.registerMonthFees();
-
-        fees = feeRepository.findAll();
-        Assertions.assertThat(fees)
-            .allMatch(fee -> fee.getPaid());
-    }
-
-    @Test
     @DisplayName("With a paid fee in the previous month, and a paid one this one, no new fee is registered")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth() {

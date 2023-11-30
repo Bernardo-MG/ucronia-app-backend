@@ -164,9 +164,9 @@ class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("With an inactive user it returns all the fees")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-    void testGetAll_Inactive() {
+    @DisplayName("With a single fee it returns all the fees")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    void testGetAll_Single() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;

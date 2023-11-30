@@ -25,9 +25,6 @@ public class MemberFeeEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "active")
-    private Boolean           active;
-
     @Column(name = "date", nullable = false)
     @Convert(converter = YearMonthDateAttributeConverter.class)
     private YearMonth         date;

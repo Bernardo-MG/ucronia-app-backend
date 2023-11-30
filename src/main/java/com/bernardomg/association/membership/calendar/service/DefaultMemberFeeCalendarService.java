@@ -84,6 +84,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         Boolean                                activeFilter;
 
         spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
+        // TODO: Read active member ids to filter
         switch (active) {
             case ACTIVE:
                 spec = spec.and(MemberFeeSpecifications.active(true));
@@ -110,9 +111,10 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             if (fees.isEmpty()) {
                 activeFilter = false;
             } else {
-                activeFilter = fees.iterator()
-                    .next()
-                    .getActive();
+//                activeFilter = fees.iterator()
+//                    .next()
+//                    .getActive();
+                activeFilter = false;
             }
             feeYear = toFeeYear(member, year, activeFilter, fees);
 

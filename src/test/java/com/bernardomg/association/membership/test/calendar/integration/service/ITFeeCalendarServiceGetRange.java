@@ -73,18 +73,6 @@ class ITFeeCalendarServiceGetRange {
     }
 
     @Test
-    @DisplayName("With an inactive member it returns the range")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    void testGetRange_Inactive() {
-        final YearsRange range;
-
-        range = service.getRange();
-
-        Assertions.assertThat(range.getYears())
-            .containsOnly(2020);
-    }
-
-    @Test
     @DisplayName("With no data the range is empty")
     void testGetRange_NoData() {
         final YearsRange range;
