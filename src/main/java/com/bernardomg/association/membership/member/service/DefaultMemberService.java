@@ -54,9 +54,6 @@ public final class DefaultMemberService implements MemberService {
 
         entity = mapper.toEntity(member);
 
-        // Active by default
-        entity.setActive(true);
-
         // Trim strings
         entity.setName(entity.getName()
             .trim());

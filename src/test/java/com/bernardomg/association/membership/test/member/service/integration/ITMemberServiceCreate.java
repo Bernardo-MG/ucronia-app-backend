@@ -60,7 +60,7 @@ class ITMemberServiceCreate {
     void testCreate_Minimal_Additional_AddsEntity() {
         MemberCreate memberRequest;
 
-        memberRequest = MembersCreate.active();
+        memberRequest = MembersCreate.valid();
 
         service.create(memberRequest);
 
@@ -94,7 +94,6 @@ class ITMemberServiceCreate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -104,7 +103,7 @@ class ITMemberServiceCreate {
         final MemberCreate memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.active();
+        memberRequest = MembersCreate.valid();
 
         service.create(memberRequest);
 
@@ -120,7 +119,6 @@ class ITMemberServiceCreate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -130,7 +128,7 @@ class ITMemberServiceCreate {
         final MemberCreate memberRequest;
         final Member       member;
 
-        memberRequest = MembersCreate.active();
+        memberRequest = MembersCreate.valid();
 
         member = service.create(memberRequest);
 

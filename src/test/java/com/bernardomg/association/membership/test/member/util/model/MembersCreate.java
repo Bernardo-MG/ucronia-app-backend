@@ -6,7 +6,7 @@ import com.bernardomg.association.membership.member.model.request.MemberCreateRe
 
 public final class MembersCreate {
 
-    public static final MemberCreate active() {
+    public static final MemberCreate valid() {
         return MemberCreateRequest.builder()
             .name("Member")
             .surname("Surname")

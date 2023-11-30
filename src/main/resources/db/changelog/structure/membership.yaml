@@ -36,12 +36,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: ''
-              - column:
-                  name: active
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValueBoolean: true
         - createTable:
             tableName: fees
             columns:
@@ -87,8 +81,12 @@ databaseChangeLog:
       author: Bernardo
       changes:
         -  createView:
+            remarks: Active members
+            selectQuery: SELECT m.id AS member_id, CASE WHEN f.member_id IS NOT NULL THEN true ELSE false END as active FROM members m LEFT JOIN fees f ON m.id = f.member_id
+            viewName: active_members
+        -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, m.active AS active, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id
+            selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, a.active AS active, f.date AS date, f.paid AS paid FROM fees f JOIN members m ON f.member_id = m.id JOIN active_members a ON m.id = a.member_id
             viewName: member_fees
         -  createView:
             remarks: Monthly member balance

@@ -72,7 +72,7 @@ class ITMemberControllerRequestValidation {
         final ResultActions result;
         final MemberCreate  member;
 
-        member = MembersCreate.active();
+        member = MembersCreate.valid();
 
         result = mockMvc.perform(getPostRequest(member));
 
