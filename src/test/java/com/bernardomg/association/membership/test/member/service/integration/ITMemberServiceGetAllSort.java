@@ -47,6 +47,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("Member service - get all - sort")
 @Sql({ "/db/queries/member/multiple.sql" })
+@Sql({ "/db/queries/fee/multiple.sql" })
 class ITMemberServiceGetAllSort {
 
     @Autowired
@@ -236,7 +237,7 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
+            .active(true)
             .build());
     }
 
@@ -261,7 +262,7 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
+            .active(true)
             .build());
 
         member = members.next();
@@ -358,7 +359,7 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
+            .active(true)
             .build());
     }
 
@@ -383,7 +384,7 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
+            .active(true)
             .build());
 
         member = members.next();

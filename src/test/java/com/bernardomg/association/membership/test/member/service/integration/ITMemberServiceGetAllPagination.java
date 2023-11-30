@@ -46,6 +46,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("Member service - get all - pagination")
 @Sql({ "/db/queries/member/multiple.sql" })
+@Sql({ "/db/queries/fee/multiple.sql" })
 class ITMemberServiceGetAllPagination {
 
     @Autowired

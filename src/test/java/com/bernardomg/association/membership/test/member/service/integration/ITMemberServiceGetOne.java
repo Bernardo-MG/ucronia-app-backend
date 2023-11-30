@@ -52,8 +52,32 @@ class ITMemberServiceGetOne {
     }
 
     @Test
+    @DisplayName("With a valid id for an active member, the related entity is returned")
+    @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/fee/single.sql" })
+    void testGetOne_Active() {
+        final Optional<Member> memberOptional;
+        final Member           member;
+
+        memberOptional = service.getOne(1L);
+
+        Assertions.assertThat(memberOptional)
+            .isPresent();
+
+        member = memberOptional.get();
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build());
+    }
+
+    @Test
     @DisplayName("With a valid id, the related entity is returned")
     @Sql({ "/db/queries/member/single.sql" })
+    @Sql({ "/db/queries/fee/single.sql" })
     void testGetOne_Existing() {
         final Optional<Member> memberOptional;
         final Member           member;
@@ -75,7 +99,7 @@ class ITMemberServiceGetOne {
 
     @Test
     @DisplayName("With a valid id for an inactive member, the related entity is returned")
-    @Sql({ "/db/queries/member/inactive.sql" })
+    @Sql({ "/db/queries/member/single.sql" })
     void testGetOne_Inactive() {
         final Optional<Member> memberOptional;
         final Member           member;
