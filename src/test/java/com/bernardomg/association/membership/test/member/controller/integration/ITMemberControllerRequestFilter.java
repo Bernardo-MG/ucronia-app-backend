@@ -43,6 +43,7 @@ import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 @AutoConfigureMockMvc
 @DisplayName("Member controller - filtering")
 @Sql({ "/db/queries/member/multiple.sql" })
+@Sql({ "/db/queries/fee/multiple_with_missing.sql" })
 class ITMemberControllerRequestFilter {
 
     @Autowired
