@@ -96,9 +96,10 @@ public final class DefaultMemberService implements MemberService {
                 members = memberRepository.findAllActive(pageable, start, end);
                 break;
             case INACTIVE:
-                end = YearMonth.now()
+                start = YearMonth.now()
                     .minusMonths(1);
-                members = memberRepository.findAllInactive(pageable, end);
+                end = YearMonth.now();
+                members = memberRepository.findAllInactive(pageable, start, end);
                 break;
             default:
                 members = memberRepository.findAll(pageable);
