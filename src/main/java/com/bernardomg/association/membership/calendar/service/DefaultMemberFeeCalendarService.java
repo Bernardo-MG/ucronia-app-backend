@@ -152,6 +152,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final Collection<FeeMonth> months;
         final MemberFeeEntity      row;
         final String               name;
+        final boolean              active;
 
         if (fees.isEmpty()) {
             // TODO: Tests this case to make sure it is handled correctly
@@ -172,11 +173,14 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             name = row.getMemberName();
         }
 
+        active = memberRepository.isActive(member);
+
         return ImmutableMemberFeeCalendar.builder()
             .memberId(member)
             .memberName(name)
             .months(months)
             .year(year)
+            .active(active)
             .build();
     }
 

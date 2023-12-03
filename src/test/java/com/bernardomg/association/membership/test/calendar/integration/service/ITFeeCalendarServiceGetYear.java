@@ -34,11 +34,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -138,21 +138,13 @@ class ITFeeCalendarServiceGetYear {
 
         // First member
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .year(2020)
-            .build());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         // Second member
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .year(2020)
-            .build());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeAlternative());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -192,6 +184,8 @@ class ITFeeCalendarServiceGetYear {
             .isEqualTo("Member 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -237,6 +231,8 @@ class ITFeeCalendarServiceGetYear {
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
 
         months = calendar.getMonths()
             .iterator();
@@ -291,6 +287,8 @@ class ITFeeCalendarServiceGetYear {
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
 
         months = calendar.getMonths()
             .iterator();
@@ -345,6 +343,8 @@ class ITFeeCalendarServiceGetYear {
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2019);
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
 
         months = calendar.getMonths()
             .iterator();
@@ -415,6 +415,8 @@ class ITFeeCalendarServiceGetYear {
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
 
         months = calendar.getMonths()
             .iterator();

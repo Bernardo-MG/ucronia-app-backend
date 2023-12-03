@@ -33,6 +33,8 @@ import lombok.Value;
 @Builder
 public final class ImmutableMemberFeeCalendar implements MemberFeeCalendar {
 
+    private final boolean              active;
+
     private final Long                 memberId;
 
     private final String               memberName;

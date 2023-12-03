@@ -37,9 +37,6 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    @Query("SELECT case when (count(*) > 0) then true else false end FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE m.id = :id")
-    public boolean existsActive(@Param("id") final Long id);
-
     @Query("SELECT m FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end GROUP BY m.id")
     public Page<MemberEntity> findAllActive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
@@ -54,5 +51,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query("SELECT m.id FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL")
     public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
+
+    @Query("SELECT case when (count(*) > 0) then true else false end FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE m.id = :id")
+    public boolean isActive(@Param("id") final Long id);
 
 }

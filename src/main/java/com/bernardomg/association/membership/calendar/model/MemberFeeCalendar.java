@@ -36,4 +36,6 @@ public interface MemberFeeCalendar {
 
     public Integer getYear();
 
+    public boolean isActive();
+
 }
