@@ -37,7 +37,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all")
+@DisplayName("Fee calendar service - get range")
 class ITFeeCalendarServiceGetRange {
 
     @Autowired

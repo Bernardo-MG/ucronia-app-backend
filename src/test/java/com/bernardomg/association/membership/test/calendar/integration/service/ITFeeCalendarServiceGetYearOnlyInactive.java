@@ -39,7 +39,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all - filter by only inactive status")
+@DisplayName("Fee calendar service - get year - filter by only inactive status")
 class ITFeeCalendarServiceGetYearOnlyInactive {
 
     @Autowired

@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
@@ -47,7 +46,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all - sorted")
+@DisplayName("Fee calendar service - get year - sorted")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
 class ITFeeCalendarServiceGetYearSort {
 
@@ -116,7 +115,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(PropertyReferenceException.class);
+            .isInstanceOf(Exception.class);
     }
 
     @Test

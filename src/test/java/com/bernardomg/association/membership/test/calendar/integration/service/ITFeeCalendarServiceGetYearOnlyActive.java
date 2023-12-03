@@ -44,7 +44,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all - filter by only active status")
+@DisplayName("Fee calendar service - get year - filter by only active status")
 class ITFeeCalendarServiceGetYearOnlyActive {
 
     @Autowired
@@ -339,7 +339,7 @@ class ITFeeCalendarServiceGetYearOnlyActive {
     }
 
     @Test
-    @DisplayName("With two connected years when reading the second it returns all data for the queried year")
+    @DisplayName("With two connected years when reading the first it returns all data for the queried year")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
     void testGetYear_TwoConnectedYears_First_Data() {
         final Iterator<MemberFeeCalendar> calendars;
