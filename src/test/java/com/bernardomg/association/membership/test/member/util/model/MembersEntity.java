@@ -7,8 +7,8 @@ public final class MembersEntity {
 
     public static final MemberEntity valid() {
         return MemberEntity.builder()
-            .name("Member")
-            .surname("Surname")
+            .name("Member 1")
+            .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
             .build();

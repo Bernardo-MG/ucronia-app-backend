@@ -93,7 +93,7 @@ class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
     }
 
     @Test

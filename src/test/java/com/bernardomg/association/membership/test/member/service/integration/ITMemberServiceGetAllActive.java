@@ -130,7 +130,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -157,7 +157,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -186,7 +186,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -215,7 +215,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -260,7 +260,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -287,7 +287,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -354,7 +354,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -381,7 +381,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -410,7 +410,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -439,11 +439,11 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
-    @DisplayName("With a member with no fee for the current month, and not filtering, it returns no member")
+    @DisplayName("With a member with no fee for the current month, and not filtering, it returns the member")
     @Sql({ "/db/queries/member/single.sql" })
     void testGetAll_FilterDefault_NoFee() {
         final Iterable<Member> members;
@@ -464,7 +464,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -491,7 +491,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -518,7 +518,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.active());
     }
 
     @Test
@@ -545,7 +545,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -572,7 +572,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -660,7 +660,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with no fee for the current month, and filtering by not active, it returns no member")
+    @DisplayName("With a member with no fee for the current month, and filtering by not active, it returns the member")
     @Sql({ "/db/queries/member/single.sql" })
     void testGetAll_FilterInactive_NoFee() {
         final Iterable<Member> members;
@@ -681,7 +681,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -748,7 +748,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -775,7 +775,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
 }

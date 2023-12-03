@@ -123,7 +123,7 @@ class ITMemberServiceCreate {
 
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
 }

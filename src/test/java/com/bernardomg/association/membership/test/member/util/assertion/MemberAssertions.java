@@ -25,6 +25,9 @@ public final class MemberAssertions {
             .withFailMessage("Expected identifier '%s' but got '%s'", expected.getIdentifier(),
                 received.getIdentifier())
             .isEqualTo(expected.getIdentifier());
+        Assertions.assertThat(received.isActive())
+            .withFailMessage("Expected active flag '%s' but got '%s'", expected.isActive(), received.isActive())
+            .isEqualTo(expected.isActive());
     }
 
     public static void isEqualTo(final MemberEntity received, final MemberEntity expected) {

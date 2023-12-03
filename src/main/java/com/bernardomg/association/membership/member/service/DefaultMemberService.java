@@ -2,8 +2,10 @@
 package com.bernardomg.association.membership.member.service;
 
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -82,9 +84,11 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Page<MemberEntity> members;
-        final YearMonth          start;
-        final YearMonth          end;
+        final Page<MemberEntity>             members;
+        final YearMonth                      start;
+        final YearMonth                      end;
+        final Function<DtoMember, DtoMember> activeMapper;
+        final Collection<Long>               activeIds;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
@@ -94,18 +98,41 @@ public final class DefaultMemberService implements MemberService {
                     .minusMonths(1);
                 end = YearMonth.now();
                 members = memberRepository.findAllActive(pageable, start, end);
+
+                activeMapper = m -> {
+                    m.setActive(true);
+                    return m;
+                };
                 break;
             case INACTIVE:
                 start = YearMonth.now()
                     .minusMonths(1);
                 end = YearMonth.now();
                 members = memberRepository.findAllInactive(pageable, start, end);
+
+                activeMapper = m -> {
+                    m.setActive(false);
+                    return m;
+                };
                 break;
             default:
                 members = memberRepository.findAll(pageable);
+
+                start = YearMonth.now()
+                    .minusMonths(1);
+                end = YearMonth.now();
+                activeIds = memberRepository.findAllActiveIds(start, end);
+                activeMapper = m -> {
+                    final boolean active;
+
+                    active = activeIds.contains(m.getId());
+                    m.setActive(active);
+                    return m;
+                };
         }
 
-        return members.map(mapper::toDto);
+        return members.map(mapper::toDto)
+            .map(activeMapper);
     }
 
     @Override

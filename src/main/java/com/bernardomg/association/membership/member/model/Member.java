@@ -13,4 +13,6 @@ public interface Member {
 
     public String getSurname();
 
+    public boolean isActive();
+
 }
