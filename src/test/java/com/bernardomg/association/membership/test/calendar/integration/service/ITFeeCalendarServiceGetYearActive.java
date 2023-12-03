@@ -101,9 +101,9 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the current month it returns the calendar")
+    @DisplayName("With a not paid fee in the current month, and filtering by active, it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_CurrentMonth_NotPaid() {
+    void testGetYear_FilterActive_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -122,9 +122,9 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month it returns the calendar")
+    @DisplayName("With a paid fee in the current month, and filtering by active, it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_CurrentMonth_Paid() {
+    void testGetYear_FilterActive_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -143,9 +143,55 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month it returns the calendar")
+    @DisplayName("With a not paid fee in the last three months, and filtering by active, it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_PreviousMonth_NotPaid() {
+    void testGetYear_FilterActive_LastThreeMonths_NotPaid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeCurrentMonth(false);
+        registerFeePreviousMonth(false);
+        registerFeeTwoMonthsBack(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
+            .next()
+            .getMonths())
+            .hasSize(12);
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the last three months, and filtering by active, it returns the calendar")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterActive_LastThreeMonths_Paid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeCurrentMonth(false);
+        registerFeePreviousMonth(false);
+        registerFeeTwoMonthsBack(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
+            .next()
+            .getMonths())
+            .hasSize(12);
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the previous month, and filtering by active, it returns the calendar")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterActive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -164,9 +210,9 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month it returns the calendar")
+    @DisplayName("With a paid fee in the previous month, and filtering by active, it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_PreviousMonth_Paid() {
+    void testGetYear_FilterActive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -185,9 +231,9 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee two months back it returns nothing")
+    @DisplayName("With a not paid fee two months back, and filtering by active, it returns nothing")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_TwoMonthsBack_NotPaid() {
+    void testGetYear_FilterActive_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -202,9 +248,9 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee two months back it returns nothing")
+    @DisplayName("With a paid fee two months back, and filtering by active, it returns nothing")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_TwoMonthsBack_Paid() {
+    void testGetYear_FilterActive_TwoMonthsBack_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -216,6 +262,154 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the current month, and filtering by not active, it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_CurrentMonth_NotPaid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeCurrentMonth(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the current month, and filtering by not active, it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_CurrentMonth_Paid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeCurrentMonth(true);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the last three months, and filtering by not active, it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_LastThreeMonths_NotPaid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeCurrentMonth(false);
+        registerFeePreviousMonth(false);
+        registerFeeTwoMonthsBack(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the last three months, and filtering by not active, it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_LastThreeMonths_Paid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeCurrentMonth(false);
+        registerFeePreviousMonth(false);
+        registerFeeTwoMonthsBack(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the previous month, and filtering by not active, it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_PreviousMonth_NotPaid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeePreviousMonth(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the previous month, and filtering by not active, it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_PreviousMonth_Paid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeePreviousMonth(true);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(0);
+    }
+
+    @Test
+    @DisplayName("With a not paid fee two months back, and filtering by not active, it returns the calendar")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_TwoMonthsBack_NotPaid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeTwoMonthsBack(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
+            .next()
+            .getMonths())
+            .hasSize(12);
+    }
+
+    @Test
+    @DisplayName("With a paid fee two months back, and filtering by not active, it returns the calendar")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_FilterNotActive_TwoMonthsBack_Paid() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        registerFeeTwoMonthsBack(true);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
+            .next()
+            .getMonths())
+            .hasSize(12);
     }
 
 }
