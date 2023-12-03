@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
@@ -71,9 +71,9 @@ class ITMemberServiceGetAllActive {
     }
 
     private final void registerFeeCurrentMonth(final Boolean paid) {
-        final PersistentFee fee;
+        final FeeEntity fee;
 
-        fee = new PersistentFee();
+        fee = new FeeEntity();
         fee.setMemberId(1l);
         fee.setPaid(paid);
 
@@ -83,9 +83,9 @@ class ITMemberServiceGetAllActive {
     }
 
     private final void registerFeePreviousMonth(final Boolean paid) {
-        final PersistentFee fee;
+        final FeeEntity fee;
 
-        fee = new PersistentFee();
+        fee = new FeeEntity();
         fee.setMemberId(1l);
         fee.setPaid(paid);
 
@@ -95,9 +95,9 @@ class ITMemberServiceGetAllActive {
     }
 
     private final void registerFeeTwoMonthsBack(final Boolean paid) {
-        final PersistentFee fee;
+        final FeeEntity fee;
 
-        fee = new PersistentFee();
+        fee = new FeeEntity();
         fee.setMemberId(1l);
         fee.setPaid(paid);
 

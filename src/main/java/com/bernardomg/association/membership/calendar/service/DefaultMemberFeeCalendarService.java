@@ -111,9 +111,9 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             if (fees.isEmpty()) {
                 activeFilter = false;
             } else {
-//                activeFilter = fees.iterator()
-//                    .next()
-//                    .getActive();
+                // activeFilter = fees.iterator()
+                // .next()
+                // .getActive();
                 activeFilter = false;
             }
             feeYear = toFeeYear(member, year, activeFilter, fees);

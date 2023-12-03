@@ -28,16 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
-
-    private final MemberMapper           mapper;
+    private final MemberMapper     mapper;
 
     /**
      * Member repository.
      */
-    private final MemberRepository       memberRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo, 
-            final MemberMapper mppr) {
+    public DefaultMemberService(final MemberRepository memberRepo, final MemberMapper mppr) {
         super();
 
         mapper = Objects.requireNonNull(mppr);
@@ -83,7 +81,7 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Page<MemberEntity>             members;
+        final Page<MemberEntity> members;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
@@ -103,9 +101,9 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Optional<Member> getOne(final long id) {
-        final Optional<MemberEntity>       found;
-        final Optional<Member>             result;
-        final DtoMember                    data;
+        final Optional<MemberEntity> found;
+        final Optional<Member>       result;
+        final DtoMember              data;
 
         log.debug("Reading member with id {}", id);
 

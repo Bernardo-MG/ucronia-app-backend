@@ -78,8 +78,8 @@ public class MembershipConfig {
     }
 
     @Bean("memberService")
-    public MemberService getMemberService(final MemberRepository memberRepository,final MemberMapper mapper) {
-        return new DefaultMemberService(memberRepository,  mapper);
+    public MemberService getMemberService(final MemberRepository memberRepository, final MemberMapper mapper) {
+        return new DefaultMemberService(memberRepository, mapper);
     }
 
 }

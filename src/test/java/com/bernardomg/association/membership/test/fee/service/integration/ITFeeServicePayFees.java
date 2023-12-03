@@ -41,7 +41,7 @@ import com.bernardomg.association.funds.transaction.persistence.repository.Trans
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeesPayment;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
@@ -72,8 +72,8 @@ class ITFeeServicePayFees {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_PersistedFee() {
-        final FeesPayment   feeRequest;
-        final PersistentFee entity;
+        final FeesPayment feeRequest;
+        final FeeEntity   entity;
 
         feeRequest = FeesCreate.valid();
 
@@ -85,7 +85,7 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+        FeeAssertions.isEqualTo(entity, FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -160,7 +160,7 @@ class ITFeeServicePayFees {
             .isEqualTo(2);
 
         Assertions.assertThat(repository.findAll())
-            .extracting(PersistentFee::getDate)
+            .extracting(FeeEntity::getDate)
             .contains(YearMonth.of(2020, Month.FEBRUARY))
             .contains(YearMonth.of(2020, Month.MARCH));
     }
@@ -221,8 +221,8 @@ class ITFeeServicePayFees {
     @Sql({ "/db/queries/member/single.sql" })
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_PersistedFee() {
-        final FeesPayment   feeRequest;
-        final PersistentFee entity;
+        final FeesPayment feeRequest;
+        final FeeEntity   entity;
 
         feeRequest = FeesCreate.valid();
 
@@ -234,7 +234,7 @@ class ITFeeServicePayFees {
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
-        FeeAssertions.isEqualTo(entity, PersistentFee.builder()
+        FeeAssertions.isEqualTo(entity, FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(2020, Month.FEBRUARY))

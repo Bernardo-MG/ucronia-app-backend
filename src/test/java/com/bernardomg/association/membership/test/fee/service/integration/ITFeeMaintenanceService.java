@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -34,9 +34,9 @@ public class ITFeeMaintenanceService {
     private DefaultFeeMaintenanceService service;
 
     private final void registerFeeCurrentMonth(final Boolean paid) {
-        final PersistentFee fee;
+        final FeeEntity fee;
 
-        fee = new PersistentFee();
+        fee = new FeeEntity();
         fee.setMemberId(1l);
         fee.setPaid(paid);
 
@@ -46,9 +46,9 @@ public class ITFeeMaintenanceService {
     }
 
     private final void registerFeePreviousMonth(final Boolean paid) {
-        final PersistentFee fee;
+        final FeeEntity fee;
 
-        fee = new PersistentFee();
+        fee = new FeeEntity();
         fee.setMemberId(1l);
         fee.setPaid(paid);
 
@@ -58,9 +58,9 @@ public class ITFeeMaintenanceService {
     }
 
     private final void registerFeeTwoMonthsBack(final Boolean paid) {
-        final PersistentFee fee;
+        final FeeEntity fee;
 
-        fee = new PersistentFee();
+        fee = new FeeEntity();
         fee.setMemberId(1l);
         fee.setPaid(paid);
 
@@ -129,7 +129,7 @@ public class ITFeeMaintenanceService {
     @DisplayName("With a paid fee in the previous month, and a paid one this one, all fees are paid")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth_Status() {
-        final Collection<PersistentFee> fees;
+        final Collection<FeeEntity> fees;
 
         registerFeePreviousMonth(true);
         registerFeeCurrentMonth(true);
@@ -145,7 +145,7 @@ public class ITFeeMaintenanceService {
     @DisplayName("With a paid fee in the previous month, a new fee is registered, the paid status is set correctly")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_PaidPreviousMonth_Status() {
-        final Collection<PersistentFee> fees;
+        final Collection<FeeEntity> fees;
 
         registerFeePreviousMonth(true);
 
@@ -182,7 +182,7 @@ public class ITFeeMaintenanceService {
     @DisplayName("With a paid fee in the previous month, and an unpaid one this one, all fees are paid")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth_NoStatusChange() {
-        final Collection<PersistentFee> fees;
+        final Collection<FeeEntity> fees;
 
         registerFeePreviousMonth(true);
         registerFeeCurrentMonth(false);
@@ -219,7 +219,7 @@ public class ITFeeMaintenanceService {
     @DisplayName("With a paid fee two months back, the paid status doesn't change")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_PaidTwoMonthsBack_Status() {
-        final Collection<PersistentFee> fees;
+        final Collection<FeeEntity> fees;
 
         registerFeeTwoMonthsBack(true);
 
@@ -249,7 +249,7 @@ public class ITFeeMaintenanceService {
     @DisplayName("With an unpaid fee in the previous month, all fees are unpaid")
     @Sql({ "/db/queries/member/single.sql" })
     void testRegisterMonthFees_UnpaidPreviousMonth_Status() {
-        final Collection<PersistentFee> fees;
+        final Collection<FeeEntity> fees;
 
         registerFeePreviousMonth(false);
 

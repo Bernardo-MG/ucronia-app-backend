@@ -5,7 +5,7 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
@@ -27,9 +27,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     @Override
     public final void registerMonthFees() {
-        final YearMonth                 previousMonth;
-        final Collection<PersistentFee> feesToExtend;
-        final Collection<PersistentFee> feesToCreate;
+        final YearMonth             previousMonth;
+        final Collection<FeeEntity> feesToExtend;
+        final Collection<FeeEntity> feesToCreate;
 
         previousMonth = YearMonth.now()
             .minusMonths(1);
@@ -50,16 +50,16 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         feeRepository.saveAll(feesToCreate);
     }
 
-    private final boolean notExists(final PersistentFee fee) {
+    private final boolean notExists(final FeeEntity fee) {
         return !feeRepository.existsByMemberIdAndDate(fee.getMemberId(), fee.getDate());
     }
 
-    private final boolean notInactive(final PersistentFee fee) {
+    private final boolean notInactive(final FeeEntity fee) {
         return memberRepository.existsActive(fee.getMemberId());
     }
 
-    private final PersistentFee toCurrentMonth(final PersistentFee fee) {
-        return PersistentFee.builder()
+    private final FeeEntity toCurrentMonth(final FeeEntity fee) {
+        return FeeEntity.builder()
             .memberId(fee.getMemberId())
             .date(YearMonth.now())
             .paid(false)
