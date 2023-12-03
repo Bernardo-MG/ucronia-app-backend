@@ -43,8 +43,8 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get year - filter by only active status")
-class ITFeeCalendarServiceGetYearOnlyActive {
+@DisplayName("Fee calendar service - get year - filter by active status")
+class ITFeeCalendarServiceGetYearActive {
 
     private static final YearMonth   CURRENT_MONTH   = YearMonth.now();
 
@@ -60,7 +60,7 @@ class ITFeeCalendarServiceGetYearOnlyActive {
     @Autowired
     private MemberFeeCalendarService service;
 
-    public ITFeeCalendarServiceGetYearOnlyActive() {
+    public ITFeeCalendarServiceGetYearActive() {
         super();
     }
 
