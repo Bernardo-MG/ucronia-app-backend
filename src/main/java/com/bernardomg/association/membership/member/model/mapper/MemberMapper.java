@@ -12,7 +12,6 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    @Mapping(target = "active", ignore = true)
     public DtoMember toDto(final MemberEntity entity);
 
     @Mapping(target = "id", ignore = true)

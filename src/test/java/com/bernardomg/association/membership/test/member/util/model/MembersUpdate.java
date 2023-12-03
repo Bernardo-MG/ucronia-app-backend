@@ -6,16 +6,6 @@ import com.bernardomg.association.membership.member.model.request.MemberUpdateRe
 
 public final class MembersUpdate {
 
-    public static final MemberUpdate active() {
-        return MemberUpdateRequest.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build();
-    }
-
     public static final MemberUpdate missingActive() {
         return MemberUpdateRequest.builder()
             .name("Member")
@@ -30,7 +20,6 @@ public final class MembersUpdate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build();
     }
 
@@ -40,7 +29,6 @@ public final class MembersUpdate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build();
     }
 
@@ -50,7 +38,15 @@ public final class MembersUpdate {
             .surname(" Surname 123 ")
             .phone("12345")
             .identifier("6789")
-            .active(true)
+            .build();
+    }
+
+    public static final MemberUpdate valid() {
+        return MemberUpdateRequest.builder()
+            .name("Member")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
             .build();
     }
 

@@ -72,7 +72,7 @@ class TestValidatedMemberUpdateValidation {
         final MemberUpdate                           request;
         final Set<ConstraintViolation<MemberUpdate>> errors;
 
-        request = MembersUpdate.active();
+        request = MembersUpdate.valid();
 
         errors = validator.validate(request);
 
