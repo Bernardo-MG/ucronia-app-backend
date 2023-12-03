@@ -8,8 +8,6 @@ import lombok.Data;
 @Builder
 public final class DtoMember implements Member {
 
-    private Boolean active;
-
     private Long    id;
 
     private String  identifier;

@@ -124,7 +124,6 @@ class ITMemberServiceUpdate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 

@@ -78,7 +78,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
             .build());
 
         member = members.next();
@@ -87,7 +86,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = members.next();
@@ -96,7 +94,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -105,7 +102,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -114,7 +110,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
     }
 
@@ -139,7 +134,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = members.next();
@@ -148,7 +142,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -157,7 +150,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -166,7 +158,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -175,7 +166,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
             .build());
     }
 
@@ -201,7 +191,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = members.next();
@@ -210,7 +199,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -219,7 +207,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -228,7 +215,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -237,7 +223,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(true)
             .build());
     }
 
@@ -262,7 +247,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(true)
             .build());
 
         member = members.next();
@@ -271,7 +255,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -280,7 +263,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -289,7 +271,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -298,7 +279,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -323,7 +303,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = members.next();
@@ -332,7 +311,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -341,7 +319,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -350,7 +327,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -359,7 +335,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(true)
             .build());
     }
 
@@ -384,7 +359,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(true)
             .build());
 
         member = members.next();
@@ -393,7 +367,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -402,7 +375,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -411,7 +383,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -420,7 +391,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 

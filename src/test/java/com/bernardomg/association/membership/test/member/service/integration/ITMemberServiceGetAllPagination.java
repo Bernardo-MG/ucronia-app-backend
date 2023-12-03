@@ -97,7 +97,6 @@ class ITMemberServiceGetAllPagination {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -125,7 +124,6 @@ class ITMemberServiceGetAllPagination {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
     }
 

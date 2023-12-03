@@ -70,7 +70,6 @@ class ITMemberServiceGetOne {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -93,7 +92,6 @@ class ITMemberServiceGetOne {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -115,7 +113,6 @@ class ITMemberServiceGetOne {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(false)
             .build());
     }
 
