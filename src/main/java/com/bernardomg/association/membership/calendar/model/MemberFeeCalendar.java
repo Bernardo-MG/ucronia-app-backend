@@ -28,8 +28,6 @@ import java.util.Collection;
 
 public interface MemberFeeCalendar {
 
-    public Boolean getActive();
-
     public Long getMemberId();
 
     public String getMemberName();

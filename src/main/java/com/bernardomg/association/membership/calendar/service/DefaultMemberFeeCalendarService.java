@@ -33,10 +33,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.ImmutableFeeMonth;
@@ -46,7 +46,6 @@ import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
-import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,28 +73,38 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
     @Override
     public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
-        final Collection<MemberFeeEntity>      readFees;
-        final Map<Long, List<MemberFeeEntity>> memberFees;
-        final Collection<MemberFeeCalendar>    years;
-        final Collection<Long>                 memberIds;
-        Specification<MemberFeeEntity>         spec;
-        List<MemberFeeEntity>                  fees;
-        MemberFeeCalendar                      feeYear;
-        Boolean                                activeFilter;
+        final Collection<MemberFeeEntity>           readFees;
+        final Map<Long, List<MemberFeeEntity>>      memberFees;
+        final Collection<MemberFeeCalendar>         years;
+        final Collection<Long>                      memberIds;
+        final Supplier<Collection<MemberFeeEntity>> read;
+        final YearMonth                             start;
+        final YearMonth                             end;
+        final YearMonth                             validStart;
+        final YearMonth                             validEnd;
+        List<MemberFeeEntity>                       fees;
+        MemberFeeCalendar                           feeYear;
 
-        spec = MemberFeeSpecifications.between(YearMonth.of(year, Month.JANUARY), YearMonth.of(year, Month.DECEMBER));
+        start = YearMonth.of(year, Month.JANUARY);
+        end = YearMonth.of(year, Month.DECEMBER);
         // TODO: Read active member ids to filter
         switch (active) {
             case ACTIVE:
-                spec = spec.and(MemberFeeSpecifications.active(true));
+                validStart = YearMonth.now()
+                    .minusMonths(1);
+                validEnd = YearMonth.now();
+                read = () -> memberFeeRepository.findAllActive(sort, start, end, validStart, validEnd);
                 break;
             case INACTIVE:
-                spec = spec.and(MemberFeeSpecifications.active(false));
+                validEnd = YearMonth.now()
+                    .minusMonths(1);
+                read = () -> memberFeeRepository.findAllInactive(sort, start, end, validEnd);
                 break;
             default:
+                read = () -> memberFeeRepository.findAllInRange(sort, start, end);
         }
 
-        readFees = memberFeeRepository.findAll(spec, sort);
+        readFees = read.get();
         // Member fees grouped by id
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(MemberFeeEntity::getMemberId));
@@ -108,15 +117,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         years = new ArrayList<>();
         for (final Long member : memberIds) {
             fees = memberFees.get(member);
-            if (fees.isEmpty()) {
-                activeFilter = false;
-            } else {
-                // activeFilter = fees.iterator()
-                // .next()
-                // .getActive();
-                activeFilter = false;
-            }
-            feeYear = toFeeYear(member, year, activeFilter, fees);
+            feeYear = toFeeYear(member, year, fees);
 
             years.add(feeYear);
         }
@@ -139,7 +140,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             .build();
     }
 
-    private final MemberFeeCalendar toFeeYear(final Long member, final Integer year, final Boolean active,
+    private final MemberFeeCalendar toFeeYear(final Long member, final Integer year,
             final Collection<MemberFeeEntity> fees) {
         final Collection<FeeMonth> months;
         final MemberFeeEntity      row;
@@ -167,7 +168,6 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         return ImmutableMemberFeeCalendar.builder()
             .memberId(member)
             .memberName(name)
-            .active(active)
             .months(months)
             .year(year)
             .build();

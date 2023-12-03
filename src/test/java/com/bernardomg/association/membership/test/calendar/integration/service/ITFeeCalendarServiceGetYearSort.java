@@ -77,8 +77,6 @@ class ITFeeCalendarServiceGetYearSort {
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(calendar.getActive())
-            .isTrue();
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -102,8 +100,6 @@ class ITFeeCalendarServiceGetYearSort {
             .isEqualTo("Member 1 Surname 1");
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
-        Assertions.assertThat(calendar.getActive())
-            .isTrue();
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -142,7 +138,6 @@ class ITFeeCalendarServiceGetYearSort {
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .year(2020)
-            .active(true)
             .build());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
@@ -152,7 +147,6 @@ class ITFeeCalendarServiceGetYearSort {
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .year(2020)
-            .active(true)
             .build());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
@@ -177,7 +171,6 @@ class ITFeeCalendarServiceGetYearSort {
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .year(2020)
-            .active(true)
             .build());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
@@ -187,7 +180,6 @@ class ITFeeCalendarServiceGetYearSort {
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .year(2020)
-            .active(true)
             .build());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
