@@ -51,4 +51,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
+    @Query("SELECT m.id FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL")
+    public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
+
 }

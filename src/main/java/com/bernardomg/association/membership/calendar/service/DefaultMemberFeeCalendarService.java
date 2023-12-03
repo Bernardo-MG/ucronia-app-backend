@@ -33,7 +33,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
@@ -77,18 +76,17 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
     @Override
     public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
-        final Collection<MemberFeeEntity>           readFees;
-        final Map<Long, List<MemberFeeEntity>>      memberFees;
-        final Collection<MemberFeeCalendar>         years;
-        final Collection<Long>                      memberIds;
-        final Supplier<Collection<MemberFeeEntity>> read;
-        final YearMonth                             start;
-        final YearMonth                             end;
-        final YearMonth                             validStart;
-        final YearMonth                             validEnd;
-        final Collection<Long>                      activeIds;
-        List<MemberFeeEntity>                       fees;
-        MemberFeeCalendar                           feeYear;
+        final Collection<MemberFeeEntity>      readFees;
+        final Map<Long, List<MemberFeeEntity>> memberFees;
+        final Collection<MemberFeeCalendar>    years;
+        final Collection<Long>                 memberIds;
+        final YearMonth                        start;
+        final YearMonth                        end;
+        final YearMonth                        validStart;
+        final YearMonth                        validEnd;
+        final Collection<Long>                 foundIds;
+        List<MemberFeeEntity>                  fees;
+        MemberFeeCalendar                      feeYear;
 
         start = YearMonth.of(year, Month.JANUARY);
         end = YearMonth.of(year, Month.DECEMBER);
@@ -98,23 +96,22 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
                 validStart = YearMonth.now()
                     .minusMonths(1);
                 validEnd = YearMonth.now();
-                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+                foundIds = memberRepository.findAllActiveIds(validStart, validEnd);
 
-                read = () -> memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, activeIds);
+                readFees = memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, foundIds);
                 break;
             case INACTIVE:
                 validStart = YearMonth.now()
                     .minusMonths(1);
                 validEnd = YearMonth.now();
-                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+                foundIds = memberRepository.findAllInactiveIds(validStart, validEnd);
 
-                read = () -> memberFeeRepository.findAllInRangeForMembersNotIn(sort, start, end, activeIds);
+                readFees = memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, foundIds);
                 break;
             default:
-                read = () -> memberFeeRepository.findAllInRange(sort, start, end);
+                readFees = memberFeeRepository.findAllInRange(sort, start, end);
         }
 
-        readFees = read.get();
         // Member fees grouped by id
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(MemberFeeEntity::getMemberId));
