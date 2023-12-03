@@ -37,7 +37,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query("SELECT case when (count(*) > 0) then true else false end FROM Member m INNER JOIN MemberFee f ON m.id = f.memberId WHERE m.id = :id")
     public boolean existsActive(@Param("id") final Long id);
 
-    @Query("SELECT m FROM Member m INNER JOIN MemberFee f ON m.id = f.memberId")
+    @Query("SELECT m FROM Member m INNER JOIN MemberFee f ON m.id = f.memberId WHERE f.")
     public Page<MemberEntity> findAllActive(final Pageable pageable);
 
     @Query("SELECT m FROM Member m LEFT JOIN MemberFee f ON m.id = f.memberId WHERE f.memberId IS NULL")

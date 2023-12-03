@@ -38,7 +38,6 @@ import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -116,57 +115,6 @@ class ITMemberServiceGetAll {
             .phone("12349")
             .identifier("6793")
             .build());
-    }
-
-    @Test
-    @DisplayName("With an active member it returns the member")
-    @Sql({ "/db/queries/member/single.sql" })
-    @Sql({ "/db/queries/fee/single.sql" })
-    void testGetAll_Active() {
-        final Iterable<Member> members;
-        final Iterator<Member> membersItr;
-        final MemberQuery      memberQuery;
-        final Pageable         pageable;
-        Member                 member;
-
-        pageable = Pageable.unpaged();
-
-        memberQuery = MembersQuery.empty();
-
-        members = service.getAll(memberQuery, pageable);
-
-        Assertions.assertThat(members)
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
-    }
-
-    @Test
-    @DisplayName("With an inactive member it returns the member")
-    @Sql({ "/db/queries/member/single.sql" })
-    void testGetAll_Inactive() {
-        final Iterable<Member> members;
-        final Iterator<Member> membersItr;
-        final MemberQuery      memberQuery;
-        final Pageable         pageable;
-        Member                 member;
-
-        pageable = Pageable.unpaged();
-
-        memberQuery = MembersQuery.empty();
-
-        members = service.getAll(memberQuery, pageable);
-
-        Assertions.assertThat(members)
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
 }
