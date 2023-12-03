@@ -37,7 +37,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Member service - get one")
+@DisplayName("Member service - get one - Errors")
 class ITMemberServiceGetOneError {
 
     @Autowired
