@@ -105,6 +105,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeeCurrentMonth(false);
@@ -115,9 +116,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -126,6 +129,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeeCurrentMonth(true);
@@ -136,9 +140,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -147,6 +153,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_LastThreeMonths_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeeCurrentMonth(false);
@@ -159,9 +166,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -170,6 +179,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_LastThreeMonths_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeeCurrentMonth(false);
@@ -182,9 +192,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -193,6 +205,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeePreviousMonth(false);
@@ -203,9 +216,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -214,6 +229,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeePreviousMonth(true);
@@ -224,9 +240,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -375,6 +393,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterNotActive_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeeTwoMonthsBack(false);
@@ -385,9 +404,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isFalse();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 
@@ -396,6 +417,7 @@ class ITFeeCalendarServiceGetYearActive {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterNotActive_TwoMonthsBack_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeeTwoMonthsBack(true);
@@ -406,9 +428,11 @@ class ITFeeCalendarServiceGetYearActive {
 
         Assertions.assertThat(calendars)
             .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isFalse();
+        Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
     }
 

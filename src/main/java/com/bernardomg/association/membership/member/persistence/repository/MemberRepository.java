@@ -52,7 +52,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
-    @Query("SELECT case when (count(*) > 0) then true else false end FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE m.id = :id")
-    public boolean isActive(@Param("id") final Long id);
+    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active FROM Member m LEFT JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end AND m.id = :id")
+    public boolean isActive(@Param("id") final Long id, @Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
 
 }

@@ -70,7 +70,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -88,7 +88,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -123,12 +123,12 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeAlternative());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -148,12 +148,12 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeAlternative());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }

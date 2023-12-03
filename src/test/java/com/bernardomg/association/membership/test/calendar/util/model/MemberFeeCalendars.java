@@ -24,6 +24,24 @@ public final class MemberFeeCalendars {
             .build();
     }
 
+    public static final MemberFeeCalendar inactive() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName("Member 1 Surname 1")
+            .year(2020)
+            .active(false)
+            .build();
+    }
+
+    public static final MemberFeeCalendar inactiveAlternative() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(2L)
+            .memberName("Member 2 Surname 2")
+            .year(2020)
+            .active(false)
+            .build();
+    }
+
     private MemberFeeCalendars() {
         super();
     }

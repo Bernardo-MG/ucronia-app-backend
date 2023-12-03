@@ -55,7 +55,13 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final boolean notInactive(final FeeEntity fee) {
-        return memberRepository.isActive(fee.getMemberId());
+        final YearMonth start;
+        final YearMonth end;
+
+        start = YearMonth.now()
+            .minusMonths(1);
+        end = YearMonth.now();
+        return memberRepository.isActive(fee.getMemberId(), start, end);
     }
 
     private final FeeEntity toCurrentMonth(final FeeEntity fee) {

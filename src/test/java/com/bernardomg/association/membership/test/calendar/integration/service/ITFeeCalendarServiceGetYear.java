@@ -138,13 +138,13 @@ class ITFeeCalendarServiceGetYear {
 
         // First member
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         // Second member
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeAlternative());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -185,7 +185,7 @@ class ITFeeCalendarServiceGetYear {
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(calendar.isActive())
-            .isTrue();
+            .isFalse();
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -232,7 +232,7 @@ class ITFeeCalendarServiceGetYear {
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(calendar.isActive())
-            .isTrue();
+            .isFalse();
 
         months = calendar.getMonths()
             .iterator();
@@ -288,7 +288,7 @@ class ITFeeCalendarServiceGetYear {
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(calendar.isActive())
-            .isTrue();
+            .isFalse();
 
         months = calendar.getMonths()
             .iterator();
@@ -344,7 +344,7 @@ class ITFeeCalendarServiceGetYear {
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2019);
         Assertions.assertThat(calendar.isActive())
-            .isTrue();
+            .isFalse();
 
         months = calendar.getMonths()
             .iterator();
@@ -416,7 +416,7 @@ class ITFeeCalendarServiceGetYear {
         Assertions.assertThat(calendar.getYear())
             .isEqualTo(2020);
         Assertions.assertThat(calendar.isActive())
-            .isTrue();
+            .isFalse();
 
         months = calendar.getMonths()
             .iterator();
