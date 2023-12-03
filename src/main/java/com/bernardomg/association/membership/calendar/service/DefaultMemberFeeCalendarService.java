@@ -47,6 +47,7 @@ import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,10 +56,13 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
     private final MemberFeeRepository memberFeeRepository;
 
-    public DefaultMemberFeeCalendarService(final MemberFeeRepository memberFeeRepo) {
+    private final MemberRepository    memberRepository;
+
+    public DefaultMemberFeeCalendarService(final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo) {
         super();
 
         memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
@@ -82,6 +86,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final YearMonth                             end;
         final YearMonth                             validStart;
         final YearMonth                             validEnd;
+        final Collection<Long>                      activeIds;
         List<MemberFeeEntity>                       fees;
         MemberFeeCalendar                           feeYear;
 
@@ -93,12 +98,17 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
                 validStart = YearMonth.now()
                     .minusMonths(1);
                 validEnd = YearMonth.now();
-                read = () -> memberFeeRepository.findAllActive(sort, start, end, validStart, validEnd);
+                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+
+                read = () -> memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, activeIds);
                 break;
             case INACTIVE:
-                validEnd = YearMonth.now()
+                validStart = YearMonth.now()
                     .minusMonths(1);
-                read = () -> memberFeeRepository.findAllInactive(sort, start, end, validEnd);
+                validEnd = YearMonth.now();
+                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+
+                read = () -> memberFeeRepository.findAllInRangeForMembersNotIn(sort, start, end, activeIds);
                 break;
             default:
                 read = () -> memberFeeRepository.findAllInRange(sort, start, end);

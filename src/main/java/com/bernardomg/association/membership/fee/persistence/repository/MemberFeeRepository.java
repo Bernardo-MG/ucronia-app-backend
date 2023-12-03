@@ -38,18 +38,19 @@ import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEnti
 public interface MemberFeeRepository
         extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
 
-    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.date >= :validStart AND f.date <= :validEnd")
-    public Collection<MemberFeeEntity> findAllActive(final Sort sort, @Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, @Param("validStart") final YearMonth validStart,
-            @Param("validEnd") final YearMonth validEnd);
-
-    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.date < :limit")
-    public Collection<MemberFeeEntity> findAllInactive(final Sort sort, @Param("start") final YearMonth start,
-            @Param("end") final YearMonth end, @Param("limit") final YearMonth limit);
-
     @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end")
     public Collection<MemberFeeEntity> findAllInRange(final Sort sort, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
+
+    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.memberId IN :ids")
+    public Collection<MemberFeeEntity> findAllInRangeForMembersIn(final Sort sort,
+            @Param("start") final YearMonth start, @Param("end") final YearMonth end,
+            @Param("ids") final Collection<Long> ids);
+
+    @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.memberId NOT IN :ids")
+    public Collection<MemberFeeEntity> findAllInRangeForMembersNotIn(final Sort sort,
+            @Param("start") final YearMonth start, @Param("end") final YearMonth end,
+            @Param("ids") final Collection<Long> ids);
 
     @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f GROUP BY feeYear ORDER BY feeYear ASC")
     public Collection<Integer> findYears();

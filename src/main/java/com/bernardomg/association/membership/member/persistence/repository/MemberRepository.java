@@ -25,6 +25,7 @@
 package com.bernardomg.association.membership.member.persistence.repository;
 
 import java.time.YearMonth;
+import java.util.Collection;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,9 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query("SELECT m FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end")
     public Page<MemberEntity> findAllActive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
+
+    @Query("SELECT m.id FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end")
+    public Collection<Long> findAllActiveIds(@Param("start") final YearMonth start, @Param("end") final YearMonth end);
 
     @Query("SELECT m FROM Member m LEFT JOIN Fee f ON m.id = f.memberId WHERE f.memberId IS NULL OR f.date < :limit")
     public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("limit") final YearMonth limit);

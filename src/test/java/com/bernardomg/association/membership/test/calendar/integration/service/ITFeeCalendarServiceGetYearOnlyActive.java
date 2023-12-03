@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.membership.test.calendar.integration.service;
 
-import java.util.Iterator;
+import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -33,12 +33,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
-import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -47,6 +46,17 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("Fee calendar service - get year - filter by only active status")
 class ITFeeCalendarServiceGetYearOnlyActive {
 
+    private static final YearMonth   CURRENT_MONTH   = YearMonth.now();
+
+    private static final YearMonth   PREVIOUS_MONTH  = YearMonth.now()
+        .minusMonths(1);
+
+    private static final YearMonth   TWO_MONTHS_BACK = YearMonth.now()
+        .minusMonths(2);
+
+    @Autowired
+    private FeeRepository            feeRepository;
+
     @Autowired
     private MemberFeeCalendarService service;
 
@@ -54,12 +64,50 @@ class ITFeeCalendarServiceGetYearOnlyActive {
         super();
     }
 
+    private final void registerFeeCurrentMonth(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = new FeeEntity();
+        fee.setMemberId(1l);
+        fee.setPaid(paid);
+
+        fee.setDate(CURRENT_MONTH);
+
+        feeRepository.save(fee);
+    }
+
+    private final void registerFeePreviousMonth(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = new FeeEntity();
+        fee.setMemberId(1l);
+        fee.setPaid(paid);
+
+        fee.setDate(PREVIOUS_MONTH);
+
+        feeRepository.save(fee);
+    }
+
+    private final void registerFeeTwoMonthsBack(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = new FeeEntity();
+        fee.setMemberId(1l);
+        fee.setPaid(paid);
+
+        fee.setDate(TWO_MONTHS_BACK);
+
+        feeRepository.save(fee);
+    }
+
     @Test
-    @DisplayName("With a full year it returns all the entities")
+    @DisplayName("With a not paid fee in the current month it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_FullYear_Count() {
+    void testGetYear_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
+
+        registerFeeCurrentMonth(false);
 
         sort = Sort.unsorted();
 
@@ -74,149 +122,34 @@ class ITFeeCalendarServiceGetYearOnlyActive {
     }
 
     @Test
-    @DisplayName("With a full year it returns all data")
+    @DisplayName("With a paid fee in the current month it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_FullYear_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With a full year it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
-    void testGetYear_FullYear_TwoMembers_Count() {
+    void testGetYear_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
-        final Iterator<MemberFeeCalendar> calendarsItr;
         final Sort                        sort;
+
+        registerFeeCurrentMonth(true);
 
         sort = Sort.unsorted();
 
         calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(2);
-
-        calendarsItr = calendars.iterator();
-        Assertions.assertThat(calendarsItr.next()
-            .getMonths())
-            .hasSize(12);
-        Assertions.assertThat(calendarsItr.next()
+            .hasSize(1);
+        Assertions.assertThat(calendars.iterator()
+            .next()
             .getMonths())
             .hasSize(12);
     }
 
     @Test
-    @DisplayName("With a full year it returns all the data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
-    void testGetYear_FullYear_TwoMembers_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort)
-            .iterator();
-
-        // First member
-        calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .year(2020)
-            .build());
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-
-        // Second member
-        calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .year(2020)
-            .build());
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With an inactive user and a full year it returns all the data")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_Inactive_Count() {
+    @DisplayName("With a not paid fee in the previous month it returns the calendar")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
-
-        Assertions.assertThat(calendars)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When there is no data it returns nothing")
-    @Sql({ "/db/queries/member/single.sql" })
-    void testGetYear_NoData_Count() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
-
-        Assertions.assertThat(calendars)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With user without surname it returns all data")
-    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/full_year.sql" })
-    void testGetYear_NoSurname_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With a single month it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    void testGetYear_SingleMonth_Count() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        registerFeePreviousMonth(false);
 
         sort = Sort.unsorted();
 
@@ -227,50 +160,17 @@ class ITFeeCalendarServiceGetYearOnlyActive {
         Assertions.assertThat(calendars.iterator()
             .next()
             .getMonths())
-            .hasSize(1);
+            .hasSize(12);
     }
 
     @Test
-    @DisplayName("With a single month it returns all data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
-    void testGetYear_SingleMonth_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-        final Iterator<FeeMonth>          months;
-        final Sort                        sort;
-        final FeeMonth                    month;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-
-        months = calendar.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With a single unpaid month it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    void testGetYear_SingleMonth_Unpaid_Count() {
+    @DisplayName("With a paid fee in the previous month it returns the calendar")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
+
+        registerFeePreviousMonth(true);
 
         sort = Sort.unsorted();
 
@@ -281,200 +181,41 @@ class ITFeeCalendarServiceGetYearOnlyActive {
         Assertions.assertThat(calendars.iterator()
             .next()
             .getMonths())
-            .hasSize(1);
+            .hasSize(12);
     }
 
     @Test
-    @DisplayName("With a single unpaid month it returns all data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
-    void testGetYear_SingleMonth_Unpaid_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-        final Iterator<FeeMonth>          months;
-        final Sort                        sort;
-        final FeeMonth                    month;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-
-        months = calendar.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getPaid())
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With two connected years when reading the second it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetYear_TwoConnectedYears_First_Count() {
+    @DisplayName("With a not paid fee two months back it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2019, MemberStatus.ACTIVE, sort);
-
-        Assertions.assertThat(calendars)
-            .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
-            .hasSize(3);
-    }
-
-    @Test
-    @DisplayName("With two connected years when reading the first it returns all data for the queried year")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetYear_TwoConnectedYears_First_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(2019, MemberStatus.ACTIVE, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2019);
-
-        months = calendar.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isNotNull();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(10);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isNotNull();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(11);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isNotNull();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(12);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With two connected years when reading the second it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetYear_TwoConnectedYears_Second_Count() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
         calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
-            .hasSize(7);
+            .hasSize(0);
     }
 
     @Test
-    @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
-    void testGetYear_TwoConnectedYears_Second_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
+    @DisplayName("With a paid fee two months back it returns nothing")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    void testGetYear_TwoMonthsBack_Paid() {
+        final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
-        MemberFeeCalendar                 calendar;
-        Iterator<FeeMonth>                months;
-        FeeMonth                          month;
+
+        registerFeeTwoMonthsBack(true);
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort)
-            .iterator();
+        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
 
-        calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-
-        months = calendar.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(2);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(3);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(4);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(5);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(6);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-
-        month = months.next();
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(7);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
+        Assertions.assertThat(calendars)
+            .hasSize(0);
     }
 
 }
