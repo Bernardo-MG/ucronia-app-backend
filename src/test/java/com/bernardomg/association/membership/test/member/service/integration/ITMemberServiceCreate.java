@@ -29,14 +29,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersCreate;
+import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -89,12 +90,7 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MemberEntity.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
     }
 
     @Test
@@ -114,12 +110,7 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MemberEntity.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
     }
 
     @Test
@@ -132,12 +123,7 @@ class ITMemberServiceCreate {
 
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid());
     }
 
 }
