@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
@@ -77,19 +78,44 @@ class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 1")
+            .surname("Surname 1")
+            .phone("12345")
+            .identifier("6789")
+            .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 2")
+            .surname("Surname 2")
+            .phone("12346")
+            .identifier("6790")
+            .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 3")
+            .surname("Surname 3")
+            .phone("12347")
+            .identifier("6791")
+            .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 4")
+            .surname("Surname 4")
+            .phone("12348")
+            .identifier("6792")
+            .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 5")
+            .surname("Surname 5")
+            .phone("12349")
+            .identifier("6793")
+            .build());
     }
 
     @Test
@@ -115,7 +141,7 @@ class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
     @Test
@@ -140,7 +166,7 @@ class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
 }

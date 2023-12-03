@@ -14,4 +14,13 @@ public final class DtoMembers {
             .build();
     }
 
+    public static final DtoMember valid(final int index) {
+        return DtoMember.builder()
+            .name("Member " + index)
+            .surname("Surname " + index)
+            .phone("12345")
+            .identifier("6789")
+            .build();
+    }
+
 }

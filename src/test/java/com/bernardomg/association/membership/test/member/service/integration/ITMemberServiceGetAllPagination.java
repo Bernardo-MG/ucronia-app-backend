@@ -33,6 +33,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
@@ -92,7 +93,7 @@ class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
     @Test
@@ -114,7 +115,12 @@ class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMember.builder()
+            .name("Member 2")
+            .surname("Surname 2")
+            .phone("12346")
+            .identifier("6790")
+            .build());
     }
 
     @Test

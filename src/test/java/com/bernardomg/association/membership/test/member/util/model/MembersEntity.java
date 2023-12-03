@@ -14,4 +14,13 @@ public final class MembersEntity {
             .build();
     }
 
+    public static final MemberEntity valid(final int index) {
+        return MemberEntity.builder()
+            .name("Member " + index)
+            .surname("Surname " + index)
+            .phone("12345")
+            .identifier("6789")
+            .build();
+    }
+
 }

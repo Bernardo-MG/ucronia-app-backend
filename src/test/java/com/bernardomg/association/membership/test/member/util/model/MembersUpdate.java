@@ -47,7 +47,7 @@ public final class MembersUpdate {
     public static final MemberUpdate paddedWithWhitespaces() {
         return MemberUpdateRequest.builder()
             .name(" Member 123 ")
-            .surname(" Surname ")
+            .surname(" Surname 123 ")
             .phone("12345")
             .identifier("6789")
             .active(true)

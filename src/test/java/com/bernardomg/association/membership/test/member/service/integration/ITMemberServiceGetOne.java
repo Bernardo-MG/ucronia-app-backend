@@ -65,7 +65,7 @@ class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
     @Test
@@ -82,7 +82,7 @@ class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
     @Test
@@ -98,7 +98,7 @@ class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.valid());
+        MemberAssertions.isEqualTo(member, DtoMembers.valid(1));
     }
 
 }
