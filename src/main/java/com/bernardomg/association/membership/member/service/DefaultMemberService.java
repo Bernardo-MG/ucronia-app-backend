@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.membership.member.service;
 
+import java.time.YearMonth;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -82,15 +83,22 @@ public final class DefaultMemberService implements MemberService {
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
         final Page<MemberEntity> members;
+        final YearMonth          start;
+        final YearMonth          end;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
         switch (query.getStatus()) {
             case ACTIVE:
-                members = memberRepository.findAllActive(pageable);
+                start = YearMonth.now()
+                    .minusMonths(1);
+                end = YearMonth.now();
+                members = memberRepository.findAllActive(pageable, start, end);
                 break;
             case INACTIVE:
-                members = memberRepository.findAllInactive(pageable);
+                end = YearMonth.now()
+                    .minusMonths(1);
+                members = memberRepository.findAllInactive(pageable, end);
                 break;
             default:
                 members = memberRepository.findAll(pageable);
