@@ -33,7 +33,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -48,6 +47,7 @@ import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -73,7 +73,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and the fee exists but is unpaid, it is set to paid")
     @ValidMember
     @NotPaidFee
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_ExistingUnpaid_PersistedFee() {
         final FeesPayment feeRequest;
         final FeeEntity   entity;
@@ -100,7 +100,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and the fee exists but is unpaid, a single transaction is persisted")
     @ValidMember
     @NotPaidFee
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_ExistingUnpaid_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -127,7 +127,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and the fee exists but is unpaid, it returns the created data")
     @ValidMember
     @NotPaidFee
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_ExistingUnpaid_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
@@ -153,7 +153,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates multiple fees are persisted")
     @ValidMember
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee() {
         final FeesPayment feeRequest;
 
@@ -173,7 +173,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid with multiple dates a single transaction is persisted")
     @ValidMember
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -224,7 +224,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid the fee is persisted")
     @ValidMember
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_PersistedFee() {
         final FeesPayment feeRequest;
         final FeeEntity   entity;
@@ -250,7 +250,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid a single transaction is persisted")
     @ValidMember
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -276,7 +276,7 @@ class ITFeeServicePayFees {
     @Test
     @DisplayName("When a fee is paid it returns the created data")
     @ValidMember
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testCreate_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;

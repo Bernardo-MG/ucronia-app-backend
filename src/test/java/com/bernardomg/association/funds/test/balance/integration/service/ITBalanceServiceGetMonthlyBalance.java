@@ -40,7 +40,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
@@ -48,6 +47,9 @@ import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.test.balance.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.transaction.configuration.DecimalsAddZeroTransaction;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
@@ -188,7 +190,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
-    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    @DecimalsAddZeroTransaction
     void testGetMonthlyBalance_DecimalsAddUpToZero() {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
@@ -216,7 +218,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
     @Test
     @DisplayName("With a full year it returns twelve months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -322,7 +324,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetMonthlyBalance_Multiple() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;

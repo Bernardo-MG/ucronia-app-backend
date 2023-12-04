@@ -32,10 +32,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -53,7 +53,7 @@ class ITFundsCalendarServiceGetYearMonth {
 
     @Test
     @DisplayName("Only the data for the month is returned")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetRange_FullYear() {
         final YearMonth                             date;
         final Iterable<? extends CalendarFundsDate> data;
@@ -77,7 +77,7 @@ class ITFundsCalendarServiceGetYearMonth {
 
     @Test
     @DisplayName("Reading for a not existing month returns nothing")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetRange_FullYear_NotExisting() {
         final YearMonth                             date;
         final Iterable<? extends CalendarFundsDate> data;

@@ -34,8 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
@@ -48,7 +48,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all - pagination")
-@Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+@MultipleTransactionsSameMonth
 class ITTransactionServiceGetAllPagination {
 
     @Autowired

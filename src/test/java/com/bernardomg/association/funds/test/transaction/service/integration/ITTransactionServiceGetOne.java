@@ -34,8 +34,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.NegativeTransaction;
+import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
@@ -64,7 +65,7 @@ class ITTransactionServiceGetOne {
 
     @Test
     @DisplayName("With a valid id, the related entity is returned")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testGetOne() {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
@@ -86,7 +87,7 @@ class ITTransactionServiceGetOne {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a value around zero, the related entity is returned")
-    @Sql({ "/db/queries/transaction/negative.sql" })
+    @NegativeTransaction
     void testGetOne_AroundZero(final Float amount) {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
@@ -110,7 +111,7 @@ class ITTransactionServiceGetOne {
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the related entity is returned")
-    @Sql({ "/db/queries/transaction/negative.sql" })
+    @NegativeTransaction
     void testGetOne_Decimal(final Float amount) {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
@@ -133,7 +134,7 @@ class ITTransactionServiceGetOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a negative value")
-    @Sql({ "/db/queries/transaction/negative.sql" })
+    @NegativeTransaction
     void testGetOne_Negative() {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;

@@ -35,8 +35,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
@@ -118,7 +119,7 @@ class ITTransactionServiceGetAll {
 
     @Test
     @DisplayName("With a full year, it returns all the transactions")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetAll_FullYear_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -224,7 +225,7 @@ class ITTransactionServiceGetAll {
 
     @Test
     @DisplayName("With multiple transactions, it returns all the transactions")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetAll_Multiple_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
