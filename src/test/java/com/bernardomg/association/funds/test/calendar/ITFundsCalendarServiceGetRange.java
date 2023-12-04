@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
 import com.bernardomg.association.funds.test.transaction.configuration.FullConsecutiveTransactionYears;
+import com.bernardomg.association.funds.test.transaction.configuration.FullNotConsecutiveTransactionYears;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameDay;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
@@ -131,7 +132,7 @@ class ITFundsCalendarServiceGetRange {
 
     @Test
     @DisplayName("With two full not consecutive years, a range for them is returned")
-    @FullConsecutiveTransactionYears
+    @FullNotConsecutiveTransactionYears
     void testGetRange_NotConsecutiveFullYear() {
         final MonthsRange range;
 
