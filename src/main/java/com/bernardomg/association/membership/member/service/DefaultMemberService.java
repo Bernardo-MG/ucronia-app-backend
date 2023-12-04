@@ -85,19 +85,18 @@ public final class DefaultMemberService implements MemberService {
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
         final Page<MemberEntity>             members;
-        final YearMonth                      start;
-        final YearMonth                      end;
+        final YearMonth                      validStart;
+        final YearMonth                      validEnd;
         final Function<DtoMember, DtoMember> activeMapper;
         final Collection<Long>               activeIds;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
         switch (query.getStatus()) {
             case ACTIVE:
-                start = YearMonth.now()
-                    .minusMonths(1);
-                end = YearMonth.now();
-                members = memberRepository.findAllActive(pageable, start, end);
+                members = memberRepository.findAllActive(pageable, validStart, validEnd);
 
                 activeMapper = m -> {
                     m.setActive(true);
@@ -105,10 +104,7 @@ public final class DefaultMemberService implements MemberService {
                 };
                 break;
             case INACTIVE:
-                start = YearMonth.now()
-                    .minusMonths(1);
-                end = YearMonth.now();
-                members = memberRepository.findAllInactive(pageable, start, end);
+                members = memberRepository.findAllInactive(pageable, validStart, validEnd);
 
                 activeMapper = m -> {
                     m.setActive(false);
@@ -118,10 +114,7 @@ public final class DefaultMemberService implements MemberService {
             default:
                 members = memberRepository.findAll(pageable);
 
-                start = YearMonth.now()
-                    .minusMonths(1);
-                end = YearMonth.now();
-                activeIds = memberRepository.findAllActiveIds(start, end);
+                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
                 activeMapper = m -> {
                     final boolean active;
 

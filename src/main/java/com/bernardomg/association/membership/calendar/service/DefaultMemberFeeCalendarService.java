@@ -90,20 +90,15 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         start = YearMonth.of(year, Month.JANUARY);
         end = YearMonth.of(year, Month.DECEMBER);
-        // TODO: Read active member ids to filter
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
         switch (active) {
             case ACTIVE:
-                validStart = YearMonth.now()
-                    .minusMonths(1);
-                validEnd = YearMonth.now();
                 foundIds = memberRepository.findAllActiveIds(validStart, validEnd);
 
                 readFees = memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, foundIds);
                 break;
             case INACTIVE:
-                validStart = YearMonth.now()
-                    .minusMonths(1);
-                validEnd = YearMonth.now();
                 foundIds = memberRepository.findAllInactiveIds(validStart, validEnd);
 
                 readFees = memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, foundIds);
@@ -153,8 +148,8 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final MemberFeeEntity      row;
         final String               name;
         final boolean              active;
-        final YearMonth            start;
-        final YearMonth            end;
+        final YearMonth            validStart;
+        final YearMonth            validEnd;
 
         if (fees.isEmpty()) {
             // TODO: Tests this case to make sure it is handled correctly
@@ -175,10 +170,9 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             name = row.getMemberName();
         }
 
-        start = YearMonth.now()
-            .minusMonths(1);
-        end = YearMonth.now();
-        active = memberRepository.isActive(member, start, end);
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
+        active = memberRepository.isActive(member, validStart, validEnd);
 
         return ImmutableMemberFeeCalendar.builder()
             .memberId(member)

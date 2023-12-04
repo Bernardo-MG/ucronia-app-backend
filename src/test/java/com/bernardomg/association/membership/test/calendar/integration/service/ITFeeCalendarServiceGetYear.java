@@ -38,6 +38,7 @@ import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -63,7 +64,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -83,16 +84,11 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -108,7 +104,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(2);
@@ -133,7 +129,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         // First member
@@ -158,7 +154,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .isEmpty();
@@ -174,18 +170,11 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.isActive())
-            .isFalse();
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.noSurname());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -199,7 +188,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -221,18 +210,11 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.isActive())
-            .isFalse();
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         months = calendar.getMonths()
             .iterator();
@@ -255,7 +237,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -277,18 +259,11 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.isActive())
-            .isFalse();
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         months = calendar.getMonths()
             .iterator();
@@ -311,7 +286,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2019, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR_PREVIOUS, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -333,16 +308,16 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2019, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR_PREVIOUS, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
         Assertions.assertThat(calendar.getMemberId())
             .isEqualTo(1);
         Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
+            .isEqualTo(MemberCalendars.FULL_NAME);
         Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2019);
+            .isEqualTo(MemberCalendars.YEAR_PREVIOUS);
         Assertions.assertThat(calendar.isActive())
             .isFalse();
 
@@ -383,7 +358,7 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
@@ -405,18 +380,11 @@ class ITFeeCalendarServiceGetYear {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.isActive())
-            .isFalse();
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         months = calendar.getMonths()
             .iterator();

@@ -9,8 +9,8 @@ public final class MemberFeeCalendars {
     public static final MemberFeeCalendar active() {
         return ImmutableMemberFeeCalendar.builder()
             .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .year(2020)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(MemberCalendars.YEAR)
             .active(true)
             .build();
     }
@@ -18,8 +18,8 @@ public final class MemberFeeCalendars {
     public static final MemberFeeCalendar activeAlternative() {
         return ImmutableMemberFeeCalendar.builder()
             .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .year(2020)
+            .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
+            .year(MemberCalendars.YEAR)
             .active(true)
             .build();
     }
@@ -27,8 +27,8 @@ public final class MemberFeeCalendars {
     public static final MemberFeeCalendar inactive() {
         return ImmutableMemberFeeCalendar.builder()
             .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .year(2020)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(MemberCalendars.YEAR)
             .active(false)
             .build();
     }
@@ -36,8 +36,17 @@ public final class MemberFeeCalendars {
     public static final MemberFeeCalendar inactiveAlternative() {
         return ImmutableMemberFeeCalendar.builder()
             .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .year(2020)
+            .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
+            .year(MemberCalendars.YEAR)
+            .active(false)
+            .build();
+    }
+
+    public static final MemberFeeCalendar noSurname() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.NAME)
+            .year(MemberCalendars.YEAR)
             .active(false)
             .build();
     }
