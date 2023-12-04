@@ -285,10 +285,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the current month, and filtering by not active, it returns nothing")
+    @DisplayName("With a not paid fee in the current month, and filtering by inactive, it returns nothing")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_CurrentMonth_NotPaid() {
+    void testGetYear_FilterInactive_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -303,10 +303,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month, and filtering by not active, it returns nothing")
+    @DisplayName("With a paid fee in the current month, and filtering by inactive, it returns nothing")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_CurrentMonth_Paid() {
+    void testGetYear_FilterInactive_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -321,10 +321,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the last three months, and filtering by not active, it returns nothing")
+    @DisplayName("With a not paid fee in the last three months, and filtering by inactive, it returns nothing")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_LastThreeMonths_NotPaid() {
+    void testGetYear_FilterInactive_LastThreeMonths_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -341,10 +341,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee in the last three months, and filtering by not active, it returns nothing")
+    @DisplayName("With a paid fee in the last three months, and filtering by inactive, it returns nothing")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_LastThreeMonths_Paid() {
+    void testGetYear_FilterInactive_LastThreeMonths_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -361,10 +361,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month, and filtering by not active, it returns the calendar")
+    @DisplayName("With a not paid fee in the previous month, and filtering by inactive, it returns the calendar")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_PreviousMonth_NotPaid() {
+    void testGetYear_FilterInactive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
         final MemberFeeCalendar           calendar;
@@ -387,10 +387,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month, and filtering by not active, it returns the calendar")
+    @DisplayName("With a paid fee in the previous month, and filtering by inactive, it returns the calendar")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_PreviousMonth_Paid() {
+    void testGetYear_FilterInactive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
@@ -413,10 +413,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee two months back, and filtering by not active, it returns the calendar")
+    @DisplayName("With a not paid fee two months back, and filtering by inactive, it returns the calendar")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_TwoMonthsBack_NotPaid() {
+    void testGetYear_FilterInactive_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
@@ -439,10 +439,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a paid fee two months back, and filtering by not active, it returns the calendar")
+    @DisplayName("With a paid fee two months back, and filtering by inactive, it returns the calendar")
     @ValidMember
     @FeeFullYear
-    void testGetYear_FilterNotActive_TwoMonthsBack_Paid() {
+    void testGetYear_FilterInactive_TwoMonthsBack_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
         final Sort                        sort;

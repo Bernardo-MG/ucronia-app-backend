@@ -18,7 +18,7 @@ public final class MembersQuery {
             .build();
     }
 
-    public static final MemberQuery notActive() {
+    public static final MemberQuery inactive() {
         return MemberQueryRequest.builder()
             .status(MemberStatus.INACTIVE)
             .build();

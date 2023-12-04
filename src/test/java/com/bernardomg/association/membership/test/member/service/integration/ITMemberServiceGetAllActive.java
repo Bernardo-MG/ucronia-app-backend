@@ -543,7 +543,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a not paid fee for the current month, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a not paid fee for the current month, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_CurrentMonth_NotPaid() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
@@ -553,7 +553,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -562,7 +562,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a paid fee for the current month, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a paid fee for the current month, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_CurrentMonth_Paid() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
@@ -572,7 +572,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -581,7 +581,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a not paid fee for the last three months, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a not paid fee for the last three months, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_LastThreeMonths_NotPaid() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
@@ -593,7 +593,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -602,7 +602,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a paid fee for the last three months, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a paid fee for the last three months, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_LastThreeMonths_Paid() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
@@ -614,7 +614,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -623,7 +623,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with no fee for the current month, and filtering by not active, it returns the member")
+    @DisplayName("With a member with no fee for the current month, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_NoFee() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
@@ -633,7 +633,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -647,7 +647,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a not paid fee for the previous month, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a not paid fee for the previous month, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_PreviousMonth_NotPaid() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
@@ -659,7 +659,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -673,7 +673,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a paid fee for the previous month, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a paid fee for the previous month, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_PreviousMonth_Paid() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
@@ -685,7 +685,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -699,7 +699,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a not paid fee for two months back, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a not paid fee for two months back, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_TwoMonthsBack_NotPaid() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
@@ -711,7 +711,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
@@ -725,7 +725,7 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a paid fee for two months back, and filtering by not active, it returns the member")
+    @DisplayName("With a member with a paid fee for two months back, and filtering by inactive, it returns the member")
     void testGetAll_FilterInactive_TwoMonthsBack_Paid() {
         final Iterable<Member> members;
         final Iterator<Member> membersItr;
@@ -737,7 +737,7 @@ class ITMemberServiceGetAllActive {
 
         pageable = Pageable.unpaged();
 
-        memberQuery = MembersQuery.notActive();
+        memberQuery = MembersQuery.inactive();
 
         members = service.getAll(memberQuery, pageable);
 
