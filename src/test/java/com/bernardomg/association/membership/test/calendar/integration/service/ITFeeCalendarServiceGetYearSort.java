@@ -40,6 +40,7 @@ import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -66,7 +67,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -84,7 +85,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -101,7 +102,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Direction.ASC, "abc");
 
-        execution = () -> service.getYear(2020, MemberStatus.ALL, sort)
+        execution = () -> service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         Assertions.assertThatThrownBy(execution)
@@ -119,7 +120,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.asc("memberName"));
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();
@@ -144,7 +145,7 @@ class ITFeeCalendarServiceGetYearSort {
 
         sort = Sort.by(Order.desc("memberName"));
 
-        calendars = service.getYear(2020, MemberStatus.ALL, sort)
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
         calendar = calendars.next();

@@ -38,6 +38,9 @@ import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarS
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -112,16 +115,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
     }
 
     @Test
@@ -136,16 +140,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
     }
 
     @Test
@@ -162,16 +167,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
     }
 
     @Test
@@ -188,16 +194,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.active());
     }
 
     @Test
@@ -211,7 +218,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -228,7 +235,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -245,7 +252,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -262,7 +269,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -279,7 +286,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -296,7 +303,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -315,7 +322,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -334,7 +341,7 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(0);
@@ -352,16 +359,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
     }
 
     @Test
@@ -376,16 +384,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
     }
 
     @Test
@@ -400,16 +409,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isFalse();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
     }
 
     @Test
@@ -424,16 +434,17 @@ class ITFeeCalendarServiceGetYearActive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .hasSize(1);
+
         calendar = calendars.iterator()
             .next();
-        Assertions.assertThat(calendar.isActive())
-            .isFalse();
         Assertions.assertThat(calendar.getMonths())
             .hasSize(12);
+
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
     }
 
 }

@@ -32,6 +32,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -56,7 +57,7 @@ class ITFeeCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getYears())
-            .containsOnly(2020);
+            .containsOnly(MemberCalendars.YEAR);
     }
 
     @Test
@@ -69,7 +70,7 @@ class ITFeeCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getYears())
-            .containsOnly(2020);
+            .containsOnly(MemberCalendars.YEAR);
     }
 
     @Test
@@ -92,7 +93,7 @@ class ITFeeCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getYears())
-            .containsOnly(2020);
+            .containsOnly(MemberCalendars.YEAR);
     }
 
     @Test
@@ -104,7 +105,7 @@ class ITFeeCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getYears())
-            .containsExactly(2019, 2020);
+            .containsExactly(MemberCalendars.YEAR_PREVIOUS, MemberCalendars.YEAR);
     }
 
     @Test
@@ -116,7 +117,7 @@ class ITFeeCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getYears())
-            .containsExactly(2018, 2020);
+            .containsExactly(MemberCalendars.YEAR_TWO_PREVIOUS, MemberCalendars.YEAR);
     }
 
 }
