@@ -1,12 +1,16 @@
 
 package com.bernardomg.association.membership.member.service;
 
+import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
@@ -53,9 +57,6 @@ public final class DefaultMemberService implements MemberService {
 
         entity = mapper.toEntity(member);
 
-        // Active by default
-        entity.setActive(true);
-
         // Trim strings
         entity.setName(entity.getName()
             .trim());
@@ -83,31 +84,62 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final MemberEntity entity;
+        final Page<MemberEntity>             members;
+        final YearMonth                      start;
+        final YearMonth                      end;
+        final Function<DtoMember, DtoMember> activeMapper;
+        final Collection<Long>               activeIds;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
-        entity = mapper.toEntity(query);
-
         switch (query.getStatus()) {
             case ACTIVE:
-                entity.setActive(true);
+                start = YearMonth.now()
+                    .minusMonths(1);
+                end = YearMonth.now();
+                members = memberRepository.findAllActive(pageable, start, end);
+
+                activeMapper = m -> {
+                    m.setActive(true);
+                    return m;
+                };
                 break;
             case INACTIVE:
-                entity.setActive(false);
+                start = YearMonth.now()
+                    .minusMonths(1);
+                end = YearMonth.now();
+                members = memberRepository.findAllInactive(pageable, start, end);
+
+                activeMapper = m -> {
+                    m.setActive(false);
+                    return m;
+                };
                 break;
             default:
+                members = memberRepository.findAll(pageable);
+
+                start = YearMonth.now()
+                    .minusMonths(1);
+                end = YearMonth.now();
+                activeIds = memberRepository.findAllActiveIds(start, end);
+                activeMapper = m -> {
+                    final boolean active;
+
+                    active = activeIds.contains(m.getId());
+                    m.setActive(active);
+                    return m;
+                };
         }
 
-        return memberRepository.findAll(Example.of(entity), pageable)
-            .map(mapper::toDto);
+        return members.map(mapper::toDto)
+            .map(activeMapper);
     }
 
     @Override
     public final Optional<Member> getOne(final long id) {
         final Optional<MemberEntity> found;
         final Optional<Member>       result;
-        final Member                 data;
+        final DtoMember              data;
 
         log.debug("Reading member with id {}", id);
 

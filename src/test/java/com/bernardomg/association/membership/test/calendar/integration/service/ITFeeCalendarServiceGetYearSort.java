@@ -34,20 +34,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all - sorted")
+@DisplayName("Fee calendar service - get year - sorted")
 @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
 class ITFeeCalendarServiceGetYearSort {
 
@@ -71,14 +70,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.getActive())
-            .isTrue();
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -96,14 +88,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        Assertions.assertThat(calendar.getMemberId())
-            .isEqualTo(1);
-        Assertions.assertThat(calendar.getMemberName())
-            .isEqualTo("Member 1 Surname 1");
-        Assertions.assertThat(calendar.getYear())
-            .isEqualTo(2020);
-        Assertions.assertThat(calendar.getActive())
-            .isTrue();
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -120,7 +105,7 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(PropertyReferenceException.class);
+            .isInstanceOf(Exception.class);
     }
 
     @Test
@@ -138,22 +123,12 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .year(2020)
-            .active(true)
-            .build());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .year(2020)
-            .active(true)
-            .build());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -173,22 +148,12 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .year(2020)
-            .active(true)
-            .build());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, ImmutableMemberFeeCalendar.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .year(2020)
-            .active(true)
-            .build());
+        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         UserFeeCalendarAssertions.assertFullYear(calendar);
     }

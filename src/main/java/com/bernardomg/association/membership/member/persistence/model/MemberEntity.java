@@ -32,9 +32,6 @@ public class MemberEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "active", nullable = false)
-    private Boolean           active;
-
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_members_id")
     @Column(name = "id", nullable = false, unique = true)

@@ -21,29 +21,6 @@ class TestValidatedMemberUpdateValidation {
         .getValidator();
 
     @Test
-    @DisplayName("A DTO missing the active flag is invalid")
-    void validate_missingActive() {
-        final MemberUpdate                           request;
-        final Set<ConstraintViolation<MemberUpdate>> errors;
-        final ConstraintViolation<MemberUpdate>      error;
-
-        request = MembersUpdate.missingActive();
-
-        errors = validator.validate(request);
-
-        Assertions.assertThat(errors)
-            .hasSize(1);
-
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("active");
-        Assertions.assertThat(error.getInvalidValue())
-            .isNull();
-    }
-
-    @Test
     @DisplayName("A DTO missing the name is invalid")
     void validate_missingName() {
         final MemberUpdate                           request;
@@ -72,7 +49,7 @@ class TestValidatedMemberUpdateValidation {
         final MemberUpdate                           request;
         final Set<ConstraintViolation<MemberUpdate>> errors;
 
-        request = MembersUpdate.active();
+        request = MembersUpdate.valid();
 
         errors = validator.validate(request);
 

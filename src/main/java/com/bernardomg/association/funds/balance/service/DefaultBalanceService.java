@@ -63,6 +63,7 @@ public final class DefaultBalanceService implements BalanceService {
         final Optional<MonthlyBalanceEntity> readBalance;
         final CurrentBalance                 currentBalance;
         final LocalDate                      month;
+        final LocalDate                      balanceDate;
         final Float                          results;
 
         // Find latest monthly balance
@@ -79,10 +80,11 @@ public final class DefaultBalanceService implements BalanceService {
         } else {
             balance = readBalance.get();
 
-            // Take the results only if it's the current month
-            if (balance.getMonth()
-                .getMonth()
-                .equals(month.getMonth())) {
+            balanceDate = balance.getMonth();
+
+            // Take the results only if it's the current year and month
+            if ((balanceDate.getYear() == month.getYear()) && (balanceDate.getMonth()
+                .equals(month.getMonth()))) {
                 results = balance.getResults();
             } else {
                 results = 0F;

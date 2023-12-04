@@ -24,12 +24,36 @@
 
 package com.bernardomg.association.membership.member.persistence.repository;
 
+import java.time.YearMonth;
+import java.util.Collection;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    public boolean existsByIdAndActive(final Long id, final boolean active);
+    @Query("SELECT m FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end GROUP BY m.id")
+    public Page<MemberEntity> findAllActive(final Pageable pageable, @Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
+
+    @Query("SELECT m.id FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end")
+    public Collection<Long> findAllActiveIds(@Param("start") final YearMonth start, @Param("end") final YearMonth end);
+
+    @Query("SELECT m FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL GROUP BY m.id")
+    public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
+
+    @Query("SELECT m.id FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL")
+    public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
+
+    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active FROM Member m LEFT JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end AND m.id = :id")
+    public boolean isActive(@Param("id") final Long id, @Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
 
 }

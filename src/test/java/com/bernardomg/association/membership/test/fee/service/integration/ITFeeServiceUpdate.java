@@ -36,7 +36,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
@@ -77,8 +77,8 @@ class ITFeeServiceUpdate {
     @DisplayName("With a value change on the paid flag, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
     void testUpdate_Pay_PersistedData() {
-        final FeeUpdate     feeRequest;
-        final PersistentFee fee;
+        final FeeUpdate feeRequest;
+        final FeeEntity fee;
 
         feeRequest = FeesUpdate.paid();
 
@@ -87,7 +87,7 @@ class ITFeeServiceUpdate {
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(fee, PersistentFee.builder()
+        FeeAssertions.isEqualTo(fee, FeeEntity.builder()
             .memberId(1L)
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
@@ -98,8 +98,8 @@ class ITFeeServiceUpdate {
     @DisplayName("With a changed entity, the change is persisted")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
     void testUpdate_PersistedData() {
-        final FeeUpdate     feeRequest;
-        final PersistentFee fee;
+        final FeeUpdate feeRequest;
+        final FeeEntity fee;
 
         feeRequest = FeesUpdate.unpaid();
 
@@ -108,7 +108,7 @@ class ITFeeServiceUpdate {
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(fee, PersistentFee.builder()
+        FeeAssertions.isEqualTo(fee, FeeEntity.builder()
             .memberId(1L)
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(false)

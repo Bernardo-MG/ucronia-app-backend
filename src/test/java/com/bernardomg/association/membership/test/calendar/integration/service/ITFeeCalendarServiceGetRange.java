@@ -37,7 +37,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Fee calendar service - get all")
+@DisplayName("Fee calendar service - get range")
 class ITFeeCalendarServiceGetRange {
 
     @Autowired
@@ -64,18 +64,6 @@ class ITFeeCalendarServiceGetRange {
     @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
             "/db/queries/fee/full_year_alternative.sql" })
     void testGetRange_FullYear_TwoMembers() {
-        final YearsRange range;
-
-        range = service.getRange();
-
-        Assertions.assertThat(range.getYears())
-            .containsOnly(2020);
-    }
-
-    @Test
-    @DisplayName("With an inactive member it returns the range")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/full_year.sql" })
-    void testGetRange_Inactive() {
         final YearsRange range;
 
         range = service.getRange();

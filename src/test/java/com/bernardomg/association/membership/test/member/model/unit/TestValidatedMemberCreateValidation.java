@@ -49,7 +49,7 @@ class TestValidatedMemberCreateValidation {
         final MemberCreate                           request;
         final Set<ConstraintViolation<MemberCreate>> errors;
 
-        request = MembersCreate.active();
+        request = MembersCreate.valid();
 
         errors = validator.validate(request);
 

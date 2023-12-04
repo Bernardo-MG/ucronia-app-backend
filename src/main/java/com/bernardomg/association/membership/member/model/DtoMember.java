@@ -8,16 +8,16 @@ import lombok.Data;
 @Builder
 public final class DtoMember implements Member {
 
-    private final Boolean active;
+    private boolean active;
 
-    private final Long    id;
+    private Long    id;
 
-    private final String  identifier;
+    private String  identifier;
 
-    private final String  name;
+    private String  name;
 
-    private final String  phone;
+    private String  phone;
 
-    private final String  surname;
+    private String  surname;
 
 }

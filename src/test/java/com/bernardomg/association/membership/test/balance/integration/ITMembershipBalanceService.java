@@ -19,7 +19,7 @@ import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -46,9 +46,9 @@ class ITMembershipBalanceService {
     private MembershipBalanceService service;
 
     private final void persist(final Integer year, final Month month, final boolean paid) {
-        final PersistentFee entity;
+        final FeeEntity entity;
 
-        entity = PersistentFee.builder()
+        entity = FeeEntity.builder()
             .date(YearMonth.of(year, month))
             .memberId(1l)
             .paid(paid)
@@ -59,9 +59,9 @@ class ITMembershipBalanceService {
     }
 
     private final void persistAlternative(final Integer year, final Month month) {
-        final PersistentFee entity;
+        final FeeEntity entity;
 
-        entity = PersistentFee.builder()
+        entity = FeeEntity.builder()
             .date(YearMonth.of(year, month))
             .memberId(2l)
             .paid(true)

@@ -164,33 +164,6 @@ class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("With an inactive user it returns all the fees")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-    void testGetAll_Inactive() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
-
-        pageable = Pageable.unpaged();
-
-        feeQuery = FeesQuery.empty();
-
-        fees = service.getAll(feeQuery, pageable);
-
-        Assertions.assertThat(fees)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fees.iterator()
-            .next(),
-            ImmutableMemberFee.builder()
-                .memberId(1L)
-                .memberName("Member 1 Surname 1")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
-    }
-
-    @Test
     @DisplayName("With multiple fees it returns all the fees")
     @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
     void testGetAll_Multiple() {
@@ -313,6 +286,33 @@ class ITFeeServiceGetAll {
             ImmutableMemberFee.builder()
                 .memberId(1L)
                 .memberName("Member 1")
+                .date(YearMonth.of(2020, Month.FEBRUARY))
+                .paid(true)
+                .build());
+    }
+
+    @Test
+    @DisplayName("With a single fee it returns all the fees")
+    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    void testGetAll_Single() {
+        final Iterable<MemberFee> fees;
+        final FeeQuery            feeQuery;
+        final Pageable            pageable;
+
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.empty();
+
+        fees = service.getAll(feeQuery, pageable);
+
+        Assertions.assertThat(fees)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fees.iterator()
+            .next(),
+            ImmutableMemberFee.builder()
+                .memberId(1L)
+                .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());

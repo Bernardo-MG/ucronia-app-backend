@@ -6,15 +6,6 @@ import com.bernardomg.association.membership.member.model.request.MemberCreateRe
 
 public final class MembersCreate {
 
-    public static final MemberCreate active() {
-        return MemberCreateRequest.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .build();
-    }
-
     public static final MemberCreate alternative() {
         return MemberCreateRequest.builder()
             .name("Member 2")
@@ -58,8 +49,17 @@ public final class MembersCreate {
 
     public static final MemberCreate paddedWithWhitespaces() {
         return MemberCreateRequest.builder()
-            .name(" Member ")
-            .surname(" Surname ")
+            .name(" Member 1 ")
+            .surname(" Surname 1 ")
+            .phone("12345")
+            .identifier("6789")
+            .build();
+    }
+
+    public static final MemberCreate valid() {
+        return MemberCreateRequest.builder()
+            .name("Member 1")
+            .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
             .build();

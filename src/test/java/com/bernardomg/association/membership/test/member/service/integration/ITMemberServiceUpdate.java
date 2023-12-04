@@ -37,6 +37,7 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -82,13 +83,7 @@ class ITMemberServiceUpdate {
         entity = repository.findAll()
             .iterator()
             .next();
-        MemberAssertions.isEqualTo(entity, MemberEntity.builder()
-            .name("Member 123")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
+        MemberAssertions.isEqualTo(entity, MembersEntity.valid(123));
     }
 
     @Test
@@ -108,7 +103,6 @@ class ITMemberServiceUpdate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -126,7 +120,6 @@ class ITMemberServiceUpdate {
             .surname("Surname")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 

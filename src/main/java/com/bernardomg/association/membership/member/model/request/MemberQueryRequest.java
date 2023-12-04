@@ -14,17 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class MemberQueryRequest implements MemberQuery {
 
-    private Long         id;
-
-    private String       identifier;
-
-    private String       name;
-
-    private String       phone;
-
     @Builder.Default
     private MemberStatus status = MemberStatus.ALL;
-
-    private String       surname;
 
 }
