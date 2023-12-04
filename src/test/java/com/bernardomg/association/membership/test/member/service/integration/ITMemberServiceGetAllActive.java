@@ -237,14 +237,12 @@ class ITMemberServiceGetAllActive {
     }
 
     @Test
-    @DisplayName("With a member with a not paid fee for the previous month, and filtering by active, it returns the member")
+    @DisplayName("With a member with a not paid fee for the previous month, and filtering by active, it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
     void testGetAll_FilterActive_PreviousMonth_NotPaid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
         registerFeePreviousMonth(false);
 
@@ -255,23 +253,16 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+            .hasSize(0);
     }
 
     @Test
-    @DisplayName("With a member with a paid fee for the previous month, and filtering by active, it returns the member")
+    @DisplayName("With a member with a paid fee for the previous month, and filtering by active, it returns nothing")
     @Sql({ "/db/queries/member/single.sql" })
     void testGetAll_FilterActive_PreviousMonth_Paid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
         registerFeePreviousMonth(true);
 
@@ -282,12 +273,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+            .hasSize(0);
     }
 
     @Test
@@ -491,7 +477,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -518,7 +504,7 @@ class ITMemberServiceGetAllActive {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -689,8 +675,10 @@ class ITMemberServiceGetAllActive {
     @Sql({ "/db/queries/member/single.sql" })
     void testGetAll_FilterInactive_PreviousMonth_NotPaid() {
         final Iterable<Member> members;
+        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
+        Member                 member;
 
         registerFeePreviousMonth(false);
 
@@ -701,7 +689,12 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .hasSize(1);
+
+        membersItr = members.iterator();
+
+        member = membersItr.next();
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
@@ -709,8 +702,10 @@ class ITMemberServiceGetAllActive {
     @Sql({ "/db/queries/member/single.sql" })
     void testGetAll_FilterInactive_PreviousMonth_Paid() {
         final Iterable<Member> members;
+        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
+        Member                 member;
 
         registerFeePreviousMonth(true);
 
@@ -721,7 +716,12 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .hasSize(1);
+
+        membersItr = members.iterator();
+
+        member = membersItr.next();
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test

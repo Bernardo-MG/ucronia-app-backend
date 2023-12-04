@@ -201,11 +201,10 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month, and filtering by active, it returns the calendar")
+    @DisplayName("With a not paid fee in the previous month, and filtering by active, it returns nothing")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeePreviousMonth(false);
@@ -215,21 +214,14 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(1);
-        calendar = calendars.iterator()
-            .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
-        Assertions.assertThat(calendar.getMonths())
-            .hasSize(12);
+            .hasSize(0);
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month, and filtering by active, it returns the calendar")
+    @DisplayName("With a paid fee in the previous month, and filtering by active, it returns nothing")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterActive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeePreviousMonth(true);
@@ -239,13 +231,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(2020, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(1);
-        calendar = calendars.iterator()
-            .next();
-        Assertions.assertThat(calendar.isActive())
-            .isTrue();
-        Assertions.assertThat(calendar.getMonths())
-            .hasSize(12);
+            .hasSize(0);
     }
 
     @Test
@@ -355,11 +341,12 @@ class ITFeeCalendarServiceGetYearActive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month, and filtering by not active, it returns nothing")
+    @DisplayName("With a not paid fee in the previous month, and filtering by not active, it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterNotActive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
+        final MemberFeeCalendar           calendar;
 
         registerFeePreviousMonth(false);
 
@@ -368,14 +355,21 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .hasSize(1);
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
+            .hasSize(12);
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month, and filtering by not active, it returns nothing")
+    @DisplayName("With a paid fee in the previous month, and filtering by not active, it returns the calendar")
     @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
     void testGetYear_FilterNotActive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
+        final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
         registerFeePreviousMonth(true);
@@ -385,7 +379,13 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(2020, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .hasSize(1);
+        calendar = calendars.iterator()
+            .next();
+        Assertions.assertThat(calendar.isActive())
+            .isTrue();
+        Assertions.assertThat(calendar.getMonths())
+            .hasSize(12);
     }
 
     @Test
