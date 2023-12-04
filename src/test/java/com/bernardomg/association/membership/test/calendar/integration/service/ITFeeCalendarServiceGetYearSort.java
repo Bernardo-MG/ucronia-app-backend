@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
@@ -42,13 +41,18 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearAlternative;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Fee calendar service - get year - sorted")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+@ValidMember
+@FeeFullYear
 class ITFeeCalendarServiceGetYearSort {
 
     @Autowired
@@ -111,8 +115,10 @@ class ITFeeCalendarServiceGetYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
+    @ValidMember
+    @AlternativeMember
+    @FeeFullYear
+    @FeeFullYearAlternative
     void testGetYear_TwoMembers_Name_Asc() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -136,8 +142,10 @@ class ITFeeCalendarServiceGetYearSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
+    @ValidMember
+    @AlternativeMember
+    @FeeFullYear
+    @FeeFullYearAlternative
     void testGetYear_TwoMembers_Name_Desc() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;

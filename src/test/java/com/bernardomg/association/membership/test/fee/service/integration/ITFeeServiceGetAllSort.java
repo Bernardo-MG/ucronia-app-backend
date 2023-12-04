@@ -38,21 +38,23 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Fee service - get all - sort")
-@Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+@MultipleMembers
+@MultipleFees
 class ITFeeServiceGetAllSort {
 
     @Autowired

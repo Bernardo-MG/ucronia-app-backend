@@ -32,13 +32,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
@@ -48,7 +48,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Member service - get all - active status handling")
-@Sql({ "/db/queries/member/single.sql" })
+@ValidMember
 class ITMemberServiceGetAllActive {
 
     private static final YearMonth CURRENT_MONTH   = YearMonth.now();

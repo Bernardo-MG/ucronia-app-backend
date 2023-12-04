@@ -30,10 +30,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -53,8 +54,8 @@ class ITMemberServiceGetOne {
 
     @Test
     @DisplayName("With a valid id for an active member, the related entity is returned")
-    @Sql({ "/db/queries/member/single.sql" })
-    @Sql({ "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testGetOne_Active() {
         final Optional<Member> memberOptional;
         final Member           member;
@@ -70,8 +71,8 @@ class ITMemberServiceGetOne {
 
     @Test
     @DisplayName("With a valid id, the related entity is returned")
-    @Sql({ "/db/queries/member/single.sql" })
-    @Sql({ "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testGetOne_Existing() {
         final Optional<Member> memberOptional;
         final Member           member;
@@ -87,7 +88,7 @@ class ITMemberServiceGetOne {
 
     @Test
     @DisplayName("With a valid id for an inactive member, the related entity is returned")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testGetOne_Inactive() {
         final Optional<Member> memberOptional;
         final Member           member;

@@ -33,14 +33,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -58,7 +61,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_EndDate() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -82,7 +86,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_EndDate_NotInRange() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -100,7 +105,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_InDate() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -124,7 +130,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the lowest date, the returned data is filtered")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetAll_InDate_FirstDay_Data() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -148,7 +155,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the highest date, the returned data is filtered")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetAll_InDate_LastDay_Data() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -172,7 +180,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_InDate_NotExisting() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -190,7 +199,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_StartDate() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -214,7 +224,8 @@ class ITFeeServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_StartDate_NotInRange() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;

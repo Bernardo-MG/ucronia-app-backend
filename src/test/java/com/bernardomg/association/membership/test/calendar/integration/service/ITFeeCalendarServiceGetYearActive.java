@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
@@ -41,6 +40,8 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -105,7 +106,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee in the current month, and filtering by active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -130,7 +132,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee in the current month, and filtering by active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -155,7 +158,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee in the last three months, and filtering by active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_LastThreeMonths_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -182,7 +186,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee in the last three months, and filtering by active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_LastThreeMonths_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -209,7 +214,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee in the previous month, and filtering by active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -226,7 +232,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee in the previous month, and filtering by active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -243,7 +250,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee two months back, and filtering by active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -260,7 +268,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee two months back, and filtering by active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterActive_TwoMonthsBack_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -277,7 +286,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee in the current month, and filtering by not active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -294,7 +304,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee in the current month, and filtering by not active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -311,7 +322,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee in the last three months, and filtering by not active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_LastThreeMonths_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -330,7 +342,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee in the last three months, and filtering by not active, it returns nothing")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_LastThreeMonths_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -349,7 +362,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee in the previous month, and filtering by not active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -374,7 +388,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee in the previous month, and filtering by not active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -399,7 +414,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a not paid fee two months back, and filtering by not active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -424,7 +440,8 @@ class ITFeeCalendarServiceGetYearActive {
 
     @Test
     @DisplayName("With a paid fee two months back, and filtering by not active, it returns the calendar")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FilterNotActive_TwoMonthsBack_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;

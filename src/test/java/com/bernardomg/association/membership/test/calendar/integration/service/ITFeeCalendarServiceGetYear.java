@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
@@ -40,6 +39,14 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearAlternative;
+import com.bernardomg.association.membership.test.fee.configuration.FirstMonth;
+import com.bernardomg.association.membership.test.fee.configuration.FirstMonthUnpaid;
+import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsConnected;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
+import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -57,7 +64,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a full year it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FullYear_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -76,7 +84,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a full year it returns all data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetYear_FullYear_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -95,8 +104,10 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a full year it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
+    @ValidMember
+    @AlternativeMember
+    @FeeFullYear
+    @FeeFullYearAlternative
     void testGetYear_FullYear_TwoMembers_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Iterator<MemberFeeCalendar> calendarsItr;
@@ -120,8 +131,10 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a full year it returns all the data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
+    @ValidMember
+    @AlternativeMember
+    @FeeFullYear
+    @FeeFullYearAlternative
     void testGetYear_FullYear_TwoMembers_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -147,7 +160,7 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("When there is no data it returns nothing")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testGetYear_NoData_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -162,7 +175,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With user without surname it returns all data")
-    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/full_year.sql" })
+    @NoSurnameMember
+    @FeeFullYear
     void testGetYear_NoSurname_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -181,7 +195,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a single month it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
+    @ValidMember
+    @FirstMonth
     void testGetYear_SingleMonth_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -200,7 +215,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a single month it returns all data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month.sql" })
+    @ValidMember
+    @FirstMonth
     void testGetYear_SingleMonth_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -230,7 +246,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a single unpaid month it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
+    @ValidMember
+    @FirstMonthUnpaid
     void testGetYear_SingleMonth_Unpaid_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -249,7 +266,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With a single unpaid month it returns all data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/first_month_unpaid.sql" })
+    @ValidMember
+    @FirstMonthUnpaid
     void testGetYear_SingleMonth_Unpaid_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -279,7 +297,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    @ValidMember
+    @TwoFeeYearsConnected
     void testGetYear_TwoConnectedYears_First_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -298,7 +317,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    @ValidMember
+    @TwoFeeYearsConnected
     void testGetYear_TwoConnectedYears_First_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -351,7 +371,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all the entities")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    @ValidMember
+    @TwoFeeYearsConnected
     void testGetYear_TwoConnectedYears_Second_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -370,7 +391,8 @@ class ITFeeCalendarServiceGetYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    @ValidMember
+    @TwoFeeYearsConnected
     void testGetYear_TwoConnectedYears_Second_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;

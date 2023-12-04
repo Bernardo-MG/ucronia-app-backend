@@ -31,7 +31,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
@@ -39,8 +38,11 @@ import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -61,7 +63,8 @@ class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testUpdate_AddsNoEntity() {
         final FeeUpdate feeRequest;
 
@@ -75,7 +78,8 @@ class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("With a value change on the paid flag, the change is persisted")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @ValidMember
+    @NotPaidFee
     void testUpdate_Pay_PersistedData() {
         final FeeUpdate feeRequest;
         final FeeEntity fee;
@@ -96,7 +100,8 @@ class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testUpdate_PersistedData() {
         final FeeUpdate feeRequest;
         final FeeEntity fee;
@@ -117,7 +122,8 @@ class ITFeeServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testUpdate_ReturnedData() {
         final FeeUpdate feeRequest;
         final MemberFee fee;

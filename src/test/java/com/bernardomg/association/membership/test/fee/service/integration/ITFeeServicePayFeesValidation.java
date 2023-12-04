@@ -28,11 +28,12 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -41,7 +42,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Fee service - pay fees - validation")
-@Sql({ "/db/queries/member/single.sql" })
+@ValidMember
 class ITFeeServicePayFeesValidation {
 
     @Autowired
@@ -69,7 +70,8 @@ class ITFeeServicePayFeesValidation {
 
     @Test
     @DisplayName("With a repeated member and month it throws an exception")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testCreate_Existing_Paid() {
         final FeesPayment      feeRequest;
         final ThrowingCallable execution;

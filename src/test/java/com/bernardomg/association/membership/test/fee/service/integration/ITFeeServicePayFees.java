@@ -44,8 +44,10 @@ import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -69,7 +71,8 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and the fee exists but is unpaid, it is set to paid")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @ValidMember
+    @NotPaidFee
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_PersistedFee() {
         final FeesPayment feeRequest;
@@ -95,7 +98,8 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and the fee exists but is unpaid, a single transaction is persisted")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @ValidMember
+    @NotPaidFee
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_PersistedTransaction() {
         final FeesPayment           feeRequest;
@@ -121,7 +125,8 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and the fee exists but is unpaid, it returns the created data")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/unpaid.sql" })
+    @ValidMember
+    @NotPaidFee
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ExistingUnpaid_ReturnedData() {
         final FeesPayment                     feeRequest;
@@ -147,7 +152,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates multiple fees are persisted")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_MultipleDates_PersistedFee() {
         final FeesPayment feeRequest;
@@ -167,7 +172,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid with multiple dates a single transaction is persisted")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
         final FeesPayment           feeRequest;
@@ -193,7 +198,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testCreate_NoAmount_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
@@ -218,7 +223,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid the fee is persisted")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_PersistedFee() {
         final FeesPayment feeRequest;
@@ -244,7 +249,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid a single transaction is persisted")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_PersistedTransaction() {
         final FeesPayment           feeRequest;
@@ -270,7 +275,7 @@ class ITFeeServicePayFees {
 
     @Test
     @DisplayName("When a fee is paid it returns the created data")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     @Sql({ "/db/queries/configuration/fee_amount.sql" })
     void testCreate_ReturnedData() {
         final FeesPayment                     feeRequest;

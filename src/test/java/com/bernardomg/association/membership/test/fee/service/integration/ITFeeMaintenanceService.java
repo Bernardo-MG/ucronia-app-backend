@@ -8,11 +8,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -83,7 +83,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With no fees, nothing is registered")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_NoFees() {
         final Long count;
 
@@ -96,7 +96,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee in the previous month, a new fee is registered")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidPreviousMonth() {
         final Long count;
 
@@ -111,7 +111,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee in the previous month, and a paid one this one, no new fee is registered")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth() {
         final Long count;
 
@@ -127,7 +127,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee in the previous month, and a paid one this one, all fees are paid")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth_Status() {
         final Collection<FeeEntity> fees;
 
@@ -143,7 +143,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee in the previous month, a new fee is registered, the paid status is set correctly")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidPreviousMonth_Status() {
         final Collection<FeeEntity> fees;
 
@@ -164,7 +164,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee in the previous month, and an unpaid one this one, no new fee is registered")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth() {
         final Long count;
 
@@ -180,7 +180,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee in the previous month, and an unpaid one this one, all fees are paid")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth_NoStatusChange() {
         final Collection<FeeEntity> fees;
 
@@ -202,7 +202,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee two months back, no fee is registered")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidTwoMonthsBack() {
         final Long count;
 
@@ -217,7 +217,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With a paid fee two months back, the paid status doesn't change")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_PaidTwoMonthsBack_Status() {
         final Collection<FeeEntity> fees;
 
@@ -232,7 +232,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With an unpaid fee in the previous month, a new fee is registered")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_UnpaidPreviousMonth() {
         final Long count;
 
@@ -247,7 +247,7 @@ public class ITFeeMaintenanceService {
 
     @Test
     @DisplayName("With an unpaid fee in the previous month, all fees are unpaid")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testRegisterMonthFees_UnpaidPreviousMonth_Status() {
         final Collection<FeeEntity> fees;
 

@@ -28,7 +28,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
@@ -36,6 +35,7 @@ import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
@@ -45,7 +45,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Member service - update errors")
-@Sql({ "/db/queries/member/single.sql" })
+@ValidMember
 class ITMemberServiceUpdate {
 
     @Autowired

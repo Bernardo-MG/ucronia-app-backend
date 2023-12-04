@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
@@ -18,13 +17,16 @@ import com.bernardomg.association.membership.balance.model.request.MemberBalance
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Membership balance service - get balance - filter")
-@Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql" })
+@ValidMember
+@AlternativeMember
 class ITMembershipBalanceServiceFilter {
 
     @Autowired
