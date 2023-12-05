@@ -31,6 +31,7 @@ public final class FeeInitializer {
 
         fee = FeeEntity.builder()
             .paid(paid)
+            .memberId(1L)
             .date(CURRENT_MONTH)
             .build();
 
@@ -43,6 +44,7 @@ public final class FeeInitializer {
 
         fee = FeeEntity.builder()
             .paid(paid)
+            .memberId(1L)
             .date(NEXT_MONTH)
             .build();
 
@@ -55,6 +57,7 @@ public final class FeeInitializer {
 
         fee = FeeEntity.builder()
             .paid(paid)
+            .memberId(1L)
             .date(PREVIOUS_MONTH)
             .build();
 
@@ -67,6 +70,7 @@ public final class FeeInitializer {
 
         fee = FeeEntity.builder()
             .paid(paid)
+            .memberId(1L)
             .date(TWO_MONTHS_BACK)
             .build();
 
