@@ -12,15 +12,20 @@ public final class TransactionAssertions {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(received.getId())
                 .as("id")
+                .withFailMessage("Expected id '%s' but got '%s'", expected.getId(), received.getId())
                 .isNotNull();
             softly.assertThat(received.getDescription())
                 .as("description")
+                .withFailMessage("Expected description '%s' but got '%s'", expected.getDescription(),
+                    received.getDescription())
                 .isEqualTo(expected.getDescription());
             softly.assertThat(received.getDate())
                 .as("date")
+                .withFailMessage("Expected date '%s' but got '%s'", expected.getDate(), received.getDate())
                 .isEqualTo(expected.getDate());
             softly.assertThat(received.getAmount())
                 .as("amount")
+                .withFailMessage("Expected amount '%s' but got '%s'", expected.getAmount(), received.getAmount())
                 .isEqualTo(expected.getAmount());
         });
     }
@@ -29,15 +34,20 @@ public final class TransactionAssertions {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(received.getId())
                 .as("id")
+                .withFailMessage("Expected id '%s' but got '%s'", expected.getId(), received.getId())
                 .isNotNull();
             softly.assertThat(received.getDescription())
                 .as("description")
+                .withFailMessage("Expected description '%s' but got '%s'", expected.getDescription(),
+                    received.getDescription())
                 .isEqualTo(expected.getDescription());
             softly.assertThat(received.getDate())
                 .as("date")
+                .withFailMessage("Expected date '%s' but got '%s'", expected.getDate(), received.getDate())
                 .isEqualTo(expected.getDate());
             softly.assertThat(received.getAmount())
                 .as("amount")
+                .withFailMessage("Expected amount '%s' but got '%s'", expected.getAmount(), received.getAmount())
                 .isEqualTo(expected.getAmount());
         });
     }

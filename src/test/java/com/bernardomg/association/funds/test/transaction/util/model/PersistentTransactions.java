@@ -8,7 +8,7 @@ import com.bernardomg.association.funds.transaction.persistence.model.Persistent
 
 public final class PersistentTransactions {
 
-    public static final PersistentTransaction forValue(final Float value) {
+    public static final PersistentTransaction forAmount(final Float value) {
         return PersistentTransaction.builder()
             .amount(value)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
@@ -19,7 +19,7 @@ public final class PersistentTransactions {
     public static final PersistentTransaction valid() {
         return PersistentTransaction.builder()
             .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .description("Transaction")
             .build();
     }

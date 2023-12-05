@@ -73,6 +73,7 @@ class ITMembershipBalanceServiceFilter {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(2);
 
         balancesItr = balances.iterator();

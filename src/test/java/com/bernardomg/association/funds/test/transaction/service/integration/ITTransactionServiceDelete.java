@@ -55,6 +55,7 @@ class ITTransactionServiceDelete {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isZero();
     }
 

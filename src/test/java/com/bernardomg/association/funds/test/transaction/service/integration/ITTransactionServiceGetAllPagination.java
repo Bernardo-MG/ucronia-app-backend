@@ -70,6 +70,7 @@ class ITTransactionServiceGetAllPagination {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .isInstanceOf(Page.class);
     }
 

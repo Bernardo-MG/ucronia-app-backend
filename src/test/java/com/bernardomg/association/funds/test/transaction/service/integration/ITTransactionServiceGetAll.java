@@ -40,6 +40,7 @@ import com.bernardomg.association.funds.test.transaction.configuration.FullTrans
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
@@ -72,7 +73,7 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
         Transaction                 transaction;
 
-        repository.save(PersistentTransactions.forValue(amount));
+        repository.save(PersistentTransactions.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
@@ -82,11 +83,7 @@ class ITTransactionServiceGetAll {
             .iterator();
 
         transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(amount)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, Transactions.forAmount(amount));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -98,7 +95,7 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
         Transaction                 transaction;
 
-        repository.save(PersistentTransactions.forValue(amount));
+        repository.save(PersistentTransactions.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
@@ -108,11 +105,7 @@ class ITTransactionServiceGetAll {
             .iterator();
 
         transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(amount)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, Transactions.forAmount(amount));
     }
 
     @Test

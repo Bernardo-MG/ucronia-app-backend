@@ -98,7 +98,7 @@ class ITTransactionServiceCreate {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
 
-        transactionRequest = TransactionsCreate.firstDay();
+        transactionRequest = TransactionsCreate.valid();
 
         service.create(transactionRequest);
 
@@ -119,7 +119,7 @@ class ITTransactionServiceCreate {
         final TransactionCreate transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsCreate.firstDay();
+        transactionRequest = TransactionsCreate.valid();
 
         transaction = service.create(transactionRequest);
 

@@ -68,6 +68,7 @@ class ITTransactionServiceUpdate {
         service.update(1L, transactionRequest);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isEqualTo(1);
     }
 

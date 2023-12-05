@@ -66,7 +66,15 @@ public final class TransactionsCreate {
         return TransactionCreateRequest.builder()
             .description(" Transaction ")
             .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .build();
+    }
+
+    public static final TransactionCreate valid() {
+        return TransactionCreateRequest.builder()
+            .description("Transaction")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 

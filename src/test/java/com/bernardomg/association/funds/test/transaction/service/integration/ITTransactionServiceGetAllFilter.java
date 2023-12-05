@@ -70,6 +70,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(4);
 
         transactionsItr = transactions.iterator();
@@ -132,6 +133,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(2);
 
         transactionsItr = transactions.iterator();
@@ -174,6 +176,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(1);
 
         transactionsItr = transactions.iterator();
@@ -206,6 +209,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(1);
 
         transactionsItr = transactions.iterator();
@@ -239,6 +243,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(1);
 
         transactionsItr = transactions.iterator();

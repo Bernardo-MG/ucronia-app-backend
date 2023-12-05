@@ -3,17 +3,16 @@ package com.bernardomg.association.membership.test.balance.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
-import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.funds.test.configuration.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
@@ -29,15 +28,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @ValidMember
 @AlternativeMember
 class ITMembershipBalanceService {
-
-    private static Stream<Arguments> geValidDates() {
-        return Stream.of(
-            // This month
-            Arguments.of(YearMonth.now()),
-            // Previous month
-            Arguments.of(YearMonth.now()
-                .minusMonths(1)));
-    }
 
     @Autowired
     private FeeRepository            feeRepository;
@@ -91,18 +81,21 @@ class ITMembershipBalanceService {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
         Assertions.assertThat(balance.getMonth())
+            .as("month")
             .isEqualTo(yearMonth);
         Assertions.assertThat(balance.getTotal())
+            .as("total")
             .isEqualTo(1);
     }
 
     @ParameterizedTest(name = "Date: {0}")
-    @MethodSource("geValidDates")
+    @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
     void testGetBalance_Dates(final YearMonth date) {
         final MemberBalanceQuery                       query;
@@ -120,13 +113,16 @@ class ITMembershipBalanceService {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
         Assertions.assertThat(balance.getMonth())
+            .as("month")
             .isEqualTo(date);
         Assertions.assertThat(balance.getTotal())
+            .as("total")
             .isEqualTo(1);
     }
 
@@ -150,6 +146,7 @@ class ITMembershipBalanceService {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
@@ -168,6 +165,7 @@ class ITMembershipBalanceService {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
@@ -192,13 +190,16 @@ class ITMembershipBalanceService {
         balances = service.getBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
         Assertions.assertThat(balance.getMonth())
+            .as("month")
             .isEqualTo(yearMonth);
         Assertions.assertThat(balance.getTotal())
+            .as("total")
             .isEqualTo(2);
     }
 

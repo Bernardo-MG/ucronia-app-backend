@@ -90,7 +90,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
-        repository.save(PersistentTransactions.forValue(amount));
+        repository.save(PersistentTransactions.forAmount(amount));
 
         transactionOptional = service.getOne(1L);
 
@@ -114,7 +114,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
-        repository.save(PersistentTransactions.forValue(amount));
+        repository.save(PersistentTransactions.forAmount(amount));
 
         transactionOptional = service.getOne(1L);
 

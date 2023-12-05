@@ -9,10 +9,18 @@ import com.bernardomg.association.funds.transaction.model.Transaction;
 
 public final class Transactions {
 
+    public static final Transaction forAmount(final Float value) {
+        return ImmutableTransaction.builder()
+            .amount(value)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description("Transaction")
+            .build();
+    }
+
     public static final Transaction valid() {
         return ImmutableTransaction.builder()
             .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .description("Transaction")
             .build();
     }

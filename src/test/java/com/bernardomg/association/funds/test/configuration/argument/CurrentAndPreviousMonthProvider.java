@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.funds.test.balance.configuration.argument;
+package com.bernardomg.association.funds.test.configuration.argument;
 
 import java.time.YearMonth;
 import java.util.stream.Stream;
