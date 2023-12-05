@@ -29,15 +29,13 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - delete")
 class ITFeeServiceDeleteError {
 
@@ -50,14 +48,14 @@ class ITFeeServiceDeleteError {
 
     @Test
     @DisplayName("With an invalid id it removes no entity")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
         execution = () -> service.delete(1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(InvalidIdException.class);
+            .isInstanceOf(MissingIdException.class);
     }
 
 }

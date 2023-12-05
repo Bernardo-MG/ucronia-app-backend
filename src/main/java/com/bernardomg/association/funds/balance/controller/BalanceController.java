@@ -34,18 +34,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
+import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.cache.FundsCaches;
-import com.bernardomg.security.auth.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Balance REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -56,21 +57,38 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class BalanceController {
 
+    /**
+     * Balance service
+     */
     private final BalanceService service;
 
+    /**
+     * Returns the current balance.
+     *
+     * @return the current balance
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.BALANCE)
-    public MonthlyBalance readBalance() {
+    public CurrentBalance readBalance() {
         return service.getBalance();
     }
 
+    /**
+     * Returns the monthly balance.
+     *
+     * @param balance
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly balance
+     */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.MONTHLY_BALANCE)
-    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final ValidatedBalanceQuery query,
+    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final BalanceQueryRequest balance,
             final Sort sort) {
-        return service.getMonthlyBalance(query, sort);
+        return service.getMonthlyBalance(balance, sort);
     }
 
 }

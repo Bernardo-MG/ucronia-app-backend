@@ -1,20 +1,24 @@
 
 package com.bernardomg.association.membership.member.service;
 
+import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,8 +47,8 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member create(final MemberCreate member) {
-        final PersistentMember entity;
-        final PersistentMember created;
+        final MemberEntity entity;
+        final MemberEntity created;
 
         log.debug("Creating member {}", member);
 
@@ -52,9 +56,6 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Phone and identifier should be unique or empty
 
         entity = mapper.toEntity(member);
-
-        // Active by default
-        entity.setActive(true);
 
         // Trim strings
         entity.setName(entity.getName()
@@ -73,7 +74,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Deleting member {}", id);
 
         if (!memberRepository.existsById(id)) {
-            throw new InvalidIdException("member", id);
+            throw new MissingIdException("member", id);
         }
 
         // TODO: Forbid deleting when there are relationships
@@ -83,36 +84,60 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final PersistentMember entity;
+        final Page<MemberEntity>             members;
+        final YearMonth                      validStart;
+        final YearMonth                      validEnd;
+        final Function<DtoMember, DtoMember> activeMapper;
+        final Collection<Long>               activeIds;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
-        entity = mapper.toEntity(query);
-
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
         switch (query.getStatus()) {
             case ACTIVE:
-                entity.setActive(true);
+                members = memberRepository.findAllActive(pageable, validStart, validEnd);
+
+                activeMapper = m -> {
+                    m.setActive(true);
+                    return m;
+                };
                 break;
             case INACTIVE:
-                entity.setActive(false);
+                members = memberRepository.findAllInactive(pageable, validStart, validEnd);
+
+                activeMapper = m -> {
+                    m.setActive(false);
+                    return m;
+                };
                 break;
             default:
+                members = memberRepository.findAll(pageable);
+
+                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+                activeMapper = m -> {
+                    final boolean active;
+
+                    active = activeIds.contains(m.getId());
+                    m.setActive(active);
+                    return m;
+                };
         }
 
-        return memberRepository.findAll(Example.of(entity), pageable)
-            .map(mapper::toDto);
+        return members.map(mapper::toDto)
+            .map(activeMapper);
     }
 
     @Override
     public final Optional<Member> getOne(final long id) {
-        final Optional<PersistentMember> found;
-        final Optional<Member>           result;
-        final Member                     data;
+        final Optional<MemberEntity> found;
+        final Optional<Member>       result;
+        final DtoMember              data;
 
         log.debug("Reading member with id {}", id);
 
         if (!memberRepository.existsById(id)) {
-            throw new InvalidIdException("member", id);
+            throw new MissingIdException("member", id);
         }
 
         found = memberRepository.findById(id);
@@ -129,13 +154,15 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final long id, final MemberUpdate member) {
-        final PersistentMember entity;
-        final PersistentMember updated;
+        final MemberEntity entity;
+        final MemberEntity updated;
 
         log.debug("Updating member with id {} using data {}", id, member);
 
+        // TODO: Identificator and phone must be unique or empty
+
         if (!memberRepository.existsById(id)) {
-            throw new InvalidIdException("member", id);
+            throw new MissingIdException("member", id);
         }
 
         entity = mapper.toEntity(member);

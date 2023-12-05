@@ -29,19 +29,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersCreate;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - create")
 class ITMemberServiceCreate {
 
@@ -60,7 +59,7 @@ class ITMemberServiceCreate {
     void testCreate_Minimal_Additional_AddsEntity() {
         MemberCreate memberRequest;
 
-        memberRequest = MembersCreate.active();
+        memberRequest = MembersCreate.valid();
 
         service.create(memberRequest);
 
@@ -75,8 +74,8 @@ class ITMemberServiceCreate {
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
     void testCreate_Padded_PersistedData() {
-        final MemberCreate     memberRequest;
-        final PersistentMember entity;
+        final MemberCreate memberRequest;
+        final MemberEntity entity;
 
         memberRequest = MembersCreate.paddedWithWhitespaces();
 
@@ -89,22 +88,16 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
+        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberCreate     memberRequest;
-        final PersistentMember entity;
+        final MemberCreate memberRequest;
+        final MemberEntity entity;
 
-        memberRequest = MembersCreate.active();
+        memberRequest = MembersCreate.valid();
 
         service.create(memberRequest);
 
@@ -115,13 +108,7 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, PersistentMember.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
+        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
     }
 
     @Test
@@ -130,17 +117,11 @@ class ITMemberServiceCreate {
         final MemberCreate memberRequest;
         final Member       member;
 
-        memberRequest = MembersCreate.active();
+        memberRequest = MembersCreate.valid();
 
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
 }

@@ -31,8 +31,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsUpdate;
 import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
@@ -41,11 +41,9 @@ import com.bernardomg.association.funds.transaction.model.request.TransactionUpd
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - update")
 class ITTransactionServiceUpdate {
 
@@ -61,7 +59,7 @@ class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testUpdate_AddsNoEntity() {
         final TransactionUpdate transactionRequest;
 
@@ -70,12 +68,13 @@ class ITTransactionServiceUpdate {
         service.update(1L, transactionRequest);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isEqualTo(1);
     }
 
     @Test
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testUpdate_Decimal_PersistedData() {
         final TransactionUpdate     transactionRequest;
         final PersistentTransaction transaction;
@@ -96,7 +95,7 @@ class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a transaction containing a decimal value, the data is returned")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testUpdate_Decimal_ReturnedData() {
         final TransactionUpdate transactionRequest;
         final Transaction       transaction;
@@ -114,7 +113,7 @@ class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testUpdate_Padded_PersistedData() {
         final TransactionUpdate     transactionRequest;
         final PersistentTransaction transaction;
@@ -135,7 +134,7 @@ class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testUpdate_PersistedData() {
         final TransactionUpdate     transactionRequest;
         final PersistentTransaction transaction;
@@ -156,7 +155,7 @@ class ITTransactionServiceUpdate {
 
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
-    @Sql({ "/db/queries/transaction/single.sql" })
+    @PositiveTransaction
     void testUpdate_ReturnedData() {
         final TransactionUpdate transactionRequest;
         final Transaction       transaction;

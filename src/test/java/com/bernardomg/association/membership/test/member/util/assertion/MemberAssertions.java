@@ -4,7 +4,7 @@ package com.bernardomg.association.membership.test.member.util.assertion;
 import org.assertj.core.api.Assertions;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.persistence.model.PersistentMember;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
 public final class MemberAssertions {
 
@@ -25,12 +25,12 @@ public final class MemberAssertions {
             .withFailMessage("Expected identifier '%s' but got '%s'", expected.getIdentifier(),
                 received.getIdentifier())
             .isEqualTo(expected.getIdentifier());
-        Assertions.assertThat(received.getActive())
-            .withFailMessage("Expected active flag '%s' but got '%s'", expected.getActive(), received.getActive())
-            .isEqualTo(expected.getActive());
+        Assertions.assertThat(received.isActive())
+            .withFailMessage("Expected active flag '%s' but got '%s'", expected.isActive(), received.isActive())
+            .isEqualTo(expected.isActive());
     }
 
-    public static void isEqualTo(final PersistentMember received, final PersistentMember expected) {
+    public static void isEqualTo(final MemberEntity received, final MemberEntity expected) {
         Assertions.assertThat(received.getId())
             .withFailMessage("Expected id to not be null")
             .isNotNull();
@@ -47,9 +47,6 @@ public final class MemberAssertions {
             .withFailMessage("Expected identifier '%s' but got '%s'", expected.getIdentifier(),
                 received.getIdentifier())
             .isEqualTo(expected.getIdentifier());
-        Assertions.assertThat(received.getActive())
-            .withFailMessage("Expected active flag '%s' but got '%s'", expected.getActive(), received.getActive())
-            .isEqualTo(expected.getActive());
     }
 
 }

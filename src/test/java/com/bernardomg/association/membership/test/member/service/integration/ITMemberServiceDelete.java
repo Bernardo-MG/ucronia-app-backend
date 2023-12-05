@@ -28,17 +28,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - delete")
-@Sql({ "/db/queries/member/single.sql" })
+@ValidMember
 class ITMemberServiceDelete {
 
     @Autowired

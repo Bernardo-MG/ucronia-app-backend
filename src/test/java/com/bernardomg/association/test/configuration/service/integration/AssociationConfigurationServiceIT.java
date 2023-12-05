@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.configuration.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.model.request.AssociationConfigurationRequest;
@@ -13,11 +12,10 @@ import com.bernardomg.association.configuration.model.request.ValidatedAssociati
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Association configuration service")
 public class AssociationConfigurationServiceIT {
 
@@ -29,7 +27,7 @@ public class AssociationConfigurationServiceIT {
 
     @Test
     @DisplayName("When updating the fee amount, the configuration is persisted")
-    @Sql({ "/db/queries/configuration/fee_amount.sql" })
+    @FeeAmountConfiguration
     void testUpdate_FeeAmount() {
         final AssociationConfigurationRequest configurationRequest;
         final PersistentConfiguration         configuration;

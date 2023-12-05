@@ -39,13 +39,13 @@ public interface TransactionService {
      * Returns all the transactions matching the sample. If the sample fields are empty, then all the transactions are
      * returned.
      *
-     * @param request
+     * @param transaction
      *            sample for filtering
      * @param pageable
      *            pagination to apply
      * @return all the transactions matching the sample
      */
-    public Iterable<Transaction> getAll(final TransactionQuery request, final Pageable pageable);
+    public Iterable<Transaction> getAll(final TransactionQuery transaction, final Pageable pageable);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

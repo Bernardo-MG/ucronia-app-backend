@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
-import com.bernardomg.association.funds.transaction.model.request.ValidatedTransactionCreate;
+import com.bernardomg.association.funds.transaction.model.request.TransactionCreateRequest;
 
 public final class TransactionsCreate {
 
     public static final TransactionCreate amount(final Float amount) {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description("Transaction")
             .amount(amount)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
@@ -18,7 +18,7 @@ public final class TransactionsCreate {
     }
 
     public static final TransactionCreate emptyDescription() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description("")
             .amount(1f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
@@ -26,7 +26,7 @@ public final class TransactionsCreate {
     }
 
     public static final TransactionCreate firstDay() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description("Transaction")
             .amount(1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
@@ -34,7 +34,7 @@ public final class TransactionsCreate {
     }
 
     public static final TransactionCreate inYear() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description("Transaction")
             .amount(1f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
@@ -42,31 +42,39 @@ public final class TransactionsCreate {
     }
 
     public static final TransactionCreate missingAmount() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description("Transaction")
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 
     public static final TransactionCreate missingDate() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description("Transaction")
             .amount(1f)
             .build();
     }
 
     public static final TransactionCreate missingDescription() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .amount(1f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 
     public static final TransactionCreate paddedWithWhitespaces() {
-        return ValidatedTransactionCreate.builder()
+        return TransactionCreateRequest.builder()
             .description(" Transaction ")
             .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .build();
+    }
+
+    public static final TransactionCreate valid() {
+        return TransactionCreateRequest.builder()
+            .description("Transaction")
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 

@@ -32,21 +32,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
+import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - get all - sort")
-@Sql({ "/db/queries/member/multiple.sql" })
+@MultipleMembers
+@MultipleFees
 class ITMemberServiceGetAllSort {
 
     @Autowired
@@ -54,128 +54,6 @@ class ITMemberServiceGetAllSort {
 
     public ITMemberServiceGetAllSort() {
         super();
-    }
-
-    @Test
-    @DisplayName("With ascending order by active flag it returns the ordered data")
-    void testGetAll_Active_Asc() {
-        final Iterator<Member> members;
-        final MemberQuery      memberQuery;
-        final Pageable         pageable;
-        Member                 member;
-
-        pageable = PageRequest.of(0, 10, Direction.ASC, "active");
-
-        memberQuery = MembersQuery.empty();
-
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .active(false)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .active(true)
-            .build());
-    }
-
-    @Test
-    @DisplayName("With descending order by active flag it returns the ordered data")
-    void testGetAll_Active_Desc() {
-        final Iterator<Member> members;
-        final MemberQuery      memberQuery;
-        final Pageable         pageable;
-        Member                 member;
-
-        pageable = PageRequest.of(0, 10, Direction.DESC, "active");
-
-        memberQuery = MembersQuery.empty();
-
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .active(true)
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .active(false)
-            .build());
     }
 
     @Test
@@ -200,7 +78,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = members.next();
@@ -209,7 +86,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -218,7 +94,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -227,7 +102,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -236,7 +110,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
             .build());
     }
 
@@ -261,7 +134,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
             .build());
 
         member = members.next();
@@ -270,7 +142,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -279,7 +150,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -288,7 +158,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -297,7 +166,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 
@@ -322,7 +190,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = members.next();
@@ -331,7 +198,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -340,7 +206,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -349,7 +214,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -358,7 +222,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
             .build());
     }
 
@@ -383,7 +246,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
             .build());
 
         member = members.next();
@@ -392,7 +254,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = members.next();
@@ -401,7 +262,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = members.next();
@@ -410,7 +270,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = members.next();
@@ -419,7 +278,6 @@ class ITMemberServiceGetAllSort {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
     }
 

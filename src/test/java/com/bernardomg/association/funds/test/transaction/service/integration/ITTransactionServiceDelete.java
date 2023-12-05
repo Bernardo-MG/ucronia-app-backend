@@ -28,17 +28,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - delete")
-@Sql({ "/db/queries/transaction/single.sql" })
+@PositiveTransaction
 class ITTransactionServiceDelete {
 
     @Autowired
@@ -57,6 +55,7 @@ class ITTransactionServiceDelete {
         service.delete(1L);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isZero();
     }
 

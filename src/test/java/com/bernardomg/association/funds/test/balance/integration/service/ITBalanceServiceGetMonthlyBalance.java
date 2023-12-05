@@ -29,25 +29,26 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.request.ValidatedBalanceQuery;
+import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.test.balance.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.balance.util.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.balance.util.model.MonthlyBalances;
+import com.bernardomg.association.funds.test.configuration.argument.CurrentAndPreviousMonthProvider;
+import com.bernardomg.association.funds.test.transaction.configuration.DecimalsAddZeroTransaction;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
@@ -57,15 +58,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Balance service - get monthly balance")
 class ITBalanceServiceGetMonthlyBalance {
-
-    private static Stream<Arguments> geValidDates() {
-        return Stream.of(
-            // This month
-            Arguments.of(YearMonth.now()),
-            // Previous month
-            Arguments.of(YearMonth.now()
-                .minusMonths(1)));
-    }
 
     @Autowired
     private TransactionRepository repository;
@@ -112,24 +104,22 @@ class ITBalanceServiceGetMonthlyBalance {
 
         persist(amount);
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
 
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(amount);
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(amount);
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(amount));
     }
 
     @ParameterizedTest(name = "Date: {0}")
-    @MethodSource("geValidDates")
+    @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
     void testGetMonthlyBalance_Dates(final YearMonth date) {
         final Collection<? extends MonthlyBalance> balances;
@@ -141,20 +131,18 @@ class ITBalanceServiceGetMonthlyBalance {
 
         persist(date.getYear(), date.getMonth());
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
 
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(1F);
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(1F);
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(date, 1F));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -170,25 +158,23 @@ class ITBalanceServiceGetMonthlyBalance {
 
         persist(amount);
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
 
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(amount);
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(amount);
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(amount));
     }
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
-    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
+    @DecimalsAddZeroTransaction
     void testGetMonthlyBalance_DecimalsAddUpToZero() {
         final Collection<? extends MonthlyBalance> balances;
         final MonthlyBalance                       balance;
@@ -197,26 +183,23 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balance = balances.iterator()
             .next();
 
-        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .difference(0f)
-            .total(0f)
-            .build());
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(0F));
     }
 
     @Test
     @DisplayName("With a full year it returns twelve months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -226,11 +209,12 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();
@@ -238,91 +222,91 @@ class ITBalanceServiceGetMonthlyBalance {
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.JANUARY))
-            .difference(1f)
+            .results(1f)
             .total(1f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.FEBRUARY))
-            .difference(1f)
+            .results(1f)
             .total(2f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.MARCH))
-            .difference(1f)
+            .results(1f)
             .total(3f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.APRIL))
-            .difference(1f)
+            .results(1f)
             .total(4f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.MAY))
-            .difference(1f)
+            .results(1f)
             .total(5f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.JUNE))
-            .difference(1f)
+            .results(1f)
             .total(6f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.JULY))
-            .difference(1f)
+            .results(1f)
             .total(7f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.AUGUST))
-            .difference(1f)
+            .results(1f)
             .total(8f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.SEPTEMBER))
-            .difference(1f)
+            .results(1f)
             .total(9f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.OCTOBER))
-            .difference(1f)
+            .results(1f)
             .total(10f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.NOVEMBER))
-            .difference(1f)
+            .results(1f)
             .total(11f)
             .build());
 
         balance = balancesItr.next();
         BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
             .month(YearMonth.of(2020, Month.DECEMBER))
-            .difference(1f)
+            .results(1f)
             .total(12f)
             .build());
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetMonthlyBalance_Multiple() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -332,21 +316,18 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balancesItr = balances.iterator();
 
         balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, ImmutableMonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .difference(5f)
-            .total(5f)
-            .build());
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(5F));
     }
 
     @Test
@@ -363,11 +344,12 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
@@ -380,11 +362,12 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = ValidatedBalanceQuery.builder()
+        query = BalanceQueryRequest.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 

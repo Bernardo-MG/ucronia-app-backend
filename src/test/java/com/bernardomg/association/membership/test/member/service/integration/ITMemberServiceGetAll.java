@@ -31,21 +31,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
+import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - get all")
-@Sql({ "/db/queries/member/multiple.sql" })
+@MultipleMembers
+@MultipleFees
 class ITMemberServiceGetAll {
 
     @Autowired
@@ -81,7 +81,6 @@ class ITMemberServiceGetAll {
             .surname("Surname 1")
             .phone("12345")
             .identifier("6789")
-            .active(true)
             .build());
 
         member = membersItr.next();
@@ -90,7 +89,6 @@ class ITMemberServiceGetAll {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
 
         member = membersItr.next();
@@ -99,7 +97,6 @@ class ITMemberServiceGetAll {
             .surname("Surname 3")
             .phone("12347")
             .identifier("6791")
-            .active(true)
             .build());
 
         member = membersItr.next();
@@ -108,7 +105,6 @@ class ITMemberServiceGetAll {
             .surname("Surname 4")
             .phone("12348")
             .identifier("6792")
-            .active(true)
             .build());
 
         member = membersItr.next();
@@ -117,38 +113,6 @@ class ITMemberServiceGetAll {
             .surname("Surname 5")
             .phone("12349")
             .identifier("6793")
-            .active(false)
-            .build());
-    }
-
-    @Test
-    @DisplayName("With an inactive member it returns the member")
-    @Sql({ "/db/queries/member/inactive.sql" })
-    void testGetAll_Inactive() {
-        final Iterable<Member> members;
-        final Iterator<Member> membersItr;
-        final MemberQuery      memberQuery;
-        final Pageable         pageable;
-        Member                 member;
-
-        pageable = Pageable.unpaged();
-
-        memberQuery = MembersQuery.empty();
-
-        members = service.getAll(memberQuery, pageable);
-
-        Assertions.assertThat(members)
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .active(false)
             .build());
     }
 

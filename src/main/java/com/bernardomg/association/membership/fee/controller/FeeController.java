@@ -47,12 +47,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.model.MemberFee;
+import com.bernardomg.association.membership.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.membership.fee.model.request.FeeUpdateRequest;
 import com.bernardomg.association.membership.fee.model.request.FeesPaymentRequest;
-import com.bernardomg.association.membership.fee.model.request.ValidatedFeeQuery;
-import com.bernardomg.association.membership.fee.model.request.ValidatedFeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.security.auth.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -101,7 +101,7 @@ public class FeeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.FEES)
-    public Iterable<MemberFee> readAll(@Valid final ValidatedFeeQuery query, final Pageable pageable) {
+    public Iterable<MemberFee> readAll(@Valid final FeeQueryRequest query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
@@ -121,7 +121,7 @@ public class FeeController {
                             cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
                                     MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE },
                             allEntries = true) })
-    public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedFeeUpdate fee) {
+    public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final FeeUpdateRequest fee) {
         return service.update(id, fee);
     }
 

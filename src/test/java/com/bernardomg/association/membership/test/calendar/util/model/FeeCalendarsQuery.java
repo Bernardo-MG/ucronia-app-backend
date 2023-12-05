@@ -12,4 +12,8 @@ public final class FeeCalendarsQuery {
             .build();
     }
 
+    private FeeCalendarsQuery() {
+        super();
+    }
+
 }

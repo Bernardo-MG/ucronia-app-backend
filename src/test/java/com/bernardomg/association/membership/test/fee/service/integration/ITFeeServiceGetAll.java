@@ -35,19 +35,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
+import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
+import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - get all")
 class ITFeeServiceGetAll {
 
@@ -60,7 +64,8 @@ class ITFeeServiceGetAll {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetAll_FullYear() {
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
@@ -164,35 +169,9 @@ class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("With an inactive user it returns all the fees")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-    void testGetAll_Inactive() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
-
-        pageable = Pageable.unpaged();
-
-        feeQuery = FeesQuery.empty();
-
-        fees = service.getAll(feeQuery, pageable);
-
-        Assertions.assertThat(fees)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fees.iterator()
-            .next(),
-            ImmutableMemberFee.builder()
-                .memberId(1L)
-                .memberName("Member 1 Surname 1")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
-    }
-
-    @Test
     @DisplayName("With multiple fees it returns all the fees")
-    @Sql({ "/db/queries/member/multiple.sql", "/db/queries/fee/multiple.sql" })
+    @MultipleMembers
+    @MultipleFees
     void testGetAll_Multiple() {
         final Iterable<MemberFee> fees;
         final Iterator<MemberFee> feesItr;
@@ -248,7 +227,7 @@ class ITFeeServiceGetAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testGetAll_NoFee() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -266,7 +245,8 @@ class ITFeeServiceGetAll {
 
     @Test
     @DisplayName("With no name or surname it returns an empty name")
-    @Sql({ "/db/queries/member/no_name_or_surname.sql", "/db/queries/fee/single.sql" })
+    @NoNameOrSurnameMember
+    @PaidFee
     void testGetAll_NoNameOrSurname() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -293,7 +273,8 @@ class ITFeeServiceGetAll {
 
     @Test
     @DisplayName("With no surname it returns only the name")
-    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/single.sql" })
+    @NoSurnameMember
+    @PaidFee
     void testGetAll_NoSurname() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
@@ -313,6 +294,34 @@ class ITFeeServiceGetAll {
             ImmutableMemberFee.builder()
                 .memberId(1L)
                 .memberName("Member 1")
+                .date(YearMonth.of(2020, Month.FEBRUARY))
+                .paid(true)
+                .build());
+    }
+
+    @Test
+    @DisplayName("With a single fee it returns all the fees")
+    @ValidMember
+    @PaidFee
+    void testGetAll_Single() {
+        final Iterable<MemberFee> fees;
+        final FeeQuery            feeQuery;
+        final Pageable            pageable;
+
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.empty();
+
+        fees = service.getAll(feeQuery, pageable);
+
+        Assertions.assertThat(fees)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(fees.iterator()
+            .next(),
+            ImmutableMemberFee.builder()
+                .memberId(1L)
+                .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
                 .paid(true)
                 .build());

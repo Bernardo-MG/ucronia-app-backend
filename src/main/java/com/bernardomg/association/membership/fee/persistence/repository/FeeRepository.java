@@ -30,16 +30,16 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 
-public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
+public interface FeeRepository extends JpaRepository<FeeEntity, Long> {
 
     public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
 
     public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
 
-    public List<PersistentFee> findAllByDate(final YearMonth date);
+    public List<FeeEntity> findAllByDate(final YearMonth date);
 
-    public Optional<PersistentFee> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
+    public Optional<FeeEntity> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
 
 }

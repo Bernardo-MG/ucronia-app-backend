@@ -31,21 +31,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
+import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - get all - pagination")
-@Sql({ "/db/queries/member/multiple.sql" })
+@MultipleMembers
+@MultipleFees
 class ITMemberServiceGetAllPagination {
 
     @Autowired
@@ -91,13 +92,7 @@ class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
-            .build());
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
     }
 
     @Test
@@ -124,7 +119,6 @@ class ITMemberServiceGetAllPagination {
             .surname("Surname 2")
             .phone("12346")
             .identifier("6790")
-            .active(true)
             .build());
     }
 

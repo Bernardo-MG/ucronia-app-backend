@@ -32,17 +32,18 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
+import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - get one")
 class ITFeeServiceGetOne {
 
@@ -55,7 +56,8 @@ class ITFeeServiceGetOne {
 
     @Test
     @DisplayName("With a valid id, the related entity is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testGetOne_Existing() {
         final Optional<MemberFee> fee;
 
@@ -73,27 +75,9 @@ class ITFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("With an inactive member, the related entity is returned")
-    @Sql({ "/db/queries/member/inactive.sql", "/db/queries/fee/single.sql" })
-    void testGetOne_Inactive() {
-        final Optional<MemberFee> fee;
-
-        fee = service.getOne(1L);
-
-        Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
-    }
-
-    @Test
     @DisplayName("With no name or surname, an empty name is returned")
-    @Sql({ "/db/queries/member/no_name_or_surname.sql", "/db/queries/fee/single.sql" })
+    @NoNameOrSurnameMember
+    @PaidFee
     void testGetOne_NoNameOrSurname() {
         final Optional<MemberFee> fee;
 
@@ -112,7 +96,8 @@ class ITFeeServiceGetOne {
 
     @Test
     @DisplayName("With no surname, only the name is returned")
-    @Sql({ "/db/queries/member/no_surname.sql", "/db/queries/fee/single.sql" })
+    @NoSurnameMember
+    @PaidFee
     void testGetOne_NoSurname() {
         final Optional<MemberFee> fee;
 

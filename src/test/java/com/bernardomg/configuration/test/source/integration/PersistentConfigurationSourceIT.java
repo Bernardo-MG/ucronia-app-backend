@@ -5,9 +5,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.configuration.source.PersistentConfigurationSource;
+import com.bernardomg.configuration.test.configuration.FloatConfiguration;
+import com.bernardomg.configuration.test.configuration.IntegerConfiguration;
+import com.bernardomg.configuration.test.configuration.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -19,7 +21,7 @@ public class PersistentConfigurationSourceIT {
 
     @Test
     @DisplayName("Getting the float for an existing float returns its value as text")
-    @Sql({ "/db/queries/configuration/float.sql" })
+    @FloatConfiguration
     void testGetFloat_Float() {
         final Float value;
 
@@ -31,7 +33,7 @@ public class PersistentConfigurationSourceIT {
 
     @Test
     @DisplayName("Getting the float for an existing integer returns its value as text")
-    @Sql({ "/db/queries/configuration/integer.sql" })
+    @IntegerConfiguration
     void testGetFloat_Integer() {
         final Float value;
 
@@ -54,7 +56,7 @@ public class PersistentConfigurationSourceIT {
 
     @Test
     @DisplayName("Getting the string for an existing integer returns its value as text")
-    @Sql({ "/db/queries/configuration/integer.sql" })
+    @IntegerConfiguration
     void testGetString_Integer() {
         final String value;
 
@@ -77,7 +79,7 @@ public class PersistentConfigurationSourceIT {
 
     @Test
     @DisplayName("Getting the string for an existing text returns its value")
-    @Sql({ "/db/queries/configuration/string.sql" })
+    @StringConfiguration
     void testGetString_String() {
         final String value;
 

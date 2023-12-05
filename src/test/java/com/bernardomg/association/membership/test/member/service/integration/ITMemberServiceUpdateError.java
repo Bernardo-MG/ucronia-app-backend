@@ -33,12 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
-import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - update")
 class ITMemberServiceUpdateError {
 
@@ -60,7 +58,7 @@ class ITMemberServiceUpdateError {
         execution = () -> service.update(1L, memberRequest);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(InvalidIdException.class);
+            .isInstanceOf(MissingIdException.class);
     }
 
 }

@@ -3,8 +3,6 @@ package com.bernardomg.association.membership.member.model;
 
 public interface Member {
 
-    public Boolean getActive();
-
     public Long getId();
 
     public String getIdentifier();
@@ -14,5 +12,7 @@ public interface Member {
     public String getPhone();
 
     public String getSurname();
+
+    public boolean isActive();
 
 }

@@ -25,27 +25,27 @@
 package com.bernardomg.association.funds.test.balance.integration.service;
 
 import java.time.LocalDate;
-import java.time.Month;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.association.funds.balance.model.MonthlyBalance;
+import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
+/**
+ * TODO: Test with transactions for the previous month, the results should be 0
+ */
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Balance service - get balance")
 class ITBalanceServiceGetBalance {
 
@@ -57,9 +57,59 @@ class ITBalanceServiceGetBalance {
 
     private final void persist(final Float amount) {
         final PersistentTransaction entity;
+        final LocalDate             month;
 
+        month = LocalDate.now();
         entity = PersistentTransaction.builder()
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
+            .date(month)
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
+    private final void persistNextMonth(final Float amount) {
+        final PersistentTransaction entity;
+        final LocalDate             month;
+
+        month = LocalDate.now()
+            .plusMonths(1);
+        entity = PersistentTransaction.builder()
+            .date(month)
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
+    private final void persistPreviousMonth(final Float amount) {
+        final PersistentTransaction entity;
+        final LocalDate             month;
+
+        month = LocalDate.now()
+            .minusMonths(1);
+        entity = PersistentTransaction.builder()
+            .date(month)
+            .description("Description")
+            .amount(amount)
+            .build();
+
+        repository.save(entity);
+        repository.flush();
+    }
+
+    private final void persistPreviousMonth(final Float amount, final int monthDiff) {
+        final PersistentTransaction entity;
+        final LocalDate             month;
+
+        month = LocalDate.now()
+            .minusMonths(monthDiff);
+        entity = PersistentTransaction.builder()
+            .date(month)
             .description("Description")
             .amount(amount)
             .build();
@@ -72,87 +122,242 @@ class ITBalanceServiceGetBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testGetBalance_AroundZero(final Float amount) {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         persist(amount);
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(amount);
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(amount);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(amount);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(amount);
+        });
+    }
+
+    @Test
+    @DisplayName("With data for the current month it returns the balance")
+    void testGetBalance_CurrentMonth() {
+        final CurrentBalance balance;
+
+        persist(1F);
+
+        balance = service.getBalance();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(1);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(1);
+        });
+    }
+
+    @Test
+    @DisplayName("With data for the current month and previous months it returns the balance")
+    void testGetBalance_CurrentMonthAndPrevious() {
+        final CurrentBalance balance;
+
+        persist(1F);
+        persistPreviousMonth(2F, 1);
+        persistPreviousMonth(3F, 2);
+
+        balance = service.getBalance();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(1);
+        });
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testGetBalance_Decimal(final Float amount) {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         persist(amount);
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(amount);
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(amount);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(amount);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(amount);
+        });
     }
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
-    @Sql({ "/db/queries/transaction/decimal_adds_zero.sql" })
     void testGetBalance_DecimalsAddUpToZero() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
+
+        persist(-40.8F);
+        persist(13.6F);
+        persist(13.6F);
+        persist(13.6F);
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isZero();
-        Assertions.assertThat(balance.getDifference())
-            .isZero();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isZero();
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
     @Test
     @DisplayName("With a full year it returns the correct data")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetBalance_FullYear() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(12);
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(1);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(12);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(0);
+        });
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
     void testGetBalance_Multiple() {
-        final MonthlyBalance balance;
+        final CurrentBalance balance;
+
+        persist(1F);
+        persist(1F);
+        persist(1F);
+        persist(1F);
+        persist(1F);
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isEqualTo(5);
-        Assertions.assertThat(balance.getDifference())
-            .isEqualTo(5);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(5);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isEqualTo(5);
+        });
     }
 
     @Test
-    @DisplayName("With not data it returns nothing")
-    void testGetBalance_NoData() {
-        final MonthlyBalance balance;
+    @DisplayName("With data for the next month it returns no balance")
+    void testGetBalance_NextMonth() {
+        final CurrentBalance balance;
+
+        persistNextMonth(1F);
 
         balance = service.getBalance();
 
-        Assertions.assertThat(balance.getTotal())
-            .isZero();
-        Assertions.assertThat(balance.getDifference())
-            .isZero();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isZero();
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
+    void testGetBalance_NoData() {
+        final CurrentBalance balance;
+
+        balance = service.getBalance();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isZero();
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
+    }
+
+    @Test
+    @DisplayName("With data for the previous month it returns the balance but no results")
+    void testGetBalance_PreviousMonth() {
+        final CurrentBalance balance;
+
+        persistPreviousMonth(1F);
+        persistPreviousMonth(2F);
+        persistPreviousMonth(3F);
+
+        balance = service.getBalance();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
+    }
+
+    @Test
+    @DisplayName("With data for the previous months it returns the balance but no results")
+    void testGetBalance_PreviousMonths() {
+        final CurrentBalance balance;
+
+        persistPreviousMonth(1F, 1);
+        persistPreviousMonth(2F, 2);
+        persistPreviousMonth(3F, 3);
+
+        balance = service.getBalance();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
+    }
+
+    @Test
+    @DisplayName("With data for the previous months, including gaps, it returns the balance but no results")
+    void testGetBalance_PreviousMonths_Gaps() {
+        final CurrentBalance balance;
+
+        persistPreviousMonth(1F, 1);
+        persistPreviousMonth(2F, 2);
+        persistPreviousMonth(3F, 5);
+
+        balance = service.getBalance();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.getTotal())
+                .as("total balance")
+                .isEqualTo(6);
+            softly.assertThat(balance.getResults())
+                .as("month results")
+                .isZero();
+        });
     }
 
 }
