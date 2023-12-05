@@ -225,4 +225,58 @@ class ITMembershipBalanceService {
             MonthlyMemberBalances.forMonthAndTotal(FeeInitializer.CURRENT_MONTH, 2L));
     }
 
+    @Test
+    @DisplayName("With a fee for two months back and not paid it returns balance for the previous month")
+    void testGetBalance_TwoMonthsBack_NotPaid() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+        final MonthlyMemberBalance                     balance;
+
+        feeInitializer.registerFeeTwoMonthsBack(false);
+
+        query = MemberBalanceQueryRequest.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .as("balances")
+            .hasSize(1);
+
+        balance = balances.iterator()
+            .next();
+        MonthlyMemberBalanceAssertions.isEqualTo(balance,
+            MonthlyMemberBalances.forMonth(FeeInitializer.TWO_MONTHS_BACK));
+    }
+
+    @Test
+    @DisplayName("With a fee for two months back and paid it returns balance for the previous month")
+    void testGetBalance_TwoMonthsBack_Paid() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+        final MonthlyMemberBalance                     balance;
+
+        feeInitializer.registerFeeTwoMonthsBack(true);
+
+        query = MemberBalanceQueryRequest.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .as("balances")
+            .hasSize(1);
+
+        balance = balances.iterator()
+            .next();
+        MonthlyMemberBalanceAssertions.isEqualTo(balance,
+            MonthlyMemberBalances.forMonth(FeeInitializer.TWO_MONTHS_BACK));
+    }
+
 }
