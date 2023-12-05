@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.YearMonth;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -19,55 +19,14 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("DefaultFeeMaintenanceService")
 public class ITFeeMaintenanceService {
 
-    private static final YearMonth       CURRENT_MONTH  = YearMonth.now();
-
-    private static final YearMonth       PREVIOUS_MONTH = YearMonth.now()
-        .minusMonths(1);
-
-    private static final YearMonth       TWO_BACK_MONTH = YearMonth.now()
-        .minusMonths(2);
+    @Autowired
+    private FeeInitializer               feeInitializer;
 
     @Autowired
     private FeeRepository                feeRepository;
 
     @Autowired
     private DefaultFeeMaintenanceService service;
-
-    private final void registerFeeCurrentMonth(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(CURRENT_MONTH);
-
-        feeRepository.save(fee);
-    }
-
-    private final void registerFeePreviousMonth(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(PREVIOUS_MONTH);
-
-        feeRepository.save(fee);
-    }
-
-    private final void registerFeeTwoMonthsBack(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(TWO_BACK_MONTH);
-
-        feeRepository.save(fee);
-    }
 
     @Test
     @DisplayName("With no data, nothing is registered")
@@ -100,7 +59,7 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidPreviousMonth() {
         final Long count;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         service.registerMonthFees();
 
@@ -115,8 +74,8 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth() {
         final Long count;
 
-        registerFeePreviousMonth(true);
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         service.registerMonthFees();
 
@@ -131,8 +90,8 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth_Status() {
         final Collection<FeeEntity> fees;
 
-        registerFeePreviousMonth(true);
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         service.registerMonthFees();
 
@@ -147,18 +106,18 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidPreviousMonth_Status() {
         final Collection<FeeEntity> fees;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         service.registerMonthFees();
 
         fees = feeRepository.findAll();
         Assertions.assertThat(fees)
             .filteredOn(fee -> fee.getDate()
-                .equals(PREVIOUS_MONTH))
+                .equals(FeeInitializer.PREVIOUS_MONTH))
             .allMatch(fee -> fee.getPaid());
         Assertions.assertThat(fees)
             .filteredOn(fee -> fee.getDate()
-                .equals(CURRENT_MONTH))
+                .equals(FeeInitializer.CURRENT_MONTH))
             .allMatch(fee -> !fee.getPaid());
     }
 
@@ -168,8 +127,8 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth() {
         final Long count;
 
-        registerFeePreviousMonth(true);
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         service.registerMonthFees();
 
@@ -184,19 +143,19 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth_NoStatusChange() {
         final Collection<FeeEntity> fees;
 
-        registerFeePreviousMonth(true);
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         service.registerMonthFees();
 
         fees = feeRepository.findAll();
         Assertions.assertThat(fees)
             .filteredOn(fee -> fee.getDate()
-                .equals(PREVIOUS_MONTH))
+                .equals(FeeInitializer.PREVIOUS_MONTH))
             .allMatch(fee -> fee.getPaid());
         Assertions.assertThat(fees)
             .filteredOn(fee -> fee.getDate()
-                .equals(CURRENT_MONTH))
+                .equals(FeeInitializer.CURRENT_MONTH))
             .allMatch(fee -> !fee.getPaid());
     }
 
@@ -206,7 +165,7 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidTwoMonthsBack() {
         final Long count;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         service.registerMonthFees();
 
@@ -221,7 +180,7 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_PaidTwoMonthsBack_Status() {
         final Collection<FeeEntity> fees;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         service.registerMonthFees();
 
@@ -236,7 +195,7 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_UnpaidPreviousMonth() {
         final Long count;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         service.registerMonthFees();
 
@@ -251,7 +210,7 @@ public class ITFeeMaintenanceService {
     void testRegisterMonthFees_UnpaidPreviousMonth_Status() {
         final Collection<FeeEntity> fees;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         service.registerMonthFees();
 

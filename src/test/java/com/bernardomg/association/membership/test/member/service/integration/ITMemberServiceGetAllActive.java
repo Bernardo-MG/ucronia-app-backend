@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.membership.test.member.service.integration;
 
-import java.time.YearMonth;
 import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
@@ -33,11 +32,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
@@ -51,58 +49,14 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @ValidMember
 class ITMemberServiceGetAllActive {
 
-    private static final YearMonth CURRENT_MONTH   = YearMonth.now();
-
-    private static final YearMonth PREVIOUS_MONTH  = YearMonth.now()
-        .minusMonths(1);
-
-    private static final YearMonth TWO_MONTHS_BACK = YearMonth.now()
-        .minusMonths(2);
+    @Autowired
+    private FeeInitializer feeInitializer;
 
     @Autowired
-    private FeeRepository          feeRepository;
-
-    @Autowired
-    private MemberService          service;
+    private MemberService  service;
 
     public ITMemberServiceGetAllActive() {
         super();
-    }
-
-    private final void registerFeeCurrentMonth(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(CURRENT_MONTH);
-
-        feeRepository.save(fee);
-    }
-
-    private final void registerFeePreviousMonth(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(PREVIOUS_MONTH);
-
-        feeRepository.save(fee);
-    }
-
-    private final void registerFeeTwoMonthsBack(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(TWO_MONTHS_BACK);
-
-        feeRepository.save(fee);
     }
 
     @Test
@@ -114,7 +68,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         pageable = Pageable.unpaged();
 
@@ -140,7 +94,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         pageable = Pageable.unpaged();
 
@@ -166,9 +120,9 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -194,9 +148,9 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -237,7 +191,7 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         pageable = Pageable.unpaged();
 
@@ -256,7 +210,7 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         pageable = Pageable.unpaged();
 
@@ -275,7 +229,7 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -294,7 +248,7 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         pageable = Pageable.unpaged();
 
@@ -315,7 +269,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         pageable = Pageable.unpaged();
 
@@ -341,7 +295,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         pageable = Pageable.unpaged();
 
@@ -367,9 +321,9 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -395,9 +349,9 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -447,7 +401,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         pageable = Pageable.unpaged();
 
@@ -473,7 +427,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         pageable = Pageable.unpaged();
 
@@ -499,7 +453,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -525,7 +479,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         pageable = Pageable.unpaged();
 
@@ -549,7 +503,7 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         pageable = Pageable.unpaged();
 
@@ -568,7 +522,7 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         pageable = Pageable.unpaged();
 
@@ -587,9 +541,9 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -608,9 +562,9 @@ class ITMemberServiceGetAllActive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -655,7 +609,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         pageable = Pageable.unpaged();
 
@@ -681,7 +635,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         pageable = Pageable.unpaged();
 
@@ -707,7 +661,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
@@ -733,7 +687,7 @@ class ITMemberServiceGetAllActive {
         final Pageable         pageable;
         Member                 member;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         pageable = Pageable.unpaged();
 

@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.membership.test.calendar.integration.service;
 
-import java.time.YearMonth;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,13 +32,12 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -50,58 +47,14 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("Fee calendar service - get year - filter by active status")
 class ITFeeCalendarServiceGetYearActive {
 
-    private static final YearMonth   CURRENT_MONTH   = YearMonth.now();
-
-    private static final YearMonth   PREVIOUS_MONTH  = YearMonth.now()
-        .minusMonths(1);
-
-    private static final YearMonth   TWO_MONTHS_BACK = YearMonth.now()
-        .minusMonths(2);
-
     @Autowired
-    private FeeRepository            feeRepository;
+    private FeeInitializer           feeInitializer;
 
     @Autowired
     private MemberFeeCalendarService service;
 
     public ITFeeCalendarServiceGetYearActive() {
         super();
-    }
-
-    private final void registerFeeCurrentMonth(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(CURRENT_MONTH);
-
-        feeRepository.save(fee);
-    }
-
-    private final void registerFeePreviousMonth(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(PREVIOUS_MONTH);
-
-        feeRepository.save(fee);
-    }
-
-    private final void registerFeeTwoMonthsBack(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(TWO_MONTHS_BACK);
-
-        feeRepository.save(fee);
     }
 
     @Test
@@ -113,7 +66,7 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         sort = Sort.unsorted();
 
@@ -139,7 +92,7 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         sort = Sort.unsorted();
 
@@ -165,9 +118,9 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
@@ -193,9 +146,9 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
@@ -220,7 +173,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         sort = Sort.unsorted();
 
@@ -238,7 +191,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         sort = Sort.unsorted();
 
@@ -256,7 +209,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
@@ -274,7 +227,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         sort = Sort.unsorted();
 
@@ -292,7 +245,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(false);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         sort = Sort.unsorted();
 
@@ -310,7 +263,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         sort = Sort.unsorted();
 
@@ -328,9 +281,9 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
@@ -348,9 +301,9 @@ class ITFeeCalendarServiceGetYearActive {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        registerFeeCurrentMonth(false);
-        registerFeePreviousMonth(false);
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
@@ -369,7 +322,7 @@ class ITFeeCalendarServiceGetYearActive {
         final Sort                        sort;
         final MemberFeeCalendar           calendar;
 
-        registerFeePreviousMonth(false);
+        feeInitializer.registerFeePreviousMonth(false);
 
         sort = Sort.unsorted();
 
@@ -395,7 +348,7 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeePreviousMonth(true);
+        feeInitializer.registerFeePreviousMonth(true);
 
         sort = Sort.unsorted();
 
@@ -421,7 +374,7 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeTwoMonthsBack(false);
 
         sort = Sort.unsorted();
 
@@ -447,7 +400,7 @@ class ITFeeCalendarServiceGetYearActive {
         final MemberFeeCalendar           calendar;
         final Sort                        sort;
 
-        registerFeeTwoMonthsBack(true);
+        feeInitializer.registerFeeTwoMonthsBack(true);
 
         sort = Sort.unsorted();
 

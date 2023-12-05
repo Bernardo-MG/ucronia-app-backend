@@ -53,30 +53,14 @@ class ITMemberServiceGetOne {
     }
 
     @Test
-    @DisplayName("With a valid id for an active member, the related entity is returned")
+    @DisplayName("With a valid id for an active member, it is returned")
     @ValidMember
     @PaidFee
     void testGetOne_Active() {
         final Optional<Member> memberOptional;
         final Member           member;
 
-        memberOptional = service.getOne(1L);
-
-        Assertions.assertThat(memberOptional)
-            .isPresent();
-
-        member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
-    }
-
-    @Test
-    @DisplayName("With a valid id, the related entity is returned")
-    @ValidMember
-    @PaidFee
-    void testGetOne_Existing() {
-        final Optional<Member> memberOptional;
-        final Member           member;
-
+        // TODO: This is not active
         memberOptional = service.getOne(1L);
 
         Assertions.assertThat(memberOptional)
