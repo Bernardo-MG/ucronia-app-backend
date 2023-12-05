@@ -29,6 +29,106 @@ public class ITFeeMaintenanceService {
     private DefaultFeeMaintenanceService service;
 
     @Test
+    @DisplayName("With a paid fee in the previous month, and a paid one this one, no new fee is registered")
+    @ValidMember
+    void testRegisterMonthFees_CurrentMonth_PreviousMonth_Paid() {
+        final Long count;
+
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        service.registerMonthFees();
+
+        count = feeRepository.count();
+        Assertions.assertThat(count)
+            .isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the previous month, and a paid one this one, all fees are paid")
+    @ValidMember
+    void testRegisterMonthFees_CurrentMonth_PreviousMonth_Paid_Status() {
+        final Collection<FeeEntity> fees;
+
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        service.registerMonthFees();
+
+        fees = feeRepository.findAll();
+        Assertions.assertThat(fees)
+            .allMatch(fee -> fee.getPaid());
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the previous month, and an unpaid one this one, no new fee is registered")
+    @ValidMember
+    void testRegisterMonthFees_CurrentMonth_Unpaid_PreviousMonth_Paid() {
+        final Long count;
+
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        service.registerMonthFees();
+
+        count = feeRepository.count();
+        Assertions.assertThat(count)
+            .isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the previous month, and an unpaid one this one, all fees are paid")
+    @ValidMember
+    void testRegisterMonthFees_CurrentMonth_Unpaid_PreviousMonth_Paid_NoStatusChange() {
+        final Collection<FeeEntity> fees;
+
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        service.registerMonthFees();
+
+        fees = feeRepository.findAll();
+        Assertions.assertThat(fees)
+            .filteredOn(fee -> fee.getDate()
+                .equals(FeeInitializer.PREVIOUS_MONTH))
+            .allMatch(fee -> fee.getPaid());
+        Assertions.assertThat(fees)
+            .filteredOn(fee -> fee.getDate()
+                .equals(FeeInitializer.CURRENT_MONTH))
+            .allMatch(fee -> !fee.getPaid());
+    }
+
+    @Test
+    @DisplayName("With a paid fee next month, no fee is registered")
+    @ValidMember
+    void testRegisterMonthFees_NextMonth_Paid() {
+        final Long count;
+
+        feeInitializer.registerFeeNextMonth(true);
+
+        service.registerMonthFees();
+
+        count = feeRepository.count();
+        Assertions.assertThat(count)
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("With a paid fee next month, the paid status doesn't change")
+    @ValidMember
+    void testRegisterMonthFees_NextMonth_Paid_Status() {
+        final Collection<FeeEntity> fees;
+
+        feeInitializer.registerFeeNextMonth(true);
+
+        service.registerMonthFees();
+
+        fees = feeRepository.findAll();
+        Assertions.assertThat(fees)
+            .allMatch(fee -> fee.getPaid());
+    }
+
+    @Test
     @DisplayName("With no data, nothing is registered")
     void testRegisterMonthFees_NoData() {
         final Long count;
@@ -56,7 +156,7 @@ public class ITFeeMaintenanceService {
     @Test
     @DisplayName("With a paid fee in the previous month, a new fee is registered")
     @ValidMember
-    void testRegisterMonthFees_PaidPreviousMonth() {
+    void testRegisterMonthFees_PreviousMonth_Paid() {
         final Long count;
 
         feeInitializer.registerFeePreviousMonth(true);
@@ -66,44 +166,12 @@ public class ITFeeMaintenanceService {
         count = feeRepository.count();
         Assertions.assertThat(count)
             .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("With a paid fee in the previous month, and a paid one this one, no new fee is registered")
-    @ValidMember
-    void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth() {
-        final Long count;
-
-        feeInitializer.registerFeePreviousMonth(true);
-        feeInitializer.registerFeeCurrentMonth(true);
-
-        service.registerMonthFees();
-
-        count = feeRepository.count();
-        Assertions.assertThat(count)
-            .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("With a paid fee in the previous month, and a paid one this one, all fees are paid")
-    @ValidMember
-    void testRegisterMonthFees_PaidPreviousMonth_PaidCurrentMonth_Status() {
-        final Collection<FeeEntity> fees;
-
-        feeInitializer.registerFeePreviousMonth(true);
-        feeInitializer.registerFeeCurrentMonth(true);
-
-        service.registerMonthFees();
-
-        fees = feeRepository.findAll();
-        Assertions.assertThat(fees)
-            .allMatch(fee -> fee.getPaid());
     }
 
     @Test
     @DisplayName("With a paid fee in the previous month, a new fee is registered, the paid status is set correctly")
     @ValidMember
-    void testRegisterMonthFees_PaidPreviousMonth_Status() {
+    void testRegisterMonthFees_PreviousMonth_Paid_Status() {
         final Collection<FeeEntity> fees;
 
         feeInitializer.registerFeePreviousMonth(true);
@@ -119,80 +187,12 @@ public class ITFeeMaintenanceService {
             .filteredOn(fee -> fee.getDate()
                 .equals(FeeInitializer.CURRENT_MONTH))
             .allMatch(fee -> !fee.getPaid());
-    }
-
-    @Test
-    @DisplayName("With a paid fee in the previous month, and an unpaid one this one, no new fee is registered")
-    @ValidMember
-    void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth() {
-        final Long count;
-
-        feeInitializer.registerFeePreviousMonth(true);
-        feeInitializer.registerFeeCurrentMonth(false);
-
-        service.registerMonthFees();
-
-        count = feeRepository.count();
-        Assertions.assertThat(count)
-            .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("With a paid fee in the previous month, and an unpaid one this one, all fees are paid")
-    @ValidMember
-    void testRegisterMonthFees_PaidPreviousMonth_UnpaidCurrentMonth_NoStatusChange() {
-        final Collection<FeeEntity> fees;
-
-        feeInitializer.registerFeePreviousMonth(true);
-        feeInitializer.registerFeeCurrentMonth(false);
-
-        service.registerMonthFees();
-
-        fees = feeRepository.findAll();
-        Assertions.assertThat(fees)
-            .filteredOn(fee -> fee.getDate()
-                .equals(FeeInitializer.PREVIOUS_MONTH))
-            .allMatch(fee -> fee.getPaid());
-        Assertions.assertThat(fees)
-            .filteredOn(fee -> fee.getDate()
-                .equals(FeeInitializer.CURRENT_MONTH))
-            .allMatch(fee -> !fee.getPaid());
-    }
-
-    @Test
-    @DisplayName("With a paid fee two months back, no fee is registered")
-    @ValidMember
-    void testRegisterMonthFees_PaidTwoMonthsBack() {
-        final Long count;
-
-        feeInitializer.registerFeeTwoMonthsBack(true);
-
-        service.registerMonthFees();
-
-        count = feeRepository.count();
-        Assertions.assertThat(count)
-            .isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("With a paid fee two months back, the paid status doesn't change")
-    @ValidMember
-    void testRegisterMonthFees_PaidTwoMonthsBack_Status() {
-        final Collection<FeeEntity> fees;
-
-        feeInitializer.registerFeeTwoMonthsBack(true);
-
-        service.registerMonthFees();
-
-        fees = feeRepository.findAll();
-        Assertions.assertThat(fees)
-            .allMatch(fee -> fee.getPaid());
     }
 
     @Test
     @DisplayName("With an unpaid fee in the previous month, a new fee is registered")
     @ValidMember
-    void testRegisterMonthFees_UnpaidPreviousMonth() {
+    void testRegisterMonthFees_PreviousMonth_Unpaid() {
         final Long count;
 
         feeInitializer.registerFeePreviousMonth(false);
@@ -207,7 +207,7 @@ public class ITFeeMaintenanceService {
     @Test
     @DisplayName("With an unpaid fee in the previous month, all fees are unpaid")
     @ValidMember
-    void testRegisterMonthFees_UnpaidPreviousMonth_Status() {
+    void testRegisterMonthFees_PreviousMonth_Unpaid_Status() {
         final Collection<FeeEntity> fees;
 
         feeInitializer.registerFeePreviousMonth(false);
@@ -219,4 +219,33 @@ public class ITFeeMaintenanceService {
             .allMatch(fee -> !fee.getPaid());
     }
 
+    @Test
+    @DisplayName("With a paid fee two months back, no fee is registered")
+    @ValidMember
+    void testRegisterMonthFees_TwoMonthsBack_Paid() {
+        final Long count;
+
+        feeInitializer.registerFeeTwoMonthsBack(true);
+
+        service.registerMonthFees();
+
+        count = feeRepository.count();
+        Assertions.assertThat(count)
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("With a paid fee two months back, the paid status doesn't change")
+    @ValidMember
+    void testRegisterMonthFees_TwoMonthsBack_Paid_Status() {
+        final Collection<FeeEntity> fees;
+
+        feeInitializer.registerFeeTwoMonthsBack(true);
+
+        service.registerMonthFees();
+
+        fees = feeRepository.findAll();
+        Assertions.assertThat(fees)
+            .allMatch(fee -> fee.getPaid());
+    }
 }
