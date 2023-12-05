@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.membership.test.calendar.util.model;
 
+import java.time.YearMonth;
+
 import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 
@@ -21,6 +23,26 @@ public final class MemberFeeCalendars {
             .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
             .year(MemberCalendars.YEAR)
             .active(true)
+            .build();
+    }
+
+    public static final MemberFeeCalendar currentActive() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(YearMonth.now()
+                .getYear())
+            .active(true)
+            .build();
+    }
+
+    public static final MemberFeeCalendar currentInactive() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(YearMonth.now()
+                .getYear())
+            .active(false)
             .build();
     }
 

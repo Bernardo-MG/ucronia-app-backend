@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 
-public final class UserFeeCalendarAssertions {
+public final class MemberFeeCalendarAssertions {
 
     public static final void assertFullYear(final MemberFeeCalendar result) {
         final Iterator<FeeMonth> months;

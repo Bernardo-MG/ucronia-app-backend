@@ -170,11 +170,13 @@ class ITMemberServiceGetAllFilterDefault {
     }
 
     @Test
-    @DisplayName("With a member with a not paid fee for the next month it returns nothing")
+    @DisplayName("With a member with a not paid fee for the next month it returns the member")
     void testGetAll_NextMonth_NotPaid() {
         final Iterable<Member> members;
+        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
+        Member                 member;
 
         feeInitializer.registerFeeNextMonth(false);
 
@@ -186,15 +188,22 @@ class ITMemberServiceGetAllFilterDefault {
 
         Assertions.assertThat(members)
             .as("members")
-            .isEmpty();
+            .hasSize(1);
+
+        membersItr = members.iterator();
+
+        member = membersItr.next();
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test
-    @DisplayName("With a member with a paid fee for the next month it returns nothing")
+    @DisplayName("With a member with a paid fee for the next month it returns the member")
     void testGetAll_NextMonth_Paid() {
         final Iterable<Member> members;
+        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
+        Member                 member;
 
         feeInitializer.registerFeeNextMonth(true);
 
@@ -206,7 +215,12 @@ class ITMemberServiceGetAllFilterDefault {
 
         Assertions.assertThat(members)
             .as("members")
-            .isEmpty();
+            .hasSize(1);
+
+        membersItr = members.iterator();
+
+        member = membersItr.next();
+        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
     }
 
     @Test

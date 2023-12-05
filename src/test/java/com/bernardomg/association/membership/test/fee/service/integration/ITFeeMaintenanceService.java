@@ -125,7 +125,7 @@ public class ITFeeMaintenanceService {
 
         fees = feeRepository.findAll();
         Assertions.assertThat(fees)
-            .allMatch(fee -> fee.getPaid());
+            .allMatch(fee -> !fee.getPaid());
     }
 
     @Test

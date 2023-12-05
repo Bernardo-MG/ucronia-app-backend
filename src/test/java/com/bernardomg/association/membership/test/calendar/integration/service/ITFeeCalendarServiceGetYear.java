@@ -36,13 +36,11 @@ import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
-import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearAlternative;
-import com.bernardomg.association.membership.test.fee.configuration.FirstMonth;
-import com.bernardomg.association.membership.test.fee.configuration.FirstMonthNotPaid;
 import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsConnected;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
@@ -95,9 +93,9 @@ class ITFeeCalendarServiceGetYear {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -145,15 +143,15 @@ class ITFeeCalendarServiceGetYear {
 
         // First member
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
 
         // Second member
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -186,111 +184,9 @@ class ITFeeCalendarServiceGetYear {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.noSurname());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.noSurname());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With a single month it returns all the entities")
-    @ValidMember
-    @FirstMonth
-    void testGetYear_SingleMonth_Count() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
-
-        Assertions.assertThat(calendars)
-            .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
-            .hasSize(1);
-    }
-
-    @Test
-    @DisplayName("With a single month it returns all data")
-    @ValidMember
-    @FirstMonth
-    void testGetYear_SingleMonth_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-        final Iterator<FeeMonth>          months;
-        final Sort                        sort;
-        final FeeMonth                    month;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
-
-        months = calendar.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getPaid())
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With a single not paid month it returns all the entities")
-    @ValidMember
-    @FirstMonthNotPaid
-    void testGetYear_SingleMonth_NotPaid_Count() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
-
-        Assertions.assertThat(calendars)
-            .hasSize(1);
-        Assertions.assertThat(calendars.iterator()
-            .next()
-            .getMonths())
-            .hasSize(1);
-    }
-
-    @Test
-    @DisplayName("With a single not paid month it returns all data")
-    @ValidMember
-    @FirstMonthNotPaid
-    void testGetYear_SingleMonth_NotPaid_Data() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-        final Iterator<FeeMonth>          months;
-        final Sort                        sort;
-        final FeeMonth                    month;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
-
-        months = calendar.getMonths()
-            .iterator();
-
-        month = months.next();
-        Assertions.assertThat(month.getFeeId())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getMonth())
-            .isEqualTo(1);
-        Assertions.assertThat(month.getPaid())
-            .isFalse();
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -404,7 +300,7 @@ class ITFeeCalendarServiceGetYear {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
         months = calendar.getMonths()
             .iterator();

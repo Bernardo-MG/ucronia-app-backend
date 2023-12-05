@@ -38,7 +38,7 @@ import org.springframework.data.domain.Sort.Order;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
-import com.bernardomg.association.membership.test.calendar.util.assertion.UserFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
@@ -73,9 +73,9 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -91,9 +91,9 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -128,14 +128,14 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
     @Test
@@ -155,14 +155,14 @@ class ITFeeCalendarServiceGetYearSort {
             .iterator();
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        UserFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
-        UserFeeCalendarAssertions.assertFullYear(calendar);
+        MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
 
 }
