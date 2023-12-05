@@ -21,7 +21,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Membership balance service - get balance")
 @ValidMember
-@AlternativeMember
 class ITMembershipBalanceService {
 
     @Autowired
@@ -199,6 +198,8 @@ class ITMembershipBalanceService {
 
     @Test
     @DisplayName("With fees for two members this month it returns balance for both this month")
+    @ValidMember
+    @AlternativeMember
     void testGetBalance_TwoMembers() {
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
@@ -206,7 +207,7 @@ class ITMembershipBalanceService {
         final MonthlyMemberBalance                     balance;
 
         feeInitializer.registerFeeCurrentMonth(true);
-        feeInitializer.registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonthAlternative(true);
 
         query = MemberBalanceQueryRequest.builder()
             .build();

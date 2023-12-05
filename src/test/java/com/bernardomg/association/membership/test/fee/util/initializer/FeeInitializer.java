@@ -39,6 +39,19 @@ public final class FeeInitializer {
         feeRepository.flush();
     }
 
+    public final void registerFeeCurrentMonthAlternative(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .memberId(2L)
+            .date(CURRENT_MONTH)
+            .build();
+
+        feeRepository.save(fee);
+        feeRepository.flush();
+    }
+
     public final void registerFeeNextMonth(final Boolean paid) {
         final FeeEntity fee;
 
