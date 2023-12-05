@@ -50,6 +50,7 @@ databaseChangeLog:
                   name: member_id
                   type: bigint
                   constraints:
+                    nullable: false
                     foreignKeyName: fk_fees_member
                     references: members(id)
               - column:
