@@ -44,11 +44,9 @@ import com.bernardomg.association.membership.test.fee.configuration.MultipleFees
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - get all - pagination")
 @MultipleMembers
 @MultipleFees

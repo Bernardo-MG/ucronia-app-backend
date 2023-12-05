@@ -13,11 +13,9 @@ import com.bernardomg.association.configuration.service.AssociationConfiguration
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Association configuration service")
 public class AssociationConfigurationServiceIT {
 

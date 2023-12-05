@@ -39,11 +39,9 @@ import com.bernardomg.association.funds.test.transaction.configuration.FullNotCo
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameDay;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Funds calendar service - get range")
 class ITFundsCalendarServiceGetRange {
 
@@ -63,6 +61,7 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(24)
             .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
                 YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
@@ -85,6 +84,7 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(12)
             .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
                 YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
@@ -102,6 +102,7 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
     }
@@ -115,6 +116,7 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
     }
@@ -127,6 +129,7 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .isEmpty();
     }
 
@@ -139,6 +142,7 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(24)
             .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
                 YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),

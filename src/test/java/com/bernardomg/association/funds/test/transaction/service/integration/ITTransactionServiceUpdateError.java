@@ -34,11 +34,9 @@ import com.bernardomg.association.funds.test.transaction.util.model.Transactions
 import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - update errors")
 class ITTransactionServiceUpdateError {
 

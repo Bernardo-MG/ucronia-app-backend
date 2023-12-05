@@ -40,7 +40,7 @@ import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.test.balance.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.balance.util.assertion.BalanceAssertions;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -67,6 +67,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
@@ -88,6 +89,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();
@@ -196,6 +198,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();
@@ -304,6 +307,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balancesItr = balances.iterator();
@@ -335,6 +339,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(2);
 
         balancesItr = balances.iterator();
@@ -371,6 +376,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
@@ -390,6 +396,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
@@ -411,6 +418,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();

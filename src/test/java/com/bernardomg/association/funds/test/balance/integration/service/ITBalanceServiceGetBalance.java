@@ -40,14 +40,12 @@ import com.bernardomg.association.funds.transaction.persistence.model.Persistent
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 /**
  * TODO: Test with transactions for the previous month, the results should be 0
  */
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Balance service - get balance")
 class ITBalanceServiceGetBalance {
 

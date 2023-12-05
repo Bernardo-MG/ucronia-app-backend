@@ -39,11 +39,9 @@ import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeC
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee calendar service - get year - filter by active status")
 class ITFeeCalendarServiceGetYearActive {
 

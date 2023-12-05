@@ -45,11 +45,9 @@ import com.bernardomg.association.funds.transaction.persistence.repository.Trans
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get one")
 class ITTransactionServiceGetOne {
 
@@ -92,7 +90,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
-        repository.save(PersistentTransactions.transaction(amount));
+        repository.save(PersistentTransactions.forValue(amount));
 
         transactionOptional = service.getOne(1L);
 
@@ -116,7 +114,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
         final Transaction           transaction;
 
-        repository.save(PersistentTransactions.transaction(amount));
+        repository.save(PersistentTransactions.forValue(amount));
 
         transactionOptional = service.getOne(1L);
 

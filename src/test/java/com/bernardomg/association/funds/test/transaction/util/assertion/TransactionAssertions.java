@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.funds.test.transaction.util.assertion;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -9,25 +9,37 @@ import com.bernardomg.association.funds.transaction.persistence.model.Persistent
 public final class TransactionAssertions {
 
     public static final void isEqualTo(final PersistentTransaction received, final PersistentTransaction expected) {
-        Assertions.assertThat(received.getId())
-            .isNotNull();
-        Assertions.assertThat(received.getDescription())
-            .isEqualTo(expected.getDescription());
-        Assertions.assertThat(received.getDate())
-            .isEqualTo(expected.getDate());
-        Assertions.assertThat(received.getAmount())
-            .isEqualTo(expected.getAmount());
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(received.getId())
+                .as("id")
+                .isNotNull();
+            softly.assertThat(received.getDescription())
+                .as("description")
+                .isEqualTo(expected.getDescription());
+            softly.assertThat(received.getDate())
+                .as("date")
+                .isEqualTo(expected.getDate());
+            softly.assertThat(received.getAmount())
+                .as("amount")
+                .isEqualTo(expected.getAmount());
+        });
     }
 
     public static final void isEqualTo(final Transaction received, final Transaction expected) {
-        Assertions.assertThat(received.getId())
-            .isNotNull();
-        Assertions.assertThat(received.getDescription())
-            .isEqualTo(expected.getDescription());
-        Assertions.assertThat(received.getDate())
-            .isEqualTo(expected.getDate());
-        Assertions.assertThat(received.getAmount())
-            .isEqualTo(expected.getAmount());
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(received.getId())
+                .as("id")
+                .isNotNull();
+            softly.assertThat(received.getDescription())
+                .as("description")
+                .isEqualTo(expected.getDescription());
+            softly.assertThat(received.getDate())
+                .as("date")
+                .isEqualTo(expected.getDate());
+            softly.assertThat(received.getAmount())
+                .as("amount")
+                .isEqualTo(expected.getAmount());
+        });
     }
 
 }

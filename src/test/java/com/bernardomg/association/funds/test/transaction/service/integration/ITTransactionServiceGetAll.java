@@ -47,11 +47,9 @@ import com.bernardomg.association.funds.transaction.model.request.TransactionQue
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all")
 class ITTransactionServiceGetAll {
 
@@ -74,7 +72,7 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
         Transaction                 transaction;
 
-        repository.save(PersistentTransactions.transaction(amount));
+        repository.save(PersistentTransactions.forValue(amount));
 
         pageable = Pageable.unpaged();
 
@@ -100,7 +98,7 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
         Transaction                 transaction;
 
-        repository.save(PersistentTransactions.transaction(amount));
+        repository.save(PersistentTransactions.forValue(amount));
 
         pageable = Pageable.unpaged();
 

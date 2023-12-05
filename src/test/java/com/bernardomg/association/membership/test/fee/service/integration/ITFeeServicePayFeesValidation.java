@@ -35,12 +35,10 @@ import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - pay fees - validation")
 @ValidMember
 class ITFeeServicePayFeesValidation {

@@ -38,11 +38,9 @@ import com.bernardomg.association.membership.test.member.util.assertion.MemberAs
 import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersCreate;
 import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - create")
 class ITMemberServiceCreate {
 

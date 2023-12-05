@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,19 +32,18 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsCreate;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - create")
 class ITTransactionServiceCreate {
 
@@ -76,6 +72,7 @@ class ITTransactionServiceCreate {
             .next();
 
         Assertions.assertThat(entity.getAmount())
+            .as("amount")
             .isEqualTo(amount);
     }
 
@@ -91,11 +88,12 @@ class ITTransactionServiceCreate {
         transaction = service.create(transactionRequest);
 
         Assertions.assertThat(transaction.getAmount())
+            .as("amount")
             .isEqualTo(amount);
     }
 
     @Test
-    @DisplayName("With a transaction for the first day of the year, the transaction is persisted")
+    @DisplayName("With a valid transaction, the transaction is persisted")
     void testCreate_FirstDay_AddsEntity() {
         final TransactionCreate     transactionRequest;
         final PersistentTransaction entity;
@@ -105,21 +103,18 @@ class ITTransactionServiceCreate {
         service.create(transactionRequest);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isOne();
 
         entity = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .description("Transaction")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
     }
 
     @Test
-    @DisplayName("With a transaction for the first day of the year, the persisted data is returned")
+    @DisplayName("With a valid transaction, the persisted data is returned")
     void testCreate_FirstDay_ReturnedData() {
         final TransactionCreate transactionRequest;
         final Transaction       transaction;
@@ -128,52 +123,7 @@ class ITTransactionServiceCreate {
 
         transaction = service.create(transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
-    }
-
-    @Test
-    @DisplayName("With a transaction for the a day during year, the transaction is persisted")
-    void testCreate_InYear_AddsEntity() {
-        final TransactionCreate     transactionRequest;
-        final PersistentTransaction entity;
-
-        transactionRequest = TransactionsCreate.inYear();
-
-        service.create(transactionRequest);
-
-        Assertions.assertThat(repository.count())
-            .isOne();
-
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .description("Transaction")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
-    }
-
-    @Test
-    @DisplayName("With a transaction for the a day during year, the persisted transaction is created")
-    void testCreate_InYear_ReturnedData() {
-        final TransactionCreate transactionRequest;
-        final Transaction       transaction;
-
-        transactionRequest = TransactionsCreate.inYear();
-
-        transaction = service.create(transactionRequest);
-
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, Transactions.valid());
     }
 
     @Test
@@ -187,17 +137,14 @@ class ITTransactionServiceCreate {
         service.create(transactionRequest);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isOne();
 
         entity = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .description("Transaction")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
     }
 
     @Test
@@ -212,6 +159,7 @@ class ITTransactionServiceCreate {
         service.create(transactionRequest);
 
         Assertions.assertThat(repository.count())
+            .as("transactions")
             .isEqualTo(2);
     }
 

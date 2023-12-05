@@ -39,11 +39,9 @@ import com.bernardomg.association.membership.test.member.configuration.ValidMemb
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - update errors")
 @ValidMember
 class ITMemberServiceUpdate {

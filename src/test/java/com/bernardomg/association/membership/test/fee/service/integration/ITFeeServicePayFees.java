@@ -48,11 +48,9 @@ import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertio
 import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - pay fees")
 class ITFeeServicePayFees {
 

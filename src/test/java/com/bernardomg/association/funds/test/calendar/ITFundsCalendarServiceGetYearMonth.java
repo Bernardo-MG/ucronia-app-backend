@@ -29,6 +29,7 @@ import java.time.Month;
 import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Funds calendar service - get year month")
 class ITFundsCalendarServiceGetYearMonth {
 
@@ -55,50 +54,55 @@ class ITFundsCalendarServiceGetYearMonth {
     @DisplayName("Only the data for the month is returned")
     @FullTransactionYear
     void testGetRange_FullYear() {
-        final YearMonth                             date;
-        final Iterable<? extends CalendarFundsDate> data;
-        final CalendarFundsDate                     transaction;
+        final YearMonth                             month;
+        final Iterable<? extends CalendarFundsDate> dates;
+        final CalendarFundsDate                     calendarDate;
 
-        date = YearMonth.of(2020, Month.FEBRUARY);
-        data = service.getYearMonth(date);
+        month = YearMonth.of(2020, Month.FEBRUARY);
+        dates = service.getYearMonth(month);
 
-        Assertions.assertThat(data)
+        Assertions.assertThat(dates)
+            .as("dates")
             .hasSize(1);
 
-        transaction = data.iterator()
+        calendarDate = dates.iterator()
             .next();
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.FEBRUARY, 1));
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(calendarDate.getDate())
+                .isEqualTo(LocalDate.of(2020, Month.FEBRUARY, 1));
+            softly.assertThat(calendarDate.getDescription())
+                .isEqualTo("Transaction 2");
+            softly.assertThat(calendarDate.getAmount())
+                .isEqualTo(1);
+        });
     }
 
     @Test
     @DisplayName("Reading for a not existing month returns nothing")
     @FullTransactionYear
     void testGetRange_FullYear_NotExisting() {
-        final YearMonth                             date;
-        final Iterable<? extends CalendarFundsDate> data;
+        final YearMonth                             month;
+        final Iterable<? extends CalendarFundsDate> dates;
 
-        date = YearMonth.of(2019, Month.DECEMBER);
-        data = service.getYearMonth(date);
+        month = YearMonth.of(2019, Month.DECEMBER);
+        dates = service.getYearMonth(month);
 
-        Assertions.assertThat(data)
+        Assertions.assertThat(dates)
+            .as("dates")
             .hasSize(0);
     }
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testGetRange_NoData() {
-        final YearMonth                             date;
-        final Iterable<? extends CalendarFundsDate> data;
+        final YearMonth                             month;
+        final Iterable<? extends CalendarFundsDate> dates;
 
-        date = YearMonth.of(2020, Month.FEBRUARY);
-        data = service.getYearMonth(date);
+        month = YearMonth.of(2020, Month.FEBRUARY);
+        dates = service.getYearMonth(month);
 
-        Assertions.assertThat(data)
+        Assertions.assertThat(dates)
+            .as("dates")
             .isEmpty();
     }
 
