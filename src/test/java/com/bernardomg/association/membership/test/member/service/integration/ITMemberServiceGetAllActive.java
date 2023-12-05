@@ -179,7 +179,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -198,7 +198,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -217,7 +217,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -236,7 +236,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -255,7 +255,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -510,7 +510,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -529,7 +529,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -550,7 +550,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -571,7 +571,7 @@ class ITMemberServiceGetAllActive {
         members = service.getAll(memberQuery, pageable);
 
         Assertions.assertThat(members)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test

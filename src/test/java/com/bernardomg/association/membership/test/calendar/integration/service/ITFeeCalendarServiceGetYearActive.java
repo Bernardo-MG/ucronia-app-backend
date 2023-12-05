@@ -178,7 +178,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -196,7 +196,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -214,7 +214,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -232,7 +232,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -250,7 +250,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -268,7 +268,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -288,7 +288,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
@@ -308,7 +308,7 @@ class ITFeeCalendarServiceGetYearActive {
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test

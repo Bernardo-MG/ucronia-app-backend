@@ -14,6 +14,9 @@ public final class FeeInitializer {
 
     public static final YearMonth CURRENT_MONTH   = YearMonth.now();
 
+    public static final YearMonth NEXT_MONTH      = YearMonth.now()
+        .plusMonths(1);
+
     public static final YearMonth PREVIOUS_MONTH  = YearMonth.now()
         .minusMonths(1);
 
@@ -26,37 +29,49 @@ public final class FeeInitializer {
     public final void registerFeeCurrentMonth(final Boolean paid) {
         final FeeEntity fee;
 
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(CURRENT_MONTH);
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .date(CURRENT_MONTH)
+            .build();
 
         feeRepository.save(fee);
+        feeRepository.flush();
+    }
+
+    public final void registerFeeNextMonth(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .date(NEXT_MONTH)
+            .build();
+
+        feeRepository.save(fee);
+        feeRepository.flush();
     }
 
     public final void registerFeePreviousMonth(final Boolean paid) {
         final FeeEntity fee;
 
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(PREVIOUS_MONTH);
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .date(PREVIOUS_MONTH)
+            .build();
 
         feeRepository.save(fee);
+        feeRepository.flush();
     }
 
     public final void registerFeeTwoMonthsBack(final Boolean paid) {
         final FeeEntity fee;
 
-        fee = new FeeEntity();
-        fee.setMemberId(1l);
-        fee.setPaid(paid);
-
-        fee.setDate(TWO_MONTHS_BACK);
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .date(TWO_MONTHS_BACK)
+            .build();
 
         feeRepository.save(fee);
+        feeRepository.flush();
     }
 
 }

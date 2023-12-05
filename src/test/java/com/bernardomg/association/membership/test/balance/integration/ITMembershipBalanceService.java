@@ -1,26 +1,19 @@
 
 package com.bernardomg.association.membership.test.balance.integration;
 
-import java.time.Month;
-import java.time.YearMonth;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.funds.test.configuration.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.test.balance.util.assertion.MonthlyMemberBalanceAssertions;
 import com.bernardomg.association.membership.test.balance.util.model.MonthlyMemberBalances;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -32,48 +25,20 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMembershipBalanceService {
 
     @Autowired
-    private FeeRepository            feeRepository;
+    private FeeInitializer           feeInitializer;
 
     @Autowired
     private MembershipBalanceService service;
 
-    private final void persist(final Integer year, final Month month, final boolean paid) {
-        final FeeEntity entity;
-
-        entity = FeeEntity.builder()
-            .date(YearMonth.of(year, month))
-            .memberId(1l)
-            .paid(paid)
-            .build();
-
-        feeRepository.save(entity);
-        feeRepository.flush();
-    }
-
-    private final void persistAlternative(final Integer year, final Month month) {
-        final FeeEntity entity;
-
-        entity = FeeEntity.builder()
-            .date(YearMonth.of(year, month))
-            .memberId(2l)
-            .paid(true)
-            .build();
-
-        feeRepository.save(entity);
-        feeRepository.flush();
-    }
-
     @Test
     @DisplayName("With a fee for the current month and not paid it returns balance for this month")
     void testGetBalance_CurrentMonth_NotPaid() {
-        final YearMonth                                month;
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
         final MonthlyMemberBalance                     balance;
 
-        month = YearMonth.now();
-        persist(month.getYear(), month.getMonth(), false);
+        feeInitializer.registerFeeCurrentMonth(false);
 
         query = MemberBalanceQueryRequest.builder()
             .build();
@@ -88,47 +53,64 @@ class ITMembershipBalanceService {
 
         balance = balances.iterator()
             .next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(month));
-    }
-
-    @ParameterizedTest(name = "Date: {0}")
-    @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
-    @DisplayName("Returns balance for the current month and adjacents")
-    void testGetBalance_Dates(final YearMonth month) {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
-        final Iterable<? extends MonthlyMemberBalance> balances;
-        final MonthlyMemberBalance                     balance;
-
-        persist(month.getYear(), month.getMonth(), true);
-
-        query = MemberBalanceQueryRequest.builder()
-            .build();
-
-        sort = Sort.unsorted();
-
-        balances = service.getBalance(query, sort);
-
-        Assertions.assertThat(balances)
-            .as("balances")
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(month));
+        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(FeeInitializer.CURRENT_MONTH));
     }
 
     @Test
-    @DisplayName("Returns no balance for the next month")
-    void testGetBalance_NextMonth() {
+    @DisplayName("With a fee for the current month and paid it returns balance for this month")
+    void testGetBalance_CurrentMonth_Paid() {
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
-        final YearMonth                                date;
+        final MonthlyMemberBalance                     balance;
 
-        date = YearMonth.now()
-            .plusMonths(1);
-        persist(date.getYear(), date.getMonth(), true);
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        query = MemberBalanceQueryRequest.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .as("balances")
+            .hasSize(1);
+
+        balance = balances.iterator()
+            .next();
+        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(FeeInitializer.CURRENT_MONTH));
+    }
+
+    @Test
+    @DisplayName("With a fee for the next month and not paid it returns no balance")
+    void testGetBalance_NextMonth_NotPaid() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+
+        feeInitializer.registerFeeNextMonth(false);
+
+        query = MemberBalanceQueryRequest.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .as("balances")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a fee for the next month and paid it returns no balance")
+    void testGetBalance_NextMonth_Paid() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+
+        feeInitializer.registerFeeNextMonth(true);
 
         query = MemberBalanceQueryRequest.builder()
             .build();
@@ -162,17 +144,14 @@ class ITMembershipBalanceService {
     }
 
     @Test
-    @DisplayName("With fees for two members this month it returns balance for both this month")
-    void testGetBalance_TwoMembers() {
-        final YearMonth                                month;
+    @DisplayName("With a fee for the previous month and not paid it returns balance for the previous month")
+    void testGetBalance_PreviousMonth_NotPaid() {
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
         final MonthlyMemberBalance                     balance;
 
-        month = YearMonth.now();
-        persist(month.getYear(), month.getMonth(), true);
-        persistAlternative(month.getYear(), month.getMonth());
+        feeInitializer.registerFeePreviousMonth(false);
 
         query = MemberBalanceQueryRequest.builder()
             .build();
@@ -187,7 +166,63 @@ class ITMembershipBalanceService {
 
         balance = balances.iterator()
             .next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonthAndTotal(month, 2L));
+        MonthlyMemberBalanceAssertions.isEqualTo(balance,
+            MonthlyMemberBalances.forMonth(FeeInitializer.PREVIOUS_MONTH));
+    }
+
+    @Test
+    @DisplayName("With a fee for the previous month and paid it returns balance for the previous month")
+    void testGetBalance_PreviousMonth_Paid() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+        final MonthlyMemberBalance                     balance;
+
+        feeInitializer.registerFeePreviousMonth(true);
+
+        query = MemberBalanceQueryRequest.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .as("balances")
+            .hasSize(1);
+
+        balance = balances.iterator()
+            .next();
+        MonthlyMemberBalanceAssertions.isEqualTo(balance,
+            MonthlyMemberBalances.forMonth(FeeInitializer.PREVIOUS_MONTH));
+    }
+
+    @Test
+    @DisplayName("With fees for two members this month it returns balance for both this month")
+    void testGetBalance_TwoMembers() {
+        final MemberBalanceQuery                       query;
+        final Sort                                     sort;
+        final Iterable<? extends MonthlyMemberBalance> balances;
+        final MonthlyMemberBalance                     balance;
+
+        feeInitializer.registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        query = MemberBalanceQueryRequest.builder()
+            .build();
+
+        sort = Sort.unsorted();
+
+        balances = service.getBalance(query, sort);
+
+        Assertions.assertThat(balances)
+            .as("balances")
+            .hasSize(1);
+
+        balance = balances.iterator()
+            .next();
+        MonthlyMemberBalanceAssertions.isEqualTo(balance,
+            MonthlyMemberBalances.forMonthAndTotal(FeeInitializer.CURRENT_MONTH, 2L));
     }
 
 }

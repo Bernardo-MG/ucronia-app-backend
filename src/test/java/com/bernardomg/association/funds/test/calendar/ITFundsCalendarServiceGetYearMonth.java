@@ -89,7 +89,7 @@ class ITFundsCalendarServiceGetYearMonth {
 
         Assertions.assertThat(dates)
             .as("dates")
-            .hasSize(0);
+            .isEmpty();
     }
 
     @Test
