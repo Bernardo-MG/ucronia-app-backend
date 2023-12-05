@@ -28,16 +28,20 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearAlternative;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
+import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsConnected;
+import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsWithGap;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee calendar service - get range")
 class ITFeeCalendarServiceGetRange {
 
@@ -50,7 +54,8 @@ class ITFeeCalendarServiceGetRange {
 
     @Test
     @DisplayName("With a full year the year range is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/full_year.sql" })
+    @ValidMember
+    @FeeFullYear
     void testGetRange_FullYear() {
         final YearsRange range;
 
@@ -62,8 +67,10 @@ class ITFeeCalendarServiceGetRange {
 
     @Test
     @DisplayName("With a full year and two members the year range is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/member/alternative.sql", "/db/queries/fee/full_year.sql",
-            "/db/queries/fee/full_year_alternative.sql" })
+    @ValidMember
+    @AlternativeMember
+    @FeeFullYear
+    @FeeFullYearAlternative
     void testGetRange_FullYear_TwoMembers() {
         final YearsRange range;
 
@@ -86,7 +93,8 @@ class ITFeeCalendarServiceGetRange {
 
     @Test
     @DisplayName("With a single fee the year range is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/single.sql" })
+    @ValidMember
+    @PaidFee
     void testGetRange_Single() {
         final YearsRange range;
 
@@ -98,7 +106,8 @@ class ITFeeCalendarServiceGetRange {
 
     @Test
     @DisplayName("With two years connected the year range is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_connected.sql" })
+    @ValidMember
+    @TwoFeeYearsConnected
     void testGetRange_TwoConnectedYears() {
         final YearsRange range;
 
@@ -110,7 +119,8 @@ class ITFeeCalendarServiceGetRange {
 
     @Test
     @DisplayName("With two years with a gap the year range is returned")
-    @Sql({ "/db/queries/member/single.sql", "/db/queries/fee/two_years_gap.sql" })
+    @ValidMember
+    @TwoFeeYearsWithGap
     void testGetRange_TwoYearsWithGap() {
         final YearsRange range;
 

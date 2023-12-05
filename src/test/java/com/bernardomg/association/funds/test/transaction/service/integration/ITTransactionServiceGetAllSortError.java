@@ -33,18 +33,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all - errors")
-@Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+@MultipleTransactionsSameMonth
 class ITTransactionServiceGetAllSortError {
 
     @Autowired

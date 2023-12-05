@@ -32,11 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Member service - delete")
 class ITMemberServiceDeleteError {
 

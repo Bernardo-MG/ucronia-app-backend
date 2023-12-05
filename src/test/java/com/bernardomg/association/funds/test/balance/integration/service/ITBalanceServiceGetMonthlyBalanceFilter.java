@@ -34,14 +34,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.test.balance.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.balance.util.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
     @Test
     @DisplayName("Filtering ending before the year returns no month")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_EndBeforeStart() {
         final Collection<? extends MonthlyBalance> balances;
         final BalanceQuery                         query;
@@ -67,12 +67,13 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
     @Test
     @DisplayName("Filtering ending on December returns all the months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_EndDecember() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -88,6 +89,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();
@@ -179,7 +181,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
     @Test
     @DisplayName("Filtering the full year returns all the months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -196,6 +198,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();
@@ -287,7 +290,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
     @Test
     @DisplayName("Filtering by January returns only that month")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_January() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -304,6 +307,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(1);
 
         balancesItr = balances.iterator();
@@ -318,7 +322,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
     @Test
     @DisplayName("Filtering by January and February returns only those months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_JanuaryToFebruary() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -335,6 +339,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(2);
 
         balancesItr = balances.iterator();
@@ -356,7 +361,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
 
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_RangeEndBeforeStart() {
         final Collection<? extends MonthlyBalance> balances;
         final BalanceQuery                         query;
@@ -371,12 +376,13 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
     @Test
     @DisplayName("Filtering beginning after the year returns no month")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_StartAfterEnd() {
         final Collection<? extends MonthlyBalance> balances;
         final BalanceQuery                         query;
@@ -390,12 +396,13 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .isEmpty();
     }
 
     @Test
     @DisplayName("Filtering beginning on January returns all the months")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetMonthlyBalance_StartInJanuary() {
         final Collection<? extends MonthlyBalance> balances;
         final Iterator<? extends MonthlyBalance>   balancesItr;
@@ -411,6 +418,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         balances = service.getMonthlyBalance(query, sort);
 
         Assertions.assertThat(balances)
+            .as("balances")
             .hasSize(12);
 
         balancesItr = balances.iterator();

@@ -29,15 +29,13 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Fee service - get one - errors")
 class ITFeeServiceGetOneError {
 
@@ -50,7 +48,7 @@ class ITFeeServiceGetOneError {
 
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
-    @Sql({ "/db/queries/member/single.sql" })
+    @ValidMember
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 

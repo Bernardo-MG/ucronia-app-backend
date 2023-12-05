@@ -30,19 +30,19 @@ public final class FeesUpdate {
             .build();
     }
 
+    public static final FeeUpdate notPaid() {
+        return FeeUpdateRequest.builder()
+            .memberId(1L)
+            .date(YearMonth.of(2020, Month.FEBRUARY))
+            .paid(false)
+            .build();
+    }
+
     public static final FeeUpdate paid() {
         return FeeUpdateRequest.builder()
             .memberId(1L)
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
-            .build();
-    }
-
-    public static final FeeUpdate unpaid() {
-        return FeeUpdateRequest.builder()
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(false)
             .build();
     }
 

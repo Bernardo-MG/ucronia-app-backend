@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -51,7 +51,7 @@ class ITFeeServiceUpdateValidation {
 
     @Test
     @DisplayName("With an invalid member id, an exception is thrown")
-    @Sql({ "/db/queries/fee/single.sql" })
+    @PaidFee
     @Disabled("This can't happen, it requires an inconsistent DB")
     void testUpdate_InvalidMember() {
         final FeeUpdate        feeRequest;

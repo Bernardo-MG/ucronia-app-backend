@@ -33,17 +33,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all - filter")
 class ITTransactionServiceGetAllFilter {
 
@@ -56,7 +55,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetAll_AfterDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -71,6 +70,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(4);
 
         transactionsItr = transactions.iterator();
@@ -118,7 +118,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetAll_BeforeDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -133,6 +133,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(2);
 
         transactionsItr = transactions.iterator();
@@ -160,7 +161,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetAll_InDate() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -175,6 +176,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(1);
 
         transactionsItr = transactions.iterator();
@@ -192,7 +194,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date for the first day of the year, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetAll_InDate_FirstDay() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -207,6 +209,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(1);
 
         transactionsItr = transactions.iterator();
@@ -224,7 +227,7 @@ class ITTransactionServiceGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date for the last day of the year, the returned data is filtered")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetAll_InDate_LastDay() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -240,6 +243,7 @@ class ITTransactionServiceGetAllFilter {
         transactions = service.getAll(transactionQuery, pageable);
 
         Assertions.assertThat(transactions)
+            .as("transactions")
             .hasSize(1);
 
         transactionsItr = transactions.iterator();

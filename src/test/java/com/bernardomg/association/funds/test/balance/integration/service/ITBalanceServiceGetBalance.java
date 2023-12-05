@@ -32,22 +32,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 /**
  * TODO: Test with transactions for the previous month, the results should be 0
  */
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Balance service - get balance")
 class ITBalanceServiceGetBalance {
 
@@ -224,7 +222,7 @@ class ITBalanceServiceGetBalance {
 
     @Test
     @DisplayName("With a full year it returns the correct data")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetBalance_FullYear() {
         final CurrentBalance balance;
 

@@ -35,10 +35,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
@@ -46,11 +48,9 @@ import com.bernardomg.association.funds.transaction.model.request.TransactionQue
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Transaction service - get all")
 class ITTransactionServiceGetAll {
 
@@ -73,7 +73,7 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
         Transaction                 transaction;
 
-        repository.save(PersistentTransactions.transaction(amount));
+        repository.save(PersistentTransactions.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
@@ -83,11 +83,7 @@ class ITTransactionServiceGetAll {
             .iterator();
 
         transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(amount)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, Transactions.forAmount(amount));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -99,7 +95,7 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
         Transaction                 transaction;
 
-        repository.save(PersistentTransactions.transaction(amount));
+        repository.save(PersistentTransactions.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
@@ -109,16 +105,12 @@ class ITTransactionServiceGetAll {
             .iterator();
 
         transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(amount)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, Transactions.forAmount(amount));
     }
 
     @Test
     @DisplayName("With a full year, it returns all the transactions")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetAll_FullYear_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;
@@ -224,7 +216,7 @@ class ITTransactionServiceGetAll {
 
     @Test
     @DisplayName("With multiple transactions, it returns all the transactions")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetAll_Multiple_Count() {
         final Iterable<Transaction> transactions;
         final Iterator<Transaction> transactionsItr;

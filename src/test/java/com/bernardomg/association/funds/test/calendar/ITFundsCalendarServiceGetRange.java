@@ -31,15 +31,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.association.funds.test.transaction.configuration.FullConsecutiveTransactionYears;
+import com.bernardomg.association.funds.test.transaction.configuration.FullNotConsecutiveTransactionYears;
+import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameDay;
+import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Funds calendar service - get range")
 class ITFundsCalendarServiceGetRange {
 
@@ -52,13 +54,14 @@ class ITFundsCalendarServiceGetRange {
 
     @Test
     @DisplayName("With two full consecutive years, a range for them is returned")
-    @Sql({ "/db/queries/transaction/full_consecutive_years.sql" })
+    @FullConsecutiveTransactionYears
     void testGetRange_ConsecutiveFullYear() {
         final MonthsRange range;
 
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(24)
             .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
                 YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
@@ -74,13 +77,14 @@ class ITFundsCalendarServiceGetRange {
 
     @Test
     @DisplayName("With a full year, a range for the full year is returned")
-    @Sql({ "/db/queries/transaction/full_year.sql" })
+    @FullTransactionYear
     void testGetRange_FullYear() {
         final MonthsRange range;
 
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(12)
             .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
                 YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
@@ -91,26 +95,28 @@ class ITFundsCalendarServiceGetRange {
 
     @Test
     @DisplayName("With multiple transactions the same day, a single month is returned")
-    @Sql({ "/db/queries/transaction/multiple_same_day.sql" })
+    @MultipleTransactionsSameDay
     void testGetRange_MultipleSameDay() {
         final MonthsRange range;
 
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
     }
 
     @Test
     @DisplayName("With multiple transactions the same month, a single month is returned")
-    @Sql({ "/db/queries/transaction/multiple_same_month.sql" })
+    @MultipleTransactionsSameMonth
     void testGetRange_MultipleSameMonth() {
         final MonthsRange range;
 
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
     }
@@ -123,18 +129,20 @@ class ITFundsCalendarServiceGetRange {
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .isEmpty();
     }
 
     @Test
     @DisplayName("With two full not consecutive years, a range for them is returned")
-    @Sql({ "/db/queries/transaction/full_not_consecutive_years.sql" })
+    @FullNotConsecutiveTransactionYears
     void testGetRange_NotConsecutiveFullYear() {
         final MonthsRange range;
 
         range = service.getRange();
 
         Assertions.assertThat(range.getMonths())
+            .as("months")
             .hasSize(24)
             .containsExactly(YearMonth.of(2020, Month.JANUARY), YearMonth.of(2020, Month.FEBRUARY),
                 YearMonth.of(2020, Month.MARCH), YearMonth.of(2020, Month.APRIL), YearMonth.of(2020, Month.MAY),
