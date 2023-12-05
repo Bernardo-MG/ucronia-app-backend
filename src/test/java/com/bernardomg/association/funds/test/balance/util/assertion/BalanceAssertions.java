@@ -24,4 +24,8 @@ public final class BalanceAssertions {
         });
     }
 
+    private BalanceAssertions() {
+        super();
+    }
+
 }

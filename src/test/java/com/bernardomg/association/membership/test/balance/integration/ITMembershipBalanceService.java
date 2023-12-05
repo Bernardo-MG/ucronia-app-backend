@@ -19,6 +19,8 @@ import com.bernardomg.association.membership.balance.model.request.MemberBalance
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.membership.test.balance.util.assertion.MonthlyMemberBalanceAssertions;
+import com.bernardomg.association.membership.test.balance.util.model.MonthlyMemberBalances;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -64,14 +66,14 @@ class ITMembershipBalanceService {
     @Test
     @DisplayName("With a fee for the current month and not paid it returns balance for this month")
     void testGetBalance_CurrentMonth_NotPaid() {
-        final YearMonth                                yearMonth;
+        final YearMonth                                month;
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
         final MonthlyMemberBalance                     balance;
 
-        yearMonth = YearMonth.now();
-        persist(yearMonth.getYear(), yearMonth.getMonth(), false);
+        month = YearMonth.now();
+        persist(month.getYear(), month.getMonth(), false);
 
         query = MemberBalanceQueryRequest.builder()
             .build();
@@ -86,24 +88,19 @@ class ITMembershipBalanceService {
 
         balance = balances.iterator()
             .next();
-        Assertions.assertThat(balance.getMonth())
-            .as("month")
-            .isEqualTo(yearMonth);
-        Assertions.assertThat(balance.getTotal())
-            .as("total")
-            .isEqualTo(1);
+        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(month));
     }
 
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
-    void testGetBalance_Dates(final YearMonth date) {
+    void testGetBalance_Dates(final YearMonth month) {
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
         final MonthlyMemberBalance                     balance;
 
-        persist(date.getYear(), date.getMonth(), true);
+        persist(month.getYear(), month.getMonth(), true);
 
         query = MemberBalanceQueryRequest.builder()
             .build();
@@ -118,12 +115,7 @@ class ITMembershipBalanceService {
 
         balance = balances.iterator()
             .next();
-        Assertions.assertThat(balance.getMonth())
-            .as("month")
-            .isEqualTo(date);
-        Assertions.assertThat(balance.getTotal())
-            .as("total")
-            .isEqualTo(1);
+        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(month));
     }
 
     @Test
@@ -172,15 +164,15 @@ class ITMembershipBalanceService {
     @Test
     @DisplayName("With fees for two members this month it returns balance for both this month")
     void testGetBalance_TwoMembers() {
-        final YearMonth                                yearMonth;
+        final YearMonth                                month;
         final MemberBalanceQuery                       query;
         final Sort                                     sort;
         final Iterable<? extends MonthlyMemberBalance> balances;
         final MonthlyMemberBalance                     balance;
 
-        yearMonth = YearMonth.now();
-        persist(yearMonth.getYear(), yearMonth.getMonth(), true);
-        persistAlternative(yearMonth.getYear(), yearMonth.getMonth());
+        month = YearMonth.now();
+        persist(month.getYear(), month.getMonth(), true);
+        persistAlternative(month.getYear(), month.getMonth());
 
         query = MemberBalanceQueryRequest.builder()
             .build();
@@ -195,12 +187,7 @@ class ITMembershipBalanceService {
 
         balance = balances.iterator()
             .next();
-        Assertions.assertThat(balance.getMonth())
-            .as("month")
-            .isEqualTo(yearMonth);
-        Assertions.assertThat(balance.getTotal())
-            .as("total")
-            .isEqualTo(2);
+        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonthAndTotal(month, 2L));
     }
 
 }

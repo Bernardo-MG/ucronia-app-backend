@@ -52,4 +52,8 @@ public final class TransactionAssertions {
         });
     }
 
+    private TransactionAssertions() {
+        super();
+    }
+
 }

@@ -33,8 +33,6 @@ import lombok.Value;
 @Builder
 public final class ImmutableMonthlyMemberBalance implements MonthlyMemberBalance {
 
-    private Long      difference;
-
     private YearMonth month;
 
     private Long      total;
