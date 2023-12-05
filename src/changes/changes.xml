@@ -16,7 +16,7 @@
             Extracted common code.
          </action>
          <action dev="bmg" type="update">
-            Active member status is calcultated automatically.
+            Active member status is calculated automatically.
          </action>
          <action dev="bmg" type="fix">
             Fixed balance.
