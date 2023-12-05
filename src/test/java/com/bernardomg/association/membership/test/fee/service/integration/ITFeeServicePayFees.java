@@ -68,11 +68,11 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid and the fee exists but is unpaid, it is set to paid")
+    @DisplayName("When a fee is paid and the fee exists but is not paid, it is set to paid")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingUnpaid_PersistedFee() {
+    void testCreate_ExistingNotPaid_PersistedFee() {
         final FeesPayment feeRequest;
         final FeeEntity   entity;
 
@@ -95,11 +95,11 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid and the fee exists but is unpaid, a single transaction is persisted")
+    @DisplayName("When a fee is paid and the fee exists but is not paid, a single transaction is persisted")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingUnpaid_PersistedTransaction() {
+    void testCreate_ExistingNotPaid_PersistedTransaction() {
         final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
@@ -122,11 +122,11 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid and the fee exists but is unpaid, it returns the created data")
+    @DisplayName("When a fee is paid and the fee exists but is not paid, it returns the created data")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingUnpaid_ReturnedData() {
+    void testCreate_ExistingNotPaid_ReturnedData() {
         final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
 

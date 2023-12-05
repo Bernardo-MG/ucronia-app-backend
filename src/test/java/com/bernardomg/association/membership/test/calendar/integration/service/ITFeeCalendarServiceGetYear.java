@@ -42,7 +42,7 @@ import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeC
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearAlternative;
 import com.bernardomg.association.membership.test.fee.configuration.FirstMonth;
-import com.bernardomg.association.membership.test.fee.configuration.FirstMonthUnpaid;
+import com.bernardomg.association.membership.test.fee.configuration.FirstMonthNotPaid;
 import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsConnected;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
@@ -243,10 +243,10 @@ class ITFeeCalendarServiceGetYear {
     }
 
     @Test
-    @DisplayName("With a single unpaid month it returns all the entities")
+    @DisplayName("With a single not paid month it returns all the entities")
     @ValidMember
-    @FirstMonthUnpaid
-    void testGetYear_SingleMonth_Unpaid_Count() {
+    @FirstMonthNotPaid
+    void testGetYear_SingleMonth_NotPaid_Count() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
@@ -263,10 +263,10 @@ class ITFeeCalendarServiceGetYear {
     }
 
     @Test
-    @DisplayName("With a single unpaid month it returns all data")
+    @DisplayName("With a single not paid month it returns all data")
     @ValidMember
-    @FirstMonthUnpaid
-    void testGetYear_SingleMonth_Unpaid_Data() {
+    @FirstMonthNotPaid
+    void testGetYear_SingleMonth_NotPaid_Data() {
         final Iterator<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
         final Iterator<FeeMonth>          months;

@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/fee/first_month_unpaid.sql")
+@Sql("/db/queries/fee/first_month_not paid.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface FirstMonthUnpaid {
+public @interface FirstMonthNotPaid {
 
 }

@@ -66,7 +66,7 @@ class ITFeeServiceUpdate {
     void testUpdate_AddsNoEntity() {
         final FeeUpdate feeRequest;
 
-        feeRequest = FeesUpdate.unpaid();
+        feeRequest = FeesUpdate.notPaid();
 
         service.update(1L, feeRequest);
 
@@ -104,7 +104,7 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
         final FeeEntity fee;
 
-        feeRequest = FeesUpdate.unpaid();
+        feeRequest = FeesUpdate.notPaid();
 
         service.update(1L, feeRequest);
         fee = repository.findAll()
@@ -126,7 +126,7 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
         final MemberFee fee;
 
-        feeRequest = FeesUpdate.unpaid();
+        feeRequest = FeesUpdate.notPaid();
 
         fee = service.update(1L, feeRequest);
 
