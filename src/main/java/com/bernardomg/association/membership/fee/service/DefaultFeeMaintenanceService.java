@@ -58,8 +58,10 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         final YearMonth validStart;
         final YearMonth validEnd;
 
-        validStart = YearMonth.now().minusMonths(1);
-        validEnd = YearMonth.now().minusMonths(1);
+        validStart = YearMonth.now()
+            .minusMonths(1);
+        validEnd = YearMonth.now()
+            .minusMonths(1);
         return memberRepository.isActive(fee.getMemberId(), validStart, validEnd);
     }
 

@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.membership.cache.MembershipCaches;
+import com.bernardomg.association.membership.fee.cache.FeeCaches;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQueryRequest;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdateRequest;
@@ -79,35 +80,42 @@ public class FeeController {
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
-            MembershipCaches.FEES, MembershipCaches.FEE, MembershipCaches.MONTHLY_BALANCE, MembershipCaches.CALENDAR,
-            MembershipCaches.CALENDAR_RANGE,
+            FeeCaches.FEES, FeeCaches.FEE, MembershipCaches.MONTHLY_BALANCE,
             // Funds caches
             FundsCaches.TRANSACTIONS, FundsCaches.TRANSACTION, FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE,
-            FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE }, allEntries = true) })
+            FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+            // Member caches
+            MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
+            MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
     public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
         return service.payFees(fee);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
-                    MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true),
-            @CacheEvict(cacheNames = MembershipCaches.FEE, key = "#id") })
+    @Caching(evict = { @CacheEvict(cacheNames = {
+            // Fee caches
+            FeeCaches.FEES,
+            // Funds caches
+            MembershipCaches.MONTHLY_BALANCE,
+            // Member caches
+            MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
+            MembershipCaches.CALENDAR_RANGE }, allEntries = true),
+            @CacheEvict(cacheNames = FeeCaches.FEE, key = "#id") })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = MembershipCaches.FEES)
+    @Cacheable(cacheNames = FeeCaches.FEES)
     public Iterable<MemberFee> readAll(@Valid final FeeQueryRequest query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = MembershipCaches.FEE, key = "#id")
+    @Cacheable(cacheNames = FeeCaches.FEE, key = "#id")
     public MemberFee readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
@@ -115,12 +123,12 @@ public class FeeController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembershipCaches.FEE, key = "#result.id") },
-            evict = {
-                    @CacheEvict(
-                            cacheNames = { MembershipCaches.FEES, MembershipCaches.CALENDAR,
-                                    MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE },
-                            allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.id") }, evict = { @CacheEvict(cacheNames = {
+            // Fee caches
+            FeeCaches.FEES,
+            // Member caches
+            MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
+            MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true) })
     public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final FeeUpdateRequest fee) {
         return service.update(id, fee);
     }
