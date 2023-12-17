@@ -21,6 +21,3 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
-  # Security
-  - include:
-      file: classpath:db/changelog/auth/initialize.yaml
