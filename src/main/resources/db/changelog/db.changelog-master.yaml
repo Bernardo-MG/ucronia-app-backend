@@ -1,8 +1,5 @@
 databaseChangeLog:
   - include:
-      file: structure/sequence.yaml
-      relativeToChangelogFile: true
-  - include:
       file: structure/configuration.yaml
       relativeToChangelogFile: true
   - include:
@@ -11,26 +8,6 @@ databaseChangeLog:
   - include:
       file: structure/membership.yaml
       relativeToChangelogFile: true
-  - changeSet:
-      id: app_initial_sequences
-      author: Bernardo
-      changes:
-        - sqlFile:
-            encoding: UTF-8
-            path: data/configuration/sequences.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: association_initial_sequences
-      author: Bernardo
-      changes:
-        - sqlFile:
-            encoding: UTF-8
-            path: data/association/sequences.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
   # Security
   - include:
       file: classpath:db/changelog/auth/initialize.yaml

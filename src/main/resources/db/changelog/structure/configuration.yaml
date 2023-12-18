@@ -9,7 +9,6 @@ databaseChangeLog:
               - column:
                   name: id
                   type: bigint
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -25,6 +24,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: ''
+        - addAutoIncrement:
+            tableName: configurations
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
       modifySql:
         - append:
             dbms: mysql
