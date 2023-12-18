@@ -100,7 +100,7 @@ public class TransactionController {
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#id"),
+            @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#p0"),
             @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
@@ -135,7 +135,7 @@ public class TransactionController {
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#id")
+    @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#p0")
     public Transaction readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
