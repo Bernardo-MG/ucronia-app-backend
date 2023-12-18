@@ -101,7 +101,7 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true),
-            @CacheEvict(cacheNames = FeeCaches.FEE, key = "#id") })
+            @CacheEvict(cacheNames = FeeCaches.FEE, key = "#p0") })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
@@ -115,7 +115,7 @@ public class FeeController {
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEE, key = "#id")
+    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
     public MemberFee readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
