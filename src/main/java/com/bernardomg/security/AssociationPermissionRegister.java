@@ -27,8 +27,8 @@ package com.bernardomg.security;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.loader.PermissionRegister;
-import com.bernardomg.security.loader.ResourcePermissionPair;
+import com.bernardomg.security.authorization.permission.loader.PermissionRegister;
+import com.bernardomg.security.authorization.permission.loader.ResourcePermissionPair;
 
 /**
  * Default permission register. Contains all the initial permission configuration.

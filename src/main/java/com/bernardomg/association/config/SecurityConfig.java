@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.AssociationPermissionRegister;
-import com.bernardomg.security.loader.PermissionRegister;
+import com.bernardomg.security.authorization.permission.loader.PermissionRegister;
 
 /**
  * Audit configuration.
