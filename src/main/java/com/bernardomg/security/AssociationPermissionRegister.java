@@ -42,37 +42,24 @@ public final class AssociationPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(   ResourcePermissionPair.of("MEMBER", "CREATE"),
-            ResourcePermissionPair.of("MEMBER", "READ"),
-            ResourcePermissionPair.of("MEMBER", "UPDATE"),
-            ResourcePermissionPair.of("MEMBER", "DELETE"),
-            ResourcePermissionPair.of("FEE", "CREATE"),
-            ResourcePermissionPair.of("FEE", "READ"),
-            ResourcePermissionPair.of("FEE", "UPDATE"),
-            ResourcePermissionPair.of("FEE", "DELETE"),
-            ResourcePermissionPair.of("TRANSACTION", "CREATE"),
-            ResourcePermissionPair.of("TRANSACTION", "READ"),
-            ResourcePermissionPair.of("TRANSACTION", "UPDATE"),
-            ResourcePermissionPair.of("TRANSACTION", "DELETE"),
+        return List.of(ResourcePermissionPair.of("MEMBER", "CREATE"), ResourcePermissionPair.of("MEMBER", "READ"),
+            ResourcePermissionPair.of("MEMBER", "UPDATE"), ResourcePermissionPair.of("MEMBER", "DELETE"),
+            ResourcePermissionPair.of("FEE", "CREATE"), ResourcePermissionPair.of("FEE", "READ"),
+            ResourcePermissionPair.of("FEE", "UPDATE"), ResourcePermissionPair.of("FEE", "DELETE"),
+            ResourcePermissionPair.of("TRANSACTION", "CREATE"), ResourcePermissionPair.of("TRANSACTION", "READ"),
+            ResourcePermissionPair.of("TRANSACTION", "UPDATE"), ResourcePermissionPair.of("TRANSACTION", "DELETE"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "CREATE"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "READ"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "UPDATE"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "DELETE"),
-            ResourcePermissionPair.of("BALANCE", "READ"),
-            ResourcePermissionPair.of("FUNDS", "VIEW"),
+            ResourcePermissionPair.of("BALANCE", "READ"), ResourcePermissionPair.of("FUNDS", "VIEW"),
             ResourcePermissionPair.of("MEMBERSHIP", "VIEW"),
             ResourcePermissionPair.of("ASSOCIATION_CONFIGURATION", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of(   "MEMBER",
-            "FEE",
-            "TRANSACTION",
-            "BALANCE",
-            "ASSOCIATION_CONFIGURATION",
-            "FUNDS",
-            "MEMBERSHIP");
+        return List.of("MEMBER", "FEE", "TRANSACTION", "BALANCE", "ASSOCIATION_CONFIGURATION", "FUNDS", "MEMBERSHIP");
     }
 
 }
