@@ -1,2 +1,2 @@
-INSERT INTO configurations (id, property, data) VALUES
-   (1, 'fee.amount', '1');
+INSERT INTO configurations (property, data) VALUES
+   ('fee.amount', '1');
