@@ -16,10 +16,18 @@
             Extracted common code.
          </action>
          <action dev="bmg" type="update">
-            Active member status is calcultated automatically.
+            Active member status is calculated automatically.
          </action>
          <action dev="bmg" type="fix">
             Fixed balance.
+         </action>
+      </release>
+      <release version="0.2.1" date="2023-12-05" description="Updated security library">
+         <action dev="bmg" type="update">
+            Updated security library.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed fees cache.
          </action>
       </release>
    </body>

@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +14,6 @@ import lombok.NoArgsConstructor;
 
 @Entity(name = "Configuration")
 @Table(name = "configurations")
-@TableGenerator(name = "seq_configurations_id", table = "sequences", pkColumnName = "sequence",
-        valueColumnName = "count", allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class PersistentConfiguration {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_configurations_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long   id;
 

@@ -1,2 +1,2 @@
-INSERT INTO configurations (id, property, data) VALUES
-   (1, 'key', '10');
+INSERT INTO configurations (property, data) VALUES
+   ('key', '10');

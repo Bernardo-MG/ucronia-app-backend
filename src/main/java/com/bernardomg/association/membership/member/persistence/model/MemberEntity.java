@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +17,6 @@ import lombok.NoArgsConstructor;
 
 @Entity(name = "Member")
 @Table(name = "members")
-@TableGenerator(name = "seq_members_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +30,7 @@ public class MemberEntity implements Serializable {
     private static final long serialVersionUID = 1328776989450853491L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_members_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
