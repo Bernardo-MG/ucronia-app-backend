@@ -22,7 +22,13 @@
             Fixed balance.
          </action>
       </release>
-      <release version="1.0.0" date="2023-12-05" description="">
+      <release version="0.2.1" date="2023-12-05" description="Updated security library">
+         <action dev="bmg" type="update">
+            Updated security library.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed fees cache.
+         </action>
       </release>
    </body>
 </document>
