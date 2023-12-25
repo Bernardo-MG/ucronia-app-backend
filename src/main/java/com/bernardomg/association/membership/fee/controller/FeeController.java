@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.membership.fee.controller;
 
+import java.time.YearMonth;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -91,7 +92,7 @@ public class FeeController {
         return service.payFees(fee);
     }
 
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
@@ -102,8 +103,8 @@ public class FeeController {
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true),
             @CacheEvict(cacheNames = FeeCaches.FEE, key = "#p0") })
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+    public void delete(@PathVariable("date") final YearMonth date, @PathVariable("memberId") final long memberId) {
+        service.delete(memberId, date);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

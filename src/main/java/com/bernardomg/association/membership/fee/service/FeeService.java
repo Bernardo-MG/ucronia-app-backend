@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.membership.fee.service;
 
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -22,10 +23,12 @@ public interface FeeService {
     /**
      * Deletes the fee with the received id.
      *
-     * @param id
-     *            id of the fee to delete
+     * @param memberId
+     *            id of the member for the fee to delete
+     * @param date
+     *            date of the fee to delete
      */
-    public void delete(final long id);
+    public void delete(final Long memberId, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.

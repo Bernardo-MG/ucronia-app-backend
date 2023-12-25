@@ -32,13 +32,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Fee service - delete")
-@ValidMember
-@PaidFee
 class ITFeeServiceDelete {
 
     @Autowired
@@ -53,8 +52,10 @@ class ITFeeServiceDelete {
 
     @Test
     @DisplayName("With a valid id it removes the entity")
+    @ValidMember
+    @PaidFee
     void testDelete_RemovesEntity() {
-        service.delete(1L);
+        service.delete(1L, Fees.DATE);
 
         Assertions.assertThat(repository.count())
             .isZero();

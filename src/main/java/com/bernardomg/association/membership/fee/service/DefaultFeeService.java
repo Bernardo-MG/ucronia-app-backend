@@ -80,15 +80,20 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final void delete(final long id) {
+    public final void delete(final Long memberId, final YearMonth date) {
+        final Optional<FeeEntity> fee;
 
-        log.debug("Deleting fee {}", id);
+        log.debug("Deleting fee for {} in {}", memberId, date);
 
-        if (!feeRepository.existsById(id)) {
-            throw new MissingIdException("fee", id);
+        fee = feeRepository.findOneByMemberIdAndDate(memberId, date);
+
+        if (fee.isEmpty()) {
+            // TODO: use more concrete exception
+            throw new MissingIdException("fee", memberId + " " + date.toString());
         }
 
-        feeRepository.deleteById(id);
+        feeRepository.deleteById(fee.get()
+            .getId());
     }
 
     @Override
