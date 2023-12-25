@@ -40,6 +40,7 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -67,7 +68,7 @@ class ITFeeServiceUpdate {
 
         feeRequest = FeesUpdate.notPaid();
 
-        service.update(1L, feeRequest);
+        service.update(1L, Fees.DATE, feeRequest);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -83,7 +84,7 @@ class ITFeeServiceUpdate {
 
         feeRequest = FeesUpdate.paid();
 
-        service.update(1L, feeRequest);
+        service.update(1L, Fees.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();
@@ -105,7 +106,7 @@ class ITFeeServiceUpdate {
 
         feeRequest = FeesUpdate.notPaid();
 
-        service.update(1L, feeRequest);
+        service.update(1L, Fees.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();
@@ -127,7 +128,7 @@ class ITFeeServiceUpdate {
 
         feeRequest = FeesUpdate.notPaid();
 
-        fee = service.update(1L, feeRequest);
+        fee = service.update(1L, Fees.DATE, feeRequest);
 
         FeeAssertions.isEqualTo(fee, MemberFee.builder()
             .memberId(1L)

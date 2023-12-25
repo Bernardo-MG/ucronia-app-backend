@@ -24,48 +24,39 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
+import java.util.List;
+
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
-import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
-import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@DisplayName("Fee service - update validation")
-class ITFeeServiceUpdateValidation {
+@DisplayName("Fee service - pay fees - errors")
+class ITFeeServicePayFeesError {
 
     @Autowired
     private FeeService service;
 
-    public ITFeeServiceUpdateValidation() {
+    public ITFeeServicePayFeesError() {
         super();
     }
 
     @Test
-    @DisplayName("With an invalid member id, an exception is thrown")
-    @PaidFee
-    @Disabled("This can't happen, it requires an inconsistent DB")
-    void testUpdate_InvalidMember() {
-        final FeeUpdate        feeRequest;
+    @DisplayName("With an invalid member id it throws an exception")
+    void testCreate_InvalidMember() {
         final ThrowingCallable execution;
-        final FieldFailure     failure;
 
-        feeRequest = FeesUpdate.paid();
+        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        execution = () -> service.update(1L, Fees.DATE, feeRequest);
-
-        failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", 1L);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingIdException.class);
     }
 
 }

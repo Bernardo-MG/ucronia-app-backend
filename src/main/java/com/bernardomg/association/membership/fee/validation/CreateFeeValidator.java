@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -14,14 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
 
-    private final FeeRepository    feeRepository;
+    private final FeeRepository feeRepository;
 
-    private final MemberRepository memberRepository;
-
-    public CreateFeeValidator(final MemberRepository memberRepo, final FeeRepository feeRepo) {
+    public CreateFeeValidator(final FeeRepository feeRepo) {
         super();
 
-        memberRepository = memberRepo;
         feeRepository = feeRepo;
     }
 

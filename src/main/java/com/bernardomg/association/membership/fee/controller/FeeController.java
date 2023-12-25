@@ -128,7 +128,7 @@ public class FeeController {
             .orElse(null);
     }
 
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.id") }, evict = { @CacheEvict(cacheNames = {
             // Fee caches
@@ -136,8 +136,9 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true) })
-    public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final FeeUpdateRequest fee) {
-        return service.update(id, fee);
+    public MemberFee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+            @PathVariable("memberId") final long memberId, @Valid @RequestBody final FeeUpdateRequest fee) {
+        return service.update(memberId, date, fee);
     }
 
 }

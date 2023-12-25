@@ -32,13 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - update errors")
+@DisplayName("Fee service - update - errors")
 class ITFeeServiceUpdateError {
 
     @Autowired
@@ -57,7 +58,7 @@ class ITFeeServiceUpdateError {
 
         feeRequest = FeesUpdate.paid();
 
-        execution = () -> service.update(1L, feeRequest);
+        execution = () -> service.update(1L, Fees.DATE, feeRequest);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);

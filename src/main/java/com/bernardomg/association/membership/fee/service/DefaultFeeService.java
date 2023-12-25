@@ -77,7 +77,7 @@ public final class DefaultFeeService implements FeeService {
         configurationSource = confSource;
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
+        validatorPay = new CreateFeeValidator(feeRepository);
         validatorUpdate = new UpdateFeeValidator(memberRepository);
     }
 
@@ -169,28 +169,32 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final MemberFee update(final long id, final FeeUpdate fee) {
+    public final MemberFee update(final long memberId, final YearMonth date, final FeeUpdate fee) {
+        final Optional<FeeEntity> found;
         final FeeEntity           entity;
         final FeeEntity           updated;
         final Optional<MemberFee> read;
         final MemberFee           result;
 
-        log.debug("Updating fee with id {} using data {}", id, fee);
+        log.debug("Updating fee for {} in {} using data {}", memberId, date, fee);
 
-        if (!feeRepository.existsById(id)) {
-            throw new MissingIdException("fee", id);
+        found = feeRepository.findOneByMemberIdAndDate(memberId, date);
+        if (found.isEmpty()) {
+            // TODO: use more concrete exception
+            throw new MissingIdException("fee", memberId + " " + date.toString());
         }
 
         validatorUpdate.validate(fee);
 
         entity = toEntity(fee);
-        entity.setId(id);
+        entity.setId(found.get()
+            .getId());
 
         updated = feeRepository.save(entity);
 
         // Read updated fee with name
         // FIXME: read directly from the repository
-        read = getOne(updated.getMemberId(),updated.getDate());
+        read = getOne(updated.getMemberId(), updated.getDate());
         if (read.isPresent()) {
             result = read.get();
         } else {

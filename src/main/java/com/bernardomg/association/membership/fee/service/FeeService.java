@@ -69,12 +69,14 @@ public interface FeeService {
     /**
      * Updates the fee for the received id with the received data.
      *
-     * @param id
-     *            id of the fee to update
+     * @param memberId
+     *            id of the member for the fee to acquire
+     * @param date
+     *            date of the fee to acquire
      * @param fee
      *            new data for the fee
      * @return the updated fee
      */
-    public MemberFee update(final long id, final FeeUpdate fee);
+    public MemberFee update(final long memberId, final YearMonth date, final FeeUpdate fee);
 
 }

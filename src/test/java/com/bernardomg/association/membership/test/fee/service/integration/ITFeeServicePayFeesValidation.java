@@ -41,7 +41,6 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Fee service - pay fees - validation")
-@ValidMember
 class ITFeeServicePayFeesValidation {
 
     @Autowired
@@ -53,6 +52,7 @@ class ITFeeServicePayFeesValidation {
 
     @Test
     @DisplayName("With duplicated dates it throws an exception")
+    @ValidMember
     void testCreate_DuplicatedDates() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -75,19 +75,6 @@ class ITFeeServicePayFeesValidation {
         execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
-    @DisplayName("With an invalid member id it throws an exception")
-    void testCreate_InvalidMember() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
-
-        failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
