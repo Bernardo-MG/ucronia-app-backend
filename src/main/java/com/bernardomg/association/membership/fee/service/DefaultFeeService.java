@@ -19,7 +19,6 @@ import com.bernardomg.association.configuration.source.AssociationConfigurationS
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.request.FeesPayment;
@@ -51,8 +50,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeRepository                  feeRepository;
 
-    private final FeeMapper                      mapper;
-
     private final MemberFeeRepository            memberFeeRepository;
 
     private final MemberRepository               memberRepository;
@@ -67,7 +64,7 @@ public final class DefaultFeeService implements FeeService {
 
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
             final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
-            final MemberRepository memberRepo, final FeeMapper mpper, final AssociationConfigurationSource confSource) {
+            final MemberRepository memberRepo, final AssociationConfigurationSource confSource) {
         super();
 
         messageSource = msgSource;
@@ -75,7 +72,6 @@ public final class DefaultFeeService implements FeeService {
         transactionRepository = transactionRepo;
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
-        mapper = mpper;
         configurationSource = confSource;
 
         // TODO: Test validation
@@ -112,7 +108,7 @@ public final class DefaultFeeService implements FeeService {
             page = memberFeeRepository.findAll(spec.get(), pageable);
         }
 
-        return page.map(mapper::toDto);
+        return page.map(this::toDto);
     }
 
     @Override
@@ -129,7 +125,7 @@ public final class DefaultFeeService implements FeeService {
         found = memberFeeRepository.findById(id);
 
         if (found.isPresent()) {
-            result = found.map(mapper::toDto);
+            result = found.map(this::toDto);
         } else {
             result = Optional.empty();
         }
@@ -172,7 +168,7 @@ public final class DefaultFeeService implements FeeService {
 
         validatorUpdate.validate(fee);
 
-        entity = mapper.toEntity(fee);
+        entity = toEntity(fee);
         entity.setId(id);
 
         updated = feeRepository.save(entity);
@@ -207,7 +203,7 @@ public final class DefaultFeeService implements FeeService {
         found = memberFeeRepository.findAllById(ids);
 
         return found.stream()
-            .map(mapper::toDto)
+            .map(this::toDto)
             .toList();
     }
 
@@ -269,6 +265,24 @@ public final class DefaultFeeService implements FeeService {
         transaction.setDescription(message);
 
         transactionRepository.save(transaction);
+    }
+
+    private final MemberFee toDto(final MemberFeeEntity entity) {
+        return MemberFee.builder()
+            .id(entity.getId())
+            .memberId(entity.getMemberId())
+            .memberName(entity.getMemberName())
+            .date(entity.getDate())
+            .paid(entity.getPaid())
+            .build();
+    }
+
+    private final FeeEntity toEntity(final FeeUpdate update) {
+        return FeeEntity.builder()
+            .memberId(update.getMemberId())
+            .date(update.getDate())
+            .paid(update.getPaid())
+            .build();
     }
 
     private final FeeEntity toPersistentFee(final Long memberId, final YearMonth date) {

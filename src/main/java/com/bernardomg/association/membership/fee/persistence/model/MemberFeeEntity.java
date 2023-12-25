@@ -14,11 +14,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "MemberFee")
 @Table(name = "member_fees")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberFeeEntity implements Serializable {
 
     /**
