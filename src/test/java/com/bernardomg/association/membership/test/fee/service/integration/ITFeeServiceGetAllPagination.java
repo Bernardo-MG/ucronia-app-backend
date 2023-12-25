@@ -36,7 +36,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
@@ -95,7 +94,7 @@ class ITFeeServiceGetAllPagination {
 
         feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -122,7 +121,7 @@ class ITFeeServiceGetAllPagination {
 
         feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(feesItr.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))

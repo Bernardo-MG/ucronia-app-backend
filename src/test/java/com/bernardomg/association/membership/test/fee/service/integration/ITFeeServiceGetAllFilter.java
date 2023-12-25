@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
@@ -74,7 +73,7 @@ class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(fees)
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -118,7 +117,7 @@ class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(fees)
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
@@ -143,7 +142,7 @@ class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(fees)
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.JANUARY))
@@ -168,7 +167,7 @@ class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(fees)
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.DECEMBER))
@@ -212,7 +211,7 @@ class ITFeeServiceGetAllFilter {
 
         Assertions.assertThat(fees)
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))

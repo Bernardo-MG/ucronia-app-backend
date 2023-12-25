@@ -39,7 +39,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
@@ -76,35 +75,35 @@ class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))
@@ -126,35 +125,35 @@ class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -176,35 +175,35 @@ class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))
@@ -226,35 +225,35 @@ class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -295,35 +294,35 @@ class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))
             .paid(false)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
@@ -345,35 +344,35 @@ class ITFeeServiceGetAllSort {
         fees = service.getAll(feeQuery, pageable)
             .iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(2L)
             .memberName("Member 2 Surname 2")
             .date(YearMonth.of(2020, Month.MARCH))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(3L)
             .memberName("Member 3 Surname 3")
             .date(YearMonth.of(2020, Month.APRIL))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(4L)
             .memberName("Member 4 Surname 4")
             .date(YearMonth.of(2020, Month.MAY))
             .paid(true)
             .build());
 
-        FeeAssertions.isEqualTo(fees.next(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
             .memberId(5L)
             .memberName("Member 5 Surname 5")
             .date(YearMonth.of(2020, Month.JUNE))

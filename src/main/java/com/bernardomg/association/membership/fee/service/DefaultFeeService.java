@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.mapper.FeeMapper;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
@@ -183,7 +182,7 @@ public final class DefaultFeeService implements FeeService {
         if (read.isPresent()) {
             result = read.get();
         } else {
-            result = ImmutableMemberFee.builder()
+            result = MemberFee.builder()
                 .build();
         }
 
@@ -202,7 +201,7 @@ public final class DefaultFeeService implements FeeService {
         }
     }
 
-    private final List<ImmutableMemberFee> readAll(final Collection<Long> ids) {
+    private final List<MemberFee> readAll(final Collection<Long> ids) {
         final List<MemberFeeEntity> found;
 
         found = memberFeeRepository.findAllById(ids);

@@ -37,7 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
@@ -139,7 +138,7 @@ class ITFeeServicePayFees {
 
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
-            ImmutableMemberFee.builder()
+            MemberFee.builder()
                 .id(1L)
                 .memberId(1L)
                 .memberName("Member 1 Surname 1")
@@ -288,7 +287,7 @@ class ITFeeServicePayFees {
 
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
-            ImmutableMemberFee.builder()
+            MemberFee.builder()
                 .id(1L)
                 .memberId(1L)
                 .memberName("Member 1 Surname 1")

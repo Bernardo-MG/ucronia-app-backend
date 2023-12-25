@@ -33,7 +33,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
@@ -66,7 +65,7 @@ class ITFeeServiceGetOne {
         Assertions.assertThat(fee)
             .isPresent();
 
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fee.get(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -86,7 +85,7 @@ class ITFeeServiceGetOne {
         Assertions.assertThat(fee)
             .isPresent();
 
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fee.get(), MemberFee.builder()
             .memberId(1L)
             .memberName("")
             .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -106,7 +105,7 @@ class ITFeeServiceGetOne {
         Assertions.assertThat(fee)
             .isPresent();
 
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
+        FeeAssertions.isEqualTo(fee.get(), MemberFee.builder()
             .memberId(1L)
             .memberName("Member 1")
             .date(YearMonth.of(2020, Month.FEBRUARY))

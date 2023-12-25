@@ -36,9 +36,9 @@ public final class FeeAssertions {
         Assertions.assertThat(received.getDate())
             .withFailMessage("Expected date '%s' but got '%s'", expected.getDate(), received.getDate())
             .isEqualTo(expected.getDate());
-        Assertions.assertThat(received.getPaid())
-            .withFailMessage("Expected paid flag '%s' but got '%s'", expected.getPaid(), received.getPaid())
-            .isEqualTo(expected.getPaid());
+        Assertions.assertThat(received.isPaid())
+            .withFailMessage("Expected paid flag '%s' but got '%s'", expected.isPaid(), received.isPaid())
+            .isEqualTo(expected.isPaid());
     }
 
 }

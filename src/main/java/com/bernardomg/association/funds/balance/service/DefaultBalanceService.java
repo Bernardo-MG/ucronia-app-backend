@@ -34,8 +34,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
-import com.bernardomg.association.funds.balance.model.ImmutableCurrentBalance;
-import com.bernardomg.association.funds.balance.model.ImmutableMonthlyBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
@@ -73,7 +71,7 @@ public final class DefaultBalanceService implements BalanceService {
         readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
 
         if (readBalance.isEmpty()) {
-            currentBalance = ImmutableCurrentBalance.builder()
+            currentBalance = CurrentBalance.builder()
                 .total(0F)
                 .results(0F)
                 .build();
@@ -90,7 +88,7 @@ public final class DefaultBalanceService implements BalanceService {
                 results = 0F;
             }
 
-            currentBalance = ImmutableCurrentBalance.builder()
+            currentBalance = CurrentBalance.builder()
                 .total(balance.getTotal())
                 .results(results)
                 .build();
@@ -134,7 +132,7 @@ public final class DefaultBalanceService implements BalanceService {
             .getYear(),
             entity.getMonth()
                 .getMonth());
-        return ImmutableMonthlyBalance.builder()
+        return MonthlyBalance.builder()
             .month(month)
             .total(entity.getTotal())
             .results(entity.getResults())
