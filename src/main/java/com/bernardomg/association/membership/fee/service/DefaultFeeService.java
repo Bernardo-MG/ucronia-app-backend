@@ -138,7 +138,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<? extends MemberFee> payFees(final long memberId, final LocalDate payDate,
+    public final Collection<MemberFee> payFees(final long memberId, final LocalDate payDate,
             final Collection<YearMonth> feeDates) {
         final Collection<FeeEntity> fees;
         final Collection<Long>      ids;

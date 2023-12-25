@@ -90,7 +90,7 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
-    public Collection<? extends MemberFee> create(
+    public Collection<MemberFee> create(
             @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate payDate,
             @PathVariable("memberId") final long memberId, @Valid @RequestBody final FeesPaymentRequest fee) {
         return service.payFees(memberId, payDate, fee.getFeeDates());

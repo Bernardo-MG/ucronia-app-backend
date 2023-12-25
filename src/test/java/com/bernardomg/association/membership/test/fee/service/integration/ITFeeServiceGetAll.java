@@ -44,6 +44,7 @@ import com.bernardomg.association.membership.test.fee.configuration.MultipleFees
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
@@ -258,16 +259,7 @@ class ITFeeServiceGetAll {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fees.iterator()
-            .next(),
-            MemberFee.builder()
-                .memberId(1L)
-                .memberName("")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -286,16 +278,7 @@ class ITFeeServiceGetAll {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fees.iterator()
-            .next(),
-            MemberFee.builder()
-                .memberId(1L)
-                .memberName("Member 1")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -314,16 +297,7 @@ class ITFeeServiceGetAll {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fees.iterator()
-            .next(),
-            MemberFee.builder()
-                .memberId(1L)
-                .memberName("Member 1 Surname 1")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
+            .containsExactly(MemberFees.paid());
     }
 
 }

@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.Month;
-import java.time.YearMonth;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -36,8 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -64,14 +62,7 @@ class ITFeeServiceGetOne {
         fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .contains(MemberFees.paid());
     }
 
     @Test
@@ -84,14 +75,7 @@ class ITFeeServiceGetOne {
         fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .contains(MemberFees.paid());
     }
 
     @Test
@@ -104,14 +88,7 @@ class ITFeeServiceGetOne {
         fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .contains(MemberFees.paid());
     }
 
 }

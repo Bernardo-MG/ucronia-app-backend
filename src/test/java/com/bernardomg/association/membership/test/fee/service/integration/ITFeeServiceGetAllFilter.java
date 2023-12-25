@@ -41,6 +41,7 @@ import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -72,13 +73,7 @@ class ITFeeServiceGetAllFilter {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -116,13 +111,7 @@ class ITFeeServiceGetAllFilter {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -141,13 +130,7 @@ class ITFeeServiceGetAllFilter {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.JANUARY))
-            .paid(true)
-            .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -166,13 +149,7 @@ class ITFeeServiceGetAllFilter {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.DECEMBER))
-            .paid(true)
-            .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test

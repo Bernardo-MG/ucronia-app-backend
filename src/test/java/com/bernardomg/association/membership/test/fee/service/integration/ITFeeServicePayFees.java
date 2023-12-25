@@ -45,6 +45,7 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -120,21 +121,12 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_ReturnedData() {
-        final Collection<? extends MemberFee> fee;
+        final Collection<MemberFee> fees;
 
-        fee = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        Assertions.assertThat(fee)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fee.iterator()
-            .next(),
-            MemberFee.builder()
-                .memberId(1L)
-                .memberName("Member 1 Surname 1")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
+        Assertions.assertThat(fees)
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -250,21 +242,12 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_ReturnedData() {
-        final Collection<? extends MemberFee> fee;
+        final Collection<MemberFee> fees;
 
-        fee = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        Assertions.assertThat(fee)
-            .hasSize(1);
-
-        FeeAssertions.isEqualTo(fee.iterator()
-            .next(),
-            MemberFee.builder()
-                .memberId(1L)
-                .memberName("Member 1 Surname 1")
-                .date(YearMonth.of(2020, Month.FEBRUARY))
-                .paid(true)
-                .build());
+        Assertions.assertThat(fees)
+            .containsExactly(MemberFees.paid());
     }
 
 }

@@ -42,6 +42,7 @@ import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -130,12 +131,8 @@ class ITFeeServiceUpdate {
 
         fee = service.update(1L, Fees.DATE, feeRequest);
 
-        FeeAssertions.isEqualTo(fee, MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(false)
-            .build());
+        Assertions.assertThat(fee)
+            .isEqualTo(MemberFees.paid());
     }
 
 }

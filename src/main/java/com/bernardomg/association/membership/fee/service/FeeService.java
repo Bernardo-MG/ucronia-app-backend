@@ -63,7 +63,7 @@ public interface FeeService {
      *            dates for the fees being paid
      * @return all the paid fees
      */
-    public Collection<? extends MemberFee> payFees(final long memberId, final LocalDate payDate,
+    public Collection<MemberFee> payFees(final long memberId, final LocalDate payDate,
             final Collection<YearMonth> feeDates);
 
     /**

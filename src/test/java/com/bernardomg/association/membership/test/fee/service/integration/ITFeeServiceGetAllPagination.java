@@ -24,10 +24,6 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.Month;
-import java.time.YearMonth;
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,8 +36,8 @@ import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -80,7 +76,6 @@ class ITFeeServiceGetAllPagination {
     void testGetAll_Page1() {
         final FeeQuery            feeQuery;
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final Pageable            pageable;
 
         pageable = PageRequest.of(0, 1);
@@ -90,16 +85,7 @@ class ITFeeServiceGetAllPagination {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -107,7 +93,6 @@ class ITFeeServiceGetAllPagination {
     void testGetAll_Page2() {
         final FeeQuery            feeQuery;
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final Pageable            pageable;
 
         pageable = PageRequest.of(1, 1);
@@ -117,16 +102,7 @@ class ITFeeServiceGetAllPagination {
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
-            .hasSize(1);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
