@@ -19,11 +19,10 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.membership.fee.model.FeesPayment;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.model.request.FeesPayment;
-import com.bernardomg.association.membership.fee.model.request.FeesPaymentRequest;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
@@ -151,7 +150,7 @@ public final class DefaultFeeService implements FeeService {
             throw new MissingIdException("member", memberId);
         }
 
-        payment = FeesPaymentRequest.builder()
+        payment = FeesPayment.builder()
             .memberId(memberId)
             .feeDates(feeDates)
             .build();

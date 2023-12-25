@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.fee.model.request;
+package com.bernardomg.association.membership.fee.model;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -17,10 +17,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeesPaymentRequest {
+public final class FeesPayment {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotEmpty
     private Collection<@NotNull YearMonth> feeDates;
+
+    @NotNull
+    private Long                           memberId;
 
 }
