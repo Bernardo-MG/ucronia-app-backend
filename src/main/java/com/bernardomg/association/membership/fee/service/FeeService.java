@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.membership.fee.service;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -28,7 +28,7 @@ public interface FeeService {
      * @param date
      *            date of the fee to delete
      */
-    public void delete(final Long memberId, final YearMonth date);
+    public void delete(final long memberId, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -50,9 +50,21 @@ public interface FeeService {
      *            date of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<MemberFee> getOne(final Long memberId, final YearMonth date);
+    public Optional<MemberFee> getOne(final long memberId, final YearMonth date);
 
-    public Collection<? extends MemberFee> payFees(final FeesPayment fee);
+    /**
+     * Pays fees for a member
+     *
+     * @param memberId
+     *            member paying the fees
+     * @param payDate
+     *            payment day
+     * @param feeDates
+     *            dates for the fees being paid
+     * @return all the paid fees
+     */
+    public Collection<? extends MemberFee> payFees(final long memberId, final LocalDate payDate,
+            final Collection<YearMonth> feeDates);
 
     /**
      * Updates the fee for the received id with the received data.

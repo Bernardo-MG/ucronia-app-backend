@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.membership.fee.controller;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 
@@ -32,6 +33,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +78,7 @@ public class FeeController {
      */
     private final FeeService service;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
@@ -88,8 +90,10 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
-    public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(fee);
+    public Collection<? extends MemberFee> create(
+            @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate payDate,
+            @PathVariable("memberId") final long memberId, @Valid @RequestBody final FeesPaymentRequest fee) {
+        return service.payFees(memberId, payDate, fee.getFeeDates());
     }
 
     @DeleteMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,7 +107,8 @@ public class FeeController {
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true),
             @CacheEvict(cacheNames = FeeCaches.FEE, key = "#p0") })
-    public void delete(@PathVariable("date") final YearMonth date, @PathVariable("memberId") final long memberId) {
+    public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+            @PathVariable("memberId") final long memberId) {
         service.delete(memberId, date);
     }
 
@@ -114,10 +119,10 @@ public class FeeController {
         return service.getAll(query, pageable);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
-    public MemberFee readOne(@PathVariable("date") final YearMonth date,
+    public MemberFee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberId") final long memberId) {
         return service.getOne(memberId, date)
             .orElse(null);

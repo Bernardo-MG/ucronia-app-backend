@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,13 +39,12 @@ import com.bernardomg.association.funds.test.transaction.util.assertion.Transact
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
-import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -72,12 +72,9 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_PersistedFee() {
-        final FeesPayment feeRequest;
-        final FeeEntity   entity;
+        final FeeEntity entity;
 
-        feeRequest = FeesCreate.valid();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         entity = repository.findAll()
             .iterator()
@@ -99,12 +96,9 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_PersistedTransaction() {
-        final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
-        feeRequest = FeesCreate.valid();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         entity = transactionRepository.findAll()
             .iterator()
@@ -126,12 +120,9 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_ReturnedData() {
-        final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
 
-        feeRequest = FeesCreate.valid();
-
-        fee = service.payFees(feeRequest);
+        fee = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         Assertions.assertThat(fee)
             .hasSize(1);
@@ -152,11 +143,8 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee() {
-        final FeesPayment feeRequest;
 
-        feeRequest = FeesCreate.multipleDates();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);
@@ -172,12 +160,9 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
-        final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
-        feeRequest = FeesCreate.multipleDates();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
         entity = transactionRepository.findAll()
             .iterator()
@@ -197,12 +182,9 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
     @ValidMember
     void testCreate_NoAmount_PersistedTransaction() {
-        final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
-        feeRequest = FeesCreate.valid();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         entity = transactionRepository.findAll()
             .iterator()
@@ -223,12 +205,9 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedFee() {
-        final FeesPayment feeRequest;
-        final FeeEntity   entity;
+        final FeeEntity entity;
 
-        feeRequest = FeesCreate.valid();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         entity = repository.findAll()
             .iterator()
@@ -249,12 +228,9 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction() {
-        final FeesPayment           feeRequest;
         final PersistentTransaction entity;
 
-        feeRequest = FeesCreate.valid();
-
-        service.payFees(feeRequest);
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         entity = transactionRepository.findAll()
             .iterator()
@@ -275,12 +251,9 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_ReturnedData() {
-        final FeesPayment                     feeRequest;
         final Collection<? extends MemberFee> fee;
 
-        feeRequest = FeesCreate.valid();
-
-        fee = service.payFees(feeRequest);
+        fee = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
         Assertions.assertThat(fee)
             .hasSize(1);
