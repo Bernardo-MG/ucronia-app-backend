@@ -34,9 +34,6 @@ import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarS
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearAlternative;
-import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
-import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsConnected;
-import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsWithGap;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -57,7 +54,7 @@ class ITFeeCalendarServiceGetRange {
     }
 
     @Test
-    @DisplayName("With a full year the year range is returned")
+    @DisplayName("With a full year, the year range is returned")
     @ValidMember
     @FeeFullYear
     void testGetRange_FullYear() {
@@ -65,12 +62,13 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
+        Assertions.assertThat(range.getYears())
+            .as("year range")
             .containsOnly(MemberCalendars.YEAR);
     }
 
     @Test
-    @DisplayName("With a full year and two members the year range is returned")
+    @DisplayName("With a full year and two members, the year range is returned")
     @ValidMember
     @AlternativeMember
     @FeeFullYear
@@ -80,72 +78,172 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
+        Assertions.assertThat(range.getYears())
+            .as("year range")
             .containsOnly(MemberCalendars.YEAR);
     }
 
     @Test
-    @DisplayName("With a single fee for the next year, nothing is returned")
+    @DisplayName("With a not paid fee for the next year, nothing is returned")
     @ValidMember
-    void testGetRange_NextYear() {
+    void testGetRange_NextYear_NotPaid() {
+        final YearsRange range;
+
+        feeInitializer.registerFeeNextYear(false);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a paid fee for the next year, nothing is returned")
+    @ValidMember
+    void testGetRange_NextYear_Paid() {
         final YearsRange range;
 
         feeInitializer.registerFeeNextYear(true);
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
+        Assertions.assertThat(range.getYears())
+            .as("year range")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With no data the range is empty")
+    @DisplayName("With no data, the range is empty")
     void testGetRange_NoData() {
         final YearsRange range;
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
+        Assertions.assertThat(range.getYears())
+            .as("year range")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a single fee the year range is returned")
+    @DisplayName("With no fees, the range is empty")
     @ValidMember
-    @PaidFee
-    void testGetRange_Single() {
+    void testGetRange_NoFees() {
         final YearsRange range;
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
-            .containsOnly(MemberCalendars.YEAR);
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With two years connected the year range is returned")
+    @DisplayName("With a not paid fee, the year range is returned")
     @ValidMember
-    @TwoFeeYearsConnected
+    void testGetRange_NotPaid() {
+        final YearsRange range;
+
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsOnly(FeeInitializer.CURRENT_MONTH.getYear());
+    }
+
+    @Test
+    @DisplayName("With a paid fee, the year range is returned")
+    @ValidMember
+    void testGetRange_Paid() {
+        final YearsRange range;
+
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsOnly(FeeInitializer.CURRENT_MONTH.getYear());
+    }
+
+    @Test
+    @DisplayName("With a not paid fee, the year range is returned")
+    @ValidMember
+    void testGetRange_PreviousYear_NotPaid() {
+        final YearsRange range;
+
+        feeInitializer.registerFeePreviousYear(false);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsOnly(FeeInitializer.PREVIOUS_YEAR.getYear());
+    }
+
+    @Test
+    @DisplayName("With a paid fee, the year range is returned")
+    @ValidMember
+    void testGetRange_PreviousYear_Paid() {
+        final YearsRange range;
+
+        feeInitializer.registerFeePreviousYear(true);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsOnly(FeeInitializer.PREVIOUS_YEAR.getYear());
+    }
+
+    @Test
+    @DisplayName("With two years connected, the year range is returned")
+    @ValidMember
     void testGetRange_TwoConnectedYears() {
         final YearsRange range;
 
+        feeInitializer.registerFeePreviousYear(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
-            .containsExactly(MemberCalendars.YEAR_PREVIOUS, MemberCalendars.YEAR);
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsExactly(FeeInitializer.PREVIOUS_YEAR.getYear(), FeeInitializer.CURRENT_MONTH.getYear());
     }
 
     @Test
-    @DisplayName("With two years with a gap the year range is returned")
+    @DisplayName("With two years connected and not in order, the year range is returned")
     @ValidMember
-    @TwoFeeYearsWithGap
-    void testGetRange_TwoYearsWithGap() {
+    void testGetRange_TwoConnectedYears_NotInOrder() {
         final YearsRange range;
+
+        feeInitializer.registerFeeCurrentMonth(true);
+        feeInitializer.registerFeePreviousYear(true);
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears()).as("year range")
-            .containsExactly(MemberCalendars.YEAR_TWO_PREVIOUS, MemberCalendars.YEAR);
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsExactly(FeeInitializer.PREVIOUS_YEAR.getYear(), FeeInitializer.CURRENT_MONTH.getYear());
+    }
+
+    @Test
+    @DisplayName("With two years with a gap, the year range is returned")
+    @ValidMember
+    void testGetRange_TwoYearsWithGap() {
+        final YearsRange range;
+
+        feeInitializer.registerFeeTwoYearsBack(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears())
+            .as("year range")
+            .containsExactly(FeeInitializer.TWO_YEARS_BACK.getYear(), FeeInitializer.CURRENT_MONTH.getYear());
     }
 
 }

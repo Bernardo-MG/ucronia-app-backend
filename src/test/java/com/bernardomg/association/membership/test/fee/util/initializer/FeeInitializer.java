@@ -16,14 +16,21 @@ public final class FeeInitializer {
 
     public static final YearMonth NEXT_MONTH      = YearMonth.now()
         .plusMonths(1);
-    public static final YearMonth NEXT_YEAR      = YearMonth.now()
-            .plusYears(1);
+
+    public static final YearMonth NEXT_YEAR       = YearMonth.now()
+        .plusYears(1);
 
     public static final YearMonth PREVIOUS_MONTH  = YearMonth.now()
         .minusMonths(1);
 
+    public static final YearMonth PREVIOUS_YEAR   = YearMonth.now()
+        .minusYears(1);
+
     public static final YearMonth TWO_MONTHS_BACK = YearMonth.now()
         .minusMonths(2);
+
+    public static final YearMonth TWO_YEARS_BACK  = YearMonth.now()
+        .minusYears(2);
 
     @Autowired
     private FeeRepository         feeRepository;
@@ -54,18 +61,6 @@ public final class FeeInitializer {
         feeRepository.flush();
     }
 
-    public final void registerFeeNextYear(final Boolean paid) {
-        final FeeEntity fee;
-
-        fee = FeeEntity.builder()
-            .paid(paid)
-            .memberId(1L)
-            .date(NEXT_YEAR)
-            .build();
-
-        feeRepository.save(fee);
-        feeRepository.flush();
-    }
     public final void registerFeeNextMonth(final Boolean paid) {
         final FeeEntity fee;
 
@@ -73,6 +68,19 @@ public final class FeeInitializer {
             .paid(paid)
             .memberId(1L)
             .date(NEXT_MONTH)
+            .build();
+
+        feeRepository.save(fee);
+        feeRepository.flush();
+    }
+
+    public final void registerFeeNextYear(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .memberId(1L)
+            .date(NEXT_YEAR)
             .build();
 
         feeRepository.save(fee);
@@ -92,6 +100,19 @@ public final class FeeInitializer {
         feeRepository.flush();
     }
 
+    public final void registerFeePreviousYear(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .memberId(1L)
+            .date(PREVIOUS_YEAR)
+            .build();
+
+        feeRepository.save(fee);
+        feeRepository.flush();
+    }
+
     public final void registerFeeTwoMonthsBack(final Boolean paid) {
         final FeeEntity fee;
 
@@ -99,6 +120,19 @@ public final class FeeInitializer {
             .paid(paid)
             .memberId(1L)
             .date(TWO_MONTHS_BACK)
+            .build();
+
+        feeRepository.save(fee);
+        feeRepository.flush();
+    }
+
+    public final void registerFeeTwoYearsBack(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .memberId(1L)
+            .date(TWO_YEARS_BACK)
             .build();
 
         feeRepository.save(fee);
