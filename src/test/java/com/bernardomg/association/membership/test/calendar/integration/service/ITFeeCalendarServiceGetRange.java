@@ -60,8 +60,10 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_FullYear() {
         final YearsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(MemberCalendars.YEAR);
@@ -76,8 +78,10 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_FullYear_TwoMembers() {
         final YearsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(MemberCalendars.YEAR);
@@ -89,10 +93,13 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_NextYear_NotPaid() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeeNextYear(false);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(FeeInitializer.NEXT_YEAR.getValue());
@@ -104,10 +111,13 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_NextYear_Paid() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeeNextYear(true);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(FeeInitializer.NEXT_YEAR.getValue());
@@ -118,8 +128,10 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_NoData() {
         final YearsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .isEmpty();
@@ -131,8 +143,10 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_NoFees() {
         final YearsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .isEmpty();
@@ -144,10 +158,13 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_NotPaid() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(FeeInitializer.CURRENT_YEAR.getValue());
@@ -159,10 +176,13 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_Paid() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(FeeInitializer.CURRENT_YEAR.getValue());
@@ -174,10 +194,13 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_PreviousYear_NotPaid() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeePreviousYear(false);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(FeeInitializer.PREVIOUS_YEAR.getValue());
@@ -189,10 +212,13 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_PreviousYear_Paid() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeePreviousYear(true);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsOnly(FeeInitializer.PREVIOUS_YEAR.getValue());
@@ -204,11 +230,14 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_TwoConnectedYears() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeePreviousYear(true);
         feeInitializer.registerFeeCurrentMonth(true);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsExactly(FeeInitializer.PREVIOUS_YEAR.getValue(), FeeInitializer.CURRENT_YEAR.getValue());
@@ -220,11 +249,14 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_TwoConnectedYears_NotInOrder() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
         feeInitializer.registerFeePreviousYear(true);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsExactly(FeeInitializer.PREVIOUS_YEAR.getValue(), FeeInitializer.CURRENT_YEAR.getValue());
@@ -236,11 +268,14 @@ class ITFeeCalendarServiceGetRange {
     void testGetRange_TwoYearsWithGap() {
         final YearsRange range;
 
+        // GIVEN
         feeInitializer.registerFeeTwoYearsBack(true);
         feeInitializer.registerFeeCurrentMonth(true);
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
             .containsExactly(FeeInitializer.TWO_YEARS_BACK.getYear(), FeeInitializer.CURRENT_YEAR.getValue());

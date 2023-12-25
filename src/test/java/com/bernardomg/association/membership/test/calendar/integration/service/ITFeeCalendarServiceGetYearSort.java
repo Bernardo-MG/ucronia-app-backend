@@ -61,52 +61,19 @@ class ITFeeCalendarServiceGetYearSort {
     }
 
     @Test
-    @DisplayName("With ascending order by name it returns the ordered data")
-    void testGetYear_Name_Asc() {
-        final Sort                        sort;
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-
-        sort = Sort.by(Order.asc("memberName"));
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
-    @DisplayName("With descending order by name it returns the ordered data")
-    void testGetYear_Name_Desc() {
-        final Sort                        sort;
-        final Iterator<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-
-        sort = Sort.by(Order.asc("memberName"));
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
-            .iterator();
-
-        calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
-
-        MemberFeeCalendarAssertions.assertFullYear(calendar);
-    }
-
-    @Test
     @DisplayName("With an invalid field ordering throws an exception")
     void testGetYear_NotExisting() {
         final Sort             sort;
         final ThrowingCallable execution;
 
+        // GIVEN
         sort = Sort.by(Direction.ASC, "abc");
 
+        // WHEN
         execution = () -> service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(Exception.class);
     }
@@ -122,11 +89,14 @@ class ITFeeCalendarServiceGetYearSort {
         final Sort                        sort;
         MemberFeeCalendar                 calendar;
 
+        // GIVEN
         sort = Sort.by(Order.asc("memberName"));
 
+        // WHEN
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
+        // THEN
         calendar = calendars.next();
         MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
@@ -149,11 +119,14 @@ class ITFeeCalendarServiceGetYearSort {
         final Sort                        sort;
         MemberFeeCalendar                 calendar;
 
+        // GIVEN
         sort = Sort.by(Order.desc("memberName"));
 
+        // WHEN
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
             .iterator();
 
+        // THEN
         calendar = calendars.next();
         MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
 
