@@ -130,7 +130,6 @@ class ITFeeServicePayFees {
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
             MemberFee.builder()
-                .id(1L)
                 .memberId(1L)
                 .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))
@@ -261,7 +260,6 @@ class ITFeeServicePayFees {
         FeeAssertions.isEqualTo(fee.iterator()
             .next(),
             MemberFee.builder()
-                .id(1L)
                 .memberId(1L)
                 .memberName("Member 1 Surname 1")
                 .date(YearMonth.of(2020, Month.FEBRUARY))

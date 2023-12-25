@@ -15,8 +15,6 @@ public final class MemberFee {
     @JsonFormat(pattern = "yyyy-MM")
     private final YearMonth date;
 
-    private final long      id;
-
     private final long      memberId;
 
     private final String    memberName;

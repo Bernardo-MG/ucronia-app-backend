@@ -24,9 +24,6 @@ public final class FeeAssertions {
     }
 
     public static final void isEqualTo(final MemberFee received, final MemberFee expected) {
-        Assertions.assertThat(received.getId())
-            .withFailMessage("Expected id to not be null")
-            .isNotNull();
         Assertions.assertThat(received.getMemberId())
             .withFailMessage("Expected member id '%s' but got '%s'", expected.getMemberId(), received.getMemberId())
             .isEqualTo(expected.getMemberId());

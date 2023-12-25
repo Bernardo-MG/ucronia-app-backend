@@ -284,7 +284,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberFee toDto(final MemberFeeEntity entity) {
         return MemberFee.builder()
-            .id(entity.getId())
             .memberId(entity.getMemberId())
             .memberName(entity.getMemberName())
             .date(entity.getDate())
