@@ -114,7 +114,7 @@ public final class DefaultMemberService implements MemberService {
             default:
                 members = memberRepository.findAll(pageable);
 
-                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+                activeIds = memberRepository.findAllActiveIdsInRange(validStart, validEnd);
                 activeMapper = m -> {
                     final boolean active;
 

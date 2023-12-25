@@ -76,7 +76,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
     }
 
     @Override
-    public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort) {
+    public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort) {
         final Collection<MemberFeeEntity>      readFees;
         final Map<Long, List<MemberFeeEntity>> memberFees;
         final Collection<MemberFeeCalendar>    years;
@@ -93,19 +93,21 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         end = YearMonth.of(year, Month.DECEMBER);
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        switch (active) {
-            case ACTIVE:
-                foundIds = memberRepository.findAllActiveIds(validStart, validEnd);
 
-                readFees = memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, foundIds);
+        // Select query based on status
+        switch (status) {
+            case ACTIVE:
+                foundIds = memberRepository.findAllActiveIdsInRange(validStart, validEnd);
+
+                readFees = memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort);
                 break;
             case INACTIVE:
                 foundIds = memberRepository.findAllInactiveIds(validStart, validEnd);
 
-                readFees = memberFeeRepository.findAllInRangeForMembersIn(sort, start, end, foundIds);
+                readFees = memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort);
                 break;
             default:
-                readFees = memberFeeRepository.findAllInRange(sort, start, end);
+                readFees = memberFeeRepository.findAllInRange(start, end, sort);
         }
 
         // Member fees grouped by id

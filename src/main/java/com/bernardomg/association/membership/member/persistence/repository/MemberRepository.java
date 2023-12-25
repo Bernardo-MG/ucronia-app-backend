@@ -41,8 +41,19 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Page<MemberEntity> findAllActive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
+    /**
+     * Returns the ids for all the members active in the received date range. This means, any member which has fees
+     * inside the range, both extremes included.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @return all the ids for the members active in the range
+     */
     @Query("SELECT m.id FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end")
-    public Collection<Long> findAllActiveIds(@Param("start") final YearMonth start, @Param("end") final YearMonth end);
+    public Collection<Long> findAllActiveIdsInRange(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
 
     @Query("SELECT m FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL GROUP BY m.id")
     public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("start") final YearMonth start,
@@ -52,6 +63,18 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
+    /**
+     * Returns if the member is active in the received range. This means if the member has fees inside the range, both
+     * extremes included.
+     *
+     * @param id
+     *            id of the member to search for
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @return {@code true} if the member is active, {@code false} otherwise
+     */
     @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active FROM Member m LEFT JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end AND m.id = :id")
     public boolean isActive(@Param("id") final Long id, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);

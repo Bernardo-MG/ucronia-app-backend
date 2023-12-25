@@ -31,7 +31,7 @@ import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 
 /**
- * Fee service. Supports all the CRUD operations.
+ * Fee calendar service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -39,7 +39,8 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
 public interface MemberFeeCalendarService {
 
     /**
-     * Returns the range of available years.
+     * Returns the range of available years. These are all the years which have fees assigned, except for any future
+     * year.
      *
      * @return the range of available years
      */
@@ -50,12 +51,12 @@ public interface MemberFeeCalendarService {
      *
      * @param year
      *            year to read
-     * @param active
+     * @param status
      *            member active status
      * @param sort
      *            sorting to apply
      * @return all the member fees for a year
      */
-    public Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus active, final Sort sort);
+    public Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort);
 
 }
