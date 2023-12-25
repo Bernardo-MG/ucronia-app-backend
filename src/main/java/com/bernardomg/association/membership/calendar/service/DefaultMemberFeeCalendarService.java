@@ -28,7 +28,6 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +47,6 @@ import com.bernardomg.association.membership.fee.persistence.repository.MemberFe
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarService {
 
     private final MemberFeeRepository memberFeeRepository;
@@ -120,7 +116,6 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         for (final Long member : memberIds) {
             fees = memberFees.get(member);
             feeYear = toFeeYear(member, year, fees);
-
             years.add(feeYear);
         }
 
@@ -151,24 +146,15 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final YearMonth            validStart;
         final YearMonth            validEnd;
 
-        if (fees.isEmpty()) {
-            // TODO: Tests this case to make sure it is handled correctly
-            // TODO: Move out of the method and make sure this can't happen
-            log.warn("No data found for member {}", member);
-            months = Collections.emptyList();
+        months = fees.stream()
+            .map(this::toFeeMonth)
+            // Sort by month
+            .sorted(Comparator.comparing(FeeMonth::getMonth))
+            .toList();
 
-            name = "";
-        } else {
-            months = fees.stream()
-                .map(this::toFeeMonth)
-                // Sort by month
-                .sorted(Comparator.comparing(FeeMonth::getMonth))
-                .toList();
-
-            row = fees.iterator()
-                .next();
-            name = row.getMemberName();
-        }
+        row = fees.iterator()
+            .next();
+        name = row.getMemberName();
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
