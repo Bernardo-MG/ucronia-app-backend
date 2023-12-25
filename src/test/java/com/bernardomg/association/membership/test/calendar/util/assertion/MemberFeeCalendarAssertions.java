@@ -24,73 +24,73 @@ public final class MemberFeeCalendarAssertions {
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(1);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(2);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(3);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(4);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(5);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(6);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(7);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(8);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(9);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(10);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(11);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
 
             month = months.next();
             softly.assertThat(month.getMonth())
                 .isEqualTo(12);
-            softly.assertThat(month.getPaid())
+            softly.assertThat(month.isPaid())
                 .isTrue();
         });
     }

@@ -14,9 +14,9 @@ public final class FeeMonthAssertions {
         Assertions.assertThat(received.getMonth())
             .as("month")
             .isEqualTo(expected.getMonth());
-        Assertions.assertThat(received.getPaid())
+        Assertions.assertThat(received.isPaid())
             .as("paid")
-            .isEqualTo(expected.getPaid());
+            .isEqualTo(expected.isPaid());
     }
 
 }

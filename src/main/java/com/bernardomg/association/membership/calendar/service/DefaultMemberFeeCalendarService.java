@@ -37,9 +37,6 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.ImmutableFeeMonth;
-import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
-import com.bernardomg.association.membership.calendar.model.ImmutableYearsRange;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
@@ -65,7 +62,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final Collection<Integer> years;
 
         years = memberFeeRepository.findYears();
-        return ImmutableYearsRange.builder()
+        return YearsRange.builder()
             .years(years)
             .build();
     }
@@ -132,7 +129,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             .getMonth()
             .getValue();
 
-        return ImmutableFeeMonth.builder()
+        return FeeMonth.builder()
             .feeId(fee.getId())
             .month(month)
             .paid(fee.getPaid())
@@ -162,7 +159,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         validEnd = YearMonth.now();
         active = memberRepository.isActive(member, validStart, validEnd);
 
-        return ImmutableMemberFeeCalendar.builder()
+        return MemberFeeCalendar.builder()
             .memberId(member)
             .memberName(name)
             .months(months)

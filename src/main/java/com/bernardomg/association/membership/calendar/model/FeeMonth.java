@@ -24,12 +24,17 @@
 
 package com.bernardomg.association.membership.calendar.model;
 
-public interface FeeMonth {
+import lombok.Builder;
+import lombok.Value;
 
-    public Long getFeeId();
+@Value
+@Builder
+public final class FeeMonth {
 
-    public Integer getMonth();
+    private final long    feeId;
 
-    public Boolean getPaid();
+    private final int     month;
+
+    private final boolean paid;
 
 }
