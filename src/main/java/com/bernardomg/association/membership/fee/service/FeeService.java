@@ -44,11 +44,13 @@ public interface FeeService {
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param id
-     *            id of the fee to acquire
+     * @param memberId
+     *            id of the member for the fee to acquire
+     * @param date
+     *            date of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<MemberFee> getOne(final long id);
+    public Optional<MemberFee> getOne(final Long memberId, final YearMonth date);
 
     public Collection<? extends MemberFee> payFees(final FeesPayment fee);
 

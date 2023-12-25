@@ -117,25 +117,23 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<MemberFee> getOne(final long id) {
+    public final Optional<MemberFee> getOne(final Long memberId, final YearMonth date) {
         final Optional<MemberFeeEntity> found;
-        final Optional<MemberFee>       result;
+        final Optional<FeeEntity>       fee;
 
-        log.debug("Reading fee with id {}", id);
+        log.debug("Reading fee for {} in {}", memberId, date);
 
-        if (!feeRepository.existsById(id)) {
-            throw new MissingIdException("fee", id);
+        fee = feeRepository.findOneByMemberIdAndDate(memberId, date);
+
+        if (fee.isEmpty()) {
+            // TODO: use more concrete exception
+            throw new MissingIdException("fee", memberId + " " + date.toString());
         }
 
-        found = memberFeeRepository.findById(id);
+        found = memberFeeRepository.findById(fee.get()
+            .getId());
 
-        if (found.isPresent()) {
-            result = found.map(this::toDto);
-        } else {
-            result = Optional.empty();
-        }
-
-        return result;
+        return found.map(this::toDto);
     }
 
     @Override
@@ -179,7 +177,8 @@ public final class DefaultFeeService implements FeeService {
         updated = feeRepository.save(entity);
 
         // Read updated fee with name
-        read = getOne(updated.getId());
+        read = memberFeeRepository.findById(updated.getId())
+            .map(this::toDto);
         if (read.isPresent()) {
             result = read.get();
         } else {

@@ -117,8 +117,9 @@ public class FeeController {
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
-    public MemberFee readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
+    public MemberFee readOne(@PathVariable("date") final YearMonth date,
+            @PathVariable("memberId") final long memberId) {
+        return service.getOne(memberId, date)
             .orElse(null);
     }
 

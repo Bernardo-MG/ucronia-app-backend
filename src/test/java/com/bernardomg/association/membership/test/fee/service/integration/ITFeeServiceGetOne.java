@@ -37,6 +37,7 @@ import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -60,7 +61,7 @@ class ITFeeServiceGetOne {
     void testGetOne_Existing() {
         final Optional<MemberFee> fee;
 
-        fee = service.getOne(1L);
+        fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
             .isPresent();
@@ -80,7 +81,7 @@ class ITFeeServiceGetOne {
     void testGetOne_NoNameOrSurname() {
         final Optional<MemberFee> fee;
 
-        fee = service.getOne(1L);
+        fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
             .isPresent();
@@ -100,7 +101,7 @@ class ITFeeServiceGetOne {
     void testGetOne_NoSurname() {
         final Optional<MemberFee> fee;
 
-        fee = service.getOne(1L);
+        fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
             .isPresent();
