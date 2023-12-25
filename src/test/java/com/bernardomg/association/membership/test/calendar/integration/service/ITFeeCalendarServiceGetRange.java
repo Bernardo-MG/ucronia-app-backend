@@ -37,6 +37,7 @@ import com.bernardomg.association.membership.test.fee.configuration.FeeFullYearA
 import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
 import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsConnected;
 import com.bernardomg.association.membership.test.fee.configuration.TwoFeeYearsWithGap;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -44,6 +45,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Fee calendar service - get range")
 class ITFeeCalendarServiceGetRange {
+
+    @Autowired
+    private FeeInitializer           feeInitializer;
 
     @Autowired
     private MemberFeeCalendarService service;
@@ -61,7 +65,7 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.getYears()).as("year range")
             .containsOnly(MemberCalendars.YEAR);
     }
 
@@ -76,8 +80,22 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.getYears()).as("year range")
             .containsOnly(MemberCalendars.YEAR);
+    }
+
+    @Test
+    @DisplayName("With a single fee for the next year, nothing is returned")
+    @ValidMember
+    void testGetRange_NextYear() {
+        final YearsRange range;
+
+        feeInitializer.registerFeeNextYear(true);
+
+        range = service.getRange();
+
+        Assertions.assertThat(range.getYears()).as("year range")
+            .isEmpty();
     }
 
     @Test
@@ -87,7 +105,7 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.getYears()).as("year range")
             .isEmpty();
     }
 
@@ -100,7 +118,7 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.getYears()).as("year range")
             .containsOnly(MemberCalendars.YEAR);
     }
 
@@ -113,7 +131,7 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.getYears()).as("year range")
             .containsExactly(MemberCalendars.YEAR_PREVIOUS, MemberCalendars.YEAR);
     }
 
@@ -126,7 +144,7 @@ class ITFeeCalendarServiceGetRange {
 
         range = service.getRange();
 
-        Assertions.assertThat(range.getYears())
+        Assertions.assertThat(range.getYears()).as("year range")
             .containsExactly(MemberCalendars.YEAR_TWO_PREVIOUS, MemberCalendars.YEAR);
     }
 

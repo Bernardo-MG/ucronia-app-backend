@@ -16,6 +16,8 @@ public final class FeeInitializer {
 
     public static final YearMonth NEXT_MONTH      = YearMonth.now()
         .plusMonths(1);
+    public static final YearMonth NEXT_YEAR      = YearMonth.now()
+            .plusYears(1);
 
     public static final YearMonth PREVIOUS_MONTH  = YearMonth.now()
         .minusMonths(1);
@@ -52,6 +54,18 @@ public final class FeeInitializer {
         feeRepository.flush();
     }
 
+    public final void registerFeeNextYear(final Boolean paid) {
+        final FeeEntity fee;
+
+        fee = FeeEntity.builder()
+            .paid(paid)
+            .memberId(1L)
+            .date(NEXT_YEAR)
+            .build();
+
+        feeRepository.save(fee);
+        feeRepository.flush();
+    }
     public final void registerFeeNextMonth(final Boolean paid) {
         final FeeEntity fee;
 
