@@ -5,6 +5,7 @@ import java.time.YearMonth;
 
 import com.bernardomg.association.membership.calendar.model.ImmutableMemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 
 public final class MemberFeeCalendars {
 
@@ -22,6 +23,33 @@ public final class MemberFeeCalendars {
             .memberId(2L)
             .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
             .year(MemberCalendars.YEAR)
+            .active(true)
+            .build();
+    }
+
+    public static final MemberFeeCalendar activeCurrentMonth() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(FeeInitializer.CURRENT_YEAR.getValue())
+            .active(true)
+            .build();
+    }
+
+    public static final MemberFeeCalendar activeNextYear() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(FeeInitializer.NEXT_YEAR.getValue())
+            .active(true)
+            .build();
+    }
+
+    public static final MemberFeeCalendar activePreviousMonth() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(FeeInitializer.PREVIOUS_MONTH.getYear())
             .active(true)
             .build();
     }
@@ -60,6 +88,24 @@ public final class MemberFeeCalendars {
             .memberId(2L)
             .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
             .year(MemberCalendars.YEAR)
+            .active(false)
+            .build();
+    }
+
+    public static final MemberFeeCalendar inactiveNextYear() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(FeeInitializer.NEXT_YEAR.getValue())
+            .active(false)
+            .build();
+    }
+
+    public static final MemberFeeCalendar inactivePreviousMonth() {
+        return ImmutableMemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(FeeInitializer.PREVIOUS_MONTH.getYear())
             .active(false)
             .build();
     }

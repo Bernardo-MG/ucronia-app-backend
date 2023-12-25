@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.membership.test.fee.util.initializer;
 
+import java.time.Year;
 import java.time.YearMonth;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +13,32 @@ import com.bernardomg.association.membership.fee.persistence.repository.FeeRepos
 @Component
 public final class FeeInitializer {
 
-    public static final YearMonth CURRENT_MONTH   = YearMonth.now();
+    public static final YearMonth CURRENT_MONTH       = YearMonth.now();
 
-    public static final YearMonth NEXT_MONTH      = YearMonth.now()
+    public static final Year      CURRENT_YEAR        = Year.now();
+
+    public static final YearMonth NEXT_MONTH          = YearMonth.now()
         .plusMonths(1);
 
-    public static final YearMonth NEXT_YEAR       = YearMonth.now()
+    public static final Year      NEXT_YEAR           = Year.now()
         .plusYears(1);
 
-    public static final YearMonth PREVIOUS_MONTH  = YearMonth.now()
+    public static final YearMonth NEXT_YEAR_MONTH     = YearMonth.now()
+        .plusYears(1);
+
+    public static final YearMonth PREVIOUS_MONTH      = YearMonth.now()
         .minusMonths(1);
 
-    public static final YearMonth PREVIOUS_YEAR   = YearMonth.now()
+    public static final Year      PREVIOUS_YEAR       = Year.now()
         .minusYears(1);
 
-    public static final YearMonth TWO_MONTHS_BACK = YearMonth.now()
+    public static final YearMonth PREVIOUS_YEAR_MONTH = YearMonth.now()
+        .minusYears(1);
+
+    public static final YearMonth TWO_MONTHS_BACK     = YearMonth.now()
         .minusMonths(2);
 
-    public static final YearMonth TWO_YEARS_BACK  = YearMonth.now()
+    public static final YearMonth TWO_YEARS_BACK      = YearMonth.now()
         .minusYears(2);
 
     @Autowired
@@ -80,7 +89,7 @@ public final class FeeInitializer {
         fee = FeeEntity.builder()
             .paid(paid)
             .memberId(1L)
-            .date(NEXT_YEAR)
+            .date(NEXT_YEAR_MONTH)
             .build();
 
         feeRepository.save(fee);
@@ -106,7 +115,7 @@ public final class FeeInitializer {
         fee = FeeEntity.builder()
             .paid(paid)
             .memberId(1L)
-            .date(PREVIOUS_YEAR)
+            .date(PREVIOUS_YEAR_MONTH)
             .build();
 
         feeRepository.save(fee);

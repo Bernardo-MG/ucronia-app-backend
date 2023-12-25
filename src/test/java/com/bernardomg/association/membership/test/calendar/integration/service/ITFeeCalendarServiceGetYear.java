@@ -155,35 +155,6 @@ class ITFeeCalendarServiceGetYear {
     }
 
     @Test
-    @DisplayName("When there is no data, it returns nothing")
-    void testGetYear_NoData() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
-
-        Assertions.assertThat(calendars)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When there are no fees, it returns nothing")
-    @ValidMember
-    void testGetYear_NoFees() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-
-        sort = Sort.unsorted();
-
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort);
-
-        Assertions.assertThat(calendars)
-            .isEmpty();
-    }
-
-    @Test
     @DisplayName("With user without surname it returns all data")
     @NoSurnameMember
     @FeeFullYear

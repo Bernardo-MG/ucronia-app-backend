@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.calendar.service;
 
 import java.time.Month;
-import java.time.Year;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,12 +63,8 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
     @Override
     public final YearsRange getRange() {
         final Collection<Integer> years;
-        final int                 end;
 
-        end = Year.now()
-            .getValue();
-
-        years = memberFeeRepository.findYears(end);
+        years = memberFeeRepository.findYears();
         return ImmutableYearsRange.builder()
             .years(years)
             .build();

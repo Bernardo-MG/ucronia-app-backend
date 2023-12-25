@@ -34,9 +34,7 @@ import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
-import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
-import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -56,9 +54,8 @@ class ITFeeCalendarServiceGetYearFilterInactive {
     }
 
     @Test
-    @DisplayName("With a not paid fee in the current month it returns nothing")
+    @DisplayName("With a not paid fee in the current month, it returns nothing")
     @ValidMember
-    @FeeFullYear
     void testGetYear_CurrentMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -67,16 +64,52 @@ class ITFeeCalendarServiceGetYearFilterInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
+            .as("calendars")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee in the current month it returns nothing")
+    @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
-    @FeeFullYear
+    void testGetYear_CurrentMonth_NotPaid_SearchNextYear() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(FeeInitializer.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
+    @ValidMember
+    void testGetYear_CurrentMonth_NotPaid_SearchPreviousYear() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        feeInitializer.registerFeeCurrentMonth(false);
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(FeeInitializer.PREVIOUS_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the current month, it returns nothing")
+    @ValidMember
     void testGetYear_CurrentMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -85,66 +118,62 @@ class ITFeeCalendarServiceGetYearFilterInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
+            .as("calendars")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a not paid fee in the last three months it returns nothing")
+    @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
-    @FeeFullYear
-    void testGetYear_LastThreeMonths_NotPaid() {
+    void testGetYear_CurrentMonth_Paid_SearchNextYear() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        feeInitializer.registerFeeCurrentMonth(false);
-        feeInitializer.registerFeePreviousMonth(false);
-        feeInitializer.registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
+            .as("calendars")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a paid fee in the last three months it returns nothing")
+    @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
-    @FeeFullYear
-    void testGetYear_LastThreeMonths_Paid() {
+    void testGetYear_CurrentMonth_Paid_SearchPreviousYear() {
         final Iterable<MemberFeeCalendar> calendars;
         final Sort                        sort;
 
-        feeInitializer.registerFeeCurrentMonth(false);
-        feeInitializer.registerFeePreviousMonth(false);
-        feeInitializer.registerFeeTwoMonthsBack(false);
+        feeInitializer.registerFeeCurrentMonth(true);
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.PREVIOUS_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
+            .as("calendars")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a not paid fee in the next month it returns nothing")
+    @DisplayName("With a not paid fee in the next year, it returns the calendar")
     @ValidMember
-    @FeeFullYear
-    void testGetYear_NextMonth_NotPaid() {
+    void testGetYear_NextYear_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
         final MemberFeeCalendar           calendar;
+        final Sort                        sort;
 
-        feeInitializer.registerFeeNextMonth(false);
+        feeInitializer.registerFeeNextYear(false);
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .as("calendars")
@@ -154,25 +183,24 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             .next();
         Assertions.assertThat(calendar.getMonths())
             .as("calendars")
-            .hasSize(12);
+            .hasSize(1);
 
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
     }
 
     @Test
-    @DisplayName("With a paid fee in the next month it returns the calendar")
+    @DisplayName("With a paid fee in the next year, it returns the calendar")
     @ValidMember
-    @FeeFullYear
-    void testGetYear_NextMonth_Paid() {
+    void testGetYear_NextYear_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
         final MemberFeeCalendar           calendar;
+        final Sort                        sort;
 
-        feeInitializer.registerFeeNextMonth(true);
+        feeInitializer.registerFeeNextYear(true);
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .as("calendars")
@@ -182,25 +210,55 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             .next();
         Assertions.assertThat(calendar.getMonths())
             .as("calendars")
-            .hasSize(12);
+            .hasSize(1);
 
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
     }
 
     @Test
-    @DisplayName("With a not paid fee in the previous month it returns the the calendar")
+    @DisplayName("With no data, it returns nothing")
+    void testGetYear_NoData() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(FeeInitializer.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no fees, it nothing")
     @ValidMember
-    @FeeFullYear
+    void testGetYear_NoFees() {
+        final Iterable<MemberFeeCalendar> calendars;
+        final Sort                        sort;
+
+        sort = Sort.unsorted();
+
+        calendars = service.getYear(FeeInitializer.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+
+        Assertions.assertThat(calendars)
+            .as("calendars")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee in the previous month, it returns the calendar")
+    @ValidMember
     void testGetYear_PreviousMonth_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
         final MemberFeeCalendar           calendar;
+        final Sort                        sort;
 
         feeInitializer.registerFeePreviousMonth(false);
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.PREVIOUS_MONTH.getYear(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .as("calendars")
@@ -210,15 +268,14 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             .next();
         Assertions.assertThat(calendar.getMonths())
             .as("calendars")
-            .hasSize(12);
+            .hasSize(1);
 
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
     }
 
     @Test
-    @DisplayName("With a paid fee in the previous month it returns the calendar")
+    @DisplayName("With a paid fee in the previous month, it returns the calendar")
     @ValidMember
-    @FeeFullYear
     void testGetYear_PreviousMonth_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -228,7 +285,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.PREVIOUS_MONTH.getYear(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .as("calendars")
@@ -238,15 +295,14 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             .next();
         Assertions.assertThat(calendar.getMonths())
             .as("calendars")
-            .hasSize(12);
+            .hasSize(1);
 
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
     }
 
     @Test
-    @DisplayName("With a not paid fee two months back it returns the calendar")
+    @DisplayName("With a not paid fee two months back, it returns the calendar")
     @ValidMember
-    @FeeFullYear
     void testGetYear_TwoMonthsBack_NotPaid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -256,7 +312,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.TWO_MONTHS_BACK.getYear(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .as("calendars")
@@ -266,15 +322,14 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             .next();
         Assertions.assertThat(calendar.getMonths())
             .as("calendars")
-            .hasSize(12);
+            .hasSize(1);
 
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
     }
 
     @Test
-    @DisplayName("With a paid fee two months back it returns the calendar")
+    @DisplayName("With a paid fee two months back, it returns the calendar")
     @ValidMember
-    @FeeFullYear
     void testGetYear_TwoMonthsBack_Paid() {
         final Iterable<MemberFeeCalendar> calendars;
         final MemberFeeCalendar           calendar;
@@ -284,7 +339,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
 
         sort = Sort.unsorted();
 
-        calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeInitializer.TWO_MONTHS_BACK.getYear(), MemberStatus.INACTIVE, sort);
 
         Assertions.assertThat(calendars)
             .as("calendars")
@@ -294,9 +349,8 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             .next();
         Assertions.assertThat(calendar.getMonths())
             .as("calendars")
-            .hasSize(12);
+            .hasSize(1);
 
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
     }
-
 }

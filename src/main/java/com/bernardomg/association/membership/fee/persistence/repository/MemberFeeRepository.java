@@ -70,7 +70,12 @@ public interface MemberFeeRepository
     public Collection<MemberFeeEntity> findAllInRangeForMembersIn(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
-    @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f WHERE extract(year from f.date) <= :end GROUP BY feeYear ORDER BY feeYear ASC")
-    public Collection<Integer> findYears(@Param("end") final int end);
+    /**
+     * Returns all the years based on the existing fees.
+     *
+     * @return all the years for the existing fees
+     */
+    @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f GROUP BY feeYear ORDER BY feeYear ASC")
+    public Collection<Integer> findYears();
 
 }
