@@ -127,7 +127,7 @@ public class FeeController {
 
     @PutMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.id") }, evict = { @CacheEvict(cacheNames = {
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.date.toString() + ':' + #result.memberId") }, evict = { @CacheEvict(cacheNames = {
             // Fee caches
             FeeCaches.FEES,
             // Member caches
