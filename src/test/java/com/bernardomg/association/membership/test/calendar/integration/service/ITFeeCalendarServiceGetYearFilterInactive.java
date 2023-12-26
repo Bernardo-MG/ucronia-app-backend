@@ -206,7 +206,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             calendar = calendars.iterator()
                 .next();
             softly.assertThat(calendar.getMonths())
-                .as("calendars")
+                .as("months")
                 .hasSize(1);
 
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
@@ -239,7 +239,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             calendar = calendars.iterator()
                 .next();
             softly.assertThat(calendar.getMonths())
-                .as("calendars")
+                .as("months")
                 .hasSize(1);
 
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
@@ -309,7 +309,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             calendar = calendars.iterator()
                 .next();
             softly.assertThat(calendar.getMonths())
-                .as("calendars")
+                .as("months")
                 .hasSize(1);
 
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
@@ -342,7 +342,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             calendar = calendars.iterator()
                 .next();
             softly.assertThat(calendar.getMonths())
-                .as("calendars")
+                .as("months")
                 .hasSize(1);
 
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
@@ -375,7 +375,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             calendar = calendars.iterator()
                 .next();
             softly.assertThat(calendar.getMonths())
-                .as("calendars")
+                .as("months")
                 .hasSize(1);
 
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
@@ -408,7 +408,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
             calendar = calendars.iterator()
                 .next();
             softly.assertThat(calendar.getMonths())
-                .as("calendars")
+                .as("months")
                 .hasSize(1);
 
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());

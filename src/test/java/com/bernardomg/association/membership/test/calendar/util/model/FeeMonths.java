@@ -29,9 +29,9 @@ public final class FeeMonths {
             .build();
     }
 
-    public static final FeeMonth paid(final int month) {
+    public static final FeeMonth paid(final int year, final int month) {
         return FeeMonth.builder()
-            .date(YearMonth.of(2019, month))
+            .date(YearMonth.of(year, month))
             .memberId(1l)
             .month(month)
             .paid(true)
