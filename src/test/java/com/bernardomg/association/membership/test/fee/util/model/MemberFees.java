@@ -17,6 +17,15 @@ public final class MemberFees {
             .build();
     }
 
+    public static final MemberFee notPaid() {
+        return MemberFee.builder()
+            .memberId(1L)
+            .memberName("Member 1 Surname 1")
+            .date(Fees.DATE)
+            .paid(false)
+            .build();
+    }
+
     public static final MemberFee notPaidAt(final long index, final Month month) {
         return MemberFee.builder()
             .memberId(index)

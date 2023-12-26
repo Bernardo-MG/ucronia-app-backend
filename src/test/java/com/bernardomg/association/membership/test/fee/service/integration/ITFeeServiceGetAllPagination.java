@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
+import java.time.Month;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,7 +113,7 @@ class ITFeeServiceGetAllPagination {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paid());
+            .containsExactly(MemberFees.paidAt(2, Month.MARCH));
     }
 
     @Test

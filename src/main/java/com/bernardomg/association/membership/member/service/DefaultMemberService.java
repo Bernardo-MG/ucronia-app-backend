@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -58,10 +59,8 @@ public final class DefaultMemberService implements MemberService {
         entity = mapper.toEntity(member);
 
         // Trim strings
-        entity.setName(entity.getName()
-            .trim());
-        entity.setSurname(entity.getSurname()
-            .trim());
+        entity.setName(StringUtils.trim(entity.getName()));
+        entity.setSurname(StringUtils.trim(entity.getSurname()));
 
         created = memberRepository.save(entity);
 

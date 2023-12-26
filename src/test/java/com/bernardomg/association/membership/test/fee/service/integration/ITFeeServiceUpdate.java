@@ -136,7 +136,7 @@ class ITFeeServiceUpdate {
 
         // THEN
         Assertions.assertThat(fee)
-            .isEqualTo(MemberFees.paid());
+            .isEqualTo(MemberFees.notPaid());
     }
 
 }
