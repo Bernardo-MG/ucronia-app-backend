@@ -33,16 +33,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
-import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
+import com.bernardomg.association.membership.test.fee.util.model.PersistentFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -83,8 +83,8 @@ class ITFeeServiceUpdate {
     @ValidMember
     @NotPaidFee
     void testUpdate_Pay_PersistedData() {
-        final FeeUpdate feeRequest;
-        final FeeEntity fee;
+        final FeeUpdate     feeRequest;
+        final PersistentFee fee;
 
         // GIVEN
         feeRequest = FeesUpdate.paid();
@@ -96,7 +96,7 @@ class ITFeeServiceUpdate {
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.paidAt(Month.FEBRUARY));
+        FeeAssertions.isEqualTo(fee, PersistentFees.paidAt(Month.FEBRUARY));
     }
 
     @Test
@@ -104,8 +104,8 @@ class ITFeeServiceUpdate {
     @ValidMember
     @PaidFee
     void testUpdate_PersistedData() {
-        final FeeUpdate feeRequest;
-        final FeeEntity fee;
+        final FeeUpdate     feeRequest;
+        final PersistentFee fee;
 
         // GIVEN
         feeRequest = FeesUpdate.notPaid();
@@ -117,7 +117,7 @@ class ITFeeServiceUpdate {
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.notPaidAt(Month.FEBRUARY));
+        FeeAssertions.isEqualTo(fee, PersistentFees.notPaidAt(Month.FEBRUARY));
     }
 
     @Test

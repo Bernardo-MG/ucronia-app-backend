@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberFeeEntity implements Serializable {
+public class PersistentMemberFee implements Serializable {
 
     /**
      * Serialization ID.

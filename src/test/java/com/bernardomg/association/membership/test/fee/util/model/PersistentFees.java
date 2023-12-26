@@ -4,12 +4,12 @@ package com.bernardomg.association.membership.test.fee.util.model;
 import java.time.Month;
 import java.time.YearMonth;
 
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 
-public final class FeeEntities {
+public final class PersistentFees {
 
-    public static FeeEntity notPaidAt(final Month month) {
-        return FeeEntity.builder()
+    public static PersistentFee notPaidAt(final Month month) {
+        return PersistentFee.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(2020, month))
@@ -17,8 +17,8 @@ public final class FeeEntities {
             .build();
     }
 
-    public static FeeEntity paid() {
-        return FeeEntity.builder()
+    public static PersistentFee paid() {
+        return PersistentFee.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.DATE)
@@ -26,8 +26,8 @@ public final class FeeEntities {
             .build();
     }
 
-    public static FeeEntity paidAt(final Month month) {
-        return FeeEntity.builder()
+    public static PersistentFee paidAt(final Month month) {
+        return PersistentFee.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(2020, month))
@@ -35,8 +35,8 @@ public final class FeeEntities {
             .build();
     }
 
-    public static FeeEntity paidNextDate() {
-        return FeeEntity.builder()
+    public static PersistentFee paidNextDate() {
+        return PersistentFee.builder()
             .id(2L)
             .memberId(1L)
             .date(Fees.NEXT_DATE)
@@ -44,7 +44,7 @@ public final class FeeEntities {
             .build();
     }
 
-    private FeeEntities() {
+    private PersistentFees() {
         super();
     }
 

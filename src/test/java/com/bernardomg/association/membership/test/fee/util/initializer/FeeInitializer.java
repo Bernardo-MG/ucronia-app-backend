@@ -7,7 +7,7 @@ import java.time.YearMonth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 
 @Component
@@ -45,9 +45,9 @@ public final class FeeInitializer {
     private FeeRepository         feeRepository;
 
     public final void registerFeeCurrentMonth(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(CURRENT_MONTH)
@@ -58,9 +58,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeeCurrentMonthAlternative(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(2L)
             .date(CURRENT_MONTH)
@@ -71,9 +71,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeeNextMonth(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(NEXT_MONTH)
@@ -84,9 +84,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeeNextYear(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(NEXT_YEAR_MONTH)
@@ -97,9 +97,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeePreviousMonth(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(PREVIOUS_MONTH)
@@ -110,9 +110,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeePreviousYear(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(PREVIOUS_YEAR_MONTH)
@@ -123,9 +123,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeeTwoMonthsBack(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(TWO_MONTHS_BACK)
@@ -136,9 +136,9 @@ public final class FeeInitializer {
     }
 
     public final void registerFeeTwoYearsBack(final Boolean paid) {
-        final FeeEntity fee;
+        final PersistentFee fee;
 
-        fee = FeeEntity.builder()
+        fee = PersistentFee.builder()
             .paid(paid)
             .memberId(1L)
             .date(TWO_YEARS_BACK)

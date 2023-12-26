@@ -38,14 +38,14 @@ import com.bernardomg.association.funds.test.transaction.util.model.PersistentTr
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
-import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
+import com.bernardomg.association.membership.test.fee.util.model.PersistentFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -73,7 +73,7 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_PersistedFee() {
-        final List<FeeEntity> entities;
+        final List<PersistentFee> entities;
 
         // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
@@ -85,7 +85,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.paid());
+            .next(), PersistentFees.paid());
     }
 
     @Test
@@ -131,8 +131,8 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_MultipleDates_ExistingNotPaid_PersistedFee() {
-        final List<FeeEntity>     entities;
-        final Iterator<FeeEntity> entitiesItr;
+        final List<PersistentFee>     entities;
+        final Iterator<PersistentFee> entitiesItr;
 
         // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
@@ -142,8 +142,8 @@ class ITFeeServicePayFees {
 
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paid());
+        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paidNextDate());
     }
 
     @Test
@@ -172,8 +172,8 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee() {
-        final List<FeeEntity>     entities;
-        final Iterator<FeeEntity> entitiesItr;
+        final List<PersistentFee>     entities;
+        final Iterator<PersistentFee> entitiesItr;
 
         // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
@@ -183,8 +183,8 @@ class ITFeeServicePayFees {
 
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paid());
+        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paidNextDate());
     }
 
     @Test
@@ -231,7 +231,7 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedFee() {
-        final List<FeeEntity> entities;
+        final List<PersistentFee> entities;
 
         // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
@@ -243,7 +243,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.paid());
+            .next(), PersistentFees.paid());
     }
 
     @Test

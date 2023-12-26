@@ -39,7 +39,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
-import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
@@ -69,17 +69,17 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
     @Override
     public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort) {
-        final Collection<MemberFeeEntity>      readFees;
-        final Map<Long, List<MemberFeeEntity>> memberFees;
-        final Collection<MemberFeeCalendar>    years;
-        final Collection<Long>                 memberIds;
-        final YearMonth                        start;
-        final YearMonth                        end;
-        final YearMonth                        validStart;
-        final YearMonth                        validEnd;
-        final Collection<Long>                 foundIds;
-        List<MemberFeeEntity>                  fees;
-        MemberFeeCalendar                      feeYear;
+        final Collection<PersistentMemberFee>      readFees;
+        final Map<Long, List<PersistentMemberFee>> memberFees;
+        final Collection<MemberFeeCalendar>        years;
+        final Collection<Long>                     memberIds;
+        final YearMonth                            start;
+        final YearMonth                            end;
+        final YearMonth                            validStart;
+        final YearMonth                            validEnd;
+        final Collection<Long>                     foundIds;
+        List<PersistentMemberFee>                  fees;
+        MemberFeeCalendar                          feeYear;
 
         start = YearMonth.of(year, Month.JANUARY);
         end = YearMonth.of(year, Month.DECEMBER);
@@ -104,10 +104,10 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         // Member fees grouped by id
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(MemberFeeEntity::getMemberId));
+            .collect(Collectors.groupingBy(PersistentMemberFee::getMemberId));
         // Sorted ids
         memberIds = readFees.stream()
-            .map(MemberFeeEntity::getMemberId)
+            .map(PersistentMemberFee::getMemberId)
             .distinct()
             .toList();
 
@@ -121,7 +121,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         return years;
     }
 
-    private final FeeMonth toFeeMonth(final MemberFeeEntity fee) {
+    private final FeeMonth toFeeMonth(final PersistentMemberFee fee) {
         final Integer month;
 
         // Calendar months start at index 0, this has to be corrected
@@ -137,9 +137,9 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
     }
 
     private final MemberFeeCalendar toFeeYear(final Long member, final Integer year,
-            final Collection<MemberFeeEntity> fees) {
+            final Collection<PersistentMemberFee> fees) {
         final Collection<FeeMonth> months;
-        final MemberFeeEntity      row;
+        final PersistentMemberFee  row;
         final String               name;
         final boolean              active;
         final YearMonth            validStart;

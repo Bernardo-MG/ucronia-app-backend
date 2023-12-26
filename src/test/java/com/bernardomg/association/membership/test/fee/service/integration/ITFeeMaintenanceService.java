@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.membership.test.fee.config.argument.FeeMonthPaidArgumentsProvider;
@@ -48,7 +48,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<FeeEntity> fees;
+            final Collection<PersistentFee> fees;
 
             fees = feeRepository.findAll();
 
@@ -86,7 +86,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<FeeEntity> fees;
+            final Collection<PersistentFee> fees;
 
             fees = feeRepository.findAll();
 
@@ -98,7 +98,7 @@ public class ITFeeMaintenanceService {
             softly.assertThat(fees)
                 .first()
                 .as("fee")
-                .extracting(FeeEntity::getPaid)
+                .extracting(PersistentFee::getPaid)
                 .isEqualTo(paid);
         });
     }
@@ -148,7 +148,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<FeeEntity> fees;
+            final Collection<PersistentFee> fees;
 
             fees = feeRepository.findAll();
 
@@ -186,7 +186,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<FeeEntity> fees;
+            final Collection<PersistentFee> fees;
 
             fees = feeRepository.findAll();
 
@@ -198,7 +198,7 @@ public class ITFeeMaintenanceService {
             softly.assertThat(fees)
                 .first()
                 .as("fee")
-                .extracting(FeeEntity::getPaid)
+                .extracting(PersistentFee::getPaid)
                 .isEqualTo(paid);
         });
     }
