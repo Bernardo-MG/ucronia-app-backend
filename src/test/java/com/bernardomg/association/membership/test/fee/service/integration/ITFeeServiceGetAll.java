@@ -46,7 +46,6 @@ import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertio
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -241,25 +240,6 @@ class ITFeeServiceGetAll {
 
         Assertions.assertThat(fees)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With no name or surname it returns an empty name")
-    @NoNameOrSurnameMember
-    @PaidFee
-    void testGetAll_NoNameOrSurname() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
-
-        pageable = Pageable.unpaged();
-
-        feeQuery = FeesQuery.empty();
-
-        fees = service.getAll(feeQuery, pageable);
-
-        Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
     }
 
     @Test

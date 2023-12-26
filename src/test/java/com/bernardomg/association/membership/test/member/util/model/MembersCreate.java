@@ -31,14 +31,6 @@ public final class MembersCreate {
             .build();
     }
 
-    public static final MemberCreate missingPhone() {
-        return MemberCreateRequest.builder()
-            .name("Member")
-            .surname("Surname")
-            .identifier("6789")
-            .build();
-    }
-
     public static final MemberCreate missingSurname() {
         return MemberCreateRequest.builder()
             .name("Member")

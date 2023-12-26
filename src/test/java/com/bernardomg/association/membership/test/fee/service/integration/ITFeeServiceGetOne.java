@@ -36,7 +36,6 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
-import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -56,20 +55,7 @@ class ITFeeServiceGetOne {
     @DisplayName("With a valid id, the related entity is returned")
     @ValidMember
     @PaidFee
-    void testGetOne_Existing() {
-        final Optional<MemberFee> fee;
-
-        fee = service.getOne(1L, Fees.DATE);
-
-        Assertions.assertThat(fee)
-            .contains(MemberFees.paid());
-    }
-
-    @Test
-    @DisplayName("With no name or surname, an empty name is returned")
-    @NoNameOrSurnameMember
-    @PaidFee
-    void testGetOne_NoNameOrSurname() {
+    void testGetOne() {
         final Optional<MemberFee> fee;
 
         fee = service.getOne(1L, Fees.DATE);
@@ -88,7 +74,7 @@ class ITFeeServiceGetOne {
         fee = service.getOne(1L, Fees.DATE);
 
         Assertions.assertThat(fee)
-            .contains(MemberFees.paid());
+            .contains(MemberFees.noSurname());
     }
 
 }

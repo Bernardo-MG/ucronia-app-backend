@@ -55,24 +55,27 @@ class ITMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With two members with minimal data, the members are persisted")
-    void testCreate_Minimal_Additional_AddsEntity() {
-        MemberCreate memberRequest;
+    @DisplayName("With a member with no surname, the member is persisted")
+    void testCreate_NoSurname_PersistedData() {
+        final MemberCreate memberRequest;
+        final MemberEntity entity;
 
-        memberRequest = MembersCreate.valid();
-
-        service.create(memberRequest);
-
-        memberRequest = MembersCreate.alternative();
+        memberRequest = MembersCreate.missingSurname();
 
         service.create(memberRequest);
 
         Assertions.assertThat(repository.count())
-            .isEqualTo(2);
+            .isOne();
+
+        entity = repository.findAll()
+            .iterator()
+            .next();
+
+        MemberAssertions.isEqualTo(entity, MembersEntity.missingSurname());
     }
 
     @Test
-    @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
+    @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
         final MemberCreate memberRequest;
         final MemberEntity entity;
