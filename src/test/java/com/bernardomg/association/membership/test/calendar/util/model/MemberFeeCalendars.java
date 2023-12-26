@@ -7,6 +7,7 @@ import java.util.List;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 
 public final class MemberFeeCalendars {
 
@@ -82,62 +83,74 @@ public final class MemberFeeCalendars {
             .year(MemberCalendars.YEAR)
             .active(false)
             .months(List.of(FeeMonth.builder()
-                .feeId(1L)
+                .date(Fees.DATE)
+                .memberId(1l)
                 .month(1)
                 .paid(true)
                 .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(2)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(3)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(4)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(5)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(6)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(7)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(8)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(9)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(10)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(11)
                     .paid(true)
                     .build(),
                 FeeMonth.builder()
-                    .feeId(1L)
+                    .date(Fees.DATE)
+                    .memberId(1l)
                     .month(12)
                     .paid(true)
                     .build()))
@@ -176,6 +189,15 @@ public final class MemberFeeCalendars {
             .memberId(1L)
             .memberName(MemberCalendars.FULL_NAME)
             .year(FeeInitializer.PREVIOUS_MONTH.getYear())
+            .active(false)
+            .build();
+    }
+
+    public static final MemberFeeCalendar inactivePreviousYear() {
+        return MemberFeeCalendar.builder()
+            .memberId(1L)
+            .memberName(MemberCalendars.FULL_NAME)
+            .year(MemberCalendars.YEAR_PREVIOUS)
             .active(false)
             .build();
     }

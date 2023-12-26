@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.membership.test.calendar.integration.service;
 
+import java.time.Month;
 import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
@@ -33,11 +34,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
@@ -76,6 +77,7 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         Assertions.assertThat(calendars)
+            .as("calendars")
             .hasSize(1);
 
         calendar = calendars.iterator()
@@ -105,6 +107,7 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         Assertions.assertThat(calendars)
+            .as("calendars")
             .hasSize(2);
 
         calendarsItr = calendars.iterator();
@@ -161,53 +164,20 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final MemberFeeCalendar  calendar;
-            final Iterator<FeeMonth> months;
-            FeeMonth                 month;
+            final MemberFeeCalendar calendar;
 
             softly.assertThat(calendars)
+                .as("calendars")
                 .hasSize(1);
 
             calendar = calendars.iterator()
                 .next();
-            softly.assertThat(calendar.getMemberId())
-                .isEqualTo(1);
-            softly.assertThat(calendar.getMemberName())
-                .isEqualTo(MemberCalendars.FULL_NAME);
-            softly.assertThat(calendar.getYear())
-                .isEqualTo(MemberCalendars.YEAR_PREVIOUS);
-            softly.assertThat(calendar.isActive())
-                .isFalse();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousYear());
 
             softly.assertThat(calendar.getMonths())
-                .hasSize(3);
-
-            months = calendar.getMonths()
-                .iterator();
-
-            month = months.next();
-            softly.assertThat(month.getFeeId())
-                .isNotNull();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(10);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getFeeId())
-                .isNotNull();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(11);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getFeeId())
-                .isNotNull();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(12);
-            softly.assertThat(month.isPaid())
-                .isTrue();
+                .as("months")
+                .containsExactly(FeeMonths.paid(2019, Month.OCTOBER.getValue()),
+                    FeeMonths.paid(2019, Month.NOVEMBER.getValue()), FeeMonths.paid(2019, Month.DECEMBER.getValue()));
         });
     }
 
@@ -227,11 +197,10 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final MemberFeeCalendar  calendar;
-            final Iterator<FeeMonth> months;
-            FeeMonth                 month;
+            final MemberFeeCalendar calendar;
 
             softly.assertThat(calendars)
+                .as("calendars")
                 .hasSize(1);
 
             calendar = calendars.iterator()
@@ -239,52 +208,11 @@ class ITFeeCalendarServiceGetYear {
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
 
             softly.assertThat(calendar.getMonths())
-                .hasSize(7);
-
-            months = calendar.getMonths()
-                .iterator();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(1);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(2);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(3);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(4);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(5);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(6);
-            softly.assertThat(month.isPaid())
-                .isTrue();
-
-            month = months.next();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(7);
-            softly.assertThat(month.isPaid())
-                .isTrue();
+                .as("months")
+                .containsExactly(FeeMonths.paid(2020, Month.JANUARY.getValue()),
+                    FeeMonths.paid(2020, Month.FEBRUARY.getValue()), FeeMonths.paid(2020, Month.MARCH.getValue()),
+                    FeeMonths.paid(2020, Month.APRIL.getValue()), FeeMonths.paid(2020, Month.MAY.getValue()),
+                    FeeMonths.paid(2020, Month.JUNE.getValue()), FeeMonths.paid(2020, Month.JULY.getValue()));
         });
     }
 
