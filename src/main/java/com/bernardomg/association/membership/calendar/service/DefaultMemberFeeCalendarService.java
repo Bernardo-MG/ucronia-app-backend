@@ -130,7 +130,8 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             .getValue();
 
         return FeeMonth.builder()
-            .feeId(fee.getId())
+            .date(fee.getDate())
+            .memberId(fee.getMemberId())
             .month(month)
             .paid(fee.getPaid())
             .build();

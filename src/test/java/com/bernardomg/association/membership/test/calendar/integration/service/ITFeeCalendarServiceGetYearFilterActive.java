@@ -35,6 +35,7 @@ import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -78,11 +79,11 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
             calendar = calendars.iterator()
                 .next();
-            softly.assertThat(calendar.getMonths())
-                .as("calendars")
-                .hasSize(1);
-
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+
+            softly.assertThat(calendar.getMonths())
+                .as("months")
+                .containsExactly(FeeMonths.notPaidCurrent());
         });
     }
 
@@ -152,11 +153,11 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
             calendar = calendars.iterator()
                 .next();
-            softly.assertThat(calendar.getMonths())
-                .as("calendars")
-                .hasSize(1);
-
             MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+
+            softly.assertThat(calendar.getMonths())
+                .as("months")
+                .containsExactly(FeeMonths.paidCurrent());
         });
     }
 

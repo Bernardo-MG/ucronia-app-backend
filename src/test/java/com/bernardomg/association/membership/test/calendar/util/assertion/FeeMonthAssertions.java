@@ -8,9 +8,12 @@ import com.bernardomg.association.membership.calendar.model.FeeMonth;
 public final class FeeMonthAssertions {
 
     public static final void isEqualTo(final FeeMonth received, final FeeMonth expected) {
-        Assertions.assertThat(received.getFeeId())
-            .as("id")
-            .isNotNull();
+        Assertions.assertThat(received.getDate())
+            .as("date")
+            .isEqualTo(expected.getDate());
+        Assertions.assertThat(received.getMemberId())
+            .as("member id")
+            .isEqualTo(expected.getMemberId());
         Assertions.assertThat(received.getMonth())
             .as("month")
             .isEqualTo(expected.getMonth());
