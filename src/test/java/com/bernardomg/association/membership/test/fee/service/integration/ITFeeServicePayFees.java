@@ -24,10 +24,8 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -36,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.model.MemberFee;
@@ -44,6 +43,7 @@ import com.bernardomg.association.membership.fee.persistence.repository.FeeRepos
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -73,22 +73,16 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_PersistedFee() {
-        final FeeEntity entity;
+        final List<FeeEntity> entities;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-        FeeAssertions.isEqualTo(entity, FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(entities.iterator().next(), FeeEntities.paid());
     }
 
     @Test
@@ -97,22 +91,17 @@ class ITFeeServicePayFees {
     @NotPaidFee
     @FeeAmountConfiguration
     void testCreate_ExistingNotPaid_PersistedTransaction() {
-        final PersistentTransaction entity;
+        final List<PersistentTransaction> entities;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        entity = transactionRepository.findAll()
-            .iterator()
-            .next();
+        entities = transactionRepository.findAll();
 
-        Assertions.assertThat(transactionRepository.count())
-            .isEqualTo(1);
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .id(1L)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
-            .amount(1F)
-            .build());
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        TransactionAssertions.isEqualTo(entities.iterator()
+            .next(), PersistentTransactions.singleFee());
     }
 
     @Test
@@ -130,65 +119,94 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid with multiple dates multiple fees are persisted")
+    @DisplayName("When a fee is paidwith multiple dates and a fee exists but is not paid, it is set to paid")
     @ValidMember
+    @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_PersistedFee() {
+    void testCreate_MultipleDates_ExistingNotPaid_PersistedFee() {
+        final List<FeeEntity>     entities;
+        final Iterator<FeeEntity> entitiesItr;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
-        Assertions.assertThat(repository.count())
-            .isEqualTo(2);
+        entities = repository.findAll();
 
-        Assertions.assertThat(repository.findAll())
-            .extracting(FeeEntity::getDate)
-            .contains(YearMonth.of(2020, Month.FEBRUARY))
-            .contains(YearMonth.of(2020, Month.MARCH));
+        entitiesItr = entities.iterator();
+
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
     }
 
     @Test
-    @DisplayName("When a fee is paid with multiple dates a single transaction is persisted")
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
     @ValidMember
+    @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_PersistedFee_PersistedTransaction() {
-        final PersistentTransaction entity;
+    void testCreate_MultipleDates_ExistingNotPaid_PersistedTransaction() {
+        final List<PersistentTransaction> entities;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
-        entity = transactionRepository.findAll()
-            .iterator()
-            .next();
+        entities = transactionRepository.findAll();
 
-        Assertions.assertThat(transactionRepository.count())
-            .isEqualTo(1);
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .id(1L)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Cuota de Member 1 Surname 1 para Febrero 2020, Marzo 2020")
-            .amount(2F)
-            .build());
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        TransactionAssertions.isEqualTo(entities.iterator()
+            .next(), PersistentTransactions.multipleFees());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, multiple fees are persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedFee() {
+        final List<FeeEntity>     entities;
+        final Iterator<FeeEntity> entitiesItr;
+
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+
+        entities = repository.findAll();
+
+        entitiesItr = entities.iterator();
+
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedTransaction() {
+        final List<PersistentTransaction> entities;
+
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+
+        entities = transactionRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        TransactionAssertions.isEqualTo(entities.iterator()
+            .next(), PersistentTransactions.multipleFees());
     }
 
     @Test
     @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
     @ValidMember
     void testCreate_NoAmount_PersistedTransaction() {
-        final PersistentTransaction entity;
+        final List<PersistentTransaction> entities;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        entity = transactionRepository.findAll()
-            .iterator()
-            .next();
+        entities = transactionRepository.findAll();
 
-        Assertions.assertThat(transactionRepository.count())
-            .isEqualTo(1);
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .id(1L)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
-            .amount(0F)
-            .build());
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        TransactionAssertions.isEqualTo(entities.iterator()
+            .next(), PersistentTransactions.singleFeeNoAmount());
     }
 
     @Test
@@ -196,22 +214,16 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedFee() {
-        final FeeEntity entity;
+        final List<FeeEntity> entities;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-        FeeAssertions.isEqualTo(entity, FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        FeeAssertions.isEqualTo(entities.iterator().next(), FeeEntities.paid());
     }
 
     @Test
@@ -219,22 +231,17 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction() {
-        final PersistentTransaction entity;
+        final List<PersistentTransaction> entities;
 
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        entity = transactionRepository.findAll()
-            .iterator()
-            .next();
+        entities = transactionRepository.findAll();
 
-        Assertions.assertThat(transactionRepository.count())
-            .isEqualTo(1);
-        TransactionAssertions.isEqualTo(entity, PersistentTransaction.builder()
-            .id(1L)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Cuota de Member 1 Surname 1 para Febrero 2020")
-            .amount(1F)
-            .build());
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        TransactionAssertions.isEqualTo(entities.iterator()
+            .next(), PersistentTransactions.singleFee());
     }
 
     @Test

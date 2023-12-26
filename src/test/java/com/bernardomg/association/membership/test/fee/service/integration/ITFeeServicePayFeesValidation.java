@@ -51,7 +51,7 @@ class ITFeeServicePayFeesValidation {
     }
 
     @Test
-    @DisplayName("With duplicated dates it throws an exception")
+    @DisplayName("With duplicated dates, it throws an exception")
     @ValidMember
     void testCreate_DuplicatedDates() {
         final ThrowingCallable execution;
@@ -65,7 +65,7 @@ class ITFeeServicePayFeesValidation {
     }
 
     @Test
-    @DisplayName("With a repeated member and month it throws an exception")
+    @DisplayName("With the fee already paid, it throws an exception")
     @ValidMember
     @PaidFee
     void testCreate_Existing_Paid() {
@@ -73,6 +73,21 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("With one of the fees already paid, it throws an exception")
+    @ValidMember
+    @PaidFee
+    void testCreate_MultipleDates_OneExisting_Paid() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
