@@ -24,15 +24,16 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.model.FeesCreate;
+import com.bernardomg.association.membership.test.fee.config.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -40,7 +41,6 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @DisplayName("Fee service - pay fees - validation")
-@ValidMember
 class ITFeeServicePayFeesValidation {
 
     @Autowired
@@ -51,51 +51,51 @@ class ITFeeServicePayFeesValidation {
     }
 
     @Test
-    @DisplayName("With duplicated dates it throws an exception")
+    @DisplayName("With duplicated dates, it throws an exception")
+    @ValidMember
     void testCreate_DuplicatedDates() {
-        final FeesPayment      feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
-        feeRequest = FeesCreate.duplicatedDates();
+        // WHEN
+        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.DATE));
 
-        execution = () -> service.payFees(feeRequest);
-
+        // THEN
         failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
-    @DisplayName("With a repeated member and month it throws an exception")
+    @DisplayName("With the fee already paid, it throws an exception")
     @ValidMember
     @PaidFee
     void testCreate_Existing_Paid() {
-        final FeesPayment      feeRequest;
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
-        feeRequest = FeesCreate.valid();
+        // WHEN
+        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
-        execution = () -> service.payFees(feeRequest);
-
+        // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
-    @DisplayName("With an invalid member id it throws an exception")
-    void testCreate_InvalidMember() {
-        final FeesPayment      feeRequest;
+    @DisplayName("With one of the fees already paid, it throws an exception")
+    @ValidMember
+    @PaidFee
+    void testCreate_MultipleDates_OneExisting_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
-        feeRequest = FeesCreate.invalidId();
+        // WHEN
+        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
-        execution = () -> service.payFees(feeRequest);
-
-        failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", -1L);
+        // THEN
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

@@ -34,14 +34,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.configuration.FeeFullYear;
-import com.bernardomg.association.membership.test.fee.configuration.MultipleFees;
+import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -70,16 +70,13 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.FEBRUARY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .as("fees")
+            .containsExactly(MemberFees.paid());
     }
 
     @Test
@@ -95,8 +92,10 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
             .isEmpty();
     }
@@ -114,20 +113,17 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.MARCH));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
+            .as("fees")
+            .containsExactly(MemberFees.paidAt(2, Month.MARCH));
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using the lowest date, the returned data is filtered")
+    @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
     @ValidMember
     @FeeFullYear
     void testGetAll_InDate_FirstDay_Data() {
@@ -139,20 +135,17 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.JANUARY))
-            .paid(true)
-            .build());
+            .as("fees")
+            .containsExactly(MemberFees.paidAt(Month.JANUARY));
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using the highest date, the returned data is filtered")
+    @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
     @ValidMember
     @FeeFullYear
     void testGetAll_InDate_LastDay_Data() {
@@ -164,16 +157,13 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.DECEMBER));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.DECEMBER))
-            .paid(true)
-            .build());
+            .as("fees")
+            .containsExactly(MemberFees.paidAt(Month.DECEMBER));
     }
 
     @Test
@@ -189,9 +179,12 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.NOVEMBER));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -208,16 +201,15 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JUNE));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
+            .as("fees")
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), ImmutableMemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+
+        // THEN
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
@@ -233,9 +225,12 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JULY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 

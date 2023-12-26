@@ -25,23 +25,24 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.configuration.NotPaidFee;
-import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
+import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
+import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
+import com.bernardomg.association.membership.test.fee.util.model.PersistentFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -66,10 +67,13 @@ class ITFeeServiceUpdate {
     void testUpdate_AddsNoEntity() {
         final FeeUpdate feeRequest;
 
+        // GIVEN
         feeRequest = FeesUpdate.notPaid();
 
-        service.update(1L, feeRequest);
+        // WHEN
+        service.update(1L, Fees.DATE, feeRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
     }
@@ -79,21 +83,20 @@ class ITFeeServiceUpdate {
     @ValidMember
     @NotPaidFee
     void testUpdate_Pay_PersistedData() {
-        final FeeUpdate feeRequest;
-        final FeeEntity fee;
+        final FeeUpdate     feeRequest;
+        final PersistentFee fee;
 
+        // GIVEN
         feeRequest = FeesUpdate.paid();
 
-        service.update(1L, feeRequest);
+        // WHEN
+        service.update(1L, Fees.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(fee, FeeEntity.builder()
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        // THEN
+        FeeAssertions.isEqualTo(fee, PersistentFees.paidAt(Month.FEBRUARY));
     }
 
     @Test
@@ -101,21 +104,20 @@ class ITFeeServiceUpdate {
     @ValidMember
     @PaidFee
     void testUpdate_PersistedData() {
-        final FeeUpdate feeRequest;
-        final FeeEntity fee;
+        final FeeUpdate     feeRequest;
+        final PersistentFee fee;
 
+        // GIVEN
         feeRequest = FeesUpdate.notPaid();
 
-        service.update(1L, feeRequest);
+        // WHEN
+        service.update(1L, Fees.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(fee, FeeEntity.builder()
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(false)
-            .build());
+        // THEN
+        FeeAssertions.isEqualTo(fee, PersistentFees.notPaidAt(Month.FEBRUARY));
     }
 
     @Test
@@ -126,16 +128,15 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
         final MemberFee fee;
 
+        // GIVEN
         feeRequest = FeesUpdate.notPaid();
 
-        fee = service.update(1L, feeRequest);
+        // WHEN
+        fee = service.update(1L, Fees.DATE, feeRequest);
 
-        FeeAssertions.isEqualTo(fee, ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(false)
-            .build());
+        // THEN
+        Assertions.assertThat(fee)
+            .isEqualTo(MemberFees.notPaid());
     }
 
 }

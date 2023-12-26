@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.membership.fee.controller;
 
+import java.time.YearMonth;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,6 +32,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,11 +89,11 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
-    public Collection<? extends MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(fee);
+    public Collection<MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
+        return service.payFees(fee.getMemberId(), fee.getPaymentDate(), fee.getFeeDates());
     }
 
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
@@ -102,8 +104,9 @@ public class FeeController {
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true),
             @CacheEvict(cacheNames = FeeCaches.FEE, key = "#p0") })
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+    public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+            @PathVariable("memberId") final long memberId) {
+        service.delete(memberId, date);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -113,24 +116,26 @@ public class FeeController {
         return service.getAll(query, pageable);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
-    public MemberFee readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
+    public MemberFee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+            @PathVariable("memberId") final long memberId) {
+        return service.getOne(memberId, date)
             .orElse(null);
     }
 
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.id") }, evict = { @CacheEvict(cacheNames = {
+    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.date.toString() + ':' + #result.memberId") }, evict = { @CacheEvict(cacheNames = {
             // Fee caches
             FeeCaches.FEES,
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true) })
-    public MemberFee update(@PathVariable("id") final long id, @Valid @RequestBody final FeeUpdateRequest fee) {
-        return service.update(id, fee);
+    public MemberFee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+            @PathVariable("memberId") final long memberId, @Valid @RequestBody final FeeUpdateRequest fee) {
+        return service.update(memberId, date, fee);
     }
 
 }

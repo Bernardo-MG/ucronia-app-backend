@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.Month;
-import java.time.YearMonth;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -33,12 +31,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.ImmutableMemberFee;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
-import com.bernardomg.association.membership.test.member.configuration.NoNameOrSurnameMember;
+import com.bernardomg.association.membership.test.fee.config.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -58,40 +55,15 @@ class ITFeeServiceGetOne {
     @DisplayName("With a valid id, the related entity is returned")
     @ValidMember
     @PaidFee
-    void testGetOne_Existing() {
+    void testGetOne() {
         final Optional<MemberFee> fee;
 
-        fee = service.getOne(1L);
+        // WHEN
+        fee = service.getOne(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
-    }
-
-    @Test
-    @DisplayName("With no name or surname, an empty name is returned")
-    @NoNameOrSurnameMember
-    @PaidFee
-    void testGetOne_NoNameOrSurname() {
-        final Optional<MemberFee> fee;
-
-        fee = service.getOne(1L);
-
-        Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .contains(MemberFees.paid());
     }
 
     @Test
@@ -101,17 +73,12 @@ class ITFeeServiceGetOne {
     void testGetOne_NoSurname() {
         final Optional<MemberFee> fee;
 
-        fee = service.getOne(1L);
+        // WHEN
+        fee = service.getOne(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThat(fee)
-            .isPresent();
-
-        FeeAssertions.isEqualTo(fee.get(), ImmutableMemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+            .contains(MemberFees.noSurname());
     }
 
 }

@@ -24,12 +24,24 @@
 
 package com.bernardomg.association.membership.calendar.model;
 
-public interface FeeMonth {
+import java.time.YearMonth;
 
-    public Long getFeeId();
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-    public Integer getMonth();
+import lombok.Builder;
+import lombok.Value;
 
-    public Boolean getPaid();
+@Value
+@Builder
+public final class FeeMonth {
+
+    @JsonFormat(pattern = "yyyy-MM")
+    private final YearMonth date;
+
+    private final long      memberId;
+
+    private final int       month;
+
+    private final boolean   paid;
 
 }

@@ -1,7 +1,6 @@
 
-package com.bernardomg.association.membership.fee.model.request;
+package com.bernardomg.association.membership.fee.model;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 
@@ -18,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeesPaymentRequest {
+public final class FeesPayment {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotEmpty
@@ -26,9 +25,5 @@ public final class FeesPaymentRequest {
 
     @NotNull
     private Long                           memberId;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull
-    private LocalDate                      paymentDate;
 
 }

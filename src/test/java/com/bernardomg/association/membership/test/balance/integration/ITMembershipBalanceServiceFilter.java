@@ -16,7 +16,7 @@ import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.test.balance.util.assertion.MonthlyMemberBalanceAssertions;
 import com.bernardomg.association.membership.test.balance.util.model.MonthlyMemberBalances;
@@ -52,9 +52,9 @@ class ITMembershipBalanceServiceFilter {
     }
 
     private final void persist(final Integer year, final Month month) {
-        final FeeEntity entity;
+        final PersistentFee entity;
 
-        entity = FeeEntity.builder()
+        entity = PersistentFee.builder()
             .date(YearMonth.of(year, month))
             .memberId(1l)
             .paid(false)
