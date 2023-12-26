@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.membership.fee.controller;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 
@@ -78,7 +77,7 @@ public class FeeController {
      */
     private final FeeService service;
 
-    @PostMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "FEE", action = Actions.CREATE)
     @Caching(evict = { @CacheEvict(cacheNames = {
@@ -90,10 +89,8 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
-    public Collection<MemberFee> create(
-            @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate payDate,
-            @PathVariable("memberId") final long memberId, @Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(memberId, payDate, fee.getFeeDates());
+    public Collection<MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
+        return service.payFees(fee.getMemberId(), fee.getPaymentDate(), fee.getFeeDates());
     }
 
     @DeleteMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
