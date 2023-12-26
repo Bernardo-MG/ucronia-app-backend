@@ -35,6 +35,7 @@ import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -79,11 +80,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+                .containsExactly(FeeMonths.notPaidCurrent());
         });
     }
 
@@ -154,11 +155,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+                .containsExactly(FeeMonths.paidCurrent());
         });
     }
 
@@ -229,11 +230,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
+                .containsExactly(FeeMonths.notPaidNextYear());
         });
     }
 
@@ -262,11 +263,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveNextYear());
+                .containsExactly(FeeMonths.paidNextYear());
         });
     }
 
@@ -332,11 +333,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+                .containsExactly(FeeMonths.notPaidPreviousMonth());
         });
     }
 
@@ -365,11 +366,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+                .containsExactly(FeeMonths.paidPreviousMonth());
         });
     }
 
@@ -398,11 +399,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+                .containsExactly(FeeMonths.notPaidTwoMonthsBack());
         });
     }
 
@@ -431,11 +432,11 @@ class ITFeeCalendarServiceGetYearFilterAll {
 
             calendar = calendars.iterator()
                 .next();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+
             softly.assertThat(calendar.getMonths())
                 .as("months")
-                .hasSize(1);
-
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousMonth());
+                .containsExactly(FeeMonths.paidTwoMonthsBack());
         });
     }
 
