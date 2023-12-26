@@ -26,12 +26,17 @@ package com.bernardomg.association.funds.balance.model;
 
 import java.time.YearMonth;
 
-public interface MonthlyBalance {
+import lombok.Builder;
+import lombok.Value;
 
-    public YearMonth getMonth();
+@Value
+@Builder
+public final class MonthlyBalance {
 
-    public Float getResults();
+    private YearMonth month;
 
-    public Float getTotal();
+    private float     results;
+
+    private float     total;
 
 }

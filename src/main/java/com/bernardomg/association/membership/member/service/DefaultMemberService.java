@@ -7,9 +7,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
@@ -18,7 +20,6 @@ import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
-import com.bernardomg.exception.MissingIdException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,10 +59,8 @@ public final class DefaultMemberService implements MemberService {
         entity = mapper.toEntity(member);
 
         // Trim strings
-        entity.setName(entity.getName()
-            .trim());
-        entity.setSurname(entity.getSurname()
-            .trim());
+        entity.setName(StringUtils.trim(entity.getName()));
+        entity.setSurname(StringUtils.trim(entity.getSurname()));
 
         created = memberRepository.save(entity);
 
@@ -74,7 +73,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Deleting member {}", id);
 
         if (!memberRepository.existsById(id)) {
-            throw new MissingIdException("member", id);
+            throw new MissingMemberIdException(id);
         }
 
         // TODO: Forbid deleting when there are relationships
@@ -114,7 +113,7 @@ public final class DefaultMemberService implements MemberService {
             default:
                 members = memberRepository.findAll(pageable);
 
-                activeIds = memberRepository.findAllActiveIds(validStart, validEnd);
+                activeIds = memberRepository.findAllActiveIdsInRange(validStart, validEnd);
                 activeMapper = m -> {
                     final boolean active;
 
@@ -137,7 +136,7 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Reading member with id {}", id);
 
         if (!memberRepository.existsById(id)) {
-            throw new MissingIdException("member", id);
+            throw new MissingMemberIdException(id);
         }
 
         found = memberRepository.findById(id);
@@ -162,7 +161,7 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Identificator and phone must be unique or empty
 
         if (!memberRepository.existsById(id)) {
-            throw new MissingIdException("member", id);
+            throw new MissingMemberIdException(id);
         }
 
         entity = mapper.toEntity(member);

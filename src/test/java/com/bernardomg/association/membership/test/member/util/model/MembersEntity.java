@@ -5,6 +5,14 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 
 public final class MembersEntity {
 
+    public static final MemberEntity missingSurname() {
+        return MemberEntity.builder()
+            .name("Member 1")
+            .phone("12345")
+            .identifier("6789")
+            .build();
+    }
+
     public static final MemberEntity valid() {
         return MemberEntity.builder()
             .name("Member 1")

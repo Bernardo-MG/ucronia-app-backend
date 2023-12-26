@@ -26,8 +26,13 @@ package com.bernardomg.association.membership.calendar.model;
 
 import java.util.Collection;
 
-public interface YearsRange {
+import lombok.Builder;
+import lombok.Value;
 
-    public Collection<Integer> getYears();
+@Value
+@Builder
+public final class YearsRange {
+
+    private final Collection<Integer> years;
 
 }

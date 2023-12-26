@@ -24,10 +24,15 @@
 
 package com.bernardomg.association.funds.balance.model;
 
-public interface CurrentBalance {
+import lombok.Builder;
+import lombok.Value;
 
-    public Float getResults();
+@Value
+@Builder
+public final class CurrentBalance {
 
-    public Float getTotal();
+    private float results;
+
+    private float total;
 
 }

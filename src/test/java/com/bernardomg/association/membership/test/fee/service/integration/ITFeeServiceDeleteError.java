@@ -30,9 +30,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,10 +53,12 @@ class ITFeeServiceDeleteError {
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(1L);
+        // WHEN
+        execution = () -> service.delete(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
+            .isInstanceOf(MissingFeeIdException.class);
     }
 
 }

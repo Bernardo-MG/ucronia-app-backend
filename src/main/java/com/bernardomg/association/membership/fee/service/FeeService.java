@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.membership.fee.service;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.model.request.FeesPayment;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -22,10 +23,12 @@ public interface FeeService {
     /**
      * Deletes the fee with the received id.
      *
-     * @param id
-     *            id of the fee to delete
+     * @param memberId
+     *            id of the member for the fee to delete
+     * @param date
+     *            date of the fee to delete
      */
-    public void delete(final long id);
+    public void delete(final long memberId, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -41,23 +44,39 @@ public interface FeeService {
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param id
-     *            id of the fee to acquire
+     * @param memberId
+     *            id of the member for the fee to acquire
+     * @param date
+     *            date of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<MemberFee> getOne(final long id);
+    public Optional<MemberFee> getOne(final long memberId, final YearMonth date);
 
-    public Collection<? extends MemberFee> payFees(final FeesPayment fee);
+    /**
+     * Pays fees for a member
+     *
+     * @param memberId
+     *            member paying the fees
+     * @param payDate
+     *            payment day
+     * @param feeDates
+     *            dates for the fees being paid
+     * @return all the paid fees
+     */
+    public Collection<MemberFee> payFees(final long memberId, final LocalDate payDate,
+            final Collection<YearMonth> feeDates);
 
     /**
      * Updates the fee for the received id with the received data.
      *
-     * @param id
-     *            id of the fee to update
+     * @param memberId
+     *            id of the member for the fee to acquire
+     * @param date
+     *            date of the fee to acquire
      * @param fee
      *            new data for the fee
      * @return the updated fee
      */
-    public MemberFee update(final long id, final FeeUpdate fee);
+    public MemberFee update(final long memberId, final YearMonth date, final FeeUpdate fee);
 
 }

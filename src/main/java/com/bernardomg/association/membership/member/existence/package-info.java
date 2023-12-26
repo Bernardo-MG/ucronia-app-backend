@@ -22,19 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.calendar.model;
+/**
+ * Fee exceptions.
+ */
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder
-public final class ImmutableFeeMonth implements FeeMonth {
-
-    private final Long    feeId;
-
-    private final Integer month;
-
-    private final Boolean paid;
-
-}
+package com.bernardomg.association.membership.member.existence;

@@ -3,16 +3,22 @@ package com.bernardomg.association.membership.fee.model;
 
 import java.time.YearMonth;
 
-public interface MemberFee {
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-    public YearMonth getDate();
+import lombok.Builder;
+import lombok.Value;
 
-    public Long getId();
+@Value
+@Builder
+public final class MemberFee {
 
-    public Long getMemberId();
+    @JsonFormat(pattern = "yyyy-MM")
+    private final YearMonth date;
 
-    public String getMemberName();
+    private final long      memberId;
 
-    public Boolean getPaid();
+    private final String    memberName;
+
+    private final boolean   paid;
 
 }

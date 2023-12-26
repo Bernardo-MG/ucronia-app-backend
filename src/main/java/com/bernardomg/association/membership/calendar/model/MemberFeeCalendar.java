@@ -26,16 +26,21 @@ package com.bernardomg.association.membership.calendar.model;
 
 import java.util.Collection;
 
-public interface MemberFeeCalendar {
+import lombok.Builder;
+import lombok.Value;
 
-    public Long getMemberId();
+@Value
+@Builder
+public final class MemberFeeCalendar {
 
-    public String getMemberName();
+    private final boolean              active;
 
-    public Collection<FeeMonth> getMonths();
+    private final long                 memberId;
 
-    public Integer getYear();
+    private final String               memberName;
 
-    public boolean isActive();
+    private final Collection<FeeMonth> months;
+
+    private final int                  year;
 
 }

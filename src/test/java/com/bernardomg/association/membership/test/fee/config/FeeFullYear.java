@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.test.member.configuration;
+package com.bernardomg.association.membership.test.fee.config;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/member/no_name_or_surname.sql")
+@Sql("/db/queries/fee/full_year.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface NoNameOrSurnameMember {
+public @interface FeeFullYear {
 
 }

@@ -32,7 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.configuration.PaidFee;
+import com.bernardomg.association.membership.test.fee.config.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -58,12 +59,15 @@ class ITFeeServiceUpdateValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
+        // GIVEN
         feeRequest = FeesUpdate.paid();
-
-        execution = () -> service.update(1L, feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", 1L);
 
+        // WHEN
+        execution = () -> service.update(1L, Fees.DATE, feeRequest);
+
+        // THEN
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 

@@ -13,8 +13,6 @@ public final class MemberCalendars {
 
     public static final int    YEAR_PREVIOUS         = 2019;
 
-    public static final int    YEAR_TWO_PREVIOUS     = 2018;
-
     private MemberCalendars() {
         super();
     }

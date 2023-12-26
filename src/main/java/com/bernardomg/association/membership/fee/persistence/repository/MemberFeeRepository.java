@@ -33,20 +33,48 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
 
 public interface MemberFeeRepository
-        extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
+        extends JpaRepository<PersistentMemberFee, Long>, JpaSpecificationExecutor<PersistentMemberFee> {
 
+    /**
+     * Returns all member fees inside the received range.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @param sort
+     *            sorting information
+     * @return all member fees filtered by date range
+     */
     @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end")
-    public Collection<MemberFeeEntity> findAllInRange(final Sort sort, @Param("start") final YearMonth start,
-            @Param("end") final YearMonth end);
+    public Collection<PersistentMemberFee> findAllInRange(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end, final Sort sort);
 
+    /**
+     * Returns all member fees with any of the received ids, and which are inside the received range.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @param ids
+     *            ids of the members to filter by
+     * @param sort
+     *            sorting information
+     * @return all member fees filtered by id and date range
+     */
     @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.memberId IN :ids")
-    public Collection<MemberFeeEntity> findAllInRangeForMembersIn(final Sort sort,
-            @Param("start") final YearMonth start, @Param("end") final YearMonth end,
-            @Param("ids") final Collection<Long> ids);
+    public Collection<PersistentMemberFee> findAllInRangeForMembersIn(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
+    /**
+     * Returns all the years based on the existing fees.
+     *
+     * @return all the years for the existing fees
+     */
     @Query("SELECT extract(year from f.date) AS feeYear FROM MemberFee f GROUP BY feeYear ORDER BY feeYear ASC")
     public Collection<Integer> findYears();
 

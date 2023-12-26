@@ -22,25 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.calendar.model;
+package com.bernardomg.association.membership.fee.exception;
 
-import java.util.Collection;
+import com.bernardomg.exception.MissingIdException;
 
-import lombok.Builder;
-import lombok.Value;
+/**
+ * Missing role by id exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingFeeIdException extends MissingIdException {
 
-@Value
-@Builder
-public final class ImmutableMemberFeeCalendar implements MemberFeeCalendar {
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    private final boolean              active;
-
-    private final Long                 memberId;
-
-    private final String               memberName;
-
-    private final Collection<FeeMonth> months;
-
-    private final Integer              year;
+    public MissingFeeIdException(final String name) {
+        super("fee", name);
+    }
 
 }

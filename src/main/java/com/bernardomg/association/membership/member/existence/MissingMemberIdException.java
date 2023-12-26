@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.balance.model;
+package com.bernardomg.association.membership.member.existence;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.exception.MissingIdException;
 
-@Value
-@Builder
-public final class ImmutableCurrentBalance implements CurrentBalance {
+/**
+ * Missing member by id exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingMemberIdException extends MissingIdException {
 
-    private Float results;
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    private Float total;
+    public MissingMemberIdException(final long id) {
+        super("member", id);
+    }
 
 }

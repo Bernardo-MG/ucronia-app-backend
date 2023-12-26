@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.test.fee.configuration;
+package com.bernardomg.association.membership.test.fee.config;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

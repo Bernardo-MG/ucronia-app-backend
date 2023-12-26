@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+package com.bernardomg.association.membership.test.fee.service.integration;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -30,28 +32,31 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
-import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - get one - Errors")
-class ITMemberServiceGetOneError {
+@DisplayName("Fee service - pay fees - errors")
+class ITFeeServicePayFeesError {
 
     @Autowired
-    private MemberService service;
+    private FeeService service;
 
-    public ITMemberServiceGetOneError() {
+    public ITFeeServicePayFeesError() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
+    @DisplayName("With an invalid member id it throws an exception")
+    void testCreate_InvalidMember() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(1L);
+        // WHEN
+        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
     }
