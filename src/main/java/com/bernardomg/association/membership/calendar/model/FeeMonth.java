@@ -40,8 +40,8 @@ public final class FeeMonth {
 
     private final long      memberId;
 
-    private final int     month;
+    private final int       month;
 
-    private final boolean paid;
+    private final boolean   paid;
 
 }
