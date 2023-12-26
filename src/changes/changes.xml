@@ -30,7 +30,16 @@
             Fixed fees cache.
          </action>
       </release>
-      <release version="1.0.0" date="2023-12-05" description="">
+      <release version="0.2.2" date="2023-12-27" description="Fixes">
+         <action dev="bmg" type="fix">
+            Updated security library to fix errors.
+         </action>
+         <action dev="bmg" type="fix">
+            Updated WS library to fix errors.
+         </action>
+         <action dev="bmg" type="update">
+            Changed fees API to start removing internal ids from API.
+         </action>
       </release>
    </body>
 </document>
