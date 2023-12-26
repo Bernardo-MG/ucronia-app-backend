@@ -56,10 +56,13 @@ class ITFeeServiceUpdateError {
         final FeeUpdate        feeRequest;
         final ThrowingCallable execution;
 
+        // GIVEN
         feeRequest = FeesUpdate.paid();
 
+        // WHEN
         execution = () -> service.update(1L, Fees.DATE, feeRequest);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);
     }

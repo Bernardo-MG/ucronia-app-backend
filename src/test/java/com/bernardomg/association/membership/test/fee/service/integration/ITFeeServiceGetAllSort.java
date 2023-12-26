@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
@@ -45,6 +44,7 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
+import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,201 +64,121 @@ class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
     void testGetAll_Date_Asc() {
-        final Iterator<MemberFee> fees;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
         feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(feeQuery, pageable)
-            .iterator();
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .hasSize(5);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
     void testGetAll_Date_Desc() {
-        final Iterator<MemberFee> fees;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
         feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(feeQuery, pageable)
-            .iterator();
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .hasSize(5);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetAll_Name_Asc() {
-        final Iterator<MemberFee> fees;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "memberName");
 
         feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(feeQuery, pageable)
-            .iterator();
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .hasSize(5);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     void testGetAll_Name_Desc() {
-        final Iterator<MemberFee> fees;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "memberName");
 
         feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(feeQuery, pageable)
-            .iterator();
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .hasSize(5);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
@@ -269,13 +189,16 @@ class ITFeeServiceGetAllSort {
         final Pageable         pageable;
         final ThrowingCallable executable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         executable = () -> service.getAll(feeQuery, pageable)
             .iterator();
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(BadSqlGrammarException.class);
     }
@@ -283,101 +206,61 @@ class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
     void testGetAll_Paid_Asc() {
-        final Iterator<MemberFee> fees;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
 
         feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(feeQuery, pageable)
-            .iterator();
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .hasSize(5);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
     }
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
     void testGetAll_Paid_Desc() {
-        final Iterator<MemberFee> fees;
+        final Iterable<MemberFee> fees;
+        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
 
         feeQuery = FeesQuery.empty();
 
-        fees = service.getAll(feeQuery, pageable)
-            .iterator();
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .hasSize(5);
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
+        feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(fees.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
     }
 
 }

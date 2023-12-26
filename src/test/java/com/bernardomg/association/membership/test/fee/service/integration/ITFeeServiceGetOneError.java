@@ -53,8 +53,10 @@ class ITFeeServiceGetOneError {
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
+        // WHEN
         execution = () -> service.getOne(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);
     }

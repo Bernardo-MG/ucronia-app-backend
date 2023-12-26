@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
@@ -75,96 +74,28 @@ class ITFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .hasSize(12);
 
         feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.JANUARY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.JULY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.AUGUST))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.SEPTEMBER))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.OCTOBER))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.NOVEMBER))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.DECEMBER))
-            .paid(true)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JANUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.FEBRUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JUNE));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JULY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.AUGUST));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.SEPTEMBER));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.OCTOBER));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.NOVEMBER));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.DECEMBER));
     }
 
     @Test
@@ -181,47 +112,21 @@ class ITFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .hasSize(5);
 
         feesItr = fees.iterator();
 
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(2L)
-            .memberName("Member 2 Surname 2")
-            .date(YearMonth.of(2020, Month.MARCH))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(3L)
-            .memberName("Member 3 Surname 3")
-            .date(YearMonth.of(2020, Month.APRIL))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(4L)
-            .memberName("Member 4 Surname 4")
-            .date(YearMonth.of(2020, Month.MAY))
-            .paid(true)
-            .build());
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
@@ -236,9 +141,12 @@ class ITFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -255,10 +163,13 @@ class ITFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
+            .as("fees")
+            .containsExactly(MemberFees.noSurname());
     }
 
     @Test
@@ -274,9 +185,12 @@ class ITFeeServiceGetAll {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .containsExactly(MemberFees.paid());
     }
 

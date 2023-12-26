@@ -53,8 +53,10 @@ class ITFeeServiceDeleteError {
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
+        // WHEN
         execution = () -> service.delete(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);
     }

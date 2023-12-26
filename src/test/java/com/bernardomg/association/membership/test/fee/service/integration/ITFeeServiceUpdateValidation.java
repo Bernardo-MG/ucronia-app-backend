@@ -59,12 +59,15 @@ class ITFeeServiceUpdateValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
+        // GIVEN
         feeRequest = FeesUpdate.paid();
-
-        execution = () -> service.update(1L, Fees.DATE, feeRequest);
 
         failure = FieldFailure.of("memberId.notExists", "memberId", "notExists", 1L);
 
+        // WHEN
+        execution = () -> service.update(1L, Fees.DATE, feeRequest);
+
+        // THEN
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 

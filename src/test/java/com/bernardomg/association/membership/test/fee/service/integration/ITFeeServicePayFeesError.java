@@ -53,8 +53,10 @@ class ITFeeServicePayFeesError {
     void testCreate_InvalidMember() {
         final ThrowingCallable execution;
 
+        // WHEN
         execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);
     }

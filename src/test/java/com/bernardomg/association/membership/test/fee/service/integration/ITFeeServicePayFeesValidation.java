@@ -57,8 +57,10 @@ class ITFeeServicePayFeesValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
+        // WHEN
         execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.DATE));
 
+        // THEN
         failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
@@ -72,8 +74,10 @@ class ITFeeServicePayFeesValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
+        // WHEN
         execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
@@ -87,8 +91,10 @@ class ITFeeServicePayFeesValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
+        // WHEN
         execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
+        // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);

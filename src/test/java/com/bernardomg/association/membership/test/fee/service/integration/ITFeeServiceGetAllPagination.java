@@ -65,9 +65,12 @@ class ITFeeServiceGetAllPagination {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isInstanceOf(Page.class);
     }
 
@@ -82,9 +85,12 @@ class ITFeeServiceGetAllPagination {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .containsExactly(MemberFees.paid());
     }
 
@@ -99,9 +105,12 @@ class ITFeeServiceGetAllPagination {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .containsExactly(MemberFees.paid());
     }
 
@@ -116,9 +125,12 @@ class ITFeeServiceGetAllPagination {
 
         feeQuery = FeesQuery.empty();
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isInstanceOf(Page.class);
     }
 

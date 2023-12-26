@@ -55,9 +55,12 @@ class ITFeeServiceDelete {
     @ValidMember
     @PaidFee
     void testDelete_RemovesEntity() {
+        // WHEN
         service.delete(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThat(repository.count())
+            .as("fees")
             .isZero();
     }
 

@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -40,6 +39,7 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
@@ -67,10 +67,13 @@ class ITFeeServiceUpdate {
     void testUpdate_AddsNoEntity() {
         final FeeUpdate feeRequest;
 
+        // GIVEN
         feeRequest = FeesUpdate.notPaid();
 
+        // WHEN
         service.update(1L, Fees.DATE, feeRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
     }
@@ -83,18 +86,17 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
         final FeeEntity fee;
 
+        // GIVEN
         feeRequest = FeesUpdate.paid();
 
+        // WHEN
         service.update(1L, Fees.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(fee, FeeEntity.builder()
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(true)
-            .build());
+        // THEN
+        FeeAssertions.isEqualTo(fee, FeeEntities.paidAt(Month.FEBRUARY));
     }
 
     @Test
@@ -105,18 +107,17 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
         final FeeEntity fee;
 
+        // GIVEN
         feeRequest = FeesUpdate.notPaid();
 
+        // WHEN
         service.update(1L, Fees.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();
 
-        FeeAssertions.isEqualTo(fee, FeeEntity.builder()
-            .memberId(1L)
-            .date(YearMonth.of(2020, Month.FEBRUARY))
-            .paid(false)
-            .build());
+        // THEN
+        FeeAssertions.isEqualTo(fee, FeeEntities.notPaidAt(Month.FEBRUARY));
     }
 
     @Test
@@ -127,10 +128,13 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
         final MemberFee fee;
 
+        // GIVEN
         feeRequest = FeesUpdate.notPaid();
 
+        // WHEN
         fee = service.update(1L, Fees.DATE, feeRequest);
 
+        // THEN
         Assertions.assertThat(fee)
             .isEqualTo(MemberFees.paid());
     }

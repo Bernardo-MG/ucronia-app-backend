@@ -58,8 +58,10 @@ class ITFeeServiceGetOne {
     void testGetOne() {
         final Optional<MemberFee> fee;
 
+        // WHEN
         fee = service.getOne(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThat(fee)
             .contains(MemberFees.paid());
     }
@@ -71,8 +73,10 @@ class ITFeeServiceGetOne {
     void testGetOne_NoSurname() {
         final Optional<MemberFee> fee;
 
+        // WHEN
         fee = service.getOne(1L, Fees.DATE);
 
+        // THEN
         Assertions.assertThat(fee)
             .contains(MemberFees.noSurname());
     }

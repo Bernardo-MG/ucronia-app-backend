@@ -75,14 +75,17 @@ class ITFeeServicePayFees {
     void testCreate_ExistingNotPaid_PersistedFee() {
         final List<FeeEntity> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .hasSize(1);
 
-        FeeAssertions.isEqualTo(entities.iterator().next(), FeeEntities.paid());
+        FeeAssertions.isEqualTo(entities.iterator()
+            .next(), FeeEntities.paid());
     }
 
     @Test
@@ -93,8 +96,10 @@ class ITFeeServicePayFees {
     void testCreate_ExistingNotPaid_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
@@ -112,8 +117,10 @@ class ITFeeServicePayFees {
     void testCreate_ExistingNotPaid_ReturnedData() {
         final Collection<MemberFee> fees;
 
+        // WHEN
         fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         Assertions.assertThat(fees)
             .containsExactly(MemberFees.paid());
     }
@@ -127,8 +134,10 @@ class ITFeeServicePayFees {
         final List<FeeEntity>     entities;
         final Iterator<FeeEntity> entitiesItr;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
+        // THEN
         entities = repository.findAll();
 
         entitiesItr = entities.iterator();
@@ -145,8 +154,10 @@ class ITFeeServicePayFees {
     void testCreate_MultipleDates_ExistingNotPaid_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
+        // THEN
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
@@ -164,8 +175,10 @@ class ITFeeServicePayFees {
         final List<FeeEntity>     entities;
         final Iterator<FeeEntity> entitiesItr;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
+        // THEN
         entities = repository.findAll();
 
         entitiesItr = entities.iterator();
@@ -181,8 +194,10 @@ class ITFeeServicePayFees {
     void testCreate_MultipleDates_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
 
+        // THEN
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
@@ -198,8 +213,10 @@ class ITFeeServicePayFees {
     void testCreate_NoAmount_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
@@ -216,14 +233,17 @@ class ITFeeServicePayFees {
     void testCreate_PersistedFee() {
         final List<FeeEntity> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         entities = repository.findAll();
 
         Assertions.assertThat(entities)
             .hasSize(1);
 
-        FeeAssertions.isEqualTo(entities.iterator().next(), FeeEntities.paid());
+        FeeAssertions.isEqualTo(entities.iterator()
+            .next(), FeeEntities.paid());
     }
 
     @Test
@@ -233,8 +253,10 @@ class ITFeeServicePayFees {
     void testCreate_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
+        // WHEN
         service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         entities = transactionRepository.findAll();
 
         Assertions.assertThat(entities)
@@ -251,8 +273,10 @@ class ITFeeServicePayFees {
     void testCreate_ReturnedData() {
         final Collection<MemberFee> fees;
 
+        // WHEN
         fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
 
+        // THEN
         Assertions.assertThat(fees)
             .containsExactly(MemberFees.paid());
     }

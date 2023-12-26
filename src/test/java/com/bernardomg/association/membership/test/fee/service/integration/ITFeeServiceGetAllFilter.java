@@ -70,9 +70,12 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.FEBRUARY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .containsExactly(MemberFees.paid());
     }
 
@@ -89,8 +92,10 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
             .isEmpty();
     }
@@ -108,14 +113,17 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.MARCH));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
+            .as("fees")
+            .containsExactly(MemberFees.paidAt(2, Month.MARCH));
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using the lowest date, the returned data is filtered")
+    @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
     @ValidMember
     @FeeFullYear
     void testGetAll_InDate_FirstDay_Data() {
@@ -127,14 +135,17 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.endDate(YearMonth.of(2020, Month.JANUARY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
+            .as("fees")
+            .containsExactly(MemberFees.paidAt(Month.JANUARY));
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using the highest date, the returned data is filtered")
+    @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
     @ValidMember
     @FeeFullYear
     void testGetAll_InDate_LastDay_Data() {
@@ -146,10 +157,13 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.DECEMBER));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
+            .as("fees")
+            .containsExactly(MemberFees.paidAt(Month.DECEMBER));
     }
 
     @Test
@@ -165,9 +179,12 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.NOVEMBER));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
@@ -184,16 +201,15 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JUNE));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
         Assertions.assertThat(fees)
+            .as("fees")
             .hasSize(1);
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFee.builder()
-            .memberId(5L)
-            .memberName("Member 5 Surname 5")
-            .date(YearMonth.of(2020, Month.JUNE))
-            .paid(false)
-            .build());
+
+        // THEN
+        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
@@ -209,9 +225,12 @@ class ITFeeServiceGetAllFilter {
 
         feeQuery = FeesQuery.startDate(YearMonth.of(2020, Month.JULY));
 
+        // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
+            .as("fees")
             .isEmpty();
     }
 
