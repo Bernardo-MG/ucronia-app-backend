@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.membership.test.calendar.integration.service;
 
+import java.time.Month;
 import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
@@ -37,7 +38,9 @@ import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.membership.test.calendar.util.assertion.FeeMonthAssertions;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
+import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
@@ -170,14 +173,7 @@ class ITFeeCalendarServiceGetYear {
 
             calendar = calendars.iterator()
                 .next();
-            softly.assertThat(calendar.getMemberId())
-                .isEqualTo(1);
-            softly.assertThat(calendar.getMemberName())
-                .isEqualTo(MemberCalendars.FULL_NAME);
-            softly.assertThat(calendar.getYear())
-                .isEqualTo(MemberCalendars.YEAR_PREVIOUS);
-            softly.assertThat(calendar.isActive())
-                .isFalse();
+            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousYear());
 
             softly.assertThat(calendar.getMonths())
                 .hasSize(3);
@@ -186,28 +182,13 @@ class ITFeeCalendarServiceGetYear {
                 .iterator();
 
             month = months.next();
-            softly.assertThat(month.getFeeId())
-                .isNotNull();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(10);
-            softly.assertThat(month.isPaid())
-                .isTrue();
+            FeeMonthAssertions.isEqualTo(month, FeeMonths.paid(Month.OCTOBER.getValue()));
 
             month = months.next();
-            softly.assertThat(month.getFeeId())
-                .isNotNull();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(11);
-            softly.assertThat(month.isPaid())
-                .isTrue();
+            FeeMonthAssertions.isEqualTo(month, FeeMonths.paid(Month.NOVEMBER.getValue()));
 
             month = months.next();
-            softly.assertThat(month.getFeeId())
-                .isNotNull();
-            softly.assertThat(month.getMonth())
-                .isEqualTo(12);
-            softly.assertThat(month.isPaid())
-                .isTrue();
+            FeeMonthAssertions.isEqualTo(month, FeeMonths.paid(Month.DECEMBER.getValue()));
         });
     }
 
