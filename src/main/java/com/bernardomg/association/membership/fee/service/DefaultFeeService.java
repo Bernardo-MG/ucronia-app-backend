@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.membership.fee.model.FeesPayment;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
@@ -30,9 +31,9 @@ import com.bernardomg.association.membership.fee.persistence.repository.MemberFe
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.membership.fee.validation.UpdateFeeValidator;
+import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
-import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -89,8 +90,7 @@ public final class DefaultFeeService implements FeeService {
         fee = feeRepository.findOneByMemberIdAndDate(memberId, date);
 
         if (fee.isEmpty()) {
-            // TODO: use more concrete exception
-            throw new MissingIdException("fee", memberId + " " + date.toString());
+            throw new MissingFeeIdException(memberId + " " + date.toString());
         }
 
         feeRepository.deleteById(fee.get()
@@ -101,7 +101,6 @@ public final class DefaultFeeService implements FeeService {
     public final Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable) {
         final Page<PersistentMemberFee>                    page;
         final Optional<Specification<PersistentMemberFee>> spec;
-        // TODO: Test repository
         // TODO: Test reading with no name or surname
 
         log.debug("Reading fees with sample {} and pagination {}", query, pageable);
@@ -127,8 +126,7 @@ public final class DefaultFeeService implements FeeService {
         fee = feeRepository.findOneByMemberIdAndDate(memberId, date);
 
         if (fee.isEmpty()) {
-            // TODO: use more concrete exception
-            throw new MissingIdException("fee", memberId + " " + date.toString());
+            throw new MissingFeeIdException(memberId + " " + date.toString());
         }
 
         found = memberFeeRepository.findById(fee.get()
@@ -147,7 +145,7 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Paying fees for {} in {}. Months paid: {}", memberId, payDate, feeDates);
 
         if (!memberRepository.existsById(memberId)) {
-            throw new MissingIdException("member", memberId);
+            throw new MissingMemberIdException(memberId);
         }
 
         payment = FeesPayment.builder()
@@ -179,8 +177,7 @@ public final class DefaultFeeService implements FeeService {
 
         found = feeRepository.findOneByMemberIdAndDate(memberId, date);
         if (found.isEmpty()) {
-            // TODO: use more concrete exception
-            throw new MissingIdException("fee", memberId + " " + date.toString());
+            throw new MissingFeeIdException(memberId + " " + date.toString());
         }
 
         validatorUpdate.validate(fee);

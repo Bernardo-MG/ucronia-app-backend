@@ -30,10 +30,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
-import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,7 +58,7 @@ class ITMemberServiceUpdateError {
         execution = () -> service.update(1L, memberRequest);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
+            .isInstanceOf(MissingMemberIdException.class);
     }
 
 }

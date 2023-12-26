@@ -38,8 +38,24 @@ public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
     public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
 
+    /**
+     * Returns all the fees in the received date.
+     *
+     * @param date
+     *            date to filter by
+     * @return all the fees in the date
+     */
     public List<PersistentFee> findAllByDate(final YearMonth date);
 
+    /**
+     * Finds the fee for the member in the date.
+     *
+     * @param memberId
+     *            member to filter by
+     * @param date
+     *            date to filter by
+     * @return fee for the member in the date
+     */
     public Optional<PersistentFee> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
 
 }

@@ -22,38 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+package com.bernardomg.association.membership.fee.exception;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bernardomg.exception.MissingIdException;
 
-import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
-import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+/**
+ * Missing role by id exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingFeeIdException extends MissingIdException {
 
-@IntegrationTest
-@DisplayName("Member service - get one - Errors")
-class ITMemberServiceGetOneError {
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    @Autowired
-    private MemberService service;
-
-    public ITMemberServiceGetOneError() {
-        super();
-    }
-
-    @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
-
-        execution = () -> service.getOne(1L);
-
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+    public MissingFeeIdException(final String name) {
+        super("fee", name);
     }
 
 }
