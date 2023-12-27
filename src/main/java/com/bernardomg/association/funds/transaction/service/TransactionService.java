@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
 
 /**
  * Transaction service. Supports all the CRUD operations.
@@ -25,7 +24,7 @@ public interface TransactionService {
      *            transaction to persist
      * @return the persisted transaction
      */
-    public Transaction create(final TransactionCreate transaction);
+    public Transaction create(final TransactionChange transaction);
 
     /**
      * Deletes the transaction with the received id.
@@ -65,6 +64,6 @@ public interface TransactionService {
      *            new data for the transaction
      * @return the updated transaction
      */
-    public Transaction update(final long id, final TransactionUpdate transaction);
+    public Transaction update(final long id, final TransactionChange transaction);
 
 }

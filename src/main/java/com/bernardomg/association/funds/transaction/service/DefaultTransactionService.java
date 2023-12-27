@@ -10,9 +10,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.transaction.exception.MissingTransactionIdException;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
@@ -37,7 +36,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Transaction create(final TransactionCreate transaction) {
+    public final Transaction create(final TransactionChange transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
 
@@ -108,7 +107,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Transaction update(final long id, final TransactionUpdate transaction) {
+    public final Transaction update(final long id, final TransactionChange transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction updated;
 
@@ -138,15 +137,7 @@ public final class DefaultTransactionService implements TransactionService {
             .build();
     }
 
-    private final PersistentTransaction toEntity(final TransactionCreate transaction) {
-        return PersistentTransaction.builder()
-            .description(transaction.getDescription())
-            .date(transaction.getDate())
-            .amount(transaction.getAmount())
-            .build();
-    }
-
-    private final PersistentTransaction toEntity(final TransactionUpdate transaction) {
+    private final PersistentTransaction toEntity(final TransactionChange transaction) {
         return PersistentTransaction.builder()
             .description(transaction.getDescription())
             .date(transaction.getDate())

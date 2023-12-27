@@ -30,8 +30,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsUpdate;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -50,10 +50,10 @@ class ITTransactionServiceUpdateError {
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
         final ThrowingCallable  execution;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        transactionRequest = TransactionChanges.descriptionChange();
 
         execution = () -> service.update(1L, transactionRequest);
 

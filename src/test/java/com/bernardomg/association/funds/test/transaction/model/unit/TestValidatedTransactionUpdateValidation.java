@@ -7,17 +7,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsCreate;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsUpdate;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@DisplayName("ValidatedTransactionUpdate validation")
-class TestValidatedTransactionUpdateValidation {
+@DisplayName("ValidatedTransactionChange validation")
+class TestValidatedTransactionChangeValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
@@ -25,11 +23,11 @@ class TestValidatedTransactionUpdateValidation {
     @Test
     @DisplayName("A DTO with an empty description is invalid")
     void validate_emptyDescription() {
-        final TransactionCreate                           request;
-        final Set<ConstraintViolation<TransactionCreate>> errors;
-        final ConstraintViolation<TransactionCreate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsCreate.emptyDescription();
+        request = TransactionChanges.emptyDescription();
 
         errors = validator.validate(request);
 
@@ -48,11 +46,11 @@ class TestValidatedTransactionUpdateValidation {
     @Test
     @DisplayName("A DTO missing the amount is invalid")
     void validate_missingAmount() {
-        final TransactionUpdate                           request;
-        final Set<ConstraintViolation<TransactionUpdate>> errors;
-        final ConstraintViolation<TransactionUpdate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsUpdate.missingAmount();
+        request = TransactionChanges.missingAmount();
 
         errors = validator.validate(request);
 
@@ -71,11 +69,11 @@ class TestValidatedTransactionUpdateValidation {
     @Test
     @DisplayName("A DTO missing the date is invalid")
     void validate_missingDate() {
-        final TransactionUpdate                           request;
-        final Set<ConstraintViolation<TransactionUpdate>> errors;
-        final ConstraintViolation<TransactionUpdate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsUpdate.missingDate();
+        request = TransactionChanges.missingDate();
 
         errors = validator.validate(request);
 
@@ -94,11 +92,11 @@ class TestValidatedTransactionUpdateValidation {
     @Test
     @DisplayName("A DTO missing the description is invalid")
     void validate_missingDescription() {
-        final TransactionUpdate                           request;
-        final Set<ConstraintViolation<TransactionUpdate>> errors;
-        final ConstraintViolation<TransactionUpdate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsUpdate.missingDescription();
+        request = TransactionChanges.missingDescription();
 
         errors = validator.validate(request);
 
@@ -118,10 +116,10 @@ class TestValidatedTransactionUpdateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final TransactionUpdate                           request;
-        final Set<ConstraintViolation<TransactionUpdate>> errors;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
 
-        request = TransactionsUpdate.inYear();
+        request = TransactionChanges.inYear();
 
         errors = validator.validate(request);
 

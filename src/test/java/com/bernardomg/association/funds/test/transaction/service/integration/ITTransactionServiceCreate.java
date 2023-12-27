@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsCreate;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -61,10 +61,10 @@ class ITTransactionServiceCreate {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the transaction is persisted")
     void testCreate_Decimal_PersistedData(final Float amount) {
-        final TransactionCreate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction entity;
 
-        transactionRequest = TransactionsCreate.amount(amount);
+        transactionRequest = TransactionChanges.amount(amount);
 
         service.create(transactionRequest);
         entity = repository.findAll()
@@ -80,10 +80,10 @@ class ITTransactionServiceCreate {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the persisted transaction is returned")
     void testCreate_Decimal_ReturnedData(final Float amount) {
-        final TransactionCreate transactionRequest;
+        final TransactionChange transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsCreate.amount(amount);
+        transactionRequest = TransactionChanges.amount(amount);
 
         transaction = service.create(transactionRequest);
 
@@ -95,10 +95,10 @@ class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a valid transaction, the transaction is persisted")
     void testCreate_FirstDay_AddsEntity() {
-        final TransactionCreate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction entity;
 
-        transactionRequest = TransactionsCreate.valid();
+        transactionRequest = TransactionChanges.valid();
 
         service.create(transactionRequest);
 
@@ -116,10 +116,10 @@ class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a valid transaction, the persisted data is returned")
     void testCreate_FirstDay_ReturnedData() {
-        final TransactionCreate transactionRequest;
+        final TransactionChange transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsCreate.valid();
+        transactionRequest = TransactionChanges.valid();
 
         transaction = service.create(transactionRequest);
 
@@ -129,10 +129,10 @@ class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     void testCreate_Padded_AddsEntity() {
-        final TransactionCreate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction entity;
 
-        transactionRequest = TransactionsCreate.paddedWithWhitespaces();
+        transactionRequest = TransactionChanges.paddedWithWhitespaces();
 
         service.create(transactionRequest);
 
@@ -150,9 +150,9 @@ class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a repeated creation, two transactions are persisted")
     void testCreate_Repeat_AddsEntity() {
-        final TransactionCreate transactionRequest;
+        final TransactionChange transactionRequest;
 
-        transactionRequest = TransactionsCreate.inYear();
+        transactionRequest = TransactionChanges.inYear();
 
         service.create(transactionRequest);
 

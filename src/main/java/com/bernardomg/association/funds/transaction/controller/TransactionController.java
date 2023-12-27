@@ -44,9 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreateRequest;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQueryRequest;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdateRequest;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -87,7 +86,7 @@ public class TransactionController {
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public Transaction create(@Valid @RequestBody final TransactionCreateRequest transaction) {
+    public Transaction create(@Valid @RequestBody final TransactionChange transaction) {
         return service.create(transaction);
     }
 
@@ -159,7 +158,7 @@ public class TransactionController {
                     @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
     public Transaction update(@PathVariable("id") final long id,
-            @Valid @RequestBody final TransactionUpdateRequest transaction) {
+            @Valid @RequestBody final TransactionChange transaction) {
         return service.update(id, transaction);
     }
 

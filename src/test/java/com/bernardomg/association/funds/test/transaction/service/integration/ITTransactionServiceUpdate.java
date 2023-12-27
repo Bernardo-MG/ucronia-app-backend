@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsUpdate;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -60,9 +60,9 @@ class ITTransactionServiceUpdate {
     @DisplayName("With an existing entity, no new entity is persisted")
     @PositiveTransaction
     void testUpdate_AddsNoEntity() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        transactionRequest = TransactionChanges.descriptionChange();
 
         service.update(1L, transactionRequest);
 
@@ -75,10 +75,10 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
     @PositiveTransaction
     void testUpdate_Decimal_PersistedData() {
-        final TransactionUpdate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
-        transactionRequest = TransactionsUpdate.decimal();
+        transactionRequest = TransactionChanges.decimal();
 
         service.update(1L, transactionRequest);
         transaction = repository.findAll()
@@ -96,10 +96,10 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction containing a decimal value, the data is returned")
     @PositiveTransaction
     void testUpdate_Decimal_ReturnedData() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsUpdate.decimal();
+        transactionRequest = TransactionChanges.decimal();
 
         transaction = service.update(1L, transactionRequest);
 
@@ -114,10 +114,10 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     @PositiveTransaction
     void testUpdate_Padded_PersistedData() {
-        final TransactionUpdate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
-        transactionRequest = TransactionsUpdate.paddedWithWhitespaces();
+        transactionRequest = TransactionChanges.paddedWithWhitespaces();
 
         service.update(1L, transactionRequest);
         transaction = repository.findAll()
@@ -135,10 +135,10 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a changed entity, the change is persisted")
     @PositiveTransaction
     void testUpdate_PersistedData() {
-        final TransactionUpdate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        transactionRequest = TransactionChanges.descriptionChange();
 
         service.update(1L, transactionRequest);
         transaction = repository.findAll()
@@ -156,10 +156,10 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a changed entity, the changed data is returned")
     @PositiveTransaction
     void testUpdate_ReturnedData() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        transactionRequest = TransactionChanges.descriptionChange();
 
         transaction = service.update(1L, transactionRequest);
 
