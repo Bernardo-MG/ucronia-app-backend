@@ -10,7 +10,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.transaction.exception.MissingTransactionIdException;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
@@ -29,15 +28,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultTransactionService implements TransactionService {
 
-    private final TransactionMapper     mapper;
-
     private final TransactionRepository transactionRepository;
 
-    public DefaultTransactionService(final TransactionRepository transactionRepo, final TransactionMapper mpr) {
+    public DefaultTransactionService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
-        mapper = Objects.requireNonNull(mpr);
     }
 
     @Override
@@ -47,14 +43,14 @@ public final class DefaultTransactionService implements TransactionService {
 
         log.debug("Creating transaction {}", transaction);
 
-        entity = mapper.toEntity(transaction);
+        entity = toEntity(transaction);
 
         // Trim strings
         entity.setDescription(entity.getDescription()
             .trim());
 
         created = transactionRepository.save(entity);
-        return mapper.toDto(created);
+        return toDto(created);
     }
 
     @Override
@@ -84,7 +80,7 @@ public final class DefaultTransactionService implements TransactionService {
             page = transactionRepository.findAll(spec.get(), pageable);
         }
 
-        return page.map(mapper::toDto);
+        return page.map(this::toDto);
     }
 
     @Override
@@ -102,7 +98,7 @@ public final class DefaultTransactionService implements TransactionService {
         found = transactionRepository.findById(id);
 
         if (found.isPresent()) {
-            data = mapper.toDto(found.get());
+            data = toDto(found.get());
             result = Optional.of(data);
         } else {
             result = Optional.empty();
@@ -122,9 +118,7 @@ public final class DefaultTransactionService implements TransactionService {
             throw new MissingTransactionIdException(id);
         }
 
-        entity = mapper.toEntity(transaction);
-
-        // Set id
+        entity = toEntity(transaction);
         entity.setId(id);
 
         // Trim strings
@@ -132,7 +126,32 @@ public final class DefaultTransactionService implements TransactionService {
             .trim());
 
         updated = transactionRepository.save(entity);
-        return mapper.toDto(updated);
+        return toDto(updated);
+    }
+
+    private Transaction toDto(final PersistentTransaction transaction) {
+        return Transaction.builder()
+            .id(transaction.getId())
+            .date(transaction.getDate())
+            .description(transaction.getDescription())
+            .amount(transaction.getAmount())
+            .build();
+    }
+
+    private final PersistentTransaction toEntity(final TransactionCreate transaction) {
+        return PersistentTransaction.builder()
+            .description(transaction.getDescription())
+            .date(transaction.getDate())
+            .amount(transaction.getAmount())
+            .build();
+    }
+
+    private final PersistentTransaction toEntity(final TransactionUpdate transaction) {
+        return PersistentTransaction.builder()
+            .description(transaction.getDescription())
+            .date(transaction.getDate())
+            .amount(transaction.getAmount())
+            .build();
     }
 
 }

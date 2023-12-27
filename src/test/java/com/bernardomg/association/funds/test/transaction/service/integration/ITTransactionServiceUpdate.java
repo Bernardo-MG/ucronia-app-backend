@@ -35,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsUpdate;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -104,7 +103,7 @@ class ITTransactionServiceUpdate {
 
         transaction = service.update(1L, transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction")
             .amount(1.2f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
@@ -164,7 +163,7 @@ class ITTransactionServiceUpdate {
 
         transaction = service.update(1L, transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 123")
             .amount(1f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))

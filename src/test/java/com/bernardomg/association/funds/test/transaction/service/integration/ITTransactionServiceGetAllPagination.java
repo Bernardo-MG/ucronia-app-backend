@@ -38,7 +38,6 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -93,7 +92,7 @@ class ITTransactionServiceGetAllPagination {
 
         transaction = transactions.iterator()
             .next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 1")
             .amount(1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
@@ -119,7 +118,7 @@ class ITTransactionServiceGetAllPagination {
 
         transaction = transactions.iterator()
             .next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 2")
             .amount(1f)
             .date(LocalDate.of(2020, Month.JANUARY, 2))

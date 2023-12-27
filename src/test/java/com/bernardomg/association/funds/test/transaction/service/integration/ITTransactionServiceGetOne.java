@@ -39,7 +39,6 @@ import com.bernardomg.association.funds.test.transaction.configuration.NegativeT
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -75,7 +74,7 @@ class ITTransactionServiceGetOne {
 
         transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 1")
             .amount(1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
@@ -99,7 +98,7 @@ class ITTransactionServiceGetOne {
 
         transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 1")
             .amount(-1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
@@ -123,7 +122,7 @@ class ITTransactionServiceGetOne {
 
         transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 1")
             .amount(-1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
@@ -144,7 +143,7 @@ class ITTransactionServiceGetOne {
 
         transaction = transactionOptional.get();
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
+        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
             .description("Transaction 1")
             .amount(-1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))

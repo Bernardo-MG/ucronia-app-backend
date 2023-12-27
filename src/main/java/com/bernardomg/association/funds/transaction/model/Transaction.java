@@ -3,14 +3,22 @@ package com.bernardomg.association.funds.transaction.model;
 
 import java.time.LocalDate;
 
-public interface Transaction {
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-    public Float getAmount();
+import lombok.Builder;
+import lombok.Value;
 
-    public LocalDate getDate();
+@Value
+@Builder
+public final class Transaction {
 
-    public String getDescription();
+    private final Float     amount;
 
-    public Long getId();
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private final LocalDate date;
+
+    private final String    description;
+
+    private final Long      id;
 
 }
