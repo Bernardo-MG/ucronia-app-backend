@@ -24,9 +24,7 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
 import java.time.Month;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +36,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
@@ -46,6 +43,7 @@ import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
+import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,210 +62,98 @@ class ITTransactionServiceGetAll {
     }
 
     @ParameterizedTest(name = "Amount: {0}")
-    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a transaction with value around zero, it returns it")
     void testGetAll_AroundZero(final Float amount) {
-        final Iterator<Transaction> transactions;
+        final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         repository.save(PersistentTransactions.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.empty();
 
-        transactions = service.getAll(transactionQuery, pageable)
-            .iterator();
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
 
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, Transactions.forAmount(amount));
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forAmount(amount));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal transaction, it returns it")
     void testGetAll_Decimal(final Float amount) {
-        final Iterator<Transaction> transactions;
+        final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         repository.save(PersistentTransactions.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.empty();
 
-        transactions = service.getAll(transactionQuery, pageable)
-            .iterator();
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
 
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, Transactions.forAmount(amount));
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forAmount(amount));
     }
 
     @Test
     @DisplayName("With a full year, it returns all the transactions")
     @FullTransactionYear
-    void testGetAll_FullYear_Count() {
+    void testGetAll_FullYear() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .hasSize(12);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 3")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.MARCH, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 4")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.APRIL, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 5")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.MAY, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 6")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JUNE, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 7")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JULY, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 8")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.AUGUST, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 9")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.SEPTEMBER, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 10")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.OCTOBER, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 11")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.NOVEMBER, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 12")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.DECEMBER, 1))
-            .build());
+            .containsExactly(Transactions.forIndex(1, Month.JANUARY), Transactions.forIndex(2, Month.FEBRUARY),
+                Transactions.forIndex(3, Month.MARCH), Transactions.forIndex(4, Month.APRIL),
+                Transactions.forIndex(5, Month.MAY), Transactions.forIndex(6, Month.JUNE),
+                Transactions.forIndex(7, Month.JULY), Transactions.forIndex(8, Month.AUGUST),
+                Transactions.forIndex(9, Month.SEPTEMBER), Transactions.forIndex(10, Month.OCTOBER),
+                Transactions.forIndex(11, Month.NOVEMBER), Transactions.forIndex(12, Month.DECEMBER));
     }
 
     @Test
-    @DisplayName("With multiple transactions, it returns all the transactions")
+    @DisplayName("With multiple transactions in the month, it returns all the transactions")
     @MultipleTransactionsSameMonth
-    void testGetAll_Multiple_Count() {
+    void testGetAll_Multiple() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .hasSize(5);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 2))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 3")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 3))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 4")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 4))
-            .build());
-
-        transaction = transactionsItr.next();
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 5")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 5))
-            .build());
+            .containsExactly(Transactions.forIndex(1, Month.JANUARY), Transactions.forIndex(2, Month.JANUARY),
+                Transactions.forIndex(3, Month.JANUARY), Transactions.forIndex(4, Month.JANUARY),
+                Transactions.forIndex(5, Month.JANUARY));
     }
 
 }

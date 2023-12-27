@@ -11,6 +11,7 @@ public final class PersistentTransactions {
 
     public static final PersistentTransaction forAmount(final Float value) {
         return PersistentTransaction.builder()
+            .id(1L)
             .amount(value)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .description("Transaction")

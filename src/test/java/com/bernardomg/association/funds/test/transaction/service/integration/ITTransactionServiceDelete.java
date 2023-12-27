@@ -52,8 +52,10 @@ class ITTransactionServiceDelete {
     @Test
     @DisplayName("With a valid id it removes the entity")
     void testDelete_RemovesEntity() {
+        // WHEN
         service.delete(1L);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .as("transactions")
             .isZero();

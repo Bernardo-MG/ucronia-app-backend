@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,9 +66,13 @@ class ITTransactionServiceCreate {
         final TransactionChange     transactionRequest;
         final PersistentTransaction entity;
 
+        // GIVEN
         transactionRequest = TransactionChanges.amount(amount);
 
+        // WHEN
         service.create(transactionRequest);
+
+        // THEN
         entity = repository.findAll()
             .iterator()
             .next();
@@ -83,65 +89,65 @@ class ITTransactionServiceCreate {
         final TransactionChange transactionRequest;
         final Transaction       transaction;
 
+        // GIVEN
         transactionRequest = TransactionChanges.amount(amount);
 
+        // WHEN
         transaction = service.create(transactionRequest);
 
+        // THEN
         Assertions.assertThat(transaction.getAmount())
             .as("amount")
             .isEqualTo(amount);
     }
 
     @Test
-    @DisplayName("With a valid transaction, the transaction is persisted")
-    void testCreate_FirstDay_AddsEntity() {
-        final TransactionChange     transactionRequest;
-        final PersistentTransaction entity;
+    @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
+    void testCreate_Padded_Persisted() {
+        final TransactionChange           transactionRequest;
+        final PersistentTransaction       entity;
+        final List<PersistentTransaction> entities;
 
-        transactionRequest = TransactionChanges.valid();
+        // GIVEN
+        transactionRequest = TransactionChanges.paddedWithWhitespaces();
 
+        // WHEN
         service.create(transactionRequest);
 
-        Assertions.assertThat(repository.count())
-            .as("transactions")
-            .isOne();
+        // THEN
+        entities = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
+        Assertions.assertThat(entities)
+            .as("transactions")
+            .hasSize(1);
+
+        entity = entities.iterator()
             .next();
 
         TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
     }
 
     @Test
-    @DisplayName("With a valid transaction, the persisted data is returned")
-    void testCreate_FirstDay_ReturnedData() {
-        final TransactionChange transactionRequest;
-        final Transaction       transaction;
+    @DisplayName("With a valid transaction, the transaction is persisted")
+    void testCreate_Persisted() {
+        final TransactionChange           transactionRequest;
+        final PersistentTransaction       entity;
+        final List<PersistentTransaction> entities;
 
+        // GIVEN
         transactionRequest = TransactionChanges.valid();
 
-        transaction = service.create(transactionRequest);
-
-        TransactionAssertions.isEqualTo(transaction, Transactions.valid());
-    }
-
-    @Test
-    @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
-    void testCreate_Padded_AddsEntity() {
-        final TransactionChange     transactionRequest;
-        final PersistentTransaction entity;
-
-        transactionRequest = TransactionChanges.paddedWithWhitespaces();
-
+        // WHEN
         service.create(transactionRequest);
 
-        Assertions.assertThat(repository.count())
-            .as("transactions")
-            .isOne();
+        // THEN
+        entities = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
+        Assertions.assertThat(entities)
+            .as("transactions")
+            .hasSize(1);
+
+        entity = entities.iterator()
             .next();
 
         TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
@@ -149,18 +155,37 @@ class ITTransactionServiceCreate {
 
     @Test
     @DisplayName("With a repeated creation, two transactions are persisted")
-    void testCreate_Repeat_AddsEntity() {
+    void testCreate_Repeat_Persisted() {
         final TransactionChange transactionRequest;
 
-        transactionRequest = TransactionChanges.inYear();
+        // GIVEN
+        transactionRequest = TransactionChanges.valid();
 
+        // WHEN
         service.create(transactionRequest);
 
+        // THEN
         service.create(transactionRequest);
 
         Assertions.assertThat(repository.count())
             .as("transactions")
             .isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("With a valid transaction, the persisted data is returned")
+    void testCreate_Returned() {
+        final TransactionChange transactionRequest;
+        final Transaction       transaction;
+
+        // GIVEN
+        transactionRequest = TransactionChanges.valid();
+
+        // WHEN
+        transaction = service.create(transactionRequest);
+
+        // THEN
+        TransactionAssertions.isEqualTo(transaction, Transactions.valid());
     }
 
 }

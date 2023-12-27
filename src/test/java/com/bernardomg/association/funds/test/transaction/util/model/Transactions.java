@@ -10,9 +10,19 @@ public final class Transactions {
 
     public static final Transaction forAmount(final Float value) {
         return Transaction.builder()
+                .id(1L)
             .amount(value)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .description("Transaction")
+            .build();
+    }
+
+    public static final Transaction forIndex(final long index, final Month month) {
+        return Transaction.builder()
+            .id(index)
+            .amount(1f)
+            .date(LocalDate.of(2020, month, 1))
+            .description("Transaction " + index)
             .build();
     }
 

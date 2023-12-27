@@ -16,18 +16,18 @@ public final class TransactionChanges {
             .build();
     }
 
-    public static final TransactionChange descriptionChange() {
-        return TransactionChange.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build();
-    }
-
     public static final TransactionChange decimal() {
         return TransactionChange.builder()
             .description("Transaction")
             .amount(1.2f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .build();
+    }
+
+    public static final TransactionChange descriptionChange() {
+        return TransactionChange.builder()
+            .description("Transaction 123")
+            .amount(1f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
@@ -45,14 +45,6 @@ public final class TransactionChanges {
             .description("Transaction")
             .amount(1f)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build();
-    }
-
-    public static final TransactionChange inYear() {
-        return TransactionChange.builder()
-            .description("Transaction")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .build();
     }
 

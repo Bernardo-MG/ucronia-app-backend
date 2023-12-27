@@ -118,7 +118,7 @@ class TestValidatedTransactionCreateValidation {
         final TransactionChange                           request;
         final Set<ConstraintViolation<TransactionChange>> errors;
 
-        request = TransactionChanges.inYear();
+        request = TransactionChanges.valid();
 
         errors = validator.validate(request);
 
