@@ -14,6 +14,10 @@ public final class TransactionAssertions {
                 .as("id")
                 .withFailMessage("Expected id '%s' but got '%s'", expected.getId(), received.getId())
                 .isNotNull();
+            softly.assertThat(received.getIndex())
+                .as("index")
+                .withFailMessage("Expected index '%s' but got '%s'", expected.getIndex(), received.getIndex())
+                .isNotNull();
             softly.assertThat(received.getDescription())
                 .as("description")
                 .withFailMessage("Expected description '%s' but got '%s'", expected.getDescription(),
@@ -32,9 +36,9 @@ public final class TransactionAssertions {
 
     public static final void isEqualTo(final Transaction received, final Transaction expected) {
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(received.getId())
-                .as("id")
-                .withFailMessage("Expected id '%s' but got '%s'", expected.getId(), received.getId())
+            softly.assertThat(received.getIndex())
+                .as("index")
+                .withFailMessage("Expected index '%s' but got '%s'", expected.getIndex(), received.getIndex())
                 .isNotNull();
             softly.assertThat(received.getDescription())
                 .as("description")

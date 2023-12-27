@@ -39,10 +39,14 @@ public final class DefaultTransactionService implements TransactionService {
     public final Transaction create(final TransactionChange transaction) {
         final PersistentTransaction entity;
         final PersistentTransaction created;
+        final Long                  index;
 
         log.debug("Creating transaction {}", transaction);
 
         entity = toEntity(transaction);
+
+        index = transactionRepository.count() + 1;
+        entity.setIndex(index);
 
         // Trim strings
         entity.setDescription(entity.getDescription()
@@ -130,7 +134,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     private Transaction toDto(final PersistentTransaction transaction) {
         return Transaction.builder()
-            .id(transaction.getId())
+            .index(transaction.getIndex())
             .date(transaction.getDate())
             .description(transaction.getDescription())
             .amount(transaction.getAmount())

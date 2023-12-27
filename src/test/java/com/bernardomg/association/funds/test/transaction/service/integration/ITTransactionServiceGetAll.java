@@ -151,9 +151,9 @@ class ITTransactionServiceGetAll {
 
         // THEN
         Assertions.assertThat(transactions)
-            .containsExactly(Transactions.forIndex(1, Month.JANUARY), Transactions.forIndex(2, Month.JANUARY),
-                Transactions.forIndex(3, Month.JANUARY), Transactions.forIndex(4, Month.JANUARY),
-                Transactions.forIndex(5, Month.JANUARY));
+            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
+                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
+                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
     }
 
 }

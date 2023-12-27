@@ -19,6 +19,6 @@ public final class Transaction {
 
     private final String    description;
 
-    private final Long      id;
+    private final Long      index;
 
 }

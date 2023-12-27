@@ -76,7 +76,7 @@ class ITTransactionServiceGetAllFilter {
         transactionsItr = transactions.iterator();
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 2");
@@ -86,7 +86,7 @@ class ITTransactionServiceGetAllFilter {
             .isEqualTo(1f);
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 3");
@@ -96,7 +96,7 @@ class ITTransactionServiceGetAllFilter {
             .isEqualTo(1f);
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 4");
@@ -106,7 +106,7 @@ class ITTransactionServiceGetAllFilter {
             .isEqualTo(1f);
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 5");
@@ -139,7 +139,7 @@ class ITTransactionServiceGetAllFilter {
         transactionsItr = transactions.iterator();
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 1");
@@ -149,7 +149,7 @@ class ITTransactionServiceGetAllFilter {
             .isEqualTo(1f);
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 2");
@@ -182,7 +182,7 @@ class ITTransactionServiceGetAllFilter {
         transactionsItr = transactions.iterator();
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 2");
@@ -215,7 +215,7 @@ class ITTransactionServiceGetAllFilter {
         transactionsItr = transactions.iterator();
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 1");
@@ -249,7 +249,7 @@ class ITTransactionServiceGetAllFilter {
         transactionsItr = transactions.iterator();
 
         transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getId())
+        Assertions.assertThat(transaction.getIndex())
             .isNotNull();
         Assertions.assertThat(transaction.getDescription())
             .isEqualTo("Transaction 12");
