@@ -57,15 +57,16 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final void delete(final long id) {
+    public final void delete(final long index) {
 
-        log.debug("Deleting transaction {}", id);
+        log.debug("Deleting transaction {}", index);
 
-        if (!transactionRepository.existsById(id)) {
-            throw new MissingTransactionIdException(id);
+        if (!transactionRepository.existsByIndex(index)) {
+            // TODO: change exception name
+            throw new MissingTransactionIdException(index);
         }
 
-        transactionRepository.deleteById(id);
+        transactionRepository.deleteByIndex(index);
     }
 
     @Override
@@ -87,46 +88,37 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Optional<Transaction> getOne(final long id) {
+    public final Optional<Transaction> getOne(final long index) {
         final Optional<PersistentTransaction> found;
-        final Optional<Transaction>           result;
-        final Transaction                     data;
 
-        log.debug("Reading member with id {}", id);
+        log.debug("Reading member with index {}", index);
 
-        if (!transactionRepository.existsById(id)) {
-            throw new MissingTransactionIdException(id);
+        found = transactionRepository.findOneByIndex(index);
+        if (found.isEmpty()) {
+            // TODO: change exception name
+            throw new MissingTransactionIdException(index);
         }
 
-        found = transactionRepository.findById(id);
-
-        if (found.isPresent()) {
-            data = toDto(found.get());
-            result = Optional.of(data);
-        } else {
-            result = Optional.empty();
-        }
-
-        return result;
+        return found.map(this::toDto);
     }
 
     @Override
     public final Transaction update(final long index, final TransactionChange transaction) {
-        final Optional<PersistentTransaction> read;
+        final Optional<PersistentTransaction> found;
         final PersistentTransaction           entity;
         final PersistentTransaction           updated;
 
-        log.debug("Updating transaction with id {} using data {}", index, transaction);
+        log.debug("Updating transaction with index {} using data {}", index, transaction);
 
-        read = transactionRepository.findOneByIndex(index);
-        if (read.isEmpty()) {
+        found = transactionRepository.findOneByIndex(index);
+        if (found.isEmpty()) {
             // TODO: change exception name
             throw new MissingTransactionIdException(index);
         }
 
         entity = toEntity(transaction);
         entity.setIndex(index);
-        entity.setId(read.get()
+        entity.setId(found.get()
             .getId());
 
         // Trim strings

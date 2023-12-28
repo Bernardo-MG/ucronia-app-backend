@@ -41,5 +41,7 @@ public interface TransactionRepository
     public Collection<Month> findMonths();
 
     public Optional<PersistentTransaction> findOneByIndex(final long index);
+    public boolean existsByIndex(final long index);
+    public void deleteByIndex(final long index);
 
 }

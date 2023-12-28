@@ -96,7 +96,7 @@ public class TransactionController {
      * @param id
      *            transaction id
      */
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#p0"),
@@ -104,8 +104,8 @@ public class TransactionController {
             @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+    public void delete(@PathVariable("index") final long index) {
+        service.delete(index);
     }
 
     /**
@@ -128,15 +128,15 @@ public class TransactionController {
     /**
      * Reads a single transaction by its id.
      *
-     * @param id
-     *            id of the transaction to read
+     * @param index
+     *            index of the transaction to read
      * @return the transaction for the id, or {@code null} if it doesn't exist
      */
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#p0")
-    public Transaction readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
+    public Transaction readOne(@PathVariable("index") final long index) {
+        return service.getOne(index)
             .orElse(null);
     }
 
