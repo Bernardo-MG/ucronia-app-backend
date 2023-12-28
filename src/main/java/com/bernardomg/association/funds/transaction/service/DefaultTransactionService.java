@@ -45,7 +45,7 @@ public final class DefaultTransactionService implements TransactionService {
 
         entity = toEntity(transaction);
 
-        index = transactionRepository.count() + 1;
+        index = transactionRepository.findNextIndex();
         entity.setIndex(index);
 
         // Trim strings

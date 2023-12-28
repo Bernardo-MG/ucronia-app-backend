@@ -249,6 +249,7 @@ public final class DefaultFeeService implements FeeService {
         final String                dates;
         final String                message;
         final Object[]              messageArguments;
+        final Long                  index;
 
         // Calculate amount
         feeAmount = configurationSource.getFeeAmount() * feeDates.size();
@@ -257,6 +258,9 @@ public final class DefaultFeeService implements FeeService {
         transaction = new PersistentTransaction();
         transaction.setAmount(feeAmount);
         transaction.setDate(payDate);
+
+        index = transactionRepository.findNextIndex();
+        transaction.setIndex(index);
 
         member = memberRepository.findById(memberId)
             .get();

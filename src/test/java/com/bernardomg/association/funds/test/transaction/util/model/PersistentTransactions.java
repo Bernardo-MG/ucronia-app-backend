@@ -37,6 +37,24 @@ public final class PersistentTransactions {
             .build();
     }
 
+    public static final PersistentTransaction forAmount(final Float value, final LocalDate date) {
+        return PersistentTransaction.builder()
+            .index(1L)
+            .amount(value)
+            .date(date)
+            .description("Transaction")
+            .build();
+    }
+
+    public static final PersistentTransaction forAmount(final Float value, final LocalDate date, final Long index) {
+        return PersistentTransaction.builder()
+            .index(index)
+            .amount(value)
+            .date(date)
+            .description("Transaction")
+            .build();
+    }
+
     public static final PersistentTransaction multipleFees() {
         return PersistentTransaction.builder()
             .id(2L)
