@@ -9,6 +9,24 @@ import com.bernardomg.association.membership.test.fee.util.model.Fees;
 
 public final class PersistentTransactions {
 
+    public static final PersistentTransaction decimal() {
+        return PersistentTransaction.builder()
+            .index(1L)
+            .amount(1.2f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description("Transaction")
+            .build();
+    }
+
+    public static final PersistentTransaction descriptionChange() {
+        return PersistentTransaction.builder()
+            .index(1L)
+            .amount(1F)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description("Transaction 123")
+            .build();
+    }
+
     public static final PersistentTransaction forAmount(final Float value) {
         return PersistentTransaction.builder()
             .id(1L)

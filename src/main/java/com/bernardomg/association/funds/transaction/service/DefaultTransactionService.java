@@ -111,18 +111,23 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Transaction update(final long id, final TransactionChange transaction) {
-        final PersistentTransaction entity;
-        final PersistentTransaction updated;
+    public final Transaction update(final long index, final TransactionChange transaction) {
+        final Optional<PersistentTransaction> read;
+        final PersistentTransaction           entity;
+        final PersistentTransaction           updated;
 
-        log.debug("Updating transaction with id {} using data {}", id, transaction);
+        log.debug("Updating transaction with id {} using data {}", index, transaction);
 
-        if (!transactionRepository.existsById(id)) {
-            throw new MissingTransactionIdException(id);
+        read = transactionRepository.findOneByIndex(index);
+        if (read.isEmpty()) {
+            // TODO: change exception name
+            throw new MissingTransactionIdException(index);
         }
 
         entity = toEntity(transaction);
-        entity.setId(id);
+        entity.setIndex(index);
+        entity.setId(read.get()
+            .getId());
 
         // Trim strings
         entity.setDescription(entity.getDescription()
@@ -132,7 +137,7 @@ public final class DefaultTransactionService implements TransactionService {
         return toDto(updated);
     }
 
-    private Transaction toDto(final PersistentTransaction transaction) {
+    private final Transaction toDto(final PersistentTransaction transaction) {
         return Transaction.builder()
             .index(transaction.getIndex())
             .date(transaction.getDate())

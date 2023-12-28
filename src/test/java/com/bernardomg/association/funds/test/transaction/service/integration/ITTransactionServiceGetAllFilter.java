@@ -26,7 +26,6 @@ package com.bernardomg.association.funds.test.transaction.service.integration;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -36,6 +35,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
@@ -58,62 +58,22 @@ class ITTransactionServiceGetAllFilter {
     @MultipleTransactionsSameMonth
     void testGetAll_AfterDate() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.startDate(LocalDate.of(2020, Month.JANUARY, 2));
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .hasSize(4);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 2));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 3");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 3));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 4");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 4));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 5");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 5));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
+            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY),
+                Transactions.forIndexAndDay(3, Month.JANUARY), Transactions.forIndexAndDay(4, Month.JANUARY),
+                Transactions.forIndexAndDay(5, Month.JANUARY));
     }
 
     @Test
@@ -121,42 +81,21 @@ class ITTransactionServiceGetAllFilter {
     @MultipleTransactionsSameMonth
     void testGetAll_BeforeDate() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.endDate(LocalDate.of(2020, Month.JANUARY, 2));
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .hasSize(2);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 1));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 2));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
+            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
+                Transactions.forIndexAndDay(2, Month.JANUARY));
     }
 
     @Test
@@ -164,32 +103,20 @@ class ITTransactionServiceGetAllFilter {
     @MultipleTransactionsSameMonth
     void testGetAll_InDate() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.JANUARY, 2));
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .hasSize(1);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 2");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 2));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
+            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
     }
 
     @Test
@@ -197,32 +124,20 @@ class ITTransactionServiceGetAllFilter {
     @FullTransactionYear
     void testGetAll_InDate_FirstDay() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.JANUARY, 1));
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .hasSize(1);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 1");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.JANUARY, 1));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
+            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY));
     }
 
     @Test
@@ -230,33 +145,21 @@ class ITTransactionServiceGetAllFilter {
     @FullTransactionYear
     void testGetAll_InDate_LastDay() {
         final Iterable<Transaction> transactions;
-        final Iterator<Transaction> transactionsItr;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         // TODO: This is not the last day of the year
         transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.DECEMBER, 1));
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .as("transactions")
-            .hasSize(1);
-
-        transactionsItr = transactions.iterator();
-
-        transaction = transactionsItr.next();
-        Assertions.assertThat(transaction.getIndex())
-            .isNotNull();
-        Assertions.assertThat(transaction.getDescription())
-            .isEqualTo("Transaction 12");
-        Assertions.assertThat(transaction.getDate())
-            .isEqualTo(LocalDate.of(2020, Month.DECEMBER, 1));
-        Assertions.assertThat(transaction.getAmount())
-            .isEqualTo(1f);
+            .containsExactly(Transactions.forIndex(12, Month.DECEMBER));
     }
 
 }

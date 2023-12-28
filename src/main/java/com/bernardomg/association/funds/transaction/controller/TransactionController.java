@@ -149,7 +149,7 @@ public class TransactionController {
      *            updated transaction data
      * @return the updated transaction
      */
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
@@ -157,9 +157,9 @@ public class TransactionController {
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public Transaction update(@PathVariable("id") final long id,
+    public Transaction update(@PathVariable("index") final long index,
             @Valid @RequestBody final TransactionChange transaction) {
-        return service.update(id, transaction);
+        return service.update(index, transaction);
     }
 
 }

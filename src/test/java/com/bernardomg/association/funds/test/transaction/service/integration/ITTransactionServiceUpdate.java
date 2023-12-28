@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -62,8 +61,10 @@ class ITTransactionServiceUpdate {
     void testUpdate_AddsNoEntity() {
         final TransactionChange transactionRequest;
 
+        // GIVEN
         transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         service.update(1L, transactionRequest);
 
         Assertions.assertThat(repository.count())
@@ -78,18 +79,18 @@ class ITTransactionServiceUpdate {
         final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
+        // GIVEN
         transactionRequest = TransactionChanges.decimal();
 
+        // WHEN
         service.update(1L, transactionRequest);
+
+        // THEN
         transaction = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
-            .description("Transaction")
-            .amount(1.2f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.decimal());
     }
 
     @Test
@@ -99,15 +100,15 @@ class ITTransactionServiceUpdate {
         final TransactionChange transactionRequest;
         final Transaction       transaction;
 
+        // GIVEN
         transactionRequest = TransactionChanges.decimal();
 
+        // WHEN
         transaction = service.update(1L, transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction")
-            .amount(1.2f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        // THEN
+        Assertions.assertThat(transaction)
+            .isEqualTo(Transactions.decimal());
     }
 
     @Test
@@ -117,18 +118,18 @@ class ITTransactionServiceUpdate {
         final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
+        // GIVEN
         transactionRequest = TransactionChanges.paddedWithWhitespaces();
 
+        // WHEN
         service.update(1L, transactionRequest);
+
+        // THEN
         transaction = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.valid());
     }
 
     @Test
@@ -138,18 +139,18 @@ class ITTransactionServiceUpdate {
         final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
+        // GIVEN
         transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         service.update(1L, transactionRequest);
+
+        // THEN
         transaction = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.descriptionChange());
     }
 
     @Test
@@ -159,15 +160,15 @@ class ITTransactionServiceUpdate {
         final TransactionChange transactionRequest;
         final Transaction       transaction;
 
+        // GIVEN
         transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         transaction = service.update(1L, transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, Transaction.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        // THEN
+        Assertions.assertThat(transaction)
+            .isEqualTo(Transactions.descriptionChange());
     }
 
 }

@@ -8,6 +8,24 @@ import com.bernardomg.association.funds.transaction.model.Transaction;
 
 public final class Transactions {
 
+    public static final Transaction decimal() {
+        return Transaction.builder()
+            .index(1L)
+            .amount(1.2F)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description("Transaction")
+            .build();
+    }
+
+    public static final Transaction descriptionChange() {
+        return Transaction.builder()
+            .index(1L)
+            .amount(1f)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description("Transaction 123")
+            .build();
+    }
+
     public static final Transaction forAmount(final Float value) {
         return Transaction.builder()
             .index(1L)
@@ -25,17 +43,20 @@ public final class Transactions {
             .description("Transaction " + index)
             .build();
     }
+
     public static final Transaction forIndexAndDay(final long index, final Month month) {
         return Transaction.builder()
             .index(index)
             .amount(1f)
-            .date(LocalDate.of(2020, month, Long.valueOf(index).intValue()))
+            .date(LocalDate.of(2020, month, Long.valueOf(index)
+                .intValue()))
             .description("Transaction " + index)
             .build();
     }
 
     public static final Transaction valid() {
         return Transaction.builder()
+            .index(1L)
             .amount(1f)
             .date(LocalDate.of(2020, Month.FEBRUARY, 1))
             .description("Transaction")

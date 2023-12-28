@@ -53,10 +53,13 @@ class ITTransactionServiceUpdateError {
         final TransactionChange transactionRequest;
         final ThrowingCallable  execution;
 
+        // GIVEN
         transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         execution = () -> service.update(1L, transactionRequest);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);
     }

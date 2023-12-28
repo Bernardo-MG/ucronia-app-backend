@@ -25,6 +25,7 @@
 package com.bernardomg.association.funds.transaction.persistence.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -38,5 +39,7 @@ public interface TransactionRepository
 
     @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY year, month ORDER BY year, month ASC")
     public Collection<Month> findMonths();
+
+    public Optional<PersistentTransaction> findOneByIndex(final long index);
 
 }

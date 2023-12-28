@@ -58,12 +58,12 @@ public interface TransactionService {
     /**
      * Updates the transaction for the received id with the received data.
      *
-     * @param id
-     *            id of the transaction to update
+     * @param index
+     *            index of the transaction to update
      * @param transaction
      *            new data for the transaction
      * @return the updated transaction
      */
-    public Transaction update(final long id, final TransactionChange transaction);
+    public Transaction update(final long index, final TransactionChange transaction);
 
 }
