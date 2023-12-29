@@ -93,8 +93,8 @@ public class TransactionController {
     /**
      * Deletes a transaction by its id.
      *
-     * @param id
-     *            transaction id
+     * @param index
+     *            transaction index
      */
     @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
