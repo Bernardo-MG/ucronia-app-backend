@@ -62,6 +62,15 @@ public final class MemberFees {
             .build();
     }
 
+    public static final MemberFee paidNextDate() {
+        return MemberFee.builder()
+            .memberId(1L)
+            .memberName("Member 1 Surname 1")
+            .date(Fees.NEXT_DATE)
+            .paid(true)
+            .build();
+    }
+
     private MemberFees() {
         super();
     }

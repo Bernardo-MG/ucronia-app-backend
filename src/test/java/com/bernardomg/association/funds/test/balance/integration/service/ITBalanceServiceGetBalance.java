@@ -137,10 +137,10 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_DecimalsAddUpToZero() {
         final CurrentBalance balance;
 
-        transactionInitializer.registerCurrentMonth(-40.8F,1L);
-        transactionInitializer.registerCurrentMonth(13.6F,2L);
-        transactionInitializer.registerCurrentMonth(13.6F,3L);
-        transactionInitializer.registerCurrentMonth(13.6F,4L);
+        transactionInitializer.registerCurrentMonth(-40.8F, 1L);
+        transactionInitializer.registerCurrentMonth(13.6F, 2L);
+        transactionInitializer.registerCurrentMonth(13.6F, 3L);
+        transactionInitializer.registerCurrentMonth(13.6F, 4L);
 
         balance = service.getBalance();
 
@@ -177,11 +177,11 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_Multiple() {
         final CurrentBalance balance;
 
-        transactionInitializer.registerCurrentMonth(1F,1L);
-        transactionInitializer.registerCurrentMonth(1F,2L);
-        transactionInitializer.registerCurrentMonth(1F,3L);
-        transactionInitializer.registerCurrentMonth(1F,4L);
-        transactionInitializer.registerCurrentMonth(1F,5L);
+        transactionInitializer.registerCurrentMonth(1F, 1L);
+        transactionInitializer.registerCurrentMonth(1F, 2L);
+        transactionInitializer.registerCurrentMonth(1F, 3L);
+        transactionInitializer.registerCurrentMonth(1F, 4L);
+        transactionInitializer.registerCurrentMonth(1F, 5L);
 
         balance = service.getBalance();
 
@@ -236,9 +236,9 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonth() {
         final CurrentBalance balance;
 
-        transactionInitializer.registerPreviousMonth(1F,1L);
-        transactionInitializer.registerPreviousMonth(2F,2L);
-        transactionInitializer.registerPreviousMonth(3F,3L);
+        transactionInitializer.registerPreviousMonth(1F, 1L);
+        transactionInitializer.registerPreviousMonth(2F, 2L);
+        transactionInitializer.registerPreviousMonth(3F, 3L);
 
         balance = service.getBalance();
 

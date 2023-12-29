@@ -25,6 +25,7 @@
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +34,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
@@ -151,6 +153,26 @@ class ITTransactionServiceCreate {
             .next();
 
         TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
+    }
+
+    @Test
+    @DisplayName("With a valid transaction, the transaction is persisted and the index increased")
+    @PositiveTransaction
+    void testCreate_Persisted_IndexIncreased() {
+        final TransactionChange               transactionRequest;
+        final Optional<PersistentTransaction> entity;
+
+        // GIVEN
+        transactionRequest = TransactionChanges.valid();
+
+        // WHEN
+        service.create(transactionRequest);
+
+        // THEN
+        entity = repository.findOneByIndex(2L);
+
+        Assertions.assertThat(entity)
+            .isNotEmpty();
     }
 
     @Test
