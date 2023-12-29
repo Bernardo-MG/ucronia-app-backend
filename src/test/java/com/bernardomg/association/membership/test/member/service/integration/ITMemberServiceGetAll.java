@@ -38,6 +38,7 @@ import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -75,44 +76,19 @@ class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
     }
 
 }

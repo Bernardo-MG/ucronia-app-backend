@@ -37,8 +37,8 @@ import com.bernardomg.association.membership.member.persistence.repository.Membe
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
+import com.bernardomg.association.membership.test.member.util.model.MemberEntities;
 import com.bernardomg.association.membership.test.member.util.model.Members;
-import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -73,7 +73,7 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MembersEntity.missingSurname());
+        MemberAssertions.isEqualTo(entity, MemberEntities.missingSurname());
     }
 
     @Test
@@ -93,7 +93,7 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
+        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
     }
 
     @Test
@@ -113,7 +113,7 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
+        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
     }
 
     @Test

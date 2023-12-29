@@ -37,11 +37,12 @@ import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
-import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
+import com.bernardomg.association.membership.test.member.util.model.MemberEntities;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - update errors")
+@DisplayName("Member service - update")
 @ValidMember
 class ITMemberServiceUpdate {
 
@@ -80,7 +81,7 @@ class ITMemberServiceUpdate {
         entity = repository.findAll()
             .iterator()
             .next();
-        MemberAssertions.isEqualTo(entity, MembersEntity.valid(123));
+        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
     }
 
     @Test
@@ -95,12 +96,7 @@ class ITMemberServiceUpdate {
         entity = repository.findAll()
             .iterator()
             .next();
-        MemberAssertions.isEqualTo(entity, MemberEntity.builder()
-            .name("Member 123")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        MemberAssertions.isEqualTo(entity, MemberEntities.nameChange());
     }
 
     @Test
@@ -112,12 +108,7 @@ class ITMemberServiceUpdate {
         memberRequest = MemberChanges.nameChange();
 
         member = service.update(1L, memberRequest);
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 123")
-            .surname("Surname")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.nameChange());
     }
 
 }

@@ -73,19 +73,19 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1));
+        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2));
+        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3));
+        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4));
+        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5));
+        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
     }
 
     @Test
@@ -104,19 +104,19 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5));
+        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4));
+        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3));
+        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2));
+        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1));
+        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
     }
 
     @Test
@@ -135,19 +135,19 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1));
+        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2));
+        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3));
+        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4));
+        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5));
+        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
     }
 
     @Test
@@ -166,19 +166,19 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member,Members.forIndex(5));
+        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4));
+        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3));
+        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2));
+        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1));
+        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
     }
 
 }

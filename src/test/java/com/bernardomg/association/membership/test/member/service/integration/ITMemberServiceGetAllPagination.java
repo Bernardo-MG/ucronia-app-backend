@@ -91,7 +91,7 @@ class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        MemberAssertions.isEqualTo(member, Members.inactive(1));
+        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
     }
 
     @Test
@@ -113,12 +113,7 @@ class ITMemberServiceGetAllPagination {
 
         member = members.iterator()
             .next();
-        MemberAssertions.isEqualTo(member, Member.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
+        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
     }
 
     @Test
