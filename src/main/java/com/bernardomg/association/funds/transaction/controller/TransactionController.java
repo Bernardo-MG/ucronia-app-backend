@@ -80,7 +80,7 @@ public class TransactionController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.index") },
             evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
@@ -151,7 +151,7 @@ public class TransactionController {
      */
     @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.index") },
             evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
                     @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
