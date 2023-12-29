@@ -5,6 +5,18 @@ import com.bernardomg.association.membership.member.model.Member;
 
 public final class Members {
 
+
+    public static final Member forIndex(final long index) {
+        return Member.builder()
+            .number(index)
+            .name("Member " + index)
+            .surname("Surname " + index)
+            .phone("12345")
+            .identifier(String.valueOf(6788 + index))
+            .active(true)
+            .build();
+    }
+
     public static final Member active() {
         return Member.builder()
             .number(1L)
