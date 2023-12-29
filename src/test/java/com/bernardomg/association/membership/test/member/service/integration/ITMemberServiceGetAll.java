@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
@@ -76,7 +75,7 @@ class ITMemberServiceGetAll {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -84,7 +83,7 @@ class ITMemberServiceGetAll {
             .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 2")
             .surname("Surname 2")
             .phone("12346")
@@ -92,7 +91,7 @@ class ITMemberServiceGetAll {
             .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 3")
             .surname("Surname 3")
             .phone("12347")
@@ -100,7 +99,7 @@ class ITMemberServiceGetAll {
             .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 4")
             .surname("Surname 4")
             .phone("12348")
@@ -108,7 +107,7 @@ class ITMemberServiceGetAll {
             .build());
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 5")
             .surname("Surname 5")
             .phone("12349")

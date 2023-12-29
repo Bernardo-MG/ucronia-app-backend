@@ -33,7 +33,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
@@ -73,7 +72,7 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -81,7 +80,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 2")
             .surname("Surname 2")
             .phone("12346")
@@ -89,7 +88,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 3")
             .surname("Surname 3")
             .phone("12347")
@@ -97,7 +96,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 4")
             .surname("Surname 4")
             .phone("12348")
@@ -105,7 +104,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 5")
             .surname("Surname 5")
             .phone("12349")
@@ -129,7 +128,7 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 5")
             .surname("Surname 5")
             .phone("12349")
@@ -137,7 +136,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 4")
             .surname("Surname 4")
             .phone("12348")
@@ -145,7 +144,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 3")
             .surname("Surname 3")
             .phone("12347")
@@ -153,7 +152,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 2")
             .surname("Surname 2")
             .phone("12346")
@@ -161,7 +160,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -185,7 +184,7 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -193,7 +192,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 2")
             .surname("Surname 2")
             .phone("12346")
@@ -201,7 +200,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 3")
             .surname("Surname 3")
             .phone("12347")
@@ -209,7 +208,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 4")
             .surname("Surname 4")
             .phone("12348")
@@ -217,7 +216,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 5")
             .surname("Surname 5")
             .phone("12349")
@@ -241,7 +240,7 @@ class ITMemberServiceGetAllSort {
             .iterator();
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 5")
             .surname("Surname 5")
             .phone("12349")
@@ -249,7 +248,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 4")
             .surname("Surname 4")
             .phone("12348")
@@ -257,7 +256,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 3")
             .surname("Surname 3")
             .phone("12347")
@@ -265,7 +264,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 2")
             .surname("Surname 2")
             .phone("12346")
@@ -273,7 +272,7 @@ class ITMemberServiceGetAllSort {
             .build());
 
         member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")

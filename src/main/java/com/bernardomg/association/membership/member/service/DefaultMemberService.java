@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.model.request.MemberCreate;
@@ -83,11 +82,11 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Page<MemberEntity>             members;
-        final YearMonth                      validStart;
-        final YearMonth                      validEnd;
-        final Function<DtoMember, DtoMember> activeMapper;
-        final Collection<Long>               activeIds;
+        final Page<MemberEntity>       members;
+        final YearMonth                validStart;
+        final YearMonth                validEnd;
+        final Function<Member, Member> activeMapper;
+        final Collection<Long>         activeIds;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
@@ -131,7 +130,7 @@ public final class DefaultMemberService implements MemberService {
     public final Optional<Member> getOne(final long id) {
         final Optional<MemberEntity> found;
         final Optional<Member>       result;
-        final DtoMember              data;
+        final Member                 data;
 
         log.debug("Reading member with id {}", id);
 

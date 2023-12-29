@@ -29,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
@@ -113,7 +112,7 @@ class ITMemberServiceUpdate {
         memberRequest = MembersUpdate.nameChange();
 
         member = service.update(1L, memberRequest);
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
+        MemberAssertions.isEqualTo(member, Member.builder()
             .name("Member 123")
             .surname("Surname")
             .phone("12345")

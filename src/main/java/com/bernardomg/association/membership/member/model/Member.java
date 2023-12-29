@@ -1,18 +1,26 @@
 
 package com.bernardomg.association.membership.member.model;
 
-public interface Member {
+import lombok.Builder;
+import lombok.Data;
 
-    public Long getId();
+/**
+ * TODO: Try to make this immutable.
+ */
+@Data
+@Builder
+public final class Member {
 
-    public String getIdentifier();
+    private boolean active;
 
-    public String getName();
+    private Long    id;
 
-    public String getPhone();
+    private String  identifier;
 
-    public String getSurname();
+    private String  name;
 
-    public boolean isActive();
+    private String  phone;
+
+    private String  surname;
 
 }

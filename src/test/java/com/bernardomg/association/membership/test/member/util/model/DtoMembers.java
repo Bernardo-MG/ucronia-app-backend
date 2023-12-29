@@ -1,12 +1,12 @@
 
 package com.bernardomg.association.membership.test.member.util.model;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
+import com.bernardomg.association.membership.member.model.Member;
 
 public final class DtoMembers {
 
-    public static final DtoMember active() {
-        return DtoMember.builder()
+    public static final Member active() {
+        return Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -15,8 +15,8 @@ public final class DtoMembers {
             .build();
     }
 
-    public static final DtoMember active(final int index) {
-        return DtoMember.builder()
+    public static final Member active(final int index) {
+        return Member.builder()
             .name("Member " + index)
             .surname("Surname " + index)
             .phone("12345")
@@ -25,8 +25,8 @@ public final class DtoMembers {
             .build();
     }
 
-    public static final DtoMember inactive() {
-        return DtoMember.builder()
+    public static final Member inactive() {
+        return Member.builder()
             .name("Member 1")
             .surname("Surname 1")
             .phone("12345")
@@ -35,8 +35,8 @@ public final class DtoMembers {
             .build();
     }
 
-    public static final DtoMember inactive(final int index) {
-        return DtoMember.builder()
+    public static final Member inactive(final int index) {
+        return Member.builder()
             .name("Member " + index)
             .surname("Surname " + index)
             .phone("12345")
