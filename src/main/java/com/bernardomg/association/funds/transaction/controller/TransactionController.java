@@ -143,8 +143,8 @@ public class TransactionController {
     /**
      * Updates a transaction.
      *
-     * @param id
-     *            id of the transaction to update
+     * @param index
+     *            index of the transaction to update
      * @param transaction
      *            updated transaction data
      * @return the updated transaction
