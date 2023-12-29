@@ -31,13 +31,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
+import com.bernardomg.association.membership.member.model.request.MemberChange;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
-import com.bernardomg.association.membership.test.member.util.model.MembersCreate;
+import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
 import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -59,10 +59,10 @@ class ITMemberServiceCreate {
     @DisplayName("With a member with no surname, the member is persisted")
     @Disabled("This is an error case, handle somehow")
     void testCreate_NoSurname_PersistedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.missingSurname();
+        memberRequest = MemberChanges.missingSurname();
 
         service.create(memberRequest);
 
@@ -79,10 +79,10 @@ class ITMemberServiceCreate {
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.paddedWithWhitespaces();
+        memberRequest = MemberChanges.paddedWithWhitespaces();
 
         service.create(memberRequest);
 
@@ -99,10 +99,10 @@ class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.valid();
+        memberRequest = MemberChanges.valid();
 
         service.create(memberRequest);
 
@@ -119,10 +119,10 @@ class ITMemberServiceCreate {
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testCreate_ReturnedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final Member       member;
 
-        memberRequest = MembersCreate.valid();
+        memberRequest = MemberChanges.valid();
 
         member = service.create(memberRequest);
 

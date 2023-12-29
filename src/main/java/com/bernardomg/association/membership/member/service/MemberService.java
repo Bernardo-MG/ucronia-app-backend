@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
+import com.bernardomg.association.membership.member.model.request.MemberChange;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 
@@ -25,7 +25,7 @@ public interface MemberService {
      *            member to persist
      * @return the persisted member
      */
-    public Member create(final MemberCreate member);
+    public Member create(final MemberChange member);
 
     /**
      * Deletes the member with the received id.

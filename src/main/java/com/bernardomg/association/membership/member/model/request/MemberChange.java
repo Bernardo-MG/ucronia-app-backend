@@ -1,8 +1,7 @@
 
 package com.bernardomg.association.membership.member.model.request;
 
-import com.bernardomg.association.membership.member.model.MemberStatus;
-
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberQueryRequest implements MemberQuery {
+public final class MemberChange {
 
-    @Builder.Default
-    private MemberStatus status = MemberStatus.ALL;
+    private String identifier;
+
+    @NotEmpty
+    private String name;
+
+    private String phone;
+
+    private String surname;
 
 }

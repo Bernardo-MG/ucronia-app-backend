@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
+import com.bernardomg.association.membership.member.model.request.MemberChange;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 
@@ -16,7 +16,7 @@ public interface MemberMapper {
     public Member toDto(final MemberEntity entity);
 
     @Mapping(target = "id", ignore = true)
-    public MemberEntity toEntity(final MemberCreate data);
+    public MemberEntity toEntity(final MemberChange data);
 
     @Mapping(target = "id", ignore = true)
     public MemberEntity toEntity(final MemberUpdate data);

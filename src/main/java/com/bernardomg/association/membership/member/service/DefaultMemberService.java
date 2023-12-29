@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
+import com.bernardomg.association.membership.member.model.request.MemberChange;
 import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdate;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
@@ -46,7 +46,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Member create(final MemberCreate member) {
+    public final Member create(final MemberChange member) {
         final MemberEntity entity;
         final MemberEntity created;
 

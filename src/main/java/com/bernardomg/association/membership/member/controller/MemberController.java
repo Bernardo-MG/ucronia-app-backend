@@ -44,8 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreateRequest;
-import com.bernardomg.association.membership.member.model.request.MemberQueryRequest;
+import com.bernardomg.association.membership.member.model.request.MemberChange;
+import com.bernardomg.association.membership.member.model.request.MemberQuery;
 import com.bernardomg.association.membership.member.model.request.MemberUpdateRequest;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -76,7 +76,7 @@ public class MemberController {
     @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
-    public Member create(@Valid @RequestBody final MemberCreateRequest member) {
+    public Member create(@Valid @RequestBody final MemberChange member) {
         return service.create(member);
     }
 
@@ -91,7 +91,7 @@ public class MemberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.MEMBERS)
-    public Iterable<Member> readAll(@Valid final MemberQueryRequest query, final Pageable pageable) {
+    public Iterable<Member> readAll(@Valid final MemberQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
