@@ -15,7 +15,6 @@ import com.bernardomg.association.membership.member.existence.MissingMemberIdExc
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.model.MemberQuery;
-import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
@@ -30,17 +29,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
-    private final MemberMapper     mapper;
-
     /**
      * Member repository.
      */
     private final MemberRepository memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo, final MemberMapper mppr) {
+    public DefaultMemberService(final MemberRepository memberRepo) {
         super();
 
-        mapper = Objects.requireNonNull(mppr);
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
@@ -54,7 +50,7 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        entity = mapper.toEntity(member);
+        entity = toEntity(member);
 
         // Trim strings
         entity.setName(StringUtils.trim(entity.getName()));
@@ -62,7 +58,7 @@ public final class DefaultMemberService implements MemberService {
 
         created = memberRepository.save(entity);
 
-        return mapper.toDto(created);
+        return toDto(created);
     }
 
     @Override
@@ -85,7 +81,7 @@ public final class DefaultMemberService implements MemberService {
         final YearMonth                validStart;
         final YearMonth                validEnd;
         final Function<Member, Member> activeMapper;
-        final Collection<Long>         activeIds;
+        final Collection<Long>         activeNumbers;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
@@ -111,17 +107,17 @@ public final class DefaultMemberService implements MemberService {
             default:
                 members = memberRepository.findAll(pageable);
 
-                activeIds = memberRepository.findAllActiveIdsInRange(validStart, validEnd);
+                activeNumbers = memberRepository.findAllActiveNumbersInRange(validStart, validEnd);
                 activeMapper = m -> {
                     final boolean active;
 
-                    active = activeIds.contains(m.getId());
+                    active = activeNumbers.contains(m.getNumber());
                     m.setActive(active);
                     return m;
                 };
         }
 
-        return members.map(mapper::toDto)
+        return members.map(this::toDto)
             .map(activeMapper);
     }
 
@@ -140,7 +136,7 @@ public final class DefaultMemberService implements MemberService {
         found = memberRepository.findById(id);
 
         if (found.isPresent()) {
-            data = mapper.toDto(found.get());
+            data = toDto(found.get());
             result = Optional.of(data);
         } else {
             result = Optional.empty();
@@ -162,7 +158,7 @@ public final class DefaultMemberService implements MemberService {
             throw new MissingMemberIdException(id);
         }
 
-        entity = mapper.toEntity(member);
+        entity = toEntity(member);
 
         // Set id
         entity.setId(id);
@@ -174,7 +170,25 @@ public final class DefaultMemberService implements MemberService {
             .trim());
 
         updated = memberRepository.save(entity);
-        return mapper.toDto(updated);
+        return toDto(updated);
+    }
+
+    private final Member toDto(final MemberEntity entity) {
+        return Member.builder()
+            .identifier(entity.getIdentifier())
+            .name(entity.getName())
+            .phone(entity.getPhone())
+            .surname(entity.getSurname())
+            .build();
+    }
+
+    private final MemberEntity toEntity(final MemberChange data) {
+        return MemberEntity.builder()
+            .identifier(data.getIdentifier())
+            .name(data.getName())
+            .surname(data.getSurname())
+            .phone(data.getPhone())
+            .build();
     }
 
 }

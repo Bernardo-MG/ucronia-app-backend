@@ -36,7 +36,7 @@ import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -65,7 +65,7 @@ class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
+        MemberAssertions.isEqualTo(member, Members.inactive(1));
     }
 
     @Test
@@ -81,7 +81,7 @@ class ITMemberServiceGetOne {
             .isPresent();
 
         member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
+        MemberAssertions.isEqualTo(member, Members.inactive(1));
     }
 
 }

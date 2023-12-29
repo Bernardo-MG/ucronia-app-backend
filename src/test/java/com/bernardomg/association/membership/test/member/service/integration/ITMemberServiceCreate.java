@@ -36,8 +36,8 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
 import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -126,7 +126,7 @@ class ITMemberServiceCreate {
 
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
 }

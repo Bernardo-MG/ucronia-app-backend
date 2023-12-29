@@ -40,6 +40,9 @@ public class MemberEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String            name;
 
+    @Column(name = "number")
+    private Long              number;
+
     @Column(name = "phone")
     private String            phone;
 

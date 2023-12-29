@@ -13,11 +13,11 @@ public final class Member {
 
     private boolean active;
 
-    private Long    id;
-
     private String  identifier;
 
     private String  name;
+
+    private Long    number;
 
     private String  phone;
 

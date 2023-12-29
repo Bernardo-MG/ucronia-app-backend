@@ -55,6 +55,20 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Collection<Long> findAllActiveIdsInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
+    /**
+     * Returns the numbers for all the members active in the received date range. This means, any member which has fees
+     * inside the range, both extremes included.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @return all the ids for the members active in the range
+     */
+    @Query("SELECT m.number FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end")
+    public Collection<Long> findAllActiveNumbersInRange(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
+
     @Query("SELECT m FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL GROUP BY m.id")
     public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);

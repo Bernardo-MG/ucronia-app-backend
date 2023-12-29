@@ -9,9 +9,9 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 public final class MemberAssertions {
 
     public static void isEqualTo(final Member received, final Member expected) {
-        Assertions.assertThat(received.getId())
-            .withFailMessage("Expected id to not be null")
-            .isNotNull();
+        Assertions.assertThat(received.getNumber())
+            .withFailMessage("Expected number '%d' but got '%d'", expected.getNumber(), received.getNumber())
+            .isEqualTo(expected.getNumber());
         Assertions.assertThat(received.getName())
             .withFailMessage("Expected name '%s' but got '%s'", expected.getName(), received.getName())
             .isEqualTo(expected.getName());

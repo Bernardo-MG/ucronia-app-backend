@@ -37,7 +37,6 @@ import com.bernardomg.association.membership.fee.persistence.repository.MemberFe
 import com.bernardomg.association.membership.fee.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.membership.fee.service.FeeMaintenanceService;
-import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.DefaultMemberService;
 import com.bernardomg.association.membership.member.service.MemberService;
@@ -79,8 +78,8 @@ public class MembershipConfig {
     }
 
     @Bean("memberService")
-    public MemberService getMemberService(final MemberRepository memberRepository, final MemberMapper mapper) {
-        return new DefaultMemberService(memberRepository, mapper);
+    public MemberService getMemberService(final MemberRepository memberRepository) {
+        return new DefaultMemberService(memberRepository);
     }
 
 }

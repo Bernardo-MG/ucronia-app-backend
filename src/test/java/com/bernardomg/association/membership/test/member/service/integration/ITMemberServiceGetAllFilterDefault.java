@@ -38,7 +38,7 @@ import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -81,7 +81,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+        MemberAssertions.isEqualTo(member, Members.active());
     }
 
     @Test
@@ -108,7 +108,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+        MemberAssertions.isEqualTo(member, Members.active());
     }
 
     @Test
@@ -137,7 +137,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+        MemberAssertions.isEqualTo(member, Members.active());
     }
 
     @Test
@@ -166,7 +166,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.active());
+        MemberAssertions.isEqualTo(member, Members.active());
     }
 
     @Test
@@ -193,7 +193,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
     @Test
@@ -220,7 +220,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
     @Test
@@ -245,7 +245,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
     @Test
@@ -272,7 +272,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
     @Test
@@ -299,7 +299,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
     @Test
@@ -326,7 +326,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
     @Test
@@ -353,7 +353,7 @@ class ITMemberServiceGetAllFilterDefault {
         membersItr = members.iterator();
 
         member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        MemberAssertions.isEqualTo(member, Members.inactive());
     }
 
 }
