@@ -73,7 +73,7 @@ public class MemberController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
     public Member create(@Valid @RequestBody final MemberChange member) {
         return service.create(member);
@@ -104,7 +104,7 @@ public class MemberController {
 
     @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
     public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange member) {
         return service.update(number, member);
