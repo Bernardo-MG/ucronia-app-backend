@@ -24,10 +24,9 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
 import java.time.Month;
-import java.util.Iterator;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -59,205 +57,89 @@ class ITTransactionServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
     void testGetAll_Date_Asc() {
-        final Iterator<Transaction> transactions;
+        final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        Transaction                 transaction;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
         transactionQuery = TransactionsQuery.empty();
 
-        transactions = service.getAll(transactionQuery, pageable)
-            .iterator();
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
 
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 2))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 3")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 3))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 4")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 4))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 5")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 5))
-            .build());
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
+                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
+                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
     }
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
     void testGetAll_Date_Desc() {
-        final Iterator<Transaction> transactions;
+        final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        Transaction                 transaction;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
         transactionQuery = TransactionsQuery.empty();
 
-        transactions = service.getAll(transactionQuery, pageable)
-            .iterator();
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
 
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 5")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 5))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 4")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 4))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 3")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 3))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 2))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndexAndDay(5, Month.JANUARY),
+                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
+                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(1, Month.JANUARY));
     }
 
     @Test
     @DisplayName("With ascending order by description it returns the ordered data")
     void testGetAll_Description_Asc() {
-        final Iterator<Transaction> transactions;
+        final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        Transaction                 transaction;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "description");
 
         transactionQuery = TransactionsQuery.empty();
 
-        transactions = service.getAll(transactionQuery, pageable)
-            .iterator();
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
 
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 2))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 3")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 3))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 4")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 4))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 5")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 5))
-            .build());
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndexAndDay(1, Month.JANUARY),
+                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
+                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(5, Month.JANUARY));
     }
 
     @Test
     @DisplayName("With descending order by description it returns the ordered data")
     void testGetAll_Description_Desc() {
-        final Iterator<Transaction> transactions;
+        final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
-        Transaction                 transaction;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "description");
 
         transactionQuery = TransactionsQuery.empty();
 
-        transactions = service.getAll(transactionQuery, pageable)
-            .iterator();
+        // WHEN
+        transactions = service.getAll(transactionQuery, pageable);
 
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 5")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 5))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 4")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 4))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 3")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 3))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 2))
-            .build());
-
-        transaction = transactions.next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+        // THEN
+        Assertions.assertThat(transactions)
+            .containsExactly(Transactions.forIndexAndDay(5, Month.JANUARY),
+                Transactions.forIndexAndDay(4, Month.JANUARY), Transactions.forIndexAndDay(3, Month.JANUARY),
+                Transactions.forIndexAndDay(2, Month.JANUARY), Transactions.forIndexAndDay(1, Month.JANUARY));
     }
 
 }

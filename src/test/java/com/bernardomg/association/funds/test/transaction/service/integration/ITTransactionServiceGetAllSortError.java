@@ -59,13 +59,16 @@ class ITTransactionServiceGetAllSortError {
         final Pageable         pageable;
         final ThrowingCallable executable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         executable = () -> service.getAll(transactionQuery, pageable)
             .iterator();
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(PropertyReferenceException.class);
     }

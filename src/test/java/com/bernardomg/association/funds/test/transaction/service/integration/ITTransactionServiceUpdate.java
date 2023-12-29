@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,10 +31,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsUpdate;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
+import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdate;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -61,10 +59,12 @@ class ITTransactionServiceUpdate {
     @DisplayName("With an existing entity, no new entity is persisted")
     @PositiveTransaction
     void testUpdate_AddsNoEntity() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        // GIVEN
+        transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         service.update(1L, transactionRequest);
 
         Assertions.assertThat(repository.count())
@@ -76,99 +76,99 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
     @PositiveTransaction
     void testUpdate_Decimal_PersistedData() {
-        final TransactionUpdate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
-        transactionRequest = TransactionsUpdate.decimal();
+        // GIVEN
+        transactionRequest = TransactionChanges.decimal();
 
+        // WHEN
         service.update(1L, transactionRequest);
+
+        // THEN
         transaction = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
-            .description("Transaction")
-            .amount(1.2f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.decimal());
     }
 
     @Test
     @DisplayName("With a transaction containing a decimal value, the data is returned")
     @PositiveTransaction
     void testUpdate_Decimal_ReturnedData() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsUpdate.decimal();
+        // GIVEN
+        transactionRequest = TransactionChanges.decimal();
 
+        // WHEN
         transaction = service.update(1L, transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction")
-            .amount(1.2f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        // THEN
+        Assertions.assertThat(transaction)
+            .isEqualTo(Transactions.decimal());
     }
 
     @Test
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     @PositiveTransaction
     void testUpdate_Padded_PersistedData() {
-        final TransactionUpdate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
-        transactionRequest = TransactionsUpdate.paddedWithWhitespaces();
+        // GIVEN
+        transactionRequest = TransactionChanges.paddedWithWhitespaces();
 
+        // WHEN
         service.update(1L, transactionRequest);
+
+        // THEN
         transaction = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.valid());
     }
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     @PositiveTransaction
     void testUpdate_PersistedData() {
-        final TransactionUpdate     transactionRequest;
+        final TransactionChange     transactionRequest;
         final PersistentTransaction transaction;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        // GIVEN
+        transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         service.update(1L, transactionRequest);
+
+        // THEN
         transaction = repository.findAll()
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransaction.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.descriptionChange());
     }
 
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     @PositiveTransaction
     void testUpdate_ReturnedData() {
-        final TransactionUpdate transactionRequest;
+        final TransactionChange transactionRequest;
         final Transaction       transaction;
 
-        transactionRequest = TransactionsUpdate.descriptionChange();
+        // GIVEN
+        transactionRequest = TransactionChanges.descriptionChange();
 
+        // WHEN
         transaction = service.update(1L, transactionRequest);
 
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 123")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .build());
+        // THEN
+        Assertions.assertThat(transaction)
+            .isEqualTo(Transactions.descriptionChange());
     }
 
 }

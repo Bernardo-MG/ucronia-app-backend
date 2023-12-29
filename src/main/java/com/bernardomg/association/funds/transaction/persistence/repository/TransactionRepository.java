@@ -25,6 +25,7 @@
 package com.bernardomg.association.funds.transaction.persistence.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -36,7 +37,16 @@ import com.bernardomg.association.funds.transaction.persistence.model.Persistent
 public interface TransactionRepository
         extends JpaRepository<PersistentTransaction, Long>, JpaSpecificationExecutor<PersistentTransaction> {
 
+    public void deleteByIndex(final long index);
+
+    public boolean existsByIndex(final long index);
+
     @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY year, month ORDER BY year, month ASC")
     public Collection<Month> findMonths();
+
+    @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
+    public Long findNextIndex();
+
+    public Optional<PersistentTransaction> findOneByIndex(final long index);
 
 }

@@ -7,8 +7,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsCreate;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreate;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -23,11 +23,11 @@ class TestValidatedTransactionCreateValidation {
     @Test
     @DisplayName("A DTO with an empty description is invalid")
     void validate_emptyDescription() {
-        final TransactionCreate                           request;
-        final Set<ConstraintViolation<TransactionCreate>> errors;
-        final ConstraintViolation<TransactionCreate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsCreate.emptyDescription();
+        request = TransactionChanges.emptyDescription();
 
         errors = validator.validate(request);
 
@@ -46,11 +46,11 @@ class TestValidatedTransactionCreateValidation {
     @Test
     @DisplayName("A DTO missing the amount is invalid")
     void validate_missingAmount() {
-        final TransactionCreate                           request;
-        final Set<ConstraintViolation<TransactionCreate>> errors;
-        final ConstraintViolation<TransactionCreate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsCreate.missingAmount();
+        request = TransactionChanges.missingAmount();
 
         errors = validator.validate(request);
 
@@ -69,11 +69,11 @@ class TestValidatedTransactionCreateValidation {
     @Test
     @DisplayName("A DTO missing the date is invalid")
     void validate_missingDate() {
-        final TransactionCreate                           request;
-        final Set<ConstraintViolation<TransactionCreate>> errors;
-        final ConstraintViolation<TransactionCreate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsCreate.missingDate();
+        request = TransactionChanges.missingDate();
 
         errors = validator.validate(request);
 
@@ -92,11 +92,11 @@ class TestValidatedTransactionCreateValidation {
     @Test
     @DisplayName("A DTO missing the description is invalid")
     void validate_missingDescription() {
-        final TransactionCreate                           request;
-        final Set<ConstraintViolation<TransactionCreate>> errors;
-        final ConstraintViolation<TransactionCreate>      error;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
+        final ConstraintViolation<TransactionChange>      error;
 
-        request = TransactionsCreate.missingDescription();
+        request = TransactionChanges.missingDescription();
 
         errors = validator.validate(request);
 
@@ -115,10 +115,10 @@ class TestValidatedTransactionCreateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final TransactionCreate                           request;
-        final Set<ConstraintViolation<TransactionCreate>> errors;
+        final TransactionChange                           request;
+        final Set<ConstraintViolation<TransactionChange>> errors;
 
-        request = TransactionsCreate.inYear();
+        request = TransactionChanges.valid();
 
         errors = validator.validate(request);
 

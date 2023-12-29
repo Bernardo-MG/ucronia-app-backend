@@ -8,7 +8,17 @@ import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 
 public final class MonthlyBalances {
 
-    public static final YearMonth MONTH = YearMonth.of(2020, Month.JANUARY);
+    public static final YearMonth CURRENT = YearMonth.now();
+
+    public static final YearMonth MONTH   = YearMonth.of(2020, Month.JANUARY);
+
+    public static final MonthlyBalance currentMonth(final Float amount) {
+        return MonthlyBalance.builder()
+            .month(CURRENT)
+            .results(amount)
+            .total(amount)
+            .build();
+    }
 
     public static final MonthlyBalance forAmount(final Float amount) {
         return MonthlyBalance.builder()

@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.funds.test.balance.integration.service;
 
-import java.time.LocalDate;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,8 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.funds.test.transaction.util.initializer.TransactionInitializer;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -50,73 +47,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITBalanceServiceGetBalance {
 
     @Autowired
-    private TransactionRepository repository;
+    private BalanceService         service;
 
     @Autowired
-    private BalanceService        service;
-
-    private final void persist(final Float amount) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now();
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persistNextMonth(final Float amount) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now()
-            .plusMonths(1);
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persistPreviousMonth(final Float amount) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now()
-            .minusMonths(1);
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persistPreviousMonth(final Float amount, final int monthDiff) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now()
-            .minusMonths(monthDiff);
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
+    private TransactionInitializer transactionInitializer;
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
@@ -124,7 +58,7 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_AroundZero(final Float amount) {
         final CurrentBalance balance;
 
-        persist(amount);
+        transactionInitializer.registerCurrentMonth(amount);
 
         balance = service.getBalance();
 
@@ -143,7 +77,7 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_CurrentMonth() {
         final CurrentBalance balance;
 
-        persist(1F);
+        transactionInitializer.registerCurrentMonth(1F);
 
         balance = service.getBalance();
 
@@ -162,9 +96,9 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_CurrentMonthAndPrevious() {
         final CurrentBalance balance;
 
-        persist(1F);
-        persistPreviousMonth(2F, 1);
-        persistPreviousMonth(3F, 2);
+        transactionInitializer.registerMonthsBack(1F, 0, 1L);
+        transactionInitializer.registerMonthsBack(2F, 1, 2L);
+        transactionInitializer.registerMonthsBack(3F, 2, 3L);
 
         balance = service.getBalance();
 
@@ -184,7 +118,7 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_Decimal(final Float amount) {
         final CurrentBalance balance;
 
-        persist(amount);
+        transactionInitializer.registerCurrentMonth(amount);
 
         balance = service.getBalance();
 
@@ -203,10 +137,10 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_DecimalsAddUpToZero() {
         final CurrentBalance balance;
 
-        persist(-40.8F);
-        persist(13.6F);
-        persist(13.6F);
-        persist(13.6F);
+        transactionInitializer.registerCurrentMonth(-40.8F, 1L);
+        transactionInitializer.registerCurrentMonth(13.6F, 2L);
+        transactionInitializer.registerCurrentMonth(13.6F, 3L);
+        transactionInitializer.registerCurrentMonth(13.6F, 4L);
 
         balance = service.getBalance();
 
@@ -243,11 +177,11 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_Multiple() {
         final CurrentBalance balance;
 
-        persist(1F);
-        persist(1F);
-        persist(1F);
-        persist(1F);
-        persist(1F);
+        transactionInitializer.registerCurrentMonth(1F, 1L);
+        transactionInitializer.registerCurrentMonth(1F, 2L);
+        transactionInitializer.registerCurrentMonth(1F, 3L);
+        transactionInitializer.registerCurrentMonth(1F, 4L);
+        transactionInitializer.registerCurrentMonth(1F, 5L);
 
         balance = service.getBalance();
 
@@ -266,7 +200,7 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_NextMonth() {
         final CurrentBalance balance;
 
-        persistNextMonth(1F);
+        transactionInitializer.registerNextMonth(1F);
 
         balance = service.getBalance();
 
@@ -302,9 +236,9 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonth() {
         final CurrentBalance balance;
 
-        persistPreviousMonth(1F);
-        persistPreviousMonth(2F);
-        persistPreviousMonth(3F);
+        transactionInitializer.registerPreviousMonth(1F, 1L);
+        transactionInitializer.registerPreviousMonth(2F, 2L);
+        transactionInitializer.registerPreviousMonth(3F, 3L);
 
         balance = service.getBalance();
 
@@ -323,9 +257,9 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonths() {
         final CurrentBalance balance;
 
-        persistPreviousMonth(1F, 1);
-        persistPreviousMonth(2F, 2);
-        persistPreviousMonth(3F, 3);
+        transactionInitializer.registerMonthsBack(1F, 1, 1L);
+        transactionInitializer.registerMonthsBack(2F, 2, 2L);
+        transactionInitializer.registerMonthsBack(3F, 3, 3L);
 
         balance = service.getBalance();
 
@@ -344,9 +278,9 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonths_Gaps() {
         final CurrentBalance balance;
 
-        persistPreviousMonth(1F, 1);
-        persistPreviousMonth(2F, 2);
-        persistPreviousMonth(3F, 5);
+        transactionInitializer.registerMonthsBack(1F, 1, 1L);
+        transactionInitializer.registerMonthsBack(2F, 2, 2L);
+        transactionInitializer.registerMonthsBack(3F, 5, 3L);
 
         balance = service.getBalance();
 

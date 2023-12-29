@@ -32,7 +32,6 @@ import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.balance.service.DefaultBalanceService;
 import com.bernardomg.association.funds.calendar.service.DefaultFundsCalendarService;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
-import com.bernardomg.association.funds.transaction.model.mapper.TransactionMapper;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.DefaultTransactionService;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -61,9 +60,8 @@ public class FundsConfig {
     }
 
     @Bean("transactionService")
-    public TransactionService getTransactionService(final TransactionRepository transactionRepository,
-            final TransactionMapper mapper) {
-        return new DefaultTransactionService(transactionRepository, mapper);
+    public TransactionService getTransactionService(final TransactionRepository transactionRepository) {
+        return new DefaultTransactionService(transactionRepository);
     }
 
 }

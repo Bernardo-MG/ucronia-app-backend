@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.funds.test.balance.integration.service;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
@@ -48,8 +47,7 @@ import com.bernardomg.association.funds.test.configuration.argument.CurrentAndPr
 import com.bernardomg.association.funds.test.transaction.configuration.DecimalsAddZeroTransaction;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.funds.test.transaction.util.initializer.TransactionInitializer;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -59,36 +57,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITBalanceServiceGetMonthlyBalance {
 
     @Autowired
-    private TransactionRepository repository;
+    private BalanceService         service;
 
     @Autowired
-    private BalanceService        service;
-
-    private final void persist(final Float amount) {
-        final PersistentTransaction entity;
-
-        entity = PersistentTransaction.builder()
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persist(final Integer year, final Month month) {
-        final PersistentTransaction entity;
-
-        entity = PersistentTransaction.builder()
-            .date(LocalDate.of(year, month, 1))
-            .description("Description")
-            .amount(1F)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
+    private TransactionInitializer transactionInitializer;
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
@@ -101,7 +73,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        persist(amount);
+        transactionInitializer.registerCurrentMonth(amount);
 
         query = BalanceQueryRequest.builder()
             .build();
@@ -114,7 +86,7 @@ class ITBalanceServiceGetMonthlyBalance {
         balance = balances.iterator()
             .next();
 
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(amount));
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.currentMonth(amount));
     }
 
     @ParameterizedTest(name = "Date: {0}")
@@ -128,7 +100,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        persist(date.getYear(), date.getMonth());
+        transactionInitializer.registerAt(date.getYear(), date.getMonth());
 
         query = BalanceQueryRequest.builder()
             .build();
@@ -155,7 +127,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        persist(amount);
+        transactionInitializer.registerCurrentMonth(amount);
 
         query = BalanceQueryRequest.builder()
             .build();
@@ -168,7 +140,7 @@ class ITBalanceServiceGetMonthlyBalance {
         balance = balances.iterator()
             .next();
 
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(amount));
+        BalanceAssertions.isEqualTo(balance, MonthlyBalances.currentMonth(amount));
     }
 
     @Test
@@ -335,11 +307,8 @@ class ITBalanceServiceGetMonthlyBalance {
         final Collection<? extends MonthlyBalance> balances;
         final BalanceQuery                         query;
         final Sort                                 sort;
-        final YearMonth                            date;
 
-        date = YearMonth.now()
-            .plusMonths(1);
-        persist(date.getYear(), date.getMonth());
+        transactionInitializer.registerNextMonth(1F);
 
         sort = Sort.unsorted();
 

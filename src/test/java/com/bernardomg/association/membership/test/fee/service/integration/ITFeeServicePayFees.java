@@ -27,12 +27,14 @@ package com.bernardomg.association.membership.test.fee.service.integration;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -42,6 +44,7 @@ import com.bernardomg.association.membership.fee.persistence.model.PersistentFee
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
+import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
@@ -72,7 +75,7 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingNotPaid_PersistedFee() {
+    void testCreate_Existing_NotPaid_PersistedFee() {
         final List<PersistentFee> entities;
 
         // WHEN
@@ -93,7 +96,7 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingNotPaid_PersistedTransaction() {
+    void testCreate_Existing_NotPaid_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
         // WHEN
@@ -114,7 +117,7 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingNotPaid_ReturnedData() {
+    void testCreate_Existing_NotPaid_ReturnedData() {
         final Collection<MemberFee> fees;
 
         // WHEN
@@ -126,11 +129,11 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paidwith multiple dates and a fee exists but is not paid, it is set to paid")
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, it is set to paid")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_ExistingNotPaid_PersistedFee() {
+    void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
         final List<PersistentFee>     entities;
         final Iterator<PersistentFee> entitiesItr;
 
@@ -151,7 +154,7 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_ExistingNotPaid_PersistedTransaction() {
+    void testCreate_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
         final List<PersistentTransaction> entities;
 
         // WHEN
@@ -165,6 +168,22 @@ class ITFeeServicePayFees {
 
         TransactionAssertions.isEqualTo(entities.iterator()
             .next(), PersistentTransactions.multipleFees());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @ValidMember
+    @NotPaidFee
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_OneExisting_NotPaid_ReturnedData() {
+        final Collection<MemberFee> fees;
+
+        // WHEN
+        fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .containsExactly(MemberFees.paid(), MemberFees.paidNextDate());
     }
 
     @Test
@@ -205,6 +224,21 @@ class ITFeeServicePayFees {
 
         TransactionAssertions.isEqualTo(entities.iterator()
             .next(), PersistentTransactions.multipleFees());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedTransaction_ReturnedData() {
+        final Collection<MemberFee> fees;
+
+        // WHEN
+        fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .containsExactly(MemberFees.paid(), MemberFees.paidNextDate());
     }
 
     @Test
@@ -264,6 +298,25 @@ class ITFeeServicePayFees {
 
         TransactionAssertions.isEqualTo(entities.iterator()
             .next(), PersistentTransactions.singleFee());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid  a single transaction is persisted and it uses the next index")
+    @ValidMember
+    @PaidFee
+    @PositiveTransaction
+    @FeeAmountConfiguration
+    void testCreate_PersistedTransaction_IncreaseIndex() {
+        final Optional<PersistentTransaction> entity;
+
+        // WHEN
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.NEXT_DATE));
+
+        // THEN
+        entity = transactionRepository.findOneByIndex(2L);
+
+        Assertions.assertThat(entity)
+            .isNotEmpty();
     }
 
     @Test

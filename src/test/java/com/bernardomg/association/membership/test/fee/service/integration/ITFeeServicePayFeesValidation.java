@@ -84,7 +84,7 @@ class ITFeeServicePayFeesValidation {
     }
 
     @Test
-    @DisplayName("With one of the fees already paid, it throws an exception")
+    @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
     @ValidMember
     @PaidFee
     void testCreate_MultipleDates_OneExisting_Paid() {

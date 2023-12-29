@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
@@ -36,9 +35,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -63,12 +61,15 @@ class ITTransactionServiceGetAllPagination {
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = Pageable.ofSize(10);
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
             .as("transactions")
             .isInstanceOf(Page.class);
@@ -79,25 +80,19 @@ class ITTransactionServiceGetAllPagination {
     void testGetAll_Page1() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Transaction           transaction;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .hasSize(1);
-
-        transaction = transactions.iterator()
-            .next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+            .containsExactly(Transactions.forIndex(1, Month.JANUARY));
     }
 
     @Test
@@ -105,25 +100,19 @@ class ITTransactionServiceGetAllPagination {
     void testGetAll_Page2() {
         final Iterable<Transaction> transactions;
         final TransactionQuery      transactionQuery;
-        final Transaction           transaction;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = PageRequest.of(1, 1);
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
-            .hasSize(1);
-
-        transaction = transactions.iterator()
-            .next();
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 2")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 2))
-            .build());
+            .containsExactly(Transactions.forIndexAndDay(2, Month.JANUARY));
     }
 
     @Test
@@ -133,12 +122,15 @@ class ITTransactionServiceGetAllPagination {
         final TransactionQuery      transactionQuery;
         final Pageable              pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         transactionQuery = TransactionsQuery.empty();
 
+        // WHEN
         transactions = service.getAll(transactionQuery, pageable);
 
+        // THEN
         Assertions.assertThat(transactions)
             .isInstanceOf(Page.class);
     }
