@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberChange;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
-import com.bernardomg.association.membership.member.model.request.MemberUpdate;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -64,6 +63,6 @@ public interface MemberService {
      *            new data for the member
      * @return the updated member
      */
-    public Member update(final long id, final MemberUpdate member);
+    public Member update(final long id, final MemberChange member);
 
 }

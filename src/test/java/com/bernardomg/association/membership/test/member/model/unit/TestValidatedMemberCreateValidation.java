@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.membership.member.model.request.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
 
 import jakarta.validation.ConstraintViolation;

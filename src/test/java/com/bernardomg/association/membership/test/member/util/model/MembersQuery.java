@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.membership.test.member.util.model;
 
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.model.MemberStatus;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
 
 public final class MembersQuery {
 

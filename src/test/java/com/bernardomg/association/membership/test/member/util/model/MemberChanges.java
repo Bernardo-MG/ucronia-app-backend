@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.membership.test.member.util.model;
 
-import com.bernardomg.association.membership.member.model.request.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberChange;
 
 public final class MemberChanges {
 
@@ -11,6 +11,15 @@ public final class MemberChanges {
             .surname("Surname 2")
             .phone("12345 2")
             .identifier("6789 2")
+            .build();
+    }
+
+    public static final MemberChange missingActive() {
+        return MemberChange.builder()
+            .name("Member")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
             .build();
     }
 
@@ -33,6 +42,15 @@ public final class MemberChanges {
     public static final MemberChange missingSurname() {
         return MemberChange.builder()
             .name("Member")
+            .phone("12345")
+            .identifier("6789")
+            .build();
+    }
+
+    public static final MemberChange nameChange() {
+        return MemberChange.builder()
+            .name("Member 123")
+            .surname("Surname")
             .phone("12345")
             .identifier("6789")
             .build();

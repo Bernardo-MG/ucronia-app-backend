@@ -30,14 +30,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberUpdate;
+import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
 import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
-import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,9 +58,9 @@ class ITMemberServiceUpdate {
     @Test
     @DisplayName("With an existing entity, no new entity is persisted")
     void testUpdate_AddsNoEntity() {
-        final MemberUpdate memberRequest;
+        final MemberChange memberRequest;
 
-        memberRequest = MembersUpdate.nameChange();
+        memberRequest = MemberChanges.nameChange();
 
         service.update(1L, memberRequest);
 
@@ -71,10 +71,10 @@ class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
-        final MemberUpdate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersUpdate.paddedWithWhitespaces();
+        memberRequest = MemberChanges.paddedWithWhitespaces();
 
         service.update(1L, memberRequest);
         entity = repository.findAll()
@@ -86,10 +86,10 @@ class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     void testUpdate_PersistedData() {
-        final MemberUpdate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersUpdate.nameChange();
+        memberRequest = MemberChanges.nameChange();
 
         service.update(1L, memberRequest);
         entity = repository.findAll()
@@ -106,10 +106,10 @@ class ITMemberServiceUpdate {
     @Test
     @DisplayName("With a changed entity, the changed data is returned")
     void testUpdate_ReturnedData() {
-        final MemberUpdate memberRequest;
+        final MemberChange memberRequest;
         final Member       member;
 
-        memberRequest = MembersUpdate.nameChange();
+        memberRequest = MemberChanges.nameChange();
 
         member = service.update(1L, memberRequest);
         MemberAssertions.isEqualTo(member, Member.builder()

@@ -1,7 +1,5 @@
 
-package com.bernardomg.association.membership.member.model.request;
-
-import com.bernardomg.association.membership.member.model.MemberStatus;
+package com.bernardomg.association.membership.member.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

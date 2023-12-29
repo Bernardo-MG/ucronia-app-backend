@@ -44,9 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberChange;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
-import com.bernardomg.association.membership.member.model.request.MemberUpdateRequest;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -107,7 +106,7 @@ public class MemberController {
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
-    public Member update(@PathVariable("id") final long id, @Valid @RequestBody final MemberUpdateRequest member) {
+    public Member update(@PathVariable("id") final long id, @Valid @RequestBody final MemberChange member) {
         return service.update(id, member);
     }
 
