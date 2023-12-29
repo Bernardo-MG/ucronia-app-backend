@@ -79,12 +79,12 @@ public class MemberController {
         return service.create(member);
     }
 
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
     @Caching(evict = {
             @CacheEvict(cacheNames = { MembershipCaches.MEMBERS, MembershipCaches.MEMBER }, allEntries = true) })
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+    public void delete(@PathVariable("id") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -94,20 +94,20 @@ public class MemberController {
         return service.getAll(query, pageable);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.MEMBER, key = "#p0")
-    public Member readOne(@PathVariable("id") final Long id) {
-        return service.getOne(id)
+    public Member readOne(@PathVariable("number") final Long number) {
+        return service.getOne(number)
             .orElse(null);
     }
 
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
-    public Member update(@PathVariable("id") final long id, @Valid @RequestBody final MemberChange member) {
-        return service.update(id, member);
+    public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange member) {
+        return service.update(number, member);
     }
 
 }

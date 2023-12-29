@@ -44,6 +44,7 @@ public final class DefaultMemberService implements MemberService {
     public final Member create(final MemberChange member) {
         final MemberEntity entity;
         final MemberEntity created;
+        final Long         index;
 
         log.debug("Creating member {}", member);
 
@@ -51,6 +52,9 @@ public final class DefaultMemberService implements MemberService {
         // TODO: Phone and identifier should be unique or empty
 
         entity = toEntity(member);
+
+        index = memberRepository.findNextNumber();
+        entity.setNumber(index);
 
         // Trim strings
         entity.setName(StringUtils.trim(entity.getName()));
@@ -62,17 +66,21 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final void delete(final long id) {
+    public final void delete(final long number) {
+        final Optional<MemberEntity> member;
 
-        log.debug("Deleting member {}", id);
+        log.debug("Deleting member {}", number);
 
-        if (!memberRepository.existsById(id)) {
-            throw new MissingMemberIdException(id);
+        member = memberRepository.getOneByNumber(number);
+        if (member.isEmpty()) {
+            // TODO: change name
+            throw new MissingMemberIdException(number);
         }
 
         // TODO: Forbid deleting when there are relationships
 
-        memberRepository.deleteById(id);
+        memberRepository.deleteById(member.get()
+            .getId());
     }
 
     @Override
@@ -122,46 +130,42 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Optional<Member> getOne(final long id) {
-        final Optional<MemberEntity> found;
-        final Optional<Member>       result;
-        final Member                 data;
+    public final Optional<Member> getOne(final long number) {
+        final Optional<MemberEntity> member;
 
-        log.debug("Reading member with id {}", id);
+        log.debug("Reading member {}", number);
 
-        if (!memberRepository.existsById(id)) {
-            throw new MissingMemberIdException(id);
+        member = memberRepository.getOneByNumber(number);
+        if (member.isEmpty()) {
+            // TODO: change name
+            throw new MissingMemberIdException(number);
         }
 
-        found = memberRepository.findById(id);
-
-        if (found.isPresent()) {
-            data = toDto(found.get());
-            result = Optional.of(data);
-        } else {
-            result = Optional.empty();
-        }
-
-        return result;
+        return member.map(this::toDto);
     }
 
     @Override
-    public final Member update(final long id, final MemberChange member) {
-        final MemberEntity entity;
-        final MemberEntity updated;
+    public final Member update(final long number, final MemberChange change) {
+        final Optional<MemberEntity> member;
+        final MemberEntity           entity;
+        final MemberEntity           updated;
 
-        log.debug("Updating member with id {} using data {}", id, member);
+        log.debug("Updating member {} using data {}", number, change);
 
         // TODO: Identificator and phone must be unique or empty
 
-        if (!memberRepository.existsById(id)) {
-            throw new MissingMemberIdException(id);
+        member = memberRepository.getOneByNumber(number);
+        if (member.isEmpty()) {
+            // TODO: change name
+            throw new MissingMemberIdException(number);
         }
 
-        entity = toEntity(member);
+        entity = toEntity(change);
 
         // Set id
-        entity.setId(id);
+        entity.setId(member.get()
+            .getId());
+        entity.setNumber(number);
 
         // Trim strings
         entity.setName(entity.getName()
@@ -175,6 +179,7 @@ public final class DefaultMemberService implements MemberService {
 
     private final Member toDto(final MemberEntity entity) {
         return Member.builder()
+            .number(entity.getNumber())
             .identifier(entity.getIdentifier())
             .name(entity.getName())
             .phone(entity.getPhone())
