@@ -31,7 +31,6 @@ import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
-import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.model.ImmutableMonthsRange;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -74,7 +73,7 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
     }
 
     @Override
-    public final Iterable<? extends CalendarFundsDate> getYearMonth(final YearMonth date) {
+    public final Iterable<CalendarFundsDate> getYearMonth(final YearMonth date) {
         final Specification<PersistentTransaction> spec;
         final Collection<PersistentTransaction>    read;
 

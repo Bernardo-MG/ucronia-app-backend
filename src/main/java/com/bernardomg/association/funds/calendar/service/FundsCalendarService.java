@@ -51,6 +51,6 @@ public interface FundsCalendarService {
      *            the month to read
      * @return all the fund changes for the month
      */
-    public Iterable<? extends CalendarFundsDate> getYearMonth(final YearMonth month);
+    public Iterable<CalendarFundsDate> getYearMonth(final YearMonth month);
 
 }
