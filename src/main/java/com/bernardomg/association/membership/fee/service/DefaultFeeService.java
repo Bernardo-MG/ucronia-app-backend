@@ -140,7 +140,7 @@ public final class DefaultFeeService implements FeeService {
 
         log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, payDate, feeDates);
 
-        if (!memberRepository.existsById(memberNumber)) {
+        if (!memberRepository.existsByNumber(memberNumber)) {
             throw new MissingMemberIdException(memberNumber);
         }
 
