@@ -10,7 +10,7 @@ public final class MemberFees {
 
     public static final MemberFee noSurname() {
         return MemberFee.builder()
-            .memberId(1L)
+            .memberNumber(1L)
             .memberName("Member 1")
             .date(Fees.DATE)
             .paid(true)
@@ -19,7 +19,7 @@ public final class MemberFees {
 
     public static final MemberFee notPaid() {
         return MemberFee.builder()
-            .memberId(1L)
+            .memberNumber(1L)
             .memberName("Member 1 Surname 1")
             .date(Fees.DATE)
             .paid(false)
@@ -28,7 +28,7 @@ public final class MemberFees {
 
     public static final MemberFee notPaidAt(final long index, final Month month) {
         return MemberFee.builder()
-            .memberId(index)
+            .memberNumber(index)
             .memberName("Member " + index + " Surname " + index)
             .date(YearMonth.of(2020, month))
             .paid(false)
@@ -37,7 +37,7 @@ public final class MemberFees {
 
     public static final MemberFee paid() {
         return MemberFee.builder()
-            .memberId(1L)
+            .memberNumber(1L)
             .memberName("Member 1 Surname 1")
             .date(Fees.DATE)
             .paid(true)
@@ -46,7 +46,7 @@ public final class MemberFees {
 
     public static final MemberFee paidAt(final long index, final Month month) {
         return MemberFee.builder()
-            .memberId(index)
+            .memberNumber(index)
             .memberName("Member " + index + " Surname " + index)
             .date(YearMonth.of(2020, month))
             .paid(true)
@@ -55,7 +55,7 @@ public final class MemberFees {
 
     public static final MemberFee paidAt(final Month month) {
         return MemberFee.builder()
-            .memberId(1L)
+            .memberNumber(1L)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(2020, month))
             .paid(true)
@@ -64,7 +64,7 @@ public final class MemberFees {
 
     public static final MemberFee paidNextDate() {
         return MemberFee.builder()
-            .memberId(1L)
+            .memberNumber(1L)
             .memberName("Member 1 Surname 1")
             .date(Fees.NEXT_DATE)
             .paid(true)

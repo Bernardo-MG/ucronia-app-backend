@@ -136,26 +136,26 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<MemberFee> payFees(final long memberId, final LocalDate payDate,
+    public final Collection<MemberFee> payFees(final long memberNumber, final LocalDate payDate,
             final Collection<YearMonth> feeDates) {
         final Collection<PersistentFee> fees;
         final Collection<Long>          ids;
         final FeesPayment               payment;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", memberId, payDate, feeDates);
+        log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, payDate, feeDates);
 
-        if (!memberRepository.existsById(memberId)) {
-            throw new MissingMemberIdException(memberId);
+        if (!memberRepository.existsById(memberNumber)) {
+            throw new MissingMemberIdException(memberNumber);
         }
 
         payment = FeesPayment.builder()
-            .memberId(memberId)
+            .memberNumber(memberNumber)
             .feeDates(feeDates)
             .build();
         validatorPay.validate(payment);
 
-        registerTransaction(memberId, payDate, feeDates);
-        fees = registerFees(memberId, feeDates);
+        registerTransaction(memberNumber, payDate, feeDates);
+        fees = registerFees(memberNumber, feeDates);
 
         // Read fees to return names
         feeRepository.flush();
@@ -285,7 +285,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberFee toDto(final PersistentMemberFee entity) {
         return MemberFee.builder()
-            .memberId(entity.getMemberId())
+            .memberNumber(entity.getMemberId())
             .memberName(entity.getMemberName())
             .date(entity.getDate())
             .paid(entity.getPaid())

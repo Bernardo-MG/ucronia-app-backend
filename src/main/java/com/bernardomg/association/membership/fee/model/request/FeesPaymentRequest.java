@@ -25,7 +25,7 @@ public final class FeesPaymentRequest {
     private Collection<@NotNull YearMonth> feeDates;
 
     @NotNull
-    private Long                           memberId;
+    private Long                           memberNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
