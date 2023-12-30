@@ -28,9 +28,9 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 
 /**
  * Balance service.

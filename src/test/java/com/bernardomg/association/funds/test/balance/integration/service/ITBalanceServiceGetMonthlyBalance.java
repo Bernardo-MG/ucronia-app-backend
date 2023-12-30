@@ -37,9 +37,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.test.balance.util.assertion.BalanceAssertions;
 import com.bernardomg.association.funds.test.balance.util.model.MonthlyBalances;
@@ -75,7 +74,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         transactionInitializer.registerCurrentMonth(amount);
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -102,7 +101,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         transactionInitializer.registerAt(date.getYear(), date.getMonth());
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -129,7 +128,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         transactionInitializer.registerCurrentMonth(amount);
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -154,7 +153,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -180,7 +179,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -287,7 +286,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -312,7 +311,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
@@ -330,7 +329,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
+        query = BalanceQuery.builder()
             .build();
         balances = service.getMonthlyBalance(query, sort);
 
