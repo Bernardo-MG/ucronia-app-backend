@@ -3,7 +3,6 @@ package com.bernardomg.association.membership.test.balance.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,6 @@ import com.bernardomg.association.membership.balance.model.request.MemberBalance
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.membership.test.balance.util.assertion.MonthlyMemberBalanceAssertions;
 import com.bernardomg.association.membership.test.balance.util.model.MonthlyMemberBalances;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -41,7 +39,7 @@ class ITMembershipBalanceServiceFilter {
         final YearMonth yearMonth;
 
         yearMonth = YearMonth.now();
-        // Previous mont
+        // Previous month
         persist(yearMonth.getYear(), yearMonth.getMonth()
             .minus(1));
         // This month
@@ -67,13 +65,12 @@ class ITMembershipBalanceServiceFilter {
     @Test
     @DisplayName("Can filter around the current month")
     void testGetBalance_Filter_AroundCurrent() {
-        final YearMonth                                yearMonth;
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
-        final Iterable<? extends MonthlyMemberBalance> balances;
-        final Iterator<? extends MonthlyMemberBalance> balancesItr;
-        MonthlyMemberBalance                           balance;
+        final YearMonth                      yearMonth;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
 
+        // GIVEN
         yearMonth = YearMonth.now();
 
         query = MemberBalanceQueryRequest.builder()
@@ -83,29 +80,25 @@ class ITMembershipBalanceServiceFilter {
 
         sort = Sort.unsorted();
 
+        // WHEN
         balances = service.getBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(2);
-
-        balancesItr = balances.iterator();
-        balance = balancesItr.next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)));
-
-        balance = balancesItr.next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(yearMonth));
+            .containsExactly(MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)),
+                MonthlyMemberBalances.forMonth(yearMonth));
     }
 
     @Test
     @DisplayName("Can filter for the previous month")
     void testGetBalance_Filter_PreviousMonth() {
-        final YearMonth                                yearMonth;
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
-        final Iterable<? extends MonthlyMemberBalance> balances;
-        final MonthlyMemberBalance                     balance;
+        final YearMonth                      yearMonth;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
 
+        // GIVEN
         yearMonth = YearMonth.now();
 
         query = MemberBalanceQueryRequest.builder()
@@ -115,24 +108,24 @@ class ITMembershipBalanceServiceFilter {
 
         sort = Sort.unsorted();
 
+        // WHEN
         balances = service.getBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)));
     }
 
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
     void testGetBalance_Filter_RangeEndBeforeStart() {
-        final YearMonth                                yearMonth;
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
-        final Iterable<? extends MonthlyMemberBalance> balances;
+        final YearMonth                      yearMonth;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
 
+        // GIVEN
         yearMonth = YearMonth.now();
 
         query = MemberBalanceQueryRequest.builder()
@@ -142,8 +135,10 @@ class ITMembershipBalanceServiceFilter {
 
         sort = Sort.unsorted();
 
+        // WHEN
         balances = service.getBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .isEmpty();
     }
@@ -151,13 +146,12 @@ class ITMembershipBalanceServiceFilter {
     @Test
     @DisplayName("Can filter for two months")
     void testGetBalance_Filter_TwoMonths() {
-        final YearMonth                                yearMonth;
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
-        final Iterable<? extends MonthlyMemberBalance> balances;
-        final Iterator<? extends MonthlyMemberBalance> balancesItr;
-        MonthlyMemberBalance                           balance;
+        final YearMonth                      yearMonth;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
 
+        // GIVEN
         yearMonth = YearMonth.now();
 
         query = MemberBalanceQueryRequest.builder()
@@ -167,17 +161,14 @@ class ITMembershipBalanceServiceFilter {
 
         sort = Sort.unsorted();
 
+        // WHEN
         balances = service.getBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
-            .hasSize(2);
-
-        balancesItr = balances.iterator();
-        balance = balancesItr.next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)));
-
-        balance = balancesItr.next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.forMonth(yearMonth));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)),
+                MonthlyMemberBalances.forMonth(yearMonth));
     }
 
 }
