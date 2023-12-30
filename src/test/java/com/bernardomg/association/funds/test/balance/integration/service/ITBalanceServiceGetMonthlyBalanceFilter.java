@@ -25,7 +25,6 @@
 package com.bernardomg.association.funds.test.balance.integration.service;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -37,6 +36,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.test.balance.util.model.BalanceQueries;
 import com.bernardomg.association.funds.test.balance.util.model.MonthlyBalances;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -59,9 +59,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .endDate(YearMonth.of(2019, Month.DECEMBER))
-            .build();
+        query = BalanceQueries.endDate(2019, Month.DECEMBER);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -83,9 +81,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .endDate(YearMonth.of(2020, Month.DECEMBER))
-            .build();
+        query = BalanceQueries.endDate(2020, Month.DECEMBER);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -113,10 +109,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .endDate(YearMonth.of(2020, Month.DECEMBER))
-            .build();
+        query = BalanceQueries.range(2020, Month.JANUARY, Month.DECEMBER);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -144,10 +137,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .endDate(YearMonth.of(2020, Month.JANUARY))
-            .build();
+        query = BalanceQueries.range(2020, Month.JANUARY, Month.JANUARY);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -169,10 +159,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .endDate(YearMonth.of(2020, Month.FEBRUARY))
-            .build();
+        query = BalanceQueries.range(2020, Month.JANUARY, Month.FEBRUARY);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -195,10 +182,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .startDate(YearMonth.of(2020, Month.DECEMBER))
-            .endDate(YearMonth.of(2020, Month.JANUARY))
-            .build();
+        query = BalanceQueries.range(2020, Month.DECEMBER, Month.JANUARY);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -220,9 +204,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .startDate(YearMonth.of(2021, Month.JANUARY))
-            .build();
+        query = BalanceQueries.startDate(2021, Month.JANUARY);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -244,9 +226,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .build();
+        query = BalanceQueries.startDate(2020, Month.JANUARY);
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);

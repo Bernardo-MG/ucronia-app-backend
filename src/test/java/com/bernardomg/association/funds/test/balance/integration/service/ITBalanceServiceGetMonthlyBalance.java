@@ -39,6 +39,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.test.balance.util.model.BalanceQueries;
 import com.bernardomg.association.funds.test.balance.util.model.MonthlyBalances;
 import com.bernardomg.association.funds.test.configuration.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.funds.test.transaction.configuration.DecimalsAddZeroTransaction;
@@ -72,8 +73,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -97,8 +97,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -122,8 +121,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -145,8 +143,7 @@ class ITBalanceServiceGetMonthlyBalance {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -168,8 +165,7 @@ class ITBalanceServiceGetMonthlyBalance {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -197,8 +193,7 @@ class ITBalanceServiceGetMonthlyBalance {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -221,8 +216,7 @@ class ITBalanceServiceGetMonthlyBalance {
 
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -243,8 +237,7 @@ class ITBalanceServiceGetMonthlyBalance {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQuery.builder()
-            .build();
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
