@@ -57,7 +57,7 @@ public interface MemberService {
     /**
      * Updates the member for the received id with the received data.
      *
-     * @param number
+     * @param memberNumber
      *            number of the member to update
      * @param member
      *            new data for the member
