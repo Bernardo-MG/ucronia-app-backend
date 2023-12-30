@@ -36,8 +36,7 @@ public interface FeeRepository extends JpaRepository<PersistentFee, Long> {
 
     public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
 
-    public boolean existsByMemberNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
-            final boolean paid);
+    public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
 
     /**
      * Returns all the fees in the received date.

@@ -51,7 +51,7 @@ import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.cache.FeeCaches;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQueryRequest;
-import com.bernardomg.association.membership.fee.model.request.FeeUpdateRequest;
+import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.request.FeesPaymentRequest;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -137,7 +137,7 @@ public class FeeController {
                     MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
                     MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true) })
     public MemberFee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
-            @PathVariable("memberNumber") final long memberNumber, @Valid @RequestBody final FeeUpdateRequest fee) {
+            @PathVariable("memberNumber") final long memberNumber, @Valid @RequestBody final FeeUpdate fee) {
         return service.update(memberNumber, date, fee);
     }
 

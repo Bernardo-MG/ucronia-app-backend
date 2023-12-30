@@ -78,10 +78,10 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
+    public Optional<MemberEntity> findByNumber(final Long number);
+
     @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM Member m")
     public Long findNextNumber();
-
-    public Optional<MemberEntity> getOneByNumber(final Long number);
 
     /**
      * Returns if the member is active in the received range. This means if the member has fees inside the range, both

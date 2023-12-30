@@ -71,7 +71,7 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Deleting member {}", number);
 
-        member = memberRepository.getOneByNumber(number);
+        member = memberRepository.findByNumber(number);
         if (member.isEmpty()) {
             // TODO: change name
             throw new MissingMemberIdException(number);
@@ -135,7 +135,7 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Reading member {}", number);
 
-        member = memberRepository.getOneByNumber(number);
+        member = memberRepository.findByNumber(number);
         if (member.isEmpty()) {
             // TODO: change name
             throw new MissingMemberIdException(number);
@@ -154,7 +154,7 @@ public final class DefaultMemberService implements MemberService {
 
         // TODO: Identificator and phone must be unique or empty
 
-        member = memberRepository.getOneByNumber(number);
+        member = memberRepository.findByNumber(number);
         if (member.isEmpty()) {
             // TODO: change name
             throw new MissingMemberIdException(number);
