@@ -31,7 +31,7 @@ import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
-import com.bernardomg.association.funds.calendar.model.ImmutableCalendarFundsDate;
+import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.model.ImmutableMonthsRange;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
@@ -87,8 +87,8 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
     }
 
     private final CalendarFundsDate toDto(final PersistentTransaction entity) {
-        return ImmutableCalendarFundsDate.builder()
-            .id(entity.getId())
+        return CalendarFundsDate.builder()
+            .index(entity.getIndex())
             .date(entity.getDate())
             .description(entity.getDescription())
             .amount(entity.getAmount())
