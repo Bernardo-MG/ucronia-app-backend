@@ -31,7 +31,6 @@ import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
-import com.bernardomg.association.funds.calendar.model.ImmutableMonthsRange;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
 import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
@@ -67,7 +66,7 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
 
-        return ImmutableMonthsRange.builder()
+        return MonthsRange.builder()
             .months(months)
             .build();
     }
