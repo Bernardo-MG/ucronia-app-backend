@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.test.calendar;
+package com.bernardomg.association.funds.test.calendar.service.integration;
 
 import java.time.LocalDate;
 import java.time.Month;
