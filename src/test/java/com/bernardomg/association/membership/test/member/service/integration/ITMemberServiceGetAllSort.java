@@ -24,8 +24,7 @@
 
 package com.bernardomg.association.membership.test.member.service.integration;
 
-import java.util.Iterator;
-
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -59,126 +57,86 @@ class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetAll_Name_Asc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         // FIXME: names should be sorted ignoring case
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     void testGetAll_Name_Desc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
         memberQuery = MembersQuery.empty();
 
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(5, false), Members.forIndex(4, false), Members.forIndex(3, false),
+                Members.forIndex(2, false), Members.forIndex(1, false));
     }
 
     @Test
     @DisplayName("With ascending order by surname it returns the ordered data")
     void testGetAll_Surname_Asc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
 
         memberQuery = MembersQuery.empty();
 
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
     }
 
     @Test
     @DisplayName("With descending order by surname it returns the ordered data")
     void testGetAll_Surname_Desc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
 
         memberQuery = MembersQuery.empty();
 
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(5, false), Members.forIndex(4, false), Members.forIndex(3, false),
+                Members.forIndex(2, false), Members.forIndex(1, false));
     }
 
 }

@@ -59,13 +59,16 @@ class ITMemberServiceGetAllSortError {
         final Pageable         pageable;
         final ThrowingCallable executable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         executable = () -> service.getAll(memberQuery, pageable)
             .iterator();
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(PropertyReferenceException.class);
     }

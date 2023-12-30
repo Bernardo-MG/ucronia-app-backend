@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.membership.test.member.service.integration;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +35,6 @@ import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -64,14 +61,17 @@ class ITMemberServiceGetAllFilterInactive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
             .isEmpty();
@@ -84,14 +84,17 @@ class ITMemberServiceGetAllFilterInactive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
             .isEmpty();
@@ -104,6 +107,7 @@ class ITMemberServiceGetAllFilterInactive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
         feeInitializer.registerFeePreviousMonth(false);
         feeInitializer.registerFeeTwoMonthsBack(false);
@@ -112,8 +116,10 @@ class ITMemberServiceGetAllFilterInactive {
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
             .isEmpty();
@@ -126,6 +132,7 @@ class ITMemberServiceGetAllFilterInactive {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
         feeInitializer.registerFeePreviousMonth(false);
         feeInitializer.registerFeeTwoMonthsBack(false);
@@ -134,8 +141,10 @@ class ITMemberServiceGetAllFilterInactive {
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
             .isEmpty();
@@ -145,187 +154,159 @@ class ITMemberServiceGetAllFilterInactive {
     @DisplayName("With a member with a not paid fee for the next month it returns the member")
     void testGetAll_NextMonth_NotPaid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         feeInitializer.registerFeeNextMonth(false);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With a member with a paid fee for the next month it returns the member")
     void testGetAll_NextMonth_Paid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         feeInitializer.registerFeeNextMonth(true);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With a member with no fees it returns the member")
     void testGetAll_NoFee() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With a member with a not paid fee for the previous month it returns the member")
     void testGetAll_PreviousMonth_NotPaid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With a member with a paid fee for the previous month it returns the member")
     void testGetAll_PreviousMonth_Paid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With a member with a not paid fee for two months back it returns the member")
     void testGetAll_TwoMonthsBack_NotPaid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
     @Test
     @DisplayName("With a member with a paid fee for two months back it returns the member")
     void testGetAll_TwoMonthsBack_Paid() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
 
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.inactive();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .as("members")
-            .hasSize(1);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.inactive());
+            .containsExactly(Members.inactive());
     }
 
 }
