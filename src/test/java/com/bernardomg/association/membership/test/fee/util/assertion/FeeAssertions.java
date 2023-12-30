@@ -3,27 +3,9 @@ package com.bernardomg.association.membership.test.fee.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 
 public final class FeeAssertions {
-
-    public static final void isEqualTo(final MemberFee received, final MemberFee expected) {
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(received.getMemberId())
-                .withFailMessage("Expected member id '%s' but got '%s'", expected.getMemberId(), received.getMemberId())
-                .isEqualTo(expected.getMemberId());
-            softly.assertThat(received.getMemberName())
-                .withFailMessage("Expected name '%s' but got '%s'", expected.getMemberName(), received.getMemberName())
-                .isEqualTo(expected.getMemberName());
-            softly.assertThat(received.getDate())
-                .withFailMessage("Expected date '%s' but got '%s'", expected.getDate(), received.getDate())
-                .isEqualTo(expected.getDate());
-            softly.assertThat(received.isPaid())
-                .withFailMessage("Expected paid flag '%s' but got '%s'", expected.isPaid(), received.isPaid())
-                .isEqualTo(expected.isPaid());
-        });
-    }
 
     public static final void isEqualTo(final PersistentFee received, final PersistentFee expected) {
         SoftAssertions.assertSoftly(softly -> {

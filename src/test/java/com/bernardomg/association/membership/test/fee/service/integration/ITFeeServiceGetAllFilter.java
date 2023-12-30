@@ -27,7 +27,6 @@ package com.bernardomg.association.membership.test.fee.service.integration;
 import java.time.Month;
 import java.time.YearMonth;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,6 @@ import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
@@ -204,12 +202,10 @@ class ITFeeServiceGetAllFilter {
         // WHEN
         fees = service.getAll(feeQuery, pageable);
 
+        // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(1);
-
-        // THEN
-        FeeAssertions.isEqualTo(IterableUtils.first(fees), MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
