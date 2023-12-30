@@ -24,6 +24,6 @@ public final class FeesPayment {
     private Collection<@NotNull YearMonth> feeDates;
 
     @NotNull
-    private Long                           memberId;
+    private Long                           memberNumber;
 
 }

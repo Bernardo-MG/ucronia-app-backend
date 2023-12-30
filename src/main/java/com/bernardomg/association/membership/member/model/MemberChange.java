@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.member.model.request;
+package com.bernardomg.association.membership.member.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberUpdateRequest implements MemberUpdate {
+public final class MemberChange {
 
     private String identifier;
 

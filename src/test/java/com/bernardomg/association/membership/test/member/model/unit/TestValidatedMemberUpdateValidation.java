@@ -7,8 +7,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.membership.member.model.request.MemberUpdate;
-import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -23,11 +23,11 @@ class TestValidatedMemberUpdateValidation {
     @Test
     @DisplayName("A DTO missing the name is invalid")
     void validate_missingName() {
-        final MemberUpdate                           request;
-        final Set<ConstraintViolation<MemberUpdate>> errors;
-        final ConstraintViolation<MemberUpdate>      error;
+        final MemberChange                           request;
+        final Set<ConstraintViolation<MemberChange>> errors;
+        final ConstraintViolation<MemberChange>      error;
 
-        request = MembersUpdate.missingName();
+        request = MemberChanges.missingName();
 
         errors = validator.validate(request);
 
@@ -46,10 +46,10 @@ class TestValidatedMemberUpdateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final MemberUpdate                           request;
-        final Set<ConstraintViolation<MemberUpdate>> errors;
+        final MemberChange                           request;
+        final Set<ConstraintViolation<MemberChange>> errors;
 
-        request = MembersUpdate.valid();
+        request = MemberChanges.valid();
 
         errors = validator.validate(request);
 

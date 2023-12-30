@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -42,7 +41,6 @@ import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
@@ -65,7 +63,6 @@ class ITFeeServiceGetAllSort {
     @DisplayName("With ascending order by date it returns the ordered data")
     void testGetAll_Date_Asc() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -80,22 +77,15 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
+                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
+                MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
     void testGetAll_Date_Desc() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -110,22 +100,15 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE), MemberFees.paidAt(4, Month.MAY),
+                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(2, Month.MARCH),
+                MemberFees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetAll_Name_Asc() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -140,22 +123,15 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
+                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
+                MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     void testGetAll_Name_Desc() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -170,15 +146,9 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
+            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE), MemberFees.paidAt(4, Month.MAY),
+                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(2, Month.MARCH),
+                MemberFees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
@@ -207,7 +177,6 @@ class ITFeeServiceGetAllSort {
     @DisplayName("With ascending order by paid flag it returns the ordered data")
     void testGetAll_Paid_Asc() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -222,22 +191,14 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
+            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE), MemberFees.paidAt(1, Month.FEBRUARY),
+                MemberFees.paidAt(2, Month.MARCH), MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY));
     }
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
     void testGetAll_Paid_Desc() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -252,15 +213,9 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
+                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
+                MemberFees.notPaidAt(5, Month.JUNE));
     }
 
 }

@@ -30,7 +30,6 @@ import com.bernardomg.association.membership.fee.persistence.repository.FeeRepos
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.fee.validation.CreateFeeValidator;
-import com.bernardomg.association.membership.fee.validation.UpdateFeeValidator;
 import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
@@ -62,8 +61,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<FeesPayment>         validatorPay;
 
-    private final Validator<FeeUpdate>           validatorUpdate;
-
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
             final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
             final MemberRepository memberRepo, final AssociationConfigurationSource confSource) {
@@ -77,8 +74,7 @@ public final class DefaultFeeService implements FeeService {
         configurationSource = confSource;
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(feeRepository);
-        validatorUpdate = new UpdateFeeValidator(memberRepository);
+        validatorPay = new CreateFeeValidator(feeRepository, memberRepository);
     }
 
     @Override
@@ -136,26 +132,26 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<MemberFee> payFees(final long memberId, final LocalDate payDate,
+    public final Collection<MemberFee> payFees(final long memberNumber, final LocalDate payDate,
             final Collection<YearMonth> feeDates) {
         final Collection<PersistentFee> fees;
         final Collection<Long>          ids;
         final FeesPayment               payment;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", memberId, payDate, feeDates);
+        log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, payDate, feeDates);
 
-        if (!memberRepository.existsById(memberId)) {
-            throw new MissingMemberIdException(memberId);
+        if (!memberRepository.existsByNumber(memberNumber)) {
+            throw new MissingMemberIdException(memberNumber);
         }
 
         payment = FeesPayment.builder()
-            .memberId(memberId)
+            .memberNumber(memberNumber)
             .feeDates(feeDates)
             .build();
         validatorPay.validate(payment);
 
-        registerTransaction(memberId, payDate, feeDates);
-        fees = registerFees(memberId, feeDates);
+        registerTransaction(memberNumber, payDate, feeDates);
+        fees = registerFees(memberNumber, feeDates);
 
         // Read fees to return names
         feeRepository.flush();
@@ -166,25 +162,34 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final MemberFee update(final long memberId, final YearMonth date, final FeeUpdate fee) {
+    public final MemberFee update(final long memberNumber, final YearMonth date, final FeeUpdate fee) {
         final Optional<PersistentFee> found;
+        final Optional<MemberEntity>  member;
         final PersistentFee           entity;
         final PersistentFee           updated;
         final Optional<MemberFee>     read;
         final MemberFee               result;
 
-        log.debug("Updating fee for {} in {} using data {}", memberId, date, fee);
+        log.debug("Updating fee for {} in {} using data {}", memberNumber, date, fee);
 
-        found = feeRepository.findOneByMemberIdAndDate(memberId, date);
-        if (found.isEmpty()) {
-            throw new MissingFeeIdException(memberId + " " + date.toString());
+        member = memberRepository.findByNumber(memberNumber);
+        if (member.isEmpty()) {
+            // TODO: Change exception
+            throw new MissingMemberIdException(memberNumber);
         }
 
-        validatorUpdate.validate(fee);
+        found = feeRepository.findOneByMemberIdAndDate(member.get()
+            .getId(), date);
+        if (found.isEmpty()) {
+            throw new MissingFeeIdException(memberNumber + " " + date.toString());
+        }
 
         entity = toEntity(fee);
         entity.setId(found.get()
             .getId());
+        entity.setMemberId(member.get()
+            .getId());
+        entity.setDate(date);
 
         updated = feeRepository.save(entity);
 
@@ -285,7 +290,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberFee toDto(final PersistentMemberFee entity) {
         return MemberFee.builder()
-            .memberId(entity.getMemberId())
+            .memberNumber(entity.getMemberId())
             .memberName(entity.getMemberName())
             .date(entity.getDate())
             .paid(entity.getPaid())
@@ -294,17 +299,15 @@ public final class DefaultFeeService implements FeeService {
 
     private final PersistentFee toEntity(final FeeUpdate update) {
         return PersistentFee.builder()
-            .memberId(update.getMemberId())
-            .date(update.getDate())
             .paid(update.getPaid())
             .build();
     }
 
-    private final PersistentFee toPersistentFee(final Long memberId, final YearMonth date) {
+    private final PersistentFee toPersistentFee(final Long memberNumber, final YearMonth date) {
         final PersistentFee fee;
 
         fee = new PersistentFee();
-        fee.setMemberId(memberId);
+        fee.setMemberId(memberNumber);
         fee.setDate(date);
         fee.setPaid(true);
 

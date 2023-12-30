@@ -51,7 +51,7 @@ import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.cache.FeeCaches;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.model.request.FeeQueryRequest;
-import com.bernardomg.association.membership.fee.model.request.FeeUpdateRequest;
+import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.request.FeesPaymentRequest;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -90,10 +90,10 @@ public class FeeController {
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
     public Collection<MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(fee.getMemberId(), fee.getPaymentDate(), fee.getFeeDates());
+        return service.payFees(fee.getMemberNumber(), fee.getPaymentDate(), fee.getFeeDates());
     }
 
-    @DeleteMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = {
             // Fee caches
@@ -105,8 +105,8 @@ public class FeeController {
             MembershipCaches.CALENDAR_RANGE }, allEntries = true),
             @CacheEvict(cacheNames = FeeCaches.FEE, key = "#p0") })
     public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
-            @PathVariable("memberId") final long memberId) {
-        service.delete(memberId, date);
+            @PathVariable("memberNumber") final long memberNumber) {
+        service.delete(memberNumber, date);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -116,18 +116,20 @@ public class FeeController {
         return service.getAll(query, pageable);
     }
 
-    @GetMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
     public MemberFee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
-            @PathVariable("memberId") final long memberId) {
-        return service.getOne(memberId, date)
+            @PathVariable("memberNumber") final long memberNumber) {
+        return service.getOne(memberNumber, date)
             .orElse(null);
     }
 
-    @PutMapping(path = "/{date}/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = FeeCaches.FEE, key = "#result.date.toString() + ':' + #result.memberId") },
+    @Caching(
+            put = { @CachePut(cacheNames = FeeCaches.FEE,
+                    key = "#result.date.toString() + ':' + #result.memberNumber") },
             evict = { @CacheEvict(cacheNames = {
                     // Fee caches
                     FeeCaches.FEES,
@@ -135,8 +137,8 @@ public class FeeController {
                     MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
                     MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true) })
     public MemberFee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
-            @PathVariable("memberId") final long memberId, @Valid @RequestBody final FeeUpdateRequest fee) {
-        return service.update(memberId, date, fee);
+            @PathVariable("memberNumber") final long memberNumber, @Valid @RequestBody final FeeUpdate fee) {
+        return service.update(memberNumber, date, fee);
     }
 
 }

@@ -13,6 +13,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: name
                   type: varchar(50)
                   constraints:

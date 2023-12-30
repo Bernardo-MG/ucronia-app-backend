@@ -1,14 +1,23 @@
 
 package com.bernardomg.association.membership.fee.model.request;
 
-import java.time.YearMonth;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public interface FeeUpdate {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class FeeUpdate {
 
-    public YearMonth getDate();
+    private String  name;
 
-    public Long getMemberId();
+    @NotNull
+    private Boolean paid;
 
-    public Boolean getPaid();
+    private String  surname;
 
 }

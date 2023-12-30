@@ -1,7 +1,5 @@
 
-package com.bernardomg.association.membership.member.model.request;
-
-import com.bernardomg.association.membership.member.model.MemberStatus;
+package com.bernardomg.association.membership.member.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberQueryRequest implements MemberQuery {
+public final class MemberQuery {
 
     @Builder.Default
     private MemberStatus status = MemberStatus.ALL;

@@ -23,12 +23,12 @@ public interface FeeService {
     /**
      * Deletes the fee with the received id.
      *
-     * @param memberId
+     * @param memberNumber
      *            id of the member for the fee to delete
      * @param date
      *            date of the fee to delete
      */
-    public void delete(final long memberId, final YearMonth date);
+    public void delete(final long memberNumber, final YearMonth date);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -44,18 +44,18 @@ public interface FeeService {
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param memberId
+     * @param memberNumber
      *            id of the member for the fee to acquire
      * @param date
      *            date of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<MemberFee> getOne(final long memberId, final YearMonth date);
+    public Optional<MemberFee> getOne(final long memberNumber, final YearMonth date);
 
     /**
      * Pays fees for a member
      *
-     * @param memberId
+     * @param memberNumber
      *            member paying the fees
      * @param payDate
      *            payment day
@@ -63,13 +63,13 @@ public interface FeeService {
      *            dates for the fees being paid
      * @return all the paid fees
      */
-    public Collection<MemberFee> payFees(final long memberId, final LocalDate payDate,
+    public Collection<MemberFee> payFees(final long memberNumber, final LocalDate payDate,
             final Collection<YearMonth> feeDates);
 
     /**
      * Updates the fee for the received id with the received data.
      *
-     * @param memberId
+     * @param memberNumber
      *            id of the member for the fee to acquire
      * @param date
      *            date of the fee to acquire
@@ -77,6 +77,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public MemberFee update(final long memberId, final YearMonth date, final FeeUpdate fee);
+    public MemberFee update(final long memberNumber, final YearMonth date, final FeeUpdate fee);
 
 }

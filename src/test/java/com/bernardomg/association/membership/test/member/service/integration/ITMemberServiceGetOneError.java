@@ -50,8 +50,10 @@ class ITMemberServiceGetOneError {
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
+        // WHEN
         execution = () -> service.getOne(1L);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
     }

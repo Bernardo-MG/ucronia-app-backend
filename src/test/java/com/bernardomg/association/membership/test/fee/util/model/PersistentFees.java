@@ -12,7 +12,7 @@ public final class PersistentFees {
         return PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .date(YearMonth.of(2020, month))
+            .date(YearMonth.of(Fees.YEAR, month))
             .paid(false)
             .build();
     }
@@ -30,7 +30,7 @@ public final class PersistentFees {
         return PersistentFee.builder()
             .id(1L)
             .memberId(1L)
-            .date(YearMonth.of(2020, month))
+            .date(YearMonth.of(Fees.YEAR, month))
             .paid(true)
             .build();
     }

@@ -207,7 +207,9 @@ class ITTransactionServiceCreate {
         transaction = service.create(transactionRequest);
 
         // THEN
-        TransactionAssertions.isEqualTo(transaction, Transactions.valid());
+        Assertions.assertThat(transaction)
+            .as("transaction")
+            .isEqualTo(Transactions.valid());
     }
 
 }

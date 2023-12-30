@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +40,6 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
@@ -66,7 +64,6 @@ class ITFeeServiceGetAll {
     @FeeFullYear
     void testGetAll_FullYear() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -80,22 +77,11 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(12);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JANUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JUNE));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JULY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.AUGUST));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.SEPTEMBER));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.OCTOBER));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.NOVEMBER));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.DECEMBER));
+            .containsExactly(MemberFees.paidAt(Month.JANUARY), MemberFees.paidAt(Month.FEBRUARY),
+                MemberFees.paidAt(Month.MARCH), MemberFees.paidAt(Month.APRIL), MemberFees.paidAt(Month.MAY),
+                MemberFees.paidAt(Month.JUNE), MemberFees.paidAt(Month.JULY), MemberFees.paidAt(Month.AUGUST),
+                MemberFees.paidAt(Month.SEPTEMBER), MemberFees.paidAt(Month.OCTOBER), MemberFees.paidAt(Month.NOVEMBER),
+                MemberFees.paidAt(Month.DECEMBER));
     }
 
     @Test
@@ -104,7 +90,6 @@ class ITFeeServiceGetAll {
     @MultipleFees
     void testGetAll_Multiple() {
         final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
         final FeeQuery            feeQuery;
         final Pageable            pageable;
 
@@ -118,15 +103,9 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
+                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
+                MemberFees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
