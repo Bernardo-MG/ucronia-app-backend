@@ -25,7 +25,7 @@ public final class TransactionInitializer {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public final void registerAt(final Integer year, final Month month) {
+    public final void registerAt(final int year, final Month month) {
         final PersistentTransaction transaction;
         final LocalDate             date;
 
@@ -36,7 +36,7 @@ public final class TransactionInitializer {
         transactionRepository.flush();
     }
 
-    public final void registerCurrentMonth(final Float amount) {
+    public final void registerCurrentMonth(final float amount) {
         final PersistentTransaction transaction;
 
         transaction = PersistentTransactions.forAmount(amount, CURRENT_MONTH);
@@ -45,7 +45,7 @@ public final class TransactionInitializer {
         transactionRepository.flush();
     }
 
-    public final void registerCurrentMonth(final Float amount, final Long index) {
+    public final void registerCurrentMonth(final float amount, final long index) {
         final PersistentTransaction transaction;
 
         transaction = PersistentTransactions.forAmount(amount, CURRENT_MONTH, index);
@@ -54,7 +54,7 @@ public final class TransactionInitializer {
         transactionRepository.flush();
     }
 
-    public final void registerMonthsBack(final Float amount, final Integer diff, final Long index) {
+    public final void registerMonthsBack(final float amount, final Integer diff, final long index) {
         final PersistentTransaction transaction;
         final LocalDate             month;
 
@@ -66,7 +66,7 @@ public final class TransactionInitializer {
         transactionRepository.flush();
     }
 
-    public final void registerNextMonth(final Float amount) {
+    public final void registerNextMonth(final float amount) {
         final PersistentTransaction transaction;
 
         transaction = PersistentTransactions.forAmount(amount, NEXT_MONTH);
@@ -75,7 +75,7 @@ public final class TransactionInitializer {
         transactionRepository.flush();
     }
 
-    public final void registerPreviousMonth(final Float amount) {
+    public final void registerPreviousMonth(final float amount) {
         final PersistentTransaction transaction;
 
         transaction = PersistentTransactions.forAmount(amount, PREVIOUS_MONTH);
@@ -84,7 +84,7 @@ public final class TransactionInitializer {
         transactionRepository.flush();
     }
 
-    public final void registerPreviousMonth(final Float amount, final Long index) {
+    public final void registerPreviousMonth(final float amount, final long index) {
         final PersistentTransaction transaction;
 
         transaction = PersistentTransactions.forAmount(amount, PREVIOUS_MONTH, index);

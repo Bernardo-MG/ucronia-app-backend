@@ -55,6 +55,6 @@ public interface BalanceService {
      *            sorting to apply
      * @return the monthly balances
      */
-    public Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
+    public Collection<MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
 
 }

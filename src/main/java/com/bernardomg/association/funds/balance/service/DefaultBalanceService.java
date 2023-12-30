@@ -98,7 +98,7 @@ public final class DefaultBalanceService implements BalanceService {
     }
 
     @Override
-    public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
+    public final Collection<MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
         final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
         final Specification<MonthlyBalanceEntity>           limitSpec;
         final Specification<MonthlyBalanceEntity>           spec;
