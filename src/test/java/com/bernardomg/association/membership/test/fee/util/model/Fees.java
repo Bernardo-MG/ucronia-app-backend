@@ -13,6 +13,8 @@ public final class Fees {
 
     public static final LocalDate PAYMENT_DATE = LocalDate.of(2020, Month.JANUARY, 1);
 
+    public static final int       YEAR         = 2020;
+
     private Fees() {
         super();
     }

@@ -30,7 +30,7 @@ public final class MemberFees {
         return MemberFee.builder()
             .memberNumber(index)
             .memberName("Member " + index + " Surname " + index)
-            .date(YearMonth.of(2020, month))
+            .date(YearMonth.of(Fees.YEAR, month))
             .paid(false)
             .build();
     }
@@ -48,7 +48,7 @@ public final class MemberFees {
         return MemberFee.builder()
             .memberNumber(index)
             .memberName("Member " + index + " Surname " + index)
-            .date(YearMonth.of(2020, month))
+            .date(YearMonth.of(Fees.YEAR, month))
             .paid(true)
             .build();
     }
@@ -57,7 +57,7 @@ public final class MemberFees {
         return MemberFee.builder()
             .memberNumber(1L)
             .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(2020, month))
+            .date(YearMonth.of(Fees.YEAR, month))
             .paid(true)
             .build();
     }
