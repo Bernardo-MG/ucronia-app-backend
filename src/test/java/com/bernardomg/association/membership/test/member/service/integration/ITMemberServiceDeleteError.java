@@ -50,8 +50,10 @@ class ITMemberServiceDeleteError {
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
+        // WHEN
         execution = () -> service.delete(1L);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
     }

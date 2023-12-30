@@ -37,7 +37,6 @@ import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -62,12 +61,15 @@ class ITMemberServiceGetAllPagination {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
+        // GIVEN
         pageable = Pageable.ofSize(10);
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .isInstanceOf(Page.class);
     }
@@ -77,21 +79,19 @@ class ITMemberServiceGetAllPagination {
     void testGetAll_Page1() {
         final MemberQuery      memberQuery;
         final Iterable<Member> members;
-        final Member           member;
         final Pageable         pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
-            .hasSize(1);
-
-        member = members.iterator()
-            .next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
+            .containsExactly(Members.forIndex(1, false));
     }
 
     @Test
@@ -99,21 +99,19 @@ class ITMemberServiceGetAllPagination {
     void testGetAll_Page2() {
         final MemberQuery      memberQuery;
         final Iterable<Member> members;
-        final Member           member;
         final Pageable         pageable;
 
+        // GIVEN
         pageable = PageRequest.of(1, 1);
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
-            .hasSize(1);
-
-        member = members.iterator()
-            .next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
+            .containsExactly(Members.forIndex(2, false));
     }
 
     @Test
@@ -123,12 +121,15 @@ class ITMemberServiceGetAllPagination {
         final MemberQuery      memberQuery;
         final Pageable         pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
             .isInstanceOf(Page.class);
     }

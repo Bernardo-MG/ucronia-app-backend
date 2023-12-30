@@ -53,10 +53,13 @@ class ITMemberServiceUpdateError {
         final MemberChange     memberRequest;
         final ThrowingCallable execution;
 
+        // GIVEN
         memberRequest = MemberChanges.nameChange();
 
+        // WHEN
         execution = () -> service.update(1L, memberRequest);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
     }

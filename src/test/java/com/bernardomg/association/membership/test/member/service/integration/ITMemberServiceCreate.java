@@ -62,10 +62,13 @@ class ITMemberServiceCreate {
         final MemberChange memberRequest;
         final MemberEntity entity;
 
+        // GIVEN
         memberRequest = MemberChanges.missingSurname();
 
+        // WHEN
         service.create(memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
 
@@ -82,10 +85,13 @@ class ITMemberServiceCreate {
         final MemberChange memberRequest;
         final MemberEntity entity;
 
+        // GIVEN
         memberRequest = MemberChanges.paddedWithWhitespaces();
 
+        // WHEN
         service.create(memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
 
@@ -102,10 +108,13 @@ class ITMemberServiceCreate {
         final MemberChange memberRequest;
         final MemberEntity entity;
 
+        // GIVEN
         memberRequest = MemberChanges.valid();
 
+        // WHEN
         service.create(memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
 
@@ -122,11 +131,16 @@ class ITMemberServiceCreate {
         final MemberChange memberRequest;
         final Member       member;
 
+        // GIVEN
         memberRequest = MemberChanges.valid();
 
+        // WHEN
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, Members.inactive());
+        // THEN
+        Assertions.assertThat(member)
+            .as("member")
+            .isEqualTo(Members.inactive());
     }
 
 }

@@ -61,10 +61,13 @@ class ITMemberServiceUpdate {
     void testUpdate_AddsNoEntity() {
         final MemberChange memberRequest;
 
+        // GIVEN
         memberRequest = MemberChanges.nameChange();
 
+        // WHEN
         service.update(1L, memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
     }
@@ -75,9 +78,13 @@ class ITMemberServiceUpdate {
         final MemberChange memberRequest;
         final MemberEntity entity;
 
+        // GIVEN
         memberRequest = MemberChanges.paddedWithWhitespaces();
 
+        // WHEN
         service.update(1L, memberRequest);
+
+        // THEN
         entity = repository.findAll()
             .iterator()
             .next();
@@ -90,9 +97,13 @@ class ITMemberServiceUpdate {
         final MemberChange memberRequest;
         final MemberEntity entity;
 
+        // GIVEN
         memberRequest = MemberChanges.nameChange();
 
+        // WHEN
         service.update(1L, memberRequest);
+
+        // THEN
         entity = repository.findAll()
             .iterator()
             .next();
@@ -105,10 +116,16 @@ class ITMemberServiceUpdate {
         final MemberChange memberRequest;
         final Member       member;
 
+        // GIVEN
         memberRequest = MemberChanges.nameChange();
 
+        // WHEN
         member = service.update(1L, memberRequest);
-        MemberAssertions.isEqualTo(member, Members.nameChange());
+
+        // THEN
+        Assertions.assertThat(member)
+            .as("member")
+            .isEqualTo(Members.nameChange());
     }
 
 }

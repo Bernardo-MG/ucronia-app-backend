@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.membership.test.member.service.integration;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +35,6 @@ import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
 import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -59,36 +56,21 @@ class ITMemberServiceGetAll {
     @DisplayName("With multiple members it returns all the members")
     void testGetAll() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
-            .hasSize(5);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(1, false));
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(2, false));
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(3, false));
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(4, false));
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, Members.forIndex(5, false));
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
     }
 
 }
