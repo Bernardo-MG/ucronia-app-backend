@@ -5,8 +5,6 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
@@ -32,12 +30,10 @@ public class FeePaymentEntity implements Serializable {
     private static final long serialVersionUID = -3540074544521251838L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fee_id", nullable = false, unique = true)
     private Long              feeId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id", nullable = false, unique = true)
     private Long              transactionId;
 
