@@ -25,4 +25,6 @@ public final class Fee {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDate paymentDate;
 
+    private final Long      transactionIndex;
+
 }

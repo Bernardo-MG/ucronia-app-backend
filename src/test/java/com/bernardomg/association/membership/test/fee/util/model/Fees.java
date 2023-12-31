@@ -15,6 +15,7 @@ public final class Fees {
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(1L)
             .build();
     }
 
@@ -43,6 +44,7 @@ public final class Fees {
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(1L)
             .build();
     }
 
@@ -53,6 +55,7 @@ public final class Fees {
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(1L)
             .build();
     }
 
@@ -63,6 +66,7 @@ public final class Fees {
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(1L)
             .build();
     }
 
@@ -73,6 +77,7 @@ public final class Fees {
             .date(FeeConstants.NEXT_DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(1L)
             .build();
     }
 
