@@ -22,7 +22,7 @@ public final class MemberFee {
 
     private final boolean   paid;
 
-    @JsonFormat(pattern = "yyyy-MM")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDate paymentDate;
 
 }
