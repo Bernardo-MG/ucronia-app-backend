@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
-import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 
 public final class MemberFeeCalendars {
@@ -33,7 +32,7 @@ public final class MemberFeeCalendars {
         return MemberFeeCalendar.builder()
             .memberId(1L)
             .memberName(MemberCalendars.FULL_NAME)
-            .year(FeeInitializer.CURRENT_YEAR.getValue())
+            .year(Fees.CURRENT_YEAR.getValue())
             .active(true)
             .build();
     }
@@ -42,7 +41,7 @@ public final class MemberFeeCalendars {
         return MemberFeeCalendar.builder()
             .memberId(1L)
             .memberName(MemberCalendars.FULL_NAME)
-            .year(FeeInitializer.NEXT_YEAR.getValue())
+            .year(Fees.NEXT_YEAR.getValue())
             .active(true)
             .build();
     }
@@ -51,7 +50,7 @@ public final class MemberFeeCalendars {
         return MemberFeeCalendar.builder()
             .memberId(1L)
             .memberName(MemberCalendars.FULL_NAME)
-            .year(FeeInitializer.PREVIOUS_MONTH.getYear())
+            .year(Fees.PREVIOUS_MONTH.getYear())
             .active(true)
             .build();
     }
@@ -179,7 +178,7 @@ public final class MemberFeeCalendars {
         return MemberFeeCalendar.builder()
             .memberId(1L)
             .memberName(MemberCalendars.FULL_NAME)
-            .year(FeeInitializer.NEXT_YEAR.getValue())
+            .year(Fees.NEXT_YEAR.getValue())
             .active(false)
             .build();
     }
@@ -188,7 +187,7 @@ public final class MemberFeeCalendars {
         return MemberFeeCalendar.builder()
             .memberId(1L)
             .memberName(MemberCalendars.FULL_NAME)
-            .year(FeeInitializer.PREVIOUS_MONTH.getYear())
+            .year(Fees.PREVIOUS_MONTH.getYear())
             .active(false)
             .build();
     }

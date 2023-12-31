@@ -17,6 +17,7 @@ import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceSe
 import com.bernardomg.association.membership.test.fee.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.config.argument.FeePaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -60,13 +61,13 @@ public class ITFeeMaintenanceService {
             // Fees from the previous month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.PREVIOUS_MONTH))
+                    .equals(Fees.PREVIOUS_MONTH))
                 .as("previous month fees")
                 .allMatch(fee -> fee.getPaid() == previous);
             // Fees from the current month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.CURRENT_MONTH))
+                    .equals(Fees.CURRENT_MONTH))
                 .as("current month fees")
                 .allMatch(fee -> fee.getPaid() == current);
         });
@@ -160,13 +161,13 @@ public class ITFeeMaintenanceService {
             // Fees from the previous month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.PREVIOUS_MONTH))
+                    .equals(Fees.PREVIOUS_MONTH))
                 .as("previous month fees")
                 .allMatch(fee -> fee.getPaid() == paid);
             // Fees from the current month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.CURRENT_MONTH))
+                    .equals(Fees.CURRENT_MONTH))
                 .as("current month fees")
                 .allMatch(fee -> !fee.getPaid());
         });

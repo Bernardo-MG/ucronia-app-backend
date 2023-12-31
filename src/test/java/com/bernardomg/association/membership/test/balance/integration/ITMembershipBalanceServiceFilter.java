@@ -1,9 +1,6 @@
 
 package com.bernardomg.association.membership.test.balance.integration;
 
-import java.time.Month;
-import java.time.YearMonth;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,11 +10,10 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
-import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.membership.test.balance.util.model.MemberBalanceQueryRequests;
 import com.bernardomg.association.membership.test.balance.util.model.MonthlyMemberBalances;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -29,54 +25,27 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMembershipBalanceServiceFilter {
 
     @Autowired
-    private FeeRepository            feeRepository;
+    private FeeInitializer           feeInitializer;
 
     @Autowired
     private MembershipBalanceService service;
 
     @BeforeEach
     public void initializeFees() {
-        final YearMonth yearMonth;
-
-        yearMonth = YearMonth.now();
-        // Previous month
-        persist(yearMonth.getYear(), yearMonth.getMonth()
-            .minus(1));
-        // This month
-        persist(yearMonth.getYear(), yearMonth.getMonth());
-        // Next month
-        persist(yearMonth.getYear(), yearMonth.getMonth()
-            .plus(1));
-    }
-
-    private final void persist(final Integer year, final Month month) {
-        final PersistentFee entity;
-
-        entity = PersistentFee.builder()
-            .date(YearMonth.of(year, month))
-            .memberId(1l)
-            .paid(false)
-            .build();
-
-        feeRepository.save(entity);
-        feeRepository.flush();
+        feeInitializer.registerFeePreviousMonth(false);
+        feeInitializer.registerFeeCurrentMonth(false);
+        feeInitializer.registerFeeNextMonth(false);
     }
 
     @Test
     @DisplayName("Can filter around the current month")
     void testGetBalance_Filter_AroundCurrent() {
-        final YearMonth                      yearMonth;
         final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        yearMonth = YearMonth.now();
-
-        query = MemberBalanceQueryRequest.builder()
-            .startDate(yearMonth.minusMonths(1))
-            .endDate(yearMonth.plusMonths(1))
-            .build();
+        query = MemberBalanceQueryRequests.aroundCurrent();
 
         sort = Sort.unsorted();
 
@@ -86,25 +55,18 @@ class ITMembershipBalanceServiceFilter {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)),
-                MonthlyMemberBalances.forMonth(yearMonth));
+            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
     }
 
     @Test
     @DisplayName("Can filter for the previous month")
     void testGetBalance_Filter_PreviousMonth() {
-        final YearMonth                      yearMonth;
         final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        yearMonth = YearMonth.now();
-
-        query = MemberBalanceQueryRequest.builder()
-            .startDate(yearMonth.minusMonths(1))
-            .endDate(yearMonth.minusMonths(1))
-            .build();
+        query = MemberBalanceQueryRequests.aroundPrevious();
 
         sort = Sort.unsorted();
 
@@ -114,24 +76,18 @@ class ITMembershipBalanceServiceFilter {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)));
+            .containsExactly(MonthlyMemberBalances.previousMonth());
     }
 
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
     void testGetBalance_Filter_RangeEndBeforeStart() {
-        final YearMonth                      yearMonth;
         final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        yearMonth = YearMonth.now();
-
-        query = MemberBalanceQueryRequest.builder()
-            .startDate(yearMonth)
-            .endDate(yearMonth.minusMonths(1))
-            .build();
+        query = MemberBalanceQueryRequests.endBeforeStart();
 
         sort = Sort.unsorted();
 
@@ -146,18 +102,12 @@ class ITMembershipBalanceServiceFilter {
     @Test
     @DisplayName("Can filter for two months")
     void testGetBalance_Filter_TwoMonths() {
-        final YearMonth                      yearMonth;
         final MemberBalanceQuery             query;
         final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
-        yearMonth = YearMonth.now();
-
-        query = MemberBalanceQueryRequest.builder()
-            .startDate(yearMonth.minusMonths(1))
-            .endDate(yearMonth)
-            .build();
+        query = MemberBalanceQueryRequests.previousAndThis();
 
         sort = Sort.unsorted();
 
@@ -167,8 +117,7 @@ class ITMembershipBalanceServiceFilter {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.forMonth(yearMonth.minusMonths(1)),
-                MonthlyMemberBalances.forMonth(yearMonth));
+            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
     }
 
 }

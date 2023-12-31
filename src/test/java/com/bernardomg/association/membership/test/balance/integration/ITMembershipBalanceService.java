@@ -9,9 +9,9 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
 import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
-import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.test.balance.util.assertion.MonthlyMemberBalanceAssertions;
+import com.bernardomg.association.membership.test.balance.util.model.MemberBalanceQueryRequests;
 import com.bernardomg.association.membership.test.balance.util.model.MonthlyMemberBalances;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
@@ -32,15 +32,14 @@ class ITMembershipBalanceService {
     @Test
     @DisplayName("With a fee for the current month and not paid it returns balance for this month")
     void testGetBalance_CurrentMonth_NotPaid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -50,21 +49,20 @@ class ITMembershipBalanceService {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyMemberBalances.forMonth(FeeInitializer.CURRENT_MONTH));
+            .containsExactly(MonthlyMemberBalances.currentMonth());
     }
 
     @Test
     @DisplayName("With a fee for the current month and paid it returns balance for this month")
     void testGetBalance_CurrentMonth_Paid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -73,22 +71,21 @@ class ITMembershipBalanceService {
 
         // THEN
         Assertions.assertThat(balances)
-        .as("balances")
-        .containsExactly(MonthlyMemberBalances.forMonth(FeeInitializer.CURRENT_MONTH));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.currentMonth());
     }
 
     @Test
     @DisplayName("With a fee for the next month and not paid it returns no balance")
     void testGetBalance_NextMonth_NotPaid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeNextMonth(false);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -104,15 +101,14 @@ class ITMembershipBalanceService {
     @Test
     @DisplayName("With a fee for the next month and paid it returns no balance")
     void testGetBalance_NextMonth_Paid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeNextMonth(true);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -128,12 +124,12 @@ class ITMembershipBalanceService {
     @Test
     @DisplayName("With no data it returns nothing")
     void testGetBalance_NoData() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        // GIVEN
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -149,16 +145,15 @@ class ITMembershipBalanceService {
     @Test
     @DisplayName("With a fee for the previous month and not paid it returns balance for the previous month")
     void testGetBalance_PreviousMonth_NotPaid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
-        final MonthlyMemberBalance                     balance;
+        final MonthlyMemberBalance           balance;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -172,22 +167,20 @@ class ITMembershipBalanceService {
 
         balance = balances.iterator()
             .next();
-        MonthlyMemberBalanceAssertions.isEqualTo(balance,
-            MonthlyMemberBalances.forMonth(FeeInitializer.PREVIOUS_MONTH));
+        MonthlyMemberBalanceAssertions.isEqualTo(balance, MonthlyMemberBalances.previousMonth());
     }
 
     @Test
     @DisplayName("With a fee for the previous month and paid it returns balance for the previous month")
     void testGetBalance_PreviousMonth_Paid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -196,8 +189,8 @@ class ITMembershipBalanceService {
 
         // THEN
         Assertions.assertThat(balances)
-        .as("balances")
-        .containsExactly(MonthlyMemberBalances.forMonth(FeeInitializer.PREVIOUS_MONTH));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.previousMonth());
     }
 
     @Test
@@ -205,16 +198,15 @@ class ITMembershipBalanceService {
     @ValidMember
     @AlternativeMember
     void testGetBalance_TwoMembers() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
         feeInitializer.registerFeeCurrentMonthAlternative(true);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -223,22 +215,21 @@ class ITMembershipBalanceService {
 
         // THEN
         Assertions.assertThat(balances)
-        .as("balances")
-        .containsExactly(MonthlyMemberBalances.forMonthAndTotal(FeeInitializer.CURRENT_MONTH, 2L));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.currentMonth(2L));
     }
 
     @Test
     @DisplayName("With a fee for two months back and not paid it returns balance for the previous month")
     void testGetBalance_TwoMonthsBack_NotPaid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -247,22 +238,21 @@ class ITMembershipBalanceService {
 
         // THEN
         Assertions.assertThat(balances)
-        .as("balances")
-        .containsExactly(MonthlyMemberBalances.forMonth(FeeInitializer.TWO_MONTHS_BACK));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.twoMonthsBack());
     }
 
     @Test
     @DisplayName("With a fee for two months back and paid it returns balance for the previous month")
     void testGetBalance_TwoMonthsBack_Paid() {
-        final MemberBalanceQuery                       query;
-        final Sort                                     sort;
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
         final Iterable<MonthlyMemberBalance> balances;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
 
-        query = MemberBalanceQueryRequest.builder()
-            .build();
+        query = MemberBalanceQueryRequests.empty();
 
         sort = Sort.unsorted();
 
@@ -271,8 +261,8 @@ class ITMembershipBalanceService {
 
         // THEN
         Assertions.assertThat(balances)
-        .as("balances")
-        .containsExactly(MonthlyMemberBalances.forMonth(FeeInitializer.TWO_MONTHS_BACK));
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.twoMonthsBack());
     }
 
 }
