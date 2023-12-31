@@ -34,7 +34,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
@@ -334,7 +333,6 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid  a single transaction is persisted and it uses the next index")
     @ValidMember
     @PaidFee
-    @PositiveTransaction
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction_IncreaseIndex() {
         final Optional<TransactionEntity> entity;
