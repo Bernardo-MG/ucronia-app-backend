@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
+import com.bernardomg.association.membership.calendar.model.FeeCalendarQuery;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
-import com.bernardomg.association.membership.calendar.model.request.DtoFeeCalendarQueryRequest;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -89,7 +89,7 @@ public class MemberFeeCalendarController {
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.CALENDAR)
     public Iterable<MemberFeeCalendar> readYear(@PathVariable("year") final Integer year,
-            final DtoFeeCalendarQueryRequest request, final Sort sort) {
+            final FeeCalendarQuery request, final Sort sort) {
         return service.getYear(year, request.getStatus(), sort);
     }
 

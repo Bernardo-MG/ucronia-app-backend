@@ -26,10 +26,15 @@ package com.bernardomg.association.membership.balance.model;
 
 import java.time.YearMonth;
 
-public interface MonthlyMemberBalance {
+import lombok.Builder;
+import lombok.Value;
 
-    public YearMonth getMonth();
+@Value
+@Builder
+public final class MonthlyMemberBalance {
 
-    public Long getTotal();
+    private YearMonth month;
+
+    private Long      total;
 
 }

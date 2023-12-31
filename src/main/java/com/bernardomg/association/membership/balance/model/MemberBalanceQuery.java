@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.balance.model.request;
+package com.bernardomg.association.membership.balance.model;
 
 import java.time.YearMonth;
 
@@ -37,7 +37,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class MemberBalanceQueryRequest implements MemberBalanceQuery {
+public final class MemberBalanceQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     private YearMonth endDate;

@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.membership.test.fee.util.model;
 
-import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
+import com.bernardomg.association.membership.fee.model.FeeUpdate;
 
 public final class FeesUpdate {
 

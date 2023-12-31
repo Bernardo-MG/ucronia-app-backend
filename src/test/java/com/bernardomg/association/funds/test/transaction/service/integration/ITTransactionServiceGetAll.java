@@ -36,11 +36,11 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQueries;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
@@ -70,11 +70,11 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
 
         // GIVEN
-        repository.save(PersistentTransactions.forAmount(amount));
+        repository.save(TransactionEntities.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -93,11 +93,11 @@ class ITTransactionServiceGetAll {
         final Pageable              pageable;
 
         // GIVEN
-        repository.save(PersistentTransactions.forAmount(amount));
+        repository.save(TransactionEntities.forAmount(amount));
 
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -118,7 +118,7 @@ class ITTransactionServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -144,7 +144,7 @@ class ITTransactionServiceGetAll {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);

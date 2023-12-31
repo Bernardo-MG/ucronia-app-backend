@@ -36,9 +36,9 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQueries;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,7 +64,7 @@ class ITTransactionServiceGetAllSort {
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -86,7 +86,7 @@ class ITTransactionServiceGetAllSort {
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -108,7 +108,7 @@ class ITTransactionServiceGetAllSort {
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "description");
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -130,7 +130,7 @@ class ITTransactionServiceGetAllSort {
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "description");
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);

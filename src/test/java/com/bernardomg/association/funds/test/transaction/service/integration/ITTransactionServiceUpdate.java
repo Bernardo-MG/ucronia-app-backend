@@ -31,12 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -76,8 +76,8 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction containing a decimal value, the values are persisted")
     @PositiveTransaction
     void testUpdate_Decimal_PersistedData() {
-        final TransactionChange     transactionRequest;
-        final PersistentTransaction transaction;
+        final TransactionChange transactionRequest;
+        final TransactionEntity transaction;
 
         // GIVEN
         transactionRequest = TransactionChanges.decimal();
@@ -90,7 +90,7 @@ class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.decimal());
+        TransactionAssertions.isEqualTo(transaction, TransactionEntities.decimal());
     }
 
     @Test
@@ -115,8 +115,8 @@ class ITTransactionServiceUpdate {
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     @PositiveTransaction
     void testUpdate_Padded_PersistedData() {
-        final TransactionChange     transactionRequest;
-        final PersistentTransaction transaction;
+        final TransactionChange transactionRequest;
+        final TransactionEntity transaction;
 
         // GIVEN
         transactionRequest = TransactionChanges.paddedWithWhitespaces();
@@ -129,15 +129,15 @@ class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.valid());
+        TransactionAssertions.isEqualTo(transaction, TransactionEntities.valid());
     }
 
     @Test
     @DisplayName("With a changed entity, the change is persisted")
     @PositiveTransaction
     void testUpdate_PersistedData() {
-        final TransactionChange     transactionRequest;
-        final PersistentTransaction transaction;
+        final TransactionChange transactionRequest;
+        final TransactionEntity transaction;
 
         // GIVEN
         transactionRequest = TransactionChanges.descriptionChange();
@@ -150,7 +150,7 @@ class ITTransactionServiceUpdate {
             .iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(transaction, PersistentTransactions.descriptionChange());
+        TransactionAssertions.isEqualTo(transaction, TransactionEntities.descriptionChange());
     }
 
     @Test

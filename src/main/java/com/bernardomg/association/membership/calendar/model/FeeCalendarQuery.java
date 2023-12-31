@@ -22,14 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.balance.model.request;
+package com.bernardomg.association.membership.calendar.model;
 
-import java.time.YearMonth;
+import com.bernardomg.association.membership.member.model.MemberStatus;
 
-public interface MemberBalanceQuery {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public YearMonth getEndDate();
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class FeeCalendarQuery {
 
-    public YearMonth getStartDate();
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ALL;
 
 }

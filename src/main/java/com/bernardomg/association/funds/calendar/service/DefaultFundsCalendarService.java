@@ -32,7 +32,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
 
@@ -73,8 +73,8 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
 
     @Override
     public final Iterable<CalendarFundsDate> getYearMonth(final YearMonth date) {
-        final Specification<PersistentTransaction> spec;
-        final Collection<PersistentTransaction>    read;
+        final Specification<TransactionEntity> spec;
+        final Collection<TransactionEntity>    read;
 
         spec = TransactionSpecifications.on(date);
         read = transactionRepository.findAll(spec);
@@ -84,7 +84,7 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
             .toList();
     }
 
-    private final CalendarFundsDate toDto(final PersistentTransaction entity) {
+    private final CalendarFundsDate toDto(final TransactionEntity entity) {
         return CalendarFundsDate.builder()
             .index(entity.getIndex())
             .date(entity.getDate())

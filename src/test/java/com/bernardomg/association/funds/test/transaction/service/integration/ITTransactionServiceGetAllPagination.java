@@ -36,9 +36,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQueries;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,7 +64,7 @@ class ITTransactionServiceGetAllPagination {
         // GIVEN
         pageable = Pageable.ofSize(10);
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -85,7 +85,7 @@ class ITTransactionServiceGetAllPagination {
         // GIVEN
         pageable = PageRequest.of(0, 1);
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -105,7 +105,7 @@ class ITTransactionServiceGetAllPagination {
         // GIVEN
         pageable = PageRequest.of(1, 1);
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -125,7 +125,7 @@ class ITTransactionServiceGetAllPagination {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.empty();
+        transactionQuery = TransactionsQueries.empty();
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);

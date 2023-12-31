@@ -3,30 +3,29 @@ package com.bernardomg.association.membership.test.fee.util.model;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.membership.fee.model.request.FeeQuery;
-import com.bernardomg.association.membership.fee.model.request.FeeQueryRequest;
+import com.bernardomg.association.membership.fee.model.FeeQuery;
 
 public final class FeesQuery {
 
     public static final FeeQuery empty() {
-        return FeeQueryRequest.builder()
+        return FeeQuery.builder()
             .build();
     }
 
     public static final FeeQuery endDate(final YearMonth date) {
-        return FeeQueryRequest.builder()
+        return FeeQuery.builder()
             .endDate(date)
             .build();
     }
 
     public static final FeeQuery inDate(final YearMonth date) {
-        return FeeQueryRequest.builder()
+        return FeeQuery.builder()
             .date(date)
             .build();
     }
 
     public static final FeeQuery startDate(final YearMonth date) {
-        return FeeQueryRequest.builder()
+        return FeeQuery.builder()
             .startDate(date)
             .build();
     }

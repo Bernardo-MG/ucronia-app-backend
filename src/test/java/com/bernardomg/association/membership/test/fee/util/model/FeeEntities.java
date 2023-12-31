@@ -4,12 +4,12 @@ package com.bernardomg.association.membership.test.fee.util.model;
 import java.time.Month;
 import java.time.YearMonth;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 
-public final class PersistentFees {
+public final class FeeEntities {
 
-    public static PersistentFee currentMonth(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity currentMonth(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.CURRENT_MONTH)
@@ -17,8 +17,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee currentMonthAlternative(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity currentMonthAlternative(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(2L)
             .date(Fees.CURRENT_MONTH)
@@ -26,8 +26,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee nextMonth(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity nextMonth(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.NEXT_MONTH)
@@ -35,8 +35,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee nextYear(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity nextYear(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.NEXT_YEAR_MONTH)
@@ -44,8 +44,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee notPaidAt(final Month month) {
-        return PersistentFee.builder()
+    public static FeeEntity notPaidAt(final Month month) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(Fees.YEAR, month))
@@ -53,8 +53,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee notPaidAt(final YearMonth yearMonth) {
-        return PersistentFee.builder()
+    public static FeeEntity notPaidAt(final YearMonth yearMonth) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(yearMonth)
@@ -62,8 +62,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee paid() {
-        return PersistentFee.builder()
+    public static FeeEntity paid() {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.DATE)
@@ -71,8 +71,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee paidAt(final Month month) {
-        return PersistentFee.builder()
+    public static FeeEntity paidAt(final Month month) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(Fees.YEAR, month))
@@ -80,8 +80,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee paidNextDate() {
-        return PersistentFee.builder()
+    public static FeeEntity paidNextDate() {
+        return FeeEntity.builder()
             .id(2L)
             .memberId(1L)
             .date(Fees.NEXT_DATE)
@@ -89,8 +89,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee previousMonth(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity previousMonth(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.PREVIOUS_MONTH)
@@ -98,8 +98,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee previousYear(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity previousYear(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.PREVIOUS_YEAR_MONTH)
@@ -107,8 +107,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee twoMonthsBack(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity twoMonthsBack(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.TWO_MONTHS_BACK)
@@ -116,8 +116,8 @@ public final class PersistentFees {
             .build();
     }
 
-    public static PersistentFee twoYearsBack(final Boolean paid) {
-        return PersistentFee.builder()
+    public static FeeEntity twoYearsBack(final Boolean paid) {
+        return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.TWO_YEARS_BACK)
@@ -125,7 +125,7 @@ public final class PersistentFees {
             .build();
     }
 
-    private PersistentFees() {
+    private FeeEntities() {
         super();
     }
 

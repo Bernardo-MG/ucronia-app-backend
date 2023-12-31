@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.fee.model.request;
+package com.bernardomg.association.membership.fee.model;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

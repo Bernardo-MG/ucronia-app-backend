@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
-import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
+import com.bernardomg.association.membership.fee.model.FeeUpdate;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;

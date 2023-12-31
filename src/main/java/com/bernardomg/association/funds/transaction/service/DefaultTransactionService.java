@@ -11,8 +11,8 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.funds.transaction.exception.MissingTransactionIdException;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
 
@@ -37,9 +37,9 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final Transaction create(final TransactionChange transaction) {
-        final PersistentTransaction entity;
-        final PersistentTransaction created;
-        final Long                  index;
+        final TransactionEntity entity;
+        final TransactionEntity created;
+        final Long              index;
 
         log.debug("Creating transaction {}", transaction);
 
@@ -71,8 +71,8 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final Iterable<Transaction> getAll(final TransactionQuery transaction, final Pageable pageable) {
-        final Page<PersistentTransaction>                    page;
-        final Optional<Specification<PersistentTransaction>> spec;
+        final Page<TransactionEntity>                    page;
+        final Optional<Specification<TransactionEntity>> spec;
 
         log.debug("Reading members with sample {} and pagination {}", transaction, pageable);
 
@@ -89,7 +89,7 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final Optional<Transaction> getOne(final long index) {
-        final Optional<PersistentTransaction> found;
+        final Optional<TransactionEntity> found;
 
         log.debug("Reading member with index {}", index);
 
@@ -104,9 +104,9 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final Transaction update(final long index, final TransactionChange transaction) {
-        final Optional<PersistentTransaction> found;
-        final PersistentTransaction           entity;
-        final PersistentTransaction           updated;
+        final Optional<TransactionEntity> found;
+        final TransactionEntity           entity;
+        final TransactionEntity           updated;
 
         log.debug("Updating transaction with index {} using data {}", index, transaction);
 
@@ -129,7 +129,7 @@ public final class DefaultTransactionService implements TransactionService {
         return toDto(updated);
     }
 
-    private final Transaction toDto(final PersistentTransaction transaction) {
+    private final Transaction toDto(final TransactionEntity transaction) {
         return Transaction.builder()
             .index(transaction.getIndex())
             .date(transaction.getDate())
@@ -138,8 +138,8 @@ public final class DefaultTransactionService implements TransactionService {
             .build();
     }
 
-    private final PersistentTransaction toEntity(final TransactionChange transaction) {
-        return PersistentTransaction.builder()
+    private final TransactionEntity toEntity(final TransactionChange transaction) {
+        return TransactionEntity.builder()
             .description(transaction.getDescription())
             .date(transaction.getDate())
             .amount(transaction.getAmount())
