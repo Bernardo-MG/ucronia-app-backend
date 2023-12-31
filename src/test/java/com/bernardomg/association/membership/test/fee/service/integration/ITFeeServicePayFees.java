@@ -41,6 +41,7 @@ import com.bernardomg.association.funds.transaction.persistence.model.Transactio
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
@@ -56,6 +57,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Fee service - pay fees")
 class ITFeeServicePayFees {
+
+    @Autowired
+    private FeePaymentRepository  feePaymentRepository;
 
     @Autowired
     private FeeRepository         repository;
@@ -207,6 +211,19 @@ class ITFeeServicePayFees {
     }
 
     @Test
+    @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedRelationship() {
+        // WHEN
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(feePaymentRepository.count())
+            .isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
     @ValidMember
     @FeeAmountConfiguration
@@ -278,6 +295,19 @@ class ITFeeServicePayFees {
 
         FeeAssertions.isEqualTo(entities.iterator()
             .next(), FeeEntities.paid());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid a fee payment is registered")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_PersistedRelationship() {
+        // WHEN
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+
+        // THEN
+        Assertions.assertThat(feePaymentRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
