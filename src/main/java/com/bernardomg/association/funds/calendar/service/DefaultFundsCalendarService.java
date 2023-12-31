@@ -31,10 +31,8 @@ import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
-import com.bernardomg.association.funds.calendar.model.ImmutableCalendarFundsDate;
-import com.bernardomg.association.funds.calendar.model.ImmutableMonthsRange;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
 
@@ -68,15 +66,15 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
 
-        return ImmutableMonthsRange.builder()
+        return MonthsRange.builder()
             .months(months)
             .build();
     }
 
     @Override
-    public final Iterable<? extends CalendarFundsDate> getYearMonth(final YearMonth date) {
-        final Specification<PersistentTransaction> spec;
-        final Collection<PersistentTransaction>    read;
+    public final Iterable<CalendarFundsDate> getYearMonth(final YearMonth date) {
+        final Specification<TransactionEntity> spec;
+        final Collection<TransactionEntity>    read;
 
         spec = TransactionSpecifications.on(date);
         read = transactionRepository.findAll(spec);
@@ -86,9 +84,9 @@ public final class DefaultFundsCalendarService implements FundsCalendarService {
             .toList();
     }
 
-    private final CalendarFundsDate toDto(final PersistentTransaction entity) {
-        return ImmutableCalendarFundsDate.builder()
-            .id(entity.getId())
+    private final CalendarFundsDate toDto(final TransactionEntity entity) {
+        return CalendarFundsDate.builder()
+            .index(entity.getIndex())
             .date(entity.getDate())
             .description(entity.getDescription())
             .amount(entity.getAmount())

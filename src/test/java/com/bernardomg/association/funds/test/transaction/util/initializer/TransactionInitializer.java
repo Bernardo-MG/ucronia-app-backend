@@ -7,8 +7,8 @@ import java.time.Month;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 
 @Component
@@ -25,69 +25,69 @@ public final class TransactionInitializer {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public final void registerAt(final Integer year, final Month month) {
-        final PersistentTransaction transaction;
-        final LocalDate             date;
+    public final void registerAt(final int year, final Month month) {
+        final TransactionEntity transaction;
+        final LocalDate         date;
 
         date = LocalDate.of(year, month, 1);
-        transaction = PersistentTransactions.forAmount(1F, date);
+        transaction = TransactionEntities.forAmount(1F, date);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
     }
 
-    public final void registerCurrentMonth(final Float amount) {
-        final PersistentTransaction transaction;
+    public final void registerCurrentMonth(final float amount) {
+        final TransactionEntity transaction;
 
-        transaction = PersistentTransactions.forAmount(amount, CURRENT_MONTH);
-
-        transactionRepository.save(transaction);
-        transactionRepository.flush();
-    }
-
-    public final void registerCurrentMonth(final Float amount, final Long index) {
-        final PersistentTransaction transaction;
-
-        transaction = PersistentTransactions.forAmount(amount, CURRENT_MONTH, index);
+        transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
     }
 
-    public final void registerMonthsBack(final Float amount, final Integer diff, final Long index) {
-        final PersistentTransaction transaction;
-        final LocalDate             month;
+    public final void registerCurrentMonth(final float amount, final long index) {
+        final TransactionEntity transaction;
+
+        transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH, index);
+
+        transactionRepository.save(transaction);
+        transactionRepository.flush();
+    }
+
+    public final void registerMonthsBack(final float amount, final Integer diff, final long index) {
+        final TransactionEntity transaction;
+        final LocalDate         month;
 
         month = LocalDate.now()
             .minusMonths(diff);
-        transaction = PersistentTransactions.forAmount(amount, month, index);
+        transaction = TransactionEntities.forAmount(amount, month, index);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
     }
 
-    public final void registerNextMonth(final Float amount) {
-        final PersistentTransaction transaction;
+    public final void registerNextMonth(final float amount) {
+        final TransactionEntity transaction;
 
-        transaction = PersistentTransactions.forAmount(amount, NEXT_MONTH);
-
-        transactionRepository.save(transaction);
-        transactionRepository.flush();
-    }
-
-    public final void registerPreviousMonth(final Float amount) {
-        final PersistentTransaction transaction;
-
-        transaction = PersistentTransactions.forAmount(amount, PREVIOUS_MONTH);
+        transaction = TransactionEntities.forAmount(amount, NEXT_MONTH);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
     }
 
-    public final void registerPreviousMonth(final Float amount, final Long index) {
-        final PersistentTransaction transaction;
+    public final void registerPreviousMonth(final float amount) {
+        final TransactionEntity transaction;
 
-        transaction = PersistentTransactions.forAmount(amount, PREVIOUS_MONTH, index);
+        transaction = TransactionEntities.forAmount(amount, PREVIOUS_MONTH);
+
+        transactionRepository.save(transaction);
+        transactionRepository.flush();
+    }
+
+    public final void registerPreviousMonth(final float amount, final long index) {
+        final TransactionEntity transaction;
+
+        transaction = TransactionEntities.forAmount(amount, PREVIOUS_MONTH, index);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();

@@ -32,10 +32,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.funds.transaction.persistence.model.Month;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 
 public interface TransactionRepository
-        extends JpaRepository<PersistentTransaction, Long>, JpaSpecificationExecutor<PersistentTransaction> {
+        extends JpaRepository<TransactionEntity, Long>, JpaSpecificationExecutor<TransactionEntity> {
 
     public void deleteByIndex(final long index);
 
@@ -47,6 +47,6 @@ public interface TransactionRepository
     @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
     public Long findNextIndex();
 
-    public Optional<PersistentTransaction> findOneByIndex(final long index);
+    public Optional<TransactionEntity> findOneByIndex(final long index);
 
 }

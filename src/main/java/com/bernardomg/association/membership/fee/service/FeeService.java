@@ -8,9 +8,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.fee.model.FeeQuery;
+import com.bernardomg.association.membership.fee.model.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.model.request.FeeQuery;
-import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
 
 /**
  * Fee service. Supports all the CRUD operations.

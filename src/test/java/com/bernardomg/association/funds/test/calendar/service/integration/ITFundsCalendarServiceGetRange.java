@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.test.calendar;
+package com.bernardomg.association.funds.test.calendar.service.integration;
 
 import java.time.Month;
 import java.time.YearMonth;
@@ -58,8 +58,10 @@ class ITFundsCalendarServiceGetRange {
     void testGetRange_ConsecutiveFullYear() {
         final MonthsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getMonths())
             .as("months")
             .hasSize(24)
@@ -81,8 +83,10 @@ class ITFundsCalendarServiceGetRange {
     void testGetRange_FullYear() {
         final MonthsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getMonths())
             .as("months")
             .hasSize(12)
@@ -99,8 +103,10 @@ class ITFundsCalendarServiceGetRange {
     void testGetRange_MultipleSameDay() {
         final MonthsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getMonths())
             .as("months")
             .hasSize(1)
@@ -113,8 +119,10 @@ class ITFundsCalendarServiceGetRange {
     void testGetRange_MultipleSameMonth() {
         final MonthsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getMonths())
             .as("months")
             .hasSize(1)
@@ -126,8 +134,10 @@ class ITFundsCalendarServiceGetRange {
     void testGetRange_NoData() {
         final MonthsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getMonths())
             .as("months")
             .isEmpty();
@@ -139,8 +149,10 @@ class ITFundsCalendarServiceGetRange {
     void testGetRange_NotConsecutiveFullYear() {
         final MonthsRange range;
 
+        // WHEN
         range = service.getRange();
 
+        // THEN
         Assertions.assertThat(range.getMonths())
             .as("months")
             .hasSize(24)

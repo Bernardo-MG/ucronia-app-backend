@@ -32,9 +32,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.membership.balance.model.ImmutableMonthlyMemberBalance;
+import com.bernardomg.association.membership.balance.model.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
-import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.persistence.model.MonthlyMemberBalanceEntity;
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceRepository;
 import com.bernardomg.association.membership.balance.persistence.repository.MonthlyMemberBalanceSpecifications;
@@ -56,8 +55,7 @@ public final class DefaultMembershipBalanceService implements MembershipBalanceS
     }
 
     @Override
-    public final Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance,
-            final Sort sort) {
+    public final Iterable<MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance, final Sort sort) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> requestSpec;
         final Specification<MonthlyMemberBalanceEntity>           limitSpec;
         final Specification<MonthlyMemberBalanceEntity>           spec;
@@ -91,7 +89,7 @@ public final class DefaultMembershipBalanceService implements MembershipBalanceS
             .getYear(),
             entity.getMonth()
                 .getMonth());
-        return ImmutableMonthlyMemberBalance.builder()
+        return MonthlyMemberBalance.builder()
             .month(month)
             .total(entity.getTotal())
             .build();

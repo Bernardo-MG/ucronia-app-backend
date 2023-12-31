@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.fee.model.request;
+package com.bernardomg.association.membership.fee.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

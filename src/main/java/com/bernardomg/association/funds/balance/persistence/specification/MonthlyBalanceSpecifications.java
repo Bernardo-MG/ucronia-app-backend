@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
 
 /**

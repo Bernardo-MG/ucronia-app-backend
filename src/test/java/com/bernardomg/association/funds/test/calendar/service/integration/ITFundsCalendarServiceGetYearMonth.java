@@ -22,20 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.test.calendar;
+package com.bernardomg.association.funds.test.calendar.service.integration;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
+import com.bernardomg.association.funds.test.calendar.util.model.CalendarFundsDates;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -54,27 +53,19 @@ class ITFundsCalendarServiceGetYearMonth {
     @DisplayName("Only the data for the month is returned")
     @FullTransactionYear
     void testGetRange_FullYear() {
-        final YearMonth                             month;
-        final Iterable<? extends CalendarFundsDate> dates;
-        final CalendarFundsDate                     calendarDate;
+        final YearMonth                   month;
+        final Iterable<CalendarFundsDate> dates;
 
+        // GIVEN
         month = YearMonth.of(2020, Month.FEBRUARY);
+
+        // WHEN
         dates = service.getYearMonth(month);
 
+        // THEN
         Assertions.assertThat(dates)
             .as("dates")
-            .hasSize(1);
-
-        calendarDate = dates.iterator()
-            .next();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(calendarDate.getDate())
-                .isEqualTo(LocalDate.of(2020, Month.FEBRUARY, 1));
-            softly.assertThat(calendarDate.getDescription())
-                .isEqualTo("Transaction 2");
-            softly.assertThat(calendarDate.getAmount())
-                .isEqualTo(1);
-        });
+            .containsExactly(CalendarFundsDates.february());
     }
 
     @Test
@@ -84,9 +75,13 @@ class ITFundsCalendarServiceGetYearMonth {
         final YearMonth                             month;
         final Iterable<? extends CalendarFundsDate> dates;
 
+        // GIVEN
         month = YearMonth.of(2019, Month.DECEMBER);
+
+        // WHEN
         dates = service.getYearMonth(month);
 
+        // THEN
         Assertions.assertThat(dates)
             .as("dates")
             .isEmpty();
@@ -98,9 +93,13 @@ class ITFundsCalendarServiceGetYearMonth {
         final YearMonth                             month;
         final Iterable<? extends CalendarFundsDate> dates;
 
+        // GIVEN
         month = YearMonth.of(2020, Month.FEBRUARY);
+
+        // WHEN
         dates = service.getYearMonth(month);
 
+        // THEN
         Assertions.assertThat(dates)
             .as("dates")
             .isEmpty();

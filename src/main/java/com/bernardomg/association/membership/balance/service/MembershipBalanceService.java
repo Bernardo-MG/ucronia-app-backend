@@ -26,8 +26,8 @@ package com.bernardomg.association.membership.balance.service;
 
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.membership.balance.model.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
-import com.bernardomg.association.membership.balance.model.request.MemberBalanceQuery;
 
 /**
  * Membership balance service.
@@ -46,6 +46,6 @@ public interface MembershipBalanceService {
      *            sorting to apply
      * @return the monthly membership balance
      */
-    public Iterable<? extends MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance, final Sort sort);
+    public Iterable<MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance, final Sort sort);
 
 }

@@ -22,11 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.balance.model.request;
+package com.bernardomg.association.membership.calendar.model;
 
-import java.time.YearMonth;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import com.bernardomg.association.membership.member.model.MemberStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,12 +35,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class BalanceQueryRequest implements BalanceQuery {
+public final class FeeCalendarQuery {
 
-    @DateTimeFormat(pattern = "yyyy-MM")
-    private YearMonth endDate;
-
-    @DateTimeFormat(pattern = "yyyy-MM")
-    private YearMonth startDate;
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ALL;
 
 }

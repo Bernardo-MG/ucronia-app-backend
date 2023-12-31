@@ -3,11 +3,11 @@ package com.bernardomg.association.funds.test.transaction.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 
 public final class TransactionAssertions {
 
-    public static final void isEqualTo(final PersistentTransaction received, final PersistentTransaction expected) {
+    public static final void isEqualTo(final TransactionEntity received, final TransactionEntity expected) {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(received.getId())
                 .as("id")

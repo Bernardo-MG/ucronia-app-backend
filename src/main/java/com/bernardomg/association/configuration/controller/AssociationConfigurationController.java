@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.configuration.cache.ConfigurationCaches;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
-import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -68,7 +67,7 @@ public class AssociationConfigurationController {
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ASSOCIATION_CONFIGURATION", action = Actions.UPDATE)
     @CacheEvict(cacheNames = ConfigurationCaches.CONFIGURATION, allEntries = true)
-    public void update(@Valid @RequestBody final ValidatedAssociationConfigurationRequest config) {
+    public void update(@Valid @RequestBody final AssociationConfiguration config) {
         service.update(config);
     }
 

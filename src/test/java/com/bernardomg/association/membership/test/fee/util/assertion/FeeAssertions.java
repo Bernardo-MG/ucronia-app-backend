@@ -3,11 +3,11 @@ package com.bernardomg.association.membership.test.fee.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 
 public final class FeeAssertions {
 
-    public static final void isEqualTo(final PersistentFee received, final PersistentFee expected) {
+    public static final void isEqualTo(final FeeEntity received, final FeeEntity expected) {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(received.getId())
                 .withFailMessage("Expected id to not be null")

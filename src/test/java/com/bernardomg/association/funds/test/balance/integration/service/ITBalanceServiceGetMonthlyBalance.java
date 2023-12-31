@@ -27,7 +27,6 @@ package com.bernardomg.association.funds.test.balance.integration.service;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,11 +36,10 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.test.balance.util.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.balance.util.model.BalanceQueries;
 import com.bernardomg.association.funds.test.balance.util.model.MonthlyBalances;
 import com.bernardomg.association.funds.test.configuration.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.funds.test.transaction.configuration.DecimalsAddZeroTransaction;
@@ -66,256 +64,164 @@ class ITBalanceServiceGetMonthlyBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testGetMonthlyBalance_AroundZero(final Float amount) {
-        final Collection<? extends MonthlyBalance> balances;
-        final MonthlyBalance                       balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(amount);
 
         sort = Sort.unsorted();
 
-        transactionInitializer.registerCurrentMonth(amount);
+        query = BalanceQueries.empty();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.currentMonth(amount));
+            .containsExactly(MonthlyBalances.currentMonth(amount));
     }
 
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
     void testGetMonthlyBalance_Dates(final YearMonth date) {
-        final Collection<? extends MonthlyBalance> balances;
-        final MonthlyBalance                       balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
+
+        // GIVEN
+        transactionInitializer.registerAt(date.getYear(), date.getMonth());
 
         sort = Sort.unsorted();
 
-        transactionInitializer.registerAt(date.getYear(), date.getMonth());
+        query = BalanceQueries.empty();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(date, 1F));
+            .containsExactly(MonthlyBalances.forAmount(date, 1F));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testGetMonthlyBalance_Decimal(final Float amount) {
-        final Collection<? extends MonthlyBalance> balances;
-        final MonthlyBalance                       balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(amount);
 
         sort = Sort.unsorted();
 
-        transactionInitializer.registerCurrentMonth(amount);
+        query = BalanceQueries.empty();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.currentMonth(amount));
+            .containsExactly(MonthlyBalances.currentMonth(amount));
     }
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @DecimalsAddZeroTransaction
     void testGetMonthlyBalance_DecimalsAddUpToZero() {
-        final Collection<? extends MonthlyBalance> balances;
-        final MonthlyBalance                       balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        query = BalanceQueries.empty();
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balance = balances.iterator()
-            .next();
-
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(0F));
+            .containsExactly(MonthlyBalances.forAmount(0F));
     }
 
     @Test
     @DisplayName("With a full year it returns twelve months")
     @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        query = BalanceQueries.empty();
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(12);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .results(1f)
-            .total(1f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.FEBRUARY))
-            .results(1f)
-            .total(2f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MARCH))
-            .results(1f)
-            .total(3f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.APRIL))
-            .results(1f)
-            .total(4f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MAY))
-            .results(1f)
-            .total(5f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JUNE))
-            .results(1f)
-            .total(6f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JULY))
-            .results(1f)
-            .total(7f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.AUGUST))
-            .results(1f)
-            .total(8f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.SEPTEMBER))
-            .results(1f)
-            .total(9f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.OCTOBER))
-            .results(1f)
-            .total(10f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.NOVEMBER))
-            .results(1f)
-            .total(11f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.DECEMBER))
-            .results(1f)
-            .total(12f)
-            .build());
+            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
+                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
+                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
+                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
+                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
+                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
+                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
     @MultipleTransactionsSameMonth
     void testGetMonthlyBalance_Multiple() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        query = BalanceQueries.empty();
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalances.forAmount(5F));
+            .containsExactly(MonthlyBalances.forAmount(5F));
     }
 
     @Test
     @DisplayName("Returns no balance for the next month")
     void testGetMonthlyBalance_NextMonth() {
-        final Collection<? extends MonthlyBalance> balances;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         transactionInitializer.registerNextMonth(1F);
 
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        query = BalanceQueries.empty();
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();
@@ -324,16 +230,19 @@ class ITBalanceServiceGetMonthlyBalance {
     @Test
     @DisplayName("With no data it returns nothing")
     void testGetMonthlyBalance_NoData() {
-        final Collection<? extends MonthlyBalance> balances;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .build();
+        query = BalanceQueries.empty();
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();

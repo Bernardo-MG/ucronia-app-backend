@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.fee.model.request;
+package com.bernardomg.association.membership.fee.model;
 
 import java.time.YearMonth;
 
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeeQueryRequest implements FeeQuery {
+public final class FeeQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     private YearMonth date;

@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQueryRequest;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -121,7 +121,7 @@ public class TransactionController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTIONS)
-    public Iterable<Transaction> readAll(@Valid final TransactionQueryRequest transaction, final Pageable page) {
+    public Iterable<Transaction> readAll(@Valid final TransactionQuery transaction, final Pageable page) {
         return service.getAll(transaction, page);
     }
 

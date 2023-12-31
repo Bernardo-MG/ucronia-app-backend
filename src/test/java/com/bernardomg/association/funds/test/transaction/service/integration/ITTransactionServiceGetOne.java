@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.NegativeTransaction;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
@@ -79,7 +79,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // GIVEN
-        repository.save(PersistentTransactions.forAmount(amount));
+        repository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
         transactionOptional = service.getOne(1L);
@@ -96,7 +96,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // GIVEN
-        repository.save(PersistentTransactions.forAmount(amount));
+        repository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
         transactionOptional = service.getOne(1L);

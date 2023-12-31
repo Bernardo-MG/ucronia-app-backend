@@ -36,9 +36,9 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQuery;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQueries;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQuery;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,7 +64,7 @@ class ITTransactionServiceGetAllFilter {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.startDate(LocalDate.of(2020, Month.JANUARY, 2));
+        transactionQuery = TransactionsQueries.startDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -87,7 +87,7 @@ class ITTransactionServiceGetAllFilter {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.endDate(LocalDate.of(2020, Month.JANUARY, 2));
+        transactionQuery = TransactionsQueries.endDate(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -109,7 +109,7 @@ class ITTransactionServiceGetAllFilter {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.JANUARY, 2));
+        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 2));
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -130,7 +130,7 @@ class ITTransactionServiceGetAllFilter {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.JANUARY, 1));
+        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1));
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);
@@ -152,7 +152,7 @@ class ITTransactionServiceGetAllFilter {
         pageable = Pageable.unpaged();
 
         // TODO: This is not the last day of the year
-        transactionQuery = TransactionsQuery.date(LocalDate.of(2020, Month.DECEMBER, 1));
+        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.DECEMBER, 1));
 
         // WHEN
         transactions = service.getAll(transactionQuery, pageable);

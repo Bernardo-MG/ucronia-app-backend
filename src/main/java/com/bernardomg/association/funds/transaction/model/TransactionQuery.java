@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.funds.transaction.model.request;
+package com.bernardomg.association.funds.transaction.model;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class TransactionQueryRequest implements TransactionQuery {
+public final class TransactionQuery {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;

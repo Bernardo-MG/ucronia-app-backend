@@ -22,26 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.calendar.model;
+package com.bernardomg.association.funds.balance.model;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-public final class ImmutableCalendarFundsDate implements CalendarFundsDate {
+@NoArgsConstructor
+@AllArgsConstructor
+public final class BalanceQuery {
 
-    private final Float     amount;
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private YearMonth endDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private final LocalDate date;
-
-    private final String    description;
-
-    private final Long      id;
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private YearMonth startDate;
 
 }

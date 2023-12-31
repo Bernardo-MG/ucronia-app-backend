@@ -36,12 +36,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
@@ -65,8 +65,8 @@ class ITTransactionServiceCreate {
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the transaction is persisted")
     void testCreate_Decimal_PersistedData(final Float amount) {
-        final TransactionChange     transactionRequest;
-        final PersistentTransaction entity;
+        final TransactionChange transactionRequest;
+        final TransactionEntity entity;
 
         // GIVEN
         transactionRequest = TransactionChanges.amount(amount);
@@ -106,9 +106,9 @@ class ITTransactionServiceCreate {
     @Test
     @DisplayName("With a transaction having padding whitespaces in description, these whitespaces are removed")
     void testCreate_Padded_Persisted() {
-        final TransactionChange           transactionRequest;
-        final PersistentTransaction       entity;
-        final List<PersistentTransaction> entities;
+        final TransactionChange       transactionRequest;
+        final TransactionEntity       entity;
+        final List<TransactionEntity> entities;
 
         // GIVEN
         transactionRequest = TransactionChanges.paddedWithWhitespaces();
@@ -126,15 +126,15 @@ class ITTransactionServiceCreate {
         entity = entities.iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
+        TransactionAssertions.isEqualTo(entity, TransactionEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid transaction, the transaction is persisted")
     void testCreate_Persisted() {
-        final TransactionChange           transactionRequest;
-        final PersistentTransaction       entity;
-        final List<PersistentTransaction> entities;
+        final TransactionChange       transactionRequest;
+        final TransactionEntity       entity;
+        final List<TransactionEntity> entities;
 
         // GIVEN
         transactionRequest = TransactionChanges.valid();
@@ -152,15 +152,15 @@ class ITTransactionServiceCreate {
         entity = entities.iterator()
             .next();
 
-        TransactionAssertions.isEqualTo(entity, PersistentTransactions.valid());
+        TransactionAssertions.isEqualTo(entity, TransactionEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid transaction, the transaction is persisted and the index increased")
     @PositiveTransaction
     void testCreate_Persisted_IndexIncreased() {
-        final TransactionChange               transactionRequest;
-        final Optional<PersistentTransaction> entity;
+        final TransactionChange           transactionRequest;
+        final Optional<TransactionEntity> entity;
 
         // GIVEN
         transactionRequest = TransactionChanges.valid();

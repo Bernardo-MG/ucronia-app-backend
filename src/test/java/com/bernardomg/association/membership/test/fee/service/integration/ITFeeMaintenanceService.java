@@ -11,12 +11,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.membership.test.fee.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.config.argument.FeePaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,7 +49,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
+            final Collection<FeeEntity> fees;
 
             fees = feeRepository.findAll();
 
@@ -60,13 +61,13 @@ public class ITFeeMaintenanceService {
             // Fees from the previous month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.PREVIOUS_MONTH))
+                    .equals(Fees.PREVIOUS_MONTH))
                 .as("previous month fees")
                 .allMatch(fee -> fee.getPaid() == previous);
             // Fees from the current month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.CURRENT_MONTH))
+                    .equals(Fees.CURRENT_MONTH))
                 .as("current month fees")
                 .allMatch(fee -> fee.getPaid() == current);
         });
@@ -86,7 +87,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
+            final Collection<FeeEntity> fees;
 
             fees = feeRepository.findAll();
 
@@ -98,7 +99,7 @@ public class ITFeeMaintenanceService {
             softly.assertThat(fees)
                 .first()
                 .as("fee")
-                .extracting(PersistentFee::getPaid)
+                .extracting(FeeEntity::getPaid)
                 .isEqualTo(paid);
         });
     }
@@ -148,7 +149,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
+            final Collection<FeeEntity> fees;
 
             fees = feeRepository.findAll();
 
@@ -160,13 +161,13 @@ public class ITFeeMaintenanceService {
             // Fees from the previous month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.PREVIOUS_MONTH))
+                    .equals(Fees.PREVIOUS_MONTH))
                 .as("previous month fees")
                 .allMatch(fee -> fee.getPaid() == paid);
             // Fees from the current month
             softly.assertThat(fees)
                 .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.CURRENT_MONTH))
+                    .equals(Fees.CURRENT_MONTH))
                 .as("current month fees")
                 .allMatch(fee -> !fee.getPaid());
         });
@@ -186,7 +187,7 @@ public class ITFeeMaintenanceService {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
+            final Collection<FeeEntity> fees;
 
             fees = feeRepository.findAll();
 
@@ -198,7 +199,7 @@ public class ITFeeMaintenanceService {
             softly.assertThat(fees)
                 .first()
                 .as("fee")
-                .extracting(PersistentFee::getPaid)
+                .extracting(FeeEntity::getPaid)
                 .isEqualTo(paid);
         });
     }

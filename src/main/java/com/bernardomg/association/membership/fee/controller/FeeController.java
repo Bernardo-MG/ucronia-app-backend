@@ -49,10 +49,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.cache.FeeCaches;
+import com.bernardomg.association.membership.fee.model.FeeQuery;
+import com.bernardomg.association.membership.fee.model.FeeUpdate;
+import com.bernardomg.association.membership.fee.model.FeesPaymentRequest;
 import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.model.request.FeeQueryRequest;
-import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.model.request.FeesPaymentRequest;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -112,7 +112,7 @@ public class FeeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
-    public Iterable<MemberFee> readAll(@Valid final FeeQueryRequest query, final Pageable pageable) {
+    public Iterable<MemberFee> readAll(@Valid final FeeQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
