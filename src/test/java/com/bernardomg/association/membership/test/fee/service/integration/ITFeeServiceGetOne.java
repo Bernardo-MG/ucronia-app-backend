@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
@@ -52,21 +53,6 @@ class ITFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("With a valid id, the related entity is returned")
-    @ValidMember
-    @PaidFee
-    void testGetOne() {
-        final Optional<MemberFee> fee;
-
-        // WHEN
-        fee = service.getOne(1L, Fees.DATE);
-
-        // THEN
-        Assertions.assertThat(fee)
-            .contains(MemberFees.paid());
-    }
-
-    @Test
     @DisplayName("With no surname, only the name is returned")
     @NoSurnameMember
     @PaidFee
@@ -79,6 +65,36 @@ class ITFeeServiceGetOne {
         // THEN
         Assertions.assertThat(fee)
             .contains(MemberFees.noSurname());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and a not paid fee, the related entity is returned")
+    @ValidMember
+    @NotPaidFee
+    void testGetOne_NotPaid() {
+        final Optional<MemberFee> fee;
+
+        // WHEN
+        fee = service.getOne(1L, Fees.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(MemberFees.notPaid());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and a paid fee, the related entity is returned")
+    @ValidMember
+    @PaidFee
+    void testGetOne_Paid() {
+        final Optional<MemberFee> fee;
+
+        // WHEN
+        fee = service.getOne(1L, Fees.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(MemberFees.paid());
     }
 
 }
