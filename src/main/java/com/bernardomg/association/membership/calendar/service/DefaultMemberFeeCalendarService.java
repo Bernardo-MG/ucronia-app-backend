@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
@@ -42,6 +43,7 @@ import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
 public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarService {
@@ -131,7 +133,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         return FeeMonth.builder()
             .date(fee.getDate())
-            .memberId(fee.getMemberId())
+            .memberNumber(fee.getMemberNumber())
             .month(month)
             .paid(fee.getPaid())
             .build();
@@ -145,6 +147,8 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final boolean              active;
         final YearMonth            validStart;
         final YearMonth            validEnd;
+        final long                 memberNumber;
+        final Optional<MemberEntity> read;
 
         months = fees.stream()
             .map(this::toFeeMonth)
@@ -160,8 +164,14 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         validEnd = YearMonth.now();
         active = memberRepository.isActive(member, validStart, validEnd);
 
+        read = memberRepository.findByNumber(member);
+        if(read.isPresent()) {
+            memberNumber = memberRepository.findByNumber(member).get().getNumber();
+        } else {
+            memberNumber = -1;
+        }
         return MemberFeeCalendar.builder()
-            .memberId(member)
+            .memberNumber(memberNumber)
             .memberName(name)
             .months(months)
             .year(year)

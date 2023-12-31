@@ -35,9 +35,9 @@ public final class MemberFeeCalendar {
 
     private final boolean              active;
 
-    private final long                 memberId;
-
     private final String               memberName;
+
+    private final long                 memberNumber;
 
     private final Collection<FeeMonth> months;
 

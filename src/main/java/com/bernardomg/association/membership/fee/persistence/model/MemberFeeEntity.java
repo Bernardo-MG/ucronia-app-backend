@@ -49,6 +49,9 @@ public class MemberFeeEntity implements Serializable {
     @Column(name = "member_name")
     private String            memberName;
 
+    @Column(name = "member_number", nullable = false)
+    private Long              memberNumber;
+
     @Column(name = "paid")
     private Boolean           paid;
 
