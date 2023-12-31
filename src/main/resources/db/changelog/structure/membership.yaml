@@ -85,6 +85,27 @@ databaseChangeLog:
             constraintName: fees_unique_date
             tableName: fees
             columnNames: 'member_id, date'
+        - createTable:
+            tableName: fee_payments
+            columns:
+              - column:
+                  name: fee_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fee_payments_fee
+                    references: fees(id)
+              - column:
+                  name: transaction_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fee_payments_transaction
+                    references: transactions(id)
+        - addPrimaryKey:
+            constraintName: fee_payments_key
+            tableName: fee_payments
+            columnNames: 'fee_id, transaction_id'
       modifySql:
         - append:
             dbms: mysql
