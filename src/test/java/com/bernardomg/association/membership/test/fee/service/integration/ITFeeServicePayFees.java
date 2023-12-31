@@ -146,6 +146,9 @@ class ITFeeServicePayFees {
         // THEN
         entities = repository.findAll();
 
+        Assertions.assertThat(entities)
+            .hasSize(2);
+
         entitiesItr = entities.iterator();
 
         FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
@@ -174,7 +177,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
@@ -202,6 +205,9 @@ class ITFeeServicePayFees {
 
         // THEN
         entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .hasSize(2);
 
         entitiesItr = entities.iterator();
 
