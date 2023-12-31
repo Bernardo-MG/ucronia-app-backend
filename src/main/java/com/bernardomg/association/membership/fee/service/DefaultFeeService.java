@@ -297,7 +297,7 @@ public final class DefaultFeeService implements FeeService {
         payments = fees.stream()
             .map(FeeEntity::getId)
             .map(id -> FeePaymentEntity.builder()
-                .feeId(null)
+                .feeId(id)
                 .transactionId(transaction.getId())
                 .build())
             .toList();
