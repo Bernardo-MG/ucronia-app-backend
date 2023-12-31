@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -94,7 +92,7 @@ class ITFeeServiceUpdate {
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.at(Month.FEBRUARY));
+        FeeAssertions.isEqualTo(fee, FeeEntities.atDate());
     }
 
 }

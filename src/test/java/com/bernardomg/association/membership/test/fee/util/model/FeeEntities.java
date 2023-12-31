@@ -1,20 +1,9 @@
 
 package com.bernardomg.association.membership.test.fee.util.model;
 
-import java.time.Month;
-import java.time.YearMonth;
-
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 
 public final class FeeEntities {
-
-    public static FeeEntity at(final Month month) {
-        return FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(YearMonth.of(Fees.YEAR, month))
-            .build();
-    }
 
     public static FeeEntity atDate() {
         return FeeEntity.builder()
