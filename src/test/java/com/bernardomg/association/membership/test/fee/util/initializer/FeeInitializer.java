@@ -149,8 +149,10 @@ public final class FeeInitializer {
         final TransactionEntity toSave;
         final TransactionEntity saved;
         final FeePaymentEntity  payment;
+        final Long              index;
 
-        toSave = TransactionEntities.valid();
+        index = transactionRepository.count() + 1;
+        toSave = TransactionEntities.index(index);
         saved = transactionRepository.save(toSave);
 
         payment = FeePaymentEntity.builder()

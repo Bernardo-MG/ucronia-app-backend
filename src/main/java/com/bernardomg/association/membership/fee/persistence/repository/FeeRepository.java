@@ -36,8 +36,6 @@ public interface FeeRepository extends JpaRepository<FeeEntity, Long> {
 
     public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
 
-    public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
-
     /**
      * Returns all the fees in the received date.
      *

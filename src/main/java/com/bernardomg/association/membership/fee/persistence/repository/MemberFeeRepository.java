@@ -38,6 +38,8 @@ import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEnti
 public interface MemberFeeRepository
         extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
 
+    public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
+
     /**
      * Returns all member fees inside the received range.
      *

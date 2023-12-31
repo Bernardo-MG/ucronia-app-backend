@@ -80,7 +80,7 @@ public final class DefaultFeeService implements FeeService {
         configurationSource = confSource;
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(feeRepository, memberRepository);
+        validatorPay = new CreateFeeValidator(memberRepository, memberFeeRepository);
     }
 
     @Override

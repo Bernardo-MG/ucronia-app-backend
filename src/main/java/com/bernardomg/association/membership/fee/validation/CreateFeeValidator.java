@@ -4,7 +4,7 @@ package com.bernardomg.association.membership.fee.validation;
 import java.util.Collection;
 
 import com.bernardomg.association.membership.fee.model.FeesPayment;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.validation.AbstractValidator;
@@ -15,15 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
 
-    private final FeeRepository    feeRepository;
+    private final MemberFeeRepository memberFeeRepository;
 
-    private final MemberRepository memberRepository;
+    private final MemberRepository    memberRepository;
 
-    public CreateFeeValidator(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+    public CreateFeeValidator(final MemberRepository memberRepo, final MemberFeeRepository memberFeeRepo) {
         super();
 
-        feeRepository = feeRepo;
         memberRepository = memberRepo;
+        memberFeeRepository = memberFeeRepo;
     }
 
     @Override
@@ -55,7 +55,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
             .get();
         existing = payment.getFeeDates()
             .stream()
-            .filter(date -> feeRepository.existsByMemberIdAndDateAndPaid(member.getId(), date, true))
+            .filter(date -> memberFeeRepository.existsByMemberIdAndDateAndPaid(member.getId(), date, true))
             .count();
         if (existing > 0) {
             failure = FieldFailure.of("feeDates[]", "existing", existing);
