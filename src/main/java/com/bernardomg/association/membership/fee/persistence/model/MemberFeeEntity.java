@@ -43,6 +43,9 @@ public class MemberFeeEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    @Column(name = "transaction_index", nullable = false, unique = true)
+    private Long              transactionIndex;
+
     @Column(name = "member_id", nullable = false)
     private Long              memberId;
 

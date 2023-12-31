@@ -311,6 +311,7 @@ public final class DefaultFeeService implements FeeService {
             .date(entity.getDate())
             .paid(entity.getPaid())
             .paymentDate(entity.getPaymentDate())
+            .transactionIndex(entity.getTransactionIndex())
             .build();
     }
 
