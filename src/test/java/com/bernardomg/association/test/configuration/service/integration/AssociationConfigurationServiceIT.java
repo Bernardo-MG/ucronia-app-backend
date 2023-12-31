@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.configuration.AssociationConfigurationKey;
-import com.bernardomg.association.configuration.model.request.AssociationConfigurationRequest;
-import com.bernardomg.association.configuration.model.request.ValidatedAssociationConfigurationRequest;
+import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
@@ -29,10 +28,10 @@ public class AssociationConfigurationServiceIT {
     @DisplayName("When updating the fee amount, the configuration is persisted")
     @FeeAmountConfiguration
     void testUpdate_FeeAmount() {
-        final AssociationConfigurationRequest configurationRequest;
-        final PersistentConfiguration         configuration;
+        final AssociationConfiguration configurationRequest;
+        final PersistentConfiguration  configuration;
 
-        configurationRequest = ValidatedAssociationConfigurationRequest.builder()
+        configurationRequest = AssociationConfiguration.builder()
             .feeAmount(2)
             .build();
 
@@ -54,10 +53,10 @@ public class AssociationConfigurationServiceIT {
     @Test
     @DisplayName("When updating the fee amount and with no existing configuration, the configuration is persisted")
     void testUpdate_NoData_FeeAmount() {
-        final AssociationConfigurationRequest configurationRequest;
-        final PersistentConfiguration         configuration;
+        final AssociationConfiguration configurationRequest;
+        final PersistentConfiguration  configuration;
 
-        configurationRequest = ValidatedAssociationConfigurationRequest.builder()
+        configurationRequest = AssociationConfiguration.builder()
             .feeAmount(2)
             .build();
 

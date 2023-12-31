@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import com.bernardomg.association.configuration.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
-import com.bernardomg.association.configuration.model.ImmutableAssociationConfiguration;
-import com.bernardomg.association.configuration.model.request.AssociationConfigurationRequest;
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
 import com.bernardomg.configuration.source.ConfigurationSource;
@@ -32,13 +30,13 @@ public final class DefaultAssociationConfigurationService implements Association
 
         feeAmount = configurationSource.getFloat(AssociationConfigurationKey.FEE_AMOUNT);
 
-        return ImmutableAssociationConfiguration.builder()
+        return AssociationConfiguration.builder()
             .feeAmount(feeAmount)
             .build();
     }
 
     @Override
-    public final void update(final AssociationConfigurationRequest request) {
+    public final void update(final AssociationConfiguration request) {
         final PersistentConfiguration           config;
         final Optional<PersistentConfiguration> found;
 

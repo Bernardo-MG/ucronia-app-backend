@@ -1,8 +1,13 @@
 
 package com.bernardomg.association.configuration.model;
 
-public interface AssociationConfiguration {
+import lombok.Builder;
+import lombok.Data;
 
-    public float getFeeAmount();
+@Data
+@Builder
+public final class AssociationConfiguration {
+
+    private float feeAmount;
 
 }
