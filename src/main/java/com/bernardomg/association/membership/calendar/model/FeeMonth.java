@@ -38,7 +38,7 @@ public final class FeeMonth {
     @JsonFormat(pattern = "yyyy-MM")
     private final YearMonth date;
 
-    private final long      memberId;
+    private final long      memberNumber;
 
     private final int       month;
 
