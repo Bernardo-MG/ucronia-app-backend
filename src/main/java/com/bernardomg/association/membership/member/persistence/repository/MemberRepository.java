@@ -38,8 +38,6 @@ import com.bernardomg.association.membership.member.persistence.model.MemberEnti
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    public boolean existsByNumber(final Long number);
-
     @Query("SELECT m FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end GROUP BY m.id")
     public Page<MemberEntity> findAllActive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);

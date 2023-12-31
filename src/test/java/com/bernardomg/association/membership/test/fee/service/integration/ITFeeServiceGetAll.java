@@ -39,6 +39,7 @@ import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
+import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
 import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
@@ -152,10 +153,32 @@ class ITFeeServiceGetAll {
     }
 
     @Test
-    @DisplayName("With a single fee it returns all the fees")
+    @DisplayName("With a not paid fee it returns all the fees")
+    @ValidMember
+    @NotPaidFee
+    void testGetAll_NotPaid() {
+        final Iterable<MemberFee> fees;
+        final FeeQuery            feeQuery;
+        final Pageable            pageable;
+
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.empty();
+
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(MemberFees.notPaid());
+    }
+
+    @Test
+    @DisplayName("With a paid fee it returns all the fees")
     @ValidMember
     @PaidFee
-    void testGetAll_Single() {
+    void testGetAll_Paid() {
         final Iterable<MemberFee> fees;
         final FeeQuery            feeQuery;
         final Pageable            pageable;

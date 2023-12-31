@@ -55,6 +55,15 @@ public final class TransactionEntities {
             .build();
     }
 
+    public static final TransactionEntity index(final long index) {
+        return TransactionEntity.builder()
+            .index(index)
+            .amount(1F)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description("Transaction")
+            .build();
+    }
+
     public static final TransactionEntity multipleFees() {
         return TransactionEntity.builder()
             .id(2L)

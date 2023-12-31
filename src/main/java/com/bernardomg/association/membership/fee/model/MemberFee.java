@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.membership.fee.model;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -20,5 +21,8 @@ public final class MemberFee {
     private final long      memberNumber;
 
     private final boolean   paid;
+
+    @JsonFormat(pattern = "yyyy-MM")
+    private final LocalDate paymentDate;
 
 }

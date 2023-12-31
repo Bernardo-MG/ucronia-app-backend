@@ -25,7 +25,9 @@ import com.bernardomg.association.membership.fee.model.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.FeesPayment;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
+import com.bernardomg.association.membership.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
@@ -49,6 +51,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final AssociationConfigurationSource configurationSource;
 
+    private final FeePaymentRepository           feePaymentRepository;
+
     private final FeeRepository                  feeRepository;
 
     private final MemberFeeRepository            memberFeeRepository;
@@ -63,7 +67,8 @@ public final class DefaultFeeService implements FeeService {
 
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
             final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
-            final MemberRepository memberRepo, final AssociationConfigurationSource confSource) {
+            final FeePaymentRepository feePaymentRepo, final MemberRepository memberRepo,
+            final AssociationConfigurationSource confSource) {
         super();
 
         messageSource = msgSource;
@@ -71,10 +76,11 @@ public final class DefaultFeeService implements FeeService {
         transactionRepository = transactionRepo;
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
+        feePaymentRepository = feePaymentRepo;
         configurationSource = confSource;
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(feeRepository, memberRepository);
+        validatorPay = new CreateFeeValidator(memberRepository, memberFeeRepository);
     }
 
     @Override
@@ -134,13 +140,16 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<MemberFee> payFees(final long memberNumber, final LocalDate payDate,
             final Collection<YearMonth> feeDates) {
-        final Collection<FeeEntity> fees;
-        final Collection<Long>      ids;
-        final FeesPayment           payment;
+        final Collection<FeeEntity>  fees;
+        final Optional<MemberEntity> member;
+        final Collection<Long>       ids;
+        final FeesPayment            payment;
 
         log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, payDate, feeDates);
 
-        if (!memberRepository.existsByNumber(memberNumber)) {
+        member = memberRepository.findByNumber(memberNumber);
+        if (member.isEmpty()) {
+            // TODO: Change exception
             throw new MissingMemberIdException(memberNumber);
         }
 
@@ -150,8 +159,8 @@ public final class DefaultFeeService implements FeeService {
             .build();
         validatorPay.validate(payment);
 
-        registerTransaction(memberNumber, payDate, feeDates);
         fees = registerFees(memberNumber, feeDates);
+        registerTransaction(member.get(), fees, payDate, feeDates);
 
         // Read fees to return names
         feeRepository.flush();
@@ -245,16 +254,16 @@ public final class DefaultFeeService implements FeeService {
         return feeRepository.saveAll(fees);
     }
 
-    private final void registerTransaction(final Long memberId, final LocalDate payDate,
-            final Collection<YearMonth> feeDates) {
-        final TransactionEntity transaction;
-        final Float             feeAmount;
-        final MemberEntity      member;
-        final String            name;
-        final String            dates;
-        final String            message;
-        final Object[]          messageArguments;
-        final Long              index;
+    private final void registerTransaction(final MemberEntity member, final Collection<FeeEntity> fees,
+            final LocalDate payDate, final Collection<YearMonth> feeDates) {
+        final TransactionEntity          transaction;
+        final Float                      feeAmount;
+        final String                     name;
+        final String                     dates;
+        final String                     message;
+        final Object[]                   messageArguments;
+        final Long                       index;
+        final Iterable<FeePaymentEntity> payments;
 
         // Calculate amount
         feeAmount = configurationSource.getFeeAmount() * feeDates.size();
@@ -266,9 +275,6 @@ public final class DefaultFeeService implements FeeService {
 
         index = transactionRepository.findNextIndex();
         transaction.setIndex(index);
-
-        member = memberRepository.findById(memberId)
-            .get();
 
         name = List.of(member.getName(), member.getSurname())
             .stream()
@@ -286,6 +292,16 @@ public final class DefaultFeeService implements FeeService {
         transaction.setDescription(message);
 
         transactionRepository.save(transaction);
+
+        // Register payments
+        payments = fees.stream()
+            .map(FeeEntity::getId)
+            .map(id -> FeePaymentEntity.builder()
+                .feeId(id)
+                .transactionId(transaction.getId())
+                .build())
+            .toList();
+        feePaymentRepository.saveAll(payments);
     }
 
     private final MemberFee toDto(final MemberFeeEntity entity) {
@@ -294,12 +310,13 @@ public final class DefaultFeeService implements FeeService {
             .memberName(entity.getMemberName())
             .date(entity.getDate())
             .paid(entity.getPaid())
+            .paymentDate(entity.getPaymentDate())
             .build();
     }
 
     private final FeeEntity toEntity(final FeeUpdate update) {
+        // FIXME: Nothing is being updated?
         return FeeEntity.builder()
-            .paid(update.getPaid())
             .build();
     }
 
@@ -309,7 +326,6 @@ public final class DefaultFeeService implements FeeService {
         fee = new FeeEntity();
         fee.setMemberId(memberNumber);
         fee.setDate(date);
-        fee.setPaid(true);
 
         return fee;
     }

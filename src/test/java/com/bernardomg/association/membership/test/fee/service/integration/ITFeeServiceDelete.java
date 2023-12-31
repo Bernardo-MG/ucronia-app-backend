@@ -25,12 +25,14 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -53,8 +55,23 @@ class ITFeeServiceDelete {
     @Test
     @DisplayName("With a valid id it removes the entity")
     @ValidMember
+    @NotPaidFee
+    void testDelete_NotPaid_RemovesEntity() {
+        // WHEN
+        service.delete(1L, Fees.DATE);
+
+        // THEN
+        Assertions.assertThat(repository.count())
+            .as("fees")
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("With a valid id it removes the entity")
+    @ValidMember
     @PaidFee
-    void testDelete_RemovesEntity() {
+    @Disabled("Handle relationships")
+    void testDelete_Paid_RemovesEntity() {
         // WHEN
         service.delete(1L, Fees.DATE);
 

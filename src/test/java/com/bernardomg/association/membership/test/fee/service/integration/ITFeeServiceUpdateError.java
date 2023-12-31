@@ -58,7 +58,7 @@ class ITFeeServiceUpdateError {
         final ThrowingCallable execution;
 
         // GIVEN
-        feeRequest = FeesUpdate.paid();
+        feeRequest = FeesUpdate.name();
 
         // WHEN
         execution = () -> service.update(1L, Fees.DATE, feeRequest);
@@ -75,7 +75,7 @@ class ITFeeServiceUpdateError {
         final ThrowingCallable execution;
 
         // GIVEN
-        feeRequest = FeesUpdate.paid();
+        feeRequest = FeesUpdate.name();
 
         // WHEN
         execution = () -> service.update(1L, Fees.DATE, feeRequest);

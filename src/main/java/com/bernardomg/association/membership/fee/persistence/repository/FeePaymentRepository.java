@@ -24,36 +24,9 @@
 
 package com.bernardomg.association.membership.fee.persistence.repository;
 
-import java.time.YearMonth;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
+import com.bernardomg.association.membership.fee.persistence.model.FeePaymentKey;
 
-public interface FeeRepository extends JpaRepository<FeeEntity, Long> {
-
-    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
-
-    /**
-     * Returns all the fees in the received date.
-     *
-     * @param date
-     *            date to filter by
-     * @return all the fees in the date
-     */
-    public List<FeeEntity> findAllByDate(final YearMonth date);
-
-    /**
-     * Finds the fee for the member in the date.
-     *
-     * @param memberId
-     *            member to filter by
-     * @param date
-     *            date to filter by
-     * @return fee for the member in the date
-     */
-    public Optional<FeeEntity> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
-
-}
+public interface FeePaymentRepository extends JpaRepository<FeePaymentEntity, FeePaymentKey> {}

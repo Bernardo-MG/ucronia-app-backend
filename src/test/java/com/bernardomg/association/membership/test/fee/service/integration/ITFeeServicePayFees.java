@@ -34,13 +34,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
@@ -56,6 +56,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Fee service - pay fees")
 class ITFeeServicePayFees {
+
+    @Autowired
+    private FeePaymentRepository  feePaymentRepository;
 
     @Autowired
     private FeeRepository         repository;
@@ -88,7 +91,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.paid());
+            .next(), FeeEntities.atDate());
     }
 
     @Test
@@ -143,10 +146,13 @@ class ITFeeServicePayFees {
         // THEN
         entities = repository.findAll();
 
+        Assertions.assertThat(entities)
+            .hasSize(2);
+
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
     }
 
     @Test
@@ -171,7 +177,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
@@ -200,10 +206,26 @@ class ITFeeServicePayFees {
         // THEN
         entities = repository.findAll();
 
+        Assertions.assertThat(entities)
+            .hasSize(2);
+
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedRelationship() {
+        // WHEN
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(feePaymentRepository.count())
+            .isEqualTo(2);
     }
 
     @Test
@@ -277,7 +299,20 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.paid());
+            .next(), FeeEntities.atDate());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid a fee payment is registered")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_PersistedRelationship() {
+        // WHEN
+        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+
+        // THEN
+        Assertions.assertThat(feePaymentRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -304,7 +339,6 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid  a single transaction is persisted and it uses the next index")
     @ValidMember
     @PaidFee
-    @PositiveTransaction
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction_IncreaseIndex() {
         final Optional<TransactionEntity> entity;

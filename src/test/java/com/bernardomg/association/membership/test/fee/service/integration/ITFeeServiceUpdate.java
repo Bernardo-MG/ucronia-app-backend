@@ -24,15 +24,12 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.model.FeeUpdate;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
@@ -42,7 +39,6 @@ import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertio
 import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -68,7 +64,7 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
 
         // GIVEN
-        feeRequest = FeesUpdate.notPaid();
+        feeRequest = FeesUpdate.name();
 
         // WHEN
         service.update(1L, Fees.DATE, feeRequest);
@@ -79,7 +75,7 @@ class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a value change on the paid flag, the change is persisted")
+    @DisplayName("With a name change, the change is persisted")
     @ValidMember
     @NotPaidFee
     void testUpdate_Pay_PersistedData() {
@@ -87,7 +83,7 @@ class ITFeeServiceUpdate {
         final FeeEntity fee;
 
         // GIVEN
-        feeRequest = FeesUpdate.paid();
+        feeRequest = FeesUpdate.name();
 
         // WHEN
         service.update(1L, Fees.DATE, feeRequest);
@@ -96,47 +92,7 @@ class ITFeeServiceUpdate {
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.paidAt(Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the change is persisted")
-    @ValidMember
-    @PaidFee
-    void testUpdate_PersistedData() {
-        final FeeUpdate feeRequest;
-        final FeeEntity fee;
-
-        // GIVEN
-        feeRequest = FeesUpdate.notPaid();
-
-        // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
-        fee = repository.findAll()
-            .iterator()
-            .next();
-
-        // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.notPaidAt(Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the changed data is returned")
-    @ValidMember
-    @PaidFee
-    void testUpdate_ReturnedData() {
-        final FeeUpdate feeRequest;
-        final MemberFee fee;
-
-        // GIVEN
-        feeRequest = FeesUpdate.notPaid();
-
-        // WHEN
-        fee = service.update(1L, Fees.DATE, feeRequest);
-
-        // THEN
-        Assertions.assertThat(fee)
-            .isEqualTo(MemberFees.notPaid());
+        FeeAssertions.isEqualTo(fee, FeeEntities.atDate());
     }
 
 }
