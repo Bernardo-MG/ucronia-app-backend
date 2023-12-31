@@ -81,18 +81,14 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-      modifySql:
-        - append:
-            dbms: mysql
-            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
-  - changeSet:
-      id: membership_unique_constraints
-      author: Bernardo
-      changes:
         - addUniqueConstraint:
             constraintName: fees_unique_date
             tableName: fees
             columnNames: 'member_id, date'
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
   - changeSet:
       id: membership_views
       author: Bernardo
