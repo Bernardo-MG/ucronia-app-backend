@@ -9,7 +9,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.DATE)
+            .date(FeeConstants.DATE)
             .build();
     }
 
@@ -17,7 +17,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.CURRENT_MONTH)
+            .date(FeeConstants.CURRENT_MONTH)
             .build();
     }
 
@@ -25,7 +25,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(2L)
-            .date(Fees.CURRENT_MONTH)
+            .date(FeeConstants.CURRENT_MONTH)
             .build();
     }
 
@@ -33,7 +33,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(2L)
             .memberId(1L)
-            .date(Fees.NEXT_DATE)
+            .date(FeeConstants.NEXT_DATE)
             .build();
     }
 
@@ -41,7 +41,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.NEXT_MONTH)
+            .date(FeeConstants.NEXT_MONTH)
             .build();
     }
 
@@ -49,7 +49,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.NEXT_YEAR_MONTH)
+            .date(FeeConstants.NEXT_YEAR_MONTH)
             .build();
     }
 
@@ -57,7 +57,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.PREVIOUS_MONTH)
+            .date(FeeConstants.PREVIOUS_MONTH)
             .build();
     }
 
@@ -65,7 +65,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.PREVIOUS_YEAR_MONTH)
+            .date(FeeConstants.PREVIOUS_YEAR_MONTH)
             .build();
     }
 
@@ -73,7 +73,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.TWO_MONTHS_BACK)
+            .date(FeeConstants.TWO_MONTHS_BACK)
             .build();
     }
 
@@ -81,7 +81,7 @@ public final class FeeEntities {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(Fees.TWO_YEARS_BACK)
+            .date(FeeConstants.TWO_YEARS_BACK)
             .build();
     }
 

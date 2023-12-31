@@ -34,12 +34,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -59,9 +59,9 @@ class ITFeeServiceGetAllPagination {
     @Test
     @DisplayName("With an active pagination, the returned data is contained in a page")
     void testGetAll_Page_Container() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.ofSize(10);
 
@@ -79,9 +79,9 @@ class ITFeeServiceGetAllPagination {
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testGetAll_Page1() {
-        final FeeQuery            feeQuery;
-        final Iterable<MemberFee> fees;
-        final Pageable            pageable;
+        final FeeQuery      feeQuery;
+        final Iterable<Fee> fees;
+        final Pageable      pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -93,15 +93,15 @@ class ITFeeServiceGetAllPagination {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paid());
+            .containsExactly(Fees.paid());
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testGetAll_Page2() {
-        final FeeQuery            feeQuery;
-        final Iterable<MemberFee> fees;
-        final Pageable            pageable;
+        final FeeQuery      feeQuery;
+        final Iterable<Fee> fees;
+        final Pageable      pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -113,15 +113,15 @@ class ITFeeServiceGetAllPagination {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(2, Month.MARCH));
+            .containsExactly(Fees.paidAt(2, Month.MARCH));
     }
 
     @Test
     @DisplayName("With an inactive pagination, the returned data is contained in a page")
     void testGetAll_Unpaged_Container() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 

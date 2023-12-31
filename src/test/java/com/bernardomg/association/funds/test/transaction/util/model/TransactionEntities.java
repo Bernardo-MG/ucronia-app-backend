@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 
 public final class TransactionEntities {
 
@@ -69,7 +69,7 @@ public final class TransactionEntities {
             .id(2L)
             .index(2L)
             .amount(2F)
-            .date(Fees.PAYMENT_DATE)
+            .date(FeeConstants.PAYMENT_DATE)
             .description("Cuota de Member 1 Surname 1 para Febrero 2020, Marzo 2020")
             .build();
     }
@@ -79,7 +79,7 @@ public final class TransactionEntities {
             .id(2L)
             .index(2L)
             .amount(1F)
-            .date(Fees.PAYMENT_DATE)
+            .date(FeeConstants.PAYMENT_DATE)
             .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .build();
     }
@@ -89,7 +89,7 @@ public final class TransactionEntities {
             .id(2L)
             .index(2L)
             .amount(0F)
-            .date(Fees.PAYMENT_DATE)
+            .date(FeeConstants.PAYMENT_DATE)
             .description("Cuota de Member 1 Surname 1 para Febrero 2020")
             .build();
     }

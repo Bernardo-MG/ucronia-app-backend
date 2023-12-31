@@ -36,8 +36,8 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -67,7 +67,7 @@ class ITFeeServiceUpdate {
         feeRequest = FeesUpdate.name();
 
         // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
+        service.update(1L, FeeConstants.DATE, feeRequest);
 
         // THEN
         Assertions.assertThat(repository.count())
@@ -86,7 +86,7 @@ class ITFeeServiceUpdate {
         feeRequest = FeesUpdate.name();
 
         // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
+        service.update(1L, FeeConstants.DATE, feeRequest);
         fee = repository.findAll()
             .iterator()
             .next();

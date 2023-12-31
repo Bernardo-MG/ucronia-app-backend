@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -54,7 +54,7 @@ class ITFeeServiceDeleteError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.delete(1L, Fees.DATE);
+        execution = () -> service.delete(1L, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
