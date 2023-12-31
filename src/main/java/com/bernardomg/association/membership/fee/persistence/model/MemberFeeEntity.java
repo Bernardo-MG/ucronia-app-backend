@@ -2,6 +2,7 @@
 package com.bernardomg.association.membership.fee.persistence.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.YearMonth;
 
 import com.bernardomg.jpa.converter.YearMonthDateAttributeConverter;
@@ -50,5 +51,8 @@ public class MemberFeeEntity implements Serializable {
 
     @Column(name = "paid")
     private Boolean           paid;
+
+    @Column(name = "payment_date", nullable = false)
+    private LocalDate         paymentDate;
 
 }

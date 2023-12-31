@@ -310,10 +310,12 @@ public final class DefaultFeeService implements FeeService {
             .memberName(entity.getMemberName())
             .date(entity.getDate())
             .paid(entity.getPaid())
+            .paymentDate(entity.getPaymentDate())
             .build();
     }
 
     private final FeeEntity toEntity(final FeeUpdate update) {
+        // FIXME: Nothing is being updated?
         return FeeEntity.builder()
             .build();
     }

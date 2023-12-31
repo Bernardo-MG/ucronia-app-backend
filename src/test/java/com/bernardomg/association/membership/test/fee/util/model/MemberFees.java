@@ -14,6 +14,7 @@ public final class MemberFees {
             .memberName("Member 1")
             .date(Fees.DATE)
             .paid(true)
+            .paymentDate(Fees.PAYMENT_DATE)
             .build();
     }
 
@@ -41,6 +42,7 @@ public final class MemberFees {
             .memberName("Member 1 Surname 1")
             .date(Fees.DATE)
             .paid(true)
+            .paymentDate(Fees.PAYMENT_DATE)
             .build();
     }
 
@@ -50,6 +52,7 @@ public final class MemberFees {
             .memberName("Member " + index + " Surname " + index)
             .date(YearMonth.of(Fees.YEAR, month))
             .paid(true)
+            .paymentDate(Fees.PAYMENT_DATE)
             .build();
     }
 
@@ -59,6 +62,7 @@ public final class MemberFees {
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(Fees.YEAR, month))
             .paid(true)
+            .paymentDate(Fees.PAYMENT_DATE)
             .build();
     }
 
@@ -68,6 +72,7 @@ public final class MemberFees {
             .memberName("Member 1 Surname 1")
             .date(Fees.NEXT_DATE)
             .paid(true)
+            .paymentDate(Fees.PAYMENT_DATE)
             .build();
     }
 

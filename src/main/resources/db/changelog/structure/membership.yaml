@@ -114,7 +114,7 @@ databaseChangeLog:
             viewName: active_members
         -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, CASE WHEN p.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM members m INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments p ON f.id = p.fee_id
+            selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, t.date AS payment_date, CASE WHEN p.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM members m INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments p ON f.id = p.fee_id LEFT JOIN transactions t ON p.transaction_id = t.id
             viewName: member_fees
         -  createView:
             remarks: Monthly member balance
