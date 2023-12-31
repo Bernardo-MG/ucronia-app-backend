@@ -66,7 +66,7 @@ class ITFeeServiceUpdate {
         final FeeUpdate feeRequest;
 
         // GIVEN
-        feeRequest = FeesUpdate.notPaid();
+        feeRequest = FeesUpdate.name();
 
         // WHEN
         service.update(1L, Fees.DATE, feeRequest);
@@ -77,7 +77,7 @@ class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a value change on the paid flag, the change is persisted")
+    @DisplayName("With a name change, the change is persisted")
     @ValidMember
     @NotPaidFee
     void testUpdate_Pay_PersistedData() {
@@ -85,7 +85,7 @@ class ITFeeServiceUpdate {
         final FeeEntity fee;
 
         // GIVEN
-        feeRequest = FeesUpdate.paid();
+        feeRequest = FeesUpdate.name();
 
         // WHEN
         service.update(1L, Fees.DATE, feeRequest);
@@ -94,28 +94,7 @@ class ITFeeServiceUpdate {
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.paidAt(Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the change is persisted")
-    @ValidMember
-    @PaidFee
-    void testUpdate_PersistedData() {
-        final FeeUpdate feeRequest;
-        final FeeEntity fee;
-
-        // GIVEN
-        feeRequest = FeesUpdate.notPaid();
-
-        // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
-        fee = repository.findAll()
-            .iterator()
-            .next();
-
-        // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.notPaidAt(Month.FEBRUARY));
+        FeeAssertions.isEqualTo(fee, FeeEntities.at(Month.FEBRUARY));
     }
 
 }

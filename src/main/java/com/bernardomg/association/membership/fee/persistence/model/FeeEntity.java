@@ -45,7 +45,4 @@ public class FeeEntity implements Serializable {
     @Column(name = "member_id", nullable = false)
     private Long              memberId;
 
-    @Column(name = "paid", nullable = false)
-    private Boolean           paid;
-
 }

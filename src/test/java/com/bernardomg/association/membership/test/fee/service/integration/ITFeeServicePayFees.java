@@ -91,7 +91,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.paid());
+            .next(), FeeEntities.atDate());
     }
 
     @Test
@@ -148,8 +148,8 @@ class ITFeeServicePayFees {
 
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
     }
 
     @Test
@@ -205,8 +205,8 @@ class ITFeeServicePayFees {
 
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
     }
 
     @Test
@@ -293,7 +293,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), FeeEntities.paid());
+            .next(), FeeEntities.atDate());
     }
 
     @Test

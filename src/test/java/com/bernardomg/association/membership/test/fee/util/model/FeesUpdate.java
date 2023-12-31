@@ -5,15 +5,9 @@ import com.bernardomg.association.membership.fee.model.FeeUpdate;
 
 public final class FeesUpdate {
 
-    public static final FeeUpdate notPaid() {
+    public static final FeeUpdate name() {
         return FeeUpdate.builder()
-            .paid(false)
-            .build();
-    }
-
-    public static final FeeUpdate paid() {
-        return FeeUpdate.builder()
-            .paid(true)
+            .name("abc")
             .build();
     }
 

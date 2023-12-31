@@ -69,12 +69,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
-              - column:
-                  name: paid
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValueBoolean: false
         - addAutoIncrement:
             tableName: fees
             columnName: id

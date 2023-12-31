@@ -69,7 +69,6 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         return FeeEntity.builder()
             .memberId(fee.getMemberId())
             .date(YearMonth.now())
-            .paid(false)
             .build();
     }
 

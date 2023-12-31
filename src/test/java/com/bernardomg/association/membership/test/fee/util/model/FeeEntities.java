@@ -8,120 +8,91 @@ import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 
 public final class FeeEntities {
 
-    public static FeeEntity currentMonth(final Boolean paid) {
-        return FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(Fees.CURRENT_MONTH)
-            .paid(paid)
-            .build();
-    }
-
-    public static FeeEntity currentMonthAlternative(final Boolean paid) {
-        return FeeEntity.builder()
-            .id(1L)
-            .memberId(2L)
-            .date(Fees.CURRENT_MONTH)
-            .paid(paid)
-            .build();
-    }
-
-    public static FeeEntity nextMonth(final Boolean paid) {
-        return FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(Fees.NEXT_MONTH)
-            .paid(paid)
-            .build();
-    }
-
-    public static FeeEntity nextYear(final Boolean paid) {
-        return FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(Fees.NEXT_YEAR_MONTH)
-            .paid(paid)
-            .build();
-    }
-
-    public static FeeEntity notPaidAt(final Month month) {
+    public static FeeEntity at(final Month month) {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(YearMonth.of(Fees.YEAR, month))
-            .paid(false)
             .build();
     }
 
-    public static FeeEntity notPaidAt(final YearMonth yearMonth) {
-        return FeeEntity.builder()
-            .id(1L)
-            .memberId(1L)
-            .date(yearMonth)
-            .paid(false)
-            .build();
-    }
-
-    public static FeeEntity paid() {
+    public static FeeEntity atDate() {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.DATE)
-            .paid(true)
             .build();
     }
 
-    public static FeeEntity paidAt(final Month month) {
+    public static FeeEntity currentMonth() {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
-            .date(YearMonth.of(Fees.YEAR, month))
-            .paid(true)
+            .date(Fees.CURRENT_MONTH)
             .build();
     }
 
-    public static FeeEntity paidNextDate() {
+    public static FeeEntity currentMonthAlternative() {
+        return FeeEntity.builder()
+            .id(1L)
+            .memberId(2L)
+            .date(Fees.CURRENT_MONTH)
+            .build();
+    }
+
+    public static FeeEntity nextDate() {
         return FeeEntity.builder()
             .id(2L)
             .memberId(1L)
             .date(Fees.NEXT_DATE)
-            .paid(true)
             .build();
     }
 
-    public static FeeEntity previousMonth(final Boolean paid) {
+    public static FeeEntity nextMonth() {
+        return FeeEntity.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(Fees.NEXT_MONTH)
+            .build();
+    }
+
+    public static FeeEntity nextYear() {
+        return FeeEntity.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(Fees.NEXT_YEAR_MONTH)
+            .build();
+    }
+
+    public static FeeEntity previousMonth() {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.PREVIOUS_MONTH)
-            .paid(paid)
             .build();
     }
 
-    public static FeeEntity previousYear(final Boolean paid) {
+    public static FeeEntity previousYear() {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.PREVIOUS_YEAR_MONTH)
-            .paid(paid)
             .build();
     }
 
-    public static FeeEntity twoMonthsBack(final Boolean paid) {
+    public static FeeEntity twoMonthsBack() {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.TWO_MONTHS_BACK)
-            .paid(paid)
             .build();
     }
 
-    public static FeeEntity twoYearsBack(final Boolean paid) {
+    public static FeeEntity twoYearsBack() {
         return FeeEntity.builder()
             .id(1L)
             .memberId(1L)
             .date(Fees.TWO_YEARS_BACK)
-            .paid(paid)
             .build();
     }
 

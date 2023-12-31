@@ -315,7 +315,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeEntity toEntity(final FeeUpdate update) {
         return FeeEntity.builder()
-            .paid(update.getPaid())
             .build();
     }
 
@@ -325,7 +324,6 @@ public final class DefaultFeeService implements FeeService {
         fee = new FeeEntity();
         fee.setMemberId(memberNumber);
         fee.setDate(date);
-        fee.setPaid(true);
 
         return fee;
     }

@@ -18,9 +18,6 @@ public final class FeeAssertions {
             softly.assertThat(received.getDate())
                 .withFailMessage("Expected date '%s' but got '%s'", expected.getDate(), received.getDate())
                 .isEqualTo(expected.getDate());
-            softly.assertThat(received.getPaid())
-                .withFailMessage("Expected paid flag '%s' but got '%s'", expected.getPaid(), received.getPaid())
-                .isEqualTo(expected.getPaid());
         });
     }
 
