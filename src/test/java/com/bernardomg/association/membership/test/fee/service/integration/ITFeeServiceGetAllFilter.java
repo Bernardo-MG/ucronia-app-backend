@@ -139,7 +139,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(Month.JANUARY));
+            .containsExactly(Fees.paidAt(Month.JANUARY.getValue()));
     }
 
     @Test
@@ -161,7 +161,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(Month.DECEMBER));
+            .containsExactly(Fees.paidAt(Month.DECEMBER.getValue()));
     }
 
     @Test

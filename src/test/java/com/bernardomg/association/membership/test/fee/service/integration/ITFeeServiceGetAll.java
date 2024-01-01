@@ -78,10 +78,12 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(Fees.paidAt(Month.JANUARY), Fees.paidAt(Month.FEBRUARY), Fees.paidAt(Month.MARCH),
-                Fees.paidAt(Month.APRIL), Fees.paidAt(Month.MAY), Fees.paidAt(Month.JUNE), Fees.paidAt(Month.JULY),
-                Fees.paidAt(Month.AUGUST), Fees.paidAt(Month.SEPTEMBER), Fees.paidAt(Month.OCTOBER),
-                Fees.paidAt(Month.NOVEMBER), Fees.paidAt(Month.DECEMBER));
+            .containsExactly(Fees.paidAt(Month.JANUARY.getValue()), Fees.paidAt(Month.FEBRUARY.getValue()),
+                Fees.paidAt(Month.MARCH.getValue()), Fees.paidAt(Month.APRIL.getValue()),
+                Fees.paidAt(Month.MAY.getValue()), Fees.paidAt(Month.JUNE.getValue()),
+                Fees.paidAt(Month.JULY.getValue()), Fees.paidAt(Month.AUGUST.getValue()),
+                Fees.paidAt(Month.SEPTEMBER.getValue()), Fees.paidAt(Month.OCTOBER.getValue()),
+                Fees.paidAt(Month.NOVEMBER.getValue()), Fees.paidAt(Month.DECEMBER.getValue()));
     }
 
     @Test

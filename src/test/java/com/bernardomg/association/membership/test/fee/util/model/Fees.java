@@ -48,6 +48,17 @@ public final class Fees {
             .build();
     }
 
+    public static final Fee paidAt(final int month) {
+        return Fee.builder()
+            .memberNumber(1L)
+            .memberName("Member 1 Surname 1")
+            .date(YearMonth.of(FeeConstants.YEAR, month))
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex((long) month)
+            .build();
+    }
+
     public static final Fee paidAt(final long index, final Month month) {
         return Fee.builder()
             .memberNumber(index)
@@ -55,18 +66,7 @@ public final class Fees {
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(1L)
-            .build();
-    }
-
-    public static final Fee paidAt(final Month month) {
-        return Fee.builder()
-            .memberNumber(1L)
-            .memberName("Member 1 Surname 1")
-            .date(YearMonth.of(FeeConstants.YEAR, month))
-            .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(1L)
+            .transactionIndex(index)
             .build();
     }
 
