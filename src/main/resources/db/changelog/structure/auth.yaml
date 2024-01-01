@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: membership_auth
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: user_members
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_members_user
+                    references: users(id)
+              - column:
+                  name: member_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_members_member
+                    references: members(id)
