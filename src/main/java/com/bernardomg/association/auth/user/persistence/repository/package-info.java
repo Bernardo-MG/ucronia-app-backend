@@ -23,7 +23,7 @@
  */
 
 /**
- * User member controllers.
+ * User member repositories.
  */
 
-package com.bernardomg.association.auth.controller;
+package com.bernardomg.association.auth.user.persistence.repository;

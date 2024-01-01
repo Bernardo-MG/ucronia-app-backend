@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.persistence.model;
+package com.bernardomg.association.auth.user.persistence.model;
 
 import java.io.Serializable;
 

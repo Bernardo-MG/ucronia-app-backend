@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.auth.model;
+package com.bernardomg.association.auth.user.model;
 
 import lombok.Builder;
 import lombok.NonNull;

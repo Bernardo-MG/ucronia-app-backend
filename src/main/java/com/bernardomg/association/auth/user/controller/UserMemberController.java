@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.controller;
+package com.bernardomg.association.auth.user.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
@@ -36,8 +36,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.auth.model.UserMember;
-import com.bernardomg.association.auth.service.UserMemberService;
+import com.bernardomg.association.auth.user.model.UserMember;
+import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;

@@ -1,7 +1,7 @@
 
-package com.bernardomg.association.auth.service;
+package com.bernardomg.association.auth.user.service;
 
-import com.bernardomg.association.auth.model.UserMember;
+import com.bernardomg.association.auth.user.model.UserMember;
 
 public interface UserMemberService {
 
