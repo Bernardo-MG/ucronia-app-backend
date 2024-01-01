@@ -83,11 +83,10 @@ public class UserMemberController {
      *            member to assign
      * @return added permission
      */
-    @DeleteMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public void delete(@PathVariable("username") final String username,
-            @PathVariable("memberNumber") final long memberNumber) {
-        service.deleteMember(username, memberNumber);
+    public void delete(@PathVariable("username") final String username) {
+        service.deleteMember(username);
     }
 
     /**

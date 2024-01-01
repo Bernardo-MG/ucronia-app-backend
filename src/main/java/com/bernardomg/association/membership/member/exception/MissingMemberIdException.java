@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.member.existence;
+package com.bernardomg.association.membership.member.exception;
 
 import com.bernardomg.exception.MissingIdException;
 

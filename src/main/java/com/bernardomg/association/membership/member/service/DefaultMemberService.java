@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.model.MemberQuery;

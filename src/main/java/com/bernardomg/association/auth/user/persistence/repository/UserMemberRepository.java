@@ -27,6 +27,5 @@ package com.bernardomg.association.auth.user.persistence.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.auth.user.persistence.model.UserMemberEntity;
-import com.bernardomg.association.auth.user.persistence.model.UserMemberKey;
 
-public interface UserMemberRepository extends JpaRepository<UserMemberEntity, UserMemberKey> {}
+public interface UserMemberRepository extends JpaRepository<UserMemberEntity, Long> {}

@@ -9,7 +9,7 @@ public interface UserMemberService {
 
     public UserMember assignMember(final String username, final long memberId);
 
-    public void deleteMember(final String username, final long memberId);
+    public void deleteMember(final String username);
 
     public Optional<UserMember> getMember(final String username);
 

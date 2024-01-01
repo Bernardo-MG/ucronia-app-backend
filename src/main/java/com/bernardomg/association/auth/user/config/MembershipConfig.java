@@ -22,25 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.persistence.model;
+package com.bernardomg.association.auth.user.config;
 
-import java.io.Serializable;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
+import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public class UserMemberKey implements Serializable {
+@Configuration
+public class MembershipConfig {
 
-    private static final long serialVersionUID = -7043681829476040247L;
+    public MembershipConfig() {
+        super();
+    }
 
-    private Long              memberId;
-
-    private Long              userId;
+    @Bean("userMemberService")
+    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
+            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
+        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    }
 
 }

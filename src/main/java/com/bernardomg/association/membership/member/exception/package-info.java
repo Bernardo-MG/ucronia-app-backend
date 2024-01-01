@@ -26,4 +26,4 @@
  * Fee exceptions.
  */
 
-package com.bernardomg.association.membership.member.existence;
+package com.bernardomg.association.membership.member.exception;

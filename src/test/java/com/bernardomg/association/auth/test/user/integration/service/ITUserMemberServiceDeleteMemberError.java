@@ -34,8 +34,6 @@ import com.bernardomg.association.auth.test.user.config.ValidUser;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.user.exception.MissingUserMemberIdException;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,24 +54,11 @@ class ITUserMemberServiceDeleteMemberError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.deleteMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.deleteMember(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserMemberIdException.class);
-    }
-
-    @Test
-    @DisplayName("With no user, it throws an exception")
-    void testDeleteMember_NoUser() {
-        final ThrowingCallable execution;
-
-        // WHEN
-        execution = () -> service.deleteMember(UserConstants.USERNAME, MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }

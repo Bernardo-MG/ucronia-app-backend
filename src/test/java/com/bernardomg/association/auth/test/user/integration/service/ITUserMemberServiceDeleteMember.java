@@ -33,7 +33,6 @@ import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,7 +55,7 @@ class ITUserMemberServiceDeleteMember {
     void testDeleteMember() {
 
         // WHEN
-        service.deleteMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        service.deleteMember(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(userMemberRepository.count())
