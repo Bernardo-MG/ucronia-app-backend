@@ -22,25 +22,8 @@
  * SOFTWARE.
  */
 
+/**
+ * User member persistence model.
+ */
+
 package com.bernardomg.association.auth.persistence.model;
-
-import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public class UserMemberKey implements Serializable {
-
-    private static final long serialVersionUID = -7043681829476040247L;
-
-    private Long              memberId;
-
-    private Long              userId;
-
-}

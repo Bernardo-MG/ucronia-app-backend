@@ -30,11 +30,11 @@ public class UserMemberEntity implements Serializable {
     private static final long serialVersionUID = -3540074544521251838L;
 
     @Id
-    @Column(name = "user_id", nullable = false, unique = true)
-    private Long              userId;
-
-    @Id
     @Column(name = "member_id", nullable = false, unique = true)
     private Long              memberId;
+
+    @Id
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long              userId;
 
 }
