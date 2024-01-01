@@ -27,6 +27,5 @@ package com.bernardomg.association.membership.fee.persistence.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
-import com.bernardomg.association.membership.fee.persistence.model.FeePaymentKey;
 
-public interface FeePaymentRepository extends JpaRepository<FeePaymentEntity, FeePaymentKey> {}
+public interface FeePaymentRepository extends JpaRepository<FeePaymentEntity, Long> {}

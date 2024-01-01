@@ -249,7 +249,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @DisplayName("When a fee is paid with multiple dates, it returns the created data")
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedTransaction_ReturnedData() {
