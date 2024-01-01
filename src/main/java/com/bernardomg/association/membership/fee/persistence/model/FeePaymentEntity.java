@@ -6,7 +6,6 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 @Entity(name = "FeePayment")
 @Table(name = "fee_payments")
-@IdClass(FeePaymentKey.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +31,6 @@ public class FeePaymentEntity implements Serializable {
     @Column(name = "fee_id", nullable = false, unique = true)
     private Long              feeId;
 
-    @Id
     @Column(name = "transaction_id", nullable = false, unique = true)
     private Long              transactionId;
 
