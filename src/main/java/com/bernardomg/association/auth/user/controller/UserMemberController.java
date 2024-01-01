@@ -98,7 +98,8 @@ public class UserMemberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     public UserMember read(@PathVariable("userId") final long userId) {
-        return service.readMember(userId);
+        return service.readMember(userId)
+                .orElse(null);
         // TODO: add caches
     }
 
