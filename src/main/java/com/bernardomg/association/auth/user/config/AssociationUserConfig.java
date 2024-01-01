@@ -34,9 +34,9 @@ import com.bernardomg.association.membership.member.persistence.repository.Membe
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 
 @Configuration
-public class MembershipConfig {
+public class AssociationUserConfig {
 
-    public MembershipConfig() {
+    public AssociationUserConfig() {
         super();
     }
 
