@@ -95,7 +95,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    unique: true
                     foreignKeyName: fk_fee_payments_transaction
                     references: transactions(id)
       modifySql:
