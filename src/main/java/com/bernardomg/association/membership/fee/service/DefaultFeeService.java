@@ -21,8 +21,8 @@ import com.bernardomg.association.funds.transaction.persistence.model.Transactio
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeChange;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.FeesPayment;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
@@ -171,7 +171,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee update(final long memberNumber, final YearMonth date, final FeeUpdate fee) {
+    public final Fee update(final long memberNumber, final YearMonth date, final FeeChange fee) {
         final Optional<FeeEntity>    found;
         final Optional<MemberEntity> member;
         final FeeEntity              entity;
@@ -198,7 +198,10 @@ public final class DefaultFeeService implements FeeService {
             .getId());
         entity.setMemberId(member.get()
             .getId());
-        entity.setDate(date);
+        // TODO: If the date defines the data. Does it make sense to allow changing it?
+        if (entity.getDate() == null) {
+            entity.setDate(date);
+        }
 
         updated = feeRepository.save(entity);
 
@@ -315,9 +318,9 @@ public final class DefaultFeeService implements FeeService {
             .build();
     }
 
-    private final FeeEntity toEntity(final FeeUpdate update) {
-        // FIXME: Nothing is being updated?
+    private final FeeEntity toEntity(final FeeChange update) {
         return FeeEntity.builder()
+            .date(update.getDate())
             .build();
     }
 

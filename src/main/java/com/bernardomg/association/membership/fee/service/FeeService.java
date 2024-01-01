@@ -9,8 +9,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeChange;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.FeeUpdate;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -77,6 +77,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public Fee update(final long memberNumber, final YearMonth date, final FeeUpdate fee);
+    public Fee update(final long memberNumber, final YearMonth date, final FeeChange fee);
 
 }
