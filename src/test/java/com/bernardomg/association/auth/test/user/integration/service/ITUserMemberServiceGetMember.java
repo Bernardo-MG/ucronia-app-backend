@@ -51,7 +51,7 @@ class ITUserMemberServiceGetMember {
     @Test
     @DisplayName("With a member assigned to the user, it returns the user")
     @ValidUserWithMember
-    void testGetOne() {
+    void testGetMember() {
         final Optional<UserMember> member;
 
         // WHEN

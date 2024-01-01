@@ -22,40 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.test.user.integration.service;
+package com.bernardomg.association.auth.user.exception;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bernardomg.exception.MissingIdException;
 
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+/**
+ * Missing user member exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingUserMemberIdException extends MissingIdException {
 
-@IntegrationTest
-@DisplayName("User member service - get member - errors")
-class ITUserMemberServiceGetMemberError {
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    @Autowired
-    private UserMemberService service;
-
-    public ITUserMemberServiceGetMemberError() {
-        super();
-    }
-
-    @Test
-    @DisplayName("With no user, it throws an exception")
-    void testGetMember() {
-        final ThrowingCallable execution;
-
-        // WHEN
-        execution = () -> service.getMember(1L);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
+    public MissingUserMemberIdException(final String username) {
+        super("user", username);
     }
 
 }

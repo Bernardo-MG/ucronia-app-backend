@@ -25,37 +25,41 @@
 package com.bernardomg.association.auth.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - get member - errors")
-class ITUserMemberServiceGetMemberError {
+@DisplayName("User member service - delete member")
+class ITUserMemberServiceDeleteMember {
 
     @Autowired
-    private UserMemberService service;
+    private UserMemberService    service;
 
-    public ITUserMemberServiceGetMemberError() {
+    @Autowired
+    private UserMemberRepository userMemberRepository;
+
+    public ITUserMemberServiceDeleteMember() {
         super();
     }
 
     @Test
-    @DisplayName("With no user, it throws an exception")
-    void testGetMember() {
-        final ThrowingCallable execution;
+    @DisplayName("With a member assigned to the user, it removes the member")
+    @ValidUserWithMember
+    void testDeleteMember() {
 
         // WHEN
-        execution = () -> service.getMember(1L);
+        service.deleteMember(1L, 1L);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
+        Assertions.assertThat(userMemberRepository.count())
+            .as("user members")
+            .isZero();
     }
 
 }

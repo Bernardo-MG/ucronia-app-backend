@@ -30,28 +30,44 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.user.exception.MissingUserMemberIdException;
 import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - get member - errors")
-class ITUserMemberServiceGetMemberError {
+@DisplayName("User member service - delete member - errors")
+class ITUserMemberServiceDeleteMemberError {
 
     @Autowired
     private UserMemberService service;
 
-    public ITUserMemberServiceGetMemberError() {
+    public ITUserMemberServiceDeleteMemberError() {
         super();
     }
 
     @Test
-    @DisplayName("With no user, it throws an exception")
-    void testGetMember() {
+    @DisplayName("With an invalid member, it throws an exception")
+    @ValidUserWithMember
+    void testDeleteMember_InvalidMember() {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.getMember(1L);
+        execution = () -> service.deleteMember(1L, 2L);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserMemberIdException.class);
+    }
+
+    @Test
+    @DisplayName("With no user, it throws an exception")
+    void testDeleteMember_NoUser() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> service.deleteMember(1L, 1L);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
