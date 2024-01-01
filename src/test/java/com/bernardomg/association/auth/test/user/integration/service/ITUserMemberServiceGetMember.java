@@ -31,42 +31,35 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.test.user.util.model.UserMembers;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.membership.fee.model.Fee;
-import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
-import com.bernardomg.association.membership.test.fee.config.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
-import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - read member")
-class ITUserMemberServiceReadMember {
+@DisplayName("User member service - get member")
+class ITUserMemberServiceGetMember {
 
     @Autowired
     private UserMemberService service;
 
-    public ITUserMemberServiceReadMember() {
+    public ITUserMemberServiceGetMember() {
         super();
     }
 
     @Test
     @DisplayName("With a member assigned to the user, it returns the user")
-    @NoSurnameMember
-    @PaidFee
+    @ValidUserWithMember
     void testGetOne() {
         final Optional<UserMember> member;
 
         // WHEN
-        member = service.readMember(1L);
+        member = service.getMember(1L);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(Fees.noSurname());
+            .contains(UserMembers.valid());
     }
 
 }
