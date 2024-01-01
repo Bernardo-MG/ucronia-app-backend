@@ -22,67 +22,63 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.fee.service.integration;
+package com.bernardomg.association.auth.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
-import com.bernardomg.association.membership.fee.model.FeeChange;
-import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
-import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
-import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
+import com.bernardomg.association.auth.test.user.config.ValidUser;
+import com.bernardomg.association.auth.test.user.util.model.UserConstants;
+import com.bernardomg.association.auth.test.user.util.model.UserMembers;
+import com.bernardomg.association.auth.user.model.UserMember;
+import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Fee service - update - errors")
-class ITFeeServiceUpdateError {
+@DisplayName("User member service - assign member")
+class ITUserMemberServiceAssignMember {
 
     @Autowired
-    private FeeService service;
+    private UserMemberService    service;
 
-    public ITFeeServiceUpdateError() {
+    @Autowired
+    private UserMemberRepository userMemberRepository;
+
+    public ITUserMemberServiceAssignMember() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing fee, an exception is thrown")
+    @DisplayName("With valid data, the relationship is persisted")
+    @ValidUser
     @ValidMember
-    void testUpdate_NotExistingFee_Exception() {
-        final FeeChange        feeRequest;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        feeRequest = FeesUpdate.nextMonth();
-
+    void testAssignMember_PersistedData() {
         // WHEN
-        execution = () -> service.update(1L, FeeConstants.DATE, feeRequest);
+        service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeIdException.class);
+        Assertions.assertThat(userMemberRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
-    @DisplayName("With a not existing member, an exception is thrown")
-    void testUpdate_NotExistingMember_Exception() {
-        final FeeChange        feeRequest;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        feeRequest = FeesUpdate.nextMonth();
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUser
+    @ValidMember
+    void testAssignMember_ReturnedData() {
+        final UserMember member;
 
         // WHEN
-        execution = () -> service.update(1L, FeeConstants.DATE, feeRequest);
+        member = service.assignMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
     }
 
 }

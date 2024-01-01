@@ -23,7 +23,7 @@
  */
 
 /**
- * Fee exceptions.
+ * User member repositories.
  */
 
-package com.bernardomg.association.membership.member.existence;
+package com.bernardomg.association.auth.user.persistence.repository;

@@ -32,7 +32,7 @@ import com.bernardomg.association.membership.fee.persistence.repository.FeeRepos
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.membership.fee.validation.CreateFeeValidator;
-import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.validation.Validator;

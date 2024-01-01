@@ -22,40 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+package com.bernardomg.association.auth.test.user.integration.service;
+
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
-import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.test.user.util.model.UserConstants;
+import com.bernardomg.association.auth.test.user.util.model.UserMembers;
+import com.bernardomg.association.auth.user.model.UserMember;
+import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - get one - Errors")
-class ITMemberServiceGetOneError {
+@DisplayName("User member service - get member")
+class ITUserMemberServiceGetMember {
 
     @Autowired
-    private MemberService service;
+    private UserMemberService service;
 
-    public ITMemberServiceGetOneError() {
+    public ITUserMemberServiceGetMember() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+    @DisplayName("With a member assigned to the user, it returns the user")
+    @ValidUserWithMember
+    void testGetMember() {
+        final Optional<UserMember> member;
 
         // WHEN
-        execution = () -> service.getOne(1L);
+        member = service.getMember(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberIdException.class);
+        Assertions.assertThat(member)
+            .contains(UserMembers.valid());
     }
 
 }

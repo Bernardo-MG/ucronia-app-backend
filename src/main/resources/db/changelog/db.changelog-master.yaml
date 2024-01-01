@@ -11,3 +11,6 @@ databaseChangeLog:
   # Security
   - include:
       file: classpath:db/changelog/auth/initialize.yaml
+  - include:
+      file: structure/auth.yaml
+      relativeToChangelogFile: true

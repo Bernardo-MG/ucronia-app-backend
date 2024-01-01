@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.test.member.service.integration;
+package com.bernardomg.association.auth.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -30,32 +30,52 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.test.user.config.ValidUser;
+import com.bernardomg.association.auth.test.user.util.model.UserConstants;
+import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
-import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Member service - get one - Errors")
-class ITMemberServiceGetOneError {
+@DisplayName("User member service - update member - errors")
+class ITUserMemberServiceUpdateMemberError {
 
     @Autowired
-    private MemberService service;
+    private UserMemberService service;
 
-    public ITMemberServiceGetOneError() {
+    public ITUserMemberServiceUpdateMemberError() {
         super();
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testGetOne_NotExisting() {
+    @DisplayName("With no member, it throws an exception")
+    @ValidUser
+    void testAssignMember_NoMember() {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.getOne(1L);
+        execution = () -> service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
+    }
+
+    @Test
+    @DisplayName("With no user, it throws an exception")
+    @ValidMember
+    void testAssignMember_NoUser() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }
