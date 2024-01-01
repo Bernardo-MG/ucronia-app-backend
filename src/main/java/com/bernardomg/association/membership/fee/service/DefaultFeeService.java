@@ -20,10 +20,10 @@ import com.bernardomg.association.configuration.source.AssociationConfigurationS
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
+import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeChange;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.FeesPayment;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
 import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
@@ -100,7 +100,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable) {
+    public final Iterable<Fee> getAll(final FeeQuery query, final Pageable pageable) {
         final Page<MemberFeeEntity>                    page;
         final Optional<Specification<MemberFeeEntity>> spec;
         // TODO: Test reading with no name or surname
@@ -119,7 +119,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<MemberFee> getOne(final long memberId, final YearMonth date) {
+    public final Optional<Fee> getOne(final long memberId, final YearMonth date) {
         final Optional<MemberFeeEntity> found;
         final Optional<FeeEntity>       fee;
 
@@ -138,7 +138,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<MemberFee> payFees(final long memberNumber, final LocalDate payDate,
+    public final Collection<Fee> payFees(final long memberNumber, final LocalDate payDate,
             final Collection<YearMonth> feeDates) {
         final Collection<FeeEntity>  fees;
         final Optional<MemberEntity> member;
@@ -171,13 +171,13 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final MemberFee update(final long memberNumber, final YearMonth date, final FeeUpdate fee) {
+    public final Fee update(final long memberNumber, final YearMonth date, final FeeChange fee) {
         final Optional<FeeEntity>    found;
         final Optional<MemberEntity> member;
         final FeeEntity              entity;
         final FeeEntity              updated;
-        final Optional<MemberFee>    read;
-        final MemberFee              result;
+        final Optional<Fee>          read;
+        final Fee                    result;
 
         log.debug("Updating fee for {} in {} using data {}", memberNumber, date, fee);
 
@@ -198,7 +198,10 @@ public final class DefaultFeeService implements FeeService {
             .getId());
         entity.setMemberId(member.get()
             .getId());
-        entity.setDate(date);
+        // TODO: If the date defines the data. Does it make sense to allow changing it?
+        if (entity.getDate() == null) {
+            entity.setDate(date);
+        }
 
         updated = feeRepository.save(entity);
 
@@ -208,7 +211,7 @@ public final class DefaultFeeService implements FeeService {
         if (read.isPresent()) {
             result = read.get();
         } else {
-            result = MemberFee.builder()
+            result = Fee.builder()
                 .build();
         }
 
@@ -227,7 +230,7 @@ public final class DefaultFeeService implements FeeService {
         }
     }
 
-    private final List<MemberFee> readAll(final Collection<Long> ids) {
+    private final List<Fee> readAll(final Collection<Long> ids) {
         final List<MemberFeeEntity> found;
 
         found = memberFeeRepository.findAllById(ids);
@@ -304,19 +307,20 @@ public final class DefaultFeeService implements FeeService {
         feePaymentRepository.saveAll(payments);
     }
 
-    private final MemberFee toDto(final MemberFeeEntity entity) {
-        return MemberFee.builder()
+    private final Fee toDto(final MemberFeeEntity entity) {
+        return Fee.builder()
             .memberNumber(entity.getMemberId())
             .memberName(entity.getMemberName())
             .date(entity.getDate())
             .paid(entity.getPaid())
             .paymentDate(entity.getPaymentDate())
+            .transactionIndex(entity.getTransactionIndex())
             .build();
     }
 
-    private final FeeEntity toEntity(final FeeUpdate update) {
-        // FIXME: Nothing is being updated?
+    private final FeeEntity toEntity(final FeeChange update) {
         return FeeEntity.builder()
+            .date(update.getDate())
             .build();
     }
 

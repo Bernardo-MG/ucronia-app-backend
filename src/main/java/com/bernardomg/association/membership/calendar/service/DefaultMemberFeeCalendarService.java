@@ -141,13 +141,13 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
     private final MemberFeeCalendar toFeeYear(final Long member, final Integer year,
             final Collection<MemberFeeEntity> fees) {
-        final Collection<FeeMonth> months;
-        final MemberFeeEntity      row;
-        final String               name;
-        final boolean              active;
-        final YearMonth            validStart;
-        final YearMonth            validEnd;
-        final long                 memberNumber;
+        final Collection<FeeMonth>   months;
+        final MemberFeeEntity        row;
+        final String                 name;
+        final boolean                active;
+        final YearMonth              validStart;
+        final YearMonth              validEnd;
+        final long                   memberNumber;
         final Optional<MemberEntity> read;
 
         months = fees.stream()
@@ -165,8 +165,10 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         active = memberRepository.isActive(member, validStart, validEnd);
 
         read = memberRepository.findByNumber(member);
-        if(read.isPresent()) {
-            memberNumber = memberRepository.findByNumber(member).get().getNumber();
+        if (read.isPresent()) {
+            memberNumber = memberRepository.findByNumber(member)
+                .get()
+                .getNumber();
         } else {
             memberNumber = -1;
         }

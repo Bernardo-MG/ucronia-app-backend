@@ -38,7 +38,7 @@ import com.bernardomg.association.membership.test.calendar.util.assertion.Member
 import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -69,7 +69,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -90,7 +90,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -111,7 +111,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.PREVIOUS_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.PREVIOUS_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -132,7 +132,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -153,7 +153,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -174,7 +174,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.PREVIOUS_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.PREVIOUS_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -195,7 +195,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -228,7 +228,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.NEXT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -258,7 +258,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -277,7 +277,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.CURRENT_YEAR.getValue(), MemberStatus.INACTIVE, sort);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -298,7 +298,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.PREVIOUS_MONTH.getYear(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.PREVIOUS_MONTH.getYear(), MemberStatus.INACTIVE, sort);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -331,7 +331,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.PREVIOUS_MONTH.getYear(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.PREVIOUS_MONTH.getYear(), MemberStatus.INACTIVE, sort);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -364,7 +364,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.TWO_MONTHS_BACK.getYear(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.TWO_MONTHS_BACK.getYear(), MemberStatus.INACTIVE, sort);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -397,7 +397,7 @@ class ITFeeCalendarServiceGetYearFilterInactive {
         sort = Sort.unsorted();
 
         // WHEN
-        calendars = service.getYear(Fees.TWO_MONTHS_BACK.getYear(), MemberStatus.INACTIVE, sort);
+        calendars = service.getYear(FeeConstants.TWO_MONTHS_BACK.getYear(), MemberStatus.INACTIVE, sort);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {

@@ -31,12 +31,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.MemberFee;
+import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -57,14 +57,14 @@ class ITFeeServiceGetOne {
     @NoSurnameMember
     @PaidFee
     void testGetOne_NoSurname() {
-        final Optional<MemberFee> fee;
+        final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, Fees.DATE);
+        fee = service.getOne(1L, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(MemberFees.noSurname());
+            .contains(Fees.noSurname());
     }
 
     @Test
@@ -72,14 +72,14 @@ class ITFeeServiceGetOne {
     @ValidMember
     @NotPaidFee
     void testGetOne_NotPaid() {
-        final Optional<MemberFee> fee;
+        final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, Fees.DATE);
+        fee = service.getOne(1L, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(MemberFees.notPaid());
+            .contains(Fees.notPaid());
     }
 
     @Test
@@ -87,14 +87,14 @@ class ITFeeServiceGetOne {
     @ValidMember
     @PaidFee
     void testGetOne_Paid() {
-        final Optional<MemberFee> fee;
+        final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, Fees.DATE);
+        fee = service.getOne(1L, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(MemberFees.paid());
+            .contains(Fees.paid());
     }
 
 }

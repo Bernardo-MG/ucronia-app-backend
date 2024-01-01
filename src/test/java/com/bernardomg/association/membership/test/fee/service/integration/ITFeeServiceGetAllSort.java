@@ -37,12 +37,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.BadSqlGrammarException;
 
+import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -62,9 +62,9 @@ class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
     void testGetAll_Date_Asc() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "date");
@@ -77,17 +77,16 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
-                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
-                MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
     void testGetAll_Date_Desc() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "date");
@@ -100,17 +99,16 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE), MemberFees.paidAt(4, Month.MAY),
-                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(2, Month.MARCH),
-                MemberFees.paidAt(1, Month.FEBRUARY));
+            .containsExactly(Fees.notPaidAt(5, Month.JUNE), Fees.paidAt(4, Month.MAY), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(2, Month.MARCH), Fees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetAll_Name_Asc() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "memberName");
@@ -123,17 +121,16 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
-                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
-                MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     void testGetAll_Name_Desc() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "memberName");
@@ -146,9 +143,8 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE), MemberFees.paidAt(4, Month.MAY),
-                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(2, Month.MARCH),
-                MemberFees.paidAt(1, Month.FEBRUARY));
+            .containsExactly(Fees.notPaidAt(5, Month.JUNE), Fees.paidAt(4, Month.MAY), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(2, Month.MARCH), Fees.paidAt(1, Month.FEBRUARY));
     }
 
     @Test
@@ -176,9 +172,9 @@ class ITFeeServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
     void testGetAll_Paid_Asc() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "paid");
@@ -191,16 +187,16 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE), MemberFees.paidAt(1, Month.FEBRUARY),
-                MemberFees.paidAt(2, Month.MARCH), MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY));
+            .containsExactly(Fees.notPaidAt(5, Month.JUNE), Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH),
+                Fees.paidAt(3, Month.APRIL), Fees.paidAt(4, Month.MAY));
     }
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
     void testGetAll_Paid_Desc() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "paid");
@@ -213,9 +209,8 @@ class ITFeeServiceGetAllSort {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(1, Month.FEBRUARY), MemberFees.paidAt(2, Month.MARCH),
-                MemberFees.paidAt(3, Month.APRIL), MemberFees.paidAt(4, Month.MAY),
-                MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
     }
 
 }

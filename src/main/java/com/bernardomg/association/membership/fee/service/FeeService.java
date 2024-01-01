@@ -8,9 +8,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeChange;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.FeeUpdate;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 
 /**
  * Fee service. Supports all the CRUD operations.
@@ -39,7 +39,7 @@ public interface FeeService {
      *            pagination to apply
      * @return all the fees matching the sample
      */
-    public Iterable<MemberFee> getAll(final FeeQuery query, final Pageable pageable);
+    public Iterable<Fee> getAll(final FeeQuery query, final Pageable pageable);
 
     /**
      * Returns the fee for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -50,7 +50,7 @@ public interface FeeService {
      *            date of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<MemberFee> getOne(final long memberNumber, final YearMonth date);
+    public Optional<Fee> getOne(final long memberNumber, final YearMonth date);
 
     /**
      * Pays fees for a member
@@ -63,7 +63,7 @@ public interface FeeService {
      *            dates for the fees being paid
      * @return all the paid fees
      */
-    public Collection<MemberFee> payFees(final long memberNumber, final LocalDate payDate,
+    public Collection<Fee> payFees(final long memberNumber, final LocalDate payDate,
             final Collection<YearMonth> feeDates);
 
     /**
@@ -77,6 +77,6 @@ public interface FeeService {
      *            new data for the fee
      * @return the updated fee
      */
-    public MemberFee update(final long memberNumber, final YearMonth date, final FeeUpdate fee);
+    public Fee update(final long memberNumber, final YearMonth date, final FeeChange fee);
 
 }

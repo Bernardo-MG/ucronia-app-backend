@@ -49,10 +49,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.cache.FeeCaches;
+import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeChange;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.FeeUpdate;
 import com.bernardomg.association.membership.fee.model.FeesPaymentRequest;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -89,7 +89,7 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
-    public Collection<MemberFee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
+    public Collection<Fee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
         return service.payFees(fee.getMemberNumber(), fee.getPaymentDate(), fee.getFeeDates());
     }
 
@@ -112,14 +112,14 @@ public class FeeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEES)
-    public Iterable<MemberFee> readAll(@Valid final FeeQuery query, final Pageable pageable) {
+    public Iterable<Fee> readAll(@Valid final FeeQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
     @GetMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
-    public MemberFee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+    public Fee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.getOne(memberNumber, date)
             .orElse(null);
@@ -136,8 +136,8 @@ public class FeeController {
                     // Member caches
                     MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
                     MembershipCaches.CALENDAR_RANGE, MembershipCaches.MONTHLY_BALANCE }, allEntries = true) })
-    public MemberFee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
-            @PathVariable("memberNumber") final long memberNumber, @Valid @RequestBody final FeeUpdate fee) {
+    public Fee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
+            @PathVariable("memberNumber") final long memberNumber, @Valid @RequestBody final FeeChange fee) {
         return service.update(memberNumber, date, fee);
     }
 

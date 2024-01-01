@@ -11,7 +11,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public final class MemberFee {
+public final class Fee {
 
     @JsonFormat(pattern = "yyyy-MM")
     private final YearMonth date;
@@ -24,5 +24,7 @@ public final class MemberFee {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDate paymentDate;
+
+    private final Long      transactionIndex;
 
 }

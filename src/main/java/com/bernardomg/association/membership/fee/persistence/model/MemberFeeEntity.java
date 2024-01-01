@@ -58,4 +58,7 @@ public class MemberFeeEntity implements Serializable {
     @Column(name = "payment_date", nullable = false)
     private LocalDate         paymentDate;
 
+    @Column(name = "transaction_index", nullable = false, unique = true)
+    private Long              transactionIndex;
+
 }

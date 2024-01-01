@@ -1,6 +1,10 @@
 
 package com.bernardomg.association.membership.fee.model;
 
+import java.time.YearMonth;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeeUpdate {
+public final class FeeChange {
 
-    private String name;
-
-    private String surname;
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private YearMonth date;
 
 }

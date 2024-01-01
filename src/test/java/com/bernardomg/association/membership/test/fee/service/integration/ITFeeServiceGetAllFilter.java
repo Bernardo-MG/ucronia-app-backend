@@ -33,13 +33,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.MemberFee;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -60,9 +60,9 @@ class ITFeeServiceGetAllFilter {
     @MultipleMembers
     @MultipleFees
     void testGetAll_EndDate() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -74,7 +74,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paid());
+            .containsExactly(Fees.paid());
     }
 
     @Test
@@ -82,9 +82,9 @@ class ITFeeServiceGetAllFilter {
     @MultipleMembers
     @MultipleFees
     void testGetAll_EndDate_NotInRange() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -103,9 +103,9 @@ class ITFeeServiceGetAllFilter {
     @MultipleMembers
     @MultipleFees
     void testGetAll_InDate() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -117,7 +117,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(2, Month.MARCH));
+            .containsExactly(Fees.paidAt(2, Month.MARCH));
     }
 
     @Test
@@ -125,9 +125,9 @@ class ITFeeServiceGetAllFilter {
     @ValidMember
     @FeeFullYear
     void testGetAll_InDate_FirstDay_Data() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -139,7 +139,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(Month.JANUARY));
+            .containsExactly(Fees.paidAt(Month.JANUARY.getValue()));
     }
 
     @Test
@@ -147,9 +147,9 @@ class ITFeeServiceGetAllFilter {
     @ValidMember
     @FeeFullYear
     void testGetAll_InDate_LastDay_Data() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -161,7 +161,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paidAt(Month.DECEMBER));
+            .containsExactly(Fees.paidAt(Month.DECEMBER.getValue()));
     }
 
     @Test
@@ -169,9 +169,9 @@ class ITFeeServiceGetAllFilter {
     @MultipleMembers
     @MultipleFees
     void testGetAll_InDate_NotExisting() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -191,9 +191,9 @@ class ITFeeServiceGetAllFilter {
     @MultipleMembers
     @MultipleFees
     void testGetAll_StartDate() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -205,7 +205,7 @@ class ITFeeServiceGetAllFilter {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
@@ -213,9 +213,9 @@ class ITFeeServiceGetAllFilter {
     @MultipleMembers
     @MultipleFees
     void testGetAll_StartDate_NotInRange() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 

@@ -29,15 +29,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.FeeUpdate;
+import com.bernardomg.association.membership.fee.model.FeeChange;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -61,13 +61,13 @@ class ITFeeServiceUpdate {
     @ValidMember
     @PaidFee
     void testUpdate_AddsNoEntity() {
-        final FeeUpdate feeRequest;
+        final FeeChange change;
 
         // GIVEN
-        feeRequest = FeesUpdate.name();
+        change = FeesUpdate.nextMonth();
 
         // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
+        service.update(1L, FeeConstants.DATE, change);
 
         // THEN
         Assertions.assertThat(repository.count())
@@ -75,24 +75,24 @@ class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a name change, the change is persisted")
+    @DisplayName("With a date change, the change is persisted")
     @ValidMember
     @NotPaidFee
     void testUpdate_Pay_PersistedData() {
-        final FeeUpdate feeRequest;
+        final FeeChange change;
         final FeeEntity fee;
 
         // GIVEN
-        feeRequest = FeesUpdate.name();
+        change = FeesUpdate.nextMonth();
 
         // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
+        service.update(1L, FeeConstants.DATE, change);
         fee = repository.findAll()
             .iterator()
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, FeeEntities.atDate());
+        FeeAssertions.isEqualTo(fee, FeeEntities.nextMonth());
     }
 
 }
