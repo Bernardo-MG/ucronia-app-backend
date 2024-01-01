@@ -4,6 +4,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: security
             tableName: user_members
             columns:
               - column:
@@ -13,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
                     foreignKeyName: fk_user_members_user
-                    references: users(id)
+                    references: security.users(id)
               - column:
                   name: member_id
                   type: bigint
