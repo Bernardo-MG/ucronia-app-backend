@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -51,7 +52,7 @@ class ITUserMemberServiceGetMemberError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.getMember(1L);
+        execution = () -> service.getMember(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

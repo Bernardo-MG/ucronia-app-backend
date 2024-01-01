@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.user.exception.MissingUserMemberIdException;
 import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
@@ -54,7 +55,7 @@ class ITUserMemberServiceDeleteMemberError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.deleteMember(1L, 2L);
+        execution = () -> service.deleteMember(UserConstants.USERNAME, 2L);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -67,7 +68,7 @@ class ITUserMemberServiceDeleteMemberError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.deleteMember(1L, 1L);
+        execution = () -> service.deleteMember(UserConstants.USERNAME, 1L);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

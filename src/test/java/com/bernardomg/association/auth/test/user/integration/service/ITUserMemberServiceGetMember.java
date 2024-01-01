@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.test.user.util.model.UserMembers;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.service.UserMemberService;
@@ -55,7 +56,7 @@ class ITUserMemberServiceGetMember {
         final Optional<UserMember> member;
 
         // WHEN
-        member = service.getMember(1L);
+        member = service.getMember(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(member)

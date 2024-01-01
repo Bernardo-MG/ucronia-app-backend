@@ -48,7 +48,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user/{userId}/member")
+@RequestMapping("/security/user/{username}/member")
 @AllArgsConstructor
 @Transactional
 public class UserMemberController {
@@ -61,44 +61,46 @@ public class UserMemberController {
     /**
      * Assigns a member to a user.
      *
-     * @param userId
-     *            user to assign the member
-     * @param memberId
+     * @param username
+     *            username of the user to assign the member
+     * @param memberNumber
      *            member to assign
      * @return added permission
      */
-    @PostMapping(path = "/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public UserMember assign(@PathVariable("userId") final long userId, @PathVariable("memberId") final long memberId) {
-        return service.assignMember(userId, memberId);
+    public UserMember assign(@PathVariable("username") final String username,
+            @PathVariable("memberNumber") final long memberNumber) {
+        return service.assignMember(username, memberNumber);
     }
 
     /**
      * Removes the member assigned to a user.
      *
-     * @param userId
-     *            user to assign the member
-     * @param memberId
+     * @param username
+     *            username of the user to delete the member
+     * @param memberNumber
      *            member to assign
      * @return added permission
      */
-    @DeleteMapping(path = "/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public void delete(@PathVariable("userId") final long userId, @PathVariable("memberId") final long memberId) {
-        service.deleteMember(userId, memberId);
+    public void delete(@PathVariable("username") final String username,
+            @PathVariable("memberNumber") final long memberNumber) {
+        service.deleteMember(username, memberNumber);
     }
 
     /**
      * Reads the member assigned to a user.
      *
-     * @param userId
-     *            user to assign the member
+     * @param username
+     *            username of the user to read the member
      * @return added permission
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    public UserMember read(@PathVariable("userId") final long userId) {
-        return service.getMember(userId)
+    public UserMember read(@PathVariable("username") final String username) {
+        return service.getMember(username)
             .orElse(null);
         // TODO: add caches
     }
@@ -106,16 +108,17 @@ public class UserMemberController {
     /**
      * Updates the member assigned to a user.
      *
-     * @param userId
-     *            user to assign the member
-     * @param memberId
+     * @param username
+     *            username of the user to assign the member
+     * @param memberNumber
      *            member to assign
      * @return added permission
      */
-    @PutMapping(path = "/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public UserMember update(@PathVariable("userId") final long userId, @PathVariable("memberId") final long memberId) {
-        return service.updateMember(userId, memberId);
+    public UserMember update(@PathVariable("username") final String username,
+            @PathVariable("memberNumber") final long memberNumber) {
+        return service.updateMember(username, memberNumber);
     }
 
 }

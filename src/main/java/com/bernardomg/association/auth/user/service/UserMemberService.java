@@ -7,12 +7,12 @@ import com.bernardomg.association.auth.user.model.UserMember;
 
 public interface UserMemberService {
 
-    public UserMember assignMember(final long userId, final long memberId);
+    public UserMember assignMember(final String username, final long memberId);
 
-    public void deleteMember(final long userId, final long memberId);
+    public void deleteMember(final String username, final long memberId);
 
-    public Optional<UserMember> getMember(final long userId);
+    public Optional<UserMember> getMember(final String username);
 
-    public UserMember updateMember(final long userId, final long memberId);
+    public UserMember updateMember(final String username, final long memberId);
 
 }
