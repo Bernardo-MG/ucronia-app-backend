@@ -86,6 +86,7 @@ databaseChangeLog:
                   name: fee_id
                   type: bigint
                   constraints:
+                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_fee_payments_fee
                     references: fees(id)
@@ -96,10 +97,6 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_fee_payments_transaction
                     references: transactions(id)
-        - addPrimaryKey:
-            constraintName: fee_payments_key
-            tableName: fee_payments
-            columnNames: 'fee_id, transaction_id'
       modifySql:
         - append:
             dbms: mysql
