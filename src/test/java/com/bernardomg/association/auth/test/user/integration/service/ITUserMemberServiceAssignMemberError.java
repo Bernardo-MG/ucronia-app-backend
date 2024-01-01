@@ -32,10 +32,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.test.user.config.ValidUser;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
-import com.bernardomg.association.auth.user.exception.MissingUserMemberIdException;
 import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -60,7 +61,7 @@ class ITUserMemberServiceAssignMemberError {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserMemberIdException.class);
+            .isInstanceOf(MissingMemberIdException.class);
     }
 
     @Test
@@ -74,7 +75,7 @@ class ITUserMemberServiceAssignMemberError {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserMemberIdException.class);
+            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }

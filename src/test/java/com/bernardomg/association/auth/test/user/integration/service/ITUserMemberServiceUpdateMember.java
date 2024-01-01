@@ -25,15 +25,18 @@
 package com.bernardomg.association.auth.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.test.user.config.ValidUser;
+import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
-import com.bernardomg.association.auth.user.exception.MissingUserMemberIdException;
+import com.bernardomg.association.auth.test.user.util.model.UserMembers;
+import com.bernardomg.association.auth.user.model.UserMember;
+import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -43,38 +46,69 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserMemberServiceUpdateMember {
 
     @Autowired
-    private UserMemberService service;
+    private UserMemberService    service;
+
+    @Autowired
+    private UserMemberRepository userMemberRepository;
 
     public ITUserMemberServiceUpdateMember() {
         super();
     }
 
     @Test
-    @DisplayName("With no member, it throws an exception")
+    @DisplayName("With no existing relationship, the relationship is persisted")
     @ValidUser
-    void testAssignMember_NoMember() {
-        final ThrowingCallable execution;
-
+    @ValidMember
+    void testUpdateMember_NoRelationship_PersistedData() {
         // WHEN
-        execution = () -> service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserMemberIdException.class);
+        Assertions.assertThat(userMemberRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
-    @DisplayName("With no user, it throws an exception")
+    @DisplayName("With no existing relationship, the created relationship is returned")
+    @ValidUser
     @ValidMember
-    void testAssignMember_NoUser() {
-        final ThrowingCallable execution;
+    void testUpdateMember_NoRelationship_ReturnedData() {
+        final UserMember member;
 
         // WHEN
-        execution = () -> service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        member = service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserMemberIdException.class);
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
+    }
+
+    @Test
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUserWithMember
+    @AlternativeMember
+    void testUpdateMember_PersistedData() {
+        // WHEN
+        service.updateMember(UserConstants.USERNAME, MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(userMemberRepository.count())
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUserWithMember
+    @AlternativeMember
+    void testUpdateMember_ReturnedData() {
+        final UserMember member;
+
+        // WHEN
+        member = service.updateMember(UserConstants.USERNAME, MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.alternative());
     }
 
 }

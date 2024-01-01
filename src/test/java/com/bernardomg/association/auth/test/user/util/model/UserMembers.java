@@ -6,6 +6,15 @@ import com.bernardomg.association.membership.test.member.util.model.MemberConsta
 
 public final class UserMembers {
 
+    public static final UserMember alternative() {
+        return UserMember.builder()
+            .username(UserConstants.USERNAME)
+            .name(UserConstants.NAME)
+            .memberName(MemberConstants.ALTERNATIVE_FULL_NAME)
+            .number(MemberConstants.ALTERNATIVE_NUMBER)
+            .build();
+    }
+
     public static final UserMember valid() {
         return UserMember.builder()
             .username(UserConstants.USERNAME)

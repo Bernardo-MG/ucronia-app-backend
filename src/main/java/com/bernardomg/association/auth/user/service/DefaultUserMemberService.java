@@ -132,7 +132,7 @@ public final class DefaultUserMemberService implements UserMemberService {
     private final UserMember toDto(final UserEntity user, final MemberEntity memberEntity) {
         final String fullName;
 
-        fullName = Strings.trimWhitespace(memberEntity.getName() + "" + memberEntity.getName());
+        fullName = Strings.trimWhitespace(memberEntity.getName() + " " + memberEntity.getSurname());
         return UserMember.builder()
             .username(user.getUsername())
             .name(user.getName())
