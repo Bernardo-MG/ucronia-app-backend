@@ -79,9 +79,6 @@ public class UserMemberController {
      *
      * @param username
      *            username of the user to delete the member
-     * @param memberNumber
-     *            member to assign
-     * @return added permission
      */
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
