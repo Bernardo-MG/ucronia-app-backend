@@ -29,16 +29,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.auth.test.user.config.ValidUser;
 import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
+import com.bernardomg.association.auth.test.user.util.model.UserMembers;
+import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - delete member")
-class ITUserMemberServiceDeleteMember {
+@DisplayName("User member service - update member")
+class ITUserMemberServiceUpdateMemberError {
 
     @Autowired
     private UserMemberService    service;
@@ -46,22 +51,64 @@ class ITUserMemberServiceDeleteMember {
     @Autowired
     private UserMemberRepository userMemberRepository;
 
-    public ITUserMemberServiceDeleteMember() {
+    public ITUserMemberServiceUpdateMemberError() {
         super();
     }
 
     @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithMember
-    void testDeleteMember() {
-
+    @DisplayName("With no existing relationship, the relationship is persisted")
+    @ValidUser
+    @ValidMember
+    void testUpdateMember_NoRelationship_PersistedData() {
         // WHEN
-        service.deleteMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(userMemberRepository.count())
-            .as("user members")
-            .isZero();
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("With no existing relationship, the created relationship is returned")
+    @ValidUser
+    @ValidMember
+    void testUpdateMember_NoRelationship_ReturnedData() {
+        final UserMember member;
+
+        // WHEN
+        member = service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
+    }
+
+    @Test
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUserWithMember
+    @AlternativeMember
+    void testUpdateMember_PersistedData() {
+        // WHEN
+        service.updateMember(UserConstants.USERNAME, MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(userMemberRepository.count())
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("With valid data, the created relationship is returned")
+    @ValidUserWithMember
+    @AlternativeMember
+    void testUpdateMember_ReturnedData() {
+        final UserMember member;
+
+        // WHEN
+        member = service.updateMember(UserConstants.USERNAME, MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .isEqualTo(UserMembers.valid());
     }
 
 }

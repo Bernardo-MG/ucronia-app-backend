@@ -25,43 +25,56 @@
 package com.bernardomg.association.auth.test.user.integration.service;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.test.user.config.ValidUserWithMember;
+import com.bernardomg.association.auth.test.user.config.ValidUser;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.exception.MissingUserMemberIdException;
 import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User member service - delete member")
-class ITUserMemberServiceDeleteMember {
+@DisplayName("User member service - update member")
+class ITUserMemberServiceUpdateMember {
 
     @Autowired
-    private UserMemberService    service;
+    private UserMemberService service;
 
-    @Autowired
-    private UserMemberRepository userMemberRepository;
-
-    public ITUserMemberServiceDeleteMember() {
+    public ITUserMemberServiceUpdateMember() {
         super();
     }
 
     @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithMember
-    void testDeleteMember() {
+    @DisplayName("With no member, it throws an exception")
+    @ValidUser
+    void testAssignMember_NoMember() {
+        final ThrowingCallable execution;
 
         // WHEN
-        service.deleteMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+        execution = () -> service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userMemberRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserMemberIdException.class);
+    }
+
+    @Test
+    @DisplayName("With no user, it throws an exception")
+    @ValidMember
+    void testAssignMember_NoUser() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> service.updateMember(UserConstants.USERNAME, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserMemberIdException.class);
     }
 
 }
