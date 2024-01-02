@@ -84,15 +84,23 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final void delete(final long memberId, final YearMonth date) {
-        final Optional<FeeEntity> fee;
+    public final void delete(final long memberNumber, final YearMonth date) {
+        final Optional<FeeEntity>    fee;
+        final Optional<MemberEntity> member;
 
-        log.debug("Deleting fee for {} in {}", memberId, date);
+        log.debug("Deleting fee for {} in {}", memberNumber, date);
 
-        fee = feeRepository.findOneByMemberIdAndDate(memberId, date);
+        member = memberRepository.findByNumber(memberNumber);
+        if (member.isEmpty()) {
+            // TODO: Change exception
+            throw new MissingMemberIdException(memberNumber);
+        }
+
+        fee = feeRepository.findOneByMemberIdAndDate(member.get()
+            .getId(), date);
 
         if (fee.isEmpty()) {
-            throw new MissingFeeIdException(memberId + " " + date.toString());
+            throw new MissingFeeIdException(memberNumber + " " + date.toString());
         }
 
         feeRepository.deleteById(fee.get()
@@ -119,16 +127,24 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<Fee> getOne(final long memberId, final YearMonth date) {
+    public final Optional<Fee> getOne(final long memberNumber, final YearMonth date) {
         final Optional<MemberFeeEntity> found;
         final Optional<FeeEntity>       fee;
+        final Optional<MemberEntity>    member;
 
-        log.debug("Reading fee for {} in {}", memberId, date);
+        log.debug("Reading fee for {} in {}", memberNumber, date);
 
-        fee = feeRepository.findOneByMemberIdAndDate(memberId, date);
+        member = memberRepository.findByNumber(memberNumber);
+        if (member.isEmpty()) {
+            // TODO: Change exception
+            throw new MissingMemberIdException(memberNumber);
+        }
+
+        fee = feeRepository.findOneByMemberIdAndDate(member.get()
+            .getId(), date);
 
         if (fee.isEmpty()) {
-            throw new MissingFeeIdException(memberId + " " + date.toString());
+            throw new MissingFeeIdException(memberNumber + " " + date.toString());
         }
 
         found = memberFeeRepository.findById(fee.get()
@@ -240,12 +256,12 @@ public final class DefaultFeeService implements FeeService {
             .toList();
     }
 
-    private final Collection<FeeEntity> registerFees(final Long memberId, final Collection<YearMonth> feeDates) {
+    private final Collection<FeeEntity> registerFees(final Long memberNumber, final Collection<YearMonth> feeDates) {
         final Collection<FeeEntity>          fees;
         final Function<YearMonth, FeeEntity> toPersistentFee;
 
         // Register fees
-        toPersistentFee = (date) -> toPersistentFee(memberId, date);
+        toPersistentFee = (date) -> toPersistentFee(memberNumber, date);
         fees = feeDates.stream()
             .map(toPersistentFee)
             .toList();
