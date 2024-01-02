@@ -95,15 +95,14 @@ public class FeeController {
 
     @DeleteMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = {
+    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }), @CacheEvict(cacheNames = {
             // Fee caches
             FeeCaches.FEES,
             // Funds caches
             MembershipCaches.MONTHLY_BALANCE,
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
-            MembershipCaches.CALENDAR_RANGE }, allEntries = true),
-            @CacheEvict(cacheNames = FeeCaches.FEE) })
+            MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
     public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         service.delete(memberNumber, date);

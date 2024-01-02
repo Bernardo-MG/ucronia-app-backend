@@ -81,11 +81,13 @@ public class TransactionController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.index") },
-            evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = {
+                    // Transaction caches
+                    FundsCaches.TRANSACTIONS,
+                    // Calendar caches
+                    FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+                    // Balance caches
+                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
     public Transaction create(@Valid @RequestBody final TransactionChange transaction) {
         return service.create(transaction);
     }
@@ -98,12 +100,13 @@ public class TransactionController {
      */
     @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.TRANSACTION),
-            @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { FundsCaches.TRANSACTION }), @CacheEvict(cacheNames = {
+            // Transaction caches
+            FundsCaches.TRANSACTIONS,
+            // Calendar caches
+            FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+            // Balance caches
+            FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
     public void delete(@PathVariable("index") final long index) {
         service.delete(index);
     }
@@ -152,11 +155,13 @@ public class TransactionController {
     @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.index") },
-            evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
+            evict = { @CacheEvict(cacheNames = {
+                    // Transaction caches
+                    FundsCaches.TRANSACTIONS,
+                    // Calendar caches
+                    FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+                    // Balance caches
+                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
     public Transaction update(@PathVariable("index") final long index,
             @Valid @RequestBody final TransactionChange transaction) {
         return service.update(index, transaction);

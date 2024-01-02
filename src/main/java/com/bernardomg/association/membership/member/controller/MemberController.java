@@ -81,8 +81,8 @@ public class MemberController {
 
     @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { MembershipCaches.MEMBERS, MembershipCaches.MEMBER }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { MembershipCaches.MEMBER }),
+            @CacheEvict(cacheNames = { MembershipCaches.MEMBERS }, allEntries = true) })
     public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
