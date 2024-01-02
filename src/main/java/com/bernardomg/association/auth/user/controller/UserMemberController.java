@@ -24,6 +24,10 @@
 
 package com.bernardomg.association.auth.user.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,8 +38,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.auth.user.cache.UserMemberCaches;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -67,6 +73,7 @@ public class UserMemberController {
      *            member to assign
      * @return added permission
      */
+    @Caching(put = { @CachePut(cacheNames = UserMemberCaches.USER_MEMBER, key = "#result.username") })
     @PostMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     public UserMember assign(@PathVariable("username") final String username,
@@ -82,6 +89,7 @@ public class UserMemberController {
      */
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @Caching(evict = { @CacheEvict(cacheNames = { UserMemberCaches.USER_MEMBER }) })
     public void delete(@PathVariable("username") final String username) {
         service.deleteMember(username);
     }
@@ -95,10 +103,10 @@ public class UserMemberController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
+    @Cacheable(cacheNames = UserMemberCaches.USER_MEMBER)
     public UserMember read(@PathVariable("username") final String username) {
         return service.getMember(username)
             .orElse(null);
-        // TODO: add caches
     }
 
     /**
@@ -112,6 +120,7 @@ public class UserMemberController {
      */
     @PutMapping(path = "/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.username") })
     public UserMember update(@PathVariable("username") final String username,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.updateMember(username, memberNumber);
