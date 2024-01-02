@@ -41,5 +41,13 @@
             Changed fees API to start removing internal ids from API.
          </action>
       </release>
+      <release version="0.2.3" date="2024-01-03" description="Fees transactions">
+         <action dev="bmg" type="add">
+            Fees are linked to transactions.
+         </action>
+         <action dev="bmg" type="update">
+            The API no longer works with internal ids.
+         </action>
+      </release>
    </body>
 </document>

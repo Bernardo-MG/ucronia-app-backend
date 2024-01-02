@@ -26,14 +26,22 @@ package com.bernardomg.association.funds.calendar.model;
 
 import java.time.LocalDate;
 
-public interface CalendarFundsDate {
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-    public Float getAmount();
+import lombok.Builder;
+import lombok.Data;
 
-    public LocalDate getDate();
+@Data
+@Builder
+public final class CalendarFundsDate {
 
-    public String getDescription();
+    private final float     amount;
 
-    public Long getId();
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private final LocalDate date;
+
+    private final String    description;
+
+    private final long      index;
 
 }

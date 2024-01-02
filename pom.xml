@@ -21,11 +21,11 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.2.2</version>
+   <version>0.2.3</version>
    <packaging>war</packaging>
 
-   <name>Association App Backend</name>
-   <description>Application backend for handling a small association.</description>
+   <name>Ucronia App Backend</name>
+   <description>Backend application for the Ucronía RPG association.</description>
    <url>https://github.com/bernardo-mg/ucronia-app-backend</url>
    <inceptionYear>2022</inceptionYear>
 

@@ -27,6 +27,7 @@ package com.bernardomg.association.membership.test.fee.service.integration;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,18 +35,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
+import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.membership.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
+import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
+import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
-import com.bernardomg.association.membership.test.fee.util.model.PersistentFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -53,6 +56,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Fee service - pay fees")
 class ITFeeServicePayFees {
+
+    @Autowired
+    private FeePaymentRepository  feePaymentRepository;
 
     @Autowired
     private FeeRepository         repository;
@@ -72,11 +78,11 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingNotPaid_PersistedFee() {
-        final List<PersistentFee> entities;
+    void testCreate_Existing_NotPaid_PersistedFee() {
+        final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         entities = repository.findAll();
@@ -85,7 +91,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentFees.paid());
+            .next(), FeeEntities.atDate());
     }
 
     @Test
@@ -93,11 +99,11 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingNotPaid_PersistedTransaction() {
-        final List<PersistentTransaction> entities;
+    void testCreate_Existing_NotPaid_PersistedTransaction() {
+        final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         entities = transactionRepository.findAll();
@@ -106,7 +112,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentTransactions.singleFee());
+            .next(), TransactionEntities.singleFee());
     }
 
     @Test
@@ -114,36 +120,39 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_ExistingNotPaid_ReturnedData() {
-        final Collection<MemberFee> fees;
+    void testCreate_Existing_NotPaid_ReturnedData() {
+        final Collection<Fee> fees;
 
         // WHEN
-        fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        fees = service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
+            .containsExactly(Fees.paid());
     }
 
     @Test
-    @DisplayName("When a fee is paidwith multiple dates and a fee exists but is not paid, it is set to paid")
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, it is set to paid")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_ExistingNotPaid_PersistedFee() {
-        final List<PersistentFee>     entities;
-        final Iterator<PersistentFee> entitiesItr;
+    void testCreate_MultipleDates_OneExisting_NotPaid_PersistedFee() {
+        final List<FeeEntity>     entities;
+        final Iterator<FeeEntity> entitiesItr;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
         entities = repository.findAll();
 
+        Assertions.assertThat(entities)
+            .hasSize(2);
+
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
     }
 
     @Test
@@ -151,11 +160,11 @@ class ITFeeServicePayFees {
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_ExistingNotPaid_PersistedTransaction() {
-        final List<PersistentTransaction> entities;
+    void testCreate_MultipleDates_OneExisting_NotPaid_PersistedTransaction() {
+        final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
         entities = transactionRepository.findAll();
@@ -164,7 +173,23 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentTransactions.multipleFees());
+            .next(), TransactionEntities.multipleFees());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
+    @ValidMember
+    @NotPaidFee
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_OneExisting_NotPaid_ReturnedData() {
+        final Collection<Fee> fees;
+
+        // WHEN
+        fees = service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .containsExactly(Fees.paid(), Fees.paidNextDate());
     }
 
     @Test
@@ -172,19 +197,35 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedFee() {
-        final List<PersistentFee>     entities;
-        final Iterator<PersistentFee> entitiesItr;
+        final List<FeeEntity>     entities;
+        final Iterator<FeeEntity> entitiesItr;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
         entities = repository.findAll();
 
+        Assertions.assertThat(entities)
+            .hasSize(2);
+
         entitiesItr = entities.iterator();
 
-        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paid());
-        FeeAssertions.isEqualTo(entitiesItr.next(), PersistentFees.paidNextDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.atDate());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.nextDate());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, multiple fee payments are persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedRelationship() {
+        // WHEN
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(feePaymentRepository.count())
+            .isEqualTo(2);
     }
 
     @Test
@@ -192,10 +233,10 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_MultipleDates_PersistedTransaction() {
-        final List<PersistentTransaction> entities;
+        final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
         entities = transactionRepository.findAll();
@@ -204,17 +245,32 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentTransactions.multipleFees());
+            .next(), TransactionEntities.multipleFees());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, it returns the created data")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_PersistedTransaction_ReturnedData() {
+        final Collection<Fee> fees;
+
+        // WHEN
+        fees = service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .containsExactly(Fees.paid(), Fees.paidNextDate());
     }
 
     @Test
     @DisplayName("When a fee is paid and no fee amount is registered a single transaction is persisted with no amount")
     @ValidMember
     void testCreate_NoAmount_PersistedTransaction() {
-        final List<PersistentTransaction> entities;
+        final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         entities = transactionRepository.findAll();
@@ -223,7 +279,7 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentTransactions.singleFeeNoAmount());
+            .next(), TransactionEntities.singleFeeNoAmount());
     }
 
     @Test
@@ -231,10 +287,10 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedFee() {
-        final List<PersistentFee> entities;
+        final List<FeeEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         entities = repository.findAll();
@@ -243,7 +299,20 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         FeeAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentFees.paid());
+            .next(), FeeEntities.atDate());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid a fee payment is registered")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_PersistedRelationship() {
+        // WHEN
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
+
+        // THEN
+        Assertions.assertThat(feePaymentRepository.count())
+            .isEqualTo(1);
     }
 
     @Test
@@ -251,10 +320,10 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedTransaction() {
-        final List<PersistentTransaction> entities;
+        final List<TransactionEntity> entities;
 
         // WHEN
-        service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         entities = transactionRepository.findAll();
@@ -263,7 +332,25 @@ class ITFeeServicePayFees {
             .hasSize(1);
 
         TransactionAssertions.isEqualTo(entities.iterator()
-            .next(), PersistentTransactions.singleFee());
+            .next(), TransactionEntities.singleFee());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid  a single transaction is persisted and it uses the next index")
+    @ValidMember
+    @PaidFee
+    @FeeAmountConfiguration
+    void testCreate_PersistedTransaction_IncreaseIndex() {
+        final Optional<TransactionEntity> entity;
+
+        // WHEN
+        service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.NEXT_DATE));
+
+        // THEN
+        entity = transactionRepository.findOneByIndex(2L);
+
+        Assertions.assertThat(entity)
+            .isNotEmpty();
     }
 
     @Test
@@ -271,14 +358,14 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_ReturnedData() {
-        final Collection<MemberFee> fees;
+        final Collection<Fee> fees;
 
         // WHEN
-        fees = service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        fees = service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(MemberFees.paid());
+            .containsExactly(Fees.paid());
     }
 
 }

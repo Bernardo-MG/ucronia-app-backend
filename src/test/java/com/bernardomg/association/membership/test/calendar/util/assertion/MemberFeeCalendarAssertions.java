@@ -97,9 +97,9 @@ public final class MemberFeeCalendarAssertions {
 
     public static final void isEqualTo(final MemberFeeCalendar received, final MemberFeeCalendar expected) {
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(received.getMemberId())
-                .as("member id")
-                .isEqualTo(expected.getMemberId());
+            softly.assertThat(received.getMemberNumber())
+                .as("member number")
+                .isEqualTo(expected.getMemberNumber());
             softly.assertThat(received.getMemberName())
                 .as("member name")
                 .isEqualTo(expected.getMemberName());

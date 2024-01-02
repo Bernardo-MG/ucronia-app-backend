@@ -24,21 +24,18 @@
 
 package com.bernardomg.association.membership.test.member.service.integration;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -59,61 +56,21 @@ class ITMemberServiceGetAll {
     @DisplayName("With multiple members it returns all the members")
     void testGetAll() {
         final Iterable<Member> members;
-        final Iterator<Member> membersItr;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         members = service.getAll(memberQuery, pageable);
 
+        // THEN
         Assertions.assertThat(members)
-            .hasSize(5);
-
-        membersItr = members.iterator();
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .build());
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .build());
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .build());
-
-        member = membersItr.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .build());
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
     }
 
 }

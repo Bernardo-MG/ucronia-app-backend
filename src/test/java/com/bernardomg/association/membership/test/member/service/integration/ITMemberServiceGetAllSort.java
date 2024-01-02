@@ -24,8 +24,7 @@
 
 package com.bernardomg.association.membership.test.member.service.integration;
 
-import java.util.Iterator;
-
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +32,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.membership.member.model.DtoMember;
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -59,226 +57,86 @@ class ITMemberServiceGetAllSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetAll_Name_Asc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "name");
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         // FIXME: names should be sorted ignoring case
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .build());
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     void testGetAll_Name_Desc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "name");
 
         memberQuery = MembersQuery.empty();
 
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(5, false), Members.forIndex(4, false), Members.forIndex(3, false),
+                Members.forIndex(2, false), Members.forIndex(1, false));
     }
 
     @Test
     @DisplayName("With ascending order by surname it returns the ordered data")
     void testGetAll_Surname_Asc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "surname");
 
         memberQuery = MembersQuery.empty();
 
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .build());
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
     }
 
     @Test
     @DisplayName("With descending order by surname it returns the ordered data")
     void testGetAll_Surname_Desc() {
-        final Iterator<Member> members;
+        final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
-        Member                 member;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.DESC, "surname");
 
         memberQuery = MembersQuery.empty();
 
-        members = service.getAll(memberQuery, pageable)
-            .iterator();
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
 
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 5")
-            .surname("Surname 5")
-            .phone("12349")
-            .identifier("6793")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 4")
-            .surname("Surname 4")
-            .phone("12348")
-            .identifier("6792")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 3")
-            .surname("Surname 3")
-            .phone("12347")
-            .identifier("6791")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 2")
-            .surname("Surname 2")
-            .phone("12346")
-            .identifier("6790")
-            .build());
-
-        member = members.next();
-        MemberAssertions.isEqualTo(member, DtoMember.builder()
-            .name("Member 1")
-            .surname("Surname 1")
-            .phone("12345")
-            .identifier("6789")
-            .build());
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(5, false), Members.forIndex(4, false), Members.forIndex(3, false),
+                Members.forIndex(2, false), Members.forIndex(1, false));
     }
 
 }

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -50,8 +50,10 @@ class ITMemberServiceDeleteError {
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
+        // WHEN
         execution = () -> service.delete(1L);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
     }

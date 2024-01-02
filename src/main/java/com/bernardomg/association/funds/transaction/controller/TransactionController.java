@@ -44,9 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.request.TransactionCreateRequest;
-import com.bernardomg.association.funds.transaction.model.request.TransactionQueryRequest;
-import com.bernardomg.association.funds.transaction.model.request.TransactionUpdateRequest;
+import com.bernardomg.association.funds.transaction.model.TransactionChange;
+import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -81,32 +80,35 @@ public class TransactionController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public Transaction create(@Valid @RequestBody final TransactionCreateRequest transaction) {
+    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.index") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Transaction caches
+                    FundsCaches.TRANSACTIONS,
+                    // Calendar caches
+                    FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+                    // Balance caches
+                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
+    public Transaction create(@Valid @RequestBody final TransactionChange transaction) {
         return service.create(transaction);
     }
 
     /**
      * Deletes a transaction by its id.
      *
-     * @param id
-     *            transaction id
+     * @param index
+     *            transaction index
      */
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#p0"),
-            @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+    @Caching(evict = { @CacheEvict(cacheNames = { FundsCaches.TRANSACTION }), @CacheEvict(cacheNames = {
+            // Transaction caches
+            FundsCaches.TRANSACTIONS,
+            // Calendar caches
+            FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+            // Balance caches
+            FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
+    public void delete(@PathVariable("index") final long index) {
+        service.delete(index);
     }
 
     /**
@@ -122,45 +124,47 @@ public class TransactionController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = FundsCaches.TRANSACTIONS)
-    public Iterable<Transaction> readAll(@Valid final TransactionQueryRequest transaction, final Pageable page) {
+    public Iterable<Transaction> readAll(@Valid final TransactionQuery transaction, final Pageable page) {
         return service.getAll(transaction, page);
     }
 
     /**
      * Reads a single transaction by its id.
      *
-     * @param id
-     *            id of the transaction to read
+     * @param index
+     *            index of the transaction to read
      * @return the transaction for the id, or {@code null} if it doesn't exist
      */
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#p0")
-    public Transaction readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
+    @Cacheable(cacheNames = FundsCaches.TRANSACTION)
+    public Transaction readOne(@PathVariable("index") final long index) {
+        return service.getOne(index)
             .orElse(null);
     }
 
     /**
      * Updates a transaction.
      *
-     * @param id
-     *            id of the transaction to update
+     * @param index
+     *            index of the transaction to update
      * @param transaction
      *            updated transaction data
      * @return the updated transaction
      */
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
-                    @CacheEvict(cacheNames = FundsCaches.MONTHLY_BALANCE, allEntries = true) })
-    public Transaction update(@PathVariable("id") final long id,
-            @Valid @RequestBody final TransactionUpdateRequest transaction) {
-        return service.update(id, transaction);
+    @Caching(put = { @CachePut(cacheNames = FundsCaches.TRANSACTION, key = "#result.index") },
+            evict = { @CacheEvict(cacheNames = {
+                    // Transaction caches
+                    FundsCaches.TRANSACTIONS,
+                    // Calendar caches
+                    FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
+                    // Balance caches
+                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
+    public Transaction update(@PathVariable("index") final long index,
+            @Valid @RequestBody final TransactionChange transaction) {
+        return service.update(index, transaction);
     }
 
 }

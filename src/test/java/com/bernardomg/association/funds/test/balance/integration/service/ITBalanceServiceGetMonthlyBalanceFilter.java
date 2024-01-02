@@ -25,9 +25,7 @@
 package com.bernardomg.association.funds.test.balance.integration.service;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,11 +33,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.request.BalanceQueryRequest;
 import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.test.balance.util.assertion.BalanceAssertions;
+import com.bernardomg.association.funds.test.balance.util.model.BalanceQueries;
+import com.bernardomg.association.funds.test.balance.util.model.MonthlyBalances;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -54,17 +52,19 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     @DisplayName("Filtering ending before the year returns no month")
     @FullTransactionYear
     void testGetMonthlyBalance_EndBeforeStart() {
-        final Collection<? extends MonthlyBalance> balances;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .endDate(YearMonth.of(2019, Month.DECEMBER))
-            .build();
+        query = BalanceQueries.endDate(2019, Month.DECEMBER);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();
@@ -74,306 +74,120 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     @DisplayName("Filtering ending on December returns all the months")
     @FullTransactionYear
     void testGetMonthlyBalance_EndDecember() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .endDate(YearMonth.of(2020, Month.DECEMBER))
-            .build();
+        query = BalanceQueries.endDate(2020, Month.DECEMBER);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(12);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .results(1f)
-            .total(1f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.FEBRUARY))
-            .results(1f)
-            .total(2f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MARCH))
-            .results(1f)
-            .total(3f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.APRIL))
-            .results(1f)
-            .total(4f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MAY))
-            .results(1f)
-            .total(5f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JUNE))
-            .results(1f)
-            .total(6f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JULY))
-            .results(1f)
-            .total(7f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.AUGUST))
-            .results(1f)
-            .total(8f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.SEPTEMBER))
-            .results(1f)
-            .total(9f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.OCTOBER))
-            .results(1f)
-            .total(10f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.NOVEMBER))
-            .results(1f)
-            .total(11f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.DECEMBER))
-            .results(1f)
-            .total(12f)
-            .build());
+            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
+                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
+                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
+                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
+                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
+                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
+                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
     @DisplayName("Filtering the full year returns all the months")
     @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .endDate(YearMonth.of(2020, Month.DECEMBER))
-            .build();
+        query = BalanceQueries.range(2020, Month.JANUARY, Month.DECEMBER);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(12);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .results(1f)
-            .total(1f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.FEBRUARY))
-            .results(1f)
-            .total(2f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MARCH))
-            .results(1f)
-            .total(3f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.APRIL))
-            .results(1f)
-            .total(4f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MAY))
-            .results(1f)
-            .total(5f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JUNE))
-            .results(1f)
-            .total(6f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JULY))
-            .results(1f)
-            .total(7f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.AUGUST))
-            .results(1f)
-            .total(8f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.SEPTEMBER))
-            .results(1f)
-            .total(9f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.OCTOBER))
-            .results(1f)
-            .total(10f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.NOVEMBER))
-            .results(1f)
-            .total(11f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.DECEMBER))
-            .results(1f)
-            .total(12f)
-            .build());
+            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
+                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
+                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
+                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
+                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
+                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
+                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
     @DisplayName("Filtering by January returns only that month")
     @FullTransactionYear
     void testGetMonthlyBalance_January() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .endDate(YearMonth.of(2020, Month.JANUARY))
-            .build();
+        query = BalanceQueries.range(2020, Month.JANUARY, Month.JANUARY);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(1);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .results(1f)
-            .total(1f)
-            .build());
+            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1));
     }
 
     @Test
     @DisplayName("Filtering by January and February returns only those months")
     @FullTransactionYear
     void testGetMonthlyBalance_JanuaryToFebruary() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .endDate(YearMonth.of(2020, Month.FEBRUARY))
-            .build();
+        query = BalanceQueries.range(2020, Month.JANUARY, Month.FEBRUARY);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(2);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .results(1f)
-            .total(1f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.FEBRUARY))
-            .results(1f)
-            .total(2f)
-            .build());
+            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
+                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2));
     }
 
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
     @FullTransactionYear
     void testGetMonthlyBalance_RangeEndBeforeStart() {
-        final Collection<? extends MonthlyBalance> balances;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .startDate(YearMonth.of(2020, Month.DECEMBER))
-            .endDate(YearMonth.of(2020, Month.JANUARY))
-            .build();
+        query = BalanceQueries.range(2020, Month.DECEMBER, Month.JANUARY);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();
@@ -383,17 +197,19 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     @DisplayName("Filtering beginning after the year returns no month")
     @FullTransactionYear
     void testGetMonthlyBalance_StartAfterEnd() {
-        final Collection<? extends MonthlyBalance> balances;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .startDate(YearMonth.of(2021, Month.JANUARY))
-            .build();
+        query = BalanceQueries.startDate(2021, Month.JANUARY);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();
@@ -403,108 +219,28 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     @DisplayName("Filtering beginning on January returns all the months")
     @FullTransactionYear
     void testGetMonthlyBalance_StartInJanuary() {
-        final Collection<? extends MonthlyBalance> balances;
-        final Iterator<? extends MonthlyBalance>   balancesItr;
-        MonthlyBalance                             balance;
-        final BalanceQuery                         query;
-        final Sort                                 sort;
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
 
+        // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueryRequest.builder()
-            .startDate(YearMonth.of(2020, Month.JANUARY))
-            .build();
+        query = BalanceQueries.startDate(2020, Month.JANUARY);
+
+        // WHEN
         balances = service.getMonthlyBalance(query, sort);
 
+        // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .hasSize(12);
-
-        balancesItr = balances.iterator();
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JANUARY))
-            .results(1f)
-            .total(1f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.FEBRUARY))
-            .results(1f)
-            .total(2f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MARCH))
-            .results(1f)
-            .total(3f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.APRIL))
-            .results(1f)
-            .total(4f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.MAY))
-            .results(1f)
-            .total(5f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JUNE))
-            .results(1f)
-            .total(6f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.JULY))
-            .results(1f)
-            .total(7f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.AUGUST))
-            .results(1f)
-            .total(8f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.SEPTEMBER))
-            .results(1f)
-            .total(9f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.OCTOBER))
-            .results(1f)
-            .total(10f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.NOVEMBER))
-            .results(1f)
-            .total(11f)
-            .build());
-
-        balance = balancesItr.next();
-        BalanceAssertions.isEqualTo(balance, MonthlyBalance.builder()
-            .month(YearMonth.of(2020, Month.DECEMBER))
-            .results(1f)
-            .total(12f)
-            .build());
+            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
+                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
+                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
+                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
+                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
+                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
+                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
     }
 
 }

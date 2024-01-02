@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -58,7 +58,7 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.DATE));
+        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.DATE));
 
         // THEN
         failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
@@ -75,7 +75,7 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE));
+        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
 
         // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
@@ -84,7 +84,7 @@ class ITFeeServicePayFeesValidation {
     }
 
     @Test
-    @DisplayName("With one of the fees already paid, it throws an exception")
+    @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
     @ValidMember
     @PaidFee
     void testCreate_MultipleDates_OneExisting_Paid() {
@@ -92,7 +92,8 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.payFees(1L, Fees.PAYMENT_DATE, List.of(Fees.DATE, Fees.NEXT_DATE));
+        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);

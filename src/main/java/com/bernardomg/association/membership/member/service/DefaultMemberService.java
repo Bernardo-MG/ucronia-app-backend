@@ -11,13 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
-import com.bernardomg.association.membership.member.model.DtoMember;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.mapper.MemberMapper;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
-import com.bernardomg.association.membership.member.model.request.MemberUpdate;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
@@ -32,31 +29,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
-    private final MemberMapper     mapper;
-
     /**
      * Member repository.
      */
     private final MemberRepository memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo, final MemberMapper mppr) {
+    public DefaultMemberService(final MemberRepository memberRepo) {
         super();
 
-        mapper = Objects.requireNonNull(mppr);
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
-    public final Member create(final MemberCreate member) {
+    public final Member create(final MemberChange member) {
         final MemberEntity entity;
         final MemberEntity created;
+        final Long         index;
 
         log.debug("Creating member {}", member);
 
         // TODO: Return error messages for duplicate data
         // TODO: Phone and identifier should be unique or empty
 
-        entity = mapper.toEntity(member);
+        entity = toEntity(member);
+
+        index = memberRepository.findNextNumber();
+        entity.setNumber(index);
 
         // Trim strings
         entity.setName(StringUtils.trim(entity.getName()));
@@ -64,30 +62,34 @@ public final class DefaultMemberService implements MemberService {
 
         created = memberRepository.save(entity);
 
-        return mapper.toDto(created);
+        return toDto(created);
     }
 
     @Override
-    public final void delete(final long id) {
+    public final void delete(final long number) {
+        final Optional<MemberEntity> member;
 
-        log.debug("Deleting member {}", id);
+        log.debug("Deleting member {}", number);
 
-        if (!memberRepository.existsById(id)) {
-            throw new MissingMemberIdException(id);
+        member = memberRepository.findByNumber(number);
+        if (member.isEmpty()) {
+            // TODO: change name
+            throw new MissingMemberIdException(number);
         }
 
         // TODO: Forbid deleting when there are relationships
 
-        memberRepository.deleteById(id);
+        memberRepository.deleteById(member.get()
+            .getId());
     }
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Page<MemberEntity>             members;
-        final YearMonth                      validStart;
-        final YearMonth                      validEnd;
-        final Function<DtoMember, DtoMember> activeMapper;
-        final Collection<Long>               activeIds;
+        final Page<MemberEntity>       members;
+        final YearMonth                validStart;
+        final YearMonth                validEnd;
+        final Function<Member, Member> activeMapper;
+        final Collection<Long>         activeNumbers;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
@@ -113,61 +115,57 @@ public final class DefaultMemberService implements MemberService {
             default:
                 members = memberRepository.findAll(pageable);
 
-                activeIds = memberRepository.findAllActiveIdsInRange(validStart, validEnd);
+                activeNumbers = memberRepository.findAllActiveNumbersInRange(validStart, validEnd);
                 activeMapper = m -> {
                     final boolean active;
 
-                    active = activeIds.contains(m.getId());
+                    active = activeNumbers.contains(m.getNumber());
                     m.setActive(active);
                     return m;
                 };
         }
 
-        return members.map(mapper::toDto)
+        return members.map(this::toDto)
             .map(activeMapper);
     }
 
     @Override
-    public final Optional<Member> getOne(final long id) {
-        final Optional<MemberEntity> found;
-        final Optional<Member>       result;
-        final DtoMember              data;
+    public final Optional<Member> getOne(final long number) {
+        final Optional<MemberEntity> member;
 
-        log.debug("Reading member with id {}", id);
+        log.debug("Reading member {}", number);
 
-        if (!memberRepository.existsById(id)) {
-            throw new MissingMemberIdException(id);
+        member = memberRepository.findByNumber(number);
+        if (member.isEmpty()) {
+            // TODO: change name
+            throw new MissingMemberIdException(number);
         }
 
-        found = memberRepository.findById(id);
-
-        if (found.isPresent()) {
-            data = mapper.toDto(found.get());
-            result = Optional.of(data);
-        } else {
-            result = Optional.empty();
-        }
-
-        return result;
+        return member.map(this::toDto);
     }
 
     @Override
-    public final Member update(final long id, final MemberUpdate member) {
-        final MemberEntity entity;
-        final MemberEntity updated;
+    public final Member update(final long number, final MemberChange change) {
+        final Optional<MemberEntity> member;
+        final MemberEntity           entity;
+        final MemberEntity           updated;
 
-        log.debug("Updating member with id {} using data {}", id, member);
+        log.debug("Updating member {} using data {}", number, change);
 
         // TODO: Identificator and phone must be unique or empty
 
-        if (!memberRepository.existsById(id)) {
-            throw new MissingMemberIdException(id);
+        member = memberRepository.findByNumber(number);
+        if (member.isEmpty()) {
+            // TODO: change name
+            throw new MissingMemberIdException(number);
         }
 
-        entity = mapper.toEntity(member);
+        entity = toEntity(change);
 
         // Set id
-        entity.setId(id);
+        entity.setId(member.get()
+            .getId());
+        entity.setNumber(number);
 
         // Trim strings
         entity.setName(entity.getName()
@@ -176,7 +174,26 @@ public final class DefaultMemberService implements MemberService {
             .trim());
 
         updated = memberRepository.save(entity);
-        return mapper.toDto(updated);
+        return toDto(updated);
+    }
+
+    private final Member toDto(final MemberEntity entity) {
+        return Member.builder()
+            .number(entity.getNumber())
+            .identifier(entity.getIdentifier())
+            .name(entity.getName())
+            .phone(entity.getPhone())
+            .surname(entity.getSurname())
+            .build();
+    }
+
+    private final MemberEntity toEntity(final MemberChange data) {
+        return MemberEntity.builder()
+            .identifier(data.getIdentifier())
+            .name(data.getName())
+            .surname(data.getSurname())
+            .phone(data.getPhone())
+            .build();
     }
 
 }

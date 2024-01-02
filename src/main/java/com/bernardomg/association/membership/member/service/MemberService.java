@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
-import com.bernardomg.association.membership.member.model.request.MemberUpdate;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 
 /**
  * Member service. Supports all the CRUD operations.
@@ -25,15 +24,15 @@ public interface MemberService {
      *            member to persist
      * @return the persisted member
      */
-    public Member create(final MemberCreate member);
+    public Member create(final MemberChange member);
 
     /**
      * Deletes the member with the received id.
      *
-     * @param id
-     *            id of the member to delete
+     * @param memberNumber
+     *            number of the member to delete
      */
-    public void delete(final long id);
+    public void delete(final long memberNumber);
 
     /**
      * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
@@ -49,21 +48,21 @@ public interface MemberService {
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param id
-     *            id of the member to acquire
+     * @param memberNumber
+     *            number of the member to acquire
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Member> getOne(final long id);
+    public Optional<Member> getOne(final long memberNumber);
 
     /**
      * Updates the member for the received id with the received data.
      *
-     * @param id
-     *            id of the member to update
+     * @param memberNumber
+     *            number of the member to update
      * @param member
      *            new data for the member
      * @return the updated member
      */
-    public Member update(final long id, final MemberUpdate member);
+    public Member update(final long memberNumber, final MemberChange member);
 
 }

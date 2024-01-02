@@ -31,11 +31,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.MemberFee;
+import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.config.AlternativePaidFee;
+import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -52,33 +55,82 @@ class ITFeeServiceGetOne {
     }
 
     @Test
-    @DisplayName("With a valid id, the related entity is returned")
-    @ValidMember
-    @PaidFee
-    void testGetOne() {
-        final Optional<MemberFee> fee;
-
-        // WHEN
-        fee = service.getOne(1L, Fees.DATE);
-
-        // THEN
-        Assertions.assertThat(fee)
-            .contains(MemberFees.paid());
-    }
-
-    @Test
     @DisplayName("With no surname, only the name is returned")
     @NoSurnameMember
     @PaidFee
     void testGetOne_NoSurname() {
-        final Optional<MemberFee> fee;
+        final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, Fees.DATE);
+        fee = service.getOne(1L, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(MemberFees.noSurname());
+            .contains(Fees.noSurname());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and a not paid fee, the related entity is returned")
+    @ValidMember
+    @NotPaidFee
+    void testGetOne_NotPaid() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = service.getOne(1L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(Fees.notPaid());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and a paid fee, the related entity is returned")
+    @ValidMember
+    @PaidFee
+    void testGetOne_Paid() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = service.getOne(1L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and two members with paid fees, the first entity is returned")
+    @ValidMember
+    @AlternativeMember
+    @PaidFee
+    @AlternativePaidFee
+    void testGetOne_Paid_TwoMembers() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = service.getOne(1L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and two members with paid fees, the alternative entity is returned")
+    @ValidMember
+    @AlternativeMember
+    @PaidFee
+    @AlternativePaidFee
+    void testGetOne_Paid_TwoMembers_Alternative() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = service.getOne(2L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(Fees.alternative());
     }
 
 }

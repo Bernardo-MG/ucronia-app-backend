@@ -24,9 +24,7 @@
 
 package com.bernardomg.association.funds.test.balance.integration.service;
 
-import java.time.LocalDate;
-
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,9 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.test.balance.util.model.CurrentBalances;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
-import com.bernardomg.association.funds.transaction.persistence.model.PersistentTransaction;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.funds.test.transaction.util.initializer.TransactionInitializer;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -50,92 +48,26 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITBalanceServiceGetBalance {
 
     @Autowired
-    private TransactionRepository repository;
+    private BalanceService         service;
 
     @Autowired
-    private BalanceService        service;
-
-    private final void persist(final Float amount) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now();
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persistNextMonth(final Float amount) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now()
-            .plusMonths(1);
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persistPreviousMonth(final Float amount) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now()
-            .minusMonths(1);
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
-
-    private final void persistPreviousMonth(final Float amount, final int monthDiff) {
-        final PersistentTransaction entity;
-        final LocalDate             month;
-
-        month = LocalDate.now()
-            .minusMonths(monthDiff);
-        entity = PersistentTransaction.builder()
-            .date(month)
-            .description("Description")
-            .amount(amount)
-            .build();
-
-        repository.save(entity);
-        repository.flush();
-    }
+    private TransactionInitializer transactionInitializer;
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
-    void testGetBalance_AroundZero(final Float amount) {
+    void testGetBalance_AroundZero(final float amount) {
         final CurrentBalance balance;
 
-        persist(amount);
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(amount);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(amount);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isEqualTo(amount);
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(amount));
     }
 
     @Test
@@ -143,18 +75,15 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_CurrentMonth() {
         final CurrentBalance balance;
 
-        persist(1F);
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(1F);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(1);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isEqualTo(1);
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(1));
     }
 
     @Test
@@ -162,20 +91,17 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_CurrentMonthAndPrevious() {
         final CurrentBalance balance;
 
-        persist(1F);
-        persistPreviousMonth(2F, 1);
-        persistPreviousMonth(3F, 2);
+        // GIVEN
+        transactionInitializer.registerMonthsBack(1F, 0, 1L);
+        transactionInitializer.registerMonthsBack(2F, 1, 2L);
+        transactionInitializer.registerMonthsBack(3F, 2, 3L);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(6);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isEqualTo(1);
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(1, 6));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
@@ -184,18 +110,15 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_Decimal(final Float amount) {
         final CurrentBalance balance;
 
-        persist(amount);
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(amount);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(amount);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isEqualTo(amount);
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(amount));
     }
 
     @Test
@@ -203,21 +126,18 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_DecimalsAddUpToZero() {
         final CurrentBalance balance;
 
-        persist(-40.8F);
-        persist(13.6F);
-        persist(13.6F);
-        persist(13.6F);
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(-40.8F, 1L);
+        transactionInitializer.registerCurrentMonth(13.6F, 2L);
+        transactionInitializer.registerCurrentMonth(13.6F, 3L);
+        transactionInitializer.registerCurrentMonth(13.6F, 4L);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isZero();
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isZero();
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0));
     }
 
     @Test
@@ -226,16 +146,12 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_FullYear() {
         final CurrentBalance balance;
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(12);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isEqualTo(0);
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0, 12));
     }
 
     @Test
@@ -243,22 +159,19 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_Multiple() {
         final CurrentBalance balance;
 
-        persist(1F);
-        persist(1F);
-        persist(1F);
-        persist(1F);
-        persist(1F);
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(1F, 1L);
+        transactionInitializer.registerCurrentMonth(1F, 2L);
+        transactionInitializer.registerCurrentMonth(1F, 3L);
+        transactionInitializer.registerCurrentMonth(1F, 4L);
+        transactionInitializer.registerCurrentMonth(1F, 5L);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(5);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isEqualTo(5);
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(5));
     }
 
     @Test
@@ -266,18 +179,15 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_NextMonth() {
         final CurrentBalance balance;
 
-        persistNextMonth(1F);
+        // GIVEN
+        transactionInitializer.registerNextMonth(1F);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isZero();
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isZero();
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0));
     }
 
     @Test
@@ -285,16 +195,12 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_NoData() {
         final CurrentBalance balance;
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isZero();
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isZero();
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0));
     }
 
     @Test
@@ -302,20 +208,17 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonth() {
         final CurrentBalance balance;
 
-        persistPreviousMonth(1F);
-        persistPreviousMonth(2F);
-        persistPreviousMonth(3F);
+        // GIVEN
+        transactionInitializer.registerPreviousMonth(1F, 1L);
+        transactionInitializer.registerPreviousMonth(2F, 2L);
+        transactionInitializer.registerPreviousMonth(3F, 3L);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(6);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isZero();
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0, 6));
     }
 
     @Test
@@ -323,20 +226,17 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonths() {
         final CurrentBalance balance;
 
-        persistPreviousMonth(1F, 1);
-        persistPreviousMonth(2F, 2);
-        persistPreviousMonth(3F, 3);
+        // GIVEN
+        transactionInitializer.registerMonthsBack(1F, 1, 1L);
+        transactionInitializer.registerMonthsBack(2F, 2, 2L);
+        transactionInitializer.registerMonthsBack(3F, 3, 3L);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(6);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isZero();
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0, 6));
     }
 
     @Test
@@ -344,20 +244,17 @@ class ITBalanceServiceGetBalance {
     void testGetBalance_PreviousMonths_Gaps() {
         final CurrentBalance balance;
 
-        persistPreviousMonth(1F, 1);
-        persistPreviousMonth(2F, 2);
-        persistPreviousMonth(3F, 5);
+        // GIVEN
+        transactionInitializer.registerMonthsBack(1F, 1, 1L);
+        transactionInitializer.registerMonthsBack(2F, 2, 2L);
+        transactionInitializer.registerMonthsBack(3F, 5, 3L);
 
+        // WHEN
         balance = service.getBalance();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.getTotal())
-                .as("total balance")
-                .isEqualTo(6);
-            softly.assertThat(balance.getResults())
-                .as("month results")
-                .isZero();
-        });
+        // THEN
+        Assertions.assertThat(balance)
+            .isEqualTo(CurrentBalances.amount(0, 6));
     }
 
 }

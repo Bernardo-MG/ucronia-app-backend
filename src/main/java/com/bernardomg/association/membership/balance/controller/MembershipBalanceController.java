@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.membership.balance.model.MemberBalanceQuery;
 import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
-import com.bernardomg.association.membership.balance.model.request.MemberBalanceQueryRequest;
 import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -73,8 +73,7 @@ public class MembershipBalanceController {
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQueryRequest balance,
-            final Sort sort) {
+    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery balance, final Sort sort) {
         return service.getBalance(balance, sort);
     }
 

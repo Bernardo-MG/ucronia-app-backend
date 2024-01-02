@@ -1,17 +1,13 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.util.Collection;
-
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.membership.test.fee.config.argument.FeeMonthPaidArgumentsProvider;
@@ -47,29 +43,9 @@ public class ITFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
-
-            fees = feeRepository.findAll();
-
-            // Nothing is added
-            softly.assertThat(fees)
-                .as("fees")
-                .hasSize(2);
-
-            // Fees from the previous month
-            softly.assertThat(fees)
-                .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.PREVIOUS_MONTH))
-                .as("previous month fees")
-                .allMatch(fee -> fee.getPaid() == previous);
-            // Fees from the current month
-            softly.assertThat(fees)
-                .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.CURRENT_MONTH))
-                .as("current month fees")
-                .allMatch(fee -> fee.getPaid() == current);
-        });
+        Assertions.assertThat(feeRepository.count())
+            .as("fees count")
+            .isEqualTo(2);
     }
 
     @DisplayName("With a fee on the next month, no fee is registered")
@@ -85,22 +61,9 @@ public class ITFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
-
-            fees = feeRepository.findAll();
-
-            // Nothing is added
-            softly.assertThat(fees)
-                .as("fees")
-                .hasSize(1);
-
-            softly.assertThat(fees)
-                .first()
-                .as("fee")
-                .extracting(PersistentFee::getPaid)
-                .isEqualTo(paid);
-        });
+        Assertions.assertThat(feeRepository.count())
+            .as("fees count")
+            .isEqualTo(1);
     }
 
     @Test
@@ -147,29 +110,9 @@ public class ITFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
-
-            fees = feeRepository.findAll();
-
-            // Added a new fee
-            softly.assertThat(fees)
-                .as("fees")
-                .hasSize(2);
-
-            // Fees from the previous month
-            softly.assertThat(fees)
-                .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.PREVIOUS_MONTH))
-                .as("previous month fees")
-                .allMatch(fee -> fee.getPaid() == paid);
-            // Fees from the current month
-            softly.assertThat(fees)
-                .filteredOn(fee -> fee.getDate()
-                    .equals(FeeInitializer.CURRENT_MONTH))
-                .as("current month fees")
-                .allMatch(fee -> !fee.getPaid());
-        });
+        Assertions.assertThat(feeRepository.count())
+            .as("fees count")
+            .isEqualTo(2);
     }
 
     @DisplayName("With a paid fee two months back, no fee is registered")
@@ -185,21 +128,8 @@ public class ITFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final Collection<PersistentFee> fees;
-
-            fees = feeRepository.findAll();
-
-            // Nothing is added
-            softly.assertThat(fees)
-                .as("fees")
-                .hasSize(1);
-
-            softly.assertThat(fees)
-                .first()
-                .as("fee")
-                .extracting(PersistentFee::getPaid)
-                .isEqualTo(paid);
-        });
+        Assertions.assertThat(feeRepository.count())
+            .as("fees count")
+            .isEqualTo(1);
     }
 }

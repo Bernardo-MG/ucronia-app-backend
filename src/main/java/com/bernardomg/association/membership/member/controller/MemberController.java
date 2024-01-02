@@ -44,9 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreateRequest;
-import com.bernardomg.association.membership.member.model.request.MemberQueryRequest;
-import com.bernardomg.association.membership.member.model.request.MemberUpdateRequest;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -74,41 +73,41 @@ public class MemberController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
-    public Member create(@Valid @RequestBody final MemberCreateRequest member) {
+    public Member create(@Valid @RequestBody final MemberChange member) {
         return service.create(member);
     }
 
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = { MembershipCaches.MEMBERS, MembershipCaches.MEMBER }, allEntries = true) })
-    public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+    @Caching(evict = { @CacheEvict(cacheNames = { MembershipCaches.MEMBER }),
+            @CacheEvict(cacheNames = { MembershipCaches.MEMBERS }, allEntries = true) })
+    public void delete(@PathVariable("number") final long number) {
+        service.delete(number);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembershipCaches.MEMBERS)
-    public Iterable<Member> readAll(@Valid final MemberQueryRequest query, final Pageable pageable) {
+    public Iterable<Member> readAll(@Valid final MemberQuery query, final Pageable pageable) {
         return service.getAll(query, pageable);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembershipCaches.MEMBER, key = "#p0")
-    public Member readOne(@PathVariable("id") final Long id) {
-        return service.getOne(id)
+    @Cacheable(cacheNames = MembershipCaches.MEMBER)
+    public Member readOne(@PathVariable("number") final Long number) {
+        return service.getOne(number)
             .orElse(null);
     }
 
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = MembershipCaches.MEMBER, key = "#result.number") },
             evict = { @CacheEvict(cacheNames = MembershipCaches.MEMBERS, allEntries = true) })
-    public Member update(@PathVariable("id") final long id, @Valid @RequestBody final MemberUpdateRequest member) {
-        return service.update(id, member);
+    public Member update(@PathVariable("number") final long number, @Valid @RequestBody final MemberChange member) {
+        return service.update(number, member);
     }
 
 }

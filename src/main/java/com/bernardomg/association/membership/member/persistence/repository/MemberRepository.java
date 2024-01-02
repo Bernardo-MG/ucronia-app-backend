@@ -26,6 +26,7 @@ package com.bernardomg.association.membership.member.persistence.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +56,20 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     public Collection<Long> findAllActiveIdsInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
+    /**
+     * Returns the numbers for all the members active in the received date range. This means, any member which has fees
+     * inside the range, both extremes included.
+     *
+     * @param start
+     *            starting date to search in
+     * @param end
+     *            end date to search in
+     * @return all the ids for the members active in the range
+     */
+    @Query("SELECT m.number FROM Member m INNER JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end")
+    public Collection<Long> findAllActiveNumbersInRange(@Param("start") final YearMonth start,
+            @Param("end") final YearMonth end);
+
     @Query("SELECT m FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL GROUP BY m.id")
     public Page<MemberEntity> findAllInactive(final Pageable pageable, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
@@ -62,6 +77,11 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query("SELECT m.id FROM Member m LEFT JOIN Fee f ON m.id = f.memberId AND f.date >= :start AND f.date <= :end WHERE f.id IS NULL")
     public Collection<Long> findAllInactiveIds(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
+
+    public Optional<MemberEntity> findByNumber(final Long number);
+
+    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM Member m")
+    public Long findNextNumber();
 
     /**
      * Returns if the member is active in the received range. This means if the member has fees inside the range, both

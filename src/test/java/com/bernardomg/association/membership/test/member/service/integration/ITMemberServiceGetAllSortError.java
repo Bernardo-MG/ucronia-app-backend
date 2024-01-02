@@ -34,7 +34,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
 
-import com.bernardomg.association.membership.member.model.request.MemberQuery;
+import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
@@ -59,13 +59,16 @@ class ITMemberServiceGetAllSortError {
         final Pageable         pageable;
         final ThrowingCallable executable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 10, Direction.ASC, "abc");
 
         memberQuery = MembersQuery.empty();
 
+        // WHEN
         executable = () -> service.getAll(memberQuery, pageable)
             .iterator();
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(PropertyReferenceException.class);
     }

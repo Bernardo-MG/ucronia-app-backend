@@ -27,8 +27,13 @@ package com.bernardomg.association.funds.calendar.model;
 import java.time.YearMonth;
 import java.util.Collection;
 
-public interface MonthsRange {
+import lombok.Builder;
+import lombok.Value;
 
-    public Collection<YearMonth> getMonths();
+@Value
+@Builder
+public final class MonthsRange {
+
+    private final Collection<YearMonth> months;
 
 }

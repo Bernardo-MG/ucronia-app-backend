@@ -32,9 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
+import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
-import com.bernardomg.association.membership.test.fee.config.FeeFullYearAlternative;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -74,7 +75,7 @@ class ITFeeCalendarServiceGetRange {
     @ValidMember
     @AlternativeMember
     @FeeFullYear
-    @FeeFullYearAlternative
+    @AlternativeFeeFullYear
     void testGetRange_FullYear_TwoMembers() {
         final YearsRange range;
 
@@ -102,7 +103,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(FeeInitializer.NEXT_YEAR.getValue());
+            .containsOnly(FeeConstants.NEXT_YEAR.getValue());
     }
 
     @Test
@@ -120,7 +121,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(FeeInitializer.NEXT_YEAR.getValue());
+            .containsOnly(FeeConstants.NEXT_YEAR.getValue());
     }
 
     @Test
@@ -167,7 +168,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(FeeInitializer.CURRENT_YEAR.getValue());
+            .containsOnly(FeeConstants.CURRENT_YEAR.getValue());
     }
 
     @Test
@@ -185,7 +186,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(FeeInitializer.CURRENT_YEAR.getValue());
+            .containsOnly(FeeConstants.CURRENT_YEAR.getValue());
     }
 
     @Test
@@ -203,7 +204,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(FeeInitializer.PREVIOUS_YEAR.getValue());
+            .containsOnly(FeeConstants.PREVIOUS_YEAR.getValue());
     }
 
     @Test
@@ -221,7 +222,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsOnly(FeeInitializer.PREVIOUS_YEAR.getValue());
+            .containsOnly(FeeConstants.PREVIOUS_YEAR.getValue());
     }
 
     @Test
@@ -240,7 +241,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsExactly(FeeInitializer.PREVIOUS_YEAR.getValue(), FeeInitializer.CURRENT_YEAR.getValue());
+            .containsExactly(FeeConstants.PREVIOUS_YEAR.getValue(), FeeConstants.CURRENT_YEAR.getValue());
     }
 
     @Test
@@ -259,7 +260,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsExactly(FeeInitializer.PREVIOUS_YEAR.getValue(), FeeInitializer.CURRENT_YEAR.getValue());
+            .containsExactly(FeeConstants.PREVIOUS_YEAR.getValue(), FeeConstants.CURRENT_YEAR.getValue());
     }
 
     @Test
@@ -278,7 +279,7 @@ class ITFeeCalendarServiceGetRange {
         // THEN
         Assertions.assertThat(range.getYears())
             .as("year range")
-            .containsExactly(FeeInitializer.TWO_YEARS_BACK.getYear(), FeeInitializer.CURRENT_YEAR.getValue());
+            .containsExactly(FeeConstants.TWO_YEARS_BACK.getYear(), FeeConstants.CURRENT_YEAR.getValue());
     }
 
 }

@@ -13,6 +13,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
                   name: name
                   type: varchar(50)
                   constraints:
@@ -63,30 +69,38 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
-              - column:
-                  name: paid
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValueBoolean: false
         - addAutoIncrement:
             tableName: fees
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-      modifySql:
-        - append:
-            dbms: mysql
-            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
-  - changeSet:
-      id: membership_unique_constraints
-      author: Bernardo
-      changes:
         - addUniqueConstraint:
             constraintName: fees_unique_date
             tableName: fees
             columnNames: 'member_id, date'
+        - createTable:
+            tableName: fee_payments
+            columns:
+              - column:
+                  name: fee_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_fee_payments_fee
+                    references: fees(id)
+              - column:
+                  name: transaction_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fee_payments_transaction
+                    references: transactions(id)
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
   - changeSet:
       id: membership_views
       author: Bernardo
@@ -97,7 +111,7 @@ databaseChangeLog:
             viewName: active_members
         -  createView:
             remarks: Fees joined with their members
-            selectQuery: SELECT f.id AS id, m.id AS member_id, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, f.paid AS paid FROM members m INNER JOIN fees f ON m.id = f.member_id
+            selectQuery: SELECT f.id AS id, m.id AS member_id, m.number AS member_number, TRIM(CONCAT(m.name, ' ', m.surname)) AS member_name, f.date AS date, t.index AS transaction_index, t.date AS payment_date, CASE WHEN p.fee_id IS NOT NULL THEN true ELSE false END AS paid FROM members m INNER JOIN fees f ON m.id = f.member_id LEFT JOIN fee_payments p ON f.id = p.fee_id LEFT JOIN transactions t ON p.transaction_id = t.id
             viewName: member_fees
         -  createView:
             remarks: Monthly member balance

@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.funds.test.transaction.service.integration;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -37,9 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.configuration.NegativeTransaction;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
-import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.PersistentTransactions;
-import com.bernardomg.association.funds.transaction.model.ImmutableTransaction;
+import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
+import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -66,68 +63,47 @@ class ITTransactionServiceGetOne {
     @PositiveTransaction
     void testGetOne() {
         final Optional<Transaction> transactionOptional;
-        final Transaction           transaction;
 
+        // WHEN
         transactionOptional = service.getOne(1L);
 
+        // THEN
         Assertions.assertThat(transactionOptional)
-            .isPresent();
-
-        transaction = transactionOptional.get();
-
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+            .contains(Transactions.valid());
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a value around zero, the related entity is returned")
-    @NegativeTransaction
     void testGetOne_AroundZero(final Float amount) {
         final Optional<Transaction> transactionOptional;
-        final Transaction           transaction;
 
-        repository.save(PersistentTransactions.forAmount(amount));
+        // GIVEN
+        repository.save(TransactionEntities.forAmount(amount));
 
+        // WHEN
         transactionOptional = service.getOne(1L);
 
+        // THEN
         Assertions.assertThat(transactionOptional)
-            .isPresent();
-
-        transaction = transactionOptional.get();
-
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(-1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+            .contains(Transactions.forAmount(amount));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the related entity is returned")
-    @NegativeTransaction
     void testGetOne_Decimal(final Float amount) {
         final Optional<Transaction> transactionOptional;
-        final Transaction           transaction;
 
-        repository.save(PersistentTransactions.forAmount(amount));
+        // GIVEN
+        repository.save(TransactionEntities.forAmount(amount));
 
+        // WHEN
         transactionOptional = service.getOne(1L);
 
+        // THEN
         Assertions.assertThat(transactionOptional)
-            .isPresent();
-
-        transaction = transactionOptional.get();
-
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(-1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+            .contains(Transactions.forAmount(amount));
     }
 
     @Test
@@ -135,20 +111,13 @@ class ITTransactionServiceGetOne {
     @NegativeTransaction
     void testGetOne_Negative() {
         final Optional<Transaction> transactionOptional;
-        final Transaction           transaction;
 
+        // WHEN
         transactionOptional = service.getOne(1L);
 
+        // THEN
         Assertions.assertThat(transactionOptional)
-            .isPresent();
-
-        transaction = transactionOptional.get();
-
-        TransactionAssertions.isEqualTo(transaction, ImmutableTransaction.builder()
-            .description("Transaction 1")
-            .amount(-1f)
-            .date(LocalDate.of(2020, Month.JANUARY, 1))
-            .build());
+            .contains(Transactions.forAmount(-1F));
     }
 
 }

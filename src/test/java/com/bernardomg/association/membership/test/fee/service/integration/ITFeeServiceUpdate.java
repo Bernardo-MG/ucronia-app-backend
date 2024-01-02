@@ -24,25 +24,21 @@
 
 package com.bernardomg.association.membership.test.fee.service.integration;
 
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.model.request.FeeUpdate;
-import com.bernardomg.association.membership.fee.persistence.model.PersistentFee;
+import com.bernardomg.association.membership.fee.model.FeeChange;
+import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
+import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
 import com.bernardomg.association.membership.test.fee.util.model.FeesUpdate;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
-import com.bernardomg.association.membership.test.fee.util.model.PersistentFees;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -65,13 +61,13 @@ class ITFeeServiceUpdate {
     @ValidMember
     @PaidFee
     void testUpdate_AddsNoEntity() {
-        final FeeUpdate feeRequest;
+        final FeeChange change;
 
         // GIVEN
-        feeRequest = FeesUpdate.notPaid();
+        change = FeesUpdate.nextMonth();
 
         // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
+        service.update(1L, FeeConstants.DATE, change);
 
         // THEN
         Assertions.assertThat(repository.count())
@@ -79,64 +75,24 @@ class ITFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a value change on the paid flag, the change is persisted")
+    @DisplayName("With a date change, the change is persisted")
     @ValidMember
     @NotPaidFee
     void testUpdate_Pay_PersistedData() {
-        final FeeUpdate     feeRequest;
-        final PersistentFee fee;
+        final FeeChange change;
+        final FeeEntity fee;
 
         // GIVEN
-        feeRequest = FeesUpdate.paid();
+        change = FeesUpdate.nextMonth();
 
         // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
+        service.update(1L, FeeConstants.DATE, change);
         fee = repository.findAll()
             .iterator()
             .next();
 
         // THEN
-        FeeAssertions.isEqualTo(fee, PersistentFees.paidAt(Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the change is persisted")
-    @ValidMember
-    @PaidFee
-    void testUpdate_PersistedData() {
-        final FeeUpdate     feeRequest;
-        final PersistentFee fee;
-
-        // GIVEN
-        feeRequest = FeesUpdate.notPaid();
-
-        // WHEN
-        service.update(1L, Fees.DATE, feeRequest);
-        fee = repository.findAll()
-            .iterator()
-            .next();
-
-        // THEN
-        FeeAssertions.isEqualTo(fee, PersistentFees.notPaidAt(Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the changed data is returned")
-    @ValidMember
-    @PaidFee
-    void testUpdate_ReturnedData() {
-        final FeeUpdate feeRequest;
-        final MemberFee fee;
-
-        // GIVEN
-        feeRequest = FeesUpdate.notPaid();
-
-        // WHEN
-        fee = service.update(1L, Fees.DATE, feeRequest);
-
-        // THEN
-        Assertions.assertThat(fee)
-            .isEqualTo(MemberFees.notPaid());
+        FeeAssertions.isEqualTo(fee, FeeEntities.nextMonth());
     }
 
 }

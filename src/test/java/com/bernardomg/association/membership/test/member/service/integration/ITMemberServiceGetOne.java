@@ -35,8 +35,7 @@ import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,16 +55,14 @@ class ITMemberServiceGetOne {
     @PaidFee
     void testGetOne_Active() {
         final Optional<Member> memberOptional;
-        final Member           member;
 
+        // WHEN
         // TODO: This is not active
         memberOptional = service.getOne(1L);
 
+        // THEN
         Assertions.assertThat(memberOptional)
-            .isPresent();
-
-        member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
+            .contains(Members.inactive(1));
     }
 
     @Test
@@ -73,15 +70,13 @@ class ITMemberServiceGetOne {
     @ValidMember
     void testGetOne_Inactive() {
         final Optional<Member> memberOptional;
-        final Member           member;
 
+        // WHEN
         memberOptional = service.getOne(1L);
 
+        // THEN
         Assertions.assertThat(memberOptional)
-            .isPresent();
-
-        member = memberOptional.get();
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive(1));
+            .contains(Members.inactive(1));
     }
 
 }

@@ -32,7 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.membership.fee.service.FeeService;
-import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,17 +49,30 @@ class ITFeeServiceGetOneError {
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
+    @DisplayName("With a not existing fee, an exception is thrown")
     @ValidMember
-    void testGetOne_NotExisting() {
+    void testGetOne_NotExistingFee() {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.getOne(1L, Fees.DATE);
+        execution = () -> service.getOne(1L, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingFeeIdException.class);
+    }
+
+    @Test
+    @DisplayName("With a not existing member, an exception is thrown")
+    void testGetOne_NotExistingMember() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> service.getOne(1L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberIdException.class);
     }
 
 }

@@ -30,10 +30,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.member.existence.MissingMemberIdException;
-import com.bernardomg.association.membership.member.model.request.MemberUpdate;
+import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.association.membership.test.member.util.model.MembersUpdate;
+import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,13 +50,16 @@ class ITMemberServiceUpdateError {
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final MemberUpdate     memberRequest;
+        final MemberChange     memberRequest;
         final ThrowingCallable execution;
 
-        memberRequest = MembersUpdate.nameChange();
+        // GIVEN
+        memberRequest = MemberChanges.nameChange();
 
+        // WHEN
         execution = () -> service.update(1L, memberRequest);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberIdException.class);
     }

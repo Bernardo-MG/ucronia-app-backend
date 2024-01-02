@@ -33,10 +33,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.membership.fee.persistence.model.PersistentMemberFee;
+import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
 
 public interface MemberFeeRepository
-        extends JpaRepository<PersistentMemberFee, Long>, JpaSpecificationExecutor<PersistentMemberFee> {
+        extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
+
+    public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
 
     /**
      * Returns all member fees inside the received range.
@@ -50,7 +52,7 @@ public interface MemberFeeRepository
      * @return all member fees filtered by date range
      */
     @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end")
-    public Collection<PersistentMemberFee> findAllInRange(@Param("start") final YearMonth start,
+    public Collection<MemberFeeEntity> findAllInRange(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, final Sort sort);
 
     /**
@@ -67,7 +69,7 @@ public interface MemberFeeRepository
      * @return all member fees filtered by id and date range
      */
     @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.memberId IN :ids")
-    public Collection<PersistentMemberFee> findAllInRangeForMembersIn(@Param("start") final YearMonth start,
+    public Collection<MemberFeeEntity> findAllInRangeForMembersIn(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
 
     /**

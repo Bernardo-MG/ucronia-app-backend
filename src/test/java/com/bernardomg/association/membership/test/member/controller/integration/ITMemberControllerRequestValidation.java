@@ -37,8 +37,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
-import com.bernardomg.association.membership.test.member.util.model.MembersCreate;
+import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
 import com.bernardomg.association.test.config.constant.TestUrls;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.google.gson.Gson;
@@ -57,7 +57,7 @@ class ITMemberControllerRequestValidation {
         super();
     }
 
-    private final RequestBuilder getPostRequest(final MemberCreate member) {
+    private final RequestBuilder getPostRequest(final MemberChange member) {
         final String json;
 
         json = gson.toJson(member);
@@ -70,9 +70,9 @@ class ITMemberControllerRequestValidation {
     @DisplayName("With a valid member, returns the created member")
     void testPost_Full_Valid() throws Exception {
         final ResultActions result;
-        final MemberCreate  member;
+        final MemberChange  member;
 
-        member = MembersCreate.valid();
+        member = MemberChanges.valid();
 
         result = mockMvc.perform(getPostRequest(member));
 
@@ -89,9 +89,9 @@ class ITMemberControllerRequestValidation {
     @Disabled("The model rejects this case")
     void testPost_MissingName_Invalid() throws Exception {
         final ResultActions result;
-        final MemberCreate  member;
+        final MemberChange  member;
 
-        member = MembersCreate.missingName();
+        member = MemberChanges.missingName();
 
         result = mockMvc.perform(getPostRequest(member));
 

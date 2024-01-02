@@ -25,7 +25,6 @@
 package com.bernardomg.association.membership.test.fee.service.integration;
 
 import java.time.Month;
-import java.util.Iterator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,15 +34,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.membership.fee.model.MemberFee;
-import com.bernardomg.association.membership.fee.model.request.FeeQuery;
+import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
+import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
+import com.bernardomg.association.membership.test.fee.util.model.Fees;
 import com.bernardomg.association.membership.test.fee.util.model.FeesQuery;
-import com.bernardomg.association.membership.test.fee.util.model.MemberFees;
 import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
@@ -65,10 +64,9 @@ class ITFeeServiceGetAll {
     @ValidMember
     @FeeFullYear
     void testGetAll_FullYear() {
-        final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = PageRequest.of(0, 20, Direction.ASC, "date");
 
@@ -80,22 +78,12 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(12);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JANUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JUNE));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.JULY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.AUGUST));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.SEPTEMBER));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.OCTOBER));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.NOVEMBER));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(Month.DECEMBER));
+            .containsExactly(Fees.paidAt(Month.JANUARY.getValue()), Fees.paidAt(Month.FEBRUARY.getValue()),
+                Fees.paidAt(Month.MARCH.getValue()), Fees.paidAt(Month.APRIL.getValue()),
+                Fees.paidAt(Month.MAY.getValue()), Fees.paidAt(Month.JUNE.getValue()),
+                Fees.paidAt(Month.JULY.getValue()), Fees.paidAt(Month.AUGUST.getValue()),
+                Fees.paidAt(Month.SEPTEMBER.getValue()), Fees.paidAt(Month.OCTOBER.getValue()),
+                Fees.paidAt(Month.NOVEMBER.getValue()), Fees.paidAt(Month.DECEMBER.getValue()));
     }
 
     @Test
@@ -103,10 +91,9 @@ class ITFeeServiceGetAll {
     @MultipleMembers
     @MultipleFees
     void testGetAll_Multiple() {
-        final Iterable<MemberFee> fees;
-        final Iterator<MemberFee> feesItr;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -118,24 +105,17 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .hasSize(5);
-
-        feesItr = fees.iterator();
-
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(1, Month.FEBRUARY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(2, Month.MARCH));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(3, Month.APRIL));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.paidAt(4, Month.MAY));
-        FeeAssertions.isEqualTo(feesItr.next(), MemberFees.notPaidAt(5, Month.JUNE));
+            .containsExactly(Fees.paidAt(1, Month.FEBRUARY), Fees.paidAt(2, Month.MARCH), Fees.paidAt(3, Month.APRIL),
+                Fees.paidAt(4, Month.MAY), Fees.notPaidAt(5, Month.JUNE));
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
     @ValidMember
     void testGetAll_NoFee() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -155,9 +135,9 @@ class ITFeeServiceGetAll {
     @NoSurnameMember
     @PaidFee
     void testGetAll_NoSurname() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -169,17 +149,17 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.noSurname());
+            .containsExactly(Fees.noSurname());
     }
 
     @Test
-    @DisplayName("With a single fee it returns all the fees")
+    @DisplayName("With a not paid fee it returns all the fees")
     @ValidMember
-    @PaidFee
-    void testGetAll_Single() {
-        final Iterable<MemberFee> fees;
-        final FeeQuery            feeQuery;
-        final Pageable            pageable;
+    @NotPaidFee
+    void testGetAll_NotPaid() {
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
 
         pageable = Pageable.unpaged();
 
@@ -191,7 +171,29 @@ class ITFeeServiceGetAll {
         // THEN
         Assertions.assertThat(fees)
             .as("fees")
-            .containsExactly(MemberFees.paid());
+            .containsExactly(Fees.notPaid());
+    }
+
+    @Test
+    @DisplayName("With a paid fee it returns all the fees")
+    @ValidMember
+    @PaidFee
+    void testGetAll_Paid() {
+        final Iterable<Fee> fees;
+        final FeeQuery      feeQuery;
+        final Pageable      pageable;
+
+        pageable = Pageable.unpaged();
+
+        feeQuery = FeesQuery.empty();
+
+        // WHEN
+        fees = service.getAll(feeQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
     }
 
 }

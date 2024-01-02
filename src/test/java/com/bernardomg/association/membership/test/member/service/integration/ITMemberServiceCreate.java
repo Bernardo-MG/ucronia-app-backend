@@ -31,14 +31,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.request.MemberCreate;
+import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.DtoMembers;
-import com.bernardomg.association.membership.test.member.util.model.MembersCreate;
-import com.bernardomg.association.membership.test.member.util.model.MembersEntity;
+import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
+import com.bernardomg.association.membership.test.member.util.model.MemberEntities;
+import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -59,13 +59,16 @@ class ITMemberServiceCreate {
     @DisplayName("With a member with no surname, the member is persisted")
     @Disabled("This is an error case, handle somehow")
     void testCreate_NoSurname_PersistedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.missingSurname();
+        // GIVEN
+        memberRequest = MemberChanges.missingSurname();
 
+        // WHEN
         service.create(memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
 
@@ -73,19 +76,22 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MembersEntity.missingSurname());
+        MemberAssertions.isEqualTo(entity, MemberEntities.missingSurname());
     }
 
     @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed and the member is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.paddedWithWhitespaces();
+        // GIVEN
+        memberRequest = MemberChanges.paddedWithWhitespaces();
 
+        // WHEN
         service.create(memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
 
@@ -93,19 +99,22 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
+        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     void testCreate_PersistedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final MemberEntity entity;
 
-        memberRequest = MembersCreate.valid();
+        // GIVEN
+        memberRequest = MemberChanges.valid();
 
+        // WHEN
         service.create(memberRequest);
 
+        // THEN
         Assertions.assertThat(repository.count())
             .isOne();
 
@@ -113,20 +122,25 @@ class ITMemberServiceCreate {
             .iterator()
             .next();
 
-        MemberAssertions.isEqualTo(entity, MembersEntity.valid());
+        MemberAssertions.isEqualTo(entity, MemberEntities.valid());
     }
 
     @Test
     @DisplayName("With a valid member, the created member is returned")
     void testCreate_ReturnedData() {
-        final MemberCreate memberRequest;
+        final MemberChange memberRequest;
         final Member       member;
 
-        memberRequest = MembersCreate.valid();
+        // GIVEN
+        memberRequest = MemberChanges.valid();
 
+        // WHEN
         member = service.create(memberRequest);
 
-        MemberAssertions.isEqualTo(member, DtoMembers.inactive());
+        // THEN
+        Assertions.assertThat(member)
+            .as("member")
+            .isEqualTo(Members.inactive());
     }
 
 }

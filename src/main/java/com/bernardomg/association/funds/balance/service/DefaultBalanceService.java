@@ -33,9 +33,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.model.request.BalanceQuery;
 import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
 import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.funds.balance.persistence.specification.MonthlyBalanceSpecifications;
@@ -98,7 +98,7 @@ public final class DefaultBalanceService implements BalanceService {
     }
 
     @Override
-    public final Collection<? extends MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
+    public final Collection<MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
         final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
         final Specification<MonthlyBalanceEntity>           limitSpec;
         final Specification<MonthlyBalanceEntity>           spec;
