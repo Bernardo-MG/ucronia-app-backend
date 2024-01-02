@@ -95,14 +95,15 @@ public class FeeController {
 
     @DeleteMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }), @CacheEvict(cacheNames = {
-            // Fee caches
-            FeeCaches.FEES,
-            // Funds caches
-            MembershipCaches.MONTHLY_BALANCE,
-            // Member caches
-            MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
-            MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
+    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0.toString() + ':' + #p1"),
+            @CacheEvict(cacheNames = {
+                    // Fee caches
+                    FeeCaches.FEES,
+                    // Funds caches
+                    MembershipCaches.MONTHLY_BALANCE,
+                    // Member caches
+                    MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
+                    MembershipCaches.CALENDAR_RANGE }, allEntries = true) })
     public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         service.delete(memberNumber, date);
@@ -117,7 +118,7 @@ public class FeeController {
 
     @GetMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEE)
+    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0.toString() + ':' + #p1")
     public Fee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.getOne(memberNumber, date)
