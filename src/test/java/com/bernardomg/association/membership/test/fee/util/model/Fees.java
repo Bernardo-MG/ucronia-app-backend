@@ -8,6 +8,17 @@ import com.bernardomg.association.membership.fee.model.Fee;
 
 public final class Fees {
 
+    public static final Fee alternative() {
+        return Fee.builder()
+            .memberNumber(2L)
+            .memberName("Member 2 Surname 2")
+            .date(FeeConstants.DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(2L)
+            .build();
+    }
+
     public static final Fee noSurname() {
         return Fee.builder()
             .memberNumber(1L)

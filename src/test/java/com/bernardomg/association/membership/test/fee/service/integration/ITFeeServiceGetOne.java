@@ -33,10 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.membership.test.fee.config.AlternativePaidFee;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.model.Fees;
+import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -95,6 +97,40 @@ class ITFeeServiceGetOne {
         // THEN
         Assertions.assertThat(fee)
             .contains(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and two members with paid fees, the first entity is returned")
+    @ValidMember
+    @AlternativeMember
+    @PaidFee
+    @AlternativePaidFee
+    void testGetOne_Paid_TwoMembers() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = service.getOne(1L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With a valid id, and two members with paid fees, the alternative entity is returned")
+    @ValidMember
+    @AlternativeMember
+    @PaidFee
+    @AlternativePaidFee
+    void testGetOne_Paid_TwoMembers_Alternative() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = service.getOne(2L, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .contains(Fees.alternative());
     }
 
 }

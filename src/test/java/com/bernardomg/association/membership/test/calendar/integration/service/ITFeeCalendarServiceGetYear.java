@@ -41,8 +41,8 @@ import com.bernardomg.association.membership.test.calendar.util.assertion.Member
 import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
+import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
-import com.bernardomg.association.membership.test.fee.config.FeeFullYearAlternative;
 import com.bernardomg.association.membership.test.fee.config.TwoFeeYearsConnected;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
@@ -92,7 +92,7 @@ class ITFeeCalendarServiceGetYear {
     @ValidMember
     @AlternativeMember
     @FeeFullYear
-    @FeeFullYearAlternative
+    @AlternativeFeeFullYear
     void testGetYear_FullYear_TwoMembers() {
         final Iterable<MemberFeeCalendar> calendars;
         final Iterator<MemberFeeCalendar> calendarsItr;

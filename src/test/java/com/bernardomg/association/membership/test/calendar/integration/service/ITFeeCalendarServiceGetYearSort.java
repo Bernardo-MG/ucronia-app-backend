@@ -41,8 +41,8 @@ import com.bernardomg.association.membership.member.model.MemberStatus;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
+import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
-import com.bernardomg.association.membership.test.fee.config.FeeFullYearAlternative;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -83,7 +83,7 @@ class ITFeeCalendarServiceGetYearSort {
     @ValidMember
     @AlternativeMember
     @FeeFullYear
-    @FeeFullYearAlternative
+    @AlternativeFeeFullYear
     void testGetYear_TwoMembers_Name_Asc() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;
@@ -113,7 +113,7 @@ class ITFeeCalendarServiceGetYearSort {
     @ValidMember
     @AlternativeMember
     @FeeFullYear
-    @FeeFullYearAlternative
+    @AlternativeFeeFullYear
     void testGetYear_TwoMembers_Name_Desc() {
         final Iterator<MemberFeeCalendar> calendars;
         final Sort                        sort;

@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
+import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
-import com.bernardomg.association.membership.test.fee.config.FeeFullYearAlternative;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
@@ -75,7 +75,7 @@ class ITFeeCalendarServiceGetRange {
     @ValidMember
     @AlternativeMember
     @FeeFullYear
-    @FeeFullYearAlternative
+    @AlternativeFeeFullYear
     void testGetRange_FullYear_TwoMembers() {
         final YearsRange range;
 
