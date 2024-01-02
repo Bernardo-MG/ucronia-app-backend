@@ -24,8 +24,8 @@
    <version>1.0.0-SNAPSHOT</version>
    <packaging>war</packaging>
 
-   <name>Association App Backend</name>
-   <description>Application backend for handling a small association.</description>
+   <name>Ucronia App Backend</name>
+   <description>Backend application for the Ucronía RPG association.</description>
    <url>https://github.com/bernardo-mg/ucronia-app-backend</url>
    <inceptionYear>2022</inceptionYear>
 
