@@ -83,7 +83,7 @@ public class MemberController {
     @RequireResourceAccess(resource = "MEMBER", action = Actions.DELETE)
     @Caching(evict = {
             @CacheEvict(cacheNames = { MembershipCaches.MEMBERS, MembershipCaches.MEMBER }, allEntries = true) })
-    public void delete(@PathVariable("id") final long number) {
+    public void delete(@PathVariable("number") final long number) {
         service.delete(number);
     }
 
