@@ -99,7 +99,7 @@ public class TransactionController {
     @DeleteMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = FundsCaches.TRANSACTIONS, allEntries = true),
-            @CacheEvict(cacheNames = FundsCaches.TRANSACTION, key = "#p0"),
+            @CacheEvict(cacheNames = FundsCaches.TRANSACTION),
             @CacheEvict(cacheNames = FundsCaches.CALENDAR, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.CALENDAR_RANGE, allEntries = true),
             @CacheEvict(cacheNames = FundsCaches.BALANCE, allEntries = true),
@@ -134,7 +134,7 @@ public class TransactionController {
      */
     @GetMapping(path = "/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = FundsCaches.TRANSACTION, key = "#p0")
+    @Cacheable(cacheNames = FundsCaches.TRANSACTION)
     public Transaction readOne(@PathVariable("index") final long index) {
         return service.getOne(index)
             .orElse(null);

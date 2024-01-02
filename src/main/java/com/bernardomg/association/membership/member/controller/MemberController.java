@@ -96,7 +96,7 @@ public class MemberController {
 
     @GetMapping(path = "/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembershipCaches.MEMBER, key = "#p0")
+    @Cacheable(cacheNames = MembershipCaches.MEMBER)
     public Member readOne(@PathVariable("number") final Long number) {
         return service.getOne(number)
             .orElse(null);

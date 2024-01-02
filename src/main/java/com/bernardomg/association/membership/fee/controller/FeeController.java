@@ -103,7 +103,7 @@ public class FeeController {
             // Member caches
             MembershipCaches.MEMBERS, MembershipCaches.MEMBER, MembershipCaches.CALENDAR,
             MembershipCaches.CALENDAR_RANGE }, allEntries = true),
-            @CacheEvict(cacheNames = FeeCaches.FEE, key = "#p0") })
+            @CacheEvict(cacheNames = FeeCaches.FEE) })
     public void delete(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         service.delete(memberNumber, date);
@@ -118,7 +118,7 @@ public class FeeController {
 
     @GetMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0")
+    @Cacheable(cacheNames = FeeCaches.FEE)
     public Fee readOne(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
             @PathVariable("memberNumber") final long memberNumber) {
         return service.getOne(memberNumber, date)
