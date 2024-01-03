@@ -175,7 +175,7 @@ public final class DefaultFeeService implements FeeService {
             .build();
         validatorPay.validate(payment);
 
-        fees = registerFees(memberNumber, feeDates);
+        fees = registerFees(member.get().getId(), feeDates);
         registerTransaction(member.get(), fees, payDate, feeDates);
 
         // Read fees to return names
@@ -256,12 +256,12 @@ public final class DefaultFeeService implements FeeService {
             .toList();
     }
 
-    private final Collection<FeeEntity> registerFees(final Long memberNumber, final Collection<YearMonth> feeDates) {
+    private final Collection<FeeEntity> registerFees(final Long memberId, final Collection<YearMonth> feeDates) {
         final Collection<FeeEntity>          fees;
         final Function<YearMonth, FeeEntity> toPersistentFee;
 
         // Register fees
-        toPersistentFee = (date) -> toPersistentFee(memberNumber, date);
+        toPersistentFee = (date) -> toPersistentFee(memberId, date);
         fees = feeDates.stream()
             .map(toPersistentFee)
             .toList();
@@ -340,11 +340,11 @@ public final class DefaultFeeService implements FeeService {
             .build();
     }
 
-    private final FeeEntity toPersistentFee(final Long memberNumber, final YearMonth date) {
+    private final FeeEntity toPersistentFee(final Long memberId, final YearMonth date) {
         final FeeEntity fee;
 
         fee = new FeeEntity();
-        fee.setMemberId(memberNumber);
+        fee.setMemberId(memberId);
         fee.setDate(date);
 
         return fee;
