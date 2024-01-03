@@ -34,6 +34,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
@@ -129,7 +130,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paid());
+            .containsExactly(Fees.paidWithIndex(1));
     }
 
     @Test
@@ -193,7 +194,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paid(), Fees.paidNextDate());
+            .containsExactly(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
     }
 
     @Test
@@ -268,7 +269,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paid(), Fees.paidNextDate());
+            .containsExactly(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
     }
 
     @Test
@@ -355,7 +356,7 @@ class ITFeeServicePayFees {
         service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.NEXT_DATE));
 
         // THEN
-        entity = transactionRepository.findOneByIndex(2L);
+        entity = transactionRepository.findOneByIndex(TransactionConstants.INDEX + 1);
 
         Assertions.assertThat(entity)
             .isNotEmpty();
@@ -373,7 +374,7 @@ class ITFeeServicePayFees {
 
         // THEN
         Assertions.assertThat(fees)
-            .containsExactly(Fees.paid());
+            .containsExactly(Fees.paidWithIndex(1));
     }
 
 }

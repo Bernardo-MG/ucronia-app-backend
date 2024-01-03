@@ -43,7 +43,7 @@ public final class Fees {
 
     public static final Fee notPaidAt(final long index, final Month month) {
         return Fee.builder()
-            .memberNumber(index)
+            .memberNumber(index * 10)
             .memberName("Member " + index + " Surname " + index)
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(false)
@@ -74,12 +74,12 @@ public final class Fees {
 
     public static final Fee paidAt(final long index, final Month month) {
         return Fee.builder()
-            .memberNumber(index)
+            .memberNumber(index * 10)
             .memberName("Member " + index + " Surname " + index)
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(index)
+            .transactionIndex(index * 10)
             .build();
     }
 
@@ -91,6 +91,28 @@ public final class Fees {
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
             .transactionIndex(TransactionConstants.INDEX)
+            .build();
+    }
+
+    public static final Fee paidNextDateWithIndex(final long index) {
+        return Fee.builder()
+            .memberNumber(MemberConstants.NUMBER)
+            .memberName("Member 1 Surname 1")
+            .date(FeeConstants.NEXT_DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(index)
+            .build();
+    }
+
+    public static final Fee paidWithIndex(final long index) {
+        return Fee.builder()
+            .memberNumber(MemberConstants.NUMBER)
+            .memberName("Member 1 Surname 1")
+            .date(FeeConstants.DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(index)
             .build();
     }
 

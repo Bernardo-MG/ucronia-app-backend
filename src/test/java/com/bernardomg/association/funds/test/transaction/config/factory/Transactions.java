@@ -54,18 +54,18 @@ public final class Transactions {
             .build();
     }
 
-    public static final Transaction valid() {
+    public static final Transaction newlyCreated() {
         return Transaction.builder()
-            .index(TransactionConstants.INDEX)
+            .index(1L)
             .amount(1f)
             .date(TransactionConstants.DATE)
             .description(TransactionConstants.DESCRIPTION)
             .build();
     }
 
-    public static final Transaction newlyCreated() {
+    public static final Transaction valid() {
         return Transaction.builder()
-            .index(1L)
+            .index(TransactionConstants.INDEX)
             .amount(1f)
             .date(TransactionConstants.DATE)
             .description(TransactionConstants.DESCRIPTION)
