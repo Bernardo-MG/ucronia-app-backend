@@ -49,7 +49,10 @@
             The API no longer works with internal ids.
          </action>
       </release>
-      <release version="1.0.0" date="2024-01-03" description="">
+      <release version="0.2.4" date="2024-01-03" description="Fixed id handling">
+         <action dev="bmg" type="fix">
+            Fixed handling of public and private ids.
+         </action>
       </release>
    </body>
 </document>
