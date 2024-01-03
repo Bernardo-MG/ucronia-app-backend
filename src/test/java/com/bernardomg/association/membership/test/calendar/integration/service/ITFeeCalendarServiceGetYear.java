@@ -37,16 +37,16 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.membership.test.calendar.config.factory.FeeMonths;
+import com.bernardomg.association.membership.test.calendar.config.factory.MemberCalendars;
+import com.bernardomg.association.membership.test.calendar.config.factory.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
-import com.bernardomg.association.membership.test.calendar.util.model.FeeMonths;
-import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
-import com.bernardomg.association.membership.test.calendar.util.model.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.TwoFeeYearsConnected;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.NoSurnameMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

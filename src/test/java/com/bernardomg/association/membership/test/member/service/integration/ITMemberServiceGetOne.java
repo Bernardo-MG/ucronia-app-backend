@@ -34,8 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.association.membership.test.member.util.model.Members;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
+import com.bernardomg.association.membership.test.member.config.factory.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,7 +59,7 @@ class ITMemberServiceGetOne {
 
         // WHEN
         // TODO: This is not active
-        memberOptional = service.getOne(1L);
+        memberOptional = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
@@ -72,7 +73,7 @@ class ITMemberServiceGetOne {
         final Optional<Member> memberOptional;
 
         // WHEN
-        memberOptional = service.getOne(1L);
+        memberOptional = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)

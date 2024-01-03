@@ -4,14 +4,14 @@ package com.bernardomg.association.membership.test.fee.util.initializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
 import com.bernardomg.association.membership.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.membership.test.fee.util.model.FeeEntities;
+import com.bernardomg.association.membership.test.fee.config.factory.FeeEntities;
 
 @Component
 public final class FeeInitializer {

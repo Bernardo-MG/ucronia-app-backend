@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
-import com.bernardomg.association.funds.test.calendar.util.model.CalendarFundsDates;
+import com.bernardomg.association.funds.test.calendar.config.factory.CalendarFundsDates;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionChanges;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
 
 import jakarta.validation.ConstraintViolation;

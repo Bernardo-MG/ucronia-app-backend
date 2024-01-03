@@ -114,9 +114,9 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             .toList();
 
         years = new ArrayList<>();
-        for (final Long member : memberIds) {
-            fees = memberFees.get(member);
-            feeYear = toFeeYear(member, year, fees);
+        for (final Long memberId : memberIds) {
+            fees = memberFees.get(memberId);
+            feeYear = toFeeYear(memberId, year, fees);
             years.add(feeYear);
         }
 
@@ -139,7 +139,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             .build();
     }
 
-    private final MemberFeeCalendar toFeeYear(final Long member, final Integer year,
+    private final MemberFeeCalendar toFeeYear(final Long memberId, final Integer year,
             final Collection<MemberFeeEntity> fees) {
         final Collection<FeeMonth>   months;
         final MemberFeeEntity        row;
@@ -162,11 +162,11 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        active = memberRepository.isActive(member, validStart, validEnd);
+        active = memberRepository.isActive(memberId, validStart, validEnd);
 
-        read = memberRepository.findByNumber(member);
+        read = memberRepository.findById(memberId);
         if (read.isPresent()) {
-            memberNumber = memberRepository.findByNumber(member)
+            memberNumber = read
                 .get()
                 .getNumber();
         } else {

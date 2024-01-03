@@ -13,7 +13,7 @@ import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceSe
 import com.bernardomg.association.membership.test.fee.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.config.argument.FeePaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

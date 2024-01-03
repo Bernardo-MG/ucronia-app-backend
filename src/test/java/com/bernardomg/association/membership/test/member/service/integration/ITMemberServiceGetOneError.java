@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,7 +52,7 @@ class ITMemberServiceGetOneError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.getOne(1L);
+        execution = () -> service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

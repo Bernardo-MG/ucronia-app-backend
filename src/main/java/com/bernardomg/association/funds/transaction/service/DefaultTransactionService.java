@@ -66,6 +66,7 @@ public final class DefaultTransactionService implements TransactionService {
             throw new MissingTransactionIdException(index);
         }
 
+        // TODO: Check this deletes on cascade
         transactionRepository.deleteByIndex(index);
     }
 

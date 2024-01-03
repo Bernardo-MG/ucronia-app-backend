@@ -30,7 +30,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.exception.MissingIdException;
@@ -57,7 +58,7 @@ class ITTransactionServiceUpdateError {
         transactionRequest = TransactionChanges.descriptionChange();
 
         // WHEN
-        execution = () -> service.update(1L, transactionRequest);
+        execution = () -> service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
