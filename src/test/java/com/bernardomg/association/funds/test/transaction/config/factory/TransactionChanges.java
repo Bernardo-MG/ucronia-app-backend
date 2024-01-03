@@ -10,17 +10,17 @@ public final class TransactionChanges {
 
     public static final TransactionChange amount(final Float amount) {
         return TransactionChange.builder()
-            .description("Transaction")
+            .description(TransactionConstants.DESCRIPTION)
             .amount(amount)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 
     public static final TransactionChange decimal() {
         return TransactionChange.builder()
-            .description("Transaction")
+            .description(TransactionConstants.DESCRIPTION)
             .amount(1.2F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 
@@ -28,7 +28,7 @@ public final class TransactionChanges {
         return TransactionChange.builder()
             .description("Transaction 123")
             .amount(1F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 
@@ -36,13 +36,13 @@ public final class TransactionChanges {
         return TransactionChange.builder()
             .description("")
             .amount(1F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 
     public static final TransactionChange firstDay() {
         return TransactionChange.builder()
-            .description("Transaction")
+            .description(TransactionConstants.DESCRIPTION)
             .amount(1F)
             .date(LocalDate.of(2020, Month.JANUARY, 1))
             .build();
@@ -50,14 +50,14 @@ public final class TransactionChanges {
 
     public static final TransactionChange missingAmount() {
         return TransactionChange.builder()
-            .description("Transaction")
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .description(TransactionConstants.DESCRIPTION)
+            .date(TransactionConstants.DATE)
             .build();
     }
 
     public static final TransactionChange missingDate() {
         return TransactionChange.builder()
-            .description("Transaction")
+            .description(TransactionConstants.DESCRIPTION)
             .amount(1F)
             .build();
     }
@@ -65,7 +65,7 @@ public final class TransactionChanges {
     public static final TransactionChange missingDescription() {
         return TransactionChange.builder()
             .amount(1F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 
@@ -73,15 +73,15 @@ public final class TransactionChanges {
         return TransactionChange.builder()
             .description(" Transaction ")
             .amount(1F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 
     public static final TransactionChange valid() {
         return TransactionChange.builder()
-            .description("Transaction")
+            .description(TransactionConstants.DESCRIPTION)
             .amount(1F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .date(TransactionConstants.DATE)
             .build();
     }
 

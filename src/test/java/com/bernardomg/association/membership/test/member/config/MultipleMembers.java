@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.test.member.configuration;
+package com.bernardomg.association.membership.test.member.config;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/member/single.sql")
+@Sql("/db/queries/member/multiple.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ValidMember {
+public @interface MultipleMembers {
 
 }

@@ -7,9 +7,9 @@ public final class Members {
 
     public static final Member active() {
         return Member.builder()
-            .number(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .number(MemberConstants.NUMBER)
+            .name(MemberConstants.NAME)
+            .surname(MemberConstants.SURNAME)
             .phone("12345")
             .identifier("6789")
             .active(true)
@@ -18,7 +18,7 @@ public final class Members {
 
     public static final Member active(final int index) {
         return Member.builder()
-            .number(1L)
+            .number(MemberConstants.NUMBER)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone("12345")
@@ -51,9 +51,9 @@ public final class Members {
 
     public static final Member inactive() {
         return Member.builder()
-            .number(1L)
-            .name("Member 1")
-            .surname("Surname 1")
+            .number(MemberConstants.NUMBER)
+            .name(MemberConstants.NAME)
+            .surname(MemberConstants.SURNAME)
             .phone("12345")
             .identifier("6789")
             .active(false)
@@ -62,7 +62,7 @@ public final class Members {
 
     public static final Member inactive(final int index) {
         return Member.builder()
-            .number(1L)
+            .number(MemberConstants.NUMBER)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone("12345")
@@ -73,7 +73,7 @@ public final class Members {
 
     public static final Member nameChange() {
         return Member.builder()
-            .number(1L)
+            .number(MemberConstants.NUMBER)
             .name("Member 123")
             .surname("Surname")
             .phone("12345")

@@ -10,28 +10,28 @@ public final class Transactions {
 
     public static final Transaction decimal() {
         return Transaction.builder()
-            .index(1L)
+            .index(TransactionConstants.INDEX)
             .amount(1.2F)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .description("Transaction")
+            .date(TransactionConstants.DATE)
+            .description(TransactionConstants.DESCRIPTION)
             .build();
     }
 
     public static final Transaction descriptionChange() {
         return Transaction.builder()
-            .index(1L)
+            .index(TransactionConstants.INDEX)
             .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .description("Transaction 123")
+            .date(TransactionConstants.DATE)
+            .description(TransactionConstants.DESCRIPTION + " 123")
             .build();
     }
 
     public static final Transaction forAmount(final Float value) {
         return Transaction.builder()
-            .index(1L)
+            .index(TransactionConstants.INDEX)
             .amount(value)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .description("Transaction")
+            .date(TransactionConstants.DATE)
+            .description(TransactionConstants.DESCRIPTION)
             .build();
     }
 
@@ -40,7 +40,7 @@ public final class Transactions {
             .index(index)
             .amount(1f)
             .date(LocalDate.of(2020, month, 1))
-            .description("Transaction " + index)
+            .description(TransactionConstants.DESCRIPTION + " " + index)
             .build();
     }
 
@@ -50,16 +50,16 @@ public final class Transactions {
             .amount(1f)
             .date(LocalDate.of(2020, month, Long.valueOf(index)
                 .intValue()))
-            .description("Transaction " + index)
+            .description(TransactionConstants.DESCRIPTION + " " + index)
             .build();
     }
 
     public static final Transaction valid() {
         return Transaction.builder()
-            .index(1L)
+            .index(TransactionConstants.INDEX)
             .amount(1f)
-            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
-            .description("Transaction")
+            .date(TransactionConstants.DATE)
+            .description(TransactionConstants.DESCRIPTION)
             .build();
     }
 

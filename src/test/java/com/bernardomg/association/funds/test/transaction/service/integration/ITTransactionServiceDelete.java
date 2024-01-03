@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
@@ -53,7 +54,7 @@ class ITTransactionServiceDelete {
     @DisplayName("With a valid id it removes the entity")
     void testDelete_RemovesEntity() {
         // WHEN
-        service.delete(1L);
+        service.delete(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(repository.count())

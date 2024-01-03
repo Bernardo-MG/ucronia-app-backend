@@ -36,7 +36,8 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
 import com.bernardomg.association.membership.test.fee.config.factory.FeesUpdate;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -61,7 +62,7 @@ class ITFeeServiceUpdateError {
         feeRequest = FeesUpdate.nextMonth();
 
         // WHEN
-        execution = () -> service.update(1L, FeeConstants.DATE, feeRequest);
+        execution = () -> service.update(MemberConstants.NUMBER, FeeConstants.DATE, feeRequest);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -78,7 +79,7 @@ class ITFeeServiceUpdateError {
         feeRequest = FeesUpdate.nextMonth();
 
         // WHEN
-        execution = () -> service.update(1L, FeeConstants.DATE, feeRequest);
+        execution = () -> service.update(MemberConstants.NUMBER, FeeConstants.DATE, feeRequest);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

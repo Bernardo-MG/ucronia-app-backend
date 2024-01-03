@@ -36,8 +36,8 @@ import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullY
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -14,8 +14,8 @@ import com.bernardomg.association.membership.balance.service.MembershipBalanceSe
 import com.bernardomg.association.membership.test.balance.config.factory.MemberBalanceQueryRequests;
 import com.bernardomg.association.membership.test.balance.config.factory.MonthlyMemberBalances;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

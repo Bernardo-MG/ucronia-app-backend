@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -51,7 +52,7 @@ class ITTransactionServiceGetOneError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.getOne(1L);
+        execution = () -> service.getOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

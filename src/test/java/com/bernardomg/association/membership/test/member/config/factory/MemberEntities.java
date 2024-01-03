@@ -7,7 +7,7 @@ public final class MemberEntities {
 
     public static final MemberEntity missingSurname() {
         return MemberEntity.builder()
-            .name("Member 1")
+            .name(MemberConstants.NAME)
             .phone("12345")
             .identifier("6789")
             .build();
@@ -24,8 +24,8 @@ public final class MemberEntities {
 
     public static final MemberEntity valid() {
         return MemberEntity.builder()
-            .name("Member 1")
-            .surname("Surname 1")
+            .name(MemberConstants.NAME)
+            .surname(MemberConstants.SURNAME)
             .phone("12345")
             .identifier("6789")
             .build();

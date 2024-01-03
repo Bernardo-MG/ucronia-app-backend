@@ -43,7 +43,7 @@ import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.fee.config.factory.Fees;
 import com.bernardomg.association.membership.test.fee.config.factory.FeesQuery;
-import com.bernardomg.association.membership.test.member.configuration.MultipleMembers;
+import com.bernardomg.association.membership.test.member.config.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

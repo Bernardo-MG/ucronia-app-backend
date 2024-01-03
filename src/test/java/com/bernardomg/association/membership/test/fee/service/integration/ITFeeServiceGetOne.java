@@ -38,9 +38,10 @@ import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
 import com.bernardomg.association.membership.test.fee.config.factory.Fees;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.NoSurnameMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.NoSurnameMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +63,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, FeeConstants.DATE);
+        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -77,7 +78,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, FeeConstants.DATE);
+        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -92,7 +93,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, FeeConstants.DATE);
+        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)
@@ -109,7 +110,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(1L, FeeConstants.DATE);
+        fee = service.getOne(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)

@@ -33,6 +33,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
 import com.bernardomg.association.funds.test.transaction.configuration.NegativeTransaction;
@@ -65,7 +66,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // WHEN
-        transactionOptional = service.getOne(1L);
+        transactionOptional = service.getOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)
@@ -82,7 +83,7 @@ class ITTransactionServiceGetOne {
         repository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
-        transactionOptional = service.getOne(1L);
+        transactionOptional = service.getOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)
@@ -99,7 +100,7 @@ class ITTransactionServiceGetOne {
         repository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
-        transactionOptional = service.getOne(1L);
+        transactionOptional = service.getOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)
@@ -113,7 +114,7 @@ class ITTransactionServiceGetOne {
         final Optional<Transaction> transactionOptional;
 
         // WHEN
-        transactionOptional = service.getOne(1L);
+        transactionOptional = service.getOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThat(transactionOptional)

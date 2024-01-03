@@ -43,8 +43,8 @@ import com.bernardomg.association.membership.test.calendar.config.factory.Member
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -50,7 +51,7 @@ class ITTransactionServiceDeleteError {
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(1L);
+        execution = () -> service.delete(TransactionConstants.INDEX);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingIdException.class);

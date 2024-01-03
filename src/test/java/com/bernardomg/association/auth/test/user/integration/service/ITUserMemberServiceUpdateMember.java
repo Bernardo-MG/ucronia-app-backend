@@ -36,9 +36,9 @@ import com.bernardomg.association.auth.test.user.util.model.UserMembers;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

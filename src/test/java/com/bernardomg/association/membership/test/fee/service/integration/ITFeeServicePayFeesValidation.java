@@ -34,7 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -58,10 +59,11 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE, FeeConstants.DATE));
+        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.DATE, FeeConstants.DATE));
 
         // THEN
-        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
+        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", MemberConstants.NUMBER);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -75,10 +77,11 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
+        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.DATE));
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", MemberConstants.NUMBER);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -92,11 +95,11 @@ class ITFeeServicePayFeesValidation {
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE,
+        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
             List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", MemberConstants.NUMBER);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

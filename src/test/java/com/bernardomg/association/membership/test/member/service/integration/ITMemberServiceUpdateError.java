@@ -34,6 +34,7 @@ import com.bernardomg.association.membership.member.exception.MissingMemberIdExc
 import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.config.factory.MemberChanges;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,7 +58,7 @@ class ITMemberServiceUpdateError {
         memberRequest = MemberChanges.nameChange();
 
         // WHEN
-        execution = () -> service.update(1L, memberRequest);
+        execution = () -> service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
