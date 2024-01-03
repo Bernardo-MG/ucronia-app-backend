@@ -34,7 +34,7 @@ import com.bernardomg.association.membership.fee.persistence.repository.FeeRepos
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
-import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
+import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

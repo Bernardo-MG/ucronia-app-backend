@@ -34,8 +34,8 @@ import com.bernardomg.association.auth.test.user.config.ValidUser;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.association.membership.test.member.util.model.MemberConstants;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

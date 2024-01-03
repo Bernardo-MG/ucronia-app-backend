@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.configuration.AssociationConfigurationKey;
 import com.bernardomg.association.configuration.model.AssociationConfiguration;
 import com.bernardomg.association.configuration.service.AssociationConfigurationService;
-import com.bernardomg.association.test.configuration.util.model.AssociationConfigurations;
+import com.bernardomg.association.test.configuration.config.factory.AssociationConfigurations;
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;

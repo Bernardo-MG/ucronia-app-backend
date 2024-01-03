@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.membership.member.model.MemberChange;
-import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
+import com.bernardomg.association.membership.test.member.config.factory.MemberChanges;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

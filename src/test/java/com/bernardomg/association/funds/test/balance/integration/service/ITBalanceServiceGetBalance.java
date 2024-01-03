@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.test.balance.util.model.CurrentBalances;
+import com.bernardomg.association.funds.test.balance.config.factory.CurrentBalances;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.util.initializer.TransactionInitializer;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;

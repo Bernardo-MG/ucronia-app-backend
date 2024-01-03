@@ -34,11 +34,11 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
+import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionsQueries;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
-import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionsQueries;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;

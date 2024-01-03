@@ -34,9 +34,9 @@ import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
+import com.bernardomg.association.membership.test.member.config.factory.Members;
+import com.bernardomg.association.membership.test.member.config.factory.MembersQuery;
 import com.bernardomg.association.membership.test.member.configuration.ValidMember;
-import com.bernardomg.association.membership.test.member.util.model.Members;
-import com.bernardomg.association.membership.test.member.util.model.MembersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
