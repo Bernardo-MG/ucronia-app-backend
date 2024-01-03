@@ -63,7 +63,7 @@ class ITFeeServicePayFeesValidation {
             List.of(FeeConstants.DATE, FeeConstants.DATE));
 
         // THEN
-        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1);
+        failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -81,7 +81,7 @@ class ITFeeServicePayFeesValidation {
             List.of(FeeConstants.DATE));
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1);
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -99,7 +99,7 @@ class ITFeeServicePayFeesValidation {
             List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
 
         // THEN
-        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1);
+        failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
