@@ -40,12 +40,23 @@ public final class Members {
 
     public static final Member forIndex(final long index, final boolean active) {
         return Member.builder()
-            .number(index)
+            .number(index*10)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone(String.valueOf(12344 + index))
             .identifier(String.valueOf(6788 + index))
             .active(active)
+            .build();
+    }
+
+    public static final Member inactiveWithNumber(final long number) {
+        return Member.builder()
+            .number(number)
+            .name(MemberConstants.NAME)
+            .surname(MemberConstants.SURNAME)
+            .phone("12345")
+            .identifier("6789")
+            .active(false)
             .build();
     }
 

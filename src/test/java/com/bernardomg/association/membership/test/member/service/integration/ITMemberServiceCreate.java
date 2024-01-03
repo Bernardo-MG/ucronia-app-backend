@@ -140,7 +140,7 @@ class ITMemberServiceCreate {
         // THEN
         Assertions.assertThat(member)
             .as("member")
-            .isEqualTo(Members.inactive());
+            .isEqualTo(Members.inactiveWithNumber(1));
     }
 
 }
