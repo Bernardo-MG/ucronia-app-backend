@@ -166,8 +166,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         read = memberRepository.findById(memberId);
         if (read.isPresent()) {
-            memberNumber = read
-                .get()
+            memberNumber = read.get()
                 .getNumber();
         } else {
             memberNumber = -1;
