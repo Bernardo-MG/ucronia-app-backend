@@ -35,6 +35,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
@@ -169,7 +170,7 @@ class ITTransactionServiceCreate {
         service.create(transactionRequest);
 
         // THEN
-        entity = repository.findOneByIndex(2L);
+        entity = repository.findOneByIndex(TransactionConstants.ALTERNATIVE_INDEX);
 
         Assertions.assertThat(entity)
             .isNotEmpty();

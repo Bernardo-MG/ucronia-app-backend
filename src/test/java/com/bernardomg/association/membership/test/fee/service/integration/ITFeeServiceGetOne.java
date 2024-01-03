@@ -127,7 +127,7 @@ class ITFeeServiceGetOne {
         final Optional<Fee> fee;
 
         // WHEN
-        fee = service.getOne(2L, FeeConstants.DATE);
+        fee = service.getOne(MemberConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(fee)

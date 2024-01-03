@@ -6,12 +6,13 @@ import java.util.List;
 
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 
 public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar active() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.YEAR)
             .active(true)
@@ -20,7 +21,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar activeAlternative() {
         return MemberFeeCalendar.builder()
-            .memberNumber(2L)
+            .memberNumber(MemberConstants.ALTERNATIVE_NUMBER)
             .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
             .year(MemberCalendars.YEAR)
             .active(true)
@@ -29,7 +30,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar activeCurrentMonth() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.CURRENT_DATE.getYear())
             .active(true)
@@ -38,7 +39,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar activeNextYear() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.NEXT_YEAR_DATE.getYear())
             .active(true)
@@ -47,7 +48,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar activePreviousMonth() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
             .active(true)
@@ -56,7 +57,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar currentActive() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(YearMonth.now()
                 .getYear())
@@ -66,7 +67,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar currentInactive() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(YearMonth.now()
                 .getYear())
@@ -76,7 +77,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar fullCalendar() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.YEAR)
             .active(false)
@@ -157,7 +158,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar inactive() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.YEAR)
             .active(false)
@@ -166,7 +167,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar inactiveAlternative() {
         return MemberFeeCalendar.builder()
-            .memberNumber(2L)
+            .memberNumber(MemberConstants.ALTERNATIVE_NUMBER)
             .memberName(MemberCalendars.FULL_NAME_ALTERNATIVE)
             .year(MemberCalendars.YEAR)
             .active(false)
@@ -175,7 +176,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar inactiveNextYear() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.NEXT_YEAR_DATE.getYear())
             .active(false)
@@ -184,7 +185,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar inactivePreviousMonth() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
             .active(false)
@@ -193,7 +194,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar inactivePreviousYear() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.FULL_NAME)
             .year(MemberCalendars.YEAR_PREVIOUS)
             .active(false)
@@ -202,7 +203,7 @@ public final class MemberFeeCalendars {
 
     public static final MemberFeeCalendar noSurname() {
         return MemberFeeCalendar.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName(MemberCalendars.NAME)
             .year(MemberCalendars.YEAR)
             .active(false)

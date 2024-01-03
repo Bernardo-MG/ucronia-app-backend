@@ -4,35 +4,37 @@ package com.bernardomg.association.membership.test.fee.config.factory;
 import java.time.Month;
 import java.time.YearMonth;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 
 public final class Fees {
 
     public static final Fee alternative() {
         return Fee.builder()
-            .memberNumber(2L)
+            .memberNumber(MemberConstants.ALTERNATIVE_NUMBER)
             .memberName("Member 2 Surname 2")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(2L)
+            .transactionIndex(TransactionConstants.ALTERNATIVE_INDEX)
             .build();
     }
 
     public static final Fee noSurname() {
         return Fee.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName("Member 1")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(1L)
+            .transactionIndex(TransactionConstants.INDEX)
             .build();
     }
 
     public static final Fee notPaid() {
         return Fee.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(false)
@@ -50,18 +52,18 @@ public final class Fees {
 
     public static final Fee paid() {
         return Fee.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(1L)
+            .transactionIndex(TransactionConstants.INDEX)
             .build();
     }
 
     public static final Fee paidAt(final int month) {
         return Fee.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName("Member 1 Surname 1")
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
@@ -83,12 +85,12 @@ public final class Fees {
 
     public static final Fee paidNextDate() {
         return Fee.builder()
-            .memberNumber(1L)
+            .memberNumber(MemberConstants.NUMBER)
             .memberName("Member 1 Surname 1")
             .date(FeeConstants.NEXT_DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(1L)
+            .transactionIndex(TransactionConstants.INDEX)
             .build();
     }
 
