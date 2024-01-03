@@ -34,7 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
-import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
+import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,7 +55,8 @@ class ITFeeServicePayFeesError {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> service.payFees(1L, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
+        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.DATE));
 
         // THEN
         Assertions.assertThatThrownBy(execution)

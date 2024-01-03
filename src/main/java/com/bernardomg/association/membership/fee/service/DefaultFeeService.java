@@ -144,7 +144,8 @@ public final class DefaultFeeService implements FeeService {
             .getId(), date);
 
         if (fee.isEmpty()) {
-            throw new MissingFeeIdException(memberNumber + " " + date.toString());
+            throw new MissingFeeIdException(member.get()
+                .getId() + " " + date.toString());
         }
 
         found = memberFeeRepository.findById(fee.get()
@@ -175,7 +176,8 @@ public final class DefaultFeeService implements FeeService {
             .build();
         validatorPay.validate(payment);
 
-        fees = registerFees(member.get().getId(), feeDates);
+        fees = registerFees(member.get()
+            .getId(), feeDates);
         registerTransaction(member.get(), fees, payDate, feeDates);
 
         // Read fees to return names
@@ -194,6 +196,7 @@ public final class DefaultFeeService implements FeeService {
         final FeeEntity              updated;
         final Optional<Fee>          read;
         final Fee                    result;
+        final Optional<FeeEntity>    readFee;
 
         log.debug("Updating fee for {} in {} using data {}", memberNumber, date, fee);
 
@@ -222,8 +225,16 @@ public final class DefaultFeeService implements FeeService {
         updated = feeRepository.save(entity);
 
         // Read updated fee with name
-        // FIXME: read directly from the repository
-        read = getOne(updated.getMemberId(), updated.getDate());
+        readFee = feeRepository.findOneByMemberIdAndDate(updated.getMemberId(), updated.getDate());
+
+        if (readFee.isEmpty()) {
+            throw new MissingFeeIdException(updated.getMemberId() + " " + updated.getDate()
+                .toString());
+        }
+
+        read = memberFeeRepository.findById(readFee.get()
+            .getId())
+            .map(this::toDto);
         if (read.isPresent()) {
             result = read.get();
         } else {
@@ -325,7 +336,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final Fee toDto(final MemberFeeEntity entity) {
         return Fee.builder()
-            .memberNumber(entity.getMemberId())
+            .memberNumber(entity.getMemberNumber())
             .memberName(entity.getMemberName())
             .date(entity.getDate())
             .paid(entity.getPaid())

@@ -31,13 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
-import com.bernardomg.association.membership.test.calendar.util.model.MemberCalendars;
+import com.bernardomg.association.membership.test.calendar.config.factory.MemberCalendars;
 import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
+import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
-import com.bernardomg.association.membership.test.fee.util.model.FeeConstants;
-import com.bernardomg.association.membership.test.member.configuration.AlternativeMember;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.AlternativeMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

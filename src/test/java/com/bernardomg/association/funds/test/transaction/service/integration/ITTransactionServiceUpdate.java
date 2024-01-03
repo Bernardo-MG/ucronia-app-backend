@@ -29,11 +29,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
+import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
-import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
@@ -65,7 +66,7 @@ class ITTransactionServiceUpdate {
         transactionRequest = TransactionChanges.descriptionChange();
 
         // WHEN
-        service.update(1L, transactionRequest);
+        service.update(TransactionConstants.INDEX, transactionRequest);
 
         Assertions.assertThat(repository.count())
             .as("transactions")
@@ -83,7 +84,7 @@ class ITTransactionServiceUpdate {
         transactionRequest = TransactionChanges.decimal();
 
         // WHEN
-        service.update(1L, transactionRequest);
+        service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
         transaction = repository.findAll()
@@ -104,7 +105,7 @@ class ITTransactionServiceUpdate {
         transactionRequest = TransactionChanges.decimal();
 
         // WHEN
-        transaction = service.update(1L, transactionRequest);
+        transaction = service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
         Assertions.assertThat(transaction)
@@ -122,7 +123,7 @@ class ITTransactionServiceUpdate {
         transactionRequest = TransactionChanges.paddedWithWhitespaces();
 
         // WHEN
-        service.update(1L, transactionRequest);
+        service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
         transaction = repository.findAll()
@@ -143,7 +144,7 @@ class ITTransactionServiceUpdate {
         transactionRequest = TransactionChanges.descriptionChange();
 
         // WHEN
-        service.update(1L, transactionRequest);
+        service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
         transaction = repository.findAll()
@@ -164,7 +165,7 @@ class ITTransactionServiceUpdate {
         transactionRequest = TransactionChanges.descriptionChange();
 
         // WHEN
-        transaction = service.update(1L, transactionRequest);
+        transaction = service.update(TransactionConstants.INDEX, transactionRequest);
 
         // THEN
         Assertions.assertThat(transaction)

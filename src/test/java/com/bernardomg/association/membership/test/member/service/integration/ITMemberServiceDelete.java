@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +54,7 @@ class ITMemberServiceDelete {
     @DisplayName("With a valid id it removes the entity")
     void testDelete_RemovesEntity() {
         // WHEN
-        service.delete(1L);
+        service.delete(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(repository.count())

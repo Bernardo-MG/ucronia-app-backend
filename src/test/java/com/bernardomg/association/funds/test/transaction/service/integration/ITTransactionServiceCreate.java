@@ -34,11 +34,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionChanges;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
+import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
+import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionChanges;
-import com.bernardomg.association.funds.test.transaction.util.model.TransactionEntities;
-import com.bernardomg.association.funds.test.transaction.util.model.Transactions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
@@ -169,7 +170,7 @@ class ITTransactionServiceCreate {
         service.create(transactionRequest);
 
         // THEN
-        entity = repository.findOneByIndex(2L);
+        entity = repository.findOneByIndex(TransactionConstants.INDEX + 1);
 
         Assertions.assertThat(entity)
             .isNotEmpty();
@@ -209,7 +210,7 @@ class ITTransactionServiceCreate {
         // THEN
         Assertions.assertThat(transaction)
             .as("transaction")
-            .isEqualTo(Transactions.valid());
+            .isEqualTo(Transactions.newlyCreated());
     }
 
 }

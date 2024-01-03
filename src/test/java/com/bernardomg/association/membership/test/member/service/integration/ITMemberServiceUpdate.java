@@ -34,11 +34,12 @@ import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.association.membership.test.member.configuration.ValidMember;
+import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.membership.test.member.config.factory.MemberChanges;
+import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
+import com.bernardomg.association.membership.test.member.config.factory.MemberEntities;
+import com.bernardomg.association.membership.test.member.config.factory.Members;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.membership.test.member.util.model.MemberChanges;
-import com.bernardomg.association.membership.test.member.util.model.MemberEntities;
-import com.bernardomg.association.membership.test.member.util.model.Members;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -65,7 +66,7 @@ class ITMemberServiceUpdate {
         memberRequest = MemberChanges.nameChange();
 
         // WHEN
-        service.update(1L, memberRequest);
+        service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
         Assertions.assertThat(repository.count())
@@ -82,7 +83,7 @@ class ITMemberServiceUpdate {
         memberRequest = MemberChanges.paddedWithWhitespaces();
 
         // WHEN
-        service.update(1L, memberRequest);
+        service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
         entity = repository.findAll()
@@ -101,7 +102,7 @@ class ITMemberServiceUpdate {
         memberRequest = MemberChanges.nameChange();
 
         // WHEN
-        service.update(1L, memberRequest);
+        service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
         entity = repository.findAll()
@@ -120,7 +121,7 @@ class ITMemberServiceUpdate {
         memberRequest = MemberChanges.nameChange();
 
         // WHEN
-        member = service.update(1L, memberRequest);
+        member = service.update(MemberConstants.NUMBER, memberRequest);
 
         // THEN
         Assertions.assertThat(member)

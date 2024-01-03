@@ -6,10 +6,10 @@ INSERT INTO fees (id, member_id, date) VALUES
    (5, 5, '2020-06-01');
 
 INSERT INTO transactions (id, index, description, amount, date) VALUES
-   (1, 1, 'Transaction', 1, '2020-01-01'),
-   (2, 2, 'Transaction', 1, '2020-01-01'),
-   (3, 3, 'Transaction', 1, '2020-01-01'),
-   (4, 4, 'Transaction', 1, '2020-01-01');
+   (1, 10, 'Transaction', 1, '2020-01-01'),
+   (2, 20, 'Transaction', 1, '2020-01-01'),
+   (3, 30, 'Transaction', 1, '2020-01-01'),
+   (4, 40, 'Transaction', 1, '2020-01-01');
 
 INSERT INTO fee_payments (fee_id, transaction_id) VALUES
    (1, 1),
