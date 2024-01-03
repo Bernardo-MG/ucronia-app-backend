@@ -260,7 +260,7 @@ class ITFeeServicePayFees {
     @DisplayName("When a fee is paid with multiple dates, it returns the created data")
     @ValidMember
     @FeeAmountConfiguration
-    void testCreate_MultipleDates_PersistedTransaction_ReturnedData() {
+    void testCreate_MultipleDates_ReturnedData() {
         final Collection<Fee> fees;
 
         // WHEN
@@ -270,6 +270,67 @@ class ITFeeServicePayFees {
         // THEN
         Assertions.assertThat(fees)
             .containsExactly(Fees.paidWithIndex(1), Fees.paidNextDateWithIndex(1));
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, spanning two years, multiple fees are persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_TwoYears_PersistedFee() {
+        final List<FeeEntity>     entities;
+        final Iterator<FeeEntity> entitiesItr;
+
+        // WHEN
+        service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE));
+
+        // THEN
+        entities = repository.findAll();
+
+        Assertions.assertThat(entities)
+            .hasSize(2);
+
+        entitiesItr = entities.iterator();
+
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.lastInYear());
+        FeeAssertions.isEqualTo(entitiesItr.next(), FeeEntities.firstNextYear());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, a single transaction is persisted")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_TwoYears_PersistedTransaction() {
+        final List<TransactionEntity> entities;
+
+        // WHEN
+        service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE));
+
+        // THEN
+        entities = transactionRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .hasSize(1);
+
+        TransactionAssertions.isEqualTo(entities.iterator()
+            .next(), TransactionEntities.multipleFeesSpanYears());
+    }
+
+    @Test
+    @DisplayName("When a fee is paid with multiple dates, spanning two years, it returns the created data")
+    @ValidMember
+    @FeeAmountConfiguration
+    void testCreate_MultipleDates_TwoYears_ReturnedData() {
+        final Collection<Fee> fees;
+
+        // WHEN
+        fees = service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE));
+
+        // THEN
+        Assertions.assertThat(fees)
+            .containsExactly(Fees.paidLastInYear(1), Fees.paidFirstNextYear(1));
     }
 
     @Test

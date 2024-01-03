@@ -83,6 +83,28 @@ public final class Fees {
             .build();
     }
 
+    public static final Fee paidFirstNextYear(final long index) {
+        return Fee.builder()
+            .memberNumber(MemberConstants.NUMBER)
+            .memberName("Member 1 Surname 1")
+            .date(FeeConstants.FIRST_NEXT_YEAR_DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(index)
+            .build();
+    }
+
+    public static final Fee paidLastInYear(final long index) {
+        return Fee.builder()
+            .memberNumber(MemberConstants.NUMBER)
+            .memberName("Member 1 Surname 1")
+            .date(FeeConstants.LAST_YEAR_DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(index)
+            .build();
+    }
+
     public static final Fee paidNextDate() {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)

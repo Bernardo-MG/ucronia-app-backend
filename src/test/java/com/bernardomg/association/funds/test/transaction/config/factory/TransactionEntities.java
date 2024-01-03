@@ -73,6 +73,16 @@ public final class TransactionEntities {
             .build();
     }
 
+    public static final TransactionEntity multipleFeesSpanYears() {
+        return TransactionEntity.builder()
+            .id(2L)
+            .index(TransactionConstants.ALTERNATIVE_INDEX)
+            .amount(2F)
+            .date(FeeConstants.PAYMENT_DATE)
+            .description("Cuota de Member 1 Surname 1 para Diciembre 2020, Enero 2021")
+            .build();
+    }
+
     public static final TransactionEntity singleFee() {
         return TransactionEntity.builder()
             .id(2L)

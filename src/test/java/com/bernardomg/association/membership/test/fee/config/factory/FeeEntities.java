@@ -29,6 +29,22 @@ public final class FeeEntities {
             .build();
     }
 
+    public static FeeEntity firstNextYear() {
+        return FeeEntity.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(FeeConstants.FIRST_NEXT_YEAR_DATE)
+            .build();
+    }
+
+    public static FeeEntity lastInYear() {
+        return FeeEntity.builder()
+            .id(1L)
+            .memberId(1L)
+            .date(FeeConstants.LAST_YEAR_DATE)
+            .build();
+    }
+
     public static FeeEntity nextDate() {
         return FeeEntity.builder()
             .id(2L)
