@@ -63,4 +63,13 @@ public final class Transactions {
             .build();
     }
 
+    public static final Transaction newlyCreated() {
+        return Transaction.builder()
+            .index(1L)
+            .amount(1f)
+            .date(TransactionConstants.DATE)
+            .description(TransactionConstants.DESCRIPTION)
+            .build();
+    }
+
 }

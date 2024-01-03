@@ -170,7 +170,7 @@ class ITTransactionServiceCreate {
         service.create(transactionRequest);
 
         // THEN
-        entity = repository.findOneByIndex(TransactionConstants.ALTERNATIVE_INDEX);
+        entity = repository.findOneByIndex(TransactionConstants.INDEX + 1);
 
         Assertions.assertThat(entity)
             .isNotEmpty();
@@ -210,7 +210,7 @@ class ITTransactionServiceCreate {
         // THEN
         Assertions.assertThat(transaction)
             .as("transaction")
-            .isEqualTo(Transactions.valid());
+            .isEqualTo(Transactions.newlyCreated());
     }
 
 }
