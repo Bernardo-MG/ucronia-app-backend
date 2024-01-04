@@ -47,6 +47,7 @@ import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
+import com.bernardomg.association.membership.fee.cache.FeeCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -87,7 +88,9 @@ public class TransactionController {
                     // Calendar caches
                     FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
                     // Balance caches
-                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
+                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE,
+                    // Fee caches
+                    FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public Transaction create(@Valid @RequestBody final TransactionChange transaction) {
         return service.create(transaction);
     }
@@ -106,7 +109,9 @@ public class TransactionController {
             // Calendar caches
             FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
             // Balance caches
-            FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
+            FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE,
+            // Fee caches
+            FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public void delete(@PathVariable("index") final long index) {
         service.delete(index);
     }
@@ -161,7 +166,9 @@ public class TransactionController {
                     // Calendar caches
                     FundsCaches.CALENDAR, FundsCaches.CALENDAR_RANGE,
                     // Balance caches
-                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE }, allEntries = true) })
+                    FundsCaches.BALANCE, FundsCaches.MONTHLY_BALANCE,
+                    // Fee caches
+                    FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public Transaction update(@PathVariable("index") final long index,
             @Valid @RequestBody final TransactionChange transaction) {
         return service.update(index, transaction);
