@@ -2,14 +2,20 @@
 package com.bernardomg.association.membership.member.service;
 
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.Member;
@@ -18,6 +24,7 @@ import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 
+import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -90,14 +97,17 @@ public final class DefaultMemberService implements MemberService {
         final YearMonth                validEnd;
         final Function<Member, Member> activeMapper;
         final Collection<Long>         activeNumbers;
+        final Pageable                 pagination;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
+
+        pagination = correctPagination(pageable);
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
         switch (query.getStatus()) {
             case ACTIVE:
-                members = memberRepository.findAllActive(pageable, validStart, validEnd);
+                members = memberRepository.findAllActive(pagination, validStart, validEnd);
 
                 activeMapper = m -> {
                     m.setActive(true);
@@ -105,7 +115,7 @@ public final class DefaultMemberService implements MemberService {
                 };
                 break;
             case INACTIVE:
-                members = memberRepository.findAllInactive(pageable, validStart, validEnd);
+                members = memberRepository.findAllInactive(pagination, validStart, validEnd);
 
                 activeMapper = m -> {
                     m.setActive(false);
@@ -113,7 +123,7 @@ public final class DefaultMemberService implements MemberService {
                 };
                 break;
             default:
-                members = memberRepository.findAll(pageable);
+                members = memberRepository.findAll(pagination);
 
                 activeNumbers = memberRepository.findAllActiveNumbersInRange(validStart, validEnd);
                 activeMapper = m -> {
@@ -177,13 +187,62 @@ public final class DefaultMemberService implements MemberService {
         return toDto(updated);
     }
 
+    private final Pageable correctPagination(final Pageable pageable) {
+        final Sort     sort;
+        final Pageable page;
+
+        // TODO: change the pagination system
+        sort = correctSort(pageable.getSort());
+
+        if (pageable.isPaged()) {
+            page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        } else {
+            page = Pageable.unpaged(pageable.getSort());
+        }
+
+        return page;
+    }
+
+    private final Sort correctSort(final Sort received) {
+        final Optional<Order> fullNameOrder;
+        final List<Order>     orders;
+        final List<Order>     validOrders;
+
+        fullNameOrder = received.stream()
+            .filter(o -> "fullName".equals(o.getProperty()))
+            .findFirst();
+
+        orders = new ArrayList<>();
+        if (fullNameOrder.isPresent()) {
+            if (fullNameOrder.get()
+                .getDirection() == Direction.ASC) {
+                orders.add(Order.asc("name"));
+                orders.add(Order.asc("surname"));
+            } else {
+                orders.add(Order.desc("name"));
+                orders.add(Order.desc("surname"));
+            }
+        }
+
+        validOrders = received.stream()
+            .filter(o -> !"fullName".equals(o.getProperty()))
+            .toList();
+        orders.addAll(validOrders);
+
+        return Sort.by(orders);
+    }
+
     private final Member toDto(final MemberEntity entity) {
+        final String name;
+
+        name = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
         return Member.builder()
             .number(entity.getNumber())
             .identifier(entity.getIdentifier())
+            .fullName(name)
             .name(entity.getName())
-            .phone(entity.getPhone())
             .surname(entity.getSurname())
+            .phone(entity.getPhone())
             .build();
     }
 

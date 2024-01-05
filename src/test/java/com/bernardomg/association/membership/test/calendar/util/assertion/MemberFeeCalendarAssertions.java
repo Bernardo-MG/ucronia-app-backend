@@ -100,9 +100,9 @@ public final class MemberFeeCalendarAssertions {
             softly.assertThat(received.getMemberNumber())
                 .as("member number")
                 .isEqualTo(expected.getMemberNumber());
-            softly.assertThat(received.getMemberName())
+            softly.assertThat(received.getFullName())
                 .as("member name")
-                .isEqualTo(expected.getMemberName());
+                .isEqualTo(expected.getFullName());
             softly.assertThat(received.getYear())
                 .as("year")
                 .isEqualTo(expected.getYear());

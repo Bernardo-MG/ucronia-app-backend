@@ -35,7 +35,7 @@ public final class MemberFeeCalendar {
 
     private final boolean              active;
 
-    private final String               memberName;
+    private final String               fullName;
 
     private final long                 memberNumber;
 

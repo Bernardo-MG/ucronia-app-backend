@@ -38,6 +38,9 @@ public class MemberFeeEntity implements Serializable {
     @Convert(converter = YearMonthDateAttributeConverter.class)
     private YearMonth         date;
 
+    @Column(name = "member_name")
+    private String            fullName;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
@@ -45,9 +48,6 @@ public class MemberFeeEntity implements Serializable {
 
     @Column(name = "member_id", nullable = false)
     private Long              memberId;
-
-    @Column(name = "member_name")
-    private String            memberName;
 
     @Column(name = "member_number", nullable = false)
     private Long              memberNumber;

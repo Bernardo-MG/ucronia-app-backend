@@ -158,7 +158,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         row = fees.iterator()
             .next();
-        name = row.getMemberName();
+        name = row.getFullName();
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
@@ -166,15 +166,14 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
 
         read = memberRepository.findById(memberId);
         if (read.isPresent()) {
-            memberNumber = read
-                .get()
+            memberNumber = read.get()
                 .getNumber();
         } else {
             memberNumber = -1;
         }
         return MemberFeeCalendar.builder()
             .memberNumber(memberNumber)
-            .memberName(name)
+            .fullName(name)
             .months(months)
             .year(year)
             .active(active)

@@ -13,6 +13,8 @@ public final class Member {
 
     private boolean active;
 
+    private String  fullName;
+
     private String  identifier;
 
     private String  name;

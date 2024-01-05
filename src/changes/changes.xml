@@ -54,5 +54,13 @@
             Fixed handling of public and private ids.
          </action>
       </release>
+      <release version="0.2.5" date="2024-01-05" description="Fixed member sorting">
+         <action dev="bmg" type="fix">
+            Fixed member sorting.
+         </action>
+         <action dev="bmg" type="add">
+            Returns full member name as a variable.
+         </action>
+      </release>
    </body>
 </document>

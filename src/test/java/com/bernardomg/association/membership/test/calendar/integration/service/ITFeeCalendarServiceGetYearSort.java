@@ -90,7 +90,7 @@ class ITFeeCalendarServiceGetYearSort {
         MemberFeeCalendar                 calendar;
 
         // GIVEN
-        sort = Sort.by(Order.asc("memberName"));
+        sort = Sort.by(Order.asc("fullName"));
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)
@@ -120,7 +120,7 @@ class ITFeeCalendarServiceGetYearSort {
         MemberFeeCalendar                 calendar;
 
         // GIVEN
-        sort = Sort.by(Order.desc("memberName"));
+        sort = Sort.by(Order.desc("fullName"));
 
         // WHEN
         calendars = service.getYear(MemberCalendars.YEAR, MemberStatus.ALL, sort)

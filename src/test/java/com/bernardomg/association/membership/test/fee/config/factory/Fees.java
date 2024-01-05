@@ -13,7 +13,7 @@ public final class Fees {
     public static final Fee alternative() {
         return Fee.builder()
             .memberNumber(MemberConstants.ALTERNATIVE_NUMBER)
-            .memberName("Member 2 Surname 2")
+            .fullName("Member 2 Surname 2")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -24,7 +24,7 @@ public final class Fees {
     public static final Fee noSurname() {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1")
+            .fullName("Member 1")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -35,7 +35,7 @@ public final class Fees {
     public static final Fee notPaid() {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1 Surname 1")
+            .fullName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(false)
             .build();
@@ -44,7 +44,7 @@ public final class Fees {
     public static final Fee notPaidAt(final long index, final Month month) {
         return Fee.builder()
             .memberNumber(index * 10)
-            .memberName("Member " + index + " Surname " + index)
+            .fullName("Member " + index + " Surname " + index)
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(false)
             .build();
@@ -53,7 +53,7 @@ public final class Fees {
     public static final Fee paid() {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1 Surname 1")
+            .fullName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -64,7 +64,7 @@ public final class Fees {
     public static final Fee paidAt(final int month) {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1 Surname 1")
+            .fullName("Member 1 Surname 1")
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -75,7 +75,7 @@ public final class Fees {
     public static final Fee paidAt(final long index, final Month month) {
         return Fee.builder()
             .memberNumber(index * 10)
-            .memberName("Member " + index + " Surname " + index)
+            .fullName("Member " + index + " Surname " + index)
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -83,10 +83,32 @@ public final class Fees {
             .build();
     }
 
+    public static final Fee paidFirstNextYear(final long index) {
+        return Fee.builder()
+            .memberNumber(MemberConstants.NUMBER)
+            .fullName("Member 1 Surname 1")
+            .date(FeeConstants.FIRST_NEXT_YEAR_DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(index)
+            .build();
+    }
+
+    public static final Fee paidLastInYear(final long index) {
+        return Fee.builder()
+            .memberNumber(MemberConstants.NUMBER)
+            .fullName("Member 1 Surname 1")
+            .date(FeeConstants.LAST_YEAR_DATE)
+            .paid(true)
+            .paymentDate(FeeConstants.PAYMENT_DATE)
+            .transactionIndex(index)
+            .build();
+    }
+
     public static final Fee paidNextDate() {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1 Surname 1")
+            .fullName("Member 1 Surname 1")
             .date(FeeConstants.NEXT_DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -97,7 +119,7 @@ public final class Fees {
     public static final Fee paidNextDateWithIndex(final long index) {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1 Surname 1")
+            .fullName("Member 1 Surname 1")
             .date(FeeConstants.NEXT_DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)
@@ -108,7 +130,7 @@ public final class Fees {
     public static final Fee paidWithIndex(final long index) {
         return Fee.builder()
             .memberNumber(MemberConstants.NUMBER)
-            .memberName("Member 1 Surname 1")
+            .fullName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(true)
             .paymentDate(FeeConstants.PAYMENT_DATE)

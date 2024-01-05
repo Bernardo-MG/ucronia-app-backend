@@ -10,7 +10,7 @@ import lombok.Value;
 public final class UserMember {
 
     @NonNull
-    private String       memberName;
+    private String       fullName;
 
     /**
      * User name.
