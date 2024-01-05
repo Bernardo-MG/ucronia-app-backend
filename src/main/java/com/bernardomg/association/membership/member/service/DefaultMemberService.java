@@ -188,12 +188,19 @@ public final class DefaultMemberService implements MemberService {
     }
 
     private final Pageable correctPagination(final Pageable pageable) {
-        final Sort sort;
+        final Sort     sort;
+        final Pageable page;
 
         // TODO: change the pagination system
         sort = correctSort(pageable.getSort());
 
-        return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        if (pageable.isPaged()) {
+            page = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        } else {
+            page = Pageable.unpaged(pageable.getSort());
+        }
+
+        return page;
     }
 
     private final Sort correctSort(final Sort received) {
