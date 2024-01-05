@@ -10,7 +10,7 @@ public final class UserMembers {
         return UserMember.builder()
             .username(UserConstants.USERNAME)
             .name(UserConstants.NAME)
-            .memberName(MemberConstants.ALTERNATIVE_FULL_NAME)
+            .fullName(MemberConstants.ALTERNATIVE_FULL_NAME)
             .number(MemberConstants.ALTERNATIVE_NUMBER)
             .build();
     }
@@ -19,7 +19,7 @@ public final class UserMembers {
         return UserMember.builder()
             .username(UserConstants.USERNAME)
             .name(UserConstants.NAME)
-            .memberName(MemberConstants.FULL_NAME)
+            .fullName(MemberConstants.FULL_NAME)
             .number(MemberConstants.NUMBER)
             .build();
     }

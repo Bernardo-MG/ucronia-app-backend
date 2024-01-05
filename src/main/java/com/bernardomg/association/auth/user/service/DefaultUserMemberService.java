@@ -136,7 +136,7 @@ public final class DefaultUserMemberService implements UserMemberService {
         return UserMember.builder()
             .username(user.getUsername())
             .name(user.getName())
-            .memberName(fullName)
+            .fullName(fullName)
             .number(memberEntity.getNumber())
             .build();
     }

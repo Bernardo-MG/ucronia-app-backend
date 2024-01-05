@@ -8,6 +8,7 @@ public final class Members {
     public static final Member active() {
         return Member.builder()
             .number(MemberConstants.NUMBER)
+            .fullName(MemberConstants.FULL_NAME)
             .name(MemberConstants.NAME)
             .surname(MemberConstants.SURNAME)
             .phone("12345")
@@ -19,6 +20,7 @@ public final class Members {
     public static final Member active(final int index) {
         return Member.builder()
             .number(MemberConstants.NUMBER)
+            .fullName("Member " + index + " Surname " + index)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone("12345")
@@ -30,6 +32,7 @@ public final class Members {
     public static final Member forIndex(final long index) {
         return Member.builder()
             .number(index)
+            .fullName("Member " + index + " Surname " + index)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone(String.valueOf(12344 + index))
@@ -41,6 +44,7 @@ public final class Members {
     public static final Member forIndex(final long index, final boolean active) {
         return Member.builder()
             .number(index * 10)
+            .fullName("Member " + index + " Surname " + index)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone(String.valueOf(12344 + index))
@@ -52,6 +56,7 @@ public final class Members {
     public static final Member inactive() {
         return Member.builder()
             .number(MemberConstants.NUMBER)
+            .fullName(MemberConstants.FULL_NAME)
             .name(MemberConstants.NAME)
             .surname(MemberConstants.SURNAME)
             .phone("12345")
@@ -63,6 +68,7 @@ public final class Members {
     public static final Member inactive(final int index) {
         return Member.builder()
             .number(MemberConstants.NUMBER)
+            .fullName("Member " + index + " Surname " + index)
             .name("Member " + index)
             .surname("Surname " + index)
             .phone("12345")
@@ -74,6 +80,7 @@ public final class Members {
     public static final Member inactiveWithNumber(final long number) {
         return Member.builder()
             .number(number)
+            .fullName(MemberConstants.FULL_NAME)
             .name(MemberConstants.NAME)
             .surname(MemberConstants.SURNAME)
             .phone("12345")
@@ -85,6 +92,7 @@ public final class Members {
     public static final Member nameChange() {
         return Member.builder()
             .number(MemberConstants.NUMBER)
+            .fullName("Member 123 Surname")
             .name("Member 123")
             .surname("Surname")
             .phone("12345")

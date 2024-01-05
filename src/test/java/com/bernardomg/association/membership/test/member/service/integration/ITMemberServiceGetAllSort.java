@@ -55,6 +55,49 @@ class ITMemberServiceGetAllSort {
     }
 
     @Test
+    @DisplayName("With ascending order by full name it returns the ordered data")
+    void testGetAll_FullName_Asc() {
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = PageRequest.of(0, 10, Direction.ASC, "fullName");
+
+        memberQuery = MembersQuery.empty();
+
+        // WHEN
+        // FIXME: names should be sorted ignoring case
+        members = service.getAll(memberQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(1, false), Members.forIndex(2, false), Members.forIndex(3, false),
+                Members.forIndex(4, false), Members.forIndex(5, false));
+    }
+
+    @Test
+    @DisplayName("With descending order by full name it returns the ordered data")
+    void testGetAll_FullName_Desc() {
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+
+        // GIVEN
+        pageable = PageRequest.of(0, 10, Direction.DESC, "fullName");
+
+        memberQuery = MembersQuery.empty();
+
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .containsExactly(Members.forIndex(5, false), Members.forIndex(4, false), Members.forIndex(3, false),
+                Members.forIndex(2, false), Members.forIndex(1, false));
+    }
+
+    @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     void testGetAll_Name_Asc() {
         final Iterable<Member> members;
