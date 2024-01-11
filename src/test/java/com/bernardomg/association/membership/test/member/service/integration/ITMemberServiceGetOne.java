@@ -73,6 +73,7 @@ class ITMemberServiceGetOne {
     void testGetOne_NotPaidFee_CurrentMonth() {
         final Optional<Member> memberOptional;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
 
         // WHEN
@@ -89,6 +90,7 @@ class ITMemberServiceGetOne {
     void testGetOne_PaidFee_CurrentMonth() {
         final Optional<Member> memberOptional;
 
+        // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
@@ -105,6 +107,7 @@ class ITMemberServiceGetOne {
     void testGetOne_PaidFee_NextMonth() {
         final Optional<Member> memberOptional;
 
+        // GIVEN
         feeInitializer.registerFeeNextMonth(true);
 
         // WHEN
@@ -121,6 +124,7 @@ class ITMemberServiceGetOne {
     void testGetOne_PaidFee_PreviousMonth() {
         final Optional<Member> memberOptional;
 
+        // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
 
         // WHEN

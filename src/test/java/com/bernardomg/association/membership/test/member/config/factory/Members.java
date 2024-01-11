@@ -101,4 +101,16 @@ public final class Members {
             .build();
     }
 
+    public static final Member nameChangeActive() {
+        return Member.builder()
+            .number(MemberConstants.NUMBER)
+            .fullName("Member 123 Surname")
+            .name("Member 123")
+            .surname("Surname")
+            .phone("12345")
+            .identifier("6789")
+            .active(true)
+            .build();
+    }
+
 }

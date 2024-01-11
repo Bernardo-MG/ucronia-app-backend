@@ -161,6 +161,7 @@ public final class DefaultMemberService implements MemberService {
         final Optional<MemberEntity> member;
         final MemberEntity           entity;
         final MemberEntity           updated;
+        final Member                 dto;
 
         log.debug("Updating member {} using data {}", number, change);
 
@@ -186,7 +187,10 @@ public final class DefaultMemberService implements MemberService {
             .trim());
 
         updated = memberRepository.save(entity);
-        return toDto(updated);
+
+        dto = toDto(updated);
+        return mapActive(member.get()
+            .getId(), dto);
     }
 
     private final Pageable correctPagination(final Pageable pageable) {

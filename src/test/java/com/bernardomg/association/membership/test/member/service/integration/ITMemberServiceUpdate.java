@@ -34,6 +34,7 @@ import com.bernardomg.association.membership.member.model.MemberChange;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.membership.member.service.MemberService;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberChanges;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
@@ -44,8 +45,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Member service - update")
-@ValidMember
 class ITMemberServiceUpdate {
+
+    @Autowired
+    private FeeInitializer   feeInitializer;
 
     @Autowired
     private MemberRepository repository;
@@ -58,7 +61,28 @@ class ITMemberServiceUpdate {
     }
 
     @Test
+    @DisplayName("When updating an active member, the change is returned")
+    @ValidMember
+    void testUpdate_Active_ReturnedData() {
+        final MemberChange memberRequest;
+        final Member       member;
+
+        // GIVEN
+        feeInitializer.registerFeeCurrentMonth(true);
+        memberRequest = MemberChanges.nameChange();
+
+        // WHEN
+        member = service.update(MemberConstants.NUMBER, memberRequest);
+
+        // THEN
+        Assertions.assertThat(member)
+            .as("member")
+            .isEqualTo(Members.nameChangeActive());
+    }
+
+    @Test
     @DisplayName("With an existing entity, no new entity is persisted")
+    @ValidMember
     void testUpdate_AddsNoEntity() {
         final MemberChange memberRequest;
 
@@ -74,7 +98,27 @@ class ITMemberServiceUpdate {
     }
 
     @Test
+    @DisplayName("When updating a not member, the change is returned")
+    @ValidMember
+    void testUpdate_NotActive_ReturnedData() {
+        final MemberChange memberRequest;
+        final Member       member;
+
+        // GIVEN
+        memberRequest = MemberChanges.nameChange();
+
+        // WHEN
+        member = service.update(MemberConstants.NUMBER, memberRequest);
+
+        // THEN
+        Assertions.assertThat(member)
+            .as("member")
+            .isEqualTo(Members.nameChange());
+    }
+
+    @Test
     @DisplayName("With a member having padding whitespaces in name and surname, these whitespaces are removed")
+    @ValidMember
     void testUpdate_Padded_PersistedData() {
         final MemberChange memberRequest;
         final MemberEntity entity;
@@ -93,7 +137,8 @@ class ITMemberServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a changed entity, the change is persisted")
+    @DisplayName("When updating a member, the change is persisted")
+    @ValidMember
     void testUpdate_PersistedData() {
         final MemberChange memberRequest;
         final MemberEntity entity;
@@ -109,24 +154,6 @@ class ITMemberServiceUpdate {
             .iterator()
             .next();
         MemberAssertions.isEqualTo(entity, MemberEntities.nameChange());
-    }
-
-    @Test
-    @DisplayName("With a changed entity, the changed data is returned")
-    void testUpdate_ReturnedData() {
-        final MemberChange memberRequest;
-        final Member       member;
-
-        // GIVEN
-        memberRequest = MemberChanges.nameChange();
-
-        // WHEN
-        member = service.update(MemberConstants.NUMBER, memberRequest);
-
-        // THEN
-        Assertions.assertThat(member)
-            .as("member")
-            .isEqualTo(Members.nameChange());
     }
 
 }
