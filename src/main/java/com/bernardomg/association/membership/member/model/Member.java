@@ -11,18 +11,14 @@ import lombok.Data;
 @Builder
 public final class Member {
 
-    private boolean active;
+    private boolean    active;
 
-    private String  fullName;
+    private String     identifier;
 
-    private String  identifier;
+    private MemberName name;
 
-    private String  name;
+    private long       number;
 
-    private long    number;
-
-    private String  phone;
-
-    private String  surname;
+    private String     phone;
 
 }

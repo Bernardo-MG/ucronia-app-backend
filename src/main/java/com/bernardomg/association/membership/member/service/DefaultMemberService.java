@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort.Order;
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.model.MemberChange;
+import com.bernardomg.association.membership.member.model.MemberName;
 import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
 import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
@@ -253,15 +254,19 @@ public final class DefaultMemberService implements MemberService {
     }
 
     private final Member toDto(final MemberEntity entity) {
-        final String name;
+        final MemberName memberName;
+        final String     fullName;
 
-        name = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
+        fullName = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
+        memberName = MemberName.builder()
+            .firstName(entity.getName())
+            .lastName(entity.getSurname())
+            .fullName(fullName)
+            .build();
         return Member.builder()
             .number(entity.getNumber())
             .identifier(entity.getIdentifier())
-            .fullName(name)
-            .name(entity.getName())
-            .surname(entity.getSurname())
+            .name(memberName)
             .phone(entity.getPhone())
             .build();
     }
