@@ -19,7 +19,7 @@ public final class Member {
 
     private String  name;
 
-    private Long    number;
+    private long    number;
 
     private String  phone;
 

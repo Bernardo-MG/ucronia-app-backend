@@ -151,7 +151,9 @@ public final class DefaultMemberService implements MemberService {
             throw new MissingMemberIdException(number);
         }
 
-        return member.map(this::toDto);
+        return member.map(this::toDto)
+            .map(m -> mapActive(member.get()
+                .getId(), m));
     }
 
     @Override
@@ -230,6 +232,20 @@ public final class DefaultMemberService implements MemberService {
         orders.addAll(validOrders);
 
         return Sort.by(orders);
+    }
+
+    private final Member mapActive(final long id, final Member member) {
+        final YearMonth validStart;
+        final YearMonth validEnd;
+        final boolean   active;
+
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
+
+        active = memberRepository.isActive(id, validStart, validEnd);
+
+        member.setActive(active);
+        return member;
     }
 
     private final Member toDto(final MemberEntity entity) {

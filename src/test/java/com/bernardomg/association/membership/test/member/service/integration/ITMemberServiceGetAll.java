@@ -41,8 +41,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Member service - get all")
-@MultipleMembers
-@MultipleFees
 class ITMemberServiceGetAll {
 
     @Autowired
@@ -54,7 +52,9 @@ class ITMemberServiceGetAll {
 
     @Test
     @DisplayName("With multiple members it returns all the members")
-    void testGetAll() {
+    @MultipleMembers
+    @MultipleFees
+    void testGetAll_Multiple() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;

@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.membership.member.model.Member;
 import com.bernardomg.association.membership.member.service.MemberService;
-import com.bernardomg.association.membership.test.fee.config.PaidFee;
+import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.association.membership.test.member.config.factory.Members;
@@ -44,40 +44,91 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMemberServiceGetOne {
 
     @Autowired
-    private MemberService service;
+    private FeeInitializer feeInitializer;
+
+    @Autowired
+    private MemberService  service;
 
     public ITMemberServiceGetOne() {
         super();
     }
 
     @Test
-    @DisplayName("With a valid id for an active member, it is returned")
+    @DisplayName("With a member having no fee in the current month, a not active member is returned")
     @ValidMember
-    @PaidFee
-    void testGetOne_Active() {
+    void testGetOne_NoFee() {
         final Optional<Member> memberOptional;
 
         // WHEN
-        // TODO: This is not active
         memberOptional = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
-            .contains(Members.inactive(1));
+            .contains(Members.inactive());
     }
 
     @Test
-    @DisplayName("With a valid id for an inactive member, the related entity is returned")
+    @DisplayName("With a member having a not paid fee in the current month, an active member is returned")
     @ValidMember
-    void testGetOne_Inactive() {
+    void testGetOne_NotPaidFee_CurrentMonth() {
         final Optional<Member> memberOptional;
+
+        feeInitializer.registerFeeCurrentMonth(false);
 
         // WHEN
         memberOptional = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(memberOptional)
-            .contains(Members.inactive(1));
+            .contains(Members.active());
+    }
+
+    @Test
+    @DisplayName("With a member having a paid fee in the current month, an active member is returned")
+    @ValidMember
+    void testGetOne_PaidFee_CurrentMonth() {
+        final Optional<Member> memberOptional;
+
+        feeInitializer.registerFeeCurrentMonth(true);
+
+        // WHEN
+        memberOptional = service.getOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .contains(Members.active());
+    }
+
+    @Test
+    @DisplayName("With a member having a paid fee in the next month, a not active member is returned")
+    @ValidMember
+    void testGetOne_PaidFee_NextMonth() {
+        final Optional<Member> memberOptional;
+
+        feeInitializer.registerFeeNextMonth(true);
+
+        // WHEN
+        memberOptional = service.getOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .contains(Members.inactive());
+    }
+
+    @Test
+    @DisplayName("With a member having a paid fee in the previous month, a not active member is returned")
+    @ValidMember
+    void testGetOne_PaidFee_PreviousMonth() {
+        final Optional<Member> memberOptional;
+
+        feeInitializer.registerFeePreviousMonth(true);
+
+        // WHEN
+        memberOptional = service.getOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(memberOptional)
+            .contains(Members.inactive());
     }
 
 }
