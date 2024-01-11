@@ -23,7 +23,7 @@
  */
 
 /**
- * Association funds calendar controllers.
+ * Association fee controllers.
  */
 
-package com.bernardomg.association.funds.calendar.controller;
+package com.bernardomg.association.controller.fee;

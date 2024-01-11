@@ -22,74 +22,59 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.calendar.controller;
-
-import java.time.YearMonth;
+package com.bernardomg.association.controller.member;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.funds.cache.FundsCaches;
-import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
-import com.bernardomg.association.model.transaction.CalendarFundsDate;
-import com.bernardomg.association.model.transaction.MonthsRange;
+import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
+import com.bernardomg.association.membership.cache.MembershipCaches;
+import com.bernardomg.association.model.member.MemberBalanceQuery;
+import com.bernardomg.association.model.member.MonthlyMemberBalance;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Funds calendar REST controller.
+ * Membership balance REST controller.
+ * <p>
+ * TODO: the route should show this is the balance
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/funds/calendar")
+@RequestMapping("/member")
 @AllArgsConstructor
 @Transactional
-public class FundsCalendarController {
+public class MembershipBalanceController {
 
     /**
-     * Funds calendar service.
+     * Membership balance service.
      */
-    private final FundsCalendarService service;
+    private final MembershipBalanceService service;
 
     /**
-     * Returns all the fund changes for a month.
+     * Returns the monthly membership balance.
      *
-     * @param year
-     *            year to read
-     * @param month
-     *            month to read
-     * @return all the fund changes for the month
+     * @param balance
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly membership balance
      */
-    @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = FundsCaches.CALENDAR)
-    public Iterable<? extends CalendarFundsDate> readMonth(@PathVariable("year") final Integer year,
-            @PathVariable("month") final Integer month) {
-        final YearMonth date;
-
-        date = YearMonth.of(year, month);
-        return service.getYearMonth(date);
-    }
-
-    /**
-     * Returns the range of available months.
-     *
-     * @return the range of available months
-     */
-    @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = FundsCaches.CALENDAR_RANGE)
-    public MonthsRange readRange() {
-        return service.getRange();
+    @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
+    @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
+    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery balance, final Sort sort) {
+        return service.getBalance(balance, sort);
     }
 
 }

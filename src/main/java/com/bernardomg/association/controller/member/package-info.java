@@ -23,7 +23,7 @@
  */
 
 /**
- * Association balance controllers.
+ * Association member controllers.
  */
 
-package com.bernardomg.association.funds.balance.controller;
+package com.bernardomg.association.controller.member;

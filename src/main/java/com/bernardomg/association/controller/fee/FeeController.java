@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.fee.controller;
+package com.bernardomg.association.controller.fee;
 
 import java.time.YearMonth;
 import java.util.Collection;

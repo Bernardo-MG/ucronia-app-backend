@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.balance.controller;
+package com.bernardomg.association.controller.transaction;
+
+import java.util.Collection;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
@@ -32,10 +34,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
-import com.bernardomg.association.membership.cache.MembershipCaches;
-import com.bernardomg.association.model.member.MemberBalanceQuery;
-import com.bernardomg.association.model.member.MonthlyMemberBalance;
+import com.bernardomg.association.funds.balance.service.BalanceService;
+import com.bernardomg.association.funds.cache.FundsCaches;
+import com.bernardomg.association.model.transaction.BalanceQuery;
+import com.bernardomg.association.model.transaction.CurrentBalance;
+import com.bernardomg.association.model.transaction.MonthlyBalance;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -43,38 +46,48 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Membership balance REST controller.
- * <p>
- * TODO: the route should show this is the balance
+ * Balance REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/funds/balance")
 @AllArgsConstructor
 @Transactional
-public class MembershipBalanceController {
+public class BalanceController {
 
     /**
-     * Membership balance service.
+     * Balance service
      */
-    private final MembershipBalanceService service;
+    private final BalanceService service;
 
     /**
-     * Returns the monthly membership balance.
+     * Returns the current balance.
+     *
+     * @return the current balance
+     */
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.BALANCE)
+    public CurrentBalance readBalance() {
+        return service.getBalance();
+    }
+
+    /**
+     * Returns the monthly balance.
      *
      * @param balance
      *            query to filter balances
      * @param sort
      *            sorting to apply
-     * @return the monthly membership balance
+     * @return the monthly balance
      */
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
-    @Cacheable(cacheNames = MembershipCaches.MONTHLY_BALANCE)
-    public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery balance, final Sort sort) {
-        return service.getBalance(balance, sort);
+    @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
+    @Cacheable(cacheNames = FundsCaches.MONTHLY_BALANCE)
+    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final BalanceQuery balance, final Sort sort) {
+        return service.getMonthlyBalance(balance, sort);
     }
 
 }

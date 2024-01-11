@@ -23,7 +23,7 @@
  */
 
 /**
- * Association member controllers.
+ * Association transaction controllers.
  */
 
-package com.bernardomg.association.membership.member.controller;
+package com.bernardomg.association.controller.transaction;
