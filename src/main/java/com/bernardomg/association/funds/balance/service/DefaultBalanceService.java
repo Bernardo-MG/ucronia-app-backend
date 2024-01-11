@@ -36,9 +36,9 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.funds.balance.model.BalanceQuery;
 import com.bernardomg.association.funds.balance.model.CurrentBalance;
 import com.bernardomg.association.funds.balance.model.MonthlyBalance;
-import com.bernardomg.association.funds.balance.persistence.model.MonthlyBalanceEntity;
-import com.bernardomg.association.funds.balance.persistence.repository.MonthlyBalanceRepository;
-import com.bernardomg.association.funds.balance.persistence.specification.MonthlyBalanceSpecifications;
+import com.bernardomg.association.persistence.transaction.model.MonthlyBalanceEntity;
+import com.bernardomg.association.persistence.transaction.repository.MonthlyBalanceRepository;
+import com.bernardomg.association.persistence.transaction.specification.MonthlyBalanceSpecifications;
 
 /**
  * Default implementation of the balance service.

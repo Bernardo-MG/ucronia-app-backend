@@ -32,9 +32,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
 import com.bernardomg.association.funds.calendar.model.MonthsRange;
-import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionSpecifications;
+import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
+import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
+import com.bernardomg.association.persistence.transaction.specification.TransactionSpecifications;
 
 import lombok.extern.slf4j.Slf4j;
 

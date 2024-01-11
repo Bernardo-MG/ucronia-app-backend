@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
-import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
+import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
 
 @Component
 public final class TransactionInitializer {

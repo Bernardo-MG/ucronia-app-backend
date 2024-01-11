@@ -5,9 +5,9 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.persistence.fee.model.FeeEntity;
+import com.bernardomg.association.persistence.fee.repository.FeeRepository;
+import com.bernardomg.association.persistence.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

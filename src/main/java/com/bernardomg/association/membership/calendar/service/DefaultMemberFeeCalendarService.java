@@ -40,11 +40,11 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.membership.calendar.model.FeeMonth;
 import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.calendar.model.YearsRange;
-import com.bernardomg.association.membership.fee.persistence.model.MemberFeeEntity;
-import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.membership.member.model.MemberStatus;
-import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
-import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.persistence.fee.model.MemberFeeEntity;
+import com.bernardomg.association.persistence.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.persistence.member.model.MemberEntity;
+import com.bernardomg.association.persistence.member.repository.MemberRepository;
 
 public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarService {
 

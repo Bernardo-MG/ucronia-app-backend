@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
-import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
-import com.bernardomg.association.membership.fee.persistence.repository.FeePaymentRepository;
-import com.bernardomg.association.membership.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeEntities;
+import com.bernardomg.association.persistence.fee.model.FeeEntity;
+import com.bernardomg.association.persistence.fee.model.FeePaymentEntity;
+import com.bernardomg.association.persistence.fee.repository.FeePaymentRepository;
+import com.bernardomg.association.persistence.fee.repository.FeeRepository;
+import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
+import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
 
 @Component
 public final class FeeInitializer {

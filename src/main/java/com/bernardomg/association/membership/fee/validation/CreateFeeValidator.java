@@ -4,9 +4,9 @@ package com.bernardomg.association.membership.fee.validation;
 import java.util.Collection;
 
 import com.bernardomg.association.membership.fee.model.FeesPayment;
-import com.bernardomg.association.membership.fee.persistence.repository.MemberFeeRepository;
-import com.bernardomg.association.membership.member.persistence.model.MemberEntity;
-import com.bernardomg.association.membership.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.persistence.fee.repository.MemberFeeRepository;
+import com.bernardomg.association.persistence.member.model.MemberEntity;
+import com.bernardomg.association.persistence.member.repository.MemberRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 

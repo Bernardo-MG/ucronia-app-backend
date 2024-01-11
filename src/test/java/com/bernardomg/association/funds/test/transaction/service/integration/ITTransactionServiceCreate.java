@@ -42,9 +42,9 @@ import com.bernardomg.association.funds.test.transaction.configuration.PositiveT
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
 import com.bernardomg.association.funds.transaction.model.Transaction;
 import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.funds.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
+import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
+import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -3,8 +3,8 @@ package com.bernardomg.association.funds.test.transaction.config.factory;
 
 import java.time.LocalDate;
 
-import com.bernardomg.association.funds.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
+import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
 
 public final class TransactionEntities {
 
