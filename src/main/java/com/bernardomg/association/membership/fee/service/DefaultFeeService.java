@@ -22,7 +22,9 @@ import com.bernardomg.association.funds.transaction.persistence.repository.Trans
 import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.membership.fee.model.Fee;
 import com.bernardomg.association.membership.fee.model.FeeChange;
+import com.bernardomg.association.membership.fee.model.FeeMember;
 import com.bernardomg.association.membership.fee.model.FeeQuery;
+import com.bernardomg.association.membership.fee.model.FeeTransaction;
 import com.bernardomg.association.membership.fee.model.FeesPayment;
 import com.bernardomg.association.membership.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.membership.fee.persistence.model.FeePaymentEntity;
@@ -335,13 +337,22 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toDto(final MemberFeeEntity entity) {
-        return Fee.builder()
-            .memberNumber(entity.getMemberNumber())
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
             .fullName(entity.getFullName())
+            .number(entity.getMemberNumber())
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(entity.getTransactionIndex())
+            .date(entity.getPaymentDate())
+            .build();
+        return Fee.builder()
             .date(entity.getDate())
             .paid(entity.getPaid())
-            .paymentDate(entity.getPaymentDate())
-            .transactionIndex(entity.getTransactionIndex())
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 

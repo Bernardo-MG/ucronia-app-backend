@@ -6,135 +6,245 @@ import java.time.YearMonth;
 
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.membership.fee.model.Fee;
+import com.bernardomg.association.membership.fee.model.FeeMember;
+import com.bernardomg.association.membership.fee.model.FeeTransaction;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 
 public final class Fees {
 
     public static final Fee alternative() {
-        return Fee.builder()
-            .memberNumber(MemberConstants.ALTERNATIVE_NUMBER)
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
             .fullName("Member 2 Surname 2")
+            .number(MemberConstants.ALTERNATIVE_NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(TransactionConstants.ALTERNATIVE_INDEX)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
+        return Fee.builder()
             .date(FeeConstants.DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(TransactionConstants.ALTERNATIVE_INDEX)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee noSurname() {
-        return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
             .fullName("Member 1")
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(TransactionConstants.INDEX)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
+        return Fee.builder()
             .date(FeeConstants.DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(TransactionConstants.INDEX)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee notPaid() {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(false)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee notPaidAt(final long index, final Month month) {
-        return Fee.builder()
-            .memberNumber(index * 10)
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
             .fullName("Member " + index + " Surname " + index)
+            .number(index * 10)
+            .build();
+        transaction = FeeTransaction.builder()
+            .build();
+        return Fee.builder()
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(false)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paid() {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(TransactionConstants.INDEX)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(TransactionConstants.INDEX)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidAt(final int month) {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index((long) month)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex((long) month)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidAt(final long index, final Month month) {
-        return Fee.builder()
-            .memberNumber(index * 10)
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
             .fullName("Member " + index + " Surname " + index)
+            .number(index * 10)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(index * 10)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
+        return Fee.builder()
             .date(YearMonth.of(FeeConstants.YEAR, month))
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(index * 10)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidFirstNextYear(final long index) {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(index)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.FIRST_NEXT_YEAR_DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(index)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidLastInYear(final long index) {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(index)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.LAST_YEAR_DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(index)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidNextDate() {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(TransactionConstants.INDEX)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.NEXT_DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(TransactionConstants.INDEX)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidNextDateWithIndex(final long index) {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(index)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.NEXT_DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(index)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
     public static final Fee paidWithIndex(final long index) {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(MemberConstants.FULL_NAME)
+            .number(MemberConstants.NUMBER)
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(index)
+            .date(FeeConstants.PAYMENT_DATE)
+            .build();
         return Fee.builder()
-            .memberNumber(MemberConstants.NUMBER)
-            .fullName("Member 1 Surname 1")
             .date(FeeConstants.DATE)
             .paid(true)
-            .paymentDate(FeeConstants.PAYMENT_DATE)
-            .transactionIndex(index)
+            .member(member)
+            .transaction(transaction)
             .build();
     }
 
