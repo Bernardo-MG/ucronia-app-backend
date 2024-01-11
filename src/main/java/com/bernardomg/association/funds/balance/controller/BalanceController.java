@@ -34,11 +34,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.funds.balance.model.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.CurrentBalance;
-import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.cache.FundsCaches;
+import com.bernardomg.association.model.transaction.BalanceQuery;
+import com.bernardomg.association.model.transaction.CurrentBalance;
+import com.bernardomg.association.model.transaction.MonthlyBalance;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

@@ -9,9 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.funds.transaction.exception.MissingTransactionIdException;
-import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.model.TransactionQuery;
+import com.bernardomg.association.model.transaction.Transaction;
+import com.bernardomg.association.model.transaction.TransactionChange;
+import com.bernardomg.association.model.transaction.TransactionQuery;
 import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
 import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
 import com.bernardomg.association.persistence.transaction.specification.TransactionSpecifications;

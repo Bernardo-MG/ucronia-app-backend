@@ -4,9 +4,9 @@ package com.bernardomg.association.membership.test.calendar.config.factory;
 import java.time.YearMonth;
 import java.util.List;
 
-import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
+import com.bernardomg.association.model.fee.FeeMonth;
+import com.bernardomg.association.model.fee.MemberFeeCalendar;
 
 public final class MemberFeeCalendars {
 

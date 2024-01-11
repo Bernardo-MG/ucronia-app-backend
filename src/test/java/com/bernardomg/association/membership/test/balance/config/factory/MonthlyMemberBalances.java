@@ -3,7 +3,7 @@ package com.bernardomg.association.membership.test.balance.config.factory;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
+import com.bernardomg.association.model.member.MonthlyMemberBalance;
 
 public final class MonthlyMemberBalances {
 

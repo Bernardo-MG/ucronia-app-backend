@@ -3,7 +3,7 @@ package com.bernardomg.association.membership.test.balance.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
+import com.bernardomg.association.model.member.MonthlyMemberBalance;
 
 public final class MonthlyMemberBalanceAssertions {
 

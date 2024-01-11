@@ -37,10 +37,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.calendar.model.FeeMonth;
-import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
-import com.bernardomg.association.membership.calendar.model.YearsRange;
-import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.model.fee.FeeMonth;
+import com.bernardomg.association.model.fee.MemberFeeCalendar;
+import com.bernardomg.association.model.fee.YearsRange;
+import com.bernardomg.association.model.member.MemberStatus;
 import com.bernardomg.association.persistence.fee.model.MemberFeeEntity;
 import com.bernardomg.association.persistence.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.persistence.member.model.MemberEntity;

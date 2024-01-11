@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.membership.test.balance.config.factory;
 
-import com.bernardomg.association.membership.balance.model.MemberBalanceQuery;
+import com.bernardomg.association.model.member.MemberBalanceQuery;
 
 public final class MemberBalanceQueryRequests {
 

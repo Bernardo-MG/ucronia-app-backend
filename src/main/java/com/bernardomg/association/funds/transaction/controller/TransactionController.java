@@ -43,11 +43,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.funds.cache.FundsCaches;
-import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.membership.fee.cache.FeeCaches;
+import com.bernardomg.association.model.transaction.Transaction;
+import com.bernardomg.association.model.transaction.TransactionChange;
+import com.bernardomg.association.model.transaction.TransactionQuery;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

@@ -18,10 +18,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
 import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
-import com.bernardomg.association.membership.member.model.Member;
-import com.bernardomg.association.membership.member.model.MemberChange;
-import com.bernardomg.association.membership.member.model.MemberName;
-import com.bernardomg.association.membership.member.model.MemberQuery;
+import com.bernardomg.association.model.member.Member;
+import com.bernardomg.association.model.member.MemberChange;
+import com.bernardomg.association.model.member.MemberName;
+import com.bernardomg.association.model.member.MemberQuery;
 import com.bernardomg.association.persistence.member.model.MemberEntity;
 import com.bernardomg.association.persistence.member.repository.MemberRepository;
 

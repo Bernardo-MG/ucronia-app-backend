@@ -26,8 +26,8 @@ package com.bernardomg.association.funds.calendar.service;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.funds.calendar.model.CalendarFundsDate;
-import com.bernardomg.association.funds.calendar.model.MonthsRange;
+import com.bernardomg.association.model.transaction.CalendarFundsDate;
+import com.bernardomg.association.model.transaction.MonthsRange;
 
 /**
  * Funds calendar service. Supports all the CRUD operations.

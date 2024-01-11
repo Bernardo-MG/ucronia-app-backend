@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.TransactionChange;
-import com.bernardomg.association.funds.transaction.model.TransactionQuery;
+import com.bernardomg.association.model.transaction.Transaction;
+import com.bernardomg.association.model.transaction.TransactionChange;
+import com.bernardomg.association.model.transaction.TransactionQuery;
 
 /**
  * Transaction service. Supports all the CRUD operations.

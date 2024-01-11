@@ -3,7 +3,7 @@ package com.bernardomg.association.membership.test.fee.config.factory;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.membership.fee.model.FeeQuery;
+import com.bernardomg.association.model.fee.FeeQuery;
 
 public final class FeesQuery {
 

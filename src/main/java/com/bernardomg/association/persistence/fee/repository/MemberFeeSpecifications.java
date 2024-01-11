@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.membership.fee.model.FeeQuery;
+import com.bernardomg.association.model.fee.FeeQuery;
 import com.bernardomg.association.persistence.fee.model.MemberFeeEntity;
 
 public final class MemberFeeSpecifications {

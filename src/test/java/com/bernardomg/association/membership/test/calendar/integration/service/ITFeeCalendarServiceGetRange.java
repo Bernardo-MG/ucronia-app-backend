@@ -29,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.calendar.model.YearsRange;
 import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.test.calendar.config.factory.MemberCalendars;
 import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullYear;
@@ -38,6 +37,7 @@ import com.bernardomg.association.membership.test.fee.config.factory.FeeConstant
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.config.AlternativeMember;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.model.fee.YearsRange;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

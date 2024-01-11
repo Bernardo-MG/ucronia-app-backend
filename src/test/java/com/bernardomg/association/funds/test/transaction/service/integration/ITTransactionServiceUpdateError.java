@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionChanges;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
-import com.bernardomg.association.funds.transaction.model.TransactionChange;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
+import com.bernardomg.association.model.transaction.TransactionChange;
 import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

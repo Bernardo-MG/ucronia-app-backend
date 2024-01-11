@@ -33,9 +33,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.funds.balance.model.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.CurrentBalance;
-import com.bernardomg.association.funds.balance.model.MonthlyBalance;
+import com.bernardomg.association.model.transaction.BalanceQuery;
+import com.bernardomg.association.model.transaction.CurrentBalance;
+import com.bernardomg.association.model.transaction.MonthlyBalance;
 import com.bernardomg.association.persistence.transaction.model.MonthlyBalanceEntity;
 import com.bernardomg.association.persistence.transaction.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.persistence.transaction.specification.MonthlyBalanceSpecifications;

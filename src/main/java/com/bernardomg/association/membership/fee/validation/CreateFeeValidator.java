@@ -3,7 +3,7 @@ package com.bernardomg.association.membership.fee.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.association.membership.fee.model.FeesPayment;
+import com.bernardomg.association.model.fee.FeesPayment;
 import com.bernardomg.association.persistence.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.persistence.member.model.MemberEntity;
 import com.bernardomg.association.persistence.member.repository.MemberRepository;

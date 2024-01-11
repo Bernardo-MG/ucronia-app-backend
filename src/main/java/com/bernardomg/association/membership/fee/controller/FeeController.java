@@ -49,11 +49,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.funds.cache.FundsCaches;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.membership.fee.cache.FeeCaches;
-import com.bernardomg.association.membership.fee.model.Fee;
-import com.bernardomg.association.membership.fee.model.FeeChange;
-import com.bernardomg.association.membership.fee.model.FeeQuery;
-import com.bernardomg.association.membership.fee.model.FeesPaymentRequest;
 import com.bernardomg.association.membership.fee.service.FeeService;
+import com.bernardomg.association.model.fee.Fee;
+import com.bernardomg.association.model.fee.FeeChange;
+import com.bernardomg.association.model.fee.FeeQuery;
+import com.bernardomg.association.model.fee.FeesPaymentRequest;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

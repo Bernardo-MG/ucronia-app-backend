@@ -34,8 +34,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.membership.fee.model.Fee;
-import com.bernardomg.association.membership.fee.model.FeeQuery;
 import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
@@ -46,6 +44,8 @@ import com.bernardomg.association.membership.test.fee.config.factory.FeesQuery;
 import com.bernardomg.association.membership.test.member.config.MultipleMembers;
 import com.bernardomg.association.membership.test.member.config.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
+import com.bernardomg.association.model.fee.Fee;
+import com.bernardomg.association.model.fee.FeeQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

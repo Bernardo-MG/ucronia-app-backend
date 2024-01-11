@@ -33,12 +33,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.funds.balance.model.BalanceQuery;
-import com.bernardomg.association.funds.balance.model.MonthlyBalance;
 import com.bernardomg.association.funds.balance.service.BalanceService;
 import com.bernardomg.association.funds.test.balance.config.factory.BalanceQueries;
 import com.bernardomg.association.funds.test.balance.config.factory.MonthlyBalances;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
+import com.bernardomg.association.model.transaction.BalanceQuery;
+import com.bernardomg.association.model.transaction.MonthlyBalance;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

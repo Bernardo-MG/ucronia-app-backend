@@ -4,7 +4,7 @@ package com.bernardomg.association.funds.test.transaction.config.factory;
 import java.time.LocalDate;
 import java.time.Month;
 
-import com.bernardomg.association.funds.transaction.model.Transaction;
+import com.bernardomg.association.model.transaction.Transaction;
 
 public final class Transactions {
 

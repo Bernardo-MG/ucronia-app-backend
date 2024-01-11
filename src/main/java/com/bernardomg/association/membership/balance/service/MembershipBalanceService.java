@@ -26,8 +26,8 @@ package com.bernardomg.association.membership.balance.service;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.balance.model.MemberBalanceQuery;
-import com.bernardomg.association.membership.balance.model.MonthlyMemberBalance;
+import com.bernardomg.association.model.member.MemberBalanceQuery;
+import com.bernardomg.association.model.member.MonthlyMemberBalance;
 
 /**
  * Membership balance service.

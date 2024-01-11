@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.funds.transaction.model.TransactionQuery;
+import com.bernardomg.association.model.transaction.TransactionQuery;
 import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
 
 /**

@@ -26,9 +26,9 @@ package com.bernardomg.association.membership.calendar.service;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.calendar.model.MemberFeeCalendar;
-import com.bernardomg.association.membership.calendar.model.YearsRange;
-import com.bernardomg.association.membership.member.model.MemberStatus;
+import com.bernardomg.association.model.fee.MemberFeeCalendar;
+import com.bernardomg.association.model.fee.YearsRange;
+import com.bernardomg.association.model.member.MemberStatus;
 
 /**
  * Fee calendar service.

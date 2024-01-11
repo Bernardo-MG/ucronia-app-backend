@@ -39,9 +39,9 @@ import com.bernardomg.association.funds.test.transaction.config.factory.Transact
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionsQueries;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.transaction.model.Transaction;
-import com.bernardomg.association.funds.transaction.model.TransactionQuery;
 import com.bernardomg.association.funds.transaction.service.TransactionService;
+import com.bernardomg.association.model.transaction.Transaction;
+import com.bernardomg.association.model.transaction.TransactionQuery;
 import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;

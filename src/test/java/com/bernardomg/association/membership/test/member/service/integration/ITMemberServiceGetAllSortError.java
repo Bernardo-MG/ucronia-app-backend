@@ -34,10 +34,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
 
-import com.bernardomg.association.membership.member.model.MemberQuery;
 import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.membership.test.member.config.MultipleMembers;
 import com.bernardomg.association.membership.test.member.config.factory.MembersQuery;
+import com.bernardomg.association.model.member.MemberQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
