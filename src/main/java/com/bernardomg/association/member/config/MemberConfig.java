@@ -27,17 +27,10 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
-import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
-import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.fee.service.FeeMaintenanceService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
-import com.bernardomg.association.member.service.DefaultMemberFeeCalendarService;
 import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.member.service.DefaultMembershipBalanceService;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.member.service.MembershipBalanceService;
 
@@ -52,23 +45,6 @@ public class MemberConfig {
 
     public MemberConfig() {
         super();
-    }
-
-    @Bean("feeCalendarService")
-    public MemberFeeCalendarService getFeeCalendarService(final MemberFeeRepository memberFeeRepository,
-            final MemberRepository memberRepository) {
-        return new DefaultMemberFeeCalendarService(memberFeeRepository, memberRepository);
-    }
-
-    @Bean("feeMaintenanceScheduleTask")
-    public FeeMaintenanceScheduleTask getFeeMaintenanceScheduleTask(final FeeMaintenanceService feeMaintenanceService) {
-        return new FeeMaintenanceScheduleTask(feeMaintenanceService);
-    }
-
-    @Bean("feeMaintenanceService")
-    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
-            final MemberRepository memberRepo) {
-        return new DefaultFeeMaintenanceService(feeRepo, memberRepo);
     }
 
     @Bean("memberBalanceService")

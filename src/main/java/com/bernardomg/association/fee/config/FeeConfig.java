@@ -33,13 +33,8 @@ import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
 import com.bernardomg.association.member.service.DefaultMemberFeeCalendarService;
-import com.bernardomg.association.member.service.DefaultMemberService;
-import com.bernardomg.association.member.service.DefaultMembershipBalanceService;
 import com.bernardomg.association.member.service.MemberFeeCalendarService;
-import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.member.service.MembershipBalanceService;
 
 /**
  * Fee configuration.
@@ -69,17 +64,6 @@ public class FeeConfig {
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
             final MemberRepository memberRepo) {
         return new DefaultFeeMaintenanceService(feeRepo, memberRepo);
-    }
-
-    @Bean("memberBalanceService")
-    public MembershipBalanceService
-            getMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository) {
-        return new DefaultMembershipBalanceService(monthlyMemberBalanceRepository);
-    }
-
-    @Bean("memberService")
-    public MemberService getMemberService(final MemberRepository memberRepository) {
-        return new DefaultMemberService(memberRepository);
     }
 
 }
