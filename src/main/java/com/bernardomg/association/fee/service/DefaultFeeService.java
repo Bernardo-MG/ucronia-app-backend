@@ -194,6 +194,8 @@ public final class DefaultFeeService implements FeeService {
         final Optional<Fee>          read;
         final Fee                    result;
         final Optional<FeeEntity>    readFee;
+        
+        // TODO: remove, don't allow updating fees.
 
         log.debug("Updating fee for {} in {} using data {}", memberNumber, date, fee);
 
