@@ -51,7 +51,8 @@ public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
         }
 
         // Verify no date is already registered, unless it is not paid
-        member = memberRepository.findByNumber(payment.getMemberNumber())
+        member = memberRepository.findByNumber(payment.getMember()
+            .getNumber())
             .get();
         // TODO: use a single query
         existing = payment.getFeeDates()

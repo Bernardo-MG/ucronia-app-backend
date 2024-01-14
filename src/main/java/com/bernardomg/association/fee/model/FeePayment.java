@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.fee.model;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 
@@ -25,10 +24,9 @@ public final class FeePayment {
     private Collection<@NotNull YearMonth> feeDates;
 
     @NotNull
-    private Long                           memberNumber;
+    private FeePaymentMember               member;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private LocalDate                      paymentDate;
+    private FeePaymentTransaction          transaction;
 
 }

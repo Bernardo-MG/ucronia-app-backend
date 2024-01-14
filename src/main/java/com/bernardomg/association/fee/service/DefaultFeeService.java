@@ -162,20 +162,26 @@ public final class DefaultFeeService implements FeeService {
         final Optional<MemberEntity> member;
         final Collection<Long>       ids;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", payment.getMemberNumber(), payment.getPaymentDate(),
+        log.debug("Paying fees for {} in {}. Months paid: {}", payment.getMember()
+            .getNumber(),
+            payment.getTransaction()
+                .getDate(),
             payment.getFeeDates());
 
-        member = memberRepository.findByNumber(payment.getMemberNumber());
+        member = memberRepository.findByNumber(payment.getMember()
+            .getNumber());
         if (member.isEmpty()) {
             // TODO: Change exception
-            throw new MissingMemberIdException(payment.getMemberNumber());
+            throw new MissingMemberIdException(payment.getMember()
+                .getNumber());
         }
 
         validatorPay.validate(payment);
 
         fees = registerFees(member.get()
             .getId(), payment.getFeeDates());
-        registerTransaction(member.get(), fees, payment.getPaymentDate(), payment.getFeeDates());
+        registerTransaction(member.get(), fees, payment.getTransaction()
+            .getDate(), payment.getFeeDates());
 
         // Read fees to return names
         feeRepository.flush();
@@ -194,7 +200,7 @@ public final class DefaultFeeService implements FeeService {
         final Optional<Fee>          read;
         final Fee                    result;
         final Optional<FeeEntity>    readFee;
-        
+
         // TODO: remove, don't allow updating fees.
 
         log.debug("Updating fee for {} in {} using data {}", memberNumber, date, fee);
