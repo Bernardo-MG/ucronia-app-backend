@@ -39,6 +39,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.bernardomg.association.member.model.MemberChange;
 import com.bernardomg.association.member.test.config.factory.MemberChanges;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.test.config.constant.TestUrls;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.google.gson.Gson;
@@ -82,7 +83,7 @@ class ITMemberControllerRequestValidation {
 
         // The response model contains the expected attributes
         result.andExpect(
-            MockMvcResultMatchers.jsonPath("$.content.name.firstName", Matchers.comparesEqualTo("Member 1")));
+            MockMvcResultMatchers.jsonPath("$.content.name.firstName", Matchers.comparesEqualTo(MemberConstants.NAME)));
     }
 
     @Test

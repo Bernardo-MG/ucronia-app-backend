@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class FeesPaymentRequest {
+public final class FeePayment {
 
     @DateTimeFormat(pattern = "yyyy-MM")
     @NotEmpty

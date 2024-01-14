@@ -49,8 +49,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.fee.cache.FeeCaches;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.FeeChange;
+import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.model.FeeQuery;
-import com.bernardomg.association.fee.model.FeesPaymentRequest;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.member.cache.MembersCaches;
 import com.bernardomg.association.transaction.cache.TransactionCaches;
@@ -89,8 +89,8 @@ public class FeeController {
             // Member caches
             MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR, MembersCaches.CALENDAR_RANGE },
             allEntries = true) })
-    public Collection<Fee> create(@Valid @RequestBody final FeesPaymentRequest fee) {
-        return service.payFees(fee.getMemberNumber(), fee.getPaymentDate(), fee.getFeeDates());
+    public Collection<Fee> create(@Valid @RequestBody final FeePayment payment) {
+        return service.payFees(payment);
     }
 
     @DeleteMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -3,7 +3,7 @@ package com.bernardomg.association.fee.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.association.fee.model.FeesPayment;
+import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.member.persistence.model.MemberEntity;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
@@ -13,7 +13,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
+public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
 
     private final MemberFeeRepository memberFeeRepository;
 
@@ -27,7 +27,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
     }
 
     @Override
-    protected final void checkRules(final FeesPayment payment, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final FeePayment payment, final Collection<FieldFailure> failures) {
         final Long         uniqueDates;
         final int          totalDates;
         final Long         existing;
@@ -53,6 +53,7 @@ public final class CreateFeeValidator extends AbstractValidator<FeesPayment> {
         // Verify no date is already registered, unless it is not paid
         member = memberRepository.findByNumber(payment.getMemberNumber())
             .get();
+        // TODO: use a single query
         existing = payment.getFeeDates()
             .stream()
             .filter(date -> memberFeeRepository.existsByMemberIdAndDateAndPaid(member.getId(), date, true))

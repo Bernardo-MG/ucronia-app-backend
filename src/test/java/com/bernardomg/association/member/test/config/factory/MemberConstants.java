@@ -5,7 +5,11 @@ public final class MemberConstants {
 
     public static final String ALTERNATIVE_FULL_NAME = "Member 2 Surname 2";
 
+    public static final String ALTERNATIVE_NAME      = "Member 2";
+
     public static final long   ALTERNATIVE_NUMBER    = 20;
+
+    public static final String ALTERNATIVE_SURNAME   = "Surname 2";
 
     public static final String FULL_NAME             = "Member 1 Surname 1";
 

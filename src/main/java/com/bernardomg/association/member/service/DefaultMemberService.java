@@ -274,8 +274,10 @@ public final class DefaultMemberService implements MemberService {
     private final MemberEntity toEntity(final MemberChange data) {
         return MemberEntity.builder()
             .identifier(data.getIdentifier())
-            .name(data.getName())
-            .surname(data.getSurname())
+            .name(data.getName()
+                .getFirstName())
+            .surname(data.getName()
+                .getLastName())
             .phone(data.getPhone())
             .build();
     }

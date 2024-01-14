@@ -21,9 +21,9 @@ import com.bernardomg.association.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.FeeChange;
 import com.bernardomg.association.fee.model.FeeMember;
+import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.model.FeeQuery;
 import com.bernardomg.association.fee.model.FeeTransaction;
-import com.bernardomg.association.fee.model.FeesPayment;
 import com.bernardomg.association.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.fee.persistence.model.FeePaymentEntity;
 import com.bernardomg.association.fee.persistence.model.MemberFeeEntity;
@@ -65,7 +65,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final TransactionRepository          transactionRepository;
 
-    private final Validator<FeesPayment>         validatorPay;
+    private final Validator<FeePayment>          validatorPay;
 
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
             final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
@@ -157,30 +157,25 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<Fee> payFees(final long memberNumber, final LocalDate payDate,
-            final Collection<YearMonth> feeDates) {
+    public final Collection<Fee> payFees(final FeePayment payment) {
         final Collection<FeeEntity>  fees;
         final Optional<MemberEntity> member;
         final Collection<Long>       ids;
-        final FeesPayment            payment;
 
-        log.debug("Paying fees for {} in {}. Months paid: {}", memberNumber, payDate, feeDates);
+        log.debug("Paying fees for {} in {}. Months paid: {}", payment.getMemberNumber(), payment.getPaymentDate(),
+            payment.getFeeDates());
 
-        member = memberRepository.findByNumber(memberNumber);
+        member = memberRepository.findByNumber(payment.getMemberNumber());
         if (member.isEmpty()) {
             // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
+            throw new MissingMemberIdException(payment.getMemberNumber());
         }
 
-        payment = FeesPayment.builder()
-            .memberNumber(memberNumber)
-            .feeDates(feeDates)
-            .build();
         validatorPay.validate(payment);
 
         fees = registerFees(member.get()
-            .getId(), feeDates);
-        registerTransaction(member.get(), fees, payDate, feeDates);
+            .getId(), payment.getFeeDates());
+        registerTransaction(member.get(), fees, payment.getPaymentDate(), payment.getFeeDates());
 
         // Read fees to return names
         feeRepository.flush();

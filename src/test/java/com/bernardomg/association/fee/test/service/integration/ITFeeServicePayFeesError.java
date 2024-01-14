@@ -24,18 +24,16 @@
 
 package com.bernardomg.association.fee.test.service.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.fee.test.config.factory.FeeConstants;
+import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.member.exception.MissingMemberIdException;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,13 +48,16 @@ class ITFeeServicePayFeesError {
     }
 
     @Test
-    @DisplayName("With an invalid member id it throws an exception")
+    @DisplayName("With an invalid member it throws an exception")
     void testCreate_InvalidMember() {
         final ThrowingCallable execution;
+        final FeePayment       payment;
+
+        // GIVEN
+        payment = FeePayments.single();
 
         // WHEN
-        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
-            List.of(FeeConstants.DATE));
+        execution = () -> service.payFees(payment);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.fee.service;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.model.FeeChange;
+import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.model.FeeQuery;
 
 /**
@@ -55,16 +55,11 @@ public interface FeeService {
     /**
      * Pays fees for a member
      *
-     * @param memberNumber
-     *            member paying the fees
-     * @param payDate
-     *            payment day
-     * @param feeDates
-     *            dates for the fees being paid
+     * @param payment
+     *            fees payment
      * @return all the paid fees
      */
-    public Collection<Fee> payFees(final long memberNumber, final LocalDate payDate,
-            final Collection<YearMonth> feeDates);
+    public Collection<Fee> payFees(final FeePayment payment);
 
     /**
      * Updates the fee for the received id with the received data.

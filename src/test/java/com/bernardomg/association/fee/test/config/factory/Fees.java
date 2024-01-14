@@ -37,7 +37,7 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName("Member 1")
+            .fullName(MemberConstants.NAME)
             .number(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()

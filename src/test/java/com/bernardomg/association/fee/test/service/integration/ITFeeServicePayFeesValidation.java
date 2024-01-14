@@ -24,18 +24,16 @@
 
 package com.bernardomg.association.fee.test.service.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.fee.test.config.annotation.PaidFee;
-import com.bernardomg.association.fee.test.config.factory.FeeConstants;
+import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -57,10 +55,13 @@ class ITFeeServicePayFeesValidation {
     void testCreate_DuplicatedDates() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
+        final FeePayment       payment;
+
+        // GIVEN
+        payment = FeePayments.duplicated();
 
         // WHEN
-        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
-            List.of(FeeConstants.DATE, FeeConstants.DATE));
+        execution = () -> service.payFees(payment);
 
         // THEN
         failure = FieldFailure.of("feeDates[].duplicated", "feeDates[]", "duplicated", 1L);
@@ -75,10 +76,13 @@ class ITFeeServicePayFeesValidation {
     void testCreate_Existing_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
+        final FeePayment       payment;
+
+        // GIVEN
+        payment = FeePayments.single();
 
         // WHEN
-        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
-            List.of(FeeConstants.DATE));
+        execution = () -> service.payFees(payment);
 
         // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
@@ -93,10 +97,13 @@ class ITFeeServicePayFeesValidation {
     void testCreate_MultipleDates_OneExisting_Paid() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
+        final FeePayment       payment;
+
+        // GIVEN
+        payment = FeePayments.two();
 
         // WHEN
-        execution = () -> service.payFees(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
-            List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
+        execution = () -> service.payFees(payment);
 
         // THEN
         failure = FieldFailure.of("feeDates[].existing", "feeDates[]", "existing", 1L);
