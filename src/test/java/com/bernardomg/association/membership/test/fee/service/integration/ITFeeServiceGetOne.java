@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.AlternativePaidFee;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
@@ -42,6 +41,7 @@ import com.bernardomg.association.membership.test.member.config.NoSurnameMember;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.association.model.fee.Fee;
+import com.bernardomg.association.service.fee.FeeService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.balance.service;
+package com.bernardomg.association.service.transaction;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

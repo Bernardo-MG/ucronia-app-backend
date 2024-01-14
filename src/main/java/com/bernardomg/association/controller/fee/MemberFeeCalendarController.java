@@ -34,10 +34,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.membership.cache.MembershipCaches;
-import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.model.fee.FeeCalendarQuery;
 import com.bernardomg.association.model.fee.MemberFeeCalendar;
 import com.bernardomg.association.model.fee.YearsRange;
+import com.bernardomg.association.service.member.MemberFeeCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

@@ -32,10 +32,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.cache.MembershipCaches;
 import com.bernardomg.association.model.member.MemberBalanceQuery;
 import com.bernardomg.association.model.member.MonthlyMemberBalance;
+import com.bernardomg.association.service.member.MembershipBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

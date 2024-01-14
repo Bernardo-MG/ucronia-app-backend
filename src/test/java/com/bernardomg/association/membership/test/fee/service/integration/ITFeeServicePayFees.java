@@ -37,7 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.membership.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.NotPaidFee;
 import com.bernardomg.association.membership.test.fee.config.PaidFee;
 import com.bernardomg.association.membership.test.fee.config.factory.FeeConstants;
@@ -52,6 +51,7 @@ import com.bernardomg.association.persistence.fee.repository.FeePaymentRepositor
 import com.bernardomg.association.persistence.fee.repository.FeeRepository;
 import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
 import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
+import com.bernardomg.association.service.fee.FeeService;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

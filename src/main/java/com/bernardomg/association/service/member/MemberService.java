@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.member.service;
+package com.bernardomg.association.service.member;
 
 import java.util.Optional;
 

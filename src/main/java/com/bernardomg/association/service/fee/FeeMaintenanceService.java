@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.membership.fee.service;
+package com.bernardomg.association.service.fee;
 
 public interface FeeMaintenanceService {
 

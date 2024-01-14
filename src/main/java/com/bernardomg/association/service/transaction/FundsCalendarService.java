@@ -22,8 +22,35 @@
  * SOFTWARE.
  */
 
-/**
- * Association members balance services.
- */
+package com.bernardomg.association.service.transaction;
 
-package com.bernardomg.association.membership.balance.service;
+import java.time.YearMonth;
+
+import com.bernardomg.association.model.transaction.CalendarFundsDate;
+import com.bernardomg.association.model.transaction.MonthsRange;
+
+/**
+ * Funds calendar service. Supports all the CRUD operations.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface FundsCalendarService {
+
+    /**
+     * Returns the range of available months.
+     *
+     * @return the range of available months
+     */
+    public MonthsRange getRange();
+
+    /**
+     * Returns all the fund changes for a month.
+     *
+     * @param month
+     *            the month to read
+     * @return all the fund changes for the month
+     */
+    public Iterable<CalendarFundsDate> getYearMonth(final YearMonth month);
+
+}

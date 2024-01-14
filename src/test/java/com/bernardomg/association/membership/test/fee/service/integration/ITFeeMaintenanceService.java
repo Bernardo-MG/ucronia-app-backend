@@ -8,12 +8,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.membership.test.fee.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.config.argument.FeePaidArgumentsProvider;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.persistence.fee.repository.FeeRepository;
+import com.bernardomg.association.service.fee.DefaultFeeMaintenanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

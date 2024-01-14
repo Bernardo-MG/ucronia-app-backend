@@ -23,7 +23,7 @@
  */
 
 /**
- * Association balance services.
+ * Association fee services.
  */
 
-package com.bernardomg.association.funds.balance.service;
+package com.bernardomg.association.service.fee;

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.calendar.service;
+package com.bernardomg.association.service.member;
 
 import org.springframework.data.domain.Sort;
 

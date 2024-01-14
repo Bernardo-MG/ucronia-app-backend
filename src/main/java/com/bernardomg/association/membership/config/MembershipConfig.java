@@ -27,19 +27,19 @@ package com.bernardomg.association.membership.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.membership.balance.service.DefaultMembershipBalanceService;
-import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
-import com.bernardomg.association.membership.calendar.service.DefaultMemberFeeCalendarService;
-import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.fee.schedule.FeeMaintenanceScheduleTask;
-import com.bernardomg.association.membership.fee.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.membership.fee.service.FeeMaintenanceService;
-import com.bernardomg.association.membership.member.service.DefaultMemberService;
-import com.bernardomg.association.membership.member.service.MemberService;
 import com.bernardomg.association.persistence.fee.repository.FeeRepository;
 import com.bernardomg.association.persistence.fee.repository.MemberFeeRepository;
 import com.bernardomg.association.persistence.member.repository.MemberRepository;
 import com.bernardomg.association.persistence.member.repository.MonthlyMemberBalanceRepository;
+import com.bernardomg.association.service.fee.DefaultFeeMaintenanceService;
+import com.bernardomg.association.service.fee.FeeMaintenanceService;
+import com.bernardomg.association.service.member.DefaultMemberFeeCalendarService;
+import com.bernardomg.association.service.member.DefaultMemberService;
+import com.bernardomg.association.service.member.DefaultMembershipBalanceService;
+import com.bernardomg.association.service.member.MemberFeeCalendarService;
+import com.bernardomg.association.service.member.MemberService;
+import com.bernardomg.association.service.member.MembershipBalanceService;
 
 /**
  * Security configuration.

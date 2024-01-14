@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.calendar.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.test.calendar.config.factory.FeeMonths;
 import com.bernardomg.association.membership.test.calendar.config.factory.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
@@ -40,6 +39,7 @@ import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitia
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.model.fee.MemberFeeCalendar;
 import com.bernardomg.association.model.member.MemberStatus;
+import com.bernardomg.association.service.member.MemberFeeCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

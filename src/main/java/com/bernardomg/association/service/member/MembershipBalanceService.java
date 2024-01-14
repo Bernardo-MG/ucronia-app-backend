@@ -22,35 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.funds.calendar.service;
+package com.bernardomg.association.service.member;
 
-import java.time.YearMonth;
+import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.model.transaction.CalendarFundsDate;
-import com.bernardomg.association.model.transaction.MonthsRange;
+import com.bernardomg.association.model.member.MemberBalanceQuery;
+import com.bernardomg.association.model.member.MonthlyMemberBalance;
 
 /**
- * Funds calendar service. Supports all the CRUD operations.
+ * Membership balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface FundsCalendarService {
+public interface MembershipBalanceService {
 
     /**
-     * Returns the range of available months.
+     * Returns the monthly membership balance.
      *
-     * @return the range of available months
+     * @param balance
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly membership balance
      */
-    public MonthsRange getRange();
-
-    /**
-     * Returns all the fund changes for a month.
-     *
-     * @param month
-     *            the month to read
-     * @return all the fund changes for the month
-     */
-    public Iterable<CalendarFundsDate> getYearMonth(final YearMonth month);
+    public Iterable<MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance, final Sort sort);
 
 }

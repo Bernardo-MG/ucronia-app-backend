@@ -23,7 +23,7 @@
  */
 
 /**
- * Association funds calendar services.
+ * Association member services.
  */
 
-package com.bernardomg.association.funds.calendar.service;
+package com.bernardomg.association.service.member;

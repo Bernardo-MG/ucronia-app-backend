@@ -37,9 +37,9 @@ import org.springframework.data.domain.Sort.Direction;
 import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionsQueries;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.model.transaction.Transaction;
 import com.bernardomg.association.model.transaction.TransactionQuery;
+import com.bernardomg.association.service.transaction.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -23,7 +23,7 @@
  */
 
 /**
- * Association fee services.
+ * Association transaction services.
  */
 
-package com.bernardomg.association.membership.fee.service;
+package com.bernardomg.association.service.transaction;

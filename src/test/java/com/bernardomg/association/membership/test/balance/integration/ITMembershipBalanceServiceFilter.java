@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.membership.balance.service.MembershipBalanceService;
 import com.bernardomg.association.membership.test.balance.config.factory.MemberBalanceQueryRequests;
 import com.bernardomg.association.membership.test.balance.config.factory.MonthlyMemberBalances;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
@@ -16,6 +15,7 @@ import com.bernardomg.association.membership.test.member.config.AlternativeMembe
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.model.member.MemberBalanceQuery;
 import com.bernardomg.association.model.member.MonthlyMemberBalance;
+import com.bernardomg.association.service.member.MembershipBalanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

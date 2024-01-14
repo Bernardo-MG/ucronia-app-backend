@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
-import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
+import com.bernardomg.association.service.transaction.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.funds.transaction.service;
+package com.bernardomg.association.service.transaction;
 
 import java.util.Objects;
 import java.util.Optional;

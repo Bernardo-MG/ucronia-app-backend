@@ -27,14 +27,14 @@ package com.bernardomg.association.funds.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.funds.balance.service.BalanceService;
-import com.bernardomg.association.funds.balance.service.DefaultBalanceService;
-import com.bernardomg.association.funds.calendar.service.DefaultFundsCalendarService;
-import com.bernardomg.association.funds.calendar.service.FundsCalendarService;
-import com.bernardomg.association.funds.transaction.service.DefaultTransactionService;
-import com.bernardomg.association.funds.transaction.service.TransactionService;
 import com.bernardomg.association.persistence.transaction.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
+import com.bernardomg.association.service.transaction.BalanceService;
+import com.bernardomg.association.service.transaction.DefaultBalanceService;
+import com.bernardomg.association.service.transaction.DefaultFundsCalendarService;
+import com.bernardomg.association.service.transaction.DefaultTransactionService;
+import com.bernardomg.association.service.transaction.FundsCalendarService;
+import com.bernardomg.association.service.transaction.TransactionService;
 
 /**
  * Security configuration.

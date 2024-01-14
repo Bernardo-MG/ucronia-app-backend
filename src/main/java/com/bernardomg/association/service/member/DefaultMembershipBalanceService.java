@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.membership.balance.service;
+package com.bernardomg.association.service.member;
 
 import java.time.YearMonth;
 import java.util.Collection;
