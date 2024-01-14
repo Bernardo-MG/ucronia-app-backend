@@ -36,9 +36,9 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.funds.test.balance.config.factory.BalanceQueries;
 import com.bernardomg.association.funds.test.balance.config.factory.MonthlyBalances;
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
-import com.bernardomg.association.model.transaction.BalanceQuery;
-import com.bernardomg.association.model.transaction.MonthlyBalance;
-import com.bernardomg.association.service.transaction.BalanceService;
+import com.bernardomg.association.transaction.model.BalanceQuery;
+import com.bernardomg.association.transaction.model.MonthlyBalance;
+import com.bernardomg.association.transaction.service.BalanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

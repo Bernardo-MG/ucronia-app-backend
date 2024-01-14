@@ -34,13 +34,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.fee.model.Fee;
+import com.bernardomg.association.fee.model.FeeQuery;
+import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.membership.test.fee.config.MultipleFees;
 import com.bernardomg.association.membership.test.fee.config.factory.Fees;
 import com.bernardomg.association.membership.test.fee.config.factory.FeesQuery;
 import com.bernardomg.association.membership.test.member.config.MultipleMembers;
-import com.bernardomg.association.model.fee.Fee;
-import com.bernardomg.association.model.fee.FeeQuery;
-import com.bernardomg.association.service.fee.FeeService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

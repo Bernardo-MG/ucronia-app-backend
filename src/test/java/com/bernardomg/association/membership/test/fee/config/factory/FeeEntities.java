@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.membership.test.fee.config.factory;
 
-import com.bernardomg.association.persistence.fee.model.FeeEntity;
+import com.bernardomg.association.fee.persistence.model.FeeEntity;
 
 public final class FeeEntities {
 

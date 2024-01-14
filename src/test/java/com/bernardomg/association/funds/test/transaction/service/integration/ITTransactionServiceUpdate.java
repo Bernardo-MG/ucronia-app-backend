@@ -35,11 +35,11 @@ import com.bernardomg.association.funds.test.transaction.config.factory.Transact
 import com.bernardomg.association.funds.test.transaction.config.factory.Transactions;
 import com.bernardomg.association.funds.test.transaction.configuration.PositiveTransaction;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
-import com.bernardomg.association.model.transaction.Transaction;
-import com.bernardomg.association.model.transaction.TransactionChange;
-import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
-import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
-import com.bernardomg.association.service.transaction.TransactionService;
+import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionChange;
+import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

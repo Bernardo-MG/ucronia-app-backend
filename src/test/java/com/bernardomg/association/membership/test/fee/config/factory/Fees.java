@@ -4,11 +4,11 @@ package com.bernardomg.association.membership.test.fee.config.factory;
 import java.time.Month;
 import java.time.YearMonth;
 
+import com.bernardomg.association.fee.model.Fee;
+import com.bernardomg.association.fee.model.FeeMember;
+import com.bernardomg.association.fee.model.FeeTransaction;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
-import com.bernardomg.association.model.fee.Fee;
-import com.bernardomg.association.model.fee.FeeMember;
-import com.bernardomg.association.model.fee.FeeTransaction;
 
 public final class Fees {
 

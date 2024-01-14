@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.funds.test.balance.config.factory;
 
-import com.bernardomg.association.model.transaction.CurrentBalance;
+import com.bernardomg.association.transaction.model.CurrentBalance;
 
 public final class CurrentBalances {
 

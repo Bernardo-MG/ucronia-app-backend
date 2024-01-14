@@ -4,7 +4,7 @@ package com.bernardomg.association.funds.test.balance.config.factory;
 import java.time.Month;
 import java.time.YearMonth;
 
-import com.bernardomg.association.model.transaction.MonthlyBalance;
+import com.bernardomg.association.transaction.model.MonthlyBalance;
 
 public final class MonthlyBalances {
 

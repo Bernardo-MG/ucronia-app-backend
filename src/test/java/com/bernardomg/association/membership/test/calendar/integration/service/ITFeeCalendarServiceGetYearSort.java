@@ -35,6 +35,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
+import com.bernardomg.association.fee.model.MemberFeeCalendar;
+import com.bernardomg.association.member.model.MemberStatus;
+import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.association.membership.test.calendar.config.factory.MemberCalendars;
 import com.bernardomg.association.membership.test.calendar.config.factory.MemberFeeCalendars;
 import com.bernardomg.association.membership.test.calendar.util.assertion.MemberFeeCalendarAssertions;
@@ -42,9 +45,6 @@ import com.bernardomg.association.membership.test.fee.config.AlternativeFeeFullY
 import com.bernardomg.association.membership.test.fee.config.FeeFullYear;
 import com.bernardomg.association.membership.test.member.config.AlternativeMember;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
-import com.bernardomg.association.model.fee.MemberFeeCalendar;
-import com.bernardomg.association.model.member.MemberStatus;
-import com.bernardomg.association.service.member.MemberFeeCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

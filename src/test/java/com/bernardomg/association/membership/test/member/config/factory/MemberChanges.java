@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.membership.test.member.config.factory;
 
-import com.bernardomg.association.model.member.MemberChange;
+import com.bernardomg.association.member.model.MemberChange;
 
 public final class MemberChanges {
 

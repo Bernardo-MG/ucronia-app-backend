@@ -3,7 +3,7 @@ package com.bernardomg.association.membership.test.fee.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.persistence.fee.model.FeeEntity;
+import com.bernardomg.association.fee.persistence.model.FeeEntity;
 
 public final class FeeAssertions {
 

@@ -29,6 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.member.model.Member;
+import com.bernardomg.association.member.model.MemberChange;
+import com.bernardomg.association.member.persistence.model.MemberEntity;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.service.MemberService;
 import com.bernardomg.association.membership.test.fee.util.initializer.FeeInitializer;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberChanges;
@@ -36,11 +41,6 @@ import com.bernardomg.association.membership.test.member.config.factory.MemberCo
 import com.bernardomg.association.membership.test.member.config.factory.MemberEntities;
 import com.bernardomg.association.membership.test.member.config.factory.Members;
 import com.bernardomg.association.membership.test.member.util.assertion.MemberAssertions;
-import com.bernardomg.association.model.member.Member;
-import com.bernardomg.association.model.member.MemberChange;
-import com.bernardomg.association.persistence.member.model.MemberEntity;
-import com.bernardomg.association.persistence.member.repository.MemberRepository;
-import com.bernardomg.association.service.member.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

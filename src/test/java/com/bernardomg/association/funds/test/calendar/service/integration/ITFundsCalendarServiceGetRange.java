@@ -37,8 +37,8 @@ import com.bernardomg.association.funds.test.transaction.configuration.FullNotCo
 import com.bernardomg.association.funds.test.transaction.configuration.FullTransactionYear;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameDay;
 import com.bernardomg.association.funds.test.transaction.configuration.MultipleTransactionsSameMonth;
-import com.bernardomg.association.model.transaction.MonthsRange;
-import com.bernardomg.association.service.transaction.FundsCalendarService;
+import com.bernardomg.association.transaction.model.MonthsRange;
+import com.bernardomg.association.transaction.service.FundsCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

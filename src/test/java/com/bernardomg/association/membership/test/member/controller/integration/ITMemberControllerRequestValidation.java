@@ -37,8 +37,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.bernardomg.association.member.model.MemberChange;
 import com.bernardomg.association.membership.test.member.config.factory.MemberChanges;
-import com.bernardomg.association.model.member.MemberChange;
 import com.bernardomg.association.test.config.constant.TestUrls;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.google.gson.Gson;

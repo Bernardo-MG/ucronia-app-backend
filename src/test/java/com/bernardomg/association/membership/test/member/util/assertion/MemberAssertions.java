@@ -3,7 +3,7 @@ package com.bernardomg.association.membership.test.member.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.persistence.member.model.MemberEntity;
+import com.bernardomg.association.member.persistence.model.MemberEntity;
 
 public final class MemberAssertions {
 

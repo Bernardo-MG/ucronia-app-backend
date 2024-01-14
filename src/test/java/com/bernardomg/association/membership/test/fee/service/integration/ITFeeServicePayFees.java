@@ -34,6 +34,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.model.Fee;
+import com.bernardomg.association.fee.persistence.model.FeeEntity;
+import com.bernardomg.association.fee.persistence.repository.FeePaymentRepository;
+import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionConstants;
 import com.bernardomg.association.funds.test.transaction.config.factory.TransactionEntities;
 import com.bernardomg.association.funds.test.transaction.util.assertion.TransactionAssertions;
@@ -45,13 +50,8 @@ import com.bernardomg.association.membership.test.fee.config.factory.Fees;
 import com.bernardomg.association.membership.test.fee.util.assertion.FeeAssertions;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
-import com.bernardomg.association.model.fee.Fee;
-import com.bernardomg.association.persistence.fee.model.FeeEntity;
-import com.bernardomg.association.persistence.fee.repository.FeePaymentRepository;
-import com.bernardomg.association.persistence.fee.repository.FeeRepository;
-import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
-import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
-import com.bernardomg.association.service.fee.FeeService;
+import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
+import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
