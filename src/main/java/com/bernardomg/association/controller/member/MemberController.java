@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.membership.cache.MembershipCaches;
+import com.bernardomg.association.constant.cache.membership.MembershipCaches;
 import com.bernardomg.association.model.member.Member;
 import com.bernardomg.association.model.member.MemberChange;
 import com.bernardomg.association.model.member.MemberQuery;

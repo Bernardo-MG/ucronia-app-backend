@@ -17,7 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.exception.member.MissingMemberIdException;
 import com.bernardomg.association.model.member.Member;
 import com.bernardomg.association.model.member.MemberChange;
 import com.bernardomg.association.model.member.MemberName;

@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.auth.test.user.config.ValidUser;
 import com.bernardomg.association.auth.test.user.util.model.UserConstants;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.exception.member.MissingMemberIdException;
 import com.bernardomg.association.membership.test.member.config.ValidMember;
 import com.bernardomg.association.membership.test.member.config.factory.MemberConstants;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;

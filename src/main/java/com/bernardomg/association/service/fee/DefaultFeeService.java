@@ -17,9 +17,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
-import com.bernardomg.association.membership.fee.exception.MissingFeeIdException;
-import com.bernardomg.association.membership.fee.validation.CreateFeeValidator;
-import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.exception.fee.MissingFeeIdException;
+import com.bernardomg.association.exception.member.MissingMemberIdException;
 import com.bernardomg.association.model.fee.Fee;
 import com.bernardomg.association.model.fee.FeeChange;
 import com.bernardomg.association.model.fee.FeeMember;
@@ -37,6 +36,7 @@ import com.bernardomg.association.persistence.member.model.MemberEntity;
 import com.bernardomg.association.persistence.member.repository.MemberRepository;
 import com.bernardomg.association.persistence.transaction.model.TransactionEntity;
 import com.bernardomg.association.persistence.transaction.repository.TransactionRepository;
+import com.bernardomg.association.validation.fee.CreateFeeValidator;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;

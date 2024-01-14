@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.persistence.model.UserMemberEntity;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.membership.member.exception.MissingMemberIdException;
+import com.bernardomg.association.exception.member.MissingMemberIdException;
 import com.bernardomg.association.persistence.member.model.MemberEntity;
 import com.bernardomg.association.persistence.member.repository.MemberRepository;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;

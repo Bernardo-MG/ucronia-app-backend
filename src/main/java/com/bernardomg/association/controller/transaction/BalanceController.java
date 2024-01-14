@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.funds.cache.FundsCaches;
+import com.bernardomg.association.constant.cache.funds.FundsCaches;
 import com.bernardomg.association.model.transaction.BalanceQuery;
 import com.bernardomg.association.model.transaction.CurrentBalance;
 import com.bernardomg.association.model.transaction.MonthlyBalance;

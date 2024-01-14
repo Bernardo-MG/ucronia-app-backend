@@ -42,8 +42,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.funds.cache.FundsCaches;
-import com.bernardomg.association.membership.fee.cache.FeeCaches;
+import com.bernardomg.association.constant.cache.fee.FeeCaches;
+import com.bernardomg.association.constant.cache.funds.FundsCaches;
 import com.bernardomg.association.model.transaction.Transaction;
 import com.bernardomg.association.model.transaction.TransactionChange;
 import com.bernardomg.association.model.transaction.TransactionQuery;

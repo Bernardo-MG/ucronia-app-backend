@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.funds.transaction.exception.MissingTransactionIdException;
+import com.bernardomg.association.exception.transaction.MissingTransactionIdException;
 import com.bernardomg.association.model.transaction.Transaction;
 import com.bernardomg.association.model.transaction.TransactionChange;
 import com.bernardomg.association.model.transaction.TransactionQuery;

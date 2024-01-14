@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.membership.cache.MembershipCaches;
+import com.bernardomg.association.constant.cache.membership.MembershipCaches;
 import com.bernardomg.association.model.fee.FeeCalendarQuery;
 import com.bernardomg.association.model.fee.MemberFeeCalendar;
 import com.bernardomg.association.model.fee.YearsRange;

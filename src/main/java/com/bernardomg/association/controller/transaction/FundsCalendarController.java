@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.funds.cache.FundsCaches;
+import com.bernardomg.association.constant.cache.funds.FundsCaches;
 import com.bernardomg.association.model.transaction.CalendarFundsDate;
 import com.bernardomg.association.model.transaction.MonthsRange;
 import com.bernardomg.association.service.transaction.FundsCalendarService;
