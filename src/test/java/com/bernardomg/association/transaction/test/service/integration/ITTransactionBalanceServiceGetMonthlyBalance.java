@@ -25,41 +25,55 @@
 package com.bernardomg.association.transaction.test.service.integration;
 
 import java.time.Month;
+import java.time.YearMonth;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
+import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.transaction.model.BalanceQuery;
 import com.bernardomg.association.transaction.model.MonthlyBalance;
-import com.bernardomg.association.transaction.service.BalanceService;
+import com.bernardomg.association.transaction.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.test.config.annotation.DecimalsAddZeroTransaction;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.test.config.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.test.config.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.transaction.test.config.factory.BalanceQueries;
 import com.bernardomg.association.transaction.test.config.factory.MonthlyBalances;
+import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Balance service - get monthly balance - filter")
-class ITBalanceServiceGetMonthlyBalanceFilter {
+@DisplayName("Transaction balance service - get monthly balance")
+class ITTransactionBalanceServiceGetMonthlyBalance {
 
     @Autowired
-    private BalanceService service;
+    private TransactionBalanceService service;
 
-    @Test
-    @DisplayName("Filtering ending before the year returns no month")
-    @FullTransactionYear
-    void testGetMonthlyBalance_EndBeforeStart() {
+    @Autowired
+    private TransactionInitializer    transactionInitializer;
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(AroundZeroArgumentsProvider.class)
+    @DisplayName("With values around zero it returns the correct amounts")
+    void testGetMonthlyBalance_AroundZero(final Float amount) {
         final Collection<MonthlyBalance> balances;
         final BalanceQuery               query;
         final Sort                       sort;
 
         // GIVEN
+        transactionInitializer.registerCurrentMonth(amount);
+
         sort = Sort.unsorted();
 
-        query = BalanceQueries.endDate(2019, Month.DECEMBER);
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -67,21 +81,23 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .isEmpty();
+            .containsExactly(MonthlyBalances.currentMonth(amount));
     }
 
-    @Test
-    @DisplayName("Filtering ending on December returns all the months")
-    @FullTransactionYear
-    void testGetMonthlyBalance_EndDecember() {
+    @ParameterizedTest(name = "Date: {0}")
+    @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
+    @DisplayName("Returns balance for the current month and adjacents")
+    void testGetMonthlyBalance_Dates(final YearMonth date) {
         final Collection<MonthlyBalance> balances;
         final BalanceQuery               query;
         final Sort                       sort;
 
         // GIVEN
+        transactionInitializer.registerAt(date.getYear(), date.getMonth());
+
         sort = Sort.unsorted();
 
-        query = BalanceQueries.endDate(2020, Month.DECEMBER);
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -89,17 +105,57 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
-                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
-                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+            .containsExactly(MonthlyBalances.forAmount(date, 1F));
+    }
+
+    @ParameterizedTest(name = "Amount: {0}")
+    @ArgumentsSource(DecimalArgumentsProvider.class)
+    @DisplayName("With decimal values it returns the correct amounts")
+    void testGetMonthlyBalance_Decimal(final Float amount) {
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
+
+        // GIVEN
+        transactionInitializer.registerCurrentMonth(amount);
+
+        sort = Sort.unsorted();
+
+        query = BalanceQueries.empty();
+
+        // WHEN
+        balances = service.getMonthlyBalance(query, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(MonthlyBalances.currentMonth(amount));
     }
 
     @Test
-    @DisplayName("Filtering the full year returns all the months")
+    @DisplayName("With decimal values which sum zero the returned balance is zero")
+    @DecimalsAddZeroTransaction
+    void testGetMonthlyBalance_DecimalsAddUpToZero() {
+        final Collection<MonthlyBalance> balances;
+        final BalanceQuery               query;
+        final Sort                       sort;
+
+        // GIVEN
+        sort = Sort.unsorted();
+
+        query = BalanceQueries.empty();
+
+        // WHEN
+        balances = service.getMonthlyBalance(query, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(MonthlyBalances.forAmount(0F));
+    }
+
+    @Test
+    @DisplayName("With a full year it returns twelve months")
     @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
         final Collection<MonthlyBalance> balances;
@@ -109,7 +165,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.range(2020, Month.JANUARY, Month.DECEMBER);
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -127,9 +183,9 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     }
 
     @Test
-    @DisplayName("Filtering by January returns only that month")
-    @FullTransactionYear
-    void testGetMonthlyBalance_January() {
+    @DisplayName("With multiple transactions for a single month it returns a single month")
+    @MultipleTransactionsSameMonth
+    void testGetMonthlyBalance_Multiple() {
         final Collection<MonthlyBalance> balances;
         final BalanceQuery               query;
         final Sort                       sort;
@@ -137,7 +193,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.range(2020, Month.JANUARY, Month.JANUARY);
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -145,44 +201,22 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1));
+            .containsExactly(MonthlyBalances.forAmount(5F));
     }
 
     @Test
-    @DisplayName("Filtering by January and February returns only those months")
-    @FullTransactionYear
-    void testGetMonthlyBalance_JanuaryToFebruary() {
+    @DisplayName("Returns no balance for the next month")
+    void testGetMonthlyBalance_NextMonth() {
         final Collection<MonthlyBalance> balances;
         final BalanceQuery               query;
         final Sort                       sort;
 
         // GIVEN
+        transactionInitializer.registerNextMonth(1F);
+
         sort = Sort.unsorted();
 
-        query = BalanceQueries.range(2020, Month.JANUARY, Month.FEBRUARY);
-
-        // WHEN
-        balances = service.getMonthlyBalance(query, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2));
-    }
-
-    @Test
-    @DisplayName("Filtering with a range where the end is before the start returns nothing")
-    @FullTransactionYear
-    void testGetMonthlyBalance_RangeEndBeforeStart() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
-
-        // GIVEN
-        sort = Sort.unsorted();
-
-        query = BalanceQueries.range(2020, Month.DECEMBER, Month.JANUARY);
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -194,9 +228,8 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
     }
 
     @Test
-    @DisplayName("Filtering beginning after the year returns no month")
-    @FullTransactionYear
-    void testGetMonthlyBalance_StartAfterEnd() {
+    @DisplayName("With no data it returns nothing")
+    void testGetMonthlyBalance_NoData() {
         final Collection<MonthlyBalance> balances;
         final BalanceQuery               query;
         final Sort                       sort;
@@ -204,7 +237,7 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.startDate(2021, Month.JANUARY);
+        query = BalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -213,34 +246,6 @@ class ITBalanceServiceGetMonthlyBalanceFilter {
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Filtering beginning on January returns all the months")
-    @FullTransactionYear
-    void testGetMonthlyBalance_StartInJanuary() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
-
-        // GIVEN
-        sort = Sort.unsorted();
-
-        query = BalanceQueries.startDate(2020, Month.JANUARY);
-
-        // WHEN
-        balances = service.getMonthlyBalance(query, sort);
-
-        // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
-                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
-                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
     }
 
 }

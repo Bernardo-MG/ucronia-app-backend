@@ -45,11 +45,11 @@ import com.bernardomg.association.transaction.persistence.specification.MonthlyB
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class DefaultBalanceService implements BalanceService {
+public final class DefaultTransactionBalanceService implements TransactionBalanceService {
 
     private final MonthlyBalanceRepository monthlyBalanceRepository;
 
-    public DefaultBalanceService(final MonthlyBalanceRepository monthlyBalanceRepo) {
+    public DefaultTransactionBalanceService(final MonthlyBalanceRepository monthlyBalanceRepo) {
         super();
 
         monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);

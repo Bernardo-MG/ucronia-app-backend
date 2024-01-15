@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.transaction.cache.TransactionCaches;
 import com.bernardomg.association.transaction.model.CalendarFundsDate;
 import com.bernardomg.association.transaction.model.MonthsRange;
-import com.bernardomg.association.transaction.service.FundsCalendarService;
+import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -58,7 +58,7 @@ public class FundsCalendarController {
     /**
      * Funds calendar service.
      */
-    private final FundsCalendarService service;
+    private final TransactionCalendarService service;
 
     /**
      * Returns all the fund changes for a month.

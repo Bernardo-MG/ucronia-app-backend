@@ -24,33 +24,37 @@
 
 package com.bernardomg.association.transaction.service;
 
-import java.time.YearMonth;
+import java.util.Collection;
 
-import com.bernardomg.association.transaction.model.CalendarFundsDate;
-import com.bernardomg.association.transaction.model.MonthsRange;
+import org.springframework.data.domain.Sort;
+
+import com.bernardomg.association.transaction.model.BalanceQuery;
+import com.bernardomg.association.transaction.model.CurrentBalance;
+import com.bernardomg.association.transaction.model.MonthlyBalance;
 
 /**
- * Funds calendar service. Supports all the CRUD operations.
+ * Balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-public interface FundsCalendarService {
+public interface TransactionBalanceService {
 
     /**
-     * Returns the range of available months.
+     * Returns the current balance.
      *
-     * @return the range of available months
+     * @return the current balance
      */
-    public MonthsRange getRange();
+    public CurrentBalance getBalance();
 
     /**
-     * Returns all the fund changes for a month.
+     * Returns the monthly balances for the query.
      *
-     * @param month
-     *            the month to read
-     * @return all the fund changes for the month
+     * @param query
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly balances
      */
-    public Iterable<CalendarFundsDate> getYearMonth(final YearMonth month);
+    public Collection<MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
 
 }

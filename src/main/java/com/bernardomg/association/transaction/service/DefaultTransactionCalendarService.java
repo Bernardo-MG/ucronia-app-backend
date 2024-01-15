@@ -45,11 +45,11 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class DefaultFundsCalendarService implements FundsCalendarService {
+public final class DefaultTransactionCalendarService implements TransactionCalendarService {
 
     private final TransactionRepository transactionRepository;
 
-    public DefaultFundsCalendarService(final TransactionRepository transactionRepo) {
+    public DefaultTransactionCalendarService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);

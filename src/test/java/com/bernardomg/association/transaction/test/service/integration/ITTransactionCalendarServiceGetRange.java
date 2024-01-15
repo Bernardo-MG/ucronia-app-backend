@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.model.MonthsRange;
-import com.bernardomg.association.transaction.service.FundsCalendarService;
+import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.test.config.annotation.FullConsecutiveTransactionYears;
 import com.bernardomg.association.transaction.test.config.annotation.FullNotConsecutiveTransactionYears;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
@@ -42,13 +42,13 @@ import com.bernardomg.association.transaction.test.config.annotation.MultipleTra
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Funds calendar service - get range")
-class ITFundsCalendarServiceGetRange {
+@DisplayName("Transaction calendar service - get range")
+class ITTransactionCalendarServiceGetRange {
 
     @Autowired
-    private FundsCalendarService service;
+    private TransactionCalendarService service;
 
-    public ITFundsCalendarServiceGetRange() {
+    public ITTransactionCalendarServiceGetRange() {
         super();
     }
 

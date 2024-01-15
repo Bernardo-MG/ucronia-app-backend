@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.transaction.model.CurrentBalance;
-import com.bernardomg.association.transaction.service.BalanceService;
+import com.bernardomg.association.transaction.service.TransactionBalanceService;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.config.factory.CurrentBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
@@ -44,14 +44,14 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
  * TODO: Test with transactions for the previous month, the results should be 0
  */
 @IntegrationTest
-@DisplayName("Balance service - get balance")
-class ITBalanceServiceGetBalance {
+@DisplayName("Transaction balance service - get balance")
+class ITTransactionBalanceServiceGetBalance {
 
     @Autowired
-    private BalanceService         service;
+    private TransactionBalanceService service;
 
     @Autowired
-    private TransactionInitializer transactionInitializer;
+    private TransactionInitializer    transactionInitializer;
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)

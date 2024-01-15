@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.cache.TransactionCaches;
 import com.bernardomg.association.transaction.model.BalanceQuery;
 import com.bernardomg.association.transaction.model.CurrentBalance;
 import com.bernardomg.association.transaction.model.MonthlyBalance;
-import com.bernardomg.association.transaction.service.BalanceService;
+import com.bernardomg.association.transaction.service.TransactionBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -60,7 +60,7 @@ public class BalanceController {
     /**
      * Balance service
      */
-    private final BalanceService service;
+    private final TransactionBalanceService service;
 
     /**
      * Returns the current balance.

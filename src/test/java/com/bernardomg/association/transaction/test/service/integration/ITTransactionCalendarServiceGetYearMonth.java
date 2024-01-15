@@ -33,19 +33,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.model.CalendarFundsDate;
-import com.bernardomg.association.transaction.service.FundsCalendarService;
+import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.config.factory.CalendarFundsDates;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Funds calendar service - get year month")
-class ITFundsCalendarServiceGetYearMonth {
+@DisplayName("Transaction calendar service - get year month")
+class ITTransactionCalendarServiceGetYearMonth {
 
     @Autowired
-    private FundsCalendarService service;
+    private TransactionCalendarService service;
 
-    public ITFundsCalendarServiceGetYearMonth() {
+    public ITTransactionCalendarServiceGetYearMonth() {
         super();
     }
 
