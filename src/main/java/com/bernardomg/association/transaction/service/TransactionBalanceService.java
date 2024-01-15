@@ -33,7 +33,7 @@ import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 
 /**
- * Balance service.
+ * Transaction balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */

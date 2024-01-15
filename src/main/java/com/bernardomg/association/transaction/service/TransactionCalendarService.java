@@ -30,7 +30,7 @@ import com.bernardomg.association.transaction.model.TransactionCalendarDate;
 import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 
 /**
- * Funds calendar service. Supports all the CRUD operations.
+ * Transaction calendar service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -45,7 +45,7 @@ public interface TransactionCalendarService {
     public TransactionMonthsRange getRange();
 
     /**
-     * Returns all the fund changes for a month.
+     * Returns all the transactions for a month.
      *
      * @param month
      *            the month to read
