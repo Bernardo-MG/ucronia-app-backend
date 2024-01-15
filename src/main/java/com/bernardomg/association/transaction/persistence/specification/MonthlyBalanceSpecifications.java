@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.model.BalanceQuery;
+import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.persistence.model.MonthlyBalanceEntity;
 
 /**
@@ -70,7 +70,7 @@ public final class MonthlyBalanceSpecifications {
      *            request to create a specification from
      * @return specification for the request
      */
-    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final BalanceQuery request) {
+    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final TransactionBalanceQuery request) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
 
         if ((request.getStartDate() != null) && (request.getEndDate() != null)) {

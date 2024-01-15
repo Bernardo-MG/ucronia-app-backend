@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.cache.TransactionCaches;
-import com.bernardomg.association.transaction.model.BalanceQuery;
-import com.bernardomg.association.transaction.model.CurrentBalance;
-import com.bernardomg.association.transaction.model.MonthlyBalance;
+import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.service.TransactionBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -70,7 +70,7 @@ public class BalanceController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.BALANCE)
-    public CurrentBalance readBalance() {
+    public TransactionCurrentBalance readBalance() {
         return service.getBalance();
     }
 
@@ -86,7 +86,8 @@ public class BalanceController {
     @GetMapping(path = "/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "BALANCE", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
-    public Collection<? extends MonthlyBalance> readMonthlyBalance(@Valid final BalanceQuery balance, final Sort sort) {
+    public Collection<? extends TransactionMonthlyBalance>
+            readMonthlyBalance(@Valid final TransactionBalanceQuery balance, final Sort sort) {
         return service.getMonthlyBalance(balance, sort);
     }
 

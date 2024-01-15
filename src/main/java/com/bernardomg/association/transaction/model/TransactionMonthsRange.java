@@ -24,15 +24,16 @@
 
 package com.bernardomg.association.transaction.model;
 
+import java.time.YearMonth;
+import java.util.Collection;
+
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
-public final class CurrentBalance {
+public final class TransactionMonthsRange {
 
-    private float results;
-
-    private float total;
+    private final Collection<YearMonth> months;
 
 }

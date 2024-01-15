@@ -24,16 +24,24 @@
 
 package com.bernardomg.association.transaction.model;
 
-import java.time.YearMonth;
-import java.util.Collection;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
-public final class MonthsRange {
+public final class TransactionCalendarDate {
 
-    private final Collection<YearMonth> months;
+    private final float     amount;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private final LocalDate date;
+
+    private final String    description;
+
+    private final long      index;
 
 }

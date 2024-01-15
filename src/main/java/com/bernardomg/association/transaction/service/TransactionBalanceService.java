@@ -28,9 +28,9 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.transaction.model.BalanceQuery;
-import com.bernardomg.association.transaction.model.CurrentBalance;
-import com.bernardomg.association.transaction.model.MonthlyBalance;
+import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 
 /**
  * Balance service.
@@ -44,7 +44,7 @@ public interface TransactionBalanceService {
      *
      * @return the current balance
      */
-    public CurrentBalance getBalance();
+    public TransactionCurrentBalance getBalance();
 
     /**
      * Returns the monthly balances for the query.
@@ -55,6 +55,7 @@ public interface TransactionBalanceService {
      *            sorting to apply
      * @return the monthly balances
      */
-    public Collection<MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort);
+    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
+            final Sort sort);
 
 }

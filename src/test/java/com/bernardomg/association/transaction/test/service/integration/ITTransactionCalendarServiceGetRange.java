@@ -32,7 +32,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.model.MonthsRange;
+import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.test.config.annotation.FullConsecutiveTransactionYears;
 import com.bernardomg.association.transaction.test.config.annotation.FullNotConsecutiveTransactionYears;
@@ -56,7 +56,7 @@ class ITTransactionCalendarServiceGetRange {
     @DisplayName("With two full consecutive years, a range for them is returned")
     @FullConsecutiveTransactionYears
     void testGetRange_ConsecutiveFullYear() {
-        final MonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = service.getRange();
@@ -81,7 +81,7 @@ class ITTransactionCalendarServiceGetRange {
     @DisplayName("With a full year, a range for the full year is returned")
     @FullTransactionYear
     void testGetRange_FullYear() {
-        final MonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = service.getRange();
@@ -101,7 +101,7 @@ class ITTransactionCalendarServiceGetRange {
     @DisplayName("With multiple transactions the same day, a single month is returned")
     @MultipleTransactionsSameDay
     void testGetRange_MultipleSameDay() {
-        final MonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = service.getRange();
@@ -117,7 +117,7 @@ class ITTransactionCalendarServiceGetRange {
     @DisplayName("With multiple transactions the same month, a single month is returned")
     @MultipleTransactionsSameMonth
     void testGetRange_MultipleSameMonth() {
-        final MonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = service.getRange();
@@ -132,7 +132,7 @@ class ITTransactionCalendarServiceGetRange {
     @Test
     @DisplayName("With no data, an empty range is returned")
     void testGetRange_NoData() {
-        final MonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = service.getRange();
@@ -147,7 +147,7 @@ class ITTransactionCalendarServiceGetRange {
     @DisplayName("With two full not consecutive years, a range for them is returned")
     @FullNotConsecutiveTransactionYears
     void testGetRange_NotConsecutiveFullYear() {
-        final MonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = service.getRange();

@@ -33,9 +33,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.model.BalanceQuery;
-import com.bernardomg.association.transaction.model.CurrentBalance;
-import com.bernardomg.association.transaction.model.MonthlyBalance;
+import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.persistence.model.MonthlyBalanceEntity;
 import com.bernardomg.association.transaction.persistence.repository.MonthlyBalanceRepository;
 import com.bernardomg.association.transaction.persistence.specification.MonthlyBalanceSpecifications;
@@ -56,10 +56,10 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
     }
 
     @Override
-    public final CurrentBalance getBalance() {
+    public final TransactionCurrentBalance getBalance() {
         final MonthlyBalanceEntity           balance;
         final Optional<MonthlyBalanceEntity> readBalance;
-        final CurrentBalance                 currentBalance;
+        final TransactionCurrentBalance      currentBalance;
         final LocalDate                      month;
         final LocalDate                      balanceDate;
         final Float                          results;
@@ -71,7 +71,7 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
         readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
 
         if (readBalance.isEmpty()) {
-            currentBalance = CurrentBalance.builder()
+            currentBalance = TransactionCurrentBalance.builder()
                 .total(0F)
                 .results(0F)
                 .build();
@@ -88,7 +88,7 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
                 results = 0F;
             }
 
-            currentBalance = CurrentBalance.builder()
+            currentBalance = TransactionCurrentBalance.builder()
                 .total(balance.getTotal())
                 .results(results)
                 .build();
@@ -98,7 +98,8 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
     }
 
     @Override
-    public final Collection<MonthlyBalance> getMonthlyBalance(final BalanceQuery query, final Sort sort) {
+    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
+            final Sort sort) {
         final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
         final Specification<MonthlyBalanceEntity>           limitSpec;
         final Specification<MonthlyBalanceEntity>           spec;
@@ -125,14 +126,14 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
             .toList();
     }
 
-    private final MonthlyBalance toMonthlyBalance(final MonthlyBalanceEntity entity) {
+    private final TransactionMonthlyBalance toMonthlyBalance(final MonthlyBalanceEntity entity) {
         final YearMonth month;
 
         month = YearMonth.of(entity.getMonth()
             .getYear(),
             entity.getMonth()
                 .getMonth());
-        return MonthlyBalance.builder()
+        return TransactionMonthlyBalance.builder()
             .month(month)
             .total(entity.getTotal())
             .results(entity.getResults())

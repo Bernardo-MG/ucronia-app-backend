@@ -30,8 +30,8 @@ import java.util.Objects;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.model.CalendarFundsDate;
-import com.bernardomg.association.transaction.model.MonthsRange;
+import com.bernardomg.association.transaction.model.TransactionCalendarDate;
+import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.persistence.specification.TransactionSpecifications;
@@ -56,7 +56,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
-    public final MonthsRange getRange() {
+    public final TransactionMonthsRange getRange() {
         final Collection<YearMonth> months;
 
         log.debug("Reading the transactions range");
@@ -66,13 +66,13 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
 
-        return MonthsRange.builder()
+        return TransactionMonthsRange.builder()
             .months(months)
             .build();
     }
 
     @Override
-    public final Iterable<CalendarFundsDate> getYearMonth(final YearMonth date) {
+    public final Iterable<TransactionCalendarDate> getYearMonth(final YearMonth date) {
         final Specification<TransactionEntity> spec;
         final Collection<TransactionEntity>    read;
 
@@ -84,8 +84,8 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
             .toList();
     }
 
-    private final CalendarFundsDate toDto(final TransactionEntity entity) {
-        return CalendarFundsDate.builder()
+    private final TransactionCalendarDate toDto(final TransactionEntity entity) {
+        return TransactionCalendarDate.builder()
             .index(entity.getIndex())
             .date(entity.getDate())
             .description(entity.getDescription())

@@ -24,24 +24,15 @@
 
 package com.bernardomg.association.transaction.model;
 
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
-public final class CalendarFundsDate {
+public final class TransactionCurrentBalance {
 
-    private final float     amount;
+    private float results;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private final LocalDate date;
-
-    private final String    description;
-
-    private final long      index;
+    private float total;
 
 }

@@ -26,8 +26,8 @@ package com.bernardomg.association.transaction.service;
 
 import java.time.YearMonth;
 
-import com.bernardomg.association.transaction.model.CalendarFundsDate;
-import com.bernardomg.association.transaction.model.MonthsRange;
+import com.bernardomg.association.transaction.model.TransactionCalendarDate;
+import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 
 /**
  * Funds calendar service. Supports all the CRUD operations.
@@ -42,7 +42,7 @@ public interface TransactionCalendarService {
      *
      * @return the range of available months
      */
-    public MonthsRange getRange();
+    public TransactionMonthsRange getRange();
 
     /**
      * Returns all the fund changes for a month.
@@ -51,6 +51,6 @@ public interface TransactionCalendarService {
      *            the month to read
      * @return all the fund changes for the month
      */
-    public Iterable<CalendarFundsDate> getYearMonth(final YearMonth month);
+    public Iterable<TransactionCalendarDate> getYearMonth(final YearMonth month);
 
 }

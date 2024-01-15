@@ -38,15 +38,15 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.model.BalanceQuery;
-import com.bernardomg.association.transaction.model.MonthlyBalance;
+import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.service.TransactionBalanceService;
 import com.bernardomg.association.transaction.test.config.annotation.DecimalsAddZeroTransaction;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.config.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.test.config.argument.CurrentAndPreviousMonthProvider;
-import com.bernardomg.association.transaction.test.config.factory.BalanceQueries;
-import com.bernardomg.association.transaction.test.config.factory.MonthlyBalances;
+import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
+import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,16 +64,16 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testGetMonthlyBalance_AroundZero(final Float amount) {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(amount);
 
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -81,23 +81,23 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.currentMonth(amount));
+            .containsExactly(TransactionMonthlyBalances.currentMonth(amount));
     }
 
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
     void testGetMonthlyBalance_Dates(final YearMonth date) {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         transactionInitializer.registerAt(date.getYear(), date.getMonth());
 
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -105,23 +105,23 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(date, 1F));
+            .containsExactly(TransactionMonthlyBalances.forAmount(date, 1F));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testGetMonthlyBalance_Decimal(final Float amount) {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(amount);
 
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -129,21 +129,21 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.currentMonth(amount));
+            .containsExactly(TransactionMonthlyBalances.currentMonth(amount));
     }
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     @DecimalsAddZeroTransaction
     void testGetMonthlyBalance_DecimalsAddUpToZero() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -151,21 +151,21 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(0F));
+            .containsExactly(TransactionMonthlyBalances.forAmount(0F));
     }
 
     @Test
     @DisplayName("With a full year it returns twelve months")
     @FullTransactionYear
     void testGetMonthlyBalance_FullYear() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -173,27 +173,32 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                MonthlyBalances.forAmount(Month.FEBRUARY, 1, 2), MonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                MonthlyBalances.forAmount(Month.APRIL, 1, 4), MonthlyBalances.forAmount(Month.MAY, 1, 5),
-                MonthlyBalances.forAmount(Month.JUNE, 1, 6), MonthlyBalances.forAmount(Month.JULY, 1, 7),
-                MonthlyBalances.forAmount(Month.AUGUST, 1, 8), MonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                MonthlyBalances.forAmount(Month.OCTOBER, 1, 10), MonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                MonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1),
+                TransactionMonthlyBalances.forAmount(Month.FEBRUARY, 1, 2),
+                TransactionMonthlyBalances.forAmount(Month.MARCH, 1, 3),
+                TransactionMonthlyBalances.forAmount(Month.APRIL, 1, 4),
+                TransactionMonthlyBalances.forAmount(Month.MAY, 1, 5),
+                TransactionMonthlyBalances.forAmount(Month.JUNE, 1, 6),
+                TransactionMonthlyBalances.forAmount(Month.JULY, 1, 7),
+                TransactionMonthlyBalances.forAmount(Month.AUGUST, 1, 8),
+                TransactionMonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
+                TransactionMonthlyBalances.forAmount(Month.OCTOBER, 1, 10),
+                TransactionMonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
+                TransactionMonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
     @MultipleTransactionsSameMonth
     void testGetMonthlyBalance_Multiple() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -201,22 +206,22 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
-            .containsExactly(MonthlyBalances.forAmount(5F));
+            .containsExactly(TransactionMonthlyBalances.forAmount(5F));
     }
 
     @Test
     @DisplayName("Returns no balance for the next month")
     void testGetMonthlyBalance_NextMonth() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         transactionInitializer.registerNextMonth(1F);
 
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);
@@ -230,14 +235,14 @@ class ITTransactionBalanceServiceGetMonthlyBalance {
     @Test
     @DisplayName("With no data it returns nothing")
     void testGetMonthlyBalance_NoData() {
-        final Collection<MonthlyBalance> balances;
-        final BalanceQuery               query;
-        final Sort                       sort;
+        final Collection<TransactionMonthlyBalance> balances;
+        final TransactionBalanceQuery               query;
+        final Sort                                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
 
-        query = BalanceQueries.empty();
+        query = TransactionBalanceQueries.empty();
 
         // WHEN
         balances = service.getMonthlyBalance(query, sort);

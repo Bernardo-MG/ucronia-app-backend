@@ -33,10 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.transaction.model.CurrentBalance;
+import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.service.TransactionBalanceService;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.config.factory.CurrentBalances;
+import com.bernardomg.association.transaction.test.config.factory.TransactionCurrentBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -57,7 +57,7 @@ class ITTransactionBalanceServiceGetBalance {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testGetBalance_AroundZero(final float amount) {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(amount);
@@ -67,13 +67,13 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(amount));
+            .isEqualTo(TransactionCurrentBalances.amount(amount));
     }
 
     @Test
     @DisplayName("With data for the current month it returns the balance")
     void testGetBalance_CurrentMonth() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(1F);
@@ -83,13 +83,13 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(1));
+            .isEqualTo(TransactionCurrentBalances.amount(1));
     }
 
     @Test
     @DisplayName("With data for the current month and previous months it returns the balance")
     void testGetBalance_CurrentMonthAndPrevious() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerMonthsBack(1F, 0, 1L);
@@ -101,14 +101,14 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(1, 6));
+            .isEqualTo(TransactionCurrentBalances.amount(1, 6));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testGetBalance_Decimal(final Float amount) {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(amount);
@@ -118,13 +118,13 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(amount));
+            .isEqualTo(TransactionCurrentBalances.amount(amount));
     }
 
     @Test
     @DisplayName("With decimal values which sum zero the returned balance is zero")
     void testGetBalance_DecimalsAddUpToZero() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(-40.8F, 1L);
@@ -137,27 +137,27 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0));
+            .isEqualTo(TransactionCurrentBalances.amount(0));
     }
 
     @Test
     @DisplayName("With a full year it returns the correct data")
     @FullTransactionYear
     void testGetBalance_FullYear() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // WHEN
         balance = service.getBalance();
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0, 12));
+            .isEqualTo(TransactionCurrentBalances.amount(0, 12));
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     void testGetBalance_Multiple() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(1F, 1L);
@@ -171,13 +171,13 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(5));
+            .isEqualTo(TransactionCurrentBalances.amount(5));
     }
 
     @Test
     @DisplayName("With data for the next month it returns no balance")
     void testGetBalance_NextMonth() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerNextMonth(1F);
@@ -187,26 +187,26 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0));
+            .isEqualTo(TransactionCurrentBalances.amount(0));
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
     void testGetBalance_NoData() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // WHEN
         balance = service.getBalance();
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0));
+            .isEqualTo(TransactionCurrentBalances.amount(0));
     }
 
     @Test
     @DisplayName("With data for the previous month it returns the balance but no results")
     void testGetBalance_PreviousMonth() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerPreviousMonth(1F, 1L);
@@ -218,13 +218,13 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0, 6));
+            .isEqualTo(TransactionCurrentBalances.amount(0, 6));
     }
 
     @Test
     @DisplayName("With data for the previous months it returns the balance but no results")
     void testGetBalance_PreviousMonths() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerMonthsBack(1F, 1, 1L);
@@ -236,13 +236,13 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0, 6));
+            .isEqualTo(TransactionCurrentBalances.amount(0, 6));
     }
 
     @Test
     @DisplayName("With data for the previous months, including gaps, it returns the balance but no results")
     void testGetBalance_PreviousMonths_Gaps() {
-        final CurrentBalance balance;
+        final TransactionCurrentBalance balance;
 
         // GIVEN
         transactionInitializer.registerMonthsBack(1F, 1, 1L);
@@ -254,7 +254,7 @@ class ITTransactionBalanceServiceGetBalance {
 
         // THEN
         Assertions.assertThat(balance)
-            .isEqualTo(CurrentBalances.amount(0, 6));
+            .isEqualTo(TransactionCurrentBalances.amount(0, 6));
     }
 
 }
