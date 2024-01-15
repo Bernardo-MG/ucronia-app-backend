@@ -30,11 +30,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.model.YearsRange;
+import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
@@ -45,10 +45,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetRange {
 
     @Autowired
-    private FeeInitializer           feeInitializer;
+    private FeeInitializer     feeInitializer;
 
     @Autowired
-    private MemberFeeCalendarService service;
+    private FeeCalendarService service;
 
     public ITFeeCalendarServiceGetRange() {
         super();

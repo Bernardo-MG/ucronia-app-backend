@@ -34,14 +34,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
+import com.bernardomg.association.fee.model.FeeCalendar;
+import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.TwoFeeYearsConnected;
 import com.bernardomg.association.fee.test.config.factory.FeeMonths;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.member.model.MemberStatus;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.annotation.NoSurnameMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
@@ -54,7 +54,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetYear {
 
     @Autowired
-    private MemberFeeCalendarService service;
+    private FeeCalendarService service;
 
     public ITFeeCalendarServiceGetYear() {
         super();
@@ -65,9 +65,9 @@ class ITFeeCalendarServiceGetYear {
     @ValidMember
     @FeeFullYear
     void testGetYear_FullYear() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final MemberFeeCalendar           calendar;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final FeeCalendar           calendar;
+        final Sort                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -94,10 +94,10 @@ class ITFeeCalendarServiceGetYear {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testGetYear_FullYear_TwoMembers() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Iterator<MemberFeeCalendar> calendarsItr;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
+        final Iterable<FeeCalendar> calendars;
+        final Iterator<FeeCalendar> calendarsItr;
+        final Sort                  sort;
+        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -130,9 +130,9 @@ class ITFeeCalendarServiceGetYear {
     @NoSurnameMember
     @FeeFullYear
     void testGetYear_NoSurname() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
+        final Iterator<FeeCalendar> calendars;
+        final Sort                  sort;
+        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -153,8 +153,8 @@ class ITFeeCalendarServiceGetYear {
     @ValidMember
     @TwoFeeYearsConnected
     void testGetYear_TwoConnectedYears_First() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -164,7 +164,7 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final MemberFeeCalendar calendar;
+            final FeeCalendar calendar;
 
             softly.assertThat(calendars)
                 .as("calendars")
@@ -186,8 +186,8 @@ class ITFeeCalendarServiceGetYear {
     @ValidMember
     @TwoFeeYearsConnected
     void testGetYear_TwoConnectedYears_Second() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -197,7 +197,7 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final MemberFeeCalendar calendar;
+            final FeeCalendar calendar;
 
             softly.assertThat(calendars)
                 .as("calendars")

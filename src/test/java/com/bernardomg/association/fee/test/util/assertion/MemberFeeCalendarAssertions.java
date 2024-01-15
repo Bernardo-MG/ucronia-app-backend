@@ -5,12 +5,12 @@ import java.util.Iterator;
 
 import org.assertj.core.api.SoftAssertions;
 
+import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.model.FeeMonth;
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
 
 public final class MemberFeeCalendarAssertions {
 
-    public static final void assertFullYear(final MemberFeeCalendar calendar) {
+    public static final void assertFullYear(final FeeCalendar calendar) {
         SoftAssertions.assertSoftly(softly -> {
             final Iterator<FeeMonth> months;
             FeeMonth                 month;
@@ -95,7 +95,7 @@ public final class MemberFeeCalendarAssertions {
         });
     }
 
-    public static final void isEqualTo(final MemberFeeCalendar received, final MemberFeeCalendar expected) {
+    public static final void isEqualTo(final FeeCalendar received, final FeeCalendar expected) {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(received.getMemberNumber())
                 .as("member number")

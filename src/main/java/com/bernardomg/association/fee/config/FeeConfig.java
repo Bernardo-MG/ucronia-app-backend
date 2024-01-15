@@ -30,11 +30,11 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
+import com.bernardomg.association.fee.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.service.DefaultMemberFeeCalendarService;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 
 /**
  * Fee configuration.
@@ -50,9 +50,9 @@ public class FeeConfig {
     }
 
     @Bean("feeCalendarService")
-    public MemberFeeCalendarService getFeeCalendarService(final MemberFeeRepository memberFeeRepository,
+    public FeeCalendarService getFeeCalendarService(final MemberFeeRepository memberFeeRepository,
             final MemberRepository memberRepository) {
-        return new DefaultMemberFeeCalendarService(memberFeeRepository, memberRepository);
+        return new DefaultFeeCalendarService(memberFeeRepository, memberRepository);
     }
 
     @Bean("feeMaintenanceScheduleTask")

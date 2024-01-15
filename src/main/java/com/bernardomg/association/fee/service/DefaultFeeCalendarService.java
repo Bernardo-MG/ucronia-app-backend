@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.service;
+package com.bernardomg.association.fee.service;
 
 import java.time.Month;
 import java.time.YearMonth;
@@ -37,8 +37,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.model.FeeMonth;
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
 import com.bernardomg.association.fee.model.YearsRange;
 import com.bernardomg.association.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
@@ -46,13 +46,13 @@ import com.bernardomg.association.member.model.MemberStatus;
 import com.bernardomg.association.member.persistence.model.MemberEntity;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
-public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarService {
+public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final MemberFeeRepository memberFeeRepository;
 
     private final MemberRepository    memberRepository;
 
-    public DefaultMemberFeeCalendarService(final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo) {
+    public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo) {
         super();
 
         memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
@@ -70,10 +70,10 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
     }
 
     @Override
-    public final Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort) {
+    public final Iterable<FeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort) {
         final Collection<MemberFeeEntity>      readFees;
         final Map<Long, List<MemberFeeEntity>> memberFees;
-        final Collection<MemberFeeCalendar>    years;
+        final Collection<FeeCalendar>          years;
         final Collection<Long>                 memberIds;
         final YearMonth                        start;
         final YearMonth                        end;
@@ -81,7 +81,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         final YearMonth                        validEnd;
         final Collection<Long>                 foundIds;
         List<MemberFeeEntity>                  fees;
-        MemberFeeCalendar                      feeYear;
+        FeeCalendar                            feeYear;
 
         start = YearMonth.of(year, Month.JANUARY);
         end = YearMonth.of(year, Month.DECEMBER);
@@ -139,7 +139,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
             .build();
     }
 
-    private final MemberFeeCalendar toFeeYear(final Long memberId, final Integer year,
+    private final FeeCalendar toFeeYear(final Long memberId, final Integer year,
             final Collection<MemberFeeEntity> fees) {
         final Collection<FeeMonth>   months;
         final MemberFeeEntity        row;
@@ -171,7 +171,7 @@ public final class DefaultMemberFeeCalendarService implements MemberFeeCalendarS
         } else {
             memberNumber = -1;
         }
-        return MemberFeeCalendar.builder()
+        return FeeCalendar.builder()
             .memberNumber(memberNumber)
             .fullName(name)
             .months(months)

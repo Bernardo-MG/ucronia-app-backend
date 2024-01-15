@@ -22,41 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.service;
+package com.bernardomg.association.fee.model;
 
-import org.springframework.data.domain.Sort;
+import java.util.Collection;
 
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
-import com.bernardomg.association.fee.model.YearsRange;
-import com.bernardomg.association.member.model.MemberStatus;
+import lombok.Builder;
+import lombok.Value;
 
-/**
- * Fee calendar service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface MemberFeeCalendarService {
+@Value
+@Builder
+public final class FeeCalendar {
 
-    /**
-     * Returns the range of available years. These are all the years which have fees assigned, except for any future
-     * year.
-     *
-     * @return the range of available years
-     */
-    public YearsRange getRange();
+    private final boolean              active;
 
-    /**
-     * Returns all the member fees for a year.
-     *
-     * @param year
-     *            year to read
-     * @param status
-     *            member active status
-     * @param sort
-     *            sorting to apply
-     * @return all the member fees for a year
-     */
-    public Iterable<MemberFeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort);
+    private final String               fullName;
+
+    private final long                 memberNumber;
+
+    private final Collection<FeeMonth> months;
+
+    private final int                  year;
 
 }

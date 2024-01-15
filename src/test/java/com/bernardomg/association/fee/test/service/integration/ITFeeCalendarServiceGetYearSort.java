@@ -35,12 +35,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
+import com.bernardomg.association.fee.model.FeeCalendar;
+import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.member.model.MemberStatus;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
@@ -54,7 +54,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetYearSort {
 
     @Autowired
-    private MemberFeeCalendarService service;
+    private FeeCalendarService service;
 
     public ITFeeCalendarServiceGetYearSort() {
         super();
@@ -85,9 +85,9 @@ class ITFeeCalendarServiceGetYearSort {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testGetYear_TwoMembers_Name_Asc() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
+        final Iterator<FeeCalendar> calendars;
+        final Sort                  sort;
+        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.by(Order.asc("fullName"));
@@ -115,9 +115,9 @@ class ITFeeCalendarServiceGetYearSort {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testGetYear_TwoMembers_Name_Desc() {
-        final Iterator<MemberFeeCalendar> calendars;
-        final Sort                        sort;
-        MemberFeeCalendar                 calendar;
+        final Iterator<FeeCalendar> calendars;
+        final Sort                  sort;
+        FeeCalendar                 calendar;
 
         // GIVEN
         sort = Sort.by(Order.desc("fullName"));

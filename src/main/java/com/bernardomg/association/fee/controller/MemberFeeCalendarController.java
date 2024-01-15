@@ -33,11 +33,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.model.FeeCalendarQuery;
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
 import com.bernardomg.association.fee.model.YearsRange;
+import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.member.cache.MembersCaches;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -60,7 +60,7 @@ public class MemberFeeCalendarController {
     /**
      * Member fee calendar service.
      */
-    private final MemberFeeCalendarService service;
+    private final FeeCalendarService service;
 
     /**
      * Returns the range of available years.
@@ -88,8 +88,8 @@ public class MemberFeeCalendarController {
     @GetMapping(path = "/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.CALENDAR)
-    public Iterable<MemberFeeCalendar> readYear(@PathVariable("year") final Integer year,
-            final FeeCalendarQuery request, final Sort sort) {
+    public Iterable<FeeCalendar> readYear(@PathVariable("year") final Integer year, final FeeCalendarQuery request,
+            final Sort sort) {
         return service.getYear(year, request.getStatus(), sort);
     }
 

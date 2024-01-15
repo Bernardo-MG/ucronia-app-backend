@@ -31,13 +31,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.fee.model.MemberFeeCalendar;
+import com.bernardomg.association.fee.model.FeeCalendar;
+import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeMonths;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
 import com.bernardomg.association.member.model.MemberStatus;
-import com.bernardomg.association.member.service.MemberFeeCalendarService;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -47,10 +47,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeCalendarServiceGetYearFilterActive {
 
     @Autowired
-    private FeeInitializer           feeInitializer;
+    private FeeInitializer     feeInitializer;
 
     @Autowired
-    private MemberFeeCalendarService service;
+    private FeeCalendarService service;
 
     public ITFeeCalendarServiceGetYearFilterActive() {
         super();
@@ -60,8 +60,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a not paid fee in the current month, it returns the calendar")
     @ValidMember
     void testGetYear_CurrentMonth_NotPaid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -73,7 +73,7 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final MemberFeeCalendar calendar;
+            final FeeCalendar calendar;
             softly.assertThat(calendars)
                 .as("calendars")
                 .hasSize(1);
@@ -92,8 +92,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a not paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_NotPaid_SearchNextYear() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -113,8 +113,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a not paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_NotPaid_SearchPreviousYear() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -134,8 +134,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a paid fee in the current month, it returns the calendar")
     @ValidMember
     void testGetYear_CurrentMonth_Paid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -147,7 +147,7 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            final MemberFeeCalendar calendar;
+            final FeeCalendar calendar;
             softly.assertThat(calendars)
                 .as("calendars")
                 .hasSize(1);
@@ -166,8 +166,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a paid fee in the current month and searching for the next year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_Paid_SearchNextYear() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -187,8 +187,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a paid fee in the current month and searching for the previous year, it returns nothing")
     @ValidMember
     void testGetYear_CurrentMonth_Paid_SearchPreviousYear() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -208,8 +208,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a not paid fee in the next year, it returns nothing")
     @ValidMember
     void testGetYear_NextYear_NotPaid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(false);
@@ -229,8 +229,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a paid fee in the next year, it returns nothing")
     @ValidMember
     void testGetYear_NextYear_Paid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(true);
@@ -249,8 +249,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @Test
     @DisplayName("With no data, it returns nothing")
     void testGetYear_NoData() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -268,8 +268,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With no fees, it nothing")
     @ValidMember
     void testGetYear_NoFees() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         sort = Sort.unsorted();
@@ -287,8 +287,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a not paid fee in the previous month, it returns nothing")
     @ValidMember
     void testGetYear_PreviousMonth_NotPaid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(false);
@@ -308,8 +308,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a paid fee in the previous month, it returns nothing")
     @ValidMember
     void testGetYear_PreviousMonth_Paid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeePreviousMonth(true);
@@ -329,8 +329,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a not paid fee two months back, it returns nothing")
     @ValidMember
     void testGetYear_TwoMonthsBack_NotPaid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(false);
@@ -350,8 +350,8 @@ class ITFeeCalendarServiceGetYearFilterActive {
     @DisplayName("With a paid fee two months back, it returns nothing")
     @ValidMember
     void testGetYear_TwoMonthsBack_Paid() {
-        final Iterable<MemberFeeCalendar> calendars;
-        final Sort                        sort;
+        final Iterable<FeeCalendar> calendars;
+        final Sort                  sort;
 
         // GIVEN
         feeInitializer.registerFeeTwoMonthsBack(true);
