@@ -35,6 +35,6 @@ public final class MonthlyMemberBalance {
 
     private YearMonth month;
 
-    private Long      total;
+    private long      total;
 
 }
