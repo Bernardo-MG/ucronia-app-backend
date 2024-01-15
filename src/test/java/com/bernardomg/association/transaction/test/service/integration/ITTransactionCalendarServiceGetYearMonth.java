@@ -32,10 +32,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.model.TransactionCalendarDate;
+import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.config.factory.TransactionCalendarFundsDates;
+import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,8 +53,8 @@ class ITTransactionCalendarServiceGetYearMonth {
     @DisplayName("Only the data for the month is returned")
     @FullTransactionYear
     void testGetRange_FullYear() {
-        final YearMonth                         month;
-        final Iterable<TransactionCalendarDate> dates;
+        final YearMonth             month;
+        final Iterable<Transaction> dates;
 
         // GIVEN
         month = YearMonth.of(2020, Month.FEBRUARY);
@@ -65,15 +65,15 @@ class ITTransactionCalendarServiceGetYearMonth {
         // THEN
         Assertions.assertThat(dates)
             .as("dates")
-            .containsExactly(TransactionCalendarFundsDates.february());
+            .containsExactly(Transactions.february());
     }
 
     @Test
     @DisplayName("Reading for a not existing month returns nothing")
     @FullTransactionYear
     void testGetRange_FullYear_NotExisting() {
-        final YearMonth                                   month;
-        final Iterable<? extends TransactionCalendarDate> dates;
+        final YearMonth             month;
+        final Iterable<Transaction> dates;
 
         // GIVEN
         month = YearMonth.of(2019, Month.DECEMBER);
@@ -90,8 +90,8 @@ class ITTransactionCalendarServiceGetYearMonth {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testGetRange_NoData() {
-        final YearMonth                                   month;
-        final Iterable<? extends TransactionCalendarDate> dates;
+        final YearMonth             month;
+        final Iterable<Transaction> dates;
 
         // GIVEN
         month = YearMonth.of(2020, Month.FEBRUARY);

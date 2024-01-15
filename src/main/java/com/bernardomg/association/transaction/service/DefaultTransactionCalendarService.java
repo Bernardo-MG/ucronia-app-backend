@@ -30,7 +30,7 @@ import java.util.Objects;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.model.TransactionCalendarDate;
+import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
@@ -72,7 +72,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
-    public final Iterable<TransactionCalendarDate> getYearMonth(final YearMonth date) {
+    public final Iterable<Transaction> getYearMonth(final YearMonth date) {
         final Specification<TransactionEntity> spec;
         final Collection<TransactionEntity>    read;
 
@@ -84,8 +84,8 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
             .toList();
     }
 
-    private final TransactionCalendarDate toDto(final TransactionEntity entity) {
-        return TransactionCalendarDate.builder()
+    private final Transaction toDto(final TransactionEntity entity) {
+        return Transaction.builder()
             .index(entity.getIndex())
             .date(entity.getDate())
             .description(entity.getDescription())

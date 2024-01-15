@@ -20,9 +20,18 @@ public final class Transactions {
     public static final Transaction descriptionChange() {
         return Transaction.builder()
             .index(TransactionConstants.INDEX)
-            .amount(1f)
+            .amount(1)
             .date(TransactionConstants.DATE)
             .description(TransactionConstants.DESCRIPTION + " 123")
+            .build();
+    }
+
+    public static final Transaction february() {
+        return Transaction.builder()
+            .index(2)
+            .date(LocalDate.of(2020, Month.FEBRUARY, 1))
+            .amount(1)
+            .description("Transaction 2")
             .build();
     }
 
@@ -38,7 +47,7 @@ public final class Transactions {
     public static final Transaction forIndex(final long index, final Month month) {
         return Transaction.builder()
             .index(index)
-            .amount(1f)
+            .amount(1)
             .date(LocalDate.of(2020, month, 1))
             .description(TransactionConstants.DESCRIPTION + " " + index)
             .build();
@@ -47,7 +56,7 @@ public final class Transactions {
     public static final Transaction forIndexAndDay(final long index, final Month month) {
         return Transaction.builder()
             .index(index)
-            .amount(1f)
+            .amount(1)
             .date(LocalDate.of(2020, month, Long.valueOf(index)
                 .intValue()))
             .description(TransactionConstants.DESCRIPTION + " " + index)
@@ -56,8 +65,8 @@ public final class Transactions {
 
     public static final Transaction newlyCreated() {
         return Transaction.builder()
-            .index(1L)
-            .amount(1f)
+            .index(1)
+            .amount(1)
             .date(TransactionConstants.DATE)
             .description(TransactionConstants.DESCRIPTION)
             .build();
@@ -66,7 +75,7 @@ public final class Transactions {
     public static final Transaction valid() {
         return Transaction.builder()
             .index(TransactionConstants.INDEX)
-            .amount(1f)
+            .amount(1)
             .date(TransactionConstants.DATE)
             .description(TransactionConstants.DESCRIPTION)
             .build();

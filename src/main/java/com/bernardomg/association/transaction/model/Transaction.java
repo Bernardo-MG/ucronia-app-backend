@@ -12,13 +12,13 @@ import lombok.Value;
 @Builder
 public final class Transaction {
 
-    private final Float     amount;
+    private final float     amount;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDate date;
 
     private final String    description;
 
-    private final Long      index;
+    private final long      index;
 
 }
