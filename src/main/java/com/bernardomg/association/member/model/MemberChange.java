@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.member.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ public final class MemberChange {
     private String           identifier;
 
     @NotNull
+    @Valid
     private MemberChangeName name;
 
     private String           phone;

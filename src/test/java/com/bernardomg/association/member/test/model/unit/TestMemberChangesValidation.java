@@ -14,8 +14,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@DisplayName("ValidatedMemberUpdate validation")
-class TestValidatedMemberUpdateValidation {
+@DisplayName("ValidatedMemberCreate validation")
+class TestMemberChangesValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
@@ -38,7 +38,7 @@ class TestValidatedMemberUpdateValidation {
             .next();
 
         Assertions.assertThat(error.getPropertyPath())
-            .hasToString("name");
+            .hasToString("name.firstName");
         Assertions.assertThat(error.getInvalidValue())
             .isNull();
     }
