@@ -55,7 +55,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
     }
 
     @Override
-    public final Iterable<MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance, final Sort sort) {
+    public final Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sort sort) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> requestSpec;
         final Specification<MonthlyMemberBalanceEntity>           limitSpec;
         final Specification<MonthlyMemberBalanceEntity>           spec;

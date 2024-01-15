@@ -44,7 +44,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -67,7 +67,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -90,7 +90,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -113,7 +113,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -134,12 +134,62 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
             .as("balances")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With fees for previous and current months it returns balance for both of them")
+    void testGetBalance_PreviousCurrentMonths() {
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
+
+        // GIVEN
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeNextMonth(true);
+
+        query = MemberBalanceQueryRequests.empty();
+
+        sort = Sort.unsorted();
+
+        // WHEN
+        balances = service.getMonthlyBalance(query, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
+    }
+
+    @Test
+    @DisplayName("With fees for previous, current and next months it returns balance for the previous and current")
+    void testGetBalance_PreviousCurrentNextMonths() {
+        final MemberBalanceQuery             query;
+        final Sort                           sort;
+        final Iterable<MonthlyMemberBalance> balances;
+
+        // GIVEN
+        feeInitializer.registerFeePreviousMonth(true);
+        feeInitializer.registerFeeCurrentMonth(true);
+        feeInitializer.registerFeeNextMonth(true);
+
+        query = MemberBalanceQueryRequests.empty();
+
+        sort = Sort.unsorted();
+
+        // WHEN
+        balances = service.getMonthlyBalance(query, sort);
+
+        // THEN
+        Assertions.assertThat(balances)
+            .as("balances")
+            .containsExactly(MonthlyMemberBalances.previousMonth(), MonthlyMemberBalances.currentMonth());
     }
 
     @Test
@@ -158,7 +208,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -185,7 +235,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -211,7 +261,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -234,7 +284,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -257,7 +307,7 @@ class ITMemberBalanceService {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)

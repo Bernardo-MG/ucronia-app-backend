@@ -46,6 +46,6 @@ public interface MemberBalanceService {
      *            sorting to apply
      * @return the monthly membership balance
      */
-    public Iterable<MonthlyMemberBalance> getBalance(final MemberBalanceQuery balance, final Sort sort);
+    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sort sort);
 
 }

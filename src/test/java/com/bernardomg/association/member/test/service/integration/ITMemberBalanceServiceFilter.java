@@ -50,7 +50,7 @@ class ITMemberBalanceServiceFilter {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -71,7 +71,7 @@ class ITMemberBalanceServiceFilter {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -92,7 +92,7 @@ class ITMemberBalanceServiceFilter {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)
@@ -112,7 +112,7 @@ class ITMemberBalanceServiceFilter {
         sort = Sort.unsorted();
 
         // WHEN
-        balances = service.getBalance(query, sort);
+        balances = service.getMonthlyBalance(query, sort);
 
         // THEN
         Assertions.assertThat(balances)

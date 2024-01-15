@@ -74,7 +74,7 @@ public class MemberBalanceController {
     @RequireResourceAccess(resource = "MEMBER", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.MONTHLY_BALANCE)
     public Iterable<? extends MonthlyMemberBalance> monthly(@Valid final MemberBalanceQuery balance, final Sort sort) {
-        return service.getBalance(balance, sort);
+        return service.getMonthlyBalance(balance, sort);
     }
 
 }
