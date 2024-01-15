@@ -9,35 +9,35 @@ public final class MonthlyMemberBalances {
 
     public static final MonthlyMemberBalance currentMonth() {
         return MonthlyMemberBalance.builder()
-            .month(MemberBalanceConstants.CURRENT_MONTH)
+            .date(MemberBalanceConstants.CURRENT_MONTH)
             .total(1L)
             .build();
     }
 
     public static final MonthlyMemberBalance currentMonth(final Long total) {
         return MonthlyMemberBalance.builder()
-            .month(MemberBalanceConstants.CURRENT_MONTH)
+            .date(MemberBalanceConstants.CURRENT_MONTH)
             .total(total)
             .build();
     }
 
     public static final MonthlyMemberBalance forMonthAndTotal(final YearMonth month, final Long total) {
         return MonthlyMemberBalance.builder()
-            .month(month)
+            .date(month)
             .total(total)
             .build();
     }
 
     public static final MonthlyMemberBalance previousMonth() {
         return MonthlyMemberBalance.builder()
-            .month(MemberBalanceConstants.PREVIOUS_MONTH)
+            .date(MemberBalanceConstants.PREVIOUS_MONTH)
             .total(1L)
             .build();
     }
 
     public static final MonthlyMemberBalance twoMonthsBack() {
         return MonthlyMemberBalance.builder()
-            .month(MemberBalanceConstants.TWO_MONTHS_BACK)
+            .date(MemberBalanceConstants.TWO_MONTHS_BACK)
             .total(1L)
             .build();
     }

@@ -90,7 +90,7 @@ public final class DefaultMemberBalanceService implements MemberBalanceService {
             entity.getMonth()
                 .getMonth());
         return MonthlyMemberBalance.builder()
-            .month(month)
+            .date(month)
             .total(entity.getTotal())
             .build();
     }

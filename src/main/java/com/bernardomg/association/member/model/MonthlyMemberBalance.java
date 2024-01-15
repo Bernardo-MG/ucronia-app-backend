@@ -33,7 +33,7 @@ import lombok.Value;
 @Builder
 public final class MonthlyMemberBalance {
 
-    private YearMonth month;
+    private YearMonth date;
 
     private long      total;
 
