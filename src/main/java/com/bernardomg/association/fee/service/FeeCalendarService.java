@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.service;
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.model.FeeCalendar;
-import com.bernardomg.association.fee.model.YearsRange;
+import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
 import com.bernardomg.association.member.model.MemberStatus;
 
 /**
@@ -44,7 +44,7 @@ public interface FeeCalendarService {
      *
      * @return the range of available years
      */
-    public YearsRange getRange();
+    public FeeCalendarYearsRange getRange();
 
     /**
      * Returns all the member fees for a year.

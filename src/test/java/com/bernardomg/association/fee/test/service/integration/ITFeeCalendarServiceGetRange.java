@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.model.YearsRange;
+import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
@@ -59,7 +59,7 @@ class ITFeeCalendarServiceGetRange {
     @ValidMember
     @FeeFullYear
     void testGetRange_FullYear() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // WHEN
         range = service.getRange();
@@ -77,7 +77,7 @@ class ITFeeCalendarServiceGetRange {
     @FeeFullYear
     @AlternativeFeeFullYear
     void testGetRange_FullYear_TwoMembers() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // WHEN
         range = service.getRange();
@@ -92,7 +92,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a not paid fee for the next year, nothing is returned")
     @ValidMember
     void testGetRange_NextYear_NotPaid() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(false);
@@ -110,7 +110,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a paid fee for the next year, nothing is returned")
     @ValidMember
     void testGetRange_NextYear_Paid() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeNextYear(true);
@@ -127,7 +127,7 @@ class ITFeeCalendarServiceGetRange {
     @Test
     @DisplayName("With no data, the range is empty")
     void testGetRange_NoData() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // WHEN
         range = service.getRange();
@@ -142,7 +142,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With no fees, the range is empty")
     @ValidMember
     void testGetRange_NoFees() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // WHEN
         range = service.getRange();
@@ -157,7 +157,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a not paid fee, the year range is returned")
     @ValidMember
     void testGetRange_NotPaid() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(false);
@@ -175,7 +175,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a paid fee, the year range is returned")
     @ValidMember
     void testGetRange_Paid() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -193,7 +193,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a not paid fee, the year range is returned")
     @ValidMember
     void testGetRange_PreviousYear_NotPaid() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeePreviousYear(false);
@@ -211,7 +211,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With a paid fee, the year range is returned")
     @ValidMember
     void testGetRange_PreviousYear_Paid() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeePreviousYear(true);
@@ -229,7 +229,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With two years connected, the year range is returned")
     @ValidMember
     void testGetRange_TwoConnectedYears() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeePreviousYear(true);
@@ -248,7 +248,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With two years connected and not in order, the year range is returned")
     @ValidMember
     void testGetRange_TwoConnectedYears_NotInOrder() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeCurrentMonth(true);
@@ -267,7 +267,7 @@ class ITFeeCalendarServiceGetRange {
     @DisplayName("With two years with a gap, the year range is returned")
     @ValidMember
     void testGetRange_TwoYearsWithGap() {
-        final YearsRange range;
+        final FeeCalendarYearsRange range;
 
         // GIVEN
         feeInitializer.registerFeeTwoYearsBack(true);

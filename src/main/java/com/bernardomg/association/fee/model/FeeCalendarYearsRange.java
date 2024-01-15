@@ -31,7 +31,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public final class YearsRange {
+public final class FeeCalendarYearsRange {
 
     private final Collection<Integer> years;
 

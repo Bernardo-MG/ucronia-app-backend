@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.model.FeeCalendarQuery;
-import com.bernardomg.association.fee.model.YearsRange;
+import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.member.cache.MembersCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -70,7 +70,7 @@ public class MemberFeeCalendarController {
     @GetMapping(path = "/range", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "FEE", action = Actions.READ)
     @Cacheable(cacheNames = MembersCaches.CALENDAR_RANGE)
-    public YearsRange readRange() {
+    public FeeCalendarYearsRange readRange() {
         return service.getRange();
     }
 

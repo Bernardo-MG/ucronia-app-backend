@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.model.FeeCalendarMember;
 import com.bernardomg.association.fee.model.FeeCalendarMonth;
 import com.bernardomg.association.fee.model.FeeCalendarMonthFee;
-import com.bernardomg.association.fee.model.YearsRange;
+import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.member.model.MemberStatus;
@@ -62,11 +62,11 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
     }
 
     @Override
-    public final YearsRange getRange() {
+    public final FeeCalendarYearsRange getRange() {
         final Collection<Integer> years;
 
         years = memberFeeRepository.findYears();
-        return YearsRange.builder()
+        return FeeCalendarYearsRange.builder()
             .years(years)
             .build();
     }
