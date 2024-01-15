@@ -14,7 +14,7 @@ public final class TransactionMonthlyBalances {
 
     public static final TransactionMonthlyBalance currentMonth(final float amount) {
         return TransactionMonthlyBalance.builder()
-            .month(CURRENT)
+            .date(CURRENT)
             .results(amount)
             .total(amount)
             .build();
@@ -22,7 +22,7 @@ public final class TransactionMonthlyBalances {
 
     public static final TransactionMonthlyBalance forAmount(final float amount) {
         return TransactionMonthlyBalance.builder()
-            .month(MONTH)
+            .date(MONTH)
             .results(amount)
             .total(amount)
             .build();
@@ -30,7 +30,7 @@ public final class TransactionMonthlyBalances {
 
     public static final TransactionMonthlyBalance forAmount(final Month month, final float amount) {
         return TransactionMonthlyBalance.builder()
-            .month(YearMonth.of(2020, month))
+            .date(YearMonth.of(2020, month))
             .results(amount)
             .total(amount)
             .build();
@@ -38,7 +38,7 @@ public final class TransactionMonthlyBalances {
 
     public static final TransactionMonthlyBalance forAmount(final Month month, final float amount, final float total) {
         return TransactionMonthlyBalance.builder()
-            .month(YearMonth.of(2020, month))
+            .date(YearMonth.of(2020, month))
             .results(amount)
             .total(total)
             .build();
@@ -46,7 +46,7 @@ public final class TransactionMonthlyBalances {
 
     public static final TransactionMonthlyBalance forAmount(final YearMonth month, final float amount) {
         return TransactionMonthlyBalance.builder()
-            .month(month)
+            .date(month)
             .results(amount)
             .total(amount)
             .build();

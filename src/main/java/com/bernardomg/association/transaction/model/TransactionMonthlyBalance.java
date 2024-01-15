@@ -33,7 +33,7 @@ import lombok.Value;
 @Builder
 public final class TransactionMonthlyBalance {
 
-    private YearMonth month;
+    private YearMonth date;
 
     private float     results;
 

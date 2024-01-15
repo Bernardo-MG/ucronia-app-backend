@@ -134,7 +134,7 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
             entity.getMonth()
                 .getMonth());
         return TransactionMonthlyBalance.builder()
-            .month(month)
+            .date(month)
             .total(entity.getTotal())
             .results(entity.getResults())
             .build();
