@@ -22,28 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.auth.user.test.service.integration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.auth.user.test.config.ValidUserWithMember;
+import com.bernardomg.association.auth.user.test.util.model.UserConstants;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@Configuration
-public class AssociationUserConfig {
+@IntegrationTest
+@DisplayName("User member service - delete member")
+class ITUserMemberServiceDeleteMember {
 
-    public AssociationUserConfig() {
+    @Autowired
+    private UserMemberService    service;
+
+    @Autowired
+    private UserMemberRepository userMemberRepository;
+
+    public ITUserMemberServiceDeleteMember() {
         super();
     }
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    @Test
+    @DisplayName("With a member assigned to the user, it removes the member")
+    @ValidUserWithMember
+    void testDeleteMember() {
+
+        // WHEN
+        service.deleteMember(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(userMemberRepository.count())
+            .as("user members")
+            .isZero();
     }
 
 }

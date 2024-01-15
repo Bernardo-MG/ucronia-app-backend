@@ -22,28 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+/**
+ * Association transaction controllers.
+ */
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-
-@Configuration
-public class AssociationUserConfig {
-
-    public AssociationUserConfig() {
-        super();
-    }
-
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
-
-}
+package com.bernardomg.association.transaction.controller;

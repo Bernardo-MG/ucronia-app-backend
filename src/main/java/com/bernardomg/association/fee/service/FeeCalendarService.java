@@ -22,28 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.fee.service;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.fee.model.FeeCalendar;
+import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
+import com.bernardomg.association.member.model.MemberStatus;
 
-@Configuration
-public class AssociationUserConfig {
+/**
+ * Fee calendar service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface FeeCalendarService {
 
-    public AssociationUserConfig() {
-        super();
-    }
+    /**
+     * Returns the range of available years. These are all the years which have fees assigned, except for any future
+     * year.
+     *
+     * @return the range of available years
+     */
+    public FeeCalendarYearsRange getRange();
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    /**
+     * Returns all the member fees for a year.
+     *
+     * @param year
+     *            year to read
+     * @param status
+     *            member active status
+     * @param sort
+     *            sorting to apply
+     * @return all the member fees for a year
+     */
+    public Iterable<FeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort);
 
 }

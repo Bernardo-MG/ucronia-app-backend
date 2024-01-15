@@ -22,28 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.member.test.service.integration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.member.exception.MissingMemberIdException;
+import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@Configuration
-public class AssociationUserConfig {
+@IntegrationTest
+@DisplayName("Member service - delete")
+class ITMemberServiceDeleteError {
 
-    public AssociationUserConfig() {
+    @Autowired
+    private MemberService service;
+
+    public ITMemberServiceDeleteError() {
         super();
     }
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    @Test
+    @DisplayName("With an invalid id, an exception is thrown")
+    void testDelete_NotExisting_NotRemovesEntity() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> service.delete(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberIdException.class);
     }
 
 }

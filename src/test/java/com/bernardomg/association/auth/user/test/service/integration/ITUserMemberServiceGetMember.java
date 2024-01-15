@@ -22,28 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.auth.user.test.service.integration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Optional;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.auth.user.test.config.ValidUserWithMember;
+import com.bernardomg.association.auth.user.test.util.model.UserConstants;
+import com.bernardomg.association.auth.user.test.util.model.UserMembers;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@Configuration
-public class AssociationUserConfig {
+@IntegrationTest
+@DisplayName("User member service - get member")
+class ITUserMemberServiceGetMember {
 
-    public AssociationUserConfig() {
+    @Autowired
+    private UserMemberService service;
+
+    public ITUserMemberServiceGetMember() {
         super();
     }
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    @Test
+    @DisplayName("With a member assigned to the user, it returns the user")
+    @ValidUserWithMember
+    void testGetMember() {
+        final Optional<UserMember> member;
+
+        // WHEN
+        member = service.getMember(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(member)
+            .contains(UserMembers.valid());
     }
 
 }

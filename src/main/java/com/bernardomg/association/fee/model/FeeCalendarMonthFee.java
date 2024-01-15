@@ -22,28 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.fee.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.time.YearMonth;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Configuration
-public class AssociationUserConfig {
+import lombok.Builder;
+import lombok.Value;
 
-    public AssociationUserConfig() {
-        super();
-    }
+@Value
+@Builder
+public final class FeeCalendarMonthFee {
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    @JsonFormat(pattern = "yyyy-MM")
+    private final YearMonth date;
+
+    private final boolean   paid;
 
 }

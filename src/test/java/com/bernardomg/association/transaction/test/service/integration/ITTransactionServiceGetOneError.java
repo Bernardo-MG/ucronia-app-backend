@@ -22,28 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.transaction.test.service.integration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
+import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@Configuration
-public class AssociationUserConfig {
+@IntegrationTest
+@DisplayName("Transaction service - get one - errors")
+class ITTransactionServiceGetOneError {
 
-    public AssociationUserConfig() {
+    @Autowired
+    private TransactionService service;
+
+    public ITTransactionServiceGetOneError() {
         super();
     }
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    @Test
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testGetOne_NotExisting() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> service.getOne(TransactionConstants.INDEX);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingIdException.class);
     }
 
 }

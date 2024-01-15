@@ -22,28 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.transaction.service;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import org.springframework.data.domain.Sort;
 
-@Configuration
-public class AssociationUserConfig {
+import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 
-    public AssociationUserConfig() {
-        super();
-    }
+/**
+ * Transaction balance service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+public interface TransactionBalanceService {
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    /**
+     * Returns the current balance.
+     *
+     * @return the current balance
+     */
+    public TransactionCurrentBalance getBalance();
+
+    /**
+     * Returns the monthly balances for the query.
+     *
+     * @param query
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly balances
+     */
+    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
+            final Sort sort);
 
 }

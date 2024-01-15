@@ -22,28 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.transaction.service;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.time.YearMonth;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonthsRange;
 
-@Configuration
-public class AssociationUserConfig {
+/**
+ * Transaction calendar service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface TransactionCalendarService {
 
-    public AssociationUserConfig() {
-        super();
-    }
+    /**
+     * Returns all the transactions for a month.
+     *
+     * @param month
+     *            the month to read
+     * @return all the transactions for the month
+     */
+    public TransactionCalendarMonth getForMonth(final YearMonth month);
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    /**
+     * Returns the range of available months.
+     *
+     * @return the range of available months
+     */
+    public TransactionCalendarMonthsRange getRange();
 
 }

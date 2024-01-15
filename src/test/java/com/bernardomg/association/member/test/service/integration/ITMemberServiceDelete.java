@@ -22,28 +22,43 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.member.test.service.integration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.test.config.annotation.ValidMember;
+import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@Configuration
-public class AssociationUserConfig {
+@IntegrationTest
+@DisplayName("Member service - delete")
+@ValidMember
+class ITMemberServiceDelete {
 
-    public AssociationUserConfig() {
+    @Autowired
+    private MemberRepository repository;
+
+    @Autowired
+    private MemberService    service;
+
+    public ITMemberServiceDelete() {
         super();
     }
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    @Test
+    @DisplayName("With a valid id it removes the entity")
+    void testDelete_RemovesEntity() {
+        // WHEN
+        service.delete(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(repository.count())
+            .isZero();
     }
 
 }

@@ -22,28 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.member.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
+import com.bernardomg.association.member.service.DefaultMemberBalanceService;
+import com.bernardomg.association.member.service.DefaultMemberService;
+import com.bernardomg.association.member.service.MemberBalanceService;
+import com.bernardomg.association.member.service.MemberService;
 
+/**
+ * Member configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Configuration
-public class AssociationUserConfig {
+public class MemberConfig {
 
-    public AssociationUserConfig() {
+    public MemberConfig() {
         super();
     }
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
+    @Bean("memberBalanceService")
+    public MemberBalanceService
+            getMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository) {
+        return new DefaultMemberBalanceService(monthlyMemberBalanceRepository);
+    }
+
+    @Bean("memberService")
+    public MemberService getMemberService(final MemberRepository memberRepository) {
+        return new DefaultMemberService(memberRepository);
     }
 
 }

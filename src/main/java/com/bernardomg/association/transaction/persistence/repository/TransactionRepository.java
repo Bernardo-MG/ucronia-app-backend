@@ -22,28 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.transaction.persistence.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Collection;
+import java.util.Optional;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
-@Configuration
-public class AssociationUserConfig {
+import com.bernardomg.association.transaction.persistence.model.Month;
+import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 
-    public AssociationUserConfig() {
-        super();
-    }
+public interface TransactionRepository
+        extends JpaRepository<TransactionEntity, Long>, JpaSpecificationExecutor<TransactionEntity> {
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    public void deleteByIndex(final long index);
+
+    public boolean existsByIndex(final long index);
+
+    @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY year, month ORDER BY year, month ASC")
+    public Collection<Month> findMonths();
+
+    @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
+    public Long findNextIndex();
+
+    public Optional<TransactionEntity> findOneByIndex(final long index);
 
 }

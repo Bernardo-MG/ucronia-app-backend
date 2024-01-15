@@ -22,28 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.member.service;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.association.member.model.MemberBalanceQuery;
+import com.bernardomg.association.member.model.MonthlyMemberBalance;
 
-@Configuration
-public class AssociationUserConfig {
+/**
+ * Member balance service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface MemberBalanceService {
 
-    public AssociationUserConfig() {
-        super();
-    }
-
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    /**
+     * Returns the monthly membership balance.
+     *
+     * @param balance
+     *            query to filter balances
+     * @param sort
+     *            sorting to apply
+     * @return the monthly membership balance
+     */
+    public Iterable<MonthlyMemberBalance> getMonthlyBalance(final MemberBalanceQuery balance, final Sort sort);
 
 }

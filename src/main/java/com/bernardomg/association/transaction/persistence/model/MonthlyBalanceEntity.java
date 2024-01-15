@@ -22,28 +22,43 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.transaction.persistence.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.io.Serializable;
+import java.time.LocalDate;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Configuration
-public class AssociationUserConfig {
+/**
+ * Monthly balance entity. The table is actually a view.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+@Entity(name = "MonthlyBalance")
+@Table(name = "monthly_balances")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MonthlyBalanceEntity implements Serializable {
 
-    public AssociationUserConfig() {
-        super();
-    }
+    private static final long serialVersionUID = 4603617058960663867L;
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    @Id
+    @Column(name = "date", nullable = false)
+    private LocalDate         month;
+
+    @Column(name = "results", nullable = false)
+    private Float             results;
+
+    @Column(name = "total", nullable = false)
+    private Float             total;
 
 }

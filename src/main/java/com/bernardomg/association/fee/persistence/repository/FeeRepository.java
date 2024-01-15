@@ -22,28 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.fee.persistence.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.time.YearMonth;
+import java.util.List;
+import java.util.Optional;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Configuration
-public class AssociationUserConfig {
+import com.bernardomg.association.fee.persistence.model.FeeEntity;
 
-    public AssociationUserConfig() {
-        super();
-    }
+public interface FeeRepository extends JpaRepository<FeeEntity, Long> {
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
+
+    /**
+     * Returns all the fees in the received date.
+     *
+     * @param date
+     *            date to filter by
+     * @return all the fees in the date
+     */
+    public List<FeeEntity> findAllByDate(final YearMonth date);
+
+    /**
+     * Finds the fee for the member in the date.
+     *
+     * @param memberId
+     *            member to filter by
+     * @param date
+     *            date to filter by
+     * @return fee for the member in the date
+     */
+    public Optional<FeeEntity> findOneByMemberIdAndDate(final Long memberId, final YearMonth date);
 
 }

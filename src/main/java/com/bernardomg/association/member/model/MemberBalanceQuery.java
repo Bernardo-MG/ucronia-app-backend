@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.config;
+package com.bernardomg.association.member.model;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.time.YearMonth;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
-import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import org.springframework.format.annotation.DateTimeFormat;
 
-@Configuration
-public class AssociationUserConfig {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public AssociationUserConfig() {
-        super();
-    }
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class MemberBalanceQuery {
 
-    @Bean("userMemberService")
-    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
-        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
-    }
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private YearMonth endDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private YearMonth startDate;
 
 }
