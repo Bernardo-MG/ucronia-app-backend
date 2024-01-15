@@ -27,7 +27,7 @@ package com.bernardomg.association.transaction.service;
 import java.time.YearMonth;
 
 import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
-import com.bernardomg.association.transaction.model.TransactionMonthsRange;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonthsRange;
 
 /**
  * Transaction calendar service.
@@ -51,6 +51,6 @@ public interface TransactionCalendarService {
      *
      * @return the range of available months
      */
-    public TransactionMonthsRange getRange();
+    public TransactionCalendarMonthsRange getRange();
 
 }

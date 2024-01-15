@@ -32,7 +32,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
-import com.bernardomg.association.transaction.model.TransactionMonthsRange;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.persistence.specification.TransactionSpecifications;
@@ -75,7 +75,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
-    public final TransactionMonthsRange getRange() {
+    public final TransactionCalendarMonthsRange getRange() {
         final Collection<YearMonth> months;
 
         log.debug("Reading the transactions range");
@@ -85,7 +85,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
 
-        return TransactionMonthsRange.builder()
+        return TransactionCalendarMonthsRange.builder()
             .months(months)
             .build();
     }
