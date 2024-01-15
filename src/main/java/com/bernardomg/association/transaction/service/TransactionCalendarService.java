@@ -51,6 +51,6 @@ public interface TransactionCalendarService {
      *            the month to read
      * @return all the transactions for the month
      */
-    public Iterable<Transaction> getYearMonth(final YearMonth month);
+    public Iterable<Transaction> getForMonth(final YearMonth month);
 
 }

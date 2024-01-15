@@ -77,7 +77,7 @@ public class FundsCalendarController {
         final YearMonth date;
 
         date = YearMonth.of(year, month);
-        return service.getYearMonth(date);
+        return service.getForMonth(date);
     }
 
     /**

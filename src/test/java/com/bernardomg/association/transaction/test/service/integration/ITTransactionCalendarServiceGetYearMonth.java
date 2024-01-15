@@ -39,7 +39,7 @@ import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Transaction calendar service - get year month")
+@DisplayName("Transaction calendar service - get for month")
 class ITTransactionCalendarServiceGetYearMonth {
 
     @Autowired
@@ -52,7 +52,7 @@ class ITTransactionCalendarServiceGetYearMonth {
     @Test
     @DisplayName("Only the data for the month is returned")
     @FullTransactionYear
-    void testGetRange_FullYear() {
+    void testGetForMonth_FullYear() {
         final YearMonth             month;
         final Iterable<Transaction> dates;
 
@@ -60,7 +60,7 @@ class ITTransactionCalendarServiceGetYearMonth {
         month = YearMonth.of(2020, Month.FEBRUARY);
 
         // WHEN
-        dates = service.getYearMonth(month);
+        dates = service.getForMonth(month);
 
         // THEN
         Assertions.assertThat(dates)
@@ -71,7 +71,7 @@ class ITTransactionCalendarServiceGetYearMonth {
     @Test
     @DisplayName("Reading for a not existing month returns nothing")
     @FullTransactionYear
-    void testGetRange_FullYear_NotExisting() {
+    void testGetForMonth_FullYear_NotExisting() {
         final YearMonth             month;
         final Iterable<Transaction> dates;
 
@@ -79,7 +79,7 @@ class ITTransactionCalendarServiceGetYearMonth {
         month = YearMonth.of(2019, Month.DECEMBER);
 
         // WHEN
-        dates = service.getYearMonth(month);
+        dates = service.getForMonth(month);
 
         // THEN
         Assertions.assertThat(dates)
@@ -89,7 +89,7 @@ class ITTransactionCalendarServiceGetYearMonth {
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
-    void testGetRange_NoData() {
+    void testGetForMonth_NoData() {
         final YearMonth             month;
         final Iterable<Transaction> dates;
 
@@ -97,7 +97,7 @@ class ITTransactionCalendarServiceGetYearMonth {
         month = YearMonth.of(2020, Month.FEBRUARY);
 
         // WHEN
-        dates = service.getYearMonth(month);
+        dates = service.getForMonth(month);
 
         // THEN
         Assertions.assertThat(dates)

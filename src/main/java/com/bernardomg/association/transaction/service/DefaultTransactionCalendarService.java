@@ -72,7 +72,7 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
-    public final Iterable<Transaction> getYearMonth(final YearMonth date) {
+    public final Iterable<Transaction> getForMonth(final YearMonth date) {
         final Specification<TransactionEntity> spec;
         final Collection<TransactionEntity>    read;
 
