@@ -27,12 +27,12 @@ package com.bernardomg.association.transaction.test.service.integration;
 import java.time.Month;
 import java.time.YearMonth;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
@@ -53,56 +53,71 @@ class ITTransactionCalendarServiceGetYearMonth {
     @DisplayName("Only the data for the month is returned")
     @FullTransactionYear
     void testGetForMonth_FullYear() {
-        final YearMonth             month;
-        final Iterable<Transaction> dates;
+        final YearMonth                month;
+        final TransactionCalendarMonth calendar;
 
         // GIVEN
         month = YearMonth.of(2020, Month.FEBRUARY);
 
         // WHEN
-        dates = service.getForMonth(month);
+        calendar = service.getForMonth(month);
 
         // THEN
-        Assertions.assertThat(dates)
-            .as("dates")
-            .containsExactly(Transactions.february());
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(calendar.getDate())
+                .as("date")
+                .isEqualTo(month);
+            softly.assertThat(calendar.getTransactions())
+                .as("transactions")
+                .containsExactly(Transactions.february());
+        });
     }
 
     @Test
     @DisplayName("Reading for a not existing month returns nothing")
     @FullTransactionYear
     void testGetForMonth_FullYear_NotExisting() {
-        final YearMonth             month;
-        final Iterable<Transaction> dates;
+        final YearMonth                month;
+        final TransactionCalendarMonth calendar;
 
         // GIVEN
         month = YearMonth.of(2019, Month.DECEMBER);
 
         // WHEN
-        dates = service.getForMonth(month);
+        calendar = service.getForMonth(month);
 
         // THEN
-        Assertions.assertThat(dates)
-            .as("dates")
-            .isEmpty();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(calendar.getDate())
+                .as("date")
+                .isEqualTo(month);
+            softly.assertThat(calendar.getTransactions())
+                .as("transactions")
+                .isEmpty();
+        });
     }
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testGetForMonth_NoData() {
-        final YearMonth             month;
-        final Iterable<Transaction> dates;
+        final YearMonth                month;
+        final TransactionCalendarMonth calendar;
 
         // GIVEN
         month = YearMonth.of(2020, Month.FEBRUARY);
 
         // WHEN
-        dates = service.getForMonth(month);
+        calendar = service.getForMonth(month);
 
         // THEN
-        Assertions.assertThat(dates)
-            .as("dates")
-            .isEmpty();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(calendar.getDate())
+                .as("date")
+                .isEqualTo(month);
+            softly.assertThat(calendar.getTransactions())
+                .as("transactions")
+                .isEmpty();
+        });
     }
 
 }

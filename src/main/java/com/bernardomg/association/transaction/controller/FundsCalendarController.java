@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.cache.TransactionCaches;
-import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -72,7 +72,7 @@ public class FundsCalendarController {
     @GetMapping(path = "/{year}/{month}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "TRANSACTION", action = Actions.READ)
     @Cacheable(cacheNames = TransactionCaches.CALENDAR)
-    public Iterable<Transaction> readMonth(@PathVariable("year") final Integer year,
+    public TransactionCalendarMonth readMonth(@PathVariable("year") final Integer year,
             @PathVariable("month") final Integer month) {
         final YearMonth date;
 

@@ -31,6 +31,7 @@ import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.transaction.model.Transaction;
+import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
@@ -56,6 +57,24 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
     }
 
     @Override
+    public final TransactionCalendarMonth getForMonth(final YearMonth date) {
+        final Specification<TransactionEntity> spec;
+        final Collection<TransactionEntity>    read;
+        final Collection<Transaction>          transactions;
+
+        spec = TransactionSpecifications.on(date);
+        read = transactionRepository.findAll(spec);
+
+        transactions = read.stream()
+            .map(this::toDto)
+            .toList();
+        return TransactionCalendarMonth.builder()
+            .date(date)
+            .transactions(transactions)
+            .build();
+    }
+
+    @Override
     public final TransactionMonthsRange getRange() {
         final Collection<YearMonth> months;
 
@@ -69,19 +88,6 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
         return TransactionMonthsRange.builder()
             .months(months)
             .build();
-    }
-
-    @Override
-    public final Iterable<Transaction> getForMonth(final YearMonth date) {
-        final Specification<TransactionEntity> spec;
-        final Collection<TransactionEntity>    read;
-
-        spec = TransactionSpecifications.on(date);
-        read = transactionRepository.findAll(spec);
-
-        return read.stream()
-            .map(this::toDto)
-            .toList();
     }
 
     private final Transaction toDto(final TransactionEntity entity) {

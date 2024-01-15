@@ -22,35 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.service;
+package com.bernardomg.association.transaction.model;
 
 import java.time.YearMonth;
+import java.util.Collection;
 
-import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
-import com.bernardomg.association.transaction.model.TransactionMonthsRange;
+import lombok.Builder;
+import lombok.Value;
 
-/**
- * Transaction calendar service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface TransactionCalendarService {
+@Value
+@Builder
+public final class TransactionCalendarMonth {
 
-    /**
-     * Returns all the transactions for a month.
-     *
-     * @param month
-     *            the month to read
-     * @return all the transactions for the month
-     */
-    public TransactionCalendarMonth getForMonth(final YearMonth month);
+    private final YearMonth               date;
 
-    /**
-     * Returns the range of available months.
-     *
-     * @return the range of available months
-     */
-    public TransactionMonthsRange getRange();
+    private final Collection<Transaction> transactions;
 
 }
