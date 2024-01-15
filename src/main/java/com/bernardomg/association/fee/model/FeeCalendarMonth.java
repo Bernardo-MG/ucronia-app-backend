@@ -24,19 +24,17 @@
 
 package com.bernardomg.association.fee.model;
 
-import java.util.Collection;
-
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
-public final class FeeCalendar {
+public final class FeeCalendarMonth {
 
-    private final FeeCalendarMember            member;
+    private final FeeCalendarMonthFee fee;
 
-    private final Collection<FeeCalendarMonth> months;
+    private final FeeCalendarMember   member;
 
-    private final int                          year;
+    private final int                 month;
 
 }

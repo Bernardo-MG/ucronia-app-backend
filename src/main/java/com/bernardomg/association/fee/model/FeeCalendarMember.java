@@ -24,24 +24,17 @@
 
 package com.bernardomg.association.fee.model;
 
-import java.time.YearMonth;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
-public final class FeeMonth {
+public final class FeeCalendarMember {
 
-    @JsonFormat(pattern = "yyyy-MM")
-    private final YearMonth date;
+    private final boolean active;
 
-    private final long      memberNumber;
+    private final String  fullName;
 
-    private final int       month;
-
-    private final boolean   paid;
+    private final long    number;
 
 }

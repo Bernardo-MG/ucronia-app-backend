@@ -38,7 +38,9 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.model.FeeCalendar;
-import com.bernardomg.association.fee.model.FeeMonth;
+import com.bernardomg.association.fee.model.FeeCalendarMember;
+import com.bernardomg.association.fee.model.FeeCalendarMonth;
+import com.bernardomg.association.fee.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.model.YearsRange;
 import com.bernardomg.association.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
@@ -123,37 +125,46 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         return years;
     }
 
-    private final FeeMonth toFeeMonth(final MemberFeeEntity fee) {
-        final Integer month;
+    private final FeeCalendarMonth toFeeMonth(final MemberFeeEntity entity) {
+        final Integer             month;
+        final FeeCalendarMonthFee fee;
+        final FeeCalendarMember   member;
 
         // Calendar months start at index 0, this has to be corrected
-        month = fee.getDate()
+        month = entity.getDate()
             .getMonth()
             .getValue();
 
-        return FeeMonth.builder()
-            .date(fee.getDate())
-            .memberNumber(fee.getMemberNumber())
+        fee = FeeCalendarMonthFee.builder()
+            .date(entity.getDate())
+            .paid(entity.getPaid())
+            .build();
+        member = FeeCalendarMember.builder()
+            .number(entity.getMemberNumber())
+            .build();
+        return FeeCalendarMonth.builder()
+            .fee(fee)
+            .member(member)
             .month(month)
-            .paid(fee.getPaid())
             .build();
     }
 
     private final FeeCalendar toFeeYear(final Long memberId, final Integer year,
             final Collection<MemberFeeEntity> fees) {
-        final Collection<FeeMonth>   months;
-        final MemberFeeEntity        row;
-        final String                 name;
-        final boolean                active;
-        final YearMonth              validStart;
-        final YearMonth              validEnd;
-        final long                   memberNumber;
-        final Optional<MemberEntity> read;
+        final Collection<FeeCalendarMonth> months;
+        final MemberFeeEntity              row;
+        final String                       name;
+        final boolean                      active;
+        final YearMonth                    validStart;
+        final YearMonth                    validEnd;
+        final long                         memberNumber;
+        final Optional<MemberEntity>       read;
+        final FeeCalendarMember            member;
 
         months = fees.stream()
             .map(this::toFeeMonth)
             // Sort by month
-            .sorted(Comparator.comparing(FeeMonth::getMonth))
+            .sorted(Comparator.comparing(FeeCalendarMonth::getMonth))
             .toList();
 
         row = fees.iterator()
@@ -171,12 +182,16 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         } else {
             memberNumber = -1;
         }
-        return FeeCalendar.builder()
-            .memberNumber(memberNumber)
+
+        member = FeeCalendarMember.builder()
+            .number(memberNumber)
             .fullName(name)
+            .active(active)
+            .build();
+        return FeeCalendar.builder()
+            .member(member)
             .months(months)
             .year(year)
-            .active(active)
             .build();
     }
 

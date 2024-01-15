@@ -33,13 +33,13 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.service.FeeCalendarService;
+import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeMonths;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
 import com.bernardomg.association.member.model.MemberStatus;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
-import com.bernardomg.association.member.test.config.factory.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -80,7 +80,7 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
             calendar = calendars.iterator()
                 .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activeCurrentMonth());
 
             softly.assertThat(calendar.getMonths())
                 .as("months")
@@ -154,7 +154,7 @@ class ITFeeCalendarServiceGetYearFilterActive {
 
             calendar = calendars.iterator()
                 .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.activeCurrentMonth());
+            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.activeCurrentMonth());
 
             softly.assertThat(calendar.getMonths())
                 .as("months")

@@ -39,6 +39,7 @@ import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.TwoFeeYearsConnected;
+import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.config.factory.FeeMonths;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.member.model.MemberStatus;
@@ -46,7 +47,6 @@ import com.bernardomg.association.member.test.config.annotation.AlternativeMembe
 import com.bernardomg.association.member.test.config.annotation.NoSurnameMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.member.test.config.factory.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -82,7 +82,7 @@ class ITFeeCalendarServiceGetYear {
 
         calendar = calendars.iterator()
             .next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -114,13 +114,13 @@ class ITFeeCalendarServiceGetYear {
 
         // First member
         calendar = calendarsItr.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
 
         // Second member
         calendar = calendarsItr.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactiveAlternative());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -143,7 +143,7 @@ class ITFeeCalendarServiceGetYear {
 
         // THEN
         calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.noSurname());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.noSurname());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -172,7 +172,7 @@ class ITFeeCalendarServiceGetYear {
 
             calendar = calendars.iterator()
                 .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactivePreviousYear());
+            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactivePreviousYear());
 
             softly.assertThat(calendar.getMonths())
                 .as("months")
@@ -205,7 +205,7 @@ class ITFeeCalendarServiceGetYear {
 
             calendar = calendars.iterator()
                 .next();
-            MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+            MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
 
             softly.assertThat(calendar.getMonths())
                 .as("months")

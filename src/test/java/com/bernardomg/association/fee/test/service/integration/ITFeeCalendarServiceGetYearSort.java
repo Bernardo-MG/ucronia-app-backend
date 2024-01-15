@@ -39,12 +39,12 @@ import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.member.model.MemberStatus;
 import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
-import com.bernardomg.association.member.test.config.factory.MemberFeeCalendars;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -98,12 +98,12 @@ class ITFeeCalendarServiceGetYearSort {
 
         // THEN
         calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactiveAlternative());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
@@ -128,12 +128,12 @@ class ITFeeCalendarServiceGetYearSort {
 
         // THEN
         calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactiveAlternative());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactiveAlternative());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
 
         calendar = calendars.next();
-        MemberFeeCalendarAssertions.isEqualTo(calendar, MemberFeeCalendars.inactive());
+        MemberFeeCalendarAssertions.isEqualTo(calendar, FeeCalendars.inactive());
 
         MemberFeeCalendarAssertions.assertFullYear(calendar);
     }
