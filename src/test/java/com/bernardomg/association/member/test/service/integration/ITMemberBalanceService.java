@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
 import com.bernardomg.association.member.model.MemberBalanceQuery;
 import com.bernardomg.association.member.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.service.MembershipBalanceService;
+import com.bernardomg.association.member.service.MemberBalanceService;
 import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceQueryRequests;
@@ -19,15 +19,15 @@ import com.bernardomg.association.member.test.util.assertion.MonthlyMemberBalanc
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Membership balance service - get balance")
+@DisplayName("Member balance service - get balance")
 @ValidMember
-class ITMembershipBalanceService {
+class ITMemberBalanceService {
 
     @Autowired
-    private FeeInitializer           feeInitializer;
+    private FeeInitializer       feeInitializer;
 
     @Autowired
-    private MembershipBalanceService service;
+    private MemberBalanceService service;
 
     @Test
     @DisplayName("With a fee for the current month and not paid it returns balance for this month")

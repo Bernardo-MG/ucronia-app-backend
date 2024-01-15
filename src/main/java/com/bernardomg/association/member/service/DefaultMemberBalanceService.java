@@ -44,11 +44,11 @@ import com.bernardomg.association.member.persistence.specification.MonthlyMember
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class DefaultMembershipBalanceService implements MembershipBalanceService {
+public final class DefaultMemberBalanceService implements MemberBalanceService {
 
     private final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository;
 
-    public DefaultMembershipBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepo) {
+    public DefaultMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepo) {
         super();
 
         monthlyMemberBalanceRepository = Objects.requireNonNull(monthlyMemberBalanceRepo);

@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
 import com.bernardomg.association.member.model.MemberBalanceQuery;
 import com.bernardomg.association.member.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.service.MembershipBalanceService;
+import com.bernardomg.association.member.service.MemberBalanceService;
 import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceQueryRequests;
@@ -19,16 +19,16 @@ import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalanc
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Membership balance service - get balance - filter")
+@DisplayName("Member balance service - get balance - filter")
 @ValidMember
 @AlternativeMember
-class ITMembershipBalanceServiceFilter {
+class ITMemberBalanceServiceFilter {
 
     @Autowired
-    private FeeInitializer           feeInitializer;
+    private FeeInitializer       feeInitializer;
 
     @Autowired
-    private MembershipBalanceService service;
+    private MemberBalanceService service;
 
     @BeforeEach
     public void initializeFees() {

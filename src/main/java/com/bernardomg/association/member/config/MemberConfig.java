@@ -29,10 +29,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
+import com.bernardomg.association.member.service.DefaultMemberBalanceService;
 import com.bernardomg.association.member.service.DefaultMemberService;
-import com.bernardomg.association.member.service.DefaultMembershipBalanceService;
+import com.bernardomg.association.member.service.MemberBalanceService;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.member.service.MembershipBalanceService;
 
 /**
  * Member configuration.
@@ -48,9 +48,9 @@ public class MemberConfig {
     }
 
     @Bean("memberBalanceService")
-    public MembershipBalanceService
+    public MemberBalanceService
             getMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository) {
-        return new DefaultMembershipBalanceService(monthlyMemberBalanceRepository);
+        return new DefaultMemberBalanceService(monthlyMemberBalanceRepository);
     }
 
     @Bean("memberService")

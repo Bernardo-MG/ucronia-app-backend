@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.member.cache.MembersCaches;
 import com.bernardomg.association.member.model.MemberBalanceQuery;
 import com.bernardomg.association.member.model.MonthlyMemberBalance;
-import com.bernardomg.association.member.service.MembershipBalanceService;
+import com.bernardomg.association.member.service.MemberBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
@@ -54,12 +54,12 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/member")
 @AllArgsConstructor
 @Transactional
-public class MembershipBalanceController {
+public class MemberBalanceController {
 
     /**
-     * Membership balance service.
+     * Member balance service.
      */
-    private final MembershipBalanceService service;
+    private final MemberBalanceService service;
 
     /**
      * Returns the monthly membership balance.

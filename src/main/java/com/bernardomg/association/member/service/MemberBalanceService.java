@@ -30,12 +30,12 @@ import com.bernardomg.association.member.model.MemberBalanceQuery;
 import com.bernardomg.association.member.model.MonthlyMemberBalance;
 
 /**
- * Membership balance service.
+ * Member balance service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface MembershipBalanceService {
+public interface MemberBalanceService {
 
     /**
      * Returns the monthly membership balance.
