@@ -53,7 +53,7 @@ public final class AssignedFeeActiveMemberDomainService implements ActiveMemberD
     }
 
     @Override
-    public final Page<Member> findAllActive(final Pageable pageable) {
+    public final Page<Member> findActive(final Pageable pageable) {
         final Page<MemberEntity>       members;
         final Function<Member, Member> activeMapper;
         final YearMonth                validStart;
@@ -73,7 +73,7 @@ public final class AssignedFeeActiveMemberDomainService implements ActiveMemberD
     }
 
     @Override
-    public final Page<Member> findAllInactive(final Pageable pageable) {
+    public final Page<Member> findInactive(final Pageable pageable) {
         final Page<MemberEntity>       members;
         final Function<Member, Member> activeMapper;
         final YearMonth                validStart;

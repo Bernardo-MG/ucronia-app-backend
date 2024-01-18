@@ -103,10 +103,10 @@ public final class DefaultMemberService implements MemberService {
 
         switch (query.getStatus()) {
             case ACTIVE:
-                members = activeMemberSource.findAllActive(pagination);
+                members = activeMemberSource.findActive(pagination);
                 break;
             case INACTIVE:
-                members = activeMemberSource.findAllInactive(pagination);
+                members = activeMemberSource.findInactive(pagination);
                 break;
             default:
                 members = activeMemberSource.findAll(pagination);

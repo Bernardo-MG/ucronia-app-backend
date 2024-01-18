@@ -10,9 +10,9 @@ public interface ActiveMemberDomainService {
 
     public Page<Member> findAll(final Pageable pageable);
 
-    public Page<Member> findAllActive(final Pageable pageable);
+    public Page<Member> findActive(final Pageable pageable);
 
-    public Page<Member> findAllInactive(final Pageable pageable);
+    public Page<Member> findInactive(final Pageable pageable);
 
     public Member findOne(final Long id);
 
