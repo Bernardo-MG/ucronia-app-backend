@@ -7,6 +7,7 @@ import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -27,6 +28,8 @@ public class CodingRulesArchitectureTest {
     @ArchTest
     static final ArchRule        services_should_be_suffixed    = classes().that()
         .resideInAPackage("..service..")
+        .and()
+        .doNotHaveModifier(JavaModifier.SYNTHETIC)
         .and()
         .haveSimpleNameNotEndingWith("package-info")
         .should()
