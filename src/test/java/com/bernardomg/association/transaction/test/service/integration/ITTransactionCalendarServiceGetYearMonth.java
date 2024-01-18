@@ -32,7 +32,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.test.data.transaction.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.service.TransactionCalendarService;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.data.transaction.annotation;
+package com.bernardomg.association.transaction.config.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/transaction/full_consecutive_years.sql")
+@Sql("/db/queries/transaction/positive.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface FullConsecutiveTransactionYears {
+public @interface PositiveTransaction {
 
 }

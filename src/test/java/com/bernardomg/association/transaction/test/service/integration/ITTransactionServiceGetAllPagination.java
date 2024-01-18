@@ -34,7 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.test.data.transaction.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionQuery;
 import com.bernardomg.association.transaction.service.TransactionService;

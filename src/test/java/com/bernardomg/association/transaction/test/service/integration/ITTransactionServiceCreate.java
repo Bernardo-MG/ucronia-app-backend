@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.test.data.transaction.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionChange;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
-import com.bernardomg.association.test.data.transaction.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.service.TransactionBalanceService;

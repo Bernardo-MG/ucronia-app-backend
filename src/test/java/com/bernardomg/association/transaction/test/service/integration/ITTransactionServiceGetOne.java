@@ -35,8 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.test.data.transaction.annotation.NegativeTransaction;
-import com.bernardomg.association.test.data.transaction.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.config.data.annotation.NegativeTransaction;
+import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.service.TransactionService;

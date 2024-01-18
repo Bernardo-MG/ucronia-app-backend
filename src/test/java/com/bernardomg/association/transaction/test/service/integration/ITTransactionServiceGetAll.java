@@ -36,8 +36,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.test.data.transaction.annotation.FullTransactionYear;
-import com.bernardomg.association.test.data.transaction.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.model.Transaction;
 import com.bernardomg.association.transaction.model.TransactionQuery;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;

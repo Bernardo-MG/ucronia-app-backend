@@ -38,9 +38,9 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
-import com.bernardomg.association.test.data.transaction.annotation.DecimalsAddZeroTransaction;
-import com.bernardomg.association.test.data.transaction.annotation.FullTransactionYear;
-import com.bernardomg.association.test.data.transaction.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.config.data.annotation.DecimalsAddZeroTransaction;
+import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
+import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.service.TransactionBalanceService;
