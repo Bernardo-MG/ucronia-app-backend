@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.configuration.source.PersistentConfigurationSource;
-import com.bernardomg.configuration.test.configuration.StringConfiguration;
+import com.bernardomg.configuration.test.data.annotation.StringConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

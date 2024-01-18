@@ -33,14 +33,14 @@ import com.bernardomg.association.fee.model.FeeChange;
 import com.bernardomg.association.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.fee.test.config.annotation.NotPaidFee;
-import com.bernardomg.association.fee.test.config.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeesUpdate;
 import com.bernardomg.association.fee.test.util.assertion.FeeAssertions;
-import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
+import com.bernardomg.association.test.data.fee.annotation.PaidFee;
+import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

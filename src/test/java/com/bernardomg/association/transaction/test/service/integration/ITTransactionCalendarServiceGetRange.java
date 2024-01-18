@@ -32,13 +32,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.test.data.transaction.annotation.FullConsecutiveTransactionYears;
+import com.bernardomg.association.test.data.transaction.annotation.FullNotConsecutiveTransactionYears;
+import com.bernardomg.association.test.data.transaction.annotation.FullTransactionYear;
+import com.bernardomg.association.test.data.transaction.annotation.MultipleTransactionsSameDay;
+import com.bernardomg.association.test.data.transaction.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.service.TransactionCalendarService;
-import com.bernardomg.association.transaction.test.config.annotation.FullConsecutiveTransactionYears;
-import com.bernardomg.association.transaction.test.config.annotation.FullNotConsecutiveTransactionYears;
-import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.config.annotation.MultipleTransactionsSameDay;
-import com.bernardomg.association.transaction.test.config.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.test.config.factory.TransactionCalendarMonthsRanges;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

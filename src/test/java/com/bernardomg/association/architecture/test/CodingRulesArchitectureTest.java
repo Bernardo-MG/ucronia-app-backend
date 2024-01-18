@@ -17,7 +17,7 @@ import com.tngtech.archunit.lang.ArchRule;
 public class CodingRulesArchitectureTest {
 
     @ArchTest
-    static final ArchRule        controllers_should_be_suffixed = classes().that()
+    static final ArchRule  controllers_should_be_suffixed = classes().that()
         .areAnnotatedWith(RestController.class)
         .should()
         .haveSimpleNameEndingWith("Controller");
@@ -26,7 +26,7 @@ public class CodingRulesArchitectureTest {
     static final ArchRule  no_accesses_to_upper_package   = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
 
     @ArchTest
-    static final ArchRule        services_should_be_suffixed    = classes().that()
+    static final ArchRule  services_should_be_suffixed    = classes().that()
         .resideInAPackage("..service..")
         .and()
         .doNotHaveModifier(JavaModifier.SYNTHETIC)

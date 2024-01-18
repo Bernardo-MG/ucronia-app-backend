@@ -12,7 +12,7 @@ import com.bernardomg.association.configuration.service.AssociationConfiguration
 import com.bernardomg.association.test.configuration.config.factory.AssociationConfigurations;
 import com.bernardomg.configuration.persistence.model.PersistentConfiguration;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
-import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
+import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

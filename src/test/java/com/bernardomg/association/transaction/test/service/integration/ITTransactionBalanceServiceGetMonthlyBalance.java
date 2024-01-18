@@ -38,12 +38,12 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
+import com.bernardomg.association.test.data.transaction.annotation.DecimalsAddZeroTransaction;
+import com.bernardomg.association.test.data.transaction.annotation.FullTransactionYear;
+import com.bernardomg.association.test.data.transaction.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.service.TransactionBalanceService;
-import com.bernardomg.association.transaction.test.config.annotation.DecimalsAddZeroTransaction;
-import com.bernardomg.association.transaction.test.config.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.config.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.test.config.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;

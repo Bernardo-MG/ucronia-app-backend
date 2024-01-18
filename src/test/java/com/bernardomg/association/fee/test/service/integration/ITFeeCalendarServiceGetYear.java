@@ -36,17 +36,17 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.service.FeeCalendarService;
-import com.bernardomg.association.fee.test.config.annotation.AlternativeFeeFullYear;
-import com.bernardomg.association.fee.test.config.annotation.FeeFullYear;
-import com.bernardomg.association.fee.test.config.annotation.TwoFeeYearsConnected;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.config.factory.FeeMonths;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
 import com.bernardomg.association.member.model.MemberStatus;
-import com.bernardomg.association.member.test.config.annotation.AlternativeMember;
-import com.bernardomg.association.member.test.config.annotation.NoSurnameMember;
-import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
+import com.bernardomg.association.test.data.fee.annotation.AlternativeFeeFullYear;
+import com.bernardomg.association.test.data.fee.annotation.FeeFullYear;
+import com.bernardomg.association.test.data.fee.annotation.TwoFeeYearsConnected;
+import com.bernardomg.association.test.data.member.annotation.AlternativeMember;
+import com.bernardomg.association.test.data.member.annotation.NoSurnameMember;
+import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

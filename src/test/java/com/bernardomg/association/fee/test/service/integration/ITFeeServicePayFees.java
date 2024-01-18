@@ -40,19 +40,19 @@ import com.bernardomg.association.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.fee.test.config.annotation.NotPaidFee;
-import com.bernardomg.association.fee.test.config.annotation.PaidFee;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.util.assertion.FeeAssertions;
-import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
-import com.bernardomg.association.member.test.config.annotation.ValidMember;
+import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
+import com.bernardomg.association.test.data.fee.annotation.PaidFee;
+import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
+import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.util.assertion.TransactionAssertions;
-import com.bernardomg.configuration.test.configuration.FeeAmountConfiguration;
+import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

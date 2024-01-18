@@ -30,13 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.test.util.initializer.FeeInitializer;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.MemberQuery;
 import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.member.test.config.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
+import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
+import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
