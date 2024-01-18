@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.test.data.member.annotation;
+package com.bernardomg.association.member.test.config.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

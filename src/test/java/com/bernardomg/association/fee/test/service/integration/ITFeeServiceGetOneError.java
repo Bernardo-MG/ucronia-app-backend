@@ -34,8 +34,8 @@ import com.bernardomg.association.fee.exception.MissingFeeIdException;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.member.exception.MissingMemberIdException;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

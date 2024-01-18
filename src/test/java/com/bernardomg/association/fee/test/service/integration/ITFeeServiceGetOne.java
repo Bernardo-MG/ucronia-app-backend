@@ -35,13 +35,13 @@ import com.bernardomg.association.fee.model.Fee;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.Fees;
+import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
+import com.bernardomg.association.member.test.config.data.annotation.AlternativePaidFee;
+import com.bernardomg.association.member.test.config.data.annotation.NoSurnameMember;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
 import com.bernardomg.association.test.data.fee.annotation.PaidFee;
-import com.bernardomg.association.test.data.member.annotation.AlternativeMember;
-import com.bernardomg.association.test.data.member.annotation.AlternativePaidFee;
-import com.bernardomg.association.test.data.member.annotation.NoSurnameMember;
-import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

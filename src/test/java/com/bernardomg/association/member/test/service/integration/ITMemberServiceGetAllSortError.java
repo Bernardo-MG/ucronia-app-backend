@@ -36,8 +36,8 @@ import org.springframework.data.mapping.PropertyReferenceException;
 
 import com.bernardomg.association.member.model.MemberQuery;
 import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
-import com.bernardomg.association.test.data.member.annotation.MultipleMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

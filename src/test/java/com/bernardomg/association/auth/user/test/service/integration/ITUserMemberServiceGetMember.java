@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.auth.user.test.data.annotation.ValidUserWithMember;
+import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.auth.user.test.util.model.UserConstants;
 import com.bernardomg.association.auth.user.test.util.model.UserMembers;
 import com.bernardomg.test.config.annotation.IntegrationTest;

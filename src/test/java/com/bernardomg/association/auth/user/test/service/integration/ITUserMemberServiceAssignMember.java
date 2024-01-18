@@ -32,11 +32,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.auth.user.test.data.annotation.ValidUser;
+import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUser;
 import com.bernardomg.association.auth.user.test.util.model.UserConstants;
 import com.bernardomg.association.auth.user.test.util.model.UserMembers;
+import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.test.data.member.annotation.ValidMember;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
