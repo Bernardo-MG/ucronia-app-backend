@@ -32,6 +32,8 @@ public class LayeredArchitectureTest {
         .whereLayer("Services")
         .mayOnlyBeAccessedByLayers("Configuration", "Services", "Schedule", "Controllers")
         .whereLayer("Persistence")
-        .mayOnlyBeAccessedByLayers("Configuration", "Validation", "Persistence", "Services");
+        .mayOnlyBeAccessedByLayers("Configuration", "Validation", "Persistence", "Services")
+        .whereLayer("Validation")
+        .mayOnlyBeAccessedByLayers("Services");
 
 }
