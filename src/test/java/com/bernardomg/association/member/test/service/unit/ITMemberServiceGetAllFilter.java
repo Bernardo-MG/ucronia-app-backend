@@ -22,106 +22,86 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.service.integration;
+package com.bernardomg.association.member.test.service.unit;
+
+import static org.mockito.BDDMockito.given;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.member.domain.ActiveMemberDomainService;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.MemberQuery;
-import com.bernardomg.association.member.service.MemberService;
-import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
+import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.service.DefaultMemberService;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
-import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
-@DisplayName("Member service - get all - pagination")
-@MultipleMembers
-@MultipleFees
-class ITMemberServiceGetAllPagination {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Member service - get all")
+class ITMemberServiceGetAllFilter {
 
-    @Autowired
-    private MemberService service;
+    @Mock
+    private ActiveMemberDomainService activeMemberSource;
 
-    public ITMemberServiceGetAllPagination() {
+    @Mock
+    private MemberRepository          memberRepository;
+
+    @InjectMocks
+    private DefaultMemberService      service;
+
+    public ITMemberServiceGetAllFilter() {
         super();
     }
 
     @Test
-    @DisplayName("With an active pagination, the returned data is contained in a page")
-    void testGetAll_Page_Container() {
+    @DisplayName("When filtering with by active it returns the active members")
+    void testGetAll_FilterActive_ReturnsData() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
+        final Page<Member>     readMembers;
 
         // GIVEN
-        pageable = Pageable.ofSize(10);
+        readMembers = new PageImpl<>(List.of(Members.active()));
+        given(activeMemberSource.findActive(ArgumentMatchers.any())).willReturn(readMembers);
 
-        memberQuery = MembersQuery.empty();
+        pageable = Pageable.unpaged();
+
+        memberQuery = MembersQuery.active();
 
         // WHEN
         members = service.getAll(memberQuery, pageable);
 
         // THEN
         Assertions.assertThat(members)
-            .isInstanceOf(Page.class);
+            .as("members")
+            .isEqualTo(readMembers);
     }
 
     @Test
-    @DisplayName("With pagination for the first page, it returns the first page")
-    void testGetAll_Page1() {
-        final MemberQuery      memberQuery;
-        final Iterable<Member> members;
-        final Pageable         pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        members = service.getAll(memberQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .containsExactly(Members.forIndex(1, false));
-    }
-
-    @Test
-    @DisplayName("With pagination for the second page, it returns the second page")
-    void testGetAll_Page2() {
-        final MemberQuery      memberQuery;
-        final Iterable<Member> members;
-        final Pageable         pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(1, 1);
-
-        memberQuery = MembersQuery.empty();
-
-        // WHEN
-        members = service.getAll(memberQuery, pageable);
-
-        // THEN
-        Assertions.assertThat(members)
-            .containsExactly(Members.forIndex(2, false));
-    }
-
-    @Test
-    @DisplayName("With an inactive pagination, the returned data is contained in a page")
-    void testGetAll_Unpaged_Container() {
+    @DisplayName("When filtering with the default filter it returns all the members")
+    void testGetAll_FilterDefault_ReturnsData() {
         final Iterable<Member> members;
         final MemberQuery      memberQuery;
         final Pageable         pageable;
+        final Page<Member>     readMembers;
 
         // GIVEN
+        readMembers = new PageImpl<>(List.of(Members.active()));
+        given(activeMemberSource.findAll(ArgumentMatchers.any())).willReturn(readMembers);
+
         pageable = Pageable.unpaged();
 
         memberQuery = MembersQuery.empty();
@@ -131,7 +111,33 @@ class ITMemberServiceGetAllPagination {
 
         // THEN
         Assertions.assertThat(members)
-            .isInstanceOf(Page.class);
+            .as("members")
+            .isEqualTo(readMembers);
+    }
+
+    @Test
+    @DisplayName("When filtering with by active it returns the not active members")
+    void testGetAll_FilterNotActive_ReturnsData() {
+        final Iterable<Member> members;
+        final MemberQuery      memberQuery;
+        final Pageable         pageable;
+        final Page<Member>     readMembers;
+
+        // GIVEN
+        readMembers = new PageImpl<>(List.of(Members.active()));
+        given(activeMemberSource.findInactive(ArgumentMatchers.any())).willReturn(readMembers);
+
+        pageable = Pageable.unpaged();
+
+        memberQuery = MembersQuery.inactive();
+
+        // WHEN
+        members = service.getAll(memberQuery, pageable);
+
+        // THEN
+        Assertions.assertThat(members)
+            .as("members")
+            .isEqualTo(readMembers);
     }
 
 }

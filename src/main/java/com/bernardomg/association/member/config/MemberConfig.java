@@ -56,8 +56,8 @@ public class MemberConfig {
 
     @Bean("memberService")
     public MemberService getMemberService(final MemberRepository memberRepository,
-            final ActiveMemberDomainService activeMemberSource) {
-        return new DefaultMemberService(memberRepository, activeMemberSource);
+            final ActiveMemberDomainService activeMemberDomainService) {
+        return new DefaultMemberService(memberRepository, activeMemberDomainService);
     }
 
 }

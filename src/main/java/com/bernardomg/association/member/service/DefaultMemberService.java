@@ -35,18 +35,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
-    private final ActiveMemberDomainService activeMemberSource;
+    private final ActiveMemberDomainService activeMemberDomainService;
 
     /**
      * Member repository.
      */
     private final MemberRepository          memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo, final ActiveMemberDomainService activeMemberSrc) {
+    public DefaultMemberService(final MemberRepository memberRepo, final ActiveMemberDomainService activeMemberDomainSrv) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
-        activeMemberSource = Objects.requireNonNull(activeMemberSrc);
+        activeMemberDomainService = Objects.requireNonNull(activeMemberDomainSrv);
     }
 
     @Override
@@ -103,13 +103,13 @@ public final class DefaultMemberService implements MemberService {
 
         switch (query.getStatus()) {
             case ACTIVE:
-                members = activeMemberSource.findActive(pagination);
+                members = activeMemberDomainService.findActive(pagination);
                 break;
             case INACTIVE:
-                members = activeMemberSource.findInactive(pagination);
+                members = activeMemberDomainService.findInactive(pagination);
                 break;
             default:
-                members = activeMemberSource.findAll(pagination);
+                members = activeMemberDomainService.findAll(pagination);
         }
 
         return members;
@@ -210,7 +210,7 @@ public final class DefaultMemberService implements MemberService {
     }
 
     private final Member toActive(final MemberEntity member) {
-        return activeMemberSource.findOne(member.getId());
+        return activeMemberDomainService.findOne(member.getId());
     }
 
     private final Member toDto(final MemberEntity entity) {
