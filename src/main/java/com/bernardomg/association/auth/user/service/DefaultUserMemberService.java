@@ -6,9 +6,9 @@ import java.util.Optional;
 import com.bernardomg.association.auth.user.model.UserMember;
 import com.bernardomg.association.auth.user.persistence.model.UserMemberEntity;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.member.exception.MissingMemberIdException;
-import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -17,13 +17,13 @@ import io.jsonwebtoken.lang.Strings;
 
 public final class DefaultUserMemberService implements UserMemberService {
 
-    private final MemberRepository     memberRepository;
+    private final MemberSpringRepository memberRepository;
 
-    private final UserMemberRepository userMemberRepository;
+    private final UserMemberRepository   userMemberRepository;
 
-    private final UserRepository       userRepository;
+    private final UserRepository         userRepository;
 
-    public DefaultUserMemberService(final UserRepository userRepo, final MemberRepository memberRepo,
+    public DefaultUserMemberService(final UserRepository userRepo, final MemberSpringRepository memberRepo,
             final UserMemberRepository userMemberRepo) {
         super();
 

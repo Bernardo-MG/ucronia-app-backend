@@ -29,10 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.usecase.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -41,10 +41,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMemberServiceDelete {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberSpringRepository repository;
 
     @Autowired
-    private MemberService    service;
+    private MemberService          service;
 
     public ITMemberServiceDelete() {
         super();

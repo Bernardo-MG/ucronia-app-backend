@@ -40,26 +40,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
-import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberQuery;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.service.DefaultMemberService;
+import com.bernardomg.association.member.delivery.model.MemberQuery;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
+import com.bernardomg.association.member.usecase.DefaultMemberService;
+import com.bernardomg.association.member.usecase.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - get all")
 class ITMemberServiceGetAllFilter {
 
     @Mock
-    private ActiveMemberDomainService activeMemberSource;
+    private MemberRepository       activeMemberSource;
 
     @Mock
-    private MemberRepository          memberRepository;
+    private MemberSpringRepository memberRepository;
 
     @InjectMocks
-    private DefaultMemberService      service;
+    private DefaultMemberService   service;
 
     public ITMemberServiceGetAllFilter() {
         super();

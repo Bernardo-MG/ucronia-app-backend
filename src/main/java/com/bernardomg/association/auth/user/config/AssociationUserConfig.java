@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 
 @Configuration
@@ -42,7 +42,7 @@ public class AssociationUserConfig {
 
     @Bean("userMemberService")
     public UserMemberService getUserMemberServicee(final UserRepository userRepository,
-            final MemberRepository memberRepository, final UserMemberRepository userMemberRepository) {
+            final MemberSpringRepository memberRepository, final UserMemberRepository userMemberRepository) {
         return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
     }
 

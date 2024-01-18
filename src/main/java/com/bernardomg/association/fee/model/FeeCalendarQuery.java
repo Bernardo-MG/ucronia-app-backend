@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.model;
 
-import com.bernardomg.association.member.model.MemberStatus;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

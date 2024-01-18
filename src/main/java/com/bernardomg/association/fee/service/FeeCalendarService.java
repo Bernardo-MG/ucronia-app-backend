@@ -28,7 +28,7 @@ import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.model.FeeCalendar;
 import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
-import com.bernardomg.association.member.model.MemberStatus;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 
 /**
  * Fee calendar service.

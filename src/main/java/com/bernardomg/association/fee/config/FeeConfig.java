@@ -27,7 +27,8 @@ package com.bernardomg.association.fee.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.fee.domain.service.AssignedFeeActiveMemberDomainService;
+import com.bernardomg.association.fee.domain.service.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.persistence.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
@@ -35,8 +36,8 @@ import com.bernardomg.association.fee.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
-import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
-import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.usecase.MemberRepository;
 
 /**
  * Fee configuration.
@@ -52,13 +53,14 @@ public class FeeConfig {
     }
 
     @Bean("assignedFeeActiveMemberSource")
-    public ActiveMemberDomainService getActiveMemberSource(final ActiveMemberRepository activeMemberRepository) {
-        return new AssignedFeeActiveMemberDomainService(activeMemberRepository);
+    public MemberRepository getActiveMemberSource(final ActiveMemberSpringRepository activeMemberRepo,
+            final MemberSpringRepository memberSpringRepo) {
+        return new AssignedFeeActiveMemberRepository(activeMemberRepo, memberSpringRepo);
     }
 
     @Bean("feeCalendarService")
     public FeeCalendarService getFeeCalendarService(final MemberFeeRepository memberFeeRepository,
-            final ActiveMemberRepository activeMemberRepository) {
+            final ActiveMemberSpringRepository activeMemberRepository) {
         return new DefaultFeeCalendarService(memberFeeRepository, activeMemberRepository);
     }
 
@@ -69,7 +71,7 @@ public class FeeConfig {
 
     @Bean("feeMaintenanceService")
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
-            final ActiveMemberRepository activeMemberRepository) {
+            final ActiveMemberSpringRepository activeMemberRepository) {
         return new DefaultFeeMaintenanceService(feeRepo, activeMemberRepository);
     }
 

@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
-import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -15,11 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
 
-    private final MemberFeeRepository memberFeeRepository;
+    private final MemberFeeRepository    memberFeeRepository;
 
-    private final MemberRepository    memberRepository;
+    private final MemberSpringRepository memberRepository;
 
-    public CreateFeeValidator(final MemberRepository memberRepo, final MemberFeeRepository memberFeeRepo) {
+    public CreateFeeValidator(final MemberSpringRepository memberRepo, final MemberFeeRepository memberFeeRepo) {
         super();
 
         memberRepository = memberRepo;

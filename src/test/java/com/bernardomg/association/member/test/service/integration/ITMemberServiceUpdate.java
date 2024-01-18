@@ -29,17 +29,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.model.Member;
-import com.bernardomg.association.member.model.MemberChange;
-import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.delivery.model.MemberChange;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.util.assertion.MemberAssertions;
+import com.bernardomg.association.member.usecase.MemberService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,13 +48,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITMemberServiceUpdate {
 
     @Autowired
-    private FeeInitializer   feeInitializer;
+    private FeeInitializer         feeInitializer;
 
     @Autowired
-    private MemberRepository repository;
+    private MemberSpringRepository repository;
 
     @Autowired
-    private MemberService    service;
+    private MemberService          service;
 
     public ITMemberServiceUpdate() {
         super();

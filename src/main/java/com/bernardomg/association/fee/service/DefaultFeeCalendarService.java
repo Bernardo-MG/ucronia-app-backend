@@ -43,19 +43,19 @@ import com.bernardomg.association.fee.model.FeeCalendarMonth;
 import com.bernardomg.association.fee.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.persistence.model.MemberFeeEntity;
+import com.bernardomg.association.fee.persistence.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
-import com.bernardomg.association.member.model.MemberStatus;
-import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
+import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
 
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private final ActiveMemberRepository activeMemberRepository;
+    private final ActiveMemberSpringRepository activeMemberRepository;
 
-    private final MemberFeeRepository    memberFeeRepository;
+    private final MemberFeeRepository          memberFeeRepository;
 
     public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo,
-            final ActiveMemberRepository activeMemberRepo) {
+            final ActiveMemberSpringRepository activeMemberRepo) {
         super();
 
         memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
@@ -172,6 +172,7 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .next();
         name = row.getFullName();
 
+        // TODO: should be done in the repository
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
         active = activeMemberRepository.isActive(memberId, validStart, validEnd);

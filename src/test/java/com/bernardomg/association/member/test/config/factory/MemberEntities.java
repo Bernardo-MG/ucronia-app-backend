@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.member.test.config.factory;
 
-import com.bernardomg.association.member.persistence.model.MemberEntity;
+import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
 
 public final class MemberEntities {
 

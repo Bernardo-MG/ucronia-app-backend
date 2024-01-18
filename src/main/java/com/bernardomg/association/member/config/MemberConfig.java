@@ -27,13 +27,12 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
-import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
-import com.bernardomg.association.member.service.DefaultMemberBalanceService;
-import com.bernardomg.association.member.service.DefaultMemberService;
-import com.bernardomg.association.member.service.MemberBalanceService;
-import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.infra.jpa.repository.MonthlyMemberBalanceSpringRepository;
+import com.bernardomg.association.member.usecase.DefaultMemberBalanceService;
+import com.bernardomg.association.member.usecase.DefaultMemberService;
+import com.bernardomg.association.member.usecase.MemberBalanceService;
+import com.bernardomg.association.member.usecase.MemberRepository;
+import com.bernardomg.association.member.usecase.MemberService;
 
 /**
  * Member configuration.
@@ -50,14 +49,13 @@ public class MemberConfig {
 
     @Bean("memberBalanceService")
     public MemberBalanceService
-            getMemberBalanceService(final MonthlyMemberBalanceRepository monthlyMemberBalanceRepository) {
+            getMemberBalanceService(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository) {
         return new DefaultMemberBalanceService(monthlyMemberBalanceRepository);
     }
 
     @Bean("memberService")
-    public MemberService getMemberService(final MemberRepository memberRepository,
-            final ActiveMemberDomainService activeMemberDomainService) {
-        return new DefaultMemberService(memberRepository, activeMemberDomainService);
+    public MemberService getMemberService(final MemberRepository memberRepository) {
+        return new DefaultMemberService(memberRepository);
     }
 
 }

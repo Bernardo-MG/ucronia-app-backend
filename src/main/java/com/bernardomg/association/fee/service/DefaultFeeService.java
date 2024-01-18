@@ -32,9 +32,9 @@ import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeSpecifications;
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
-import com.bernardomg.association.member.exception.MissingMemberIdException;
-import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
+import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
 import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
 import com.bernardomg.validation.Validator;
@@ -59,7 +59,7 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberFeeRepository            memberFeeRepository;
 
-    private final MemberRepository               memberRepository;
+    private final MemberSpringRepository         memberRepository;
 
     private final MessageSource                  messageSource;
 
@@ -69,7 +69,7 @@ public final class DefaultFeeService implements FeeService {
 
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
             final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
-            final FeePaymentRepository feePaymentRepo, final MemberRepository memberRepo,
+            final FeePaymentRepository feePaymentRepo, final MemberSpringRepository memberRepo,
             final AssociationConfigurationSource confSource) {
         super();
 

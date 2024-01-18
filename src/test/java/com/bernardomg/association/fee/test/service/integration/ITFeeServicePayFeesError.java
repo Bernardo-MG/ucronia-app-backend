@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.service.FeeService;
 import com.bernardomg.association.fee.test.config.factory.FeePayments;
-import com.bernardomg.association.member.exception.MissingMemberIdException;
+import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

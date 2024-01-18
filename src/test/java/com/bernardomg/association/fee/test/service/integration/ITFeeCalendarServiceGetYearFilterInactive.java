@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeMonths;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
-import com.bernardomg.association.member.model.MemberStatus;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;

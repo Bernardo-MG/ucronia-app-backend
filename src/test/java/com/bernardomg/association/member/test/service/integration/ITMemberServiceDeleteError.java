@@ -30,9 +30,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.exception.MissingMemberIdException;
-import com.bernardomg.association.member.service.MemberService;
+import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.association.member.usecase.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

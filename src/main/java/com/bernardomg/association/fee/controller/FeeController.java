@@ -52,7 +52,7 @@ import com.bernardomg.association.fee.model.FeeChange;
 import com.bernardomg.association.fee.model.FeePayment;
 import com.bernardomg.association.fee.model.FeeQuery;
 import com.bernardomg.association.fee.service.FeeService;
-import com.bernardomg.association.member.cache.MembersCaches;
+import com.bernardomg.association.member.delivery.cache.MembersCaches;
 import com.bernardomg.association.transaction.cache.TransactionCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
