@@ -23,6 +23,7 @@ import com.bernardomg.association.member.model.MemberChange;
 import com.bernardomg.association.member.model.MemberName;
 import com.bernardomg.association.member.model.MemberQuery;
 import com.bernardomg.association.member.persistence.model.MemberEntity;
+import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
 import io.jsonwebtoken.lang.Strings;
@@ -37,15 +38,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
+    private final ActiveMemberRepository activeMemberRepository;
+
     /**
      * Member repository.
      */
-    private final MemberRepository memberRepository;
+    private final MemberRepository       memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo) {
+    public DefaultMemberService(final MemberRepository memberRepo, final ActiveMemberRepository activeMemberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
+        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
     }
 
     @Override
@@ -108,7 +112,7 @@ public final class DefaultMemberService implements MemberService {
         validEnd = YearMonth.now();
         switch (query.getStatus()) {
             case ACTIVE:
-                members = memberRepository.findAllActive(pagination, validStart, validEnd);
+                members = activeMemberRepository.findAllActive(pagination, validStart, validEnd);
 
                 activeMapper = m -> {
                     m.setActive(true);
@@ -116,7 +120,7 @@ public final class DefaultMemberService implements MemberService {
                 };
                 break;
             case INACTIVE:
-                members = memberRepository.findAllInactive(pagination, validStart, validEnd);
+                members = activeMemberRepository.findAllInactive(pagination, validStart, validEnd);
 
                 activeMapper = m -> {
                     m.setActive(false);
@@ -126,7 +130,7 @@ public final class DefaultMemberService implements MemberService {
             default:
                 members = memberRepository.findAll(pagination);
 
-                activeNumbers = memberRepository.findAllActiveNumbersInRange(validStart, validEnd);
+                activeNumbers = activeMemberRepository.findAllActiveNumbersInRange(validStart, validEnd);
                 activeMapper = m -> {
                     final boolean active;
 
@@ -247,7 +251,7 @@ public final class DefaultMemberService implements MemberService {
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
 
-        active = memberRepository.isActive(id, validStart, validEnd);
+        active = activeMemberRepository.isActive(id, validStart, validEnd);
 
         member.setActive(active);
         return member;

@@ -46,19 +46,20 @@ import com.bernardomg.association.fee.persistence.model.MemberFeeEntity;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.member.model.MemberStatus;
 import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
 
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private final MemberFeeRepository memberFeeRepository;
+    private final ActiveMemberRepository activeMemberRepository;
 
-    private final MemberRepository    memberRepository;
+    private final MemberFeeRepository    memberFeeRepository;
 
-    public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo, final MemberRepository memberRepo) {
+    public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo,
+            final ActiveMemberRepository activeMemberRepo) {
         super();
 
         memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
     }
 
     @Override
@@ -93,12 +94,12 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         // Select query based on status
         switch (status) {
             case ACTIVE:
-                foundIds = memberRepository.findAllActiveIdsInRange(validStart, validEnd);
+                foundIds = activeMemberRepository.findAllActiveIdsInRange(validStart, validEnd);
 
                 readFees = memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort);
                 break;
             case INACTIVE:
-                foundIds = memberRepository.findAllInactiveIds(validStart, validEnd);
+                foundIds = activeMemberRepository.findAllInactiveIds(validStart, validEnd);
 
                 readFees = memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort);
                 break;
@@ -173,9 +174,9 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        active = memberRepository.isActive(memberId, validStart, validEnd);
+        active = activeMemberRepository.isActive(memberId, validStart, validEnd);
 
-        read = memberRepository.findById(memberId);
+        read = activeMemberRepository.findById(memberId);
         if (read.isPresent()) {
             memberNumber = read.get()
                 .getNumber();

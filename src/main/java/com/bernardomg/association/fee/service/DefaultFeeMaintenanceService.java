@@ -7,22 +7,22 @@ import java.util.Objects;
 
 import com.bernardomg.association.fee.persistence.model.FeeEntity;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.member.persistence.repository.MemberRepository;
+import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
 
-    private final FeeRepository    feeRepository;
+    private final ActiveMemberRepository activeMemberRepository;
 
-    private final MemberRepository memberRepository;
+    private final FeeRepository          feeRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        memberRepository = Objects.requireNonNull(memberRepo);
+        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
     }
 
     @Override
@@ -62,7 +62,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .minusMonths(1);
         validEnd = YearMonth.now()
             .minusMonths(1);
-        return memberRepository.isActive(fee.getMemberId(), validStart, validEnd);
+        return activeMemberRepository.isActive(fee.getMemberId(), validStart, validEnd);
     }
 
     private final FeeEntity toCurrentMonth(final FeeEntity fee) {

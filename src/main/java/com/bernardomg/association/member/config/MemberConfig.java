@@ -27,6 +27,7 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
 import com.bernardomg.association.member.service.DefaultMemberBalanceService;
@@ -54,8 +55,9 @@ public class MemberConfig {
     }
 
     @Bean("memberService")
-    public MemberService getMemberService(final MemberRepository memberRepository) {
-        return new DefaultMemberService(memberRepository);
+    public MemberService getMemberService(final MemberRepository memberRepository,
+            final ActiveMemberRepository activeMemberRepository) {
+        return new DefaultMemberService(memberRepository, activeMemberRepository);
     }
 
 }
