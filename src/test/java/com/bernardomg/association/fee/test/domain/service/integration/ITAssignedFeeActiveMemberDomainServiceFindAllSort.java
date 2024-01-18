@@ -32,7 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.bernardomg.association.fee.domain.AssignedFeeActiveMemberDomainService;
+import com.bernardomg.association.fee.domain.service.AssignedFeeActiveMemberDomainService;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.member.test.config.factory.Members;

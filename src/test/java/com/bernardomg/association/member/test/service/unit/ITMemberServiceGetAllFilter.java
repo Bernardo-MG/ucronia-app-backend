@@ -40,7 +40,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.ActiveMemberDomainService;
+import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.MemberQuery;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;

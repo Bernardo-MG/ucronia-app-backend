@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.domain.AssignedFeeActiveMemberDomainService;
+import com.bernardomg.association.fee.domain.service.AssignedFeeActiveMemberDomainService;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.Members;

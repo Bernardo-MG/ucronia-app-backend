@@ -27,7 +27,7 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.member.domain.ActiveMemberDomainService;
+import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 import com.bernardomg.association.member.persistence.repository.MonthlyMemberBalanceRepository;
 import com.bernardomg.association.member.service.DefaultMemberBalanceService;

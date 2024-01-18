@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.domain;
+package com.bernardomg.association.fee.domain.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.function.Function;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.domain.ActiveMemberDomainService;
+import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.MemberName;
 import com.bernardomg.association.member.persistence.model.MemberEntity;
@@ -25,6 +25,26 @@ public final class AssignedFeeActiveMemberDomainService implements ActiveMemberD
         super();
 
         activeMemberRepository = activeMemberRepo;
+    }
+
+    @Override
+    public final Page<Member> findActive(final Pageable pageable) {
+        final Page<MemberEntity>       members;
+        final Function<Member, Member> activeMapper;
+        final YearMonth                validStart;
+        final YearMonth                validEnd;
+
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
+        members = activeMemberRepository.findAllActive(pageable, validStart, validEnd);
+
+        activeMapper = m -> {
+            m.setActive(true);
+            return m;
+        };
+
+        return members.map(this::toDto)
+            .map(activeMapper);
     }
 
     @Override
@@ -45,26 +65,6 @@ public final class AssignedFeeActiveMemberDomainService implements ActiveMemberD
 
             active = activeNumbers.contains(m.getNumber());
             m.setActive(active);
-            return m;
-        };
-
-        return members.map(this::toDto)
-            .map(activeMapper);
-    }
-
-    @Override
-    public final Page<Member> findActive(final Pageable pageable) {
-        final Page<MemberEntity>       members;
-        final Function<Member, Member> activeMapper;
-        final YearMonth                validStart;
-        final YearMonth                validEnd;
-
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        members = activeMemberRepository.findAllActive(pageable, validStart, validEnd);
-
-        activeMapper = m -> {
-            m.setActive(true);
             return m;
         };
 

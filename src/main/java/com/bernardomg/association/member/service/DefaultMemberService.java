@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-import com.bernardomg.association.member.domain.ActiveMemberDomainService;
+import com.bernardomg.association.member.domain.service.ActiveMemberDomainService;
 import com.bernardomg.association.member.exception.MissingMemberIdException;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.MemberChange;
@@ -42,7 +42,8 @@ public final class DefaultMemberService implements MemberService {
      */
     private final MemberRepository          memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo, final ActiveMemberDomainService activeMemberDomainSrv) {
+    public DefaultMemberService(final MemberRepository memberRepo,
+            final ActiveMemberDomainService activeMemberDomainSrv) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
