@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.usecase;
+package com.bernardomg.association.member.domain.repository;
 
 import java.util.Optional;
 

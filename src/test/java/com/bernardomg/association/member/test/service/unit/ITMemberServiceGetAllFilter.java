@@ -42,11 +42,11 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.delivery.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
 import com.bernardomg.association.member.usecase.DefaultMemberService;
-import com.bernardomg.association.member.usecase.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - get all")

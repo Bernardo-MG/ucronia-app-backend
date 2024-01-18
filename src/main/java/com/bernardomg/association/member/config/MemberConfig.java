@@ -27,11 +27,13 @@ package com.bernardomg.association.member.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.infra.jpa.repository.JpaMemberBalanceRepository;
 import com.bernardomg.association.member.infra.jpa.repository.MonthlyMemberBalanceSpringRepository;
 import com.bernardomg.association.member.usecase.DefaultMemberBalanceService;
 import com.bernardomg.association.member.usecase.DefaultMemberService;
 import com.bernardomg.association.member.usecase.MemberBalanceService;
-import com.bernardomg.association.member.usecase.MemberRepository;
 import com.bernardomg.association.member.usecase.MemberService;
 
 /**
@@ -47,10 +49,15 @@ public class MemberConfig {
         super();
     }
 
+    @Bean("memberBalanceRepository")
+    public MemberBalanceRepository
+            getMemberBalanceRepository(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository) {
+        return new JpaMemberBalanceRepository(monthlyMemberBalanceRepository);
+    }
+
     @Bean("memberBalanceService")
-    public MemberBalanceService
-            getMemberBalanceService(final MonthlyMemberBalanceSpringRepository monthlyMemberBalanceRepository) {
-        return new DefaultMemberBalanceService(monthlyMemberBalanceRepository);
+    public MemberBalanceService getMemberBalanceService(final MemberBalanceRepository memberBalanceRepository) {
+        return new DefaultMemberBalanceService(memberBalanceRepository);
     }
 
     @Bean("memberService")

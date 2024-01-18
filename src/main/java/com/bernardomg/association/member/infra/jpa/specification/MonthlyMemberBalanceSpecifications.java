@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.delivery.model.MemberBalanceQuery;
 import com.bernardomg.association.member.infra.jpa.model.MonthlyMemberBalanceEntity;
 
 public final class MonthlyMemberBalanceSpecifications {
@@ -43,15 +42,16 @@ public final class MonthlyMemberBalanceSpecifications {
         return (root, query, cb) -> cb.between(root.get("month"), start.atDay(1), end.atDay(1));
     }
 
-    public static Optional<Specification<MonthlyMemberBalanceEntity>> fromQuery(final MemberBalanceQuery request) {
+    public static Optional<Specification<MonthlyMemberBalanceEntity>> inRange(final YearMonth startDate,
+            final YearMonth endDate) {
         final Optional<Specification<MonthlyMemberBalanceEntity>> spec;
 
-        if ((request.getStartDate() != null) && (request.getEndDate() != null)) {
-            spec = Optional.of(betweenIncluding(request.getStartDate(), request.getEndDate()));
-        } else if (request.getStartDate() != null) {
-            spec = Optional.of(onOrAfter(request.getStartDate()));
-        } else if (request.getEndDate() != null) {
-            spec = Optional.of(onOrBefore(request.getEndDate()));
+        if ((startDate != null) && (endDate != null)) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.betweenIncluding(startDate, endDate));
+        } else if (startDate != null) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrAfter(startDate));
+        } else if (endDate != null) {
+            spec = Optional.of(MonthlyMemberBalanceSpecifications.onOrBefore(endDate));
         } else {
             spec = Optional.empty();
         }

@@ -36,8 +36,8 @@ import com.bernardomg.association.fee.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.usecase.MemberRepository;
 
 /**
  * Fee configuration.
