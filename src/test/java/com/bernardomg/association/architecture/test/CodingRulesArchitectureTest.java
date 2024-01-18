@@ -28,7 +28,7 @@ public class CodingRulesArchitectureTest {
     static final ArchRule        services_should_be_suffixed    = classes().that()
         .resideInAPackage("..service..")
         .and()
-        .haveNameNotMatching("*.package-info")
+        .haveSimpleNameNotEndingWith("package-info")
         .should()
         .haveSimpleNameEndingWith("Service");
 
