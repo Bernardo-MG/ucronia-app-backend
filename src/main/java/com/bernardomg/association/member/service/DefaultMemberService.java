@@ -1,13 +1,10 @@
 
 package com.bernardomg.association.member.service;
 
-import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -17,13 +14,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
+import com.bernardomg.association.member.domain.ActiveMemberDomainService;
 import com.bernardomg.association.member.exception.MissingMemberIdException;
 import com.bernardomg.association.member.model.Member;
 import com.bernardomg.association.member.model.MemberChange;
 import com.bernardomg.association.member.model.MemberName;
 import com.bernardomg.association.member.model.MemberQuery;
 import com.bernardomg.association.member.persistence.model.MemberEntity;
-import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
 import com.bernardomg.association.member.persistence.repository.MemberRepository;
 
 import io.jsonwebtoken.lang.Strings;
@@ -38,18 +35,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultMemberService implements MemberService {
 
-    private final ActiveMemberRepository activeMemberRepository;
+    private final ActiveMemberDomainService activeMemberSource;
 
     /**
      * Member repository.
      */
-    private final MemberRepository       memberRepository;
+    private final MemberRepository          memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo, final ActiveMemberRepository activeMemberRepo) {
+    public DefaultMemberService(final MemberRepository memberRepo, final ActiveMemberDomainService activeMemberSrc) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
-        activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
+        activeMemberSource = Objects.requireNonNull(activeMemberSrc);
     }
 
     @Override
@@ -97,51 +94,25 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Iterable<Member> getAll(final MemberQuery query, final Pageable pageable) {
-        final Page<MemberEntity>       members;
-        final YearMonth                validStart;
-        final YearMonth                validEnd;
-        final Function<Member, Member> activeMapper;
-        final Collection<Long>         activeNumbers;
-        final Pageable                 pagination;
+        final Page<Member> members;
+        final Pageable     pagination;
 
         log.debug("Reading members with sample {} and pagination {}", query, pageable);
 
         pagination = correctPagination(pageable);
 
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
         switch (query.getStatus()) {
             case ACTIVE:
-                members = activeMemberRepository.findAllActive(pagination, validStart, validEnd);
-
-                activeMapper = m -> {
-                    m.setActive(true);
-                    return m;
-                };
+                members = activeMemberSource.findAllActive(pagination);
                 break;
             case INACTIVE:
-                members = activeMemberRepository.findAllInactive(pagination, validStart, validEnd);
-
-                activeMapper = m -> {
-                    m.setActive(false);
-                    return m;
-                };
+                members = activeMemberSource.findAllInactive(pagination);
                 break;
             default:
-                members = memberRepository.findAll(pagination);
-
-                activeNumbers = activeMemberRepository.findAllActiveNumbersInRange(validStart, validEnd);
-                activeMapper = m -> {
-                    final boolean active;
-
-                    active = activeNumbers.contains(m.getNumber());
-                    m.setActive(active);
-                    return m;
-                };
+                members = activeMemberSource.findAll(pagination);
         }
 
-        return members.map(this::toDto)
-            .map(activeMapper);
+        return members;
     }
 
     @Override
@@ -156,9 +127,7 @@ public final class DefaultMemberService implements MemberService {
             throw new MissingMemberIdException(number);
         }
 
-        return member.map(this::toDto)
-            .map(m -> mapActive(member.get()
-                .getId(), m));
+        return member.map(this::toActive);
     }
 
     @Override
@@ -166,7 +135,6 @@ public final class DefaultMemberService implements MemberService {
         final Optional<MemberEntity> member;
         final MemberEntity           entity;
         final MemberEntity           updated;
-        final Member                 dto;
 
         log.debug("Updating member {} using data {}", number, change);
 
@@ -193,9 +161,7 @@ public final class DefaultMemberService implements MemberService {
 
         updated = memberRepository.save(entity);
 
-        dto = toDto(updated);
-        return mapActive(member.get()
-            .getId(), dto);
+        return toActive(updated);
     }
 
     private final Pageable correctPagination(final Pageable pageable) {
@@ -243,18 +209,8 @@ public final class DefaultMemberService implements MemberService {
         return Sort.by(orders);
     }
 
-    private final Member mapActive(final long id, final Member member) {
-        final YearMonth validStart;
-        final YearMonth validEnd;
-        final boolean   active;
-
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-
-        active = activeMemberRepository.isActive(id, validStart, validEnd);
-
-        member.setActive(active);
-        return member;
+    private final Member toActive(final MemberEntity member) {
+        return activeMemberSource.findOne(member.getId());
     }
 
     private final Member toDto(final MemberEntity entity) {

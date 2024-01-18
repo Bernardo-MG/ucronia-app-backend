@@ -27,6 +27,7 @@ package com.bernardomg.association.fee.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.fee.domain.AssignedFeeActiveMemberDomainService;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
 import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
@@ -34,6 +35,7 @@ import com.bernardomg.association.fee.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.service.FeeCalendarService;
 import com.bernardomg.association.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.member.domain.ActiveMemberDomainService;
 import com.bernardomg.association.member.persistence.repository.ActiveMemberRepository;
 
 /**
@@ -47,6 +49,11 @@ public class FeeConfig {
 
     public FeeConfig() {
         super();
+    }
+
+    @Bean("assignedFeeActiveMemberSource")
+    public ActiveMemberDomainService getActiveMemberSource(final ActiveMemberRepository activeMemberRepository) {
+        return new AssignedFeeActiveMemberDomainService(activeMemberRepository);
     }
 
     @Bean("feeCalendarService")
