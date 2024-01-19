@@ -1,11 +1,14 @@
 
 package com.bernardomg.association.transaction.domain.repository;
 
+import java.time.YearMonth;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 
 public interface TransactionRepository {
@@ -15,6 +18,10 @@ public interface TransactionRepository {
     public boolean exists(final long index);
 
     public Iterable<Transaction> findAll(final TransactionQuery query, final Pageable pageable);
+
+    public TransactionCalendarMonthsRange findDates();
+
+    public TransactionCalendarMonth findInMonth(final YearMonth date);
 
     public long findNextIndex();
 

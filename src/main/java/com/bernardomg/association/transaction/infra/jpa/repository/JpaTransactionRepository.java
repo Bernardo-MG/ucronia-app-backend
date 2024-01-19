@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.transaction.infra.jpa.repository;
 
+import java.time.YearMonth;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
@@ -59,6 +63,40 @@ public final class JpaTransactionRepository implements TransactionRepository {
         }
 
         return page.map(this::toDomain);
+    }
+
+    @Override
+    public final TransactionCalendarMonthsRange findDates() {
+        final Collection<YearMonth> months;
+
+        log.debug("Reading the transactions range");
+
+        months = transactionRepository.findMonths()
+            .stream()
+            .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
+            .toList();
+
+        return TransactionCalendarMonthsRange.builder()
+            .months(months)
+            .build();
+    }
+
+    @Override
+    public final TransactionCalendarMonth findInMonth(final YearMonth date) {
+        final Specification<TransactionEntity> spec;
+        final Collection<TransactionEntity>    read;
+        final Collection<Transaction>          transactions;
+
+        spec = TransactionSpecifications.on(date);
+        read = transactionRepository.findAll(spec);
+
+        transactions = read.stream()
+            .map(this::toDomain)
+            .toList();
+        return TransactionCalendarMonth.builder()
+            .date(date)
+            .transactions(transactions)
+            .build();
     }
 
     @Override

@@ -25,19 +25,11 @@
 package com.bernardomg.association.transaction.usecase;
 
 import java.time.YearMonth;
-import java.util.Collection;
 import java.util.Objects;
 
-import org.springframework.data.jpa.domain.Specification;
-
-import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
-import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.infra.jpa.specification.TransactionSpecifications;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 
 /**
  * Default implementation of the transaction service.
@@ -45,12 +37,11 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class DefaultTransactionCalendarService implements TransactionCalendarService {
 
-    private final TransactionSpringRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    public DefaultTransactionCalendarService(final TransactionSpringRepository transactionRepo) {
+    public DefaultTransactionCalendarService(final TransactionRepository transactionRepo) {
         super();
 
         transactionRepository = Objects.requireNonNull(transactionRepo);
@@ -58,45 +49,12 @@ public final class DefaultTransactionCalendarService implements TransactionCalen
 
     @Override
     public final TransactionCalendarMonth getForMonth(final YearMonth date) {
-        final Specification<TransactionEntity> spec;
-        final Collection<TransactionEntity>    read;
-        final Collection<Transaction>          transactions;
-
-        spec = TransactionSpecifications.on(date);
-        read = transactionRepository.findAll(spec);
-
-        transactions = read.stream()
-            .map(this::toDto)
-            .toList();
-        return TransactionCalendarMonth.builder()
-            .date(date)
-            .transactions(transactions)
-            .build();
+        return transactionRepository.findInMonth(date);
     }
 
     @Override
     public final TransactionCalendarMonthsRange getRange() {
-        final Collection<YearMonth> months;
-
-        log.debug("Reading the transactions range");
-
-        months = transactionRepository.findMonths()
-            .stream()
-            .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
-            .toList();
-
-        return TransactionCalendarMonthsRange.builder()
-            .months(months)
-            .build();
-    }
-
-    private final Transaction toDto(final TransactionEntity entity) {
-        return Transaction.builder()
-            .index(entity.getIndex())
-            .date(entity.getDate())
-            .description(entity.getDescription())
-            .amount(entity.getAmount())
-            .build();
+        return transactionRepository.findDates();
     }
 
 }

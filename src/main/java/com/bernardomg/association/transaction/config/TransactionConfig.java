@@ -57,7 +57,7 @@ public class TransactionConfig {
     }
 
     @Bean("fundsCalendarService")
-    public TransactionCalendarService getFundsCalendarService(final TransactionSpringRepository transactionRepository) {
+    public TransactionCalendarService getFundsCalendarService(final TransactionRepository transactionRepository) {
         return new DefaultTransactionCalendarService(transactionRepository);
     }
 
