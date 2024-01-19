@@ -38,13 +38,13 @@ import com.bernardomg.association.test.config.argument.AroundZeroArgumentsProvid
 import com.bernardomg.association.test.config.argument.DecimalArgumentsProvider;
 import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
-import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionQuery;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
+import com.bernardomg.association.transaction.usecase.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,10 +52,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITTransactionServiceGetAll {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionSpringRepository repository;
 
     @Autowired
-    private TransactionService    service;
+    private TransactionService          service;
 
     public ITTransactionServiceGetAll() {
         super();

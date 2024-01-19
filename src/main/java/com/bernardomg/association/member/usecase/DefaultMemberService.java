@@ -126,15 +126,15 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final long number, final MemberChange change) {
-        final Optional<Member> member;
-        final Member           toUpdate;
+        final boolean exists;
+        final Member  toUpdate;
 
         log.debug("Updating member {} using data {}", number, change);
 
         // TODO: Identificator and phone must be unique or empty
 
-        member = memberRepository.findOne(number);
-        if (member.isEmpty()) {
+        exists = memberRepository.exists(number);
+        if (!exists) {
             // TODO: change name
             throw new MissingMemberIdException(number);
         }

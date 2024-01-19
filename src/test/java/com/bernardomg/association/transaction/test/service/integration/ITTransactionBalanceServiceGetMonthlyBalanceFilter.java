@@ -34,11 +34,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
+import com.bernardomg.association.transaction.usecase.TransactionBalanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

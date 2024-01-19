@@ -48,8 +48,8 @@ import com.bernardomg.association.member.test.config.data.annotation.ValidMember
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
 import com.bernardomg.association.test.data.fee.annotation.PaidFee;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
-import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.util.assertion.TransactionAssertions;
 import com.bernardomg.configuration.test.data.annotation.FeeAmountConfiguration;
@@ -60,19 +60,19 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeServicePayFees {
 
     @Autowired
-    private FeeInitializer        feeInitializer;
+    private FeeInitializer              feeInitializer;
 
     @Autowired
-    private FeePaymentRepository  feePaymentRepository;
+    private FeePaymentRepository        feePaymentRepository;
 
     @Autowired
-    private FeeRepository         feeRepository;
+    private FeeRepository               feeRepository;
 
     @Autowired
-    private FeeService            service;
+    private FeeService                  service;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionSpringRepository transactionRepository;
 
     public ITFeeServicePayFees() {
         super();

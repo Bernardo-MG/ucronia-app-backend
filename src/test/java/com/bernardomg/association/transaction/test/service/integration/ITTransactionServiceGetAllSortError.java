@@ -35,9 +35,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mapping.PropertyReferenceException;
 
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
-import com.bernardomg.association.transaction.model.TransactionQuery;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
+import com.bernardomg.association.transaction.usecase.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -9,21 +9,21 @@ import com.bernardomg.association.fee.persistence.model.FeePaymentEntity;
 import com.bernardomg.association.fee.persistence.repository.FeePaymentRepository;
 import com.bernardomg.association.fee.persistence.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
-import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 
 @Component
 public final class FeeInitializer {
 
     @Autowired
-    private FeePaymentRepository  feePaymentRepository;
+    private FeePaymentRepository        feePaymentRepository;
 
     @Autowired
-    private FeeRepository         feeRepository;
+    private FeeRepository               feeRepository;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionSpringRepository transactionRepository;
 
     public final void registerFeeCurrentMonth(final Boolean paid) {
         final FeeEntity fee;

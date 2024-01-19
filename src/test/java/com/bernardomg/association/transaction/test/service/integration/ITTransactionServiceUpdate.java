@@ -30,16 +30,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.config.data.annotation.PositiveTransaction;
-import com.bernardomg.association.transaction.model.Transaction;
-import com.bernardomg.association.transaction.model.TransactionChange;
-import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
-import com.bernardomg.association.transaction.service.TransactionService;
+import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionChange;
+import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionChanges;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.util.assertion.TransactionAssertions;
+import com.bernardomg.association.transaction.usecase.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,10 +47,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITTransactionServiceUpdate {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionSpringRepository repository;
 
     @Autowired
-    private TransactionService    service;
+    private TransactionService          service;
 
     public ITTransactionServiceUpdate() {
         super();

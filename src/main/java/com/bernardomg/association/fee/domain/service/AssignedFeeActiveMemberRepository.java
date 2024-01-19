@@ -35,7 +35,7 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
     }
 
     @Override
-    public void delete(final long number) {
+    public final void delete(final long number) {
         final Optional<MemberEntity> member;
 
         log.debug("Deleting member {}", number);
@@ -48,7 +48,6 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
 
     @Override
     public final boolean exists(final long number) {
-        // TODO Auto-generated method stub
         return memberSpringRepository.existsByNumber(number);
     }
 

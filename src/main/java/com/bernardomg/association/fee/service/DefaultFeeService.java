@@ -35,8 +35,8 @@ import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
 import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,12 +63,12 @@ public final class DefaultFeeService implements FeeService {
 
     private final MessageSource                  messageSource;
 
-    private final TransactionRepository          transactionRepository;
+    private final TransactionSpringRepository    transactionRepository;
 
     private final Validator<FeePayment>          validatorPay;
 
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
-            final TransactionRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
+            final TransactionSpringRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
             final FeePaymentRepository feePaymentRepo, final MemberSpringRepository memberRepo,
             final AssociationConfigurationSource confSource) {
         super();

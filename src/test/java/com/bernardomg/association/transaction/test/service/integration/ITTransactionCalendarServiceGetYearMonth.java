@@ -33,9 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.transaction.config.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.model.TransactionCalendarMonth;
-import com.bernardomg.association.transaction.service.TransactionCalendarService;
+import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
+import com.bernardomg.association.transaction.usecase.TransactionCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

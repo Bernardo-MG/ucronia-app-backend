@@ -7,23 +7,23 @@ import java.time.Month;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.transaction.persistence.model.TransactionEntity;
-import com.bernardomg.association.transaction.persistence.repository.TransactionRepository;
+import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 
 @Component
 public final class TransactionInitializer {
 
-    public static final LocalDate CURRENT_MONTH  = LocalDate.now();
+    public static final LocalDate       CURRENT_MONTH  = LocalDate.now();
 
-    public static final LocalDate NEXT_MONTH     = LocalDate.now()
+    public static final LocalDate       NEXT_MONTH     = LocalDate.now()
         .plusMonths(1);
 
-    public static final LocalDate PREVIOUS_MONTH = LocalDate.now()
+    public static final LocalDate       PREVIOUS_MONTH = LocalDate.now()
         .minusMonths(1);
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionSpringRepository transactionRepository;
 
     public final void registerAt(final int year, final Month month) {
         final TransactionEntity transaction;

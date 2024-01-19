@@ -3,7 +3,7 @@ package com.bernardomg.association.transaction.test.config.factory;
 
 import java.time.LocalDate;
 
-import com.bernardomg.association.transaction.model.TransactionQuery;
+import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 
 public final class TransactionsQueries {
 

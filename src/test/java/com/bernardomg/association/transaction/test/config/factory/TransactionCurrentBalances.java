@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.transaction.test.config.factory;
 
-import com.bernardomg.association.transaction.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 
 public final class TransactionCurrentBalances {
 
