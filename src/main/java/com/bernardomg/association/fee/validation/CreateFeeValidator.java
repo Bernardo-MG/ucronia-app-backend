@@ -3,8 +3,8 @@ package com.bernardomg.association.fee.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.association.fee.model.FeePayment;
-import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.domain.model.FeePayment;
+import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeRepository;
 import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
 import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 import com.bernardomg.validation.AbstractValidator;

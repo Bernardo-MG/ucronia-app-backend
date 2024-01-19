@@ -4,9 +4,9 @@ package com.bernardomg.association.fee.test.config.factory;
 import java.time.Month;
 import java.time.YearMonth;
 
-import com.bernardomg.association.fee.model.Fee;
-import com.bernardomg.association.fee.model.FeeMember;
-import com.bernardomg.association.fee.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 

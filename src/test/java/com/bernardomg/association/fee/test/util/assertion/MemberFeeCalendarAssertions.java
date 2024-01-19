@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.fee.model.FeeCalendar;
-import com.bernardomg.association.fee.model.FeeCalendarMonth;
+import com.bernardomg.association.fee.domain.model.FeeCalendar;
+import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 
 public final class MemberFeeCalendarAssertions {
 

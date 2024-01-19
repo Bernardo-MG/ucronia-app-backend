@@ -29,9 +29,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.model.FeeCalendarYearsRange;
-import com.bernardomg.association.fee.service.FeeCalendarService;
+import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
+import com.bernardomg.association.fee.usecase.FeeCalendarService;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;

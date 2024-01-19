@@ -29,14 +29,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.model.FeeChange;
-import com.bernardomg.association.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.fee.service.FeeService;
+import com.bernardomg.association.fee.domain.model.FeeChange;
+import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeesUpdate;
 import com.bernardomg.association.fee.test.util.assertion.FeeAssertions;
+import com.bernardomg.association.fee.usecase.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;

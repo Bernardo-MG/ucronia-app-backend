@@ -4,8 +4,8 @@ package com.bernardomg.association.fee.test.config.factory;
 import java.time.YearMonth;
 import java.util.List;
 
-import com.bernardomg.association.fee.model.FeeCalendar;
-import com.bernardomg.association.fee.model.FeeCalendarMember;
+import com.bernardomg.association.fee.domain.model.FeeCalendar;
+import com.bernardomg.association.fee.domain.model.FeeCalendarMember;
 import com.bernardomg.association.member.test.config.factory.MemberCalendars;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 

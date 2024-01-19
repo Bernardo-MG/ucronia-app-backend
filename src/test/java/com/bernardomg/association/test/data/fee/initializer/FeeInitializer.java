@@ -4,10 +4,10 @@ package com.bernardomg.association.test.data.fee.initializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.fee.persistence.model.FeeEntity;
-import com.bernardomg.association.fee.persistence.model.FeePaymentEntity;
-import com.bernardomg.association.fee.persistence.repository.FeePaymentRepository;
-import com.bernardomg.association.fee.persistence.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.infra.jpa.model.FeePaymentEntity;
+import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;

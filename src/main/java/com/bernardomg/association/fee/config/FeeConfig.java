@@ -27,15 +27,15 @@ package com.bernardomg.association.fee.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.fee.domain.service.AssignedFeeActiveMemberRepository;
-import com.bernardomg.association.fee.persistence.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.persistence.repository.FeeRepository;
-import com.bernardomg.association.fee.persistence.repository.MemberFeeRepository;
-import com.bernardomg.association.fee.schedule.FeeMaintenanceScheduleTask;
-import com.bernardomg.association.fee.service.DefaultFeeCalendarService;
-import com.bernardomg.association.fee.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.fee.service.FeeCalendarService;
-import com.bernardomg.association.fee.service.FeeMaintenanceService;
+import com.bernardomg.association.fee.delivery.schedule.FeeMaintenanceScheduleTask;
+import com.bernardomg.association.fee.domain.repository.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.ActiveMemberSpringRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.usecase.DefaultFeeCalendarService;
+import com.bernardomg.association.fee.usecase.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.FeeCalendarService;
+import com.bernardomg.association.fee.usecase.FeeMaintenanceService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
 

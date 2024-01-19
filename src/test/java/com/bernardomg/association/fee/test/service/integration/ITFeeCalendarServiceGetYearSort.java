@@ -35,10 +35,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-import com.bernardomg.association.fee.model.FeeCalendar;
-import com.bernardomg.association.fee.service.FeeCalendarService;
+import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.test.config.factory.FeeCalendars;
 import com.bernardomg.association.fee.test.util.assertion.MemberFeeCalendarAssertions;
+import com.bernardomg.association.fee.usecase.FeeCalendarService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
