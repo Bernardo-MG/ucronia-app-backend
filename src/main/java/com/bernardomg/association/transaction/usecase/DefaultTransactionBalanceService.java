@@ -24,21 +24,16 @@
 
 package com.bernardomg.association.transaction.usecase;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.infra.jpa.model.MonthlyBalanceEntity;
-import com.bernardomg.association.transaction.infra.jpa.repository.MonthlyBalanceSpringRepository;
-import com.bernardomg.association.transaction.infra.jpa.specification.MonthlyBalanceSpecifications;
+import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 
 /**
  * Default implementation of the balance service.
@@ -47,28 +42,21 @@ import com.bernardomg.association.transaction.infra.jpa.specification.MonthlyBal
  */
 public final class DefaultTransactionBalanceService implements TransactionBalanceService {
 
-    private final MonthlyBalanceSpringRepository monthlyBalanceRepository;
+    private final TransactionBalanceRepository transactionBalanceRepository;
 
-    public DefaultTransactionBalanceService(final MonthlyBalanceSpringRepository monthlyBalanceRepo) {
+    public DefaultTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepo) {
         super();
 
-        monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);
+        transactionBalanceRepository = Objects.requireNonNull(transactionBalanceRepo);
     }
 
     @Override
     public final TransactionCurrentBalance getBalance() {
-        final MonthlyBalanceEntity           balance;
-        final Optional<MonthlyBalanceEntity> readBalance;
-        final TransactionCurrentBalance      currentBalance;
-        final LocalDate                      month;
-        final LocalDate                      balanceDate;
-        final Float                          results;
+        final Optional<TransactionCurrentBalance> readBalance;
+        final TransactionCurrentBalance           currentBalance;
 
         // Find latest monthly balance
-        // Ignore future balances
-        month = LocalDate.now()
-            .withDayOfMonth(1);
-        readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
+        readBalance = transactionBalanceRepository.findCurrent();
 
         if (readBalance.isEmpty()) {
             currentBalance = TransactionCurrentBalance.builder()
@@ -76,22 +64,7 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
                 .results(0F)
                 .build();
         } else {
-            balance = readBalance.get();
-
-            balanceDate = balance.getMonth();
-
-            // Take the results only if it's the current year and month
-            if ((balanceDate.getYear() == month.getYear()) && (balanceDate.getMonth()
-                .equals(month.getMonth()))) {
-                results = balance.getResults();
-            } else {
-                results = 0F;
-            }
-
-            currentBalance = TransactionCurrentBalance.builder()
-                .total(balance.getTotal())
-                .results(results)
-                .build();
+            currentBalance = readBalance.get();
         }
 
         return currentBalance;
@@ -100,44 +73,7 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
     @Override
     public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query,
             final Sort sort) {
-        final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
-        final Specification<MonthlyBalanceEntity>           limitSpec;
-        final Specification<MonthlyBalanceEntity>           spec;
-        final Collection<MonthlyBalanceEntity>              balance;
-
-        // Specification from the request
-        requestSpec = MonthlyBalanceSpecifications.fromQuery(query);
-        // Up to this month
-        limitSpec = MonthlyBalanceSpecifications.before(YearMonth.now()
-            .plusMonths(1));
-
-        // Combine specifications
-        if (requestSpec.isPresent()) {
-            spec = requestSpec.get()
-                .and(limitSpec);
-        } else {
-            spec = limitSpec;
-        }
-
-        balance = monthlyBalanceRepository.findAll(spec, sort);
-
-        return balance.stream()
-            .map(this::toMonthlyBalance)
-            .toList();
-    }
-
-    private final TransactionMonthlyBalance toMonthlyBalance(final MonthlyBalanceEntity entity) {
-        final YearMonth month;
-
-        month = YearMonth.of(entity.getMonth()
-            .getYear(),
-            entity.getMonth()
-                .getMonth());
-        return TransactionMonthlyBalance.builder()
-            .date(month)
-            .total(entity.getTotal())
-            .results(entity.getResults())
-            .build();
+        return transactionBalanceRepository.getMonthlyBalance(query, sort);
     }
 
 }
