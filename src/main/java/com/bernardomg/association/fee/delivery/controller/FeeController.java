@@ -28,7 +28,6 @@ import java.time.YearMonth;
 import java.util.Collection;
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +39,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -48,7 +46,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.cache.FeeCaches;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeChange;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.FeeService;
@@ -123,22 +120,6 @@ public class FeeController {
             @PathVariable("memberNumber") final long memberNumber) {
         return service.getOne(memberNumber, date)
             .orElse(null);
-    }
-
-    @PutMapping(path = "/{date}/{memberNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "FEE", action = Actions.UPDATE)
-    @Caching(
-            put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.date.toString() + ':' + #result.memberNumber") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Fee caches
-                    FeeCaches.FEES,
-                    // Member caches
-                    MembersCaches.MEMBERS, MembersCaches.MEMBER, MembersCaches.CALENDAR, MembersCaches.CALENDAR_RANGE,
-                    MembersCaches.MONTHLY_BALANCE }, allEntries = true) })
-    public Fee update(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM") final YearMonth date,
-            @PathVariable("memberNumber") final long memberNumber, @Valid @RequestBody final FeeChange fee) {
-        return service.update(memberNumber, date, fee);
     }
 
 }

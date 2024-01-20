@@ -21,8 +21,6 @@ public interface FeeRepository {
 
     public Optional<Fee> findOne(final Long memberNumber, final YearMonth date);
 
-    public Fee save(final Fee fee);
-
     public Collection<FeeEntity> save(final Long memberNumber, final Collection<YearMonth> feeDates);
 
 }

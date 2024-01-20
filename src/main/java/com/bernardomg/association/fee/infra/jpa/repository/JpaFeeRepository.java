@@ -88,35 +88,6 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Fee save(final Fee fee) {
-        final Optional<FeeEntity>    existing;
-        final FeeEntity              entity;
-        final Optional<MemberEntity> member;
-
-        log.debug("Saving fee {}", fee);
-
-        member = memberRepository.findByNumber(fee.getMember()
-            .getNumber());
-
-        entity = toEntity(member.get()
-            .getId(), fee.getDate());
-
-        existing = feeRepository.findOneByMemberIdAndDate(fee.getMember()
-            .getNumber(), fee.getDate());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-        }
-
-        feeRepository.save(entity);
-
-        return memberFeeRepository.findOneByMemberNumberAndDate(fee.getMember()
-            .getNumber(), fee.getDate())
-            .map(this::toDomain)
-            .get();
-    }
-
-    @Override
     public final Collection<FeeEntity> save(final Long memberNumber, final Collection<YearMonth> feeDates) {
         final Collection<FeeEntity>          fees;
         final Function<YearMonth, FeeEntity> toPersistentFee;

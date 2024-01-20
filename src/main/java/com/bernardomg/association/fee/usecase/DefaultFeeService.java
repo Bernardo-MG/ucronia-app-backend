@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeChange;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -165,31 +164,6 @@ public final class DefaultFeeService implements FeeService {
         return readAll(ids);
     }
 
-    @Override
-    public final Fee update(final long memberNumber, final YearMonth date, final FeeChange change) {
-        final boolean feeExists;
-        final boolean memberExists;
-        final Fee     fee;
-
-        // TODO: remove, don't allow updating fees.
-
-        log.debug("Updating fee for {} in {} using data {}", memberNumber, date, change);
-
-        memberExists = memberRepository.exists(memberNumber);
-        if (!memberExists) {
-            // TODO: Change exception
-            throw new MissingMemberIdException(memberNumber);
-        }
-
-        feeExists = feeRepository.exists(memberNumber, date);
-        if (!feeExists) {
-            throw new MissingFeeIdException(memberNumber + " " + date.toString());
-        }
-
-        fee = toDomain(change);
-        return feeRepository.save(fee);
-    }
-
     private final List<Fee> readAll(final Collection<Long> ids) {
         final List<MemberFeeEntity> found;
 
@@ -246,12 +220,6 @@ public final class DefaultFeeService implements FeeService {
                 .build())
             .toList();
         feePaymentRepository.saveAll(payments);
-    }
-
-    private final Fee toDomain(final FeeChange update) {
-        return Fee.builder()
-            .date(update.getDate())
-            .build();
     }
 
     private final Fee toDto(final MemberFeeEntity entity) {

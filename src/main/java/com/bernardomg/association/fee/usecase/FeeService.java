@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeChange;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 
@@ -60,18 +59,5 @@ public interface FeeService {
      * @return all the paid fees
      */
     public Collection<Fee> payFees(final FeePayment payment);
-
-    /**
-     * Updates the fee for the received id with the received data.
-     *
-     * @param memberNumber
-     *            id of the member for the fee to acquire
-     * @param date
-     *            date of the fee to acquire
-     * @param fee
-     *            new data for the fee
-     * @return the updated fee
-     */
-    public Fee update(final long memberNumber, final YearMonth date, final FeeChange fee);
 
 }
