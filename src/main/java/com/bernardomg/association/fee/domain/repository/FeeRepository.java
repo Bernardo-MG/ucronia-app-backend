@@ -26,8 +26,7 @@ public interface FeeRepository {
 
     public Optional<Fee> findOne(final Long memberNumber, final YearMonth date);
 
-    public void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate,
-            final Collection<YearMonth> feeDates);
+    public void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate);
 
     public Collection<Fee> save(final Long memberNumber, final Collection<YearMonth> feeDates);
 

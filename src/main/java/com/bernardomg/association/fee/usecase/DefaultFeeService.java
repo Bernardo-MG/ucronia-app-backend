@@ -121,7 +121,7 @@ public final class DefaultFeeService implements FeeService {
         fees = feeRepository.save(payment.getMember()
             .getNumber(), payment.getFeeDates());
         feeRepository.pay(member.get(), fees, payment.getTransaction()
-            .getDate(), payment.getFeeDates());
+            .getDate());
 
         return feeRepository.findAll(payment.getMember()
             .getNumber(), payment.getFeeDates());

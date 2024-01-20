@@ -125,8 +125,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate,
-            final Collection<YearMonth> feeDates) {
+    public final void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate) {
         final TransactionEntity           transaction;
         final Float                       feeAmount;
         final String                      name;
@@ -136,6 +135,11 @@ public final class JpaFeeRepository implements FeeRepository {
         final Long                        index;
         final Iterable<FeePaymentEntity>  payments;
         final Collection<MemberFeeEntity> read;
+        final Collection<YearMonth>       feeDates;
+
+        feeDates = fees.stream()
+            .map(Fee::getDate)
+            .toList();
 
         // Calculate amount
         feeAmount = configurationSource.getFeeAmount() * feeDates.size();
@@ -163,7 +167,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         transactionRepository.save(transaction);
 
-        read = memberFeeRepository.findAllByMemberNumberAndDateIn(index, feeDates);
+        read = memberFeeRepository.findAllByMemberNumberAndDateIn(member.getNumber(), feeDates);
 
         // Register payments
         payments = read.stream()
