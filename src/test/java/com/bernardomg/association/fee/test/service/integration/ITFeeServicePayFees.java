@@ -37,8 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentSpringRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.fee.test.config.factory.Fees;
@@ -63,10 +63,10 @@ class ITFeeServicePayFees {
     private FeeInitializer              feeInitializer;
 
     @Autowired
-    private FeePaymentRepository        feePaymentRepository;
+    private FeePaymentSpringRepository  feePaymentRepository;
 
     @Autowired
-    private FeeRepository               feeRepository;
+    private FeeSpringRepository         feeRepository;
 
     @Autowired
     private FeeService                  service;

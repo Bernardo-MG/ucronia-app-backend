@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
@@ -44,10 +44,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeServiceDelete {
 
     @Autowired
-    private FeeRepository repository;
+    private FeeSpringRepository repository;
 
     @Autowired
-    private FeeService    service;
+    private FeeService          service;
 
     public ITFeeServiceDelete() {
         super();

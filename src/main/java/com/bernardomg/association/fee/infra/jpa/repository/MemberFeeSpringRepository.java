@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.infra.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,10 +36,13 @@ import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.infra.jpa.model.MemberFeeEntity;
 
-public interface MemberFeeRepository
+public interface MemberFeeSpringRepository
         extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {
 
-    public boolean existsByMemberIdAndDateAndPaid(final Long memberId, final YearMonth date, final boolean paid);
+    public boolean existsByMemberNumberAndDate(final Long memberNumber, final YearMonth date);
+
+    public boolean existsByMemberNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
+            final boolean paid);
 
     /**
      * Returns all member fees inside the received range.
@@ -71,6 +75,17 @@ public interface MemberFeeRepository
     @Query("SELECT f FROM MemberFee f WHERE f.date >= :start AND f.date <= :end AND f.memberId IN :ids")
     public Collection<MemberFeeEntity> findAllInRangeForMembersIn(@Param("start") final YearMonth start,
             @Param("end") final YearMonth end, @Param("ids") final Collection<Long> ids, final Sort sort);
+
+    /**
+     * Finds the fee for the member in the date.
+     *
+     * @param memberNumber
+     *            member to filter by
+     * @param date
+     *            date to filter by
+     * @return fee for the member in the date
+     */
+    public Optional<MemberFeeEntity> findOneByMemberNumberAndDate(final Long memberNumber, final YearMonth date);
 
     /**
      * Returns all the years based on the existing fees.

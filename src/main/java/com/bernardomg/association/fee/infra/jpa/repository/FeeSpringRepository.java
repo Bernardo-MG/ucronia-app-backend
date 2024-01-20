@@ -32,7 +32,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
 
-public interface FeeRepository extends JpaRepository<FeeEntity, Long> {
+public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
     public boolean existsByMemberIdAndDate(final Long memberId, final YearMonth date);
 

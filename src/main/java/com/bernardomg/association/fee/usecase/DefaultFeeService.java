@@ -6,14 +6,11 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
@@ -24,17 +21,16 @@ import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.infra.jpa.model.FeePaymentEntity;
 import com.bernardomg.association.fee.infra.jpa.model.MemberFeeEntity;
-import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpecifications;
+import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentSpringRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
-import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
-import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.validation.Validator;
@@ -53,13 +49,13 @@ public final class DefaultFeeService implements FeeService {
 
     private final AssociationConfigurationSource configurationSource;
 
-    private final FeePaymentRepository           feePaymentRepository;
+    private final FeePaymentSpringRepository     feePaymentRepository;
 
     private final FeeRepository                  feeRepository;
 
-    private final MemberFeeRepository            memberFeeRepository;
+    private final MemberFeeSpringRepository      memberFeeRepository;
 
-    private final MemberSpringRepository         memberRepository;
+    private final MemberRepository               memberRepository;
 
     private final MessageSource                  messageSource;
 
@@ -68,8 +64,8 @@ public final class DefaultFeeService implements FeeService {
     private final Validator<FeePayment>          validatorPay;
 
     public DefaultFeeService(final MessageSource msgSource, final FeeRepository feeRepo,
-            final TransactionSpringRepository transactionRepo, final MemberFeeRepository memberFeeRepo,
-            final FeePaymentRepository feePaymentRepo, final MemberSpringRepository memberRepo,
+            final TransactionSpringRepository transactionRepo, final MemberFeeSpringRepository memberFeeRepo,
+            final FeePaymentSpringRepository feePaymentRepo, final MemberRepository memberRepo,
             final AssociationConfigurationSource confSource) {
         super();
 
@@ -87,80 +83,57 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final void delete(final long memberNumber, final YearMonth date) {
-        final Optional<FeeEntity>    fee;
-        final Optional<MemberEntity> member;
+        final boolean feeExists;
+        final boolean memberExists;
 
         log.debug("Deleting fee for {} in {}", memberNumber, date);
 
-        member = memberRepository.findByNumber(memberNumber);
-        if (member.isEmpty()) {
+        memberExists = memberRepository.exists(memberNumber);
+        if (!memberExists) {
             // TODO: Change exception
             throw new MissingMemberIdException(memberNumber);
         }
 
-        fee = feeRepository.findOneByMemberIdAndDate(member.get()
-            .getId(), date);
-
-        if (fee.isEmpty()) {
+        feeExists = feeRepository.exists(memberNumber, date);
+        if (!feeExists) {
             throw new MissingFeeIdException(memberNumber + " " + date.toString());
         }
 
-        feeRepository.deleteById(fee.get()
-            .getId());
+        feeRepository.delete(memberNumber, date);
     }
 
     @Override
     public final Iterable<Fee> getAll(final FeeQuery query, final Pageable pageable) {
-        final Page<MemberFeeEntity>                    page;
-        final Optional<Specification<MemberFeeEntity>> spec;
-        // TODO: Test reading with no name or surname
-
-        log.debug("Reading fees with sample {} and pagination {}", query, pageable);
-
-        spec = MemberFeeSpecifications.fromQuery(query);
-
-        if (spec.isEmpty()) {
-            page = memberFeeRepository.findAll(pageable);
-        } else {
-            page = memberFeeRepository.findAll(spec.get(), pageable);
-        }
-
-        return page.map(this::toDto);
+        return feeRepository.findAll(query, pageable);
     }
 
     @Override
     public final Optional<Fee> getOne(final long memberNumber, final YearMonth date) {
-        final Optional<MemberFeeEntity> found;
-        final Optional<FeeEntity>       fee;
-        final Optional<MemberEntity>    member;
+        final boolean feeExists;
+        final boolean memberExists;
 
         log.debug("Reading fee for {} in {}", memberNumber, date);
 
-        member = memberRepository.findByNumber(memberNumber);
-        if (member.isEmpty()) {
+        memberExists = memberRepository.exists(memberNumber);
+        if (!memberExists) {
             // TODO: Change exception
             throw new MissingMemberIdException(memberNumber);
         }
 
-        fee = feeRepository.findOneByMemberIdAndDate(member.get()
-            .getId(), date);
-
-        if (fee.isEmpty()) {
-            throw new MissingFeeIdException(member.get()
-                .getId() + " " + date.toString());
+        feeExists = feeRepository.exists(memberNumber, date);
+        if (!feeExists) {
+            throw new MissingFeeIdException(memberNumber + " " + date.toString());
         }
 
-        found = memberFeeRepository.findById(fee.get()
-            .getId());
-
-        return found.map(this::toDto);
+        return feeRepository.findOne(memberNumber, date);
     }
 
     @Override
     public final Collection<Fee> payFees(final FeePayment payment) {
-        final Collection<FeeEntity>  fees;
-        final Optional<MemberEntity> member;
-        final Collection<Long>       ids;
+        final Collection<FeeEntity> fees;
+        final Optional<Member>      member;
+        final Collection<Long>      ids;
+        final boolean               memberExists;
 
         log.debug("Paying fees for {} in {}. Months paid: {}", payment.getMember()
             .getNumber(),
@@ -168,9 +141,9 @@ public final class DefaultFeeService implements FeeService {
                 .getDate(),
             payment.getFeeDates());
 
-        member = memberRepository.findByNumber(payment.getMember()
+        memberExists = memberRepository.exists(payment.getMember()
             .getNumber());
-        if (member.isEmpty()) {
+        if (!memberExists) {
             // TODO: Change exception
             throw new MissingMemberIdException(payment.getMember()
                 .getNumber());
@@ -178,13 +151,14 @@ public final class DefaultFeeService implements FeeService {
 
         validatorPay.validate(payment);
 
-        fees = registerFees(member.get()
-            .getId(), payment.getFeeDates());
+        member = memberRepository.findOne(payment.getMember()
+            .getNumber());
+        fees = feeRepository.save(payment.getMember()
+            .getNumber(), payment.getFeeDates());
         registerTransaction(member.get(), fees, payment.getTransaction()
             .getDate(), payment.getFeeDates());
 
         // Read fees to return names
-        feeRepository.flush();
         ids = fees.stream()
             .map(FeeEntity::getId)
             .toList();
@@ -192,74 +166,28 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee update(final long memberNumber, final YearMonth date, final FeeChange fee) {
-        final Optional<FeeEntity>    found;
-        final Optional<MemberEntity> member;
-        final FeeEntity              entity;
-        final FeeEntity              updated;
-        final Optional<Fee>          read;
-        final Fee                    result;
-        final Optional<FeeEntity>    readFee;
+    public final Fee update(final long memberNumber, final YearMonth date, final FeeChange change) {
+        final boolean feeExists;
+        final boolean memberExists;
+        final Fee     fee;
 
         // TODO: remove, don't allow updating fees.
 
-        log.debug("Updating fee for {} in {} using data {}", memberNumber, date, fee);
+        log.debug("Updating fee for {} in {} using data {}", memberNumber, date, change);
 
-        member = memberRepository.findByNumber(memberNumber);
-        if (member.isEmpty()) {
+        memberExists = memberRepository.exists(memberNumber);
+        if (!memberExists) {
             // TODO: Change exception
             throw new MissingMemberIdException(memberNumber);
         }
 
-        found = feeRepository.findOneByMemberIdAndDate(member.get()
-            .getId(), date);
-        if (found.isEmpty()) {
+        feeExists = feeRepository.exists(memberNumber, date);
+        if (!feeExists) {
             throw new MissingFeeIdException(memberNumber + " " + date.toString());
         }
 
-        entity = toEntity(fee);
-        entity.setId(found.get()
-            .getId());
-        entity.setMemberId(member.get()
-            .getId());
-        // TODO: If the date defines the data. Does it make sense to allow changing it?
-        if (entity.getDate() == null) {
-            entity.setDate(date);
-        }
-
-        updated = feeRepository.save(entity);
-
-        // Read updated fee with name
-        readFee = feeRepository.findOneByMemberIdAndDate(updated.getMemberId(), updated.getDate());
-
-        if (readFee.isEmpty()) {
-            throw new MissingFeeIdException(updated.getMemberId() + " " + updated.getDate()
-                .toString());
-        }
-
-        read = memberFeeRepository.findById(readFee.get()
-            .getId())
-            .map(this::toDto);
-        if (read.isPresent()) {
-            result = read.get();
-        } else {
-            result = Fee.builder()
-                .build();
-        }
-
-        return result;
-    }
-
-    private final void loadId(final FeeEntity fee) {
-        final Long                id;
-        final Optional<FeeEntity> read;
-
-        read = feeRepository.findOneByMemberIdAndDate(fee.getMemberId(), fee.getDate());
-        if (read.isPresent()) {
-            id = read.get()
-                .getId();
-            fee.setId(id);
-        }
+        fee = toDomain(change);
+        return feeRepository.save(fee);
     }
 
     private final List<Fee> readAll(final Collection<Long> ids) {
@@ -272,24 +200,7 @@ public final class DefaultFeeService implements FeeService {
             .toList();
     }
 
-    private final Collection<FeeEntity> registerFees(final Long memberId, final Collection<YearMonth> feeDates) {
-        final Collection<FeeEntity>          fees;
-        final Function<YearMonth, FeeEntity> toPersistentFee;
-
-        // Register fees
-        toPersistentFee = (date) -> toPersistentFee(memberId, date);
-        fees = feeDates.stream()
-            .map(toPersistentFee)
-            .toList();
-
-        // Update fees on fees to update
-        fees.stream()
-            .forEach(this::loadId);
-
-        return feeRepository.saveAll(fees);
-    }
-
-    private final void registerTransaction(final MemberEntity member, final Collection<FeeEntity> fees,
+    private final void registerTransaction(final Member member, final Collection<FeeEntity> fees,
             final LocalDate payDate, final Collection<YearMonth> feeDates) {
         final TransactionEntity          transaction;
         final Float                      feeAmount;
@@ -311,10 +222,8 @@ public final class DefaultFeeService implements FeeService {
         index = transactionRepository.findNextIndex();
         transaction.setIndex(index);
 
-        name = List.of(member.getName(), member.getSurname())
-            .stream()
-            .collect(Collectors.joining(" "))
-            .trim();
+        name = member.getName()
+            .getFullName();
 
         dates = feeDates.stream()
             .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
@@ -339,6 +248,12 @@ public final class DefaultFeeService implements FeeService {
         feePaymentRepository.saveAll(payments);
     }
 
+    private final Fee toDomain(final FeeChange update) {
+        return Fee.builder()
+            .date(update.getDate())
+            .build();
+    }
+
     private final Fee toDto(final MemberFeeEntity entity) {
         final FeeMember      member;
         final FeeTransaction transaction;
@@ -357,22 +272,6 @@ public final class DefaultFeeService implements FeeService {
             .member(member)
             .transaction(transaction)
             .build();
-    }
-
-    private final FeeEntity toEntity(final FeeChange update) {
-        return FeeEntity.builder()
-            .date(update.getDate())
-            .build();
-    }
-
-    private final FeeEntity toPersistentFee(final Long memberId, final YearMonth date) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(memberId);
-        fee.setDate(date);
-
-        return fee;
     }
 
 }

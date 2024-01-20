@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.infra.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,9 +16,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final ActiveMemberSpringRepository activeMemberRepository;
 
-    private final FeeRepository                feeRepository;
+    private final FeeSpringRepository          feeRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo,
+    public DefaultFeeMaintenanceService(final FeeSpringRepository feeRepo,
             final ActiveMemberSpringRepository activeMemberRepo) {
         super();
 

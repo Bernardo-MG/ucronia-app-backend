@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.infra.jpa.repository;
+package com.bernardomg.association.fee.infra.jpa.specification;
 
 import java.time.YearMonth;
 import java.util.Optional;

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.infra.jpa.model.FeePaymentEntity;
-import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentSpringRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
@@ -17,10 +17,10 @@ import com.bernardomg.association.transaction.test.config.factory.TransactionEnt
 public final class FeeInitializer {
 
     @Autowired
-    private FeePaymentRepository        feePaymentRepository;
+    private FeePaymentSpringRepository  feePaymentRepository;
 
     @Autowired
-    private FeeRepository               feeRepository;
+    private FeeSpringRepository         feeRepository;
 
     @Autowired
     private TransactionSpringRepository transactionRepository;

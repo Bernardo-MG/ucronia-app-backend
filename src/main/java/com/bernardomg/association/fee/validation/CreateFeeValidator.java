@@ -4,9 +4,9 @@ package com.bernardomg.association.fee.validation;
 import java.util.Collection;
 
 import com.bernardomg.association.fee.domain.model.FeePayment;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeRepository;
-import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
-import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpringRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -15,11 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
 
-    private final MemberFeeRepository    memberFeeRepository;
+    private final MemberFeeSpringRepository memberFeeRepository;
 
-    private final MemberSpringRepository memberRepository;
+    private final MemberRepository          memberRepository;
 
-    public CreateFeeValidator(final MemberSpringRepository memberRepo, final MemberFeeRepository memberFeeRepo) {
+    public CreateFeeValidator(final MemberRepository memberRepo, final MemberFeeSpringRepository memberFeeRepo) {
         super();
 
         memberRepository = memberRepo;
@@ -28,12 +28,12 @@ public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
 
     @Override
     protected final void checkRules(final FeePayment payment, final Collection<FieldFailure> failures) {
-        final Long         uniqueDates;
-        final int          totalDates;
-        final Long         existing;
-        final Long         duplicates;
-        final MemberEntity member;
-        FieldFailure       failure;
+        final Long   uniqueDates;
+        final int    totalDates;
+        final Long   existing;
+        final Long   duplicates;
+        final Member member;
+        FieldFailure failure;
 
         // Verify there are no duplicated dates
         uniqueDates = payment.getFeeDates()
@@ -51,13 +51,13 @@ public final class CreateFeeValidator extends AbstractValidator<FeePayment> {
         }
 
         // Verify no date is already registered, unless it is not paid
-        member = memberRepository.findByNumber(payment.getMember()
+        member = memberRepository.findOne(payment.getMember()
             .getNumber())
             .get();
         // TODO: use a single query
         existing = payment.getFeeDates()
             .stream()
-            .filter(date -> memberFeeRepository.existsByMemberIdAndDateAndPaid(member.getId(), date, true))
+            .filter(date -> memberFeeRepository.existsByMemberNumberAndDateAndPaid(member.getNumber(), date, true))
             .count();
         if (existing > 0) {
             failure = FieldFailure.of("feeDates[]", "existing", existing);

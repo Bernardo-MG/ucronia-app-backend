@@ -28,10 +28,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.fee.delivery.schedule.FeeMaintenanceScheduleTask;
-import com.bernardomg.association.fee.domain.repository.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.infra.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.JpaFeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.usecase.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.FeeCalendarService;
@@ -59,7 +61,7 @@ public class FeeConfig {
     }
 
     @Bean("feeCalendarService")
-    public FeeCalendarService getFeeCalendarService(final MemberFeeRepository memberFeeRepository,
+    public FeeCalendarService getFeeCalendarService(final MemberFeeSpringRepository memberFeeRepository,
             final ActiveMemberSpringRepository activeMemberRepository) {
         return new DefaultFeeCalendarService(memberFeeRepository, activeMemberRepository);
     }
@@ -70,9 +72,15 @@ public class FeeConfig {
     }
 
     @Bean("feeMaintenanceService")
-    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
+    public FeeMaintenanceService getFeeMaintenanceService(final FeeSpringRepository feeRepo,
             final ActiveMemberSpringRepository activeMemberRepository) {
         return new DefaultFeeMaintenanceService(feeRepo, activeMemberRepository);
+    }
+
+    @Bean("feeRepository")
+    public FeeRepository getFeeRepository(final FeeSpringRepository feeRepo,
+            final MemberFeeSpringRepository memberFeeRepo, final MemberSpringRepository memberRepo) {
+        return new JpaFeeRepository(feeRepo, memberFeeRepo, memberRepo);
     }
 
 }

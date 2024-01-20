@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.fee.test.config.argument.FeePaidArgumentsProvider;
 import com.bernardomg.association.fee.usecase.DefaultFeeMaintenanceService;
@@ -24,7 +24,7 @@ public class ITFeeMaintenanceService {
     private FeeInitializer               feeInitializer;
 
     @Autowired
-    private FeeRepository                feeRepository;
+    private FeeSpringRepository          feeRepository;
 
     @Autowired
     private DefaultFeeMaintenanceService service;

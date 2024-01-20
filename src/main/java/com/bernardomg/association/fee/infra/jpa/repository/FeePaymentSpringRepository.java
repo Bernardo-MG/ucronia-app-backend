@@ -28,4 +28,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.association.fee.infra.jpa.model.FeePaymentEntity;
 
-public interface FeePaymentRepository extends JpaRepository<FeePaymentEntity, Long> {}
+public interface FeePaymentSpringRepository extends JpaRepository<FeePaymentEntity, Long> {}

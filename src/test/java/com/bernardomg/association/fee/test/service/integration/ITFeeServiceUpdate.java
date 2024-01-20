@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.FeeChange;
 import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeesUpdate;
@@ -48,10 +48,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFeeServiceUpdate {
 
     @Autowired
-    private FeeRepository repository;
+    private FeeSpringRepository repository;
 
     @Autowired
-    private FeeService    service;
+    private FeeService          service;
 
     public ITFeeServiceUpdate() {
         super();

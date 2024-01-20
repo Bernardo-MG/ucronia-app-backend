@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.infra.jpa.model.MemberFeeEntity;
 import com.bernardomg.association.fee.infra.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeRepository;
+import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
 
@@ -52,9 +52,9 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
     private final ActiveMemberSpringRepository activeMemberRepository;
 
-    private final MemberFeeRepository          memberFeeRepository;
+    private final MemberFeeSpringRepository    memberFeeRepository;
 
-    public DefaultFeeCalendarService(final MemberFeeRepository memberFeeRepo,
+    public DefaultFeeCalendarService(final MemberFeeSpringRepository memberFeeRepo,
             final ActiveMemberSpringRepository activeMemberRepo) {
         super();
 

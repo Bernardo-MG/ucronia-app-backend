@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.domain.repository;
+package com.bernardomg.association.fee.infra.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -9,7 +9,6 @@ import java.util.function.Function;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.fee.infra.jpa.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
