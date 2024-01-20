@@ -44,6 +44,9 @@ public interface MemberFeeSpringRepository
     public boolean existsByMemberNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
             final boolean paid);
 
+    public Collection<MemberFeeEntity> findAllByMemberNumberAndDateIn(final Long memberNumber,
+            final Collection<YearMonth> feeDates);
+
     /**
      * Returns all member fees inside the received range.
      *
