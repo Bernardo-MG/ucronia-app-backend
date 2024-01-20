@@ -13,7 +13,6 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.validation.CreateFeeValidator;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.model.Member;
@@ -32,24 +31,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultFeeService implements FeeService {
 
-    private final FeeRepository             feeRepository;
+    private final FeeRepository         feeRepository;
 
-    private final MemberFeeSpringRepository memberFeeRepository;
+    private final MemberRepository      memberRepository;
 
-    private final MemberRepository          memberRepository;
+    private final Validator<FeePayment> validatorPay;
 
-    private final Validator<FeePayment>     validatorPay;
-
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberFeeSpringRepository memberFeeRepo,
-            final MemberRepository memberRepo) {
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = feeRepo;
-        memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
 
         // TODO: Test validation
-        validatorPay = new CreateFeeValidator(memberRepository, memberFeeRepository);
+        validatorPay = new CreateFeeValidator(memberRepository, feeRepository);
     }
 
     @Override

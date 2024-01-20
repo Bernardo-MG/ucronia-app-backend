@@ -18,6 +18,8 @@ public interface FeeRepository {
 
     public boolean exists(final Long memberNumber, final YearMonth date);
 
+    public boolean existsPaid(final Long memberNumber, final YearMonth date);
+
     public Iterable<Fee> findAll(final FeeQuery query, final Pageable pageable);
 
     public Collection<Fee> findAll(final Long memberNumber, final Collection<YearMonth> feeDates);

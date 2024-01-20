@@ -84,6 +84,11 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
+    public final boolean existsPaid(final Long memberNumber, final YearMonth date) {
+        return memberFeeRepository.existsByMemberNumberAndDateAndPaid(memberNumber, date, true);
+    }
+
+    @Override
     public final Iterable<Fee> findAll(final FeeQuery query, final Pageable pageable) {
         final Page<MemberFeeEntity>                    page;
         final Optional<Specification<MemberFeeEntity>> spec;
