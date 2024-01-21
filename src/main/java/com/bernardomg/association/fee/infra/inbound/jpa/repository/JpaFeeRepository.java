@@ -117,6 +117,14 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
+    public final List<Fee> findAllByDate(final YearMonth date) {
+        return feeRepository.findAllByDate(date)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
     public final Optional<Fee> findOne(final Long memberNumber, final YearMonth date) {
         final Optional<MemberFeeEntity> read;
 
@@ -183,6 +191,19 @@ public final class JpaFeeRepository implements FeeRepository {
         transactionRepository.flush();
         feePaymentRepository.flush();
         memberFeeRepository.flush();
+    }
+
+    @Override
+    public final Collection<Fee> save(final Collection<Fee> fees) {
+        final Collection<FeeEntity> entities;
+
+        entities = fees.stream()
+            .map(this::toEntity)
+            .toList();
+        return feeRepository.saveAll(entities)
+            .stream()
+            .map(this::toDomain)
+            .toList();
     }
 
     @Override
@@ -282,14 +303,19 @@ public final class JpaFeeRepository implements FeeRepository {
             .build();
     }
 
+    private final FeeEntity toEntity(final Fee fee) {
+        return FeeEntity.builder()
+            .memberId(fee.getMember()
+                .getNumber())
+            .date(fee.getDate())
+            .build();
+    }
+
     private final FeeEntity toEntity(final Long memberId, final YearMonth date) {
-        final FeeEntity fee;
-
-        fee = new FeeEntity();
-        fee.setMemberId(memberId);
-        fee.setDate(date);
-
-        return fee;
+        return FeeEntity.builder()
+            .memberId(memberId)
+            .date(date)
+            .build();
     }
 
 }

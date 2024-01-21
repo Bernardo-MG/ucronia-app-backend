@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.infra.outbound.model;
+package com.bernardomg.association.member.usecase.model;
 
 import java.time.YearMonth;
 

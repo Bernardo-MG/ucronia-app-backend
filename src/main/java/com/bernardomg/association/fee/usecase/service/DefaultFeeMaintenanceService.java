@@ -5,21 +5,21 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.association.fee.infra.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.infra.inbound.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class DefaultFeeMaintenanceService implements FeeMaintenanceService {
 
-    private final ActiveMemberSpringRepository activeMemberRepository;
+    private final ActiveMemberRepository activeMemberRepository;
 
-    private final FeeSpringRepository          feeRepository;
+    private final FeeRepository          feeRepository;
 
-    public DefaultFeeMaintenanceService(final FeeSpringRepository feeRepo,
-            final ActiveMemberSpringRepository activeMemberRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -28,9 +28,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     @Override
     public final void registerMonthFees() {
-        final YearMonth             previousMonth;
-        final Collection<FeeEntity> feesToExtend;
-        final Collection<FeeEntity> feesToCreate;
+        final YearMonth       previousMonth;
+        final Collection<Fee> feesToExtend;
+        final Collection<Fee> feesToCreate;
 
         previousMonth = YearMonth.now()
             .minusMonths(1);
@@ -48,28 +48,28 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .toList();
 
         log.debug("Registering {} fees for this month", feesToCreate.size());
-        feeRepository.saveAll(feesToCreate);
+        feeRepository.save(feesToCreate);
     }
 
-    private final boolean notExists(final FeeEntity fee) {
-        return !feeRepository.existsByMemberIdAndDate(fee.getMemberId(), fee.getDate());
+    private final boolean notExists(final Fee fee) {
+        return !feeRepository.exists(fee.getMember()
+            .getNumber(), fee.getDate());
     }
 
-    private final boolean notInactive(final FeeEntity fee) {
-        final YearMonth validStart;
-        final YearMonth validEnd;
-
-        // TODO: Should be done in the repository
-        validStart = YearMonth.now()
-            .minusMonths(1);
-        validEnd = YearMonth.now()
-            .minusMonths(1);
-        return activeMemberRepository.isActive(fee.getMemberId(), validStart, validEnd);
+    private final boolean notInactive(final Fee fee) {
+        return activeMemberRepository.isActivePreviousMonth(fee.getMember()
+            .getNumber());
     }
 
-    private final FeeEntity toCurrentMonth(final FeeEntity fee) {
-        return FeeEntity.builder()
-            .memberId(fee.getMemberId())
+    private final Fee toCurrentMonth(final Fee fee) {
+        final FeeMember member;
+
+        member = FeeMember.builder()
+            .number(fee.getMember()
+                .getNumber())
+            .build();
+        return Fee.builder()
+            .member(member)
             .date(YearMonth.now())
             .build();
     }

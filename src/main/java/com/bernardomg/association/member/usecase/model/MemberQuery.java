@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.infra.outbound.model;
+package com.bernardomg.association.member.usecase.model;
 
 import com.bernardomg.association.member.domain.model.MemberStatus;
 

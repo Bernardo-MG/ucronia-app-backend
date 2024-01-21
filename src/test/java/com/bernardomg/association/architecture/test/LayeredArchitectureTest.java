@@ -14,26 +14,25 @@ public class LayeredArchitectureTest {
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
-        .layer("Controllers")
-        .definedBy("com.bernardomg.association..controller..")
-        .layer("Services")
-        .definedBy("com.bernardomg.association..service..")
-        .layer("Persistence")
-        .definedBy("com.bernardomg.association..persistence..")
+        .layer("Use case")
+        .definedBy("com.bernardomg.association..usecase..")
+        .layer("Domain")
+        .definedBy("com.bernardomg.association..domain..")
+        .layer("Infrastructure - Inbound")
+        .definedBy("com.bernardomg.association..infra.inbound..")
+        .layer("Infrastructure - Outbound")
+        .definedBy("com.bernardomg.association..infra.outbound..")
         .layer("Configuration")
         .definedBy("com.bernardomg.association..config..")
-        .layer("Validation")
-        .definedBy("com.bernardomg.association..validation..")
-        .layer("Schedule")
-        .definedBy("com.bernardomg.association..schedule..")
 
-        .whereLayer("Controllers")
+        .whereLayer("Infrastructure - Outbound")
         .mayNotBeAccessedByAnyLayer()
-        .whereLayer("Services")
-        .mayOnlyBeAccessedByLayers("Configuration", "Services", "Schedule", "Controllers")
-        .whereLayer("Persistence")
-        .mayOnlyBeAccessedByLayers("Configuration", "Validation", "Persistence", "Services")
-        .whereLayer("Validation")
-        .mayOnlyBeAccessedByLayers("Services");
+        .whereLayer("Infrastructure - Inbound")
+        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound")
+        .whereLayer("Use case")
+        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Outbound")
+        .whereLayer("Domain")
+        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound",
+            "Infrastructure - Outbound");
 
 }

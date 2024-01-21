@@ -89,8 +89,8 @@ public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity
      *            end date to search in
      * @return {@code true} if the member is active, {@code false} otherwise
      */
-    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active FROM Member m LEFT JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end AND m.id = :id")
-    public boolean isActive(@Param("id") final Long id, @Param("start") final YearMonth start,
+    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END AS active FROM Member m LEFT JOIN Fee f ON m.id = f.memberId WHERE f.date >= :start AND f.date <= :end AND m.number = :number")
+    public boolean isActive(@Param("number") final Long number, @Param("start") final YearMonth start,
             @Param("end") final YearMonth end);
 
 }

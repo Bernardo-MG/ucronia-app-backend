@@ -29,11 +29,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
+import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.infra.inbound.jpa.repository.JpaActiveMemberRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.MemberFeeSpringRepository;
 import com.bernardomg.association.fee.infra.outbound.schedule.FeeMaintenanceScheduleTask;
@@ -58,6 +60,11 @@ public class FeeConfig {
         super();
     }
 
+    @Bean("activeMemberRepository")
+    public ActiveMemberRepository getActiveMemberRepository(final ActiveMemberSpringRepository activeMemberRepo) {
+        return new JpaActiveMemberRepository(activeMemberRepo);
+    }
+
     @Bean("assignedFeeActiveMemberSource")
     public MemberRepository getActiveMemberSource(final ActiveMemberSpringRepository activeMemberRepo,
             final MemberSpringRepository memberSpringRepo) {
@@ -76,8 +83,8 @@ public class FeeConfig {
     }
 
     @Bean("feeMaintenanceService")
-    public FeeMaintenanceService getFeeMaintenanceService(final FeeSpringRepository feeRepo,
-            final ActiveMemberSpringRepository activeMemberRepository) {
+    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepo,
+            final ActiveMemberRepository activeMemberRepository) {
         return new DefaultFeeMaintenanceService(feeRepo, activeMemberRepository);
     }
 
