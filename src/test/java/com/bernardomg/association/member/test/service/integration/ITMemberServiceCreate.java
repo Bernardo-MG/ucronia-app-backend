@@ -38,7 +38,7 @@ import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.util.assertion.MemberAssertions;
-import com.bernardomg.association.member.usecase.MemberService;
+import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

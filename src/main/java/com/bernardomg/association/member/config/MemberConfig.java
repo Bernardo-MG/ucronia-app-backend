@@ -31,10 +31,10 @@ import com.bernardomg.association.member.domain.repository.MemberBalanceReposito
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.inbound.jpa.repository.JpaMemberBalanceRepository;
 import com.bernardomg.association.member.inbound.jpa.repository.MonthlyMemberBalanceSpringRepository;
-import com.bernardomg.association.member.usecase.DefaultMemberBalanceService;
-import com.bernardomg.association.member.usecase.DefaultMemberService;
-import com.bernardomg.association.member.usecase.MemberBalanceService;
-import com.bernardomg.association.member.usecase.MemberService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberBalanceService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.MemberBalanceService;
+import com.bernardomg.association.member.usecase.service.MemberService;
 
 /**
  * Member configuration.

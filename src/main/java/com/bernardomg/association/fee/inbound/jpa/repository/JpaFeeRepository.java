@@ -15,7 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeQuery;

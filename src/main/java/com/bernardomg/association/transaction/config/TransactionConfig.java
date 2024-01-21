@@ -33,12 +33,12 @@ import com.bernardomg.association.transaction.inbound.jpa.repository.JpaTransact
 import com.bernardomg.association.transaction.inbound.jpa.repository.JpaTransactionRepository;
 import com.bernardomg.association.transaction.inbound.jpa.repository.MonthlyBalanceSpringRepository;
 import com.bernardomg.association.transaction.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.usecase.DefaultTransactionBalanceService;
-import com.bernardomg.association.transaction.usecase.DefaultTransactionCalendarService;
-import com.bernardomg.association.transaction.usecase.DefaultTransactionService;
-import com.bernardomg.association.transaction.usecase.TransactionBalanceService;
-import com.bernardomg.association.transaction.usecase.TransactionCalendarService;
-import com.bernardomg.association.transaction.usecase.TransactionService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 
 /**
  * Transaction configuration.

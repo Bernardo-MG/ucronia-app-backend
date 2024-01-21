@@ -46,7 +46,7 @@ import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepo
 import com.bernardomg.association.member.outbound.model.MemberQuery;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
-import com.bernardomg.association.member.usecase.DefaultMemberService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member service - get all")

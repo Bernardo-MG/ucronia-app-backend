@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
-import com.bernardomg.association.transaction.usecase.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

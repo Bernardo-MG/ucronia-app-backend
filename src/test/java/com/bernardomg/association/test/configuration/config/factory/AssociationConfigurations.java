@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.test.configuration.config.factory;
 
-import com.bernardomg.association.configuration.model.AssociationConfiguration;
+import com.bernardomg.association.configuration.domain.model.AssociationConfiguration;
 
 public final class AssociationConfigurations {
 

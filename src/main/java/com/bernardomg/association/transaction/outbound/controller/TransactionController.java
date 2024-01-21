@@ -47,7 +47,7 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionChange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.usecase.TransactionService;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

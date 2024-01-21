@@ -47,7 +47,7 @@ import com.bernardomg.association.transaction.test.config.argument.CurrentAndPre
 import com.bernardomg.association.transaction.test.config.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.config.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
-import com.bernardomg.association.transaction.usecase.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

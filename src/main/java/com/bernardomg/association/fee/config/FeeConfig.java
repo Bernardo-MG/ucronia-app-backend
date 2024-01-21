@@ -28,7 +28,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.inbound.jpa.repository.ActiveMemberSpringRepository;
 import com.bernardomg.association.fee.inbound.jpa.repository.AssignedFeeActiveMemberRepository;

@@ -4,10 +4,10 @@ package com.bernardomg.association.configuration.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.configuration.service.AssociationConfigurationService;
-import com.bernardomg.association.configuration.service.DefaultAssociationConfigurationService;
-import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
-import com.bernardomg.association.configuration.source.CompositeAssociationConfigurationSource;
+import com.bernardomg.association.configuration.usecase.service.AssociationConfigurationService;
+import com.bernardomg.association.configuration.usecase.service.DefaultAssociationConfigurationService;
+import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
+import com.bernardomg.association.configuration.usecase.source.CompositeAssociationConfigurationSource;
 import com.bernardomg.configuration.persistence.repository.ConfigurationRepository;
 import com.bernardomg.configuration.source.ConfigurationSource;
 

@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.usecase.TransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

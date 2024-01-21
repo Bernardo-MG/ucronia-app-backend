@@ -39,7 +39,7 @@ import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.member.test.config.factory.MemberEntities;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.util.assertion.MemberAssertions;
-import com.bernardomg.association.member.usecase.MemberService;
+import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

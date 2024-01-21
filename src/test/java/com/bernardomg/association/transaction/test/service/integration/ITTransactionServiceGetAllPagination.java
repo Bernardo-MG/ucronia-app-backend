@@ -39,7 +39,7 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;
-import com.bernardomg.association.transaction.usecase.TransactionService;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

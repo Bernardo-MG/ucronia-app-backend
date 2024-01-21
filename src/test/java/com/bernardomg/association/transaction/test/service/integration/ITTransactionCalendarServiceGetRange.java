@@ -39,7 +39,7 @@ import com.bernardomg.association.transaction.config.data.annotation.MultipleTra
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.test.config.factory.TransactionCalendarMonthsRanges;
-import com.bernardomg.association.transaction.usecase.TransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

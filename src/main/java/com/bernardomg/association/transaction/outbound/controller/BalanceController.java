@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionBalanceQue
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.outbound.cache.TransactionCaches;
-import com.bernardomg.association.transaction.usecase.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

@@ -37,7 +37,7 @@ import com.bernardomg.association.transaction.config.data.annotation.FullTransac
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.test.config.factory.TransactionCurrentBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
-import com.bernardomg.association.transaction.usecase.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 /**

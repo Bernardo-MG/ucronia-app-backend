@@ -42,7 +42,7 @@ import com.bernardomg.association.transaction.inbound.jpa.repository.Transaction
 import com.bernardomg.association.transaction.test.config.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.TransactionService;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

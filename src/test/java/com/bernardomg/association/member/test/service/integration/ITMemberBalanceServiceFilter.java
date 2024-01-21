@@ -14,7 +14,7 @@ import com.bernardomg.association.member.test.config.data.annotation.Alternative
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberBalanceQueryRequests;
 import com.bernardomg.association.member.test.config.factory.MonthlyMemberBalances;
-import com.bernardomg.association.member.usecase.MemberBalanceService;
+import com.bernardomg.association.member.usecase.service.MemberBalanceService;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

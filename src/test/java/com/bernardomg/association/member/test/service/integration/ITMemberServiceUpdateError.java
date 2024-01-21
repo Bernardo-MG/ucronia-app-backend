@@ -34,7 +34,7 @@ import com.bernardomg.association.member.domain.exception.MissingMemberIdExcepti
 import com.bernardomg.association.member.outbound.model.MemberChange;
 import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
-import com.bernardomg.association.member.usecase.MemberService;
+import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
