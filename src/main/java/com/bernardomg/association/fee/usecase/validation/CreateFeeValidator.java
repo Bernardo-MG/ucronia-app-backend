@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.validation;
+package com.bernardomg.association.fee.usecase.validation;
 
 import java.util.Collection;
 

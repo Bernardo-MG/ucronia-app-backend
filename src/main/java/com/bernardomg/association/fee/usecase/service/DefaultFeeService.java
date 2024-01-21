@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.usecase;
+package com.bernardomg.association.fee.usecase.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.validation.CreateFeeValidator;
+import com.bernardomg.association.fee.usecase.validation.CreateFeeValidator;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;

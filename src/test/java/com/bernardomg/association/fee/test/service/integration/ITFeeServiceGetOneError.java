@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeIdException;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.usecase.FeeService;
+import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;

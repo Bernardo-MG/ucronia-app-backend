@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.fee.usecase.FeeService;
+import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;

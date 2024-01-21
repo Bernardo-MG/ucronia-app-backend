@@ -26,4 +26,4 @@
  * Association fee validators.
  */
 
-package com.bernardomg.association.fee.validation;
+package com.bernardomg.association.fee.usecase.validation;

@@ -22,41 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase;
-
-import org.springframework.data.domain.Sort;
-
-import com.bernardomg.association.fee.domain.model.FeeCalendar;
-import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.association.member.domain.model.MemberStatus;
-
 /**
- * Fee calendar service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Association fee services.
  */
-public interface FeeCalendarService {
 
-    /**
-     * Returns the range of available years. These are all the years which have fees assigned, except for any future
-     * year.
-     *
-     * @return the range of available years
-     */
-    public FeeCalendarYearsRange getRange();
-
-    /**
-     * Returns all the member fees for a year.
-     *
-     * @param year
-     *            year to read
-     * @param status
-     *            member active status
-     * @param sort
-     *            sorting to apply
-     * @return all the member fees for a year
-     */
-    public Iterable<FeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort);
-
-}
+package com.bernardomg.association.fee.usecase.service;

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.fee.test.config.argument.FeePaidArgumentsProvider;
-import com.bernardomg.association.fee.usecase.DefaultFeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.test.data.fee.initializer.FeeInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;

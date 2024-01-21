@@ -6,7 +6,7 @@ import java.util.Objects;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.bernardomg.association.fee.usecase.FeeMaintenanceService;
+import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 
 import lombok.extern.slf4j.Slf4j;
 

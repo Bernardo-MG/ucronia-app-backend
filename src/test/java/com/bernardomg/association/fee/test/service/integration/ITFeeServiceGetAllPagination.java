@@ -38,7 +38,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.config.factory.FeesQuery;
-import com.bernardomg.association.fee.usecase.FeeService;
+import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.MultipleMembers;
 import com.bernardomg.association.test.data.fee.annotation.MultipleFees;
 import com.bernardomg.test.config.annotation.IntegrationTest;

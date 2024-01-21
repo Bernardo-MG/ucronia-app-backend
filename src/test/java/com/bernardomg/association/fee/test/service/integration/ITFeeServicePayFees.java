@@ -44,7 +44,7 @@ import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.fee.test.config.factory.Fees;
 import com.bernardomg.association.fee.test.util.assertion.FeeAssertions;
-import com.bernardomg.association.fee.usecase.FeeService;
+import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.test.data.fee.annotation.NotPaidFee;
 import com.bernardomg.association.test.data.fee.annotation.PaidFee;

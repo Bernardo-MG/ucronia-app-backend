@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.usecase;
+package com.bernardomg.association.fee.usecase.service;
 
 public interface FeeMaintenanceService {
 
