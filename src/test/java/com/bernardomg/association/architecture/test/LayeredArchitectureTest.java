@@ -19,9 +19,9 @@ public class LayeredArchitectureTest {
         .layer("Domain")
         .definedBy("com.bernardomg.association..domain..")
         .layer("Infrastructure - Inbound")
-        .definedBy("com.bernardomg.association..infra.inbound..")
+        .definedBy("com.bernardomg.association..adapter.inbound..")
         .layer("Infrastructure - Outbound")
-        .definedBy("com.bernardomg.association..infra.outbound..")
+        .definedBy("com.bernardomg.association..adapter.outbound..")
         .layer("Configuration")
         .definedBy("com.bernardomg.association..config..")
 
@@ -30,7 +30,7 @@ public class LayeredArchitectureTest {
         .whereLayer("Infrastructure - Inbound")
         .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound")
         .whereLayer("Use case")
-        .mayOnlyBeAccessedByLayers("Configuration","Infrastructure - Inbound", "Infrastructure - Outbound")
+        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound")
         .whereLayer("Domain")
         .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound",
             "Infrastructure - Outbound");

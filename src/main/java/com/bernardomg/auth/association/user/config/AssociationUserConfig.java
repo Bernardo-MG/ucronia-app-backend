@@ -27,8 +27,8 @@ package com.bernardomg.auth.association.user.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.auth.association.user.infra.inbound.jpa.repository.UserMemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.auth.association.user.adapter.inbound.jpa.repository.UserMemberRepository;
 import com.bernardomg.auth.association.user.usecase.service.DefaultUserMemberService;
 import com.bernardomg.auth.association.user.usecase.service.UserMemberService;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;

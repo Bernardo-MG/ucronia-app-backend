@@ -36,8 +36,8 @@ import com.bernardomg.association.auth.user.test.util.model.UserMembers;
 import com.bernardomg.association.member.test.config.data.annotation.AlternativeMember;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
+import com.bernardomg.auth.association.user.adapter.inbound.jpa.repository.UserMemberRepository;
 import com.bernardomg.auth.association.user.domain.model.UserMember;
-import com.bernardomg.auth.association.user.infra.inbound.jpa.repository.UserMemberRepository;
 import com.bernardomg.auth.association.user.usecase.service.UserMemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -3,7 +3,7 @@ package com.bernardomg.association.member.test.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 public final class MemberAssertions {
 

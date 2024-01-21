@@ -27,12 +27,12 @@ package com.bernardomg.association.transaction.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionBalanceRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyBalanceSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.infra.inbound.jpa.repository.JpaTransactionBalanceRepository;
-import com.bernardomg.association.transaction.infra.inbound.jpa.repository.JpaTransactionRepository;
-import com.bernardomg.association.transaction.infra.inbound.jpa.repository.MonthlyBalanceSpringRepository;
-import com.bernardomg.association.transaction.infra.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
