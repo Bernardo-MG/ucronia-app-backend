@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.member.domain.model.Member;
 
@@ -27,7 +29,15 @@ public interface FeeRepository {
 
     public List<Fee> findAllByDate(final YearMonth date);
 
+    public Collection<Fee> findAllForActiveMembers(final int year, final Sort sort);
+
+    public Collection<Fee> findAllForInactiveMembers(final int year, final Sort sort);
+
+    public Collection<Fee> findAllInYear(final int year, final Sort sort);
+
     public Optional<Fee> findOne(final Long memberNumber, final YearMonth date);
+
+    public FeeCalendarYearsRange getRange();
 
     public void pay(final Member member, final Collection<Fee> fees, final LocalDate payDate);
 

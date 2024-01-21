@@ -72,9 +72,9 @@ public class FeeConfig {
     }
 
     @Bean("feeCalendarService")
-    public FeeCalendarService getFeeCalendarService(final MemberFeeSpringRepository memberFeeRepository,
-            final ActiveMemberSpringRepository activeMemberRepository) {
-        return new DefaultFeeCalendarService(memberFeeRepository, activeMemberRepository);
+    public FeeCalendarService getFeeCalendarService(final FeeRepository feeRepo,
+            final ActiveMemberRepository activeMemberRepository) {
+        return new DefaultFeeCalendarService(feeRepo, activeMemberRepository);
     }
 
     @Bean("feeMaintenanceScheduleTask")
@@ -91,10 +91,11 @@ public class FeeConfig {
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeRepo,
             final MemberFeeSpringRepository memberFeeRepo, final MemberSpringRepository memberRepo,
-            final FeePaymentSpringRepository feePaymentRepo, final TransactionSpringRepository transactionRepo,
-            final AssociationConfigurationSource configurationSrc, final MessageSource messageSrc) {
-        return new JpaFeeRepository(feeRepo, memberFeeRepo, memberRepo, feePaymentRepo, transactionRepo,
-            configurationSrc, messageSrc);
+            final ActiveMemberSpringRepository activeMemberRepo, final FeePaymentSpringRepository feePaymentRepo,
+            final TransactionSpringRepository transactionRepo, final AssociationConfigurationSource configurationSrc,
+            final MessageSource messageSrc) {
+        return new JpaFeeRepository(feeRepo, memberFeeRepo, memberRepo, activeMemberRepo, feePaymentRepo,
+            transactionRepo, configurationSrc, messageSrc);
     }
 
 }

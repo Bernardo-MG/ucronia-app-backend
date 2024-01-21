@@ -42,7 +42,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             // Prepare for the current month
             .map(this::toCurrentMonth)
             // Make sure the user is active
-            .filter(this::notInactive)
+            .filter(this::isActive)
             // Make sure it doesn't exist
             .filter(this::notExists)
             .toList();
@@ -51,14 +51,14 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         feeRepository.save(feesToCreate);
     }
 
+    private final boolean isActive(final Fee fee) {
+        return activeMemberRepository.isActivePreviousMonth(fee.getMember()
+            .getNumber());
+    }
+
     private final boolean notExists(final Fee fee) {
         return !feeRepository.exists(fee.getMember()
             .getNumber(), fee.getDate());
-    }
-
-    private final boolean notInactive(final Fee fee) {
-        return activeMemberRepository.isActivePreviousMonth(fee.getMember()
-            .getNumber());
     }
 
     private final Fee toCurrentMonth(final Fee fee) {

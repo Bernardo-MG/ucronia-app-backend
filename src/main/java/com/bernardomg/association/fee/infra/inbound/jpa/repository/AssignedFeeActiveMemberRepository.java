@@ -157,7 +157,7 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
 
         validStart = YearMonth.now();
         validEnd = YearMonth.now();
-        active = activeMemberRepository.isActive(member.getId(), validStart, validEnd);
+        active = activeMemberRepository.isActive(member.getNumber(), validStart, validEnd);
 
         domain = toDomain(member);
         domain.setActive(active);

@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.infra.inbound.jpa.repository;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
@@ -13,10 +14,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
@@ -37,6 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class JpaFeeRepository implements FeeRepository {
 
+    private final ActiveMemberSpringRepository   activeMemberRepository;
+
     private final AssociationConfigurationSource configurationSource;
 
     private final FeePaymentSpringRepository     feePaymentRepository;
@@ -52,14 +57,15 @@ public final class JpaFeeRepository implements FeeRepository {
     private final TransactionSpringRepository    transactionRepository;
 
     public JpaFeeRepository(final FeeSpringRepository feeRepo, final MemberFeeSpringRepository memberFeeRepo,
-            final MemberSpringRepository memberRepo, final FeePaymentSpringRepository feePaymentRepo,
-            final TransactionSpringRepository transactionRepo, final AssociationConfigurationSource configurationSrc,
-            final MessageSource messageSrc) {
+            final MemberSpringRepository memberRepo, final ActiveMemberSpringRepository activeMemberRepo,
+            final FeePaymentSpringRepository feePaymentRepo, final TransactionSpringRepository transactionRepo,
+            final AssociationConfigurationSource configurationSrc, final MessageSource messageSrc) {
         super();
 
         feeRepository = feeRepo;
         memberFeeRepository = memberFeeRepo;
         memberRepository = memberRepo;
+        activeMemberRepository = activeMemberRepo;
         feePaymentRepository = feePaymentRepo;
         transactionRepository = transactionRepo;
         configurationSource = configurationSrc;
@@ -118,7 +124,63 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final List<Fee> findAllByDate(final YearMonth date) {
-        return feeRepository.findAllByDate(date)
+        return memberFeeRepository.findAllByDate(date)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
+    public final Collection<Fee> findAllForActiveMembers(final int year, final Sort sort) {
+        final Collection<Long> foundIds;
+        final YearMonth        validStart;
+        final YearMonth        validEnd;
+        final YearMonth        start;
+        final YearMonth        end;
+
+        start = YearMonth.of(year, Month.JANUARY);
+        end = YearMonth.of(year, Month.DECEMBER);
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
+
+        foundIds = activeMemberRepository.findAllActiveIdsInRange(validStart, validEnd);
+
+        return memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
+    public final Collection<Fee> findAllForInactiveMembers(final int year, final Sort sort) {
+        final Collection<Long> foundIds;
+        final YearMonth        validStart;
+        final YearMonth        validEnd;
+        final YearMonth        start;
+        final YearMonth        end;
+
+        start = YearMonth.of(year, Month.JANUARY);
+        end = YearMonth.of(year, Month.DECEMBER);
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
+
+        foundIds = activeMemberRepository.findAllInactiveIds(validStart, validEnd);
+
+        return memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
+    public Collection<Fee> findAllInYear(final int year, final Sort sort) {
+        final YearMonth start;
+        final YearMonth end;
+
+        start = YearMonth.of(year, Month.JANUARY);
+        end = YearMonth.of(year, Month.DECEMBER);
+
+        return memberFeeRepository.findAllInRange(start, end, sort)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -131,6 +193,16 @@ public final class JpaFeeRepository implements FeeRepository {
         read = memberFeeRepository.findOneByMemberNumberAndDate(memberNumber, date);
 
         return read.map(this::toDomain);
+    }
+
+    @Override
+    public final FeeCalendarYearsRange getRange() {
+        final Collection<Integer> years;
+
+        years = memberFeeRepository.findYears();
+        return FeeCalendarYearsRange.builder()
+            .years(years)
+            .build();
     }
 
     @Override
@@ -304,9 +376,14 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
+        final long id;
+
+        id = memberRepository.findByNumber(fee.getMember()
+            .getNumber())
+            .get()
+            .getId();
         return FeeEntity.builder()
-            .memberId(fee.getMember()
-                .getNumber())
+            .memberId(id)
             .date(fee.getDate())
             .build();
     }

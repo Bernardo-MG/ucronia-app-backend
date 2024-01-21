@@ -16,11 +16,20 @@ public final class JpaActiveMemberRepository implements ActiveMemberRepository {
     }
 
     @Override
-    public boolean isActivePreviousMonth(final Long number) {
+    public boolean isActive(final long number) {
         final YearMonth validStart;
         final YearMonth validEnd;
 
-        // TODO: Should be done in the repository
+        validStart = YearMonth.now();
+        validEnd = YearMonth.now();
+        return activeMemberRepository.isActive(number, validStart, validEnd);
+    }
+
+    @Override
+    public boolean isActivePreviousMonth(final long number) {
+        final YearMonth validStart;
+        final YearMonth validEnd;
+
         validStart = YearMonth.now()
             .minusMonths(1);
         validEnd = YearMonth.now()

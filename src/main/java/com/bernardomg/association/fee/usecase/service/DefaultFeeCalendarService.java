@@ -24,142 +24,117 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.time.Month;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 
+import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMember;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonth;
 import com.bernardomg.association.fee.domain.model.FeeCalendarMonthFee;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
-import com.bernardomg.association.fee.infra.inbound.jpa.model.MemberFeeEntity;
-import com.bernardomg.association.fee.infra.inbound.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.infra.inbound.jpa.repository.MemberFeeSpringRepository;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
 
 public final class DefaultFeeCalendarService implements FeeCalendarService {
 
-    private final ActiveMemberSpringRepository activeMemberRepository;
+    private final ActiveMemberRepository activeMemberRepository;
 
-    private final MemberFeeSpringRepository    memberFeeRepository;
+    private final FeeRepository          feeRepository;
 
-    public DefaultFeeCalendarService(final MemberFeeSpringRepository memberFeeRepo,
-            final ActiveMemberSpringRepository activeMemberRepo) {
+    public DefaultFeeCalendarService(final FeeRepository feeRepo, final ActiveMemberRepository activeMemberRepo) {
         super();
 
-        memberFeeRepository = Objects.requireNonNull(memberFeeRepo);
+        feeRepository = Objects.requireNonNull(feeRepo);
         activeMemberRepository = Objects.requireNonNull(activeMemberRepo);
     }
 
     @Override
     public final FeeCalendarYearsRange getRange() {
-        final Collection<Integer> years;
-
-        years = memberFeeRepository.findYears();
-        return FeeCalendarYearsRange.builder()
-            .years(years)
-            .build();
+        return feeRepository.getRange();
     }
 
     @Override
     public final Iterable<FeeCalendar> getYear(final int year, final MemberStatus status, final Sort sort) {
-        final Collection<MemberFeeEntity>      readFees;
-        final Map<Long, List<MemberFeeEntity>> memberFees;
-        final Collection<FeeCalendar>          years;
-        final Collection<Long>                 memberIds;
-        final YearMonth                        start;
-        final YearMonth                        end;
-        final YearMonth                        validStart;
-        final YearMonth                        validEnd;
-        final Collection<Long>                 foundIds;
-        List<MemberFeeEntity>                  fees;
-        FeeCalendar                            feeYear;
-
-        start = YearMonth.of(year, Month.JANUARY);
-        end = YearMonth.of(year, Month.DECEMBER);
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
+        final Collection<Fee>         readFees;
+        final Map<Object, List<Fee>>  memberFees;
+        final Collection<FeeCalendar> years;
+        final Collection<Long>        memberNumbers;
+        List<Fee>                     fees;
+        FeeCalendar                   feeYear;
 
         // Select query based on status
         switch (status) {
             case ACTIVE:
-                foundIds = activeMemberRepository.findAllActiveIdsInRange(validStart, validEnd);
-
-                readFees = memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort);
+                readFees = feeRepository.findAllForActiveMembers(year, sort);
                 break;
             case INACTIVE:
-                foundIds = activeMemberRepository.findAllInactiveIds(validStart, validEnd);
-
-                readFees = memberFeeRepository.findAllInRangeForMembersIn(start, end, foundIds, sort);
+                readFees = feeRepository.findAllForInactiveMembers(year, sort);
                 break;
             default:
-                readFees = memberFeeRepository.findAllInRange(start, end, sort);
+                readFees = feeRepository.findAllInYear(year, sort);
         }
 
         // Member fees grouped by id
         memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(MemberFeeEntity::getMemberId));
+            .collect(Collectors.groupingBy(f -> f.getMember()
+                .getNumber()));
         // Sorted ids
-        memberIds = readFees.stream()
-            .map(MemberFeeEntity::getMemberId)
+        memberNumbers = readFees.stream()
+            .map(Fee::getMember)
+            .map(FeeMember::getNumber)
             .distinct()
             .toList();
 
         years = new ArrayList<>();
-        for (final Long memberId : memberIds) {
-            fees = memberFees.get(memberId);
-            feeYear = toFeeYear(memberId, year, fees);
+        for (final Long memberNumber : memberNumbers) {
+            fees = memberFees.get(memberNumber);
+            feeYear = toFeeYear(memberNumber, year, fees);
             years.add(feeYear);
         }
 
         return years;
     }
 
-    private final FeeCalendarMonth toFeeMonth(final MemberFeeEntity entity) {
+    private final FeeCalendarMonth toFeeMonth(final Fee fee) {
         final Integer             month;
-        final FeeCalendarMonthFee fee;
+        final FeeCalendarMonthFee calendarFee;
         final FeeCalendarMember   member;
 
         // Calendar months start at index 0, this has to be corrected
-        month = entity.getDate()
+        month = fee.getDate()
             .getMonth()
             .getValue();
 
-        fee = FeeCalendarMonthFee.builder()
-            .date(entity.getDate())
-            .paid(entity.getPaid())
+        calendarFee = FeeCalendarMonthFee.builder()
+            .date(fee.getDate())
+            .paid(fee.isPaid())
             .build();
         member = FeeCalendarMember.builder()
-            .number(entity.getMemberNumber())
+            .number(fee.getMember()
+                .getNumber())
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
+            .fee(calendarFee)
             .member(member)
             .month(month)
             .build();
     }
 
-    private final FeeCalendar toFeeYear(final Long memberId, final Integer year,
-            final Collection<MemberFeeEntity> fees) {
+    private final FeeCalendar toFeeYear(final Long memberNumber, final Integer year, final Collection<Fee> fees) {
         final Collection<FeeCalendarMonth> months;
-        final MemberFeeEntity              row;
+        final Fee                          row;
         final String                       name;
         final boolean                      active;
-        final YearMonth                    validStart;
-        final YearMonth                    validEnd;
-        final long                         memberNumber;
-        final Optional<MemberEntity>       read;
         final FeeCalendarMember            member;
 
         months = fees.stream()
@@ -170,20 +145,10 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
 
         row = fees.iterator()
             .next();
-        name = row.getFullName();
+        name = row.getMember()
+            .getFullName();
 
-        // TODO: should be done in the repository
-        validStart = YearMonth.now();
-        validEnd = YearMonth.now();
-        active = activeMemberRepository.isActive(memberId, validStart, validEnd);
-
-        read = activeMemberRepository.findById(memberId);
-        if (read.isPresent()) {
-            memberNumber = read.get()
-                .getNumber();
-        } else {
-            memberNumber = -1;
-        }
+        active = activeMemberRepository.isActive(memberNumber);
 
         member = FeeCalendarMember.builder()
             .number(memberNumber)

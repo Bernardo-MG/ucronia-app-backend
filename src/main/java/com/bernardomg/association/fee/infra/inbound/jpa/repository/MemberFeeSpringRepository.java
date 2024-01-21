@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.infra.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -43,6 +44,15 @@ public interface MemberFeeSpringRepository
 
     public boolean existsByMemberNumberAndDateAndPaid(final Long memberNumber, final YearMonth date,
             final boolean paid);
+
+    /**
+     * Returns all the fees in the received date.
+     *
+     * @param date
+     *            date to filter by
+     * @return all the fees in the date
+     */
+    public List<MemberFeeEntity> findAllByDate(final YearMonth date);
 
     public Collection<MemberFeeEntity> findAllByMemberNumberAndDateIn(final Long memberNumber,
             final Collection<YearMonth> feeDates);
