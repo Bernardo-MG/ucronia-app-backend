@@ -3,7 +3,7 @@ package com.bernardomg.association.transaction.test.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.inbound.jpa.model.TransactionEntity;
 
 public final class TransactionAssertions {
 

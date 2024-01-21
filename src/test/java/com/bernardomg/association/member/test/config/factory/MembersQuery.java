@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.member.test.config.factory;
 
-import com.bernardomg.association.member.delivery.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.outbound.model.MemberQuery;
 
 public final class MembersQuery {
 

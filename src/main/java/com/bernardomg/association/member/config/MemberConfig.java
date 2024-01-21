@@ -29,8 +29,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.member.domain.repository.MemberBalanceRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.infra.jpa.repository.JpaMemberBalanceRepository;
-import com.bernardomg.association.member.infra.jpa.repository.MonthlyMemberBalanceSpringRepository;
+import com.bernardomg.association.member.inbound.jpa.repository.JpaMemberBalanceRepository;
+import com.bernardomg.association.member.inbound.jpa.repository.MonthlyMemberBalanceSpringRepository;
 import com.bernardomg.association.member.usecase.DefaultMemberBalanceService;
 import com.bernardomg.association.member.usecase.DefaultMemberService;
 import com.bernardomg.association.member.usecase.MemberBalanceService;

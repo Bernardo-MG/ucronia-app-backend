@@ -3,7 +3,7 @@ package com.bernardomg.association.fee.test.util.assertion;
 
 import org.assertj.core.api.SoftAssertions;
 
-import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
 
 public final class FeeAssertions {
 

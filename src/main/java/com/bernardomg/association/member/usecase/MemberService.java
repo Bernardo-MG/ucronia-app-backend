@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.member.delivery.model.MemberChange;
-import com.bernardomg.association.member.delivery.model.MemberQuery;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.outbound.model.MemberChange;
+import com.bernardomg.association.member.outbound.model.MemberQuery;
 
 /**
  * Member service. Supports all the CRUD operations.

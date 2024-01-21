@@ -29,21 +29,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.configuration.source.AssociationConfigurationSource;
-import com.bernardomg.association.fee.delivery.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.ActiveMemberSpringRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.AssignedFeeActiveMemberRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeePaymentSpringRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.FeeSpringRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.JpaFeeRepository;
-import com.bernardomg.association.fee.infra.jpa.repository.MemberFeeSpringRepository;
+import com.bernardomg.association.fee.inbound.jpa.repository.ActiveMemberSpringRepository;
+import com.bernardomg.association.fee.inbound.jpa.repository.AssignedFeeActiveMemberRepository;
+import com.bernardomg.association.fee.inbound.jpa.repository.FeePaymentSpringRepository;
+import com.bernardomg.association.fee.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.inbound.jpa.repository.JpaFeeRepository;
+import com.bernardomg.association.fee.inbound.jpa.repository.MemberFeeSpringRepository;
+import com.bernardomg.association.fee.outbound.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.fee.usecase.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.FeeCalendarService;
 import com.bernardomg.association.fee.usecase.FeeMaintenanceService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.transaction.infra.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.transaction.inbound.jpa.repository.TransactionSpringRepository;
 
 /**
  * Fee configuration.

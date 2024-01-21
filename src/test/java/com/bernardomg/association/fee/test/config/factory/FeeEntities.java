@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.test.config.factory;
 
-import com.bernardomg.association.fee.infra.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
 
 public final class FeeEntities {
 

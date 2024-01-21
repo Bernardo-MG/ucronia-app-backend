@@ -4,7 +4,7 @@ package com.bernardomg.association.transaction.test.config.factory;
 import java.time.LocalDate;
 
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
-import com.bernardomg.association.transaction.infra.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.inbound.jpa.model.TransactionEntity;
 
 public final class TransactionEntities {
 

@@ -29,10 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.delivery.model.MemberChange;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.infra.jpa.model.MemberEntity;
-import com.bernardomg.association.member.infra.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.outbound.model.MemberChange;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;
 import com.bernardomg.association.member.test.config.factory.MemberChanges;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
