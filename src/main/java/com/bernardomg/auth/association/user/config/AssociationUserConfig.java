@@ -22,45 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.test.service.integration;
+package com.bernardomg.auth.association.user.config;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
-import com.bernardomg.association.auth.user.test.util.model.UserConstants;
+import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.auth.association.user.infra.inbound.jpa.repository.UserMemberRepository;
+import com.bernardomg.auth.association.user.usecase.service.DefaultUserMemberService;
 import com.bernardomg.auth.association.user.usecase.service.UserMemberService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 
-@IntegrationTest
-@DisplayName("User member service - delete member")
-class ITUserMemberServiceDeleteMember {
+@Configuration
+public class AssociationUserConfig {
 
-    @Autowired
-    private UserMemberService    service;
-
-    @Autowired
-    private UserMemberRepository userMemberRepository;
-
-    public ITUserMemberServiceDeleteMember() {
+    public AssociationUserConfig() {
         super();
     }
 
-    @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithMember
-    void testDeleteMember() {
-
-        // WHEN
-        service.deleteMember(UserConstants.USERNAME);
-
-        // THEN
-        Assertions.assertThat(userMemberRepository.count())
-            .as("user members")
-            .isZero();
+    @Bean("userMemberService")
+    public UserMemberService getUserMemberServicee(final UserRepository userRepository,
+            final MemberSpringRepository memberRepository, final UserMemberRepository userMemberRepository) {
+        return new DefaultUserMemberService(userRepository, memberRepository, userMemberRepository);
     }
 
 }

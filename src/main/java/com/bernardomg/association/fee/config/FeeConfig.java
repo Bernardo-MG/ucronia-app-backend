@@ -28,7 +28,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.configuration.usecase.source.AssociationConfigurationSource;
+import com.bernardomg.association.configuration.infra.inbound.source.AssociationConfigurationSource;
 import com.bernardomg.association.fee.domain.repository.ActiveMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.ActiveMemberSpringRepository;
@@ -38,7 +38,7 @@ import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepo
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.JpaActiveMemberRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.infra.inbound.jpa.repository.MemberFeeSpringRepository;
-import com.bernardomg.association.fee.infra.outbound.schedule.FeeMaintenanceScheduleTask;
+import com.bernardomg.association.fee.infra.inbound.schedule.FeeMaintenanceScheduleTask;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeCalendarService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.FeeCalendarService;

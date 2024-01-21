@@ -26,11 +26,11 @@ public class LayeredArchitectureTest {
         .definedBy("com.bernardomg.association..config..")
 
         .whereLayer("Infrastructure - Outbound")
-        .mayNotBeAccessedByAnyLayer()
+        .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Infrastructure - Inbound")
         .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound")
         .whereLayer("Use case")
-        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Outbound")
+        .mayOnlyBeAccessedByLayers("Configuration","Infrastructure - Inbound", "Infrastructure - Outbound")
         .whereLayer("Domain")
         .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound",
             "Infrastructure - Outbound");
