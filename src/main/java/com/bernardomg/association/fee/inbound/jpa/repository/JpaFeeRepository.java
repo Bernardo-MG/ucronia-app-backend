@@ -23,6 +23,7 @@ import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
+import com.bernardomg.association.fee.inbound.jpa.model.MemberFee;
 import com.bernardomg.association.fee.inbound.jpa.model.MemberFeeEntity;
 import com.bernardomg.association.fee.inbound.jpa.specification.MemberFeeSpecifications;
 import com.bernardomg.association.member.domain.model.Member;
@@ -109,7 +110,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Collection<Fee> findAll(final Long memberNumber, final Collection<YearMonth> feeDates) {
-        return memberFeeRepository.findAllByMemberNumberAndDateIn(memberNumber, feeDates)
+        return feeRepository.findAllByMemberNumberAndDateIn(memberNumber, feeDates)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -178,6 +179,10 @@ public final class JpaFeeRepository implements FeeRepository {
                 .build())
             .toList();
         feePaymentRepository.saveAll(payments);
+
+        transactionRepository.flush();
+        feePaymentRepository.flush();
+        memberFeeRepository.flush();
     }
 
     @Override
@@ -232,6 +237,26 @@ public final class JpaFeeRepository implements FeeRepository {
             .build();
         return Fee.builder()
             .date(entity.getDate())
+            .member(member)
+            .transaction(transaction)
+            .build();
+    }
+
+    private final Fee toDomain(final MemberFee entity) {
+        final FeeMember      member;
+        final FeeTransaction transaction;
+
+        member = FeeMember.builder()
+            .fullName(entity.getMemberName())
+            .number(entity.getMemberNumber())
+            .build();
+        transaction = FeeTransaction.builder()
+            .index(entity.getTransactionIndex())
+            .date(entity.getPaymentDate())
+            .build();
+        return Fee.builder()
+            .date(entity.getDate())
+            .paid(entity.getPaid())
             .member(member)
             .transaction(transaction)
             .build();

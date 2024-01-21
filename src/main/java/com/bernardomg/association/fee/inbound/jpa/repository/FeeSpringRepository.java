@@ -25,12 +25,16 @@
 package com.bernardomg.association.fee.inbound.jpa.repository;
 
 import java.time.YearMonth;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.inbound.jpa.model.MemberFee;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
 
@@ -44,6 +48,10 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long> {
      * @return all the fees in the date
      */
     public List<FeeEntity> findAllByDate(final YearMonth date);
+
+    @Query("SELECT f.id AS id, m.id AS memberId, m.number AS memberNumber, TRIM(CONCAT(m.name, ' ', m.surname)) AS memberName, f.date AS date, t.index AS transactionIndex, t.date AS paymentDate, CASE WHEN p.feeId IS NOT NULL THEN true ELSE false END AS paid FROM Member m INNER JOIN Fee f ON m.id = f.memberId LEFT JOIN FeePayment p ON f.id = p.feeId LEFT JOIN Transaction t ON p.transactionId = t.id WHERE m.number = :memberNumber AND f.date in :feeDates")
+    public Collection<MemberFee> findAllByMemberNumberAndDateIn(@Param("memberNumber") final Long memberNumber,
+            @Param("feeDates") final Collection<YearMonth> feeDates);
 
     /**
      * Finds the fee for the member in the date.

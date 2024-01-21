@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayment;
 import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
 import com.bernardomg.association.fee.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
@@ -202,7 +203,7 @@ class ITFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is persisted")
+    @DisplayName("When a fee is paid with multiple dates and a fee exists but is not paid, a single transaction is returned")
     @ValidMember
     @NotPaidFee
     @FeeAmountConfiguration
@@ -431,7 +432,10 @@ class ITFeeServicePayFees {
     @ValidMember
     @FeeAmountConfiguration
     void testCreate_PersistedRelationship() {
-        final FeePayment payment;
+        final FeePayment        payment;
+        final FeePaymentEntity  relationship;
+        final FeeEntity         fee;
+        final TransactionEntity transaction;
 
         // GIVEN
         payment = FeePayments.single();
@@ -442,6 +446,21 @@ class ITFeeServicePayFees {
         // THEN
         Assertions.assertThat(feePaymentRepository.count())
             .isEqualTo(1);
+
+        fee = feeRepository.findAll()
+            .iterator()
+            .next();
+        transaction = transactionRepository.findAll()
+            .iterator()
+            .next();
+        relationship = feePaymentRepository.findAll()
+            .iterator()
+            .next();
+
+        Assertions.assertThat(relationship.getFeeId())
+            .isEqualTo(fee.getId());
+        Assertions.assertThat(relationship.getTransactionId())
+            .isEqualTo(transaction.getId());
     }
 
     @Test
