@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.service.DefaultUserMemberService;
 import com.bernardomg.association.auth.user.service.UserMemberService;
-import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 
 @Configuration

@@ -7,8 +7,8 @@ import java.time.Month;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.transaction.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.infra.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 
 @Component

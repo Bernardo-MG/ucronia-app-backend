@@ -42,8 +42,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.outbound.model.MemberQuery;
+import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.infra.outbound.model.MemberQuery;
 import com.bernardomg.association.member.test.config.factory.Members;
 import com.bernardomg.association.member.test.config.factory.MembersQuery;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;

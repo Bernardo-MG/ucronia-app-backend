@@ -26,10 +26,10 @@ import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
 import com.bernardomg.association.fee.inbound.jpa.model.MemberFeeEntity;
 import com.bernardomg.association.fee.inbound.jpa.specification.MemberFeeSpecifications;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.transaction.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.transaction.infra.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.inbound.jpa.repository.TransactionSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

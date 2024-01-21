@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.domain.model.FeeCalendar;
 import com.bernardomg.association.fee.domain.model.FeeCalendarQuery;
 import com.bernardomg.association.fee.domain.model.FeeCalendarYearsRange;
 import com.bernardomg.association.fee.usecase.FeeCalendarService;
-import com.bernardomg.association.member.outbound.cache.MembersCaches;
+import com.bernardomg.association.member.infra.outbound.cache.MembersCaches;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 

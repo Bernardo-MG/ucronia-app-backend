@@ -9,8 +9,8 @@ import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
 import com.bernardomg.association.fee.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
-import com.bernardomg.association.transaction.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.infra.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.infra.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 
 @Component

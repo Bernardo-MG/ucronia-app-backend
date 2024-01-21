@@ -18,8 +18,8 @@ import com.bernardomg.association.member.domain.exception.MissingMemberIdExcepti
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.outbound.model.MemberChange;
-import com.bernardomg.association.member.outbound.model.MemberQuery;
+import com.bernardomg.association.member.infra.outbound.model.MemberChange;
+import com.bernardomg.association.member.infra.outbound.model.MemberQuery;
 
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;

@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberName;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;
 
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;

@@ -40,7 +40,7 @@ import com.bernardomg.association.transaction.config.data.annotation.FullTransac
 import com.bernardomg.association.transaction.config.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
-import com.bernardomg.association.transaction.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.infra.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
 import com.bernardomg.association.transaction.test.config.factory.Transactions;
 import com.bernardomg.association.transaction.test.config.factory.TransactionsQueries;

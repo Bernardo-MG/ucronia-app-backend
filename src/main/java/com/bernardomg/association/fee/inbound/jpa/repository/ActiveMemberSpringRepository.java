@@ -33,7 +33,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.member.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
 
 public interface ActiveMemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
