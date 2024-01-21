@@ -22,8 +22,10 @@
  * SOFTWARE.
  */
 
-/**
- * Association membership cache constants.
- */
+package com.bernardomg.association.auth.user.infra.inbound.jpa.repository;
 
-package com.bernardomg.association.auth.user.cache;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bernardomg.association.auth.user.infra.inbound.jpa.model.UserMemberEntity;
+
+public interface UserMemberRepository extends JpaRepository<UserMemberEntity, Long> {}

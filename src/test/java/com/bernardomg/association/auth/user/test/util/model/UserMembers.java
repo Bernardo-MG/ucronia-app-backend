@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.auth.user.test.util.model;
 
-import com.bernardomg.association.auth.user.model.UserMember;
+import com.bernardomg.association.auth.user.domain.model.UserMember;
 import com.bernardomg.association.member.test.config.factory.MemberConstants;
 
 public final class UserMembers {

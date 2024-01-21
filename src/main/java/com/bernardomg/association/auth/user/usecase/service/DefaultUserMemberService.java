@@ -1,11 +1,11 @@
 
-package com.bernardomg.association.auth.user.service;
+package com.bernardomg.association.auth.user.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.auth.user.model.UserMember;
-import com.bernardomg.association.auth.user.persistence.model.UserMemberEntity;
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
+import com.bernardomg.association.auth.user.domain.model.UserMember;
+import com.bernardomg.association.auth.user.infra.inbound.jpa.model.UserMemberEntity;
+import com.bernardomg.association.auth.user.infra.inbound.jpa.repository.UserMemberRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
 import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;

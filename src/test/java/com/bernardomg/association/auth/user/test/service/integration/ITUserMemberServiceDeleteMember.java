@@ -29,10 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.auth.user.persistence.repository.UserMemberRepository;
-import com.bernardomg.association.auth.user.service.UserMemberService;
+import com.bernardomg.association.auth.user.infra.inbound.jpa.repository.UserMemberRepository;
 import com.bernardomg.association.auth.user.test.config.data.annotation.ValidUserWithMember;
 import com.bernardomg.association.auth.user.test.util.model.UserConstants;
+import com.bernardomg.association.auth.user.usecase.service.UserMemberService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

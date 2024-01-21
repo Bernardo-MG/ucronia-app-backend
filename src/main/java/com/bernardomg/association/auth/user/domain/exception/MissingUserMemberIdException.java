@@ -22,8 +22,22 @@
  * SOFTWARE.
  */
 
-/**
- * User exceptions.
- */
+package com.bernardomg.association.auth.user.domain.exception;
 
-package com.bernardomg.association.auth.user.exception;
+import com.bernardomg.exception.MissingIdException;
+
+/**
+ * Missing user member exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingUserMemberIdException extends MissingIdException {
+
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingUserMemberIdException(final String username) {
+        super("user", username);
+    }
+
+}

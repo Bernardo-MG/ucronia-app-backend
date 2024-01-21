@@ -22,10 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.auth.user.persistence.repository;
+/**
+ * User member persistence model.
+ */
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.association.auth.user.persistence.model.UserMemberEntity;
-
-public interface UserMemberRepository extends JpaRepository<UserMemberEntity, Long> {}
+package com.bernardomg.association.auth.user.infra.inbound.jpa.model;

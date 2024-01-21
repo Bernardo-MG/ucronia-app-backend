@@ -1,9 +1,9 @@
 
-package com.bernardomg.association.auth.user.service;
+package com.bernardomg.association.auth.user.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.auth.user.model.UserMember;
+import com.bernardomg.association.auth.user.domain.model.UserMember;
 
 public interface UserMemberService {
 

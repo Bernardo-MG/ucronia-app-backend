@@ -23,7 +23,7 @@
  */
 
 /**
- * User member persistence model.
+ * User member controllers.
  */
 
-package com.bernardomg.association.auth.user.persistence.model;
+package com.bernardomg.association.auth.user.outbound.rest.controller;

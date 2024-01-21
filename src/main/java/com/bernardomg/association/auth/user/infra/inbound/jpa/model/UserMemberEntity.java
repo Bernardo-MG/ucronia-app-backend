@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.auth.user.persistence.model;
+package com.bernardomg.association.auth.user.infra.inbound.jpa.model;
 
 import java.io.Serializable;
 
