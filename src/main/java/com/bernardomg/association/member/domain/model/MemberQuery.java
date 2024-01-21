@@ -1,7 +1,5 @@
 
-package com.bernardomg.association.member.usecase.model;
-
-import com.bernardomg.association.member.domain.model.MemberStatus;
+package com.bernardomg.association.member.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

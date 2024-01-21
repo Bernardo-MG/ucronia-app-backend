@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.usecase.model.unit;
+package com.bernardomg.association.member.test.domain.model.unit;
 
 import java.util.Set;
 
@@ -7,8 +7,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.bernardomg.association.member.domain.model.MemberChange;
 import com.bernardomg.association.member.test.config.factory.MemberChanges;
-import com.bernardomg.association.member.usecase.model.MemberChange;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

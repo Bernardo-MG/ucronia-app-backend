@@ -26,4 +26,4 @@
  * User member repositories.
  */
 
-package com.bernardomg.auth.association.user.adapter.inbound.jpa.repository;
+package com.bernardomg.association.auth.user.adapter.inbound.jpa.repository;

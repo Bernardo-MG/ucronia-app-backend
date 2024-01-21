@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.member.test.config.factory;
 
-import com.bernardomg.association.member.usecase.model.MemberChange;
-import com.bernardomg.association.member.usecase.model.MemberChangeName;
+import com.bernardomg.association.member.domain.model.MemberChange;
+import com.bernardomg.association.member.domain.model.MemberChangeName;
 
 public final class MemberChanges {
 

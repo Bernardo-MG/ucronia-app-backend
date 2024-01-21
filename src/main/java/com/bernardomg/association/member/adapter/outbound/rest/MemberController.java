@@ -44,8 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.usecase.model.MemberChange;
-import com.bernardomg.association.member.usecase.model.MemberQuery;
+import com.bernardomg.association.member.domain.model.MemberChange;
+import com.bernardomg.association.member.domain.model.MemberQuery;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;

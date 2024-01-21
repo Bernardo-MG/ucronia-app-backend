@@ -3,11 +3,11 @@ package com.bernardomg.auth.association.user.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.model.UserMemberEntity;
+import com.bernardomg.association.auth.user.adapter.inbound.jpa.repository.UserMemberJpaRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberIdException;
-import com.bernardomg.auth.association.user.adapter.inbound.jpa.model.UserMemberEntity;
-import com.bernardomg.auth.association.user.adapter.inbound.jpa.repository.UserMemberRepository;
 import com.bernardomg.auth.association.user.domain.model.UserMember;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
@@ -17,14 +17,14 @@ import io.jsonwebtoken.lang.Strings;
 
 public final class DefaultUserMemberService implements UserMemberService {
 
-    private final MemberSpringRepository memberRepository;
+    private final MemberSpringRepository  memberRepository;
 
-    private final UserMemberRepository   userMemberRepository;
+    private final UserMemberJpaRepository userMemberRepository;
 
-    private final UserRepository         userRepository;
+    private final UserRepository          userRepository;
 
     public DefaultUserMemberService(final UserRepository userRepo, final MemberSpringRepository memberRepo,
-            final UserMemberRepository userMemberRepo) {
+            final UserMemberJpaRepository userMemberRepo) {
         super();
 
         userRepository = userRepo;

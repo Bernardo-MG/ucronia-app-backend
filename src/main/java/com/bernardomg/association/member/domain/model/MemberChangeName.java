@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.usecase.model;
+package com.bernardomg.association.member.domain.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

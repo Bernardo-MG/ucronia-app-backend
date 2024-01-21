@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.usecase.model;
+package com.bernardomg.association.member.domain.model;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
