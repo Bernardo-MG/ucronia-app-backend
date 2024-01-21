@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeConstants;
 import com.bernardomg.association.fee.usecase.FeeService;
 import com.bernardomg.association.member.test.config.data.annotation.ValidMember;

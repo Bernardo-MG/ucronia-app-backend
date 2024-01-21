@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.inbound.jpa.model;
+package com.bernardomg.association.fee.infra.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.YearMonth;

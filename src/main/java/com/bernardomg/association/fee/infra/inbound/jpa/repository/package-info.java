@@ -26,4 +26,4 @@
  * Association fee repositories.
  */
 
-package com.bernardomg.association.fee.inbound.jpa.repository;
+package com.bernardomg.association.fee.infra.inbound.jpa.repository;

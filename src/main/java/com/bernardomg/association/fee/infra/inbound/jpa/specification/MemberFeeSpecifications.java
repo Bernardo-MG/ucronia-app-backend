@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.inbound.jpa.specification;
+package com.bernardomg.association.fee.infra.inbound.jpa.specification;
 
 import java.time.YearMonth;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.fee.inbound.jpa.model.MemberFeeEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.MemberFeeEntity;
 
 public final class MemberFeeSpecifications {
 

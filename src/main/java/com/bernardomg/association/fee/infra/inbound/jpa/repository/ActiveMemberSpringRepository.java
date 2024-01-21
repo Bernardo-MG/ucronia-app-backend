@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.inbound.jpa.repository;
+package com.bernardomg.association.fee.infra.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;

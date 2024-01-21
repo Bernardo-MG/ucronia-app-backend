@@ -23,7 +23,7 @@
  */
 
 /**
- * Association fee schedules tasks.
+ * Association fee controllers.
  */
 
-package com.bernardomg.association.fee.outbound.schedule;
+package com.bernardomg.association.fee.infra.outbound.controller;

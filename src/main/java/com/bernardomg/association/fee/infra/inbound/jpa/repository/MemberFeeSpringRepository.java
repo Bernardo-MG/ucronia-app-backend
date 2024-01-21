@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.inbound.jpa.repository;
+package com.bernardomg.association.fee.infra.inbound.jpa.repository;
 
 import java.time.YearMonth;
 import java.util.Collection;
@@ -34,7 +34,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.fee.inbound.jpa.model.MemberFeeEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.MemberFeeEntity;
 
 public interface MemberFeeSpringRepository
         extends JpaRepository<MemberFeeEntity, Long>, JpaSpecificationExecutor<MemberFeeEntity> {

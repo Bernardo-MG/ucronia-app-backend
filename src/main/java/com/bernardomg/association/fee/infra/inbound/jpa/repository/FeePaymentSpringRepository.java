@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.inbound.jpa.repository;
+package com.bernardomg.association.fee.infra.inbound.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.FeePaymentEntity;
 
 public interface FeePaymentSpringRepository extends JpaRepository<FeePaymentEntity, Long> {}

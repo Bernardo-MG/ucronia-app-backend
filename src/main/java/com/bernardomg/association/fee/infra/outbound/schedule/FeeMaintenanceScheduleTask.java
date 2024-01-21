@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.outbound.schedule;
+package com.bernardomg.association.fee.infra.outbound.schedule;
 
 import java.util.Objects;
 

@@ -23,7 +23,7 @@
  */
 
 /**
- * Association fee persistence model.
+ * Association fee schedules tasks.
  */
 
-package com.bernardomg.association.fee.inbound.jpa.model;
+package com.bernardomg.association.fee.infra.outbound.schedule;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.inbound.jpa.repository;
+package com.bernardomg.association.fee.infra.inbound.jpa.repository;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -21,11 +21,11 @@ import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
-import com.bernardomg.association.fee.inbound.jpa.model.MemberFee;
-import com.bernardomg.association.fee.inbound.jpa.model.MemberFeeEntity;
-import com.bernardomg.association.fee.inbound.jpa.specification.MemberFeeSpecifications;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.FeePaymentEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.MemberFee;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.MemberFeeEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.specification.MemberFeeSpecifications;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.infra.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.infra.inbound.jpa.repository.MemberSpringRepository;

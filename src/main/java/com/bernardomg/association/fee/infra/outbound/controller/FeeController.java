@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.outbound.controller;
+package com.bernardomg.association.fee.infra.outbound.controller;
 
 import java.time.YearMonth;
 import java.util.Collection;

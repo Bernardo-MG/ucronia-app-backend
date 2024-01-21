@@ -36,10 +36,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayment;
-import com.bernardomg.association.fee.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.inbound.jpa.model.FeePaymentEntity;
-import com.bernardomg.association.fee.inbound.jpa.repository.FeePaymentSpringRepository;
-import com.bernardomg.association.fee.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.model.FeePaymentEntity;
+import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeePaymentSpringRepository;
+import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
 import com.bernardomg.association.fee.test.config.factory.FeePayments;
 import com.bernardomg.association.fee.test.config.factory.Fees;

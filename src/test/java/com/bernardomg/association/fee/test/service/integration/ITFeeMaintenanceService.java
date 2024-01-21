@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.infra.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.argument.FeeMonthPaidArgumentsProvider;
 import com.bernardomg.association.fee.test.config.argument.FeePaidArgumentsProvider;
 import com.bernardomg.association.fee.usecase.DefaultFeeMaintenanceService;

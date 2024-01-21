@@ -23,7 +23,7 @@
  */
 
 /**
- * Association fee controllers.
+ * Association fee persistence model.
  */
 
-package com.bernardomg.association.fee.outbound.controller;
+package com.bernardomg.association.fee.infra.inbound.jpa.model;
