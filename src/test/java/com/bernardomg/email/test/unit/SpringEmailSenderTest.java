@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,11 +28,11 @@ import jakarta.mail.internet.MimeMessage;
 @DisplayName("SpringMailSecurityEmailSender - Password recovery")
 public class SpringEmailSenderTest {
 
-    private final ArgumentCaptor<MimeMessagePreparator> emailMessageCaptor = ArgumentCaptor
-        .forClass(MimeMessagePreparator.class);
+    @Captor
+    private ArgumentCaptor<MimeMessagePreparator> emailMessageCaptor;
 
     @Mock
-    private JavaMailSender                              javaMailSender;
+    private JavaMailSender                        javaMailSender;
 
     public SpringEmailSenderTest() {
         super();
