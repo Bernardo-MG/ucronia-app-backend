@@ -7,7 +7,7 @@ public final class FeesUpdate {
 
     public static final FeeChange nextMonth() {
         return FeeChange.builder()
-            .date(FeeConstants.NEXT_MONTH)
+            .withDate(FeeConstants.NEXT_MONTH)
             .build();
     }
 

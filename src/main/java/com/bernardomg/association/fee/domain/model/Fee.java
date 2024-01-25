@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Value;
 
 @Value
-@Builder
+@Builder(setterPrefix = "with")
 public final class Fee {
 
     @JsonFormat(pattern = "yyyy-MM")

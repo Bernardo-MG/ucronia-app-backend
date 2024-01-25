@@ -15,15 +15,15 @@ public final class FeePayments {
         final FeePaymentTransaction transaction;
 
         member = FeePaymentMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeePaymentTransaction.builder()
-            .date(FeeConstants.PAYMENT_DATE)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return FeePayment.builder()
-            .member(member)
-            .transaction(transaction)
-            .feeDates(List.of(FeeConstants.NEXT_DATE))
+            .withMember(member)
+            .withTransaction(transaction)
+            .withFeeDates(List.of(FeeConstants.NEXT_DATE))
             .build();
     }
 
@@ -32,15 +32,15 @@ public final class FeePayments {
         final FeePaymentTransaction transaction;
 
         member = FeePaymentMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeePaymentTransaction.builder()
-            .date(FeeConstants.PAYMENT_DATE)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return FeePayment.builder()
-            .member(member)
-            .transaction(transaction)
-            .feeDates(List.of(FeeConstants.DATE, FeeConstants.DATE))
+            .withMember(member)
+            .withTransaction(transaction)
+            .withFeeDates(List.of(FeeConstants.DATE, FeeConstants.DATE))
             .build();
     }
 
@@ -49,15 +49,15 @@ public final class FeePayments {
         final FeePaymentTransaction transaction;
 
         member = FeePaymentMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeePaymentTransaction.builder()
-            .date(FeeConstants.PAYMENT_DATE)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return FeePayment.builder()
-            .member(member)
-            .transaction(transaction)
-            .feeDates(List.of(FeeConstants.DATE))
+            .withMember(member)
+            .withTransaction(transaction)
+            .withFeeDates(List.of(FeeConstants.DATE))
             .build();
     }
 
@@ -66,15 +66,15 @@ public final class FeePayments {
         final FeePaymentTransaction transaction;
 
         member = FeePaymentMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeePaymentTransaction.builder()
-            .date(FeeConstants.PAYMENT_DATE)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return FeePayment.builder()
-            .member(member)
-            .transaction(transaction)
-            .feeDates(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE))
+            .withMember(member)
+            .withTransaction(transaction)
+            .withFeeDates(List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE))
             .build();
     }
 
@@ -83,15 +83,15 @@ public final class FeePayments {
         final FeePaymentTransaction transaction;
 
         member = FeePaymentMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeePaymentTransaction.builder()
-            .date(FeeConstants.PAYMENT_DATE)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return FeePayment.builder()
-            .member(member)
-            .transaction(transaction)
-            .feeDates(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE))
+            .withMember(member)
+            .withTransaction(transaction)
+            .withFeeDates(List.of(FeeConstants.LAST_YEAR_DATE, FeeConstants.FIRST_NEXT_YEAR_DATE))
             .build();
     }
 

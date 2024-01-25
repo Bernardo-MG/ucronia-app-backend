@@ -9,7 +9,7 @@ public final class TransactionsQueries {
 
     public static final TransactionQuery date(final LocalDate date) {
         return TransactionQuery.builder()
-            .date(date)
+            .withDate(date)
             .build();
     }
 
@@ -20,13 +20,13 @@ public final class TransactionsQueries {
 
     public static final TransactionQuery endDate(final LocalDate date) {
         return TransactionQuery.builder()
-            .endDate(date)
+            .withEndDate(date)
             .build();
     }
 
     public static final TransactionQuery startDate(final LocalDate date) {
         return TransactionQuery.builder()
-            .startDate(date)
+            .withStartDate(date)
             .build();
     }
 

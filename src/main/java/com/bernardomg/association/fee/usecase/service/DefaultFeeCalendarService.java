@@ -116,17 +116,17 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
             .getValue();
 
         calendarFee = FeeCalendarMonthFee.builder()
-            .date(fee.getDate())
-            .paid(fee.isPaid())
+            .withDate(fee.getDate())
+            .withPaid(fee.isPaid())
             .build();
         member = FeeCalendarMember.builder()
-            .number(fee.getMember()
+            .withNumber(fee.getMember()
                 .getNumber())
             .build();
         return FeeCalendarMonth.builder()
-            .fee(calendarFee)
-            .member(member)
-            .month(month)
+            .withFee(calendarFee)
+            .withMember(member)
+            .withMonth(month)
             .build();
     }
 
@@ -151,14 +151,14 @@ public final class DefaultFeeCalendarService implements FeeCalendarService {
         active = activeMemberRepository.isActive(memberNumber);
 
         member = FeeCalendarMember.builder()
-            .number(memberNumber)
-            .fullName(name)
-            .active(active)
+            .withNumber(memberNumber)
+            .withFullName(name)
+            .withActive(active)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .months(months)
-            .year(year)
+            .withMember(member)
+            .withMonths(months)
+            .withYear(year)
             .build();
     }
 

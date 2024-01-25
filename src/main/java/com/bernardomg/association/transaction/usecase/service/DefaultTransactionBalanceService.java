@@ -60,8 +60,8 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
 
         if (readBalance.isEmpty()) {
             currentBalance = TransactionCurrentBalance.builder()
-                .total(0F)
-                .results(0F)
+                .withTotal(0F)
+                .withResults(0F)
                 .build();
         } else {
             currentBalance = readBalance.get();

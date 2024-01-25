@@ -171,27 +171,27 @@ public final class AssignedFeeActiveMemberRepository implements MemberRepository
         // TODO: the model should return this automatically
         fullName = Strings.trimWhitespace(entity.getName() + " " + entity.getSurname());
         memberName = MemberName.builder()
-            .firstName(entity.getName())
-            .lastName(entity.getSurname())
-            .fullName(fullName)
+            .withFirstName(entity.getName())
+            .withLastName(entity.getSurname())
+            .withFullName(fullName)
             .build();
         return Member.builder()
-            .number(entity.getNumber())
-            .identifier(entity.getIdentifier())
-            .name(memberName)
-            .phone(entity.getPhone())
+            .withNumber(entity.getNumber())
+            .withIdentifier(entity.getIdentifier())
+            .withName(memberName)
+            .withPhone(entity.getPhone())
             .build();
     }
 
     private final MemberEntity toEntity(final Member data) {
         return MemberEntity.builder()
-            .number(data.getNumber())
-            .identifier(data.getIdentifier())
-            .name(data.getName()
+            .withNumber(data.getNumber())
+            .withIdentifier(data.getIdentifier())
+            .withName(data.getName()
                 .getFirstName())
-            .surname(data.getName()
+            .withSurname(data.getName()
                 .getLastName())
-            .phone(data.getPhone())
+            .withPhone(data.getPhone())
             .build();
     }
 

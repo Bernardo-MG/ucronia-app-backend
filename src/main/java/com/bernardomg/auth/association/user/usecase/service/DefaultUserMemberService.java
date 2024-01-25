@@ -50,9 +50,9 @@ public final class DefaultUserMemberService implements UserMemberService {
         }
 
         userMember = UserMemberEntity.builder()
-            .userId(readUser.get()
+            .withUserId(readUser.get()
                 .getId())
-            .memberId(readMember.get()
+            .withMemberId(readMember.get()
                 .getId())
             .build();
 
@@ -118,9 +118,9 @@ public final class DefaultUserMemberService implements UserMemberService {
         }
 
         userMember = UserMemberEntity.builder()
-            .userId(readUser.get()
+            .withUserId(readUser.get()
                 .getId())
-            .memberId(readMember.get()
+            .withMemberId(readMember.get()
                 .getId())
             .build();
 
@@ -134,10 +134,10 @@ public final class DefaultUserMemberService implements UserMemberService {
 
         fullName = Strings.trimWhitespace(memberEntity.getName() + " " + memberEntity.getSurname());
         return UserMember.builder()
-            .username(user.getUsername())
-            .name(user.getName())
-            .fullName(fullName)
-            .number(memberEntity.getNumber())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withFullName(fullName)
+            .withNumber(memberEntity.getNumber())
             .build();
     }
 

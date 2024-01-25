@@ -30,7 +30,7 @@ import lombok.Builder;
 import lombok.Value;
 
 @Value
-@Builder
+@Builder(setterPrefix = "with")
 public final class MonthlyMemberBalance {
 
     private YearMonth date;

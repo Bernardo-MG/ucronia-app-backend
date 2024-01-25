@@ -201,7 +201,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         years = memberFeeRepository.findYears();
         return FeeCalendarYearsRange.builder()
-            .years(years)
+            .withYears(years)
             .build();
     }
 
@@ -254,8 +254,8 @@ public final class JpaFeeRepository implements FeeRepository {
         payments = read.stream()
             .map(MemberFeeEntity::getId)
             .map(id -> FeePaymentEntity.builder()
-                .feeId(id)
-                .transactionId(transaction.getId())
+                .withFeeId(id)
+                .withTransactionId(transaction.getId())
                 .build())
             .toList();
         feePaymentRepository.saveAll(payments);
@@ -329,9 +329,9 @@ public final class JpaFeeRepository implements FeeRepository {
         transaction = FeeTransaction.builder()
             .build();
         return Fee.builder()
-            .date(entity.getDate())
-            .member(member)
-            .transaction(transaction)
+            .withDate(entity.getDate())
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -340,18 +340,18 @@ public final class JpaFeeRepository implements FeeRepository {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(entity.getMemberName())
-            .number(entity.getMemberNumber())
+            .withFullName(entity.getMemberName())
+            .withNumber(entity.getMemberNumber())
             .build();
         transaction = FeeTransaction.builder()
-            .index(entity.getTransactionIndex())
-            .date(entity.getPaymentDate())
+            .withIndex(entity.getTransactionIndex())
+            .withDate(entity.getPaymentDate())
             .build();
         return Fee.builder()
-            .date(entity.getDate())
-            .paid(entity.getPaid())
-            .member(member)
-            .transaction(transaction)
+            .withDate(entity.getDate())
+            .withPaid(entity.getPaid())
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -360,18 +360,18 @@ public final class JpaFeeRepository implements FeeRepository {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(entity.getFullName())
-            .number(entity.getMemberNumber())
+            .withFullName(entity.getFullName())
+            .withNumber(entity.getMemberNumber())
             .build();
         transaction = FeeTransaction.builder()
-            .index(entity.getTransactionIndex())
-            .date(entity.getPaymentDate())
+            .withIndex(entity.getTransactionIndex())
+            .withDate(entity.getPaymentDate())
             .build();
         return Fee.builder()
-            .date(entity.getDate())
-            .paid(entity.getPaid())
-            .member(member)
-            .transaction(transaction)
+            .withDate(entity.getDate())
+            .withPaid(entity.getPaid())
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -383,15 +383,15 @@ public final class JpaFeeRepository implements FeeRepository {
             .get()
             .getId();
         return FeeEntity.builder()
-            .memberId(id)
-            .date(fee.getDate())
+            .withMemberId(id)
+            .withDate(fee.getDate())
             .build();
     }
 
     private final FeeEntity toEntity(final Long memberId, final YearMonth date) {
         return FeeEntity.builder()
-            .memberId(memberId)
-            .date(date)
+            .withMemberId(memberId)
+            .withDate(date)
             .build();
     }
 

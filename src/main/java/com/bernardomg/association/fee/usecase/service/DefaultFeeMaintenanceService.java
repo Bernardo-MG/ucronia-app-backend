@@ -65,12 +65,12 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         final FeeMember member;
 
         member = FeeMember.builder()
-            .number(fee.getMember()
+            .withNumber(fee.getMember()
                 .getNumber())
             .build();
         return Fee.builder()
-            .member(member)
-            .date(YearMonth.now())
+            .withMember(member)
+            .withDate(YearMonth.now())
             .build();
     }
 

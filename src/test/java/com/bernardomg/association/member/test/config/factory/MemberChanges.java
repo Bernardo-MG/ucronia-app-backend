@@ -10,13 +10,13 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName(MemberConstants.ALTERNATIVE_NAME)
-            .lastName(MemberConstants.ALTERNATIVE_SURNAME)
+            .withFirstName(MemberConstants.ALTERNATIVE_NAME)
+            .withLastName(MemberConstants.ALTERNATIVE_SURNAME)
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345 2")
-            .identifier("6789 2")
+            .withName(name)
+            .withPhone("12345 2")
+            .withIdentifier("6789 2")
             .build();
     }
 
@@ -24,13 +24,13 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName("Member")
-            .lastName("Surname")
+            .withFirstName("Member")
+            .withLastName("Surname")
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
-            .identifier("6789")
+            .withName(name)
+            .withPhone("12345")
+            .withIdentifier("6789")
             .build();
     }
 
@@ -38,12 +38,12 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName("Member")
-            .lastName("Surname")
+            .withFirstName("Member")
+            .withLastName("Surname")
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
+            .withName(name)
+            .withPhone("12345")
             .build();
     }
 
@@ -51,12 +51,12 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .lastName("Surname")
+            .withLastName("Surname")
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
-            .identifier("6789")
+            .withName(name)
+            .withPhone("12345")
+            .withIdentifier("6789")
             .build();
     }
 
@@ -64,12 +64,12 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName("Member")
+            .withFirstName("Member")
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
-            .identifier("6789")
+            .withName(name)
+            .withPhone("12345")
+            .withIdentifier("6789")
             .build();
     }
 
@@ -77,13 +77,13 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName("Member 123")
-            .lastName("Surname")
+            .withFirstName("Member 123")
+            .withLastName("Surname")
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
-            .identifier("6789")
+            .withName(name)
+            .withPhone("12345")
+            .withIdentifier("6789")
             .build();
     }
 
@@ -91,13 +91,13 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName(" " + MemberConstants.NAME + " ")
-            .lastName(" " + MemberConstants.SURNAME + " ")
+            .withFirstName(" " + MemberConstants.NAME + " ")
+            .withLastName(" " + MemberConstants.SURNAME + " ")
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
-            .identifier("6789")
+            .withName(name)
+            .withPhone("12345")
+            .withIdentifier("6789")
             .build();
     }
 
@@ -105,13 +105,13 @@ public final class MemberChanges {
         final MemberChangeName name;
 
         name = MemberChangeName.builder()
-            .firstName(MemberConstants.NAME)
-            .lastName(MemberConstants.SURNAME)
+            .withFirstName(MemberConstants.NAME)
+            .withLastName(MemberConstants.SURNAME)
             .build();
         return MemberChange.builder()
-            .name(name)
-            .phone("12345")
-            .identifier("6789")
+            .withName(name)
+            .withPhone("12345")
+            .withIdentifier("6789")
             .build();
     }
 

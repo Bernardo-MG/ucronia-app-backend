@@ -14,19 +14,19 @@ public final class FeesQuery {
 
     public static final FeeQuery endDate(final YearMonth date) {
         return FeeQuery.builder()
-            .endDate(date)
+            .withEndDate(date)
             .build();
     }
 
     public static final FeeQuery inDate(final YearMonth date) {
         return FeeQuery.builder()
-            .date(date)
+            .withDate(date)
             .build();
     }
 
     public static final FeeQuery startDate(final YearMonth date) {
         return FeeQuery.builder()
-            .startDate(date)
+            .withStartDate(date)
             .build();
     }
 

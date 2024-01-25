@@ -211,16 +211,16 @@ public final class DefaultMemberService implements MemberService {
                 + data.getName()
                     .getLastName());
         memberName = MemberName.builder()
-            .firstName(data.getName()
+            .withFirstName(data.getName()
                 .getFirstName())
-            .lastName(data.getName()
+            .withLastName(data.getName()
                 .getLastName())
-            .fullName(fullName)
+            .withFullName(fullName)
             .build();
         return Member.builder()
-            .identifier(data.getIdentifier())
-            .name(memberName)
-            .phone(data.getPhone())
+            .withIdentifier(data.getIdentifier())
+            .withName(memberName)
+            .withPhone(data.getPhone())
             .build();
     }
 

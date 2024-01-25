@@ -16,16 +16,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.CURRENT_DATE)
-            .paid(false)
+            .withDate(MemberCalendars.CURRENT_DATE)
+            .withPaid(false)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.CURRENT_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.CURRENT_DATE.getMonthValue())
             .build();
     }
 
@@ -34,16 +34,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.CURRENT_DATE)
-            .paid(false)
+            .withDate(MemberCalendars.CURRENT_DATE)
+            .withPaid(false)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.CURRENT_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.CURRENT_DATE.getMonthValue())
             .build();
     }
 
@@ -52,16 +52,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.NEXT_YEAR_DATE)
-            .paid(false)
+            .withDate(MemberCalendars.NEXT_YEAR_DATE)
+            .withPaid(false)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.NEXT_YEAR_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.NEXT_YEAR_DATE.getMonthValue())
             .build();
     }
 
@@ -70,16 +70,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.PREVIOUS_MONTH_DATE)
-            .paid(false)
+            .withDate(MemberCalendars.PREVIOUS_MONTH_DATE)
+            .withPaid(false)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.PREVIOUS_MONTH_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.PREVIOUS_MONTH_DATE.getMonthValue())
             .build();
     }
 
@@ -88,16 +88,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.TWO_MONTHS_BACK_DATE)
-            .paid(false)
+            .withDate(MemberCalendars.TWO_MONTHS_BACK_DATE)
+            .withPaid(false)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.TWO_MONTHS_BACK_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.TWO_MONTHS_BACK_DATE.getMonthValue())
             .build();
     }
 
@@ -106,16 +106,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.CURRENT_DATE)
-            .paid(true)
+            .withDate(MemberCalendars.CURRENT_DATE)
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.CURRENT_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.CURRENT_DATE.getMonthValue())
             .build();
     }
 
@@ -124,16 +124,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(YearMonth.of(year, month))
-            .paid(true)
+            .withDate(YearMonth.of(year, month))
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(month)
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(month)
             .build();
     }
 
@@ -142,16 +142,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.CURRENT_DATE)
-            .paid(true)
+            .withDate(MemberCalendars.CURRENT_DATE)
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(month)
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(month)
             .build();
     }
 
@@ -160,16 +160,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.CURRENT_DATE)
-            .paid(true)
+            .withDate(MemberCalendars.CURRENT_DATE)
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.CURRENT_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.CURRENT_DATE.getMonthValue())
             .build();
     }
 
@@ -178,16 +178,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.NEXT_YEAR_DATE)
-            .paid(true)
+            .withDate(MemberCalendars.NEXT_YEAR_DATE)
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.NEXT_YEAR_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.NEXT_YEAR_DATE.getMonthValue())
             .build();
     }
 
@@ -196,16 +196,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.PREVIOUS_MONTH_DATE)
-            .paid(true)
+            .withDate(MemberCalendars.PREVIOUS_MONTH_DATE)
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.PREVIOUS_MONTH_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.PREVIOUS_MONTH_DATE.getMonthValue())
             .build();
     }
 
@@ -214,16 +214,16 @@ public final class FeeMonths {
         final FeeCalendarMember   member;
 
         fee = FeeCalendarMonthFee.builder()
-            .date(MemberCalendars.TWO_MONTHS_BACK_DATE)
-            .paid(true)
+            .withDate(MemberCalendars.TWO_MONTHS_BACK_DATE)
+            .withPaid(true)
             .build();
         member = FeeCalendarMember.builder()
-            .number(MemberConstants.NUMBER)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         return FeeCalendarMonth.builder()
-            .fee(fee)
-            .member(member)
-            .month(MemberCalendars.TWO_MONTHS_BACK_DATE.getMonthValue())
+            .withFee(fee)
+            .withMember(member)
+            .withMonth(MemberCalendars.TWO_MONTHS_BACK_DATE.getMonthValue())
             .build();
     }
 

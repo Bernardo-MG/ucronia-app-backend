@@ -113,9 +113,9 @@ public final class DefaultTransactionService implements TransactionService {
 
     private final Transaction toDomain(final TransactionChange transaction) {
         return Transaction.builder()
-            .date(transaction.getDate())
-            .description(transaction.getDescription())
-            .amount(transaction.getAmount())
+            .withDate(transaction.getDate())
+            .withDescription(transaction.getDescription())
+            .withAmount(transaction.getAmount())
             .build();
     }
 

@@ -31,7 +31,7 @@ public final class DefaultAssociationConfigurationService implements Association
         feeAmount = configurationSource.getFloat(AssociationConfigurationKey.FEE_AMOUNT);
 
         return AssociationConfiguration.builder()
-            .feeAmount(feeAmount)
+            .withFeeAmount(feeAmount)
             .build();
     }
 
@@ -46,8 +46,8 @@ public final class DefaultAssociationConfigurationService implements Association
             config.setValue(String.valueOf(request.getFeeAmount()));
         } else {
             config = PersistentConfiguration.builder()
-                .key(AssociationConfigurationKey.FEE_AMOUNT)
-                .value(String.valueOf(request.getFeeAmount()))
+                .withKey(AssociationConfigurationKey.FEE_AMOUNT)
+                .withValue(String.valueOf(request.getFeeAmount()))
                 .build();
         }
         configurationRepository.save(config);

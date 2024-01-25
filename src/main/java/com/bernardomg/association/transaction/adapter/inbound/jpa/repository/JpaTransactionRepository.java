@@ -77,7 +77,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
             .toList();
 
         return TransactionCalendarMonthsRange.builder()
-            .months(months)
+            .withMonths(months)
             .build();
     }
 
@@ -94,8 +94,8 @@ public final class JpaTransactionRepository implements TransactionRepository {
             .map(this::toDomain)
             .toList();
         return TransactionCalendarMonth.builder()
-            .date(date)
-            .transactions(transactions)
+            .withDate(date)
+            .withTransactions(transactions)
             .build();
     }
 
@@ -135,19 +135,19 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
     private final Transaction toDomain(final TransactionEntity transaction) {
         return Transaction.builder()
-            .index(transaction.getIndex())
-            .date(transaction.getDate())
-            .description(transaction.getDescription())
-            .amount(transaction.getAmount())
+            .withIndex(transaction.getIndex())
+            .withDate(transaction.getDate())
+            .withDescription(transaction.getDescription())
+            .withAmount(transaction.getAmount())
             .build();
     }
 
     private final TransactionEntity toEntity(final Transaction transaction) {
         return TransactionEntity.builder()
-            .index(transaction.getIndex())
-            .description(transaction.getDescription())
-            .date(transaction.getDate())
-            .amount(transaction.getAmount())
+            .withIndex(transaction.getIndex())
+            .withDescription(transaction.getDescription())
+            .withDate(transaction.getDate())
+            .withAmount(transaction.getAmount())
             .build();
     }
 

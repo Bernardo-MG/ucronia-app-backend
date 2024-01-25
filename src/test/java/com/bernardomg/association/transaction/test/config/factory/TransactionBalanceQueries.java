@@ -15,20 +15,20 @@ public final class TransactionBalanceQueries {
 
     public static final TransactionBalanceQuery endDate(final int year, final Month month) {
         return TransactionBalanceQuery.builder()
-            .endDate(YearMonth.of(year, month))
+            .withEndDate(YearMonth.of(year, month))
             .build();
     }
 
     public static final TransactionBalanceQuery range(final int year, final Month start, final Month end) {
         return TransactionBalanceQuery.builder()
-            .startDate(YearMonth.of(year, start))
-            .endDate(YearMonth.of(year, end))
+            .withStartDate(YearMonth.of(year, start))
+            .withEndDate(YearMonth.of(year, end))
             .build();
     }
 
     public static final TransactionBalanceQuery startDate(final int year, final Month month) {
         return TransactionBalanceQuery.builder()
-            .startDate(YearMonth.of(year, month))
+            .withStartDate(YearMonth.of(year, month))
             .build();
     }
 

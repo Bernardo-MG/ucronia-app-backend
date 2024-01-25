@@ -7,7 +7,7 @@ public final class AssociationConfigurations {
 
     public static final AssociationConfiguration amount() {
         return AssociationConfiguration.builder()
-            .feeAmount(2)
+            .withFeeAmount(2)
             .build();
     }
 

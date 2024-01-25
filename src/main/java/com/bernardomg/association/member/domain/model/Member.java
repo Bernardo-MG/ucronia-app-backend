@@ -8,7 +8,7 @@ import lombok.Data;
  * TODO: Try to make this immutable.
  */
 @Data
-@Builder
+@Builder(setterPrefix = "with")
 public final class Member {
 
     private boolean    active;

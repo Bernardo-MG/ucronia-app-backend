@@ -9,6 +9,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeePaymentEntity
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeePaymentSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.test.config.factory.FeeEntities;
+import com.bernardomg.association.fee.test.config.factory.FeePaymentEntities;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.config.factory.TransactionEntities;
@@ -155,10 +156,7 @@ public final class FeeInitializer {
         toSave = TransactionEntities.index(index);
         saved = transactionRepository.save(toSave);
 
-        payment = FeePaymentEntity.builder()
-            .feeId(fee)
-            .transactionId(saved.getId())
-            .build();
+        payment = FeePaymentEntities.forFee(fee, saved.getId());
         feePaymentRepository.save(payment);
     }
 

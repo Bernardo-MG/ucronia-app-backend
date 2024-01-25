@@ -7,15 +7,15 @@ public final class MemberBalanceQueryRequests {
 
     public static final MemberBalanceQuery aroundCurrent() {
         return MemberBalanceQuery.builder()
-            .startDate(MemberBalanceConstants.PREVIOUS_MONTH)
-            .endDate(MemberBalanceConstants.NEXT_MONTH)
+            .withStartDate(MemberBalanceConstants.PREVIOUS_MONTH)
+            .withEndDate(MemberBalanceConstants.NEXT_MONTH)
             .build();
     }
 
     public static final MemberBalanceQuery aroundPrevious() {
         return MemberBalanceQuery.builder()
-            .startDate(MemberBalanceConstants.PREVIOUS_MONTH)
-            .endDate(MemberBalanceConstants.PREVIOUS_MONTH)
+            .withStartDate(MemberBalanceConstants.PREVIOUS_MONTH)
+            .withEndDate(MemberBalanceConstants.PREVIOUS_MONTH)
             .build();
     }
 
@@ -26,15 +26,15 @@ public final class MemberBalanceQueryRequests {
 
     public static final MemberBalanceQuery endBeforeStart() {
         return MemberBalanceQuery.builder()
-            .startDate(MemberBalanceConstants.CURRENT_MONTH)
-            .endDate(MemberBalanceConstants.PREVIOUS_MONTH)
+            .withStartDate(MemberBalanceConstants.CURRENT_MONTH)
+            .withEndDate(MemberBalanceConstants.PREVIOUS_MONTH)
             .build();
     }
 
     public static final MemberBalanceQuery previousAndThis() {
         return MemberBalanceQuery.builder()
-            .startDate(MemberBalanceConstants.PREVIOUS_MONTH)
-            .endDate(MemberBalanceConstants.CURRENT_MONTH)
+            .withStartDate(MemberBalanceConstants.PREVIOUS_MONTH)
+            .withEndDate(MemberBalanceConstants.CURRENT_MONTH)
             .build();
     }
 

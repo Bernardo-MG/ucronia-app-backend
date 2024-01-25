@@ -17,18 +17,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName("Member 2 Surname 2")
-            .number(MemberConstants.ALTERNATIVE_NUMBER)
+            .withFullName("Member 2 Surname 2")
+            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(TransactionConstants.ALTERNATIVE_INDEX)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(TransactionConstants.ALTERNATIVE_INDEX)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -37,18 +37,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(TransactionConstants.INDEX)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(TransactionConstants.INDEX)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -57,16 +57,16 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
             .build();
         return Fee.builder()
-            .date(FeeConstants.DATE)
-            .paid(false)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.DATE)
+            .withPaid(false)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -75,16 +75,16 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName("Member " + index + " Surname " + index)
-            .number(index * 10)
+            .withFullName("Member " + index + " Surname " + index)
+            .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
             .build();
         return Fee.builder()
-            .date(YearMonth.of(FeeConstants.YEAR, month))
-            .paid(false)
-            .member(member)
-            .transaction(transaction)
+            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withPaid(false)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -93,18 +93,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(TransactionConstants.INDEX)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(TransactionConstants.INDEX)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -113,18 +113,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index((long) month)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex((long) month)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(YearMonth.of(FeeConstants.YEAR, month))
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -133,18 +133,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName("Member " + index + " Surname " + index)
-            .number(index * 10)
+            .withFullName("Member " + index + " Surname " + index)
+            .withNumber(index * 10)
             .build();
         transaction = FeeTransaction.builder()
-            .index(index * 10)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(index * 10)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(YearMonth.of(FeeConstants.YEAR, month))
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(YearMonth.of(FeeConstants.YEAR, month))
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -153,18 +153,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(index)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(index)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.FIRST_NEXT_YEAR_DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.FIRST_NEXT_YEAR_DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -173,18 +173,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(index)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(index)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.LAST_YEAR_DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.LAST_YEAR_DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -193,18 +193,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(TransactionConstants.INDEX)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(TransactionConstants.INDEX)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.NEXT_DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.NEXT_DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -213,18 +213,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(index)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(index)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.NEXT_DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.NEXT_DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 
@@ -233,18 +233,18 @@ public final class Fees {
         final FeeTransaction transaction;
 
         member = FeeMember.builder()
-            .fullName(MemberConstants.FULL_NAME)
-            .number(MemberConstants.NUMBER)
+            .withFullName(MemberConstants.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
             .build();
         transaction = FeeTransaction.builder()
-            .index(index)
-            .date(FeeConstants.PAYMENT_DATE)
+            .withIndex(index)
+            .withDate(FeeConstants.PAYMENT_DATE)
             .build();
         return Fee.builder()
-            .date(FeeConstants.DATE)
-            .paid(true)
-            .member(member)
-            .transaction(transaction)
+            .withDate(FeeConstants.DATE)
+            .withPaid(true)
+            .withMember(member)
+            .withTransaction(transaction)
             .build();
     }
 

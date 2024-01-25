@@ -15,13 +15,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(true)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(true)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR)
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR)
             .build();
     }
 
@@ -29,13 +29,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME_ALTERNATIVE)
-            .number(MemberConstants.ALTERNATIVE_NUMBER)
-            .active(true)
+            .withFullName(MemberCalendars.FULL_NAME_ALTERNATIVE)
+            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withActive(true)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR)
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR)
             .build();
     }
 
@@ -43,13 +43,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(true)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(true)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.CURRENT_DATE.getYear())
+            .withMember(member)
+            .withYear(MemberCalendars.CURRENT_DATE.getYear())
             .build();
     }
 
@@ -57,13 +57,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(true)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(true)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.NEXT_YEAR_DATE.getYear())
+            .withMember(member)
+            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
             .build();
     }
 
@@ -71,13 +71,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(true)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(true)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
+            .withMember(member)
+            .withYear(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
             .build();
     }
 
@@ -85,13 +85,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(true)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(true)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(YearMonth.now()
+            .withMember(member)
+            .withYear(YearMonth.now()
                 .getYear())
             .build();
     }
@@ -100,13 +100,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(YearMonth.now()
+            .withMember(member)
+            .withYear(YearMonth.now()
                 .getYear())
             .build();
     }
@@ -115,14 +115,14 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR)
-            .months(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR)
+            .withMonths(List.of(FeeMonths.paidAtMonth(1), FeeMonths.paidAtMonth(2), FeeMonths.paidAtMonth(3),
                 FeeMonths.paidAtMonth(4), FeeMonths.paidAtMonth(5), FeeMonths.paidAtMonth(6), FeeMonths.paidAtMonth(7),
                 FeeMonths.paidAtMonth(8), FeeMonths.paidAtMonth(9), FeeMonths.paidAtMonth(10),
                 FeeMonths.paidAtMonth(11), FeeMonths.paidAtMonth(12)))
@@ -133,13 +133,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR)
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR)
             .build();
     }
 
@@ -147,13 +147,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME_ALTERNATIVE)
-            .number(MemberConstants.ALTERNATIVE_NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME_ALTERNATIVE)
+            .withNumber(MemberConstants.ALTERNATIVE_NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR)
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR)
             .build();
     }
 
@@ -161,13 +161,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.NEXT_YEAR_DATE.getYear())
+            .withMember(member)
+            .withYear(MemberCalendars.NEXT_YEAR_DATE.getYear())
             .build();
     }
 
@@ -175,13 +175,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
+            .withMember(member)
+            .withYear(MemberCalendars.PREVIOUS_MONTH_DATE.getYear())
             .build();
     }
 
@@ -189,13 +189,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.FULL_NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.FULL_NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR_PREVIOUS)
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR_PREVIOUS)
             .build();
     }
 
@@ -203,13 +203,13 @@ public final class FeeCalendars {
         final FeeCalendarMember member;
 
         member = FeeCalendarMember.builder()
-            .fullName(MemberCalendars.NAME)
-            .number(MemberConstants.NUMBER)
-            .active(false)
+            .withFullName(MemberCalendars.NAME)
+            .withNumber(MemberConstants.NUMBER)
+            .withActive(false)
             .build();
         return FeeCalendar.builder()
-            .member(member)
-            .year(MemberCalendars.YEAR)
+            .withMember(member)
+            .withYear(MemberCalendars.YEAR)
             .build();
     }
 

@@ -7,15 +7,15 @@ public final class TransactionCurrentBalances {
 
     public static final TransactionCurrentBalance amount(final float amount) {
         return TransactionCurrentBalance.builder()
-            .results(amount)
-            .total(amount)
+            .withResults(amount)
+            .withTotal(amount)
             .build();
     }
 
     public static final TransactionCurrentBalance amount(final float amount, final float total) {
         return TransactionCurrentBalance.builder()
-            .results(amount)
-            .total(total)
+            .withResults(amount)
+            .withTotal(total)
             .build();
     }
 

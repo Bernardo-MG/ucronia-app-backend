@@ -32,7 +32,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
 public final class FeeCalendarQuery {

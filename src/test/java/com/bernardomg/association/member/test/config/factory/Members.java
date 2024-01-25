@@ -10,16 +10,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName(MemberConstants.NAME)
-            .lastName(MemberConstants.SURNAME)
-            .fullName(MemberConstants.FULL_NAME)
+            .withFirstName(MemberConstants.NAME)
+            .withLastName(MemberConstants.SURNAME)
+            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
-            .number(MemberConstants.NUMBER)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(true)
             .build();
     }
 
@@ -27,16 +27,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName("Member " + index)
-            .lastName("Surname " + index)
-            .fullName("Member " + index + " Surname " + index)
+            .withFirstName("Member " + index)
+            .withLastName("Surname " + index)
+            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
-            .number(MemberConstants.NUMBER)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(true)
             .build();
     }
 
@@ -44,16 +44,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName("Member " + index)
-            .lastName("Surname " + index)
-            .fullName("Member " + index + " Surname " + index)
+            .withFirstName("Member " + index)
+            .withLastName("Surname " + index)
+            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
-            .number(index)
-            .name(memberName)
-            .phone(String.valueOf(12344 + index))
-            .identifier(String.valueOf(6788 + index))
-            .active(true)
+            .withNumber(index)
+            .withName(memberName)
+            .withPhone(String.valueOf(12344 + index))
+            .withIdentifier(String.valueOf(6788 + index))
+            .withActive(true)
             .build();
     }
 
@@ -61,16 +61,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName("Member " + index)
-            .lastName("Surname " + index)
-            .fullName("Member " + index + " Surname " + index)
+            .withFirstName("Member " + index)
+            .withLastName("Surname " + index)
+            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
-            .number(index * 10)
-            .name(memberName)
-            .phone(String.valueOf(12344 + index))
-            .identifier(String.valueOf(6788 + index))
-            .active(active)
+            .withNumber(index * 10)
+            .withName(memberName)
+            .withPhone(String.valueOf(12344 + index))
+            .withIdentifier(String.valueOf(6788 + index))
+            .withActive(active)
             .build();
     }
 
@@ -78,16 +78,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName(MemberConstants.NAME)
-            .lastName(MemberConstants.SURNAME)
-            .fullName(MemberConstants.FULL_NAME)
+            .withFirstName(MemberConstants.NAME)
+            .withLastName(MemberConstants.SURNAME)
+            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
-            .number(MemberConstants.NUMBER)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(false)
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(false)
             .build();
     }
 
@@ -95,16 +95,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName("Member " + index)
-            .lastName("Surname " + index)
-            .fullName("Member " + index + " Surname " + index)
+            .withFirstName("Member " + index)
+            .withLastName("Surname " + index)
+            .withFullName("Member " + index + " Surname " + index)
             .build();
         return Member.builder()
-            .number(MemberConstants.NUMBER)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(false)
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(false)
             .build();
     }
 
@@ -112,16 +112,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName(MemberConstants.NAME)
-            .lastName(MemberConstants.SURNAME)
-            .fullName(MemberConstants.FULL_NAME)
+            .withFirstName(MemberConstants.NAME)
+            .withLastName(MemberConstants.SURNAME)
+            .withFullName(MemberConstants.FULL_NAME)
             .build();
         return Member.builder()
-            .number(number)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(false)
+            .withNumber(number)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(false)
             .build();
     }
 
@@ -129,16 +129,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName("Member 123")
-            .lastName("Surname")
-            .fullName("Member 123 Surname")
+            .withFirstName("Member 123")
+            .withLastName("Surname")
+            .withFullName("Member 123 Surname")
             .build();
         return Member.builder()
-            .number(MemberConstants.NUMBER)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(false)
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(false)
             .build();
     }
 
@@ -146,16 +146,16 @@ public final class Members {
         final MemberName memberName;
 
         memberName = MemberName.builder()
-            .firstName("Member 123")
-            .lastName("Surname")
-            .fullName("Member 123 Surname")
+            .withFirstName("Member 123")
+            .withLastName("Surname")
+            .withFullName("Member 123 Surname")
             .build();
         return Member.builder()
-            .number(MemberConstants.NUMBER)
-            .name(memberName)
-            .phone("12345")
-            .identifier("6789")
-            .active(true)
+            .withNumber(MemberConstants.NUMBER)
+            .withName(memberName)
+            .withPhone("12345")
+            .withIdentifier("6789")
+            .withActive(true)
             .build();
     }
 

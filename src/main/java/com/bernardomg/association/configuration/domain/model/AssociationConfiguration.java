@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
+@Builder(setterPrefix = "with")
 public final class AssociationConfiguration {
 
     private float feeAmount;
